@@ -6,7 +6,7 @@ RPG based in a world where cellular automata have run rampant.
 Soon to be available on android (and more).
 Developed using libGDX.
 
-![concept art](http://i.imgur.com/T4zuBZe.png)
+![concept art](http://i.imgur.com/e6d5DJc.png)
 
 ## Importing the Project
 This project (and LibGDX) uses Gradle to install dependencies. Once you have cloned the project, follow [this link](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29) to set up your development environment for libGDX. You _need_ to install the following using the android sdk manager in order for gradlew to be able to build your project:

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.emergentorganization.cellrpg.CellRPG;
+import com.emergentorganization.cellrpg.scenes.CellRPG;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

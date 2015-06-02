@@ -3,7 +3,7 @@ package com.emergentorganization.cellrpg.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.emergentorganization.cellrpg.CellRPG;
+import com.emergentorganization.cellrpg.scenes.CellRPG;
 
 public class HtmlLauncher extends GwtApplication {
 

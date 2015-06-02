@@ -1,0 +1,97 @@
+package com.emergentorganization.cellrpg.scenes;
+
+/**
+ * Created by BrianErikson on 6/2/2015.
+ */
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
+import com.emergentorganization.cellrpg.entities.Entity;
+
+import java.util.ArrayList;
+
+/**
+ * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
+ */
+public abstract class Scene extends ApplicationAdapter {
+    private ArrayList<Entity> entities;
+    private SpriteBatch batch;
+    private Vector3 clearColor;
+
+    @Override
+    public void create() {
+        super.create();
+
+        entities = new ArrayList<Entity>();
+        batch = new SpriteBatch();
+        clearColor = new Vector3(0,0,0);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+    }
+
+    /**
+     * Updates all entites, and then renders all entities
+     */
+    @Override
+    public void render() {
+        super.render();
+        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        for (Entity entity : entities) {
+            entity.update(deltaTime);
+        }
+
+        batch.begin();
+        for (Entity entity : entities) {
+            entity.render(batch);
+        }
+        batch.end();
+    }
+
+    @Override
+    public void pause() {
+        super.pause();
+    }
+
+    @Override
+    public void resume() {
+        super.resume();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        for (Entity entity : entities) {
+            entity.dispose();
+        }
+    }
+
+    public void addEntity(Entity e) {
+        entities.add(e);
+    }
+
+    public void removeEntity(Entity e) {
+        entities.remove(e);
+    }
+
+    public ArrayList<Entity> getEntities() {
+        return entities;
+    }
+
+    protected void setClearColor(Vector3 color) {
+        this.clearColor = color;
+    }
+
+    protected SpriteBatch getSpriteBatch() {
+        return batch;
+    }
+}

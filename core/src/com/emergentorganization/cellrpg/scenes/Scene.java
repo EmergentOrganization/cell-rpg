@@ -9,6 +9,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
 
 import java.util.ArrayList;
@@ -18,8 +20,9 @@ import java.util.ArrayList;
  */
 public abstract class Scene extends ApplicationAdapter {
     private ArrayList<Entity> entities;
-    private SpriteBatch batch;
+    private SpriteBatch batch; // sprite batch for entities
     private Vector3 clearColor;
+    private Stage uiStage; // stage which handles all UI Actors
 
     @Override
     public void create() {
@@ -28,6 +31,7 @@ public abstract class Scene extends ApplicationAdapter {
         entities = new ArrayList<Entity>();
         batch = new SpriteBatch();
         clearColor = new Vector3(0,0,0);
+        uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
     }
 
     @Override
@@ -41,6 +45,7 @@ public abstract class Scene extends ApplicationAdapter {
     @Override
     public void render() {
         super.render();
+
         Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -49,11 +54,15 @@ public abstract class Scene extends ApplicationAdapter {
             entity.update(deltaTime);
         }
 
+        uiStage.act();
+
         batch.begin();
         for (Entity entity : entities) {
             entity.render(batch);
         }
         batch.end();
+
+        uiStage.draw();
     }
 
     @Override
@@ -73,6 +82,7 @@ public abstract class Scene extends ApplicationAdapter {
         for (Entity entity : entities) {
             entity.dispose();
         }
+        uiStage.dispose();
     }
 
     public void addEntity(Entity e) {
@@ -93,5 +103,9 @@ public abstract class Scene extends ApplicationAdapter {
 
     protected SpriteBatch getSpriteBatch() {
         return batch;
+    }
+
+    protected Stage getUiStage() {
+        return uiStage;
     }
 }

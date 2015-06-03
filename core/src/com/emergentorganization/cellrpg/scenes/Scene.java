@@ -40,7 +40,7 @@ public abstract class Scene extends ApplicationAdapter {
     }
 
     /**
-     * Updates all entites, and then renders all entities
+     * Updates all entities, and then renders all entities
      */
     @Override
     public void render() {

@@ -11,6 +11,7 @@ import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 /**
@@ -76,6 +77,8 @@ public abstract class Entity {
     }
 
     public void addComponent(BaseComponent component) {
+        component.setEntity(this);
+
         components.add(component);
     }
 
@@ -92,12 +95,36 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Broadcasts a message to all of the components
+     * @param message the message to be broadcasted.
+     */
     public void broadcastMessage(BaseComponentMessage message) {
-        // TODO
+        moveComponent.receiveMessage(message);
+
+        for(BaseComponent comp : components){
+            comp.receiveMessage(message);
+        }
     }
 
+    /**
+     * Broadcasts a message to a specific component type.
+     * @param type the component type
+     * @param message the message to be broadcasted.
+     */
     public void broadcastMessage(ComponentType type, BaseComponentMessage message) {
-        // TODO
+        // I don't see why this is necessary, but let it be.
+        if(type == ComponentType.MOVEMENT)
+        {
+            moveComponent.receiveMessage(message);
+            return;
+        }
+
+        List<BaseComponent> comps = getComponentsByType(type);
+        for(BaseComponent comp : comps)
+        {
+            comp.receiveMessage(message);
+        }
     }
 
     public MovementComponent getMovementComponent() {

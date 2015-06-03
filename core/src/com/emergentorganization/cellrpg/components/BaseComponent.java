@@ -3,12 +3,15 @@ package com.emergentorganization.cellrpg.components;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.entities.Entity;
 
 /**
  * Created by BrianErikson on 6/2/2015.
  */
 public abstract class BaseComponent {
     protected ComponentType type; // Never assigned because base class cannot be constructed
+
+    protected Entity entity; // Parent entity reference
 
     /**
      * Used to update various actions that need to be taken each frame on the component, but before rendering occurs
@@ -36,6 +39,10 @@ public abstract class BaseComponent {
     public ComponentType getType() {
         return type;
     }
+
+    public void setEntity(Entity entity){ this.entity = entity; }
+
+    protected Entity getEntity(){ return entity; };
 
     /**
      * Used to delegate events to an entity's components. Override this method to provide functionality

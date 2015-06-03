@@ -8,5 +8,6 @@ package com.emergentorganization.cellrpg.components;
  * Used to describe and compare various components
  */
 public enum ComponentType {
-    // TODO: Include all components here
+    MOVEMENT,
+    IMAGE
 }

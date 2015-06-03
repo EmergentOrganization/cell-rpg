@@ -1,13 +1,14 @@
 package com.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 /**
  * Created by BrianErikson on 6/2/2015.
  */
 public abstract class BaseComponent {
-    private ComponentType type; // Never assigned because base class cannot be constructed
+    protected ComponentType type; // Never assigned because base class cannot be constructed
 
     /**
      * Used to update various actions that need to be taken each frame on the component, but before rendering occurs
@@ -16,10 +17,13 @@ public abstract class BaseComponent {
     public void update(float deltaTime) {}
 
     /**
-     * Renders the component to the screen after the update method is called
-     * @param batch the scene batch
+     *
+     * @param batch the current scene's sprite batch
+     * @param pos World position of the entity
+     * @param rot world rotation of the entity in degrees
+     * @param scale World scale of the entity
      */
-    public void render(SpriteBatch batch) {}
+    public void render(SpriteBatch batch, Vector2 pos, float rot, Vector2 scale) {}
 
     /**
      * Override this method if child component should call the render method each frame

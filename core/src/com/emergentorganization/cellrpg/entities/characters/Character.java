@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 
 /**
@@ -13,15 +13,10 @@ import com.emergentorganization.cellrpg.entities.Entity;
  */
 public class Character extends Entity {
     // TODO: create RenderComponent class and move img out of here
-    Texture img;
+    SpriteComponent spriteComponent;
 
     public Character(String textureFileName){
-        img = new Texture(textureFileName);
-    }
-
-    @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
-        batch.draw(img, 300, 300); // TODO: character should be centered
+        spriteComponent = new SpriteComponent(new Texture(textureFileName));
+        addComponent(spriteComponent);
     }
 }

@@ -68,7 +68,7 @@ public class MovementComponent extends BaseComponent {
 
     public Vector2 getLocalPosition() {
         Vector2 pos = new Vector2();
-        transform.getTranslation(pos);
+        translation.getTranslation(pos);
         return pos;
     }
 

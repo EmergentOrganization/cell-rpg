@@ -5,10 +5,12 @@ package com.emergentorganization.cellrpg.entities;
  */
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.BaseComponent;
 import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.scenes.Scene;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.ListIterator;
  * The root class for every object in the game
  */
 public abstract class Entity {
+    private Scene parentScene;
     private ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();
 
     /**
@@ -42,10 +45,13 @@ public abstract class Entity {
      * @param batch the scene batch
      */
     public void render(SpriteBatch batch) {
+        Vector2 pos = moveComponent.getWorldPosition();
+        float rot = moveComponent.getRotation();
+        Vector2 scale = moveComponent.getScale();
+
         for (BaseComponent component : components) {
             if (component.shouldRender()) {
-                component.render(batch, moveComponent.getWorldPosition(),
-                                 moveComponent.getRotation(), moveComponent.getScale());
+                component.render(batch, pos, rot, scale);
             }
         }
     }
@@ -129,6 +135,15 @@ public abstract class Entity {
 
     public MovementComponent getMovementComponent() {
         return moveComponent;
+    }
+
+
+    public Scene getScene() {
+        return parentScene;
+    }
+
+    public void setScene(Scene scene) {
+        parentScene = scene;
     }
 
     public void dispose() {

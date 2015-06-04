@@ -7,6 +7,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,6 +24,7 @@ public abstract class Scene extends ApplicationAdapter {
     private SpriteBatch batch; // sprite batch for entities
     private Vector3 clearColor;
     private Stage uiStage; // stage which handles all UI Actors
+    private OrthographicCamera gameCamera;
 
     @Override
     public void create() {
@@ -32,6 +34,10 @@ public abstract class Scene extends ApplicationAdapter {
         batch = new SpriteBatch();
         clearColor = new Vector3(0,0,0);
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        gameCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        gameCamera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0); // center camera with 0,0 in bottom left
+        gameCamera.update();
+        batch.setProjectionMatrix(gameCamera.combined);
     }
 
     @Override
@@ -86,10 +92,12 @@ public abstract class Scene extends ApplicationAdapter {
     }
 
     public void addEntity(Entity e) {
+        e.setScene(this);
         entities.add(e);
     }
 
     public void removeEntity(Entity e) {
+        e.setScene(null);
         entities.remove(e);
     }
 
@@ -107,5 +115,9 @@ public abstract class Scene extends ApplicationAdapter {
 
     protected Stage getUiStage() {
         return uiStage;
+    }
+
+    public OrthographicCamera getGameCamera() {
+        return gameCamera;
     }
 }

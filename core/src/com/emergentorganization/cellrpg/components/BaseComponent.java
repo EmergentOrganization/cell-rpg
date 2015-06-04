@@ -12,7 +12,6 @@ public abstract class BaseComponent {
     protected ComponentType type; // Never assigned because base class cannot be constructed
 
     protected Entity entity; // Parent entity reference
-
     /**
      * Used to update various actions that need to be taken each frame on the component, but before rendering occurs
      * @param deltaTime The time it took to render the last frame. Usually uses Gdx.graphics.getDeltaTime();
@@ -42,8 +41,14 @@ public abstract class BaseComponent {
 
     public void setEntity(Entity entity){ this.entity = entity; }
 
-    protected Entity getEntity(){ return entity; };
+    public void broadcast(BaseComponentMessage message){
+        entity.broadcastMessage(message);
+    }
 
+    public void broadcast(ComponentType type, BaseComponentMessage message)
+    {
+        entity.broadcastMessage(type, message);
+    }
     /**
      * Used to delegate events to an entity's components. Override this method to provide functionality
      * @param message the message to handle

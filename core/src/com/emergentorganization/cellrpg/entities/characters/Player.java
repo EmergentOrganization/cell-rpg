@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
 import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.components.player.PlayerInputComponent;
 
 /**
  * Created by tylar on 6/2/15.
@@ -14,5 +15,8 @@ public class Player extends Character {
 
         MovementComponent movementComponent = getMovementComponent();
         movementComponent.setWorldPosition(300,300);
+
+        addComponent(new PlayerInputComponent());
     }
+
 }

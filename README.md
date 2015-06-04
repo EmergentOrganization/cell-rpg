@@ -55,4 +55,9 @@ Your `$JAVA_HOME` is pointing at an incomplete JDK or a JRE, verify that `$JAVA_
 You must log out and log back in to re-load the environment globally. To check these variables, open a terminal and enter `$JAVA_HOME` or `$ANDROID_HOME`.
 
 > `.gradlew` won't run! 
+
 Make sure it is marked as executable using `chmod +x ./gradlew`
+
+> `.gradlew clean` FAILURE: SDK location not found
+
+$ANDROID_HOME environment variable is not set properly. You may need to edit it or reboot.

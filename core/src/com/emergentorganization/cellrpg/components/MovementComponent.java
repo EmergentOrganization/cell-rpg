@@ -23,6 +23,7 @@ public class MovementComponent extends BaseComponent {
     public void updateTransform() {
         if (isDirty) {
             transform = new Matrix3().mul(scale).mul(rotation).mul(translation);
+            isDirty = false;
         }
     }
 
@@ -33,10 +34,12 @@ public class MovementComponent extends BaseComponent {
     
     public void rotateRad(float rads) {
         rotation.rotateRad(rads);
+        isDirty = true;
     }
 
     public void rotate(float degs) {
         rotation.rotate(degs);
+        isDirty = true;
     }
 
     public void rotate(Vector2 rotator) {
@@ -103,6 +106,7 @@ public class MovementComponent extends BaseComponent {
 
     public void setScale(Vector2 vec) {
         scale.setToScaling(vec);
+        isDirty = true;
     }
 
 

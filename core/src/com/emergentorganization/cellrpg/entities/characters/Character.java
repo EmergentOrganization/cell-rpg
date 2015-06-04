@@ -12,7 +12,6 @@ import com.emergentorganization.cellrpg.entities.Entity;
  *used for NPCs & players
  */
 public class Character extends Entity {
-    // TODO: create RenderComponent class and move img out of here
     SpriteComponent spriteComponent;
 
     public Character(String textureFileName){

@@ -30,6 +30,11 @@ public abstract class Entity {
     private MovementComponent moveComponent = new MovementComponent();
 
     /**
+     * This is called when the entity is added to the world.
+     */
+    public void added(){}
+
+    /**
      * Calls update method on all added components before render method
      * @param deltaTime the time passed between each frame render
      */
@@ -84,7 +89,6 @@ public abstract class Entity {
 
     public void addComponent(BaseComponent component) {
         component.setEntity(this);
-
         components.add(component);
     }
 

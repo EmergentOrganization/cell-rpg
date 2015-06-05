@@ -93,6 +93,7 @@ public abstract class Scene extends ApplicationAdapter {
 
     public void addEntity(Entity e) {
         e.setScene(this);
+        e.added();
         entities.add(e);
     }
 

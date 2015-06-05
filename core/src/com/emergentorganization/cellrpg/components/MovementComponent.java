@@ -1,8 +1,10 @@
 package com.emergentorganization.cellrpg.components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.components.messages.MoveToMessage;
 
 /**
  * Created by BrianErikson on 6/3/2015.
@@ -15,6 +17,9 @@ public class MovementComponent extends BaseComponent {
     private Matrix3 scale = new Matrix3();
     private Matrix3 transform = new Matrix3();
     private boolean isDirty = false;
+
+    private Vector2 dir = new Vector2();
+    private float velocity = 200;
 
     public MovementComponent() {
         type = ComponentType.MOVEMENT;
@@ -60,7 +65,7 @@ public class MovementComponent extends BaseComponent {
         // TODO: World position
         setLocalPosition(position);
     }
-
+    
     public void setRotation(Vector2 rotation) {
         rotation.setAngleRad(rotation.angleRad());
         isDirty = true;
@@ -109,6 +114,13 @@ public class MovementComponent extends BaseComponent {
         isDirty = true;
     }
 
+    public void setVelocity(float vel){
+        velocity = vel;
+    }
+
+    public float getVelocity(){
+        return velocity;
+    }
 
     @Override
     public void update(float deltaTime) {
@@ -125,6 +137,17 @@ public class MovementComponent extends BaseComponent {
     @Override
     public void receiveMessage(BaseComponentMessage message) {
         super.receiveMessage(message);
+    }
+
+    /*
+     * The math here is correct, but there is a problem with translating
+     * input coordinates to world coordinates since LibGDX acts differently on Y axis.
+     * Therefore, only the X axis responds correctly.
+     *
+     * http://gamedev.stackexchange.com/questions/73051/libgdx-converting-screen-click-coordinates-into-world-coordinates-for-2d-game
+     */
+    private void move(MoveToMessage moveTo){
+
     }
 
     @Override

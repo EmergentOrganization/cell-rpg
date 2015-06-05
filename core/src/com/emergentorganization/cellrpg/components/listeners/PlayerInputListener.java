@@ -18,14 +18,9 @@ public class PlayerInputListener implements BaseComponentListener {
         MoveToMessage moveTo = (MoveToMessage) msg;
         MovementComponent mc = (MovementComponent) comp;
 
-        Vector2 pos = mc.getLocalPosition();
-
         Vector2 dest = moveTo.destination;
-        dest.sub(pos).nor().scl(mc.getVelocity());
 
-        pos.add(dest.scl(Gdx.graphics.getDeltaTime()));
-
-        mc.setWorldPosition(pos);
+        mc.moveTo(dest.x, dest.y);
     }
 
     public boolean validate(BaseComponentMessage msg){

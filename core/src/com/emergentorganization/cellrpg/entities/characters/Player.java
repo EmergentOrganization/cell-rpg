@@ -16,7 +16,6 @@ public class Player extends Character {
         super(TEXTURE_FILE_NAME);
 
         MovementComponent movementComponent = getMovementComponent();
-        movementComponent.setWorldPosition(300, 300);
         movementComponent.setWorldPosition(Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
         movementComponent.addListener(new PlayerInputListener());
     }

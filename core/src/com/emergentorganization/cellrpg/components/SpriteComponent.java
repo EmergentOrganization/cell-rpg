@@ -13,7 +13,7 @@ public class SpriteComponent extends BaseComponent {
     private Sprite sprite;
 
     public SpriteComponent(Texture texture) {
-        type = ComponentType.IMAGE;
+        type = ComponentType.SPRITE;
         this.sprite = new Sprite(texture);
     }
 

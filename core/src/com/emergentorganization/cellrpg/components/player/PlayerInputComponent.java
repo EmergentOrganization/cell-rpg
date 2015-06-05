@@ -14,7 +14,7 @@ public class PlayerInputComponent extends BaseComponent {
 
     @Override
     public void update(float deltaTime) {
-        // listen for press events and broadcast move event
+        // listen for press events and broadcast a movement event
         if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             msg.set(Gdx.input.getX(), Gdx.input.getY());
 

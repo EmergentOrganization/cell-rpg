@@ -9,5 +9,5 @@ package com.emergentorganization.cellrpg.components;
  */
 public enum ComponentType {
     MOVEMENT,
-    IMAGE
+    SPRITE
 }

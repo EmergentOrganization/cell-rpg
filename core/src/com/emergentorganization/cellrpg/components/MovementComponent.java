@@ -28,6 +28,7 @@ public class MovementComponent extends BaseComponent {
     public void updateTransform() {
         if (isDirty) {
             transform = new Matrix3().mul(scale).mul(rotation).mul(translation);
+            isDirty = false;
         }
     }
 
@@ -38,10 +39,12 @@ public class MovementComponent extends BaseComponent {
     
     public void rotateRad(float rads) {
         rotation.rotateRad(rads);
+        isDirty = true;
     }
 
     public void rotate(float degs) {
         rotation.rotate(degs);
+        isDirty = true;
     }
 
     public void rotate(Vector2 rotator) {
@@ -70,7 +73,7 @@ public class MovementComponent extends BaseComponent {
 
     public Vector2 getLocalPosition() {
         Vector2 pos = new Vector2();
-        transform.getTranslation(pos);
+        translation.getTranslation(pos);
         return pos;
     }
 
@@ -108,8 +111,16 @@ public class MovementComponent extends BaseComponent {
 
     public void setScale(Vector2 vec) {
         scale.setToScaling(vec);
+        isDirty = true;
     }
 
+    public void setVelocity(float vel){
+        velocity = vel;
+    }
+
+    public float getVelocity(){
+        return velocity;
+    }
 
     @Override
     public void update(float deltaTime) {
@@ -125,11 +136,7 @@ public class MovementComponent extends BaseComponent {
 
     @Override
     public void receiveMessage(BaseComponentMessage message) {
-        if(message instanceof MoveToMessage){
-            MoveToMessage msg = (MoveToMessage) message;
-
-            move(msg);
-        }
+        super.receiveMessage(message);
     }
 
     /*
@@ -140,14 +147,7 @@ public class MovementComponent extends BaseComponent {
      * http://gamedev.stackexchange.com/questions/73051/libgdx-converting-screen-click-coordinates-into-world-coordinates-for-2d-game
      */
     private void move(MoveToMessage moveTo){
-        Vector2 pos = getWorldPosition();
 
-        Vector2 dest = moveTo.destination;
-        dest.sub(pos).nor().scl(velocity);
-
-        pos.add(dest.scl(Gdx.graphics.getDeltaTime()));
-
-        setWorldPosition(pos);
     }
 
     @Override

@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
-import com.emergentorganization.cellrpg.components.messages.MoveToMessage;
-
-import java.util.Vector;
 
 /**
  * Created by BrianErikson on 6/3/2015.
@@ -142,7 +139,7 @@ public class MovementComponent extends BaseComponent {
     /**
      * Stop the movement.
      */
-    public void abortMovement(){
+    public void stop(){
         moving = false;
     }
 

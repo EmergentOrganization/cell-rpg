@@ -17,6 +17,12 @@ public abstract class BaseComponent {
     private ArrayList<BaseComponentListener> listeners = new ArrayList<BaseComponentListener>();
 
     /**
+     * Called when the component is added to an entity
+     * This is useful to fetch information/components from the parent entity
+     */
+    public void added(){}
+
+    /**
      * Used to update various actions that need to be taken each frame on the component, but before rendering occurs
      * @param deltaTime The time it took to render the last frame. Usually uses Gdx.graphics.getDeltaTime();
      */

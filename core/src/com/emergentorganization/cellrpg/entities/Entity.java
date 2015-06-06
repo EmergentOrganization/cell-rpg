@@ -71,6 +71,9 @@ public abstract class Entity {
      * @return derived component, or null if there is none
      */
     public BaseComponent getFirstComponentByType(ComponentType type) {
+        if(type == ComponentType.MOVEMENT)
+            return moveComponent;
+
         for (BaseComponent component : components) {
             if (component.getType() == type) {
                 return component;
@@ -93,6 +96,7 @@ public abstract class Entity {
 
     public void addComponent(BaseComponent component) {
         component.setEntity(this);
+        component.added();
         components.add(component);
     }
 

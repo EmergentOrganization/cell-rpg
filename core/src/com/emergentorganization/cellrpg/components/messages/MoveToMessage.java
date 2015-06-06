@@ -3,8 +3,6 @@ package com.emergentorganization.cellrpg.components.messages;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.BaseComponent;
 
-import javafx.scene.shape.MoveTo;
-
 /**
  * Created by OrelBitton on 04/06/2015.
  */

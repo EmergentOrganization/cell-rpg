@@ -112,6 +112,7 @@ public abstract class Scene extends ApplicationAdapter {
             entity.dispose();
         }
         uiStage.dispose();
+        physWorld.removeAllBodiesAndJoints();
     }
 
     public void addEntity(Entity e) {
@@ -121,6 +122,7 @@ public abstract class Scene extends ApplicationAdapter {
     public void removeEntity(Entity e) {
         e.setScene(null);
         entities.remove(e);
+        e.dispose();
     }
 
     private void spillEntities(){

@@ -17,6 +17,7 @@ public class PhysicsComponent extends BaseComponent {
     private Tag tag;
 
     public PhysicsComponent(World world, Body body, Tag tag) {
+        type = ComponentType.PHYSICS;
         this.world = world;
         this.body = body;
         this.tag = tag;

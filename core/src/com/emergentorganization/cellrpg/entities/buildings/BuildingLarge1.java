@@ -20,9 +20,11 @@ import java.util.ArrayList;
  */
 public class BuildingLarge1 extends Entity {
     public static final String ID = "building-large-1";
+    Texture texture;
 
     public BuildingLarge1() {
-        addComponent(new SpriteComponent(new Texture(ID + ".png")));
+        texture = new Texture(ID + ".png");
+        addComponent(new SpriteComponent(texture));
 
     }
 
@@ -31,8 +33,10 @@ public class BuildingLarge1 extends Entity {
         super.added();
 
         World world = getScene().getWorld();
-        Body body = BodyLoader.fetch().generateBody(ID);
-        addComponent(new PhysicsComponent(world, body, Tag.BUILDING_LARGE_1));
+        Body body = BodyLoader.fetch().generateBody(ID, texture.getWidth());
+        PhysicsComponent phys = new PhysicsComponent(world, body, Tag.BUILDING_LARGE_1);
+        phys.enableDebugRenderer(true);
+        addComponent(phys);
     }
 
     @Override

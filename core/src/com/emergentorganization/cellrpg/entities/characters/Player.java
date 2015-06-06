@@ -27,6 +27,9 @@ public class Player extends Character {
     @Override
     public void added() {
         addComponent(new PlayerInputComponent(getScene().getGameCamera()));
-        addComponent(new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID), Tag.PLAYER));
+        PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID, texture.getHeight()), Tag.PLAYER);
+        phys.enableDebugRenderer(true);
+        addComponent(phys);
+
     }
 }

@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -20,6 +21,8 @@ public class CellRPG extends Scene {
 		player = new Player();
 		this.addEntity(player);
 
-		this.addEntity(new BuildingLarge1());
+        BuildingLarge1 bldg = new BuildingLarge1();
+        bldg.getMovementComponent().setWorldPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
+		this.addEntity(bldg);
 	}
 }

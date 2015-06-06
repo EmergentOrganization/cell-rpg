@@ -36,7 +36,7 @@ public class BodyLoader extends BodyEditorLoader {
      * @param bodyName the body name that was configured in the collider generator
      * @return the body to add to the world
      */
-    public Body generateBody(String bodyName) {
+    public Body generateBody(String bodyName, float scale) {
         final Model model = getInternalModel();
 
         // new body
@@ -47,25 +47,25 @@ public class BodyLoader extends BodyEditorLoader {
 
         // polygons
         for (PolygonModel polygon : rawBody.polygons) {
-            Polygon gon = new Polygon(convertVectors(polygon.vertices));
+            Polygon gon = new Polygon(convertVectors(polygon.vertices, scale));
             result.addFixture(new BodyFixture(gon));
         }
 
         // circles
         for (CircleModel circleModel : rawBody.circles) {
-            Circle circle = new Circle(circleModel.radius);
+            Circle circle = new Circle(circleModel.radius * scale);
             result.addFixture(new BodyFixture(circle));
         }
 
         return result;
     }
 
-    private org.dyn4j.geometry.Vector2[] convertVectors(List<Vector2> vecs) {
+    private org.dyn4j.geometry.Vector2[] convertVectors(List<Vector2> vecs, float scale) {
         org.dyn4j.geometry.Vector2[] newVecs = new org.dyn4j.geometry.Vector2[vecs.size()];
 
         for (int i = 0; i < vecs.size(); i++) {
             Vector2 vec = vecs.get(i);
-            newVecs[i] = new org.dyn4j.geometry.Vector2(vec.x, vec.y);
+            newVecs[i] = new org.dyn4j.geometry.Vector2(vec.x * scale, vec.y * scale);
         }
         return newVecs;
     }

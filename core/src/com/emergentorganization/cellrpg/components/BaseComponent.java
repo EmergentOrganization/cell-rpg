@@ -99,7 +99,8 @@ public abstract class BaseComponent {
     }
 
     protected void addEntityToScene(Entity e) {
-        if (getEntity().getScene() == null) throw new NullPointerException("Cannot add a new entity to scene before" +
+        if (getEntity() == null) throw new NullPointerException("Cannot get entity before component is added");
+        else if (getEntity().getScene() == null) throw new NullPointerException("Cannot add a new entity to scene before" +
                 " the parent entity is added by the scene");
 
         getEntity().getScene().addEntity(e);

@@ -12,5 +12,6 @@ public enum ComponentType {
     SPRITE,
     GRAPHICS,
     PHYSICS,
-    PLAYER_INPUT
+    PLAYER_INPUT,
+    WEAPON
 }

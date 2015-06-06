@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.BaseComponent;
 import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.components.WeaponComponent;
 
 /**
  * Created by OrelBitton on 04/06/2015.
@@ -17,6 +18,7 @@ public class PlayerInputComponent extends BaseComponent {
     // TODO: implement InputComponent to add AI support.
 
     private MovementComponent mc;
+    private WeaponComponent wc;
 
     private Camera camera; // Used to unproject screen coordinates for the mouse
     private Vector3 tmp = new Vector3();
@@ -34,6 +36,7 @@ public class PlayerInputComponent extends BaseComponent {
     @Override
     public void added() {
         mc = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
+        wc = (WeaponComponent) getFirstSiblingByType(ComponentType.WEAPON);
     }
 
     @Override
@@ -63,18 +66,15 @@ public class PlayerInputComponent extends BaseComponent {
     }
 
     private void handleMovement(){
-        // System.out.println("Move");
-
+        // System.out.println("Move")
         Vector3 v = getMouseCoords();
-
         mc.moveTo(v.x, v.y);
     }
 
     private void handleShooting(){
-
-
-
         // System.out.println("Shoot");
+        Vector3 v = getMouseCoords();
+        wc.shootTo(v.x, v.y);
     }
 
     private Vector3 getMouseCoords(){

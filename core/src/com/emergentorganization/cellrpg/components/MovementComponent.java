@@ -75,6 +75,11 @@ public class MovementComponent extends BaseComponent {
         isDirty = true;
     }
 
+    public void setRotation(float angle){
+        rotation.setToRotation(angle);
+        isDirty = true;
+    }
+
     public Vector2 getLocalPosition() {
         Vector2 pos = new Vector2();
         translation.getTranslation(pos);

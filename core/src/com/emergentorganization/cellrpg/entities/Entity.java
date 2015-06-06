@@ -151,6 +151,8 @@ public abstract class Entity {
 
 
     public Scene getScene() {
+        if (parentScene == null) throw new NullPointerException("Cannot get scene before entity is added by it");
+
         return parentScene;
     }
 

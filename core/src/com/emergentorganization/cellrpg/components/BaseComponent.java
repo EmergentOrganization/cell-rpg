@@ -51,7 +51,10 @@ public abstract class BaseComponent {
 
     public void setEntity(Entity entity){ this.entity = entity; }
 
-    protected Entity getEntity(){ return entity; };
+    protected Entity getEntity(){
+        if (entity == null) throw new NullPointerException("Cannot get entity before component is added to parent");
+        return entity;
+    }
 
     public void addListener(BaseComponentListener listener){
         listeners.add(listener);
@@ -99,10 +102,6 @@ public abstract class BaseComponent {
     }
 
     protected void addEntityToScene(Entity e) {
-        if (getEntity() == null) throw new NullPointerException("Cannot get entity before component is added");
-        else if (getEntity().getScene() == null) throw new NullPointerException("Cannot add a new entity to scene before" +
-                " the parent entity is added by the scene");
-
         getEntity().getScene().addEntity(e);
     }
 

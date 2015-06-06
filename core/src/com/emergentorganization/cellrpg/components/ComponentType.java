@@ -13,5 +13,6 @@ public enum ComponentType {
     GRAPHICS,
     PHYSICS,
     PLAYER_INPUT,
-    WEAPON
+    WEAPON,
+    BULLET
 }

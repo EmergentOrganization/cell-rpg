@@ -27,7 +27,7 @@ import java.util.Iterator;
  */
 public abstract class Scene extends ApplicationAdapter {
     private ArrayList<Entity> entities;
-    private ArrayList<Entity> entityQueue; // entities waiting to be entered
+    private ArrayList<Entity> entityQueue; // entities waiting to be added to the scene
     private SpriteBatch batch; // sprite batch for entities
     private Vector3 clearColor;
     private Stage uiStage; // stage which handles all UI Actors

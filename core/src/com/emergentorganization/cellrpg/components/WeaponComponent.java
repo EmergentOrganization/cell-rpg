@@ -12,7 +12,7 @@ public class WeaponComponent extends BaseComponent{
     private MovementComponent mc;
 
     // TODO: weapon class
-    private float bulletSpeed = 20f; // Bullet speed
+    private float bulletSpeed = 200f; // Bullet speed
     private float bulletDistance = 1000f; // How far can a bullet reach (world units)
     private float shootDelay = 200f; // Time between shots
 
@@ -40,12 +40,12 @@ public class WeaponComponent extends BaseComponent{
             // set temporary vector to bullet position
             tmp.set(x, y);
 
-            // calculate the angle
-            float angle = tmp.sub(pos).angle();
+            // calculate the destination
+            Vector2 dest = tmp.sub(pos).nor().scl(bulletDistance);
 
-            addEntityToScene(new Bullet(pos, angle, bulletSpeed, bulletDistance));
+            addEntityToScene(new Bullet(pos, dest, bulletSpeed));
 
-            System.out.println("Shooting at " + angle + " degrees");
+            System.out.println("Shooting to " + dest);
         }
     }
 

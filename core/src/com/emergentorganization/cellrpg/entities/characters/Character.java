@@ -15,6 +15,8 @@ public class Character extends Entity {
     protected final Texture texture;
 
     public Character(String textureFileName){
+        super();
+
         texture = new Texture(textureFileName);
         SpriteComponent spriteComponent = new SpriteComponent(texture);
         addComponent(spriteComponent);

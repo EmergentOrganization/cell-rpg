@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.messages.ArrivedToDestination;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 /**
@@ -74,6 +75,7 @@ public class MovementComponent extends BaseComponent {
         rotation.setAngleRad(rotation.angleRad());
         isDirty = true;
     }
+
 
     public void setRotation(float angle){
         rotation.setToRotation(angle);
@@ -165,6 +167,7 @@ public class MovementComponent extends BaseComponent {
                 renderer.end();
             }else{
                 moving = false;
+                broadcast(new ArrivedToDestination(getWorldPosition()));
             }
         }
     }

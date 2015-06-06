@@ -27,12 +27,17 @@ public abstract class Entity {
      * The movement component is out of the array because movement is implied for each entity.
      * Performance degradation is only incurred when the entity is moved, rotated, or scaled
      */
-    private MovementComponent moveComponent = new MovementComponent();
+    private MovementComponent moveComponent = new MovementComponent(); // TODO: move it into the array
+
+    public Entity(){
+        moveComponent.setEntity(this); // make sure to call super from child classes or null pointer exceptions may occur
+    }
 
     /**
      * This is called when the entity is added to the world.
      */
-    public void added(){}
+    public void added(){
+    }
 
     /**
      * Calls update method on all added components before render method

@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.emergentorganization.cellrpg.entities.buildings.BuildingLarge1;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 
 public class CellRPG extends Scene {
@@ -18,5 +19,7 @@ public class CellRPG extends Scene {
 
 		player = new Player();
 		this.addEntity(player);
+
+		this.addEntity(new BuildingLarge1());
 	}
 }

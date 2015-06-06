@@ -31,7 +31,6 @@ public abstract class Scene extends ApplicationAdapter {
     private Stage uiStage; // stage which handles all UI Actors
     private OrthographicCamera gameCamera;
     private World physWorld;
-    private BodyLoader bodyLoader; // TODO: make persistent
     private static final double WORLD_WIDTH = 10000d;
     private static final double WORLD_HEIGHT = 10000d;
 
@@ -49,6 +48,7 @@ public abstract class Scene extends ApplicationAdapter {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
+        BodyLoader.fetch(); // initialize bodyLoader if it isn't already
         physWorld = new World(new AxisAlignedBounds(WORLD_WIDTH, WORLD_HEIGHT));
         physWorld.setGravity(new Vector2(0,0)); // defaults to -9.8 m/s
         physWorld.addListener(new PlayerCollisionListener()); // stops player from clipping through colliders

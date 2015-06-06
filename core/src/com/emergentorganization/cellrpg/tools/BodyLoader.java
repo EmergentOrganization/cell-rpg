@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import org.dyn4j.dynamics.Body;
@@ -13,6 +14,8 @@ import java.util.List;
  * Created by BrianErikson on 6/5/2015.
  */
 public class BodyLoader extends BodyEditorLoader {
+    private static BodyLoader singleton;
+
     public BodyLoader(String str) {
         super(str);
     }
@@ -21,12 +24,19 @@ public class BodyLoader extends BodyEditorLoader {
         super(file);
     }
 
+    public static BodyLoader fetch() {
+        if (singleton == null) {
+            singleton = new BodyLoader(Gdx.files.internal("data/colliderProject"));
+        }
+        return singleton;
+    }
+
     /**
      * Generates a dyn4j physics body to add to the world
      * @param bodyName the body name that was configured in the collider generator
      * @return the body to add to the world
      */
-    public Body generateCellBody(String bodyName) {
+    public Body generateBody(String bodyName) {
         final Model model = getInternalModel();
 
         // new body

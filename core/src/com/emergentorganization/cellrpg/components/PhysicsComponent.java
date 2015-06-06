@@ -13,12 +13,20 @@ import org.dyn4j.dynamics.World;
 public class PhysicsComponent extends BaseComponent {
     private final World world;
     private final Body body;
-    private final MovementComponent moveComponent;
+    private MovementComponent moveComponent;
+    private Tag tag;
 
     public PhysicsComponent(World world, Body body, Tag tag) {
         this.world = world;
         this.body = body;
+        this.tag = tag;
         world.addBody(body);
+    }
+
+    @Override
+    public void added() {
+        super.added();
+
         moveComponent = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
         body.setUserData(new CellUserData(moveComponent, tag));
     }

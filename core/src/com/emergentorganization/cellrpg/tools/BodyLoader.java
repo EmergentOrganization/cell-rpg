@@ -26,7 +26,7 @@ public class BodyLoader extends BodyEditorLoader {
      * @param bodyName the body name that was configured in the collider generator
      * @return the body to add to the world
      */
-    public Body generateBody(String bodyName) {
+    public Body generateCellBody(String bodyName) {
         final Model model = getInternalModel();
 
         // new body

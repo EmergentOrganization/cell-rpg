@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.physics.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.tools.BodyLoader;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.World;
@@ -50,6 +51,7 @@ public abstract class Scene extends ApplicationAdapter {
 
         physWorld = new World(new AxisAlignedBounds(WORLD_WIDTH, WORLD_HEIGHT));
         physWorld.setGravity(new Vector2(0,0)); // defaults to -9.8 m/s
+        physWorld.addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
     }
 
     @Override

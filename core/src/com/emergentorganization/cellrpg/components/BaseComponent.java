@@ -98,5 +98,12 @@ public abstract class BaseComponent {
         return entity.getFirstComponentByType(type);
     }
 
+    protected void addEntityToScene(Entity e) {
+        if (getEntity().getScene() == null) throw new NullPointerException("Cannot add a new entity to scene before" +
+                " the parent entity is added by the scene");
+
+        getEntity().getScene().addEntity(e);
+    }
+
     public void dispose() {}
 }

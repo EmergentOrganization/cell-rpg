@@ -3,7 +3,6 @@ package com.emergentorganization.cellrpg.components.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.BaseComponent;
@@ -28,6 +27,7 @@ public class PlayerInputComponent extends BaseComponent {
     private long lastPress = 0; // Last press time in milliseconds
 
     public PlayerInputComponent(Camera camera){
+        type = ComponentType.PLAYER_INPUT;
         this.camera = camera;
     }
 

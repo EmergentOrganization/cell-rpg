@@ -82,28 +82,30 @@ public abstract class BaseComponent {
      * @param message the message to handle
      */
     protected void broadcast(BaseComponentMessage message) {
-        getEntity().broadcastMessage(message);
+        entity.broadcastMessage(message);
     }
 
     protected void broadcast(ComponentType type, BaseComponentMessage message) {
-        getEntity().broadcastMessage(type, message);
+        entity.broadcastMessage(type, message);
     }
 
     protected  ArrayList<BaseComponent> getSiblings() {
-        return getEntity().getComponents();
+        return entity.getComponents();
     }
 
     protected ArrayList<BaseComponent> getSiblingsByType(ComponentType type) {
-        return getEntity().getComponentsByType(type);
+        return entity.getComponentsByType(type);
     }
 
     protected BaseComponent getFirstSiblingByType(ComponentType type) {
-        return getEntity().getFirstComponentByType(type);
+        return entity.getFirstComponentByType(type);
     }
 
     protected void addEntityToScene(Entity e) {
         getEntity().getScene().addEntity(e);
     }
 
-    public void dispose() {}
+    public void dispose() {
+        listeners.clear();
+    }
 }

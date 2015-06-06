@@ -20,12 +20,14 @@ import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Vector2;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
  */
 public abstract class Scene extends ApplicationAdapter {
     private ArrayList<Entity> entities;
+    private ArrayList<Entity> entityQueue; // entities waiting to be entered
     private SpriteBatch batch; // sprite batch for entities
     private Vector3 clearColor;
     private Stage uiStage; // stage which handles all UI Actors
@@ -39,6 +41,8 @@ public abstract class Scene extends ApplicationAdapter {
         super.create();
 
         entities = new ArrayList<Entity>();
+        entityQueue = new ArrayList<Entity>();
+
         batch = new SpriteBatch();
         clearColor = new Vector3(0,0,0);
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -66,10 +70,13 @@ public abstract class Scene extends ApplicationAdapter {
     public void render() {
         super.render();
 
+
         Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         physWorld.update(Gdx.graphics.getDeltaTime()); // variable update rate. change to static if instability occurs
+
+        spillEntities();
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         for (Entity entity : entities) {
@@ -108,14 +115,24 @@ public abstract class Scene extends ApplicationAdapter {
     }
 
     public void addEntity(Entity e) {
-        e.setScene(this);
-        e.added();
-        entities.add(e);
+        entityQueue.add(e);
     }
 
     public void removeEntity(Entity e) {
         e.setScene(null);
         entities.remove(e);
+    }
+
+    private void spillEntities(){
+        for(Iterator<Entity> iterator = entityQueue.iterator(); iterator.hasNext();) {
+            Entity e = iterator.next();
+
+            e.setScene(this);
+            e.added();
+            entities.add(e);
+
+            iterator.remove();
+        }
     }
 
     public ArrayList<Entity> getEntities() {

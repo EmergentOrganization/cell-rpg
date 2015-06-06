@@ -13,6 +13,11 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.physics.PlayerCollisionListener;
+import com.emergentorganization.cellrpg.tools.BodyLoader;
+import org.dyn4j.collision.AxisAlignedBounds;
+import org.dyn4j.dynamics.World;
+import org.dyn4j.geometry.Vector2;
 
 import java.util.ArrayList;
 
@@ -25,6 +30,10 @@ public abstract class Scene extends ApplicationAdapter {
     private Vector3 clearColor;
     private Stage uiStage; // stage which handles all UI Actors
     private OrthographicCamera gameCamera;
+    private World physWorld;
+    private static final BodyLoader bodyLoader = new BodyLoader("data/colliderProject.json"); // TODO: make persistent
+    private static final double WORLD_WIDTH = 10000d;
+    private static final double WORLD_HEIGHT = 10000d;
 
     @Override
     public void create() {
@@ -34,10 +43,15 @@ public abstract class Scene extends ApplicationAdapter {
         batch = new SpriteBatch();
         clearColor = new Vector3(0,0,0);
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
         gameCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gameCamera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0); // center camera with 0,0 in bottom left
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
+
+        physWorld = new World(new AxisAlignedBounds(WORLD_WIDTH, WORLD_HEIGHT));
+        physWorld.setGravity(new Vector2(0,0)); // defaults to -9.8 m/s
+        physWorld.addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
     }
 
     @Override
@@ -54,6 +68,8 @@ public abstract class Scene extends ApplicationAdapter {
 
         Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        physWorld.update(Gdx.graphics.getDeltaTime()); // variable update rate. change to static if instability occurs
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         for (Entity entity : entities) {
@@ -120,5 +136,9 @@ public abstract class Scene extends ApplicationAdapter {
 
     public OrthographicCamera getGameCamera() {
         return gameCamera;
+    }
+
+    public World getWorld() {
+        return physWorld;
     }
 }

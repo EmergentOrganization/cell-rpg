@@ -61,6 +61,10 @@ public abstract class Entity {
         }
     }
 
+    public ArrayList<BaseComponent> getComponents() {
+        return components;
+    }
+
     /**
      * Returns the first component in the iterator. Used for performance reasons when only one component is expected
      * @param type the type of component

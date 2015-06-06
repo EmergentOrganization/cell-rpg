@@ -13,9 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class BaseComponent {
     protected ComponentType type; // Never assigned because base class cannot be constructed
-
     private Entity entity; // Parent entity reference
-
     private ArrayList<BaseComponentListener> listeners = new ArrayList<BaseComponentListener>();
 
     /**
@@ -74,13 +72,24 @@ public abstract class BaseComponent {
      * Used to delegate events to an entity's components. Override this method to provide functionality
      * @param message the message to handle
      */
-    protected void broadcast(BaseComponentMessage message){
+    protected void broadcast(BaseComponentMessage message) {
         entity.broadcastMessage(message);
     }
 
-    protected void broadcast(ComponentType type, BaseComponentMessage message)
-    {
+    protected void broadcast(ComponentType type, BaseComponentMessage message) {
         entity.broadcastMessage(type, message);
+    }
+
+    protected  ArrayList<BaseComponent> getSiblings() {
+        return entity.getComponents();
+    }
+
+    protected ArrayList<BaseComponent> getSiblingsByType(ComponentType type) {
+        return entity.getComponentsByType(type);
+    }
+
+    protected BaseComponent getFirstSiblingByType(ComponentType type) {
+        return entity.getFirstComponentByType(type);
     }
 
     public void dispose() {}

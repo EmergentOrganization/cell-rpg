@@ -31,7 +31,7 @@ public abstract class Scene extends ApplicationAdapter {
     private Stage uiStage; // stage which handles all UI Actors
     private OrthographicCamera gameCamera;
     private World physWorld;
-    private static final BodyLoader bodyLoader = new BodyLoader("data/colliderProject.json"); // TODO: make persistent
+    private BodyLoader bodyLoader; // TODO: make persistent
     private static final double WORLD_WIDTH = 10000d;
     private static final double WORLD_HEIGHT = 10000d;
 

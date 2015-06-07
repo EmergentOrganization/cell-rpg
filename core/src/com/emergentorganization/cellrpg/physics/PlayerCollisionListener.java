@@ -1,5 +1,7 @@
 package com.emergentorganization.cellrpg.physics;
 
+import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.dynamics.Body;
@@ -16,18 +18,29 @@ public class PlayerCollisionListener extends CollisionAdapter {
         PhysicsComponent.CellUserData data1 = (PhysicsComponent.CellUserData) body1.getUserData();
         PhysicsComponent.CellUserData data2 = (PhysicsComponent.CellUserData) body2.getUserData();
 
-        // Stop player from moving through objects
+        Vector2 normal = new Vector2((float)penetration.getNormal().x, (float)penetration.getNormal().y);
+        float depth = (float) penetration.getDepth();
+
         if (data1.tag == Tag.PLAYER) {
-            data1.movementComponent.setVelocity(0);
+            handle(data1, normal, depth);
+            return false;
         }
         else if (data2.tag == Tag.PLAYER) {
-            data2.movementComponent.setVelocity(0);
+            handle(data2, normal, depth);
+            return false;
         }
+        return true;
+    }
 
-        body1.clearForce();
-        body1.clearTorque();
-        body2.clearForce();
-        body2.clearTorque();
-        return false;
+    /**
+     * Stops the player from moving through objects
+     * @param data the bodies data
+     * @param normal the collision normal
+     * @param depth the depth of the collision
+     */
+    private void handle(PhysicsComponent.CellUserData data, Vector2 normal, float depth) {
+        MovementComponent mc = data.movementComponent;
+        normal.scl(-depth);
+        mc.setWorldPosition(mc.getWorldPosition().add(normal));
     }
 }

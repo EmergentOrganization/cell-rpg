@@ -19,10 +19,11 @@ public class MovementComponent extends BaseComponent {
     private Matrix3 transform = new Matrix3();
     private boolean isDirty = false;
 
-    private float velocity = 200;
+    private float speed = 200;
 
     // renders the player's destination.
     private ShapeRenderer renderer = new ShapeRenderer();
+
     private Vector2 dest = new Vector2();
     private boolean moving = false;
 
@@ -82,10 +83,14 @@ public class MovementComponent extends BaseComponent {
         isDirty = true;
     }
 
+    /**
+     * Returns a read-only copy of the positon
+     * @return
+     */
     public Vector2 getLocalPosition() {
         Vector2 pos = new Vector2();
         translation.getTranslation(pos);
-        return pos;
+        return pos.cpy();
     }
 
     public Vector2 getWorldPosition() {
@@ -125,12 +130,12 @@ public class MovementComponent extends BaseComponent {
         isDirty = true;
     }
 
-    public void setVelocity(float vel){
-        velocity = vel;
+    public void setSpeed(float speed){
+        this.speed = speed;
     }
 
-    public float getVelocity(){
-        return velocity;
+    public float getSpeed(){
+        return speed;
     }
 
     /**
@@ -148,17 +153,18 @@ public class MovementComponent extends BaseComponent {
      */
     public void stop(){
         moving = false;
+        broadcast(new ArrivedToDestination(getWorldPosition()));
     }
 
     /**
-     * Moves the entity to the destination specified using moveTo() with the entity's velocity.
+     * Moves the entity to the destination specified using moveTo() with the entity's speed.
      */
     private void updateMovement(){
         if(moving){
             Vector2 pos = getLocalPosition();
-            Vector2 move = dest.cpy().sub(pos).nor().scl(velocity);
+            Vector2 move = dest.cpy().sub(pos).nor().scl(speed);
 
-            if(dest.dst(pos) > 2) {
+            if(dest.dst(pos) > 10) {
                 pos.add(move.scl(Gdx.graphics.getDeltaTime()));
                 setWorldPosition(pos);
 
@@ -170,6 +176,10 @@ public class MovementComponent extends BaseComponent {
                 broadcast(new ArrivedToDestination(getWorldPosition()));
             }
         }
+    }
+
+    public Vector2 getDest() {
+        return dest;
     }
 
     @Override

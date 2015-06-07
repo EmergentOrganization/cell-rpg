@@ -11,6 +11,7 @@ import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.AABB;
+import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Polygon;
 
 /**
@@ -30,6 +31,7 @@ public class PhysicsComponent extends BaseComponent {
         this.world = world;
         this.body = body;
         this.tag = tag;
+        body.setMassType(Mass.Type.FIXED_ANGULAR_VELOCITY);
         world.addBody(body);
     }
 

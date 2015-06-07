@@ -54,8 +54,6 @@ public abstract class Scene extends ApplicationAdapter {
 
         BodyLoader.fetch(); // initialize bodyLoader if it isn't already
         physWorld = new World(new AxisAlignedBounds(WORLD_WIDTH, WORLD_HEIGHT));
-        physWorld.setGravity(new Vector2(0,0)); // defaults to -9.8 m/s
-        physWorld.addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
     }
 
     @Override

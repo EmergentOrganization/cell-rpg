@@ -10,14 +10,14 @@ public class BulletComponent extends BaseComponent {
     private MovementComponent mc;
 
     private Vector2 shootingPos, dest;
-    private float velocity;
+    private float speed;
 
-    public BulletComponent(Vector2 shootingPos, Vector2 dest, float velocity){
+    public BulletComponent(Vector2 shootingPos, Vector2 dest, float speed){
         type = ComponentType.BULLET;
 
         this.shootingPos = shootingPos;
         this.dest = dest;
-        this.velocity = velocity;
+        this.speed = speed;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class BulletComponent extends BaseComponent {
 
         // TODO: translation from local pos to world pos
         mc.setWorldPosition(shootingPos);
-        mc.setVelocity(velocity);
+        mc.setSpeed(speed);
         mc.moveTo(dest.x, dest.y);
 
         // TODO: destroy on arrival using ArrivedToDestination message.

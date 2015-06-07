@@ -86,7 +86,7 @@ public class MovementComponent extends BaseComponent {
     public Vector2 getLocalPosition() {
         Vector2 pos = new Vector2();
         translation.getTranslation(pos);
-        return pos.cpy();
+        return pos;
     }
 
     public Vector2 getWorldPosition() {
@@ -156,7 +156,7 @@ public class MovementComponent extends BaseComponent {
     }
 
     private void updateMovement(){
-        Vector2 newPos = getWorldPosition().cpy();
+        Vector2 newPos = getWorldPosition();
 
         if(hasDest && dest.dst(newPos) <= 10) {
             hasDest = false;

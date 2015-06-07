@@ -20,14 +20,14 @@ public class Character extends Entity {
     }
     public Character(Texture bodyTexture){
         this.graphicsComponent = new GraphicsComponent();
-        graphicsComponent.register("body", bodyTexture);
-        addComponent(graphicsComponent);
-        graphicsComponent.play("body");
+        this.graphicsComponent.register("body", bodyTexture);
+        this.graphicsComponent.play("body");
+        addComponent(this.graphicsComponent);
     }
     public Character(Animation bodyAnimation){
         this.graphicsComponent = new GraphicsComponent();
-        graphicsComponent.register("body", bodyAnimation);
-        addComponent(graphicsComponent);
-        graphicsComponent.play("body");
+        this.graphicsComponent.register("body", bodyAnimation);
+        this.graphicsComponent.play("body");
+        addComponent(this.graphicsComponent);
     }
 }

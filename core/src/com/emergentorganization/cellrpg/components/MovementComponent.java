@@ -163,10 +163,12 @@ public class MovementComponent extends BaseComponent {
             setVelocity(new Vector2(0, 0));
         }
 
-        Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
+        if (!getVelocity().epsilonEquals(0f, 0f, 0.01f)) {
+            Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
 
-        newPos.add(move);
-        setWorldPosition(newPos);
+            newPos.add(move);
+            setWorldPosition(newPos);
+        }
     }
 
 

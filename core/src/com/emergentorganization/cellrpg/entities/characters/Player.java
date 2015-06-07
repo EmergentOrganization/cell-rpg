@@ -14,7 +14,7 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
  */
 public class Player extends Character {
     private static final String ID = "char-player";
-    private static Integer HEIGHT = 40;
+    private static Integer HEIGHT = 400;
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
 

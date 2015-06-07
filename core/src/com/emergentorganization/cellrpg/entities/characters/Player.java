@@ -14,6 +14,7 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
  */
 public class Player extends Character {
     private static final String ID = "light";
+    private static Integer HEIGHT = 40;
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
 
@@ -32,7 +33,7 @@ public class Player extends Character {
 
         camera = getScene().getGameCamera();
         addComponent(new PlayerInputComponent(camera));
-        PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID, texture.getHeight()), Tag.PLAYER);
+        PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID, HEIGHT), Tag.PLAYER);
         phys.enableDebugRenderer(true);
         addComponent(phys);
     }

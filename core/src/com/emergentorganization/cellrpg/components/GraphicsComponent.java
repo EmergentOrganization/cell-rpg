@@ -47,7 +47,7 @@ public class GraphicsComponent extends BaseComponent{
 
     public void setKeyFrame(TextureRegion region) {
         curFrame = region;
-        sprite.setRegion(region, 0, 0, 17, 17);
+        sprite.setRegion(region);
         sprite.setSize(curFrame.getRegionWidth(), curFrame.getRegionHeight());
     }
 

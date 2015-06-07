@@ -6,6 +6,7 @@ package com.emergentorganization.cellrpg.scenes;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -42,6 +43,7 @@ public abstract class Scene extends ApplicationAdapter {
     private World physWorld;
     private static final double WORLD_WIDTH = 10000d;
     private static final double WORLD_HEIGHT = 10000d;
+    private InputMultiplexer input; // Not sure if should keep a reference for this
 
     @Override
     public void create() {
@@ -55,6 +57,11 @@ public abstract class Scene extends ApplicationAdapter {
         debugRenderer.setAutoShapeType(true);
         clearColor = new Vector3(0,0,0);
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        input = new InputMultiplexer();
+        input.addProcessor(uiStage);
+
+        Gdx.input.setInputProcessor(input);
 
         gameCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gameCamera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0); // center camera with 0,0 in bottom left

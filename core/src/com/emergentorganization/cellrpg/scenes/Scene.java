@@ -13,11 +13,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
-import com.emergentorganization.cellrpg.physics.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.tools.BodyLoader;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.Vector2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -83,6 +81,7 @@ public abstract class Scene extends ApplicationAdapter {
 
         uiStage.act();
 
+        batch.setProjectionMatrix(gameCamera.combined);
         batch.begin();
         for (Entity entity : entities) {
             entity.render(batch);

@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.WeaponComponent;
@@ -14,22 +14,36 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
  */
 public class Player extends Character {
     private static final String ID = "light";
+    private OrthographicCamera camera;
+    private MovementComponent moveComponent;
 
     public Player(){
         super(ID + ".png");
 
-        MovementComponent movementComponent = getMovementComponent();
-        movementComponent.setWorldPosition(Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
+        moveComponent = getMovementComponent();
+        moveComponent.setWorldPosition(Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
 
         addComponent(new WeaponComponent());
     }
 
     @Override
     public void added() {
-        addComponent(new PlayerInputComponent(getScene().getGameCamera()));
+        super.added();
+
+        camera = getScene().getGameCamera();
+        addComponent(new PlayerInputComponent(camera));
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID, texture.getHeight()), Tag.PLAYER);
         phys.enableDebugRenderer(true);
         addComponent(phys);
-
     }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+        
+        camera.position.set(moveComponent.getWorldPosition(), 0);
+        camera.update();
+    }
+
+
 }

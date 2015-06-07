@@ -168,6 +168,7 @@ public class MovementComponent extends BaseComponent {
                 pos.add(move.scl(Gdx.graphics.getDeltaTime()));
                 setWorldPosition(pos);
 
+                renderer.setProjectionMatrix(getEntity().getScene().getGameCamera().combined);
                 renderer.begin(ShapeRenderer.ShapeType.Line);
                     renderer.line(pos.x, pos.y, dest.x, dest.y);
                 renderer.end();

@@ -10,5 +10,9 @@ package com.emergentorganization.cellrpg.components;
 public enum ComponentType {
     MOVEMENT,
     SPRITE,
-    GRAPHICS
+    GRAPHICS,
+    PHYSICS,
+    PLAYER_INPUT,
+    WEAPON,
+    BULLET
 }

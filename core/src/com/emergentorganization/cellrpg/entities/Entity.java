@@ -27,12 +27,17 @@ public abstract class Entity {
      * The movement component is out of the array because movement is implied for each entity.
      * Performance degradation is only incurred when the entity is moved, rotated, or scaled
      */
-    private MovementComponent moveComponent = new MovementComponent();
+    private MovementComponent moveComponent = new MovementComponent(); // TODO: move it into the array
+
+    public Entity(){
+        moveComponent.setEntity(this); // make sure to call super from child classes or null pointer exceptions may occur
+    }
 
     /**
      * This is called when the entity is added to the world.
      */
-    public void added(){}
+    public void added(){
+    }
 
     /**
      * Calls update method on all added components before render method
@@ -61,12 +66,19 @@ public abstract class Entity {
         }
     }
 
+    public ArrayList<BaseComponent> getComponents() {
+        return components;
+    }
+
     /**
      * Returns the first component in the iterator. Used for performance reasons when only one component is expected
      * @param type the type of component
      * @return derived component, or null if there is none
      */
     public BaseComponent getFirstComponentByType(ComponentType type) {
+        if(type == ComponentType.MOVEMENT)
+            return moveComponent;
+
         for (BaseComponent component : components) {
             if (component.getType() == type) {
                 return component;
@@ -89,6 +101,7 @@ public abstract class Entity {
 
     public void addComponent(BaseComponent component) {
         component.setEntity(this);
+        component.added();
         components.add(component);
     }
 
@@ -143,6 +156,8 @@ public abstract class Entity {
 
 
     public Scene getScene() {
+        if (parentScene == null) throw new NullPointerException("Cannot get scene before entity is added by it");
+
         return parentScene;
     }
 

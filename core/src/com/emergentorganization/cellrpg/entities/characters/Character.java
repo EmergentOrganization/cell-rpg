@@ -12,10 +12,13 @@ import com.emergentorganization.cellrpg.entities.Entity;
  *used for NPCs & players
  */
 public class Character extends Entity {
-    SpriteComponent spriteComponent;
+    protected final Texture texture;
 
     public Character(String textureFileName){
-        spriteComponent = new SpriteComponent(new Texture(textureFileName));
+        super();
+
+        texture = new Texture(textureFileName);
+        SpriteComponent spriteComponent = new SpriteComponent(texture);
         addComponent(spriteComponent);
     }
 }

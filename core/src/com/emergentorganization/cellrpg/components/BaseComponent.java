@@ -13,10 +13,14 @@ import java.util.ArrayList;
  */
 public abstract class BaseComponent {
     protected ComponentType type; // Never assigned because base class cannot be constructed
-
     private Entity entity; // Parent entity reference
-
     private ArrayList<BaseComponentListener> listeners = new ArrayList<BaseComponentListener>();
+
+    /**
+     * Called when the component is added to an entity
+     * This is useful to fetch information/components from the parent entity
+     */
+    public void added(){}
 
     /**
      * Used to update various actions that need to be taken each frame on the component, but before rendering occurs
@@ -47,7 +51,10 @@ public abstract class BaseComponent {
 
     public void setEntity(Entity entity){ this.entity = entity; }
 
-    protected Entity getEntity(){ return entity; };
+    protected Entity getEntity(){
+        if (entity == null) throw new NullPointerException("Cannot get entity before component is added to parent");
+        return entity;
+    }
 
     public void addListener(BaseComponentListener listener){
         listeners.add(listener);
@@ -74,14 +81,33 @@ public abstract class BaseComponent {
      * Used to delegate events to an entity's components. Override this method to provide functionality
      * @param message the message to handle
      */
-    protected void broadcast(BaseComponentMessage message){
-        entity.broadcastMessage(message);
+    protected void broadcast(BaseComponentMessage message) {
+        getEntity().broadcastMessage(message);
     }
 
-    protected void broadcast(ComponentType type, BaseComponentMessage message)
-    {
-        entity.broadcastMessage(type, message);
+    protected void broadcast(ComponentType type, BaseComponentMessage message) {
+        getEntity().broadcastMessage(type, message);
     }
 
-    public void dispose() {}
+    protected  ArrayList<BaseComponent> getSiblings() {
+        return getEntity().getComponents();
+    }
+
+    protected ArrayList<BaseComponent> getSiblingsByType(ComponentType type) {
+        return getEntity().getComponentsByType(type);
+    }
+
+    protected BaseComponent getFirstSiblingByType(ComponentType type) {
+        return getEntity().getFirstComponentByType(type);
+    }
+
+    protected void addEntityToScene(Entity e) {
+        getEntity().getScene().addEntity(e);
+    }
+
+    protected void removeEntityFromScene(Entity e) { getEntity().getScene().removeEntity(e); }
+
+    public void dispose() {
+        listeners.clear();
+    }
 }

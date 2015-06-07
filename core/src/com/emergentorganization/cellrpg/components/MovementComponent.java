@@ -1,13 +1,9 @@
 package com.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
-import com.emergentorganization.cellrpg.components.messages.MoveToMessage;
-
-import java.util.Vector;
 
 /**
  * Created by BrianErikson on 6/3/2015.
@@ -21,12 +17,11 @@ public class MovementComponent extends BaseComponent {
     private Matrix3 transform = new Matrix3();
     private boolean isDirty = false;
 
-    private float velocity = 200;
+    private float speed = 200; // default scalar for player movement
 
-    // renders the player's destination.
-    private ShapeRenderer renderer = new ShapeRenderer();
+    private Vector2 velocity = new Vector2();
     private Vector2 dest = new Vector2();
-    private boolean moving = false;
+    private boolean hasDest = false;
 
     public MovementComponent() {
         type = ComponentType.MOVEMENT;
@@ -78,10 +73,20 @@ public class MovementComponent extends BaseComponent {
         isDirty = true;
     }
 
+
+    public void setRotation(float angle){
+        rotation.setToRotation(angle);
+        isDirty = true;
+    }
+
+    /**
+     * Returns a read-only copy of the positon
+     * @return
+     */
     public Vector2 getLocalPosition() {
         Vector2 pos = new Vector2();
         translation.getTranslation(pos);
-        return pos;
+        return pos.cpy();
     }
 
     public Vector2 getWorldPosition() {
@@ -121,51 +126,53 @@ public class MovementComponent extends BaseComponent {
         isDirty = true;
     }
 
-    public void setVelocity(float vel){
-        velocity = vel;
+    public void setSpeed(float speed){
+        this.speed = speed;
     }
 
-    public float getVelocity(){
+    public float getSpeed(){
+        return speed;
+    }
+
+    public void setVelocity(Vector2 vel){
+        velocity.set(vel);
+    }
+
+    public Vector2 getVelocity(){
         return velocity;
     }
 
-    /**
-     * Move the entity to the specified position.
-     * @param x the x
-     * @param y the y
-     */
-    public void moveTo(float x, float y){
+    public void setDest(float x, float y){
         dest.set(x, y);
-        moving = true;
+        hasDest = true;
     }
 
-    /**
-     * Stop the movement.
-     */
-    public void abortMovement(){
-        moving = false;
+    public Vector2 getDest() {
+        if(!hasDest)
+            return null;
+
+        return dest;
     }
 
-    /**
-     * Moves the entity to the destination specified using moveTo() with the entity's velocity.
-     */
     private void updateMovement(){
-        if(moving){
-            Vector2 pos = getLocalPosition();
-            Vector2 move = dest.cpy().sub(pos).nor().scl(velocity);
+        Vector2 pos = getWorldPosition();
 
-            if(dest.dst(pos) > 2) {
-                pos.add(move.scl(Gdx.graphics.getDeltaTime()));
-                setWorldPosition(pos);
-
-                renderer.begin(ShapeRenderer.ShapeType.Line);
-                    renderer.line(pos.x, pos.y, dest.x, dest.y);
-                renderer.end();
-            }else{
-                moving = false;
-            }
+        if(hasDest){
+            velocity.set(dest.cpy().sub(pos).nor().scl(speed));
         }
+
+        if(!hasDest || hasDest && dest.dst(pos) >= 10)
+        {
+            Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
+
+            pos.add(move);
+        }else{
+            hasDest = false;
+        }
+
+        setWorldPosition(pos);
     }
+
 
     @Override
     public void update(float deltaTime) {

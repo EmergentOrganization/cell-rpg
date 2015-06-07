@@ -5,13 +5,13 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import com.emergentorganization.cellrpg.scenes.CellRPG;
+import com.emergentorganization.cellrpg.scenes.Test;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new CellRPG(), config);
+        return new IOSApplication(new Test(), config);
     }
 
     public static void main(String[] argv) {

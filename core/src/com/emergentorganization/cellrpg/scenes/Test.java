@@ -10,11 +10,11 @@ import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.physics.listeners.CharacterCollisionListener;
 import org.dyn4j.geometry.Vector2;
 
-public class CellRPG extends Scene {
+public class Test extends Scene {
 	Player player;
-	
+
 	@Override
-	public void create () {
+	public void create() {
 		super.create();
 
 		Stage uiStage = getUiStage();
@@ -27,8 +27,23 @@ public class CellRPG extends Scene {
 		player = new Player();
 		this.addEntity(player);
 
-        BuildingLarge1 bldg = new BuildingLarge1();
-        bldg.getMovementComponent().setWorldPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
+		BuildingLarge1 bldg = new BuildingLarge1();
+		bldg.getMovementComponent().setWorldPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
 		this.addEntity(bldg);
+	}
+	
+	@Override
+	public void show () {
+		super.show();
+
+		// check gameState for android-app-hiding instances
+		if (player == null) {
+			create();
+		}
+	}
+
+	@Override
+	public void hide() {
+		// TODO
 	}
 }

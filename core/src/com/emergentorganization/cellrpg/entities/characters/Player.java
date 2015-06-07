@@ -26,7 +26,7 @@ public class Player extends Character {
     private MovementComponent moveComponent;
 
     public Player(){
-        super(createAnimation());
+        super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
 
         moveComponent = getMovementComponent();
         moveComponent.setWorldPosition(Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
@@ -51,13 +51,5 @@ public class Player extends Character {
         
         camera.position.set(moveComponent.getWorldPosition(), 0);
         camera.update();
-    }
-
-    private static Animation createAnimation(){
-        // create the sprite animation
-        Texture sheet = new Texture(Gdx.files.internal(ID + ".png"));
-        TextureRegion[][] spriteFrames = TextureRegion.split(sheet, sheet.getWidth()/FRAME_COLS, sheet.getHeight()/FRAME_ROWS);
-        TextureRegion[] firstAnimation = spriteFrames[0];  // assume exactly 1 animation per row
-        return new Animation(TPF, firstAnimation);
     }
 }

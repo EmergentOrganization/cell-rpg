@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.components;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -74,6 +75,19 @@ public class GraphicsComponent extends BaseComponent{
             throw new RuntimeException("Animation titled "+ name + " is already registered.");
 
         anims.put(name, anim);
+    }
+
+    public void register(String name, String spriteFile){
+        // add a static sprite
+        // TODO
+    }
+
+    public void register(String name, String sheetFile, int n_columns, int n_rows, float time_per_frame){
+        // add a sprite animation
+        Texture sheet = new Texture(Gdx.files.internal(sheetFile));
+        TextureRegion[][] spriteFrames = TextureRegion.split(sheet, sheet.getWidth()/n_columns, sheet.getHeight()/n_rows);
+        TextureRegion[] firstAnimation = spriteFrames[0];  // assume exactly 1 animation per row
+        register("idle", new Animation(time_per_frame, firstAnimation));
     }
 
     public void play(String name){

@@ -1,7 +1,5 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.components.GraphicsComponent;
 
@@ -15,19 +13,13 @@ import com.emergentorganization.cellrpg.components.GraphicsComponent;
 public class Character extends Entity {
     private GraphicsComponent graphicsComponent;
 
-    public Character(String textureFileName) {
-        this(new Texture(textureFileName));
-    }
-    public Character(Texture bodyTexture){
-        this.graphicsComponent = new GraphicsComponent();
-        this.graphicsComponent.register("body", bodyTexture);
-        this.graphicsComponent.play("body");
+    
+
+    public Character(String textureFileName, int n_columns, int n_rows, float time_per_frame) {
+        graphicsComponent = new GraphicsComponent();
+        graphicsComponent.register("idle", textureFileName, n_columns, n_rows, time_per_frame);
+        graphicsComponent.play("idle");
         addComponent(this.graphicsComponent);
     }
-    public Character(Animation bodyAnimation){
-        this.graphicsComponent = new GraphicsComponent();
-        this.graphicsComponent.register("body", bodyAnimation);
-        this.graphicsComponent.play("body");
-        addComponent(this.graphicsComponent);
-    }
+
 }

@@ -1,10 +1,8 @@
 package com.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.messages.ArrivedToDestination;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 /**
@@ -19,13 +17,11 @@ public class MovementComponent extends BaseComponent {
     private Matrix3 transform = new Matrix3();
     private boolean isDirty = false;
 
-    private float speed = 200;
+    private float speed = 200; // default scalar for player movement
 
-    // renders the player's destination.
-    private ShapeRenderer renderer = new ShapeRenderer();
-
+    private Vector2 velocity = new Vector2();
     private Vector2 dest = new Vector2();
-    private boolean moving = false;
+    private boolean hasDest = false;
 
     public MovementComponent() {
         type = ComponentType.MOVEMENT;
@@ -138,50 +134,45 @@ public class MovementComponent extends BaseComponent {
         return speed;
     }
 
-    /**
-     * Move the entity to the specified position.
-     * @param x the x
-     * @param y the y
-     */
-    public void moveTo(float x, float y){
+    public void setVelocity(Vector2 vel){
+        velocity.set(vel);
+    }
+
+    public Vector2 getVelocity(){
+        return velocity;
+    }
+
+    public void setDest(float x, float y){
         dest.set(x, y);
-        moving = true;
-    }
-
-    /**
-     * Stop the movement.
-     */
-    public void stop(){
-        moving = false;
-        broadcast(new ArrivedToDestination(getWorldPosition()));
-    }
-
-    /**
-     * Moves the entity to the destination specified using moveTo() with the entity's speed.
-     */
-    private void updateMovement(){
-        if(moving){
-            Vector2 pos = getLocalPosition();
-            Vector2 move = dest.cpy().sub(pos).nor().scl(speed);
-
-            if(dest.dst(pos) > 10) {
-                pos.add(move.scl(Gdx.graphics.getDeltaTime()));
-                setWorldPosition(pos);
-
-                renderer.setProjectionMatrix(getEntity().getScene().getGameCamera().combined);
-                renderer.begin(ShapeRenderer.ShapeType.Line);
-                    renderer.line(pos.x, pos.y, dest.x, dest.y);
-                renderer.end();
-            }else{
-                moving = false;
-                broadcast(new ArrivedToDestination(getWorldPosition()));
-            }
-        }
+        hasDest = true;
     }
 
     public Vector2 getDest() {
+        if(!hasDest)
+            return null;
+
         return dest;
     }
+
+    private void updateMovement(){
+        Vector2 pos = getWorldPosition();
+
+        if(hasDest){
+            velocity.set(dest.cpy().sub(pos).nor().scl(speed));
+        }
+
+        if(!hasDest || hasDest && dest.dst(pos) >= 10)
+        {
+            Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
+
+            pos.add(move);
+        }else{
+            hasDest = false;
+        }
+
+        setWorldPosition(pos);
+    }
+
 
     @Override
     public void update(float deltaTime) {

@@ -10,10 +10,10 @@ public class Bullet extends Character {
 
     private BulletComponent bc;
 
-    public Bullet(Vector2 shootingPos, Vector2 dest, float velocity){
+    public Bullet(Vector2 shootingPos, Vector2 velocity, float maxDist){
         super("bullet.png");
 
-        bc = new BulletComponent(shootingPos, dest, velocity);
+        bc = new BulletComponent(shootingPos, velocity, maxDist);
         addComponent(bc);
     }
 

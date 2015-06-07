@@ -105,6 +105,8 @@ public abstract class BaseComponent {
         getEntity().getScene().addEntity(e);
     }
 
+    protected void removeEntityFromScene(Entity e) { getEntity().getScene().removeEntity(e); }
+
     public void dispose() {
         listeners.clear();
     }

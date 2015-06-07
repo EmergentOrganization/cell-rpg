@@ -68,7 +68,7 @@ public class PlayerInputComponent extends BaseComponent {
     private void handleMovement(){
         // System.out.println("Move")
         Vector3 v = getMouseCoords();
-        mc.moveTo(v.x, v.y);
+        mc.setDest(v.x, v.y);
     }
 
     private void handleShooting(){

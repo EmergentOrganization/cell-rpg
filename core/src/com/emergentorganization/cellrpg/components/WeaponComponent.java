@@ -12,13 +12,12 @@ public class WeaponComponent extends BaseComponent{
     private MovementComponent mc;
 
     // TODO: weapon class
-    private float bulletSpeed = 200f; // Bullet speed
-    private float bulletDistance = 1000f; // How far can a bullet reach (world units)
-    private float shootDelay = 200f; // Time between shots
+    private float speed = 200f;
+    private float maxDist = 500f;
+    private float delay = 200;
 
-    private boolean firstBullet = true; // Used to make timing more accurate
     private long lastShot;
-    private Vector2 tmp = new Vector2();
+    private Vector2 vel = new Vector2();
 
     public WeaponComponent(){
         type = ComponentType.WEAPON;
@@ -31,21 +30,16 @@ public class WeaponComponent extends BaseComponent{
 
     public void shootTo(float x, float y){
         // check if we can shoot right now
-        if(TimeUtils.timeSinceMillis(lastShot) >= shootDelay) {
-            lastShot += shootDelay;
+        if(TimeUtils.timeSinceMillis(lastShot) >= delay) {
+            lastShot += delay;
 
             // get player position
             Vector2 pos = mc.getLocalPosition();
 
-            // set temporary vector to bullet position
-            tmp.set(x, y);
+            // calculate the velocity
+            vel.set(x, y).sub(pos).nor().scl(speed);
 
-            // calculate the destination
-            Vector2 dest = tmp.sub(pos).nor().scl(bulletDistance);
-
-            addEntityToScene(new Bullet(pos, dest, bulletSpeed));
-
-            System.out.println("Shooting to " + dest);
+            addEntityToScene(new Bullet(pos, vel, maxDist));
         }
     }
 

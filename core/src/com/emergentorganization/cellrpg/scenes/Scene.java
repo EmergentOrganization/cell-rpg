@@ -18,14 +18,21 @@ import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.World;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
  */
 public abstract class Scene extends ApplicationAdapter {
     private ArrayList<Entity> entities;
-    private ArrayList<Entity> entityQueue; // entities waiting to be added to the scene
+
+    private static final int ENTITY_INSERT = 1;
+    private static final int ENTITY_REMOVE = 2;
+    private HashMap<Entity, Integer> entityQueue;
+
     private SpriteBatch batch; // sprite batch for entities
     private Vector3 clearColor;
     private Stage uiStage; // stage which handles all UI Actors
@@ -39,7 +46,7 @@ public abstract class Scene extends ApplicationAdapter {
         super.create();
 
         entities = new ArrayList<Entity>();
-        entityQueue = new ArrayList<Entity>();
+        entityQueue = new LinkedHashMap<Entity, Integer>();
 
         batch = new SpriteBatch();
         clearColor = new Vector3(0,0,0);
@@ -72,7 +79,7 @@ public abstract class Scene extends ApplicationAdapter {
 
         physWorld.update(Gdx.graphics.getDeltaTime()); // variable update rate. change to static if instability occurs
 
-        spillEntities();
+        handleQueue();
 
         float deltaTime = Gdx.graphics.getDeltaTime();
         for (Entity entity : entities) {
@@ -113,24 +120,34 @@ public abstract class Scene extends ApplicationAdapter {
     }
 
     public void addEntity(Entity e) {
-        entityQueue.add(e);
+        entityQueue.put(e, ENTITY_INSERT);
     }
 
     public void removeEntity(Entity e) {
-        e.setScene(null);
-        entities.remove(e);
-        e.dispose();
+        entityQueue.put(e, ENTITY_REMOVE);
     }
 
-    private void spillEntities(){
-        for(Iterator<Entity> iterator = entityQueue.iterator(); iterator.hasNext();) {
-            Entity e = iterator.next();
+    private void handleQueue(){
+        Iterator it = entityQueue.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<Entity, Integer> entry = (Map.Entry) it.next();
 
-            e.setScene(this);
-            e.added();
-            entities.add(e);
+            Entity e = entry.getKey();
+            Integer type = entry.getValue();
 
-            iterator.remove();
+            if(type == ENTITY_INSERT){
+                e.setScene(this);
+                e.added();
+                entities.add(e);
+            }
+
+            if (type == ENTITY_REMOVE) {
+                e.setScene(null);
+                entities.remove(e);
+                e.dispose();
+            }
+
+            it.remove();
         }
     }
 

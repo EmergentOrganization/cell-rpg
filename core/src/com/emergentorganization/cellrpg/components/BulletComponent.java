@@ -9,15 +9,15 @@ public class BulletComponent extends BaseComponent {
 
     private MovementComponent mc;
 
-    private Vector2 shootingPos, dest;
-    private float speed;
+    private Vector2 start, velocity;
+    private float maxDist;
 
-    public BulletComponent(Vector2 shootingPos, Vector2 dest, float speed){
+    public BulletComponent(Vector2 start, Vector2 velocity, float maxDist){
         type = ComponentType.BULLET;
 
-        this.shootingPos = shootingPos;
-        this.dest = dest;
-        this.speed = speed;
+        this.start = start;
+        this.velocity = velocity;
+        this.maxDist = maxDist;
     }
 
     @Override
@@ -25,11 +25,15 @@ public class BulletComponent extends BaseComponent {
         mc = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
 
         // TODO: translation from local pos to world pos
-        mc.setWorldPosition(shootingPos);
-        mc.setSpeed(speed);
-        mc.moveTo(dest.x, dest.y);
-
-        // TODO: destroy on arrival using ArrivedToDestination message.
+        mc.setWorldPosition(start);
+        mc.setVelocity(velocity);
     }
 
+    @Override
+    public void update(float deltaTime) {
+        if(mc.getWorldPosition().dst(start) >= maxDist){
+            removeEntityFromScene(getEntity());
+        }
+
+    }
 }

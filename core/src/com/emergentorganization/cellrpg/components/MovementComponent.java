@@ -144,6 +144,7 @@ public class MovementComponent extends BaseComponent {
 
     public void setDest(float x, float y){
         dest.set(x, y);
+        velocity.set(dest.cpy().sub(getWorldPosition()).nor().scl(speed));
         hasDest = true;
     }
 
@@ -155,22 +156,17 @@ public class MovementComponent extends BaseComponent {
     }
 
     private void updateMovement(){
-        Vector2 pos = getWorldPosition();
+        Vector2 newPos = getWorldPosition().cpy();
 
-        if(hasDest){
-            velocity.set(dest.cpy().sub(pos).nor().scl(speed));
-        }
-
-        if(!hasDest || hasDest && dest.dst(pos) >= 10)
-        {
-            Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
-
-            pos.add(move);
-        }else{
+        if(hasDest && dest.dst(newPos) <= 10) {
             hasDest = false;
+            setVelocity(new Vector2(0, 0));
         }
 
-        setWorldPosition(pos);
+        Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
+
+        newPos.add(move);
+        setWorldPosition(newPos);
     }
 
 

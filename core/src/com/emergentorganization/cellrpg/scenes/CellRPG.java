@@ -6,7 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.entities.buildings.BuildingLarge1;
 import com.emergentorganization.cellrpg.entities.characters.Player;
-import com.emergentorganization.cellrpg.physics.PlayerCollisionListener;
+import com.emergentorganization.cellrpg.physics.Tag;
+import com.emergentorganization.cellrpg.physics.listeners.CharacterCollisionListener;
 import org.dyn4j.geometry.Vector2;
 
 public class CellRPG extends Scene {
@@ -21,7 +22,7 @@ public class CellRPG extends Scene {
 		uiStage.addActor(cellRPG);
 
 		getWorld().setGravity(new Vector2(0,0)); // defaults to -9.8 m/s
-		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
+		getWorld().addListener(new CharacterCollisionListener(Tag.PLAYER)); // stops player from clipping through colliders
 
 		player = new Player();
 		this.addEntity(player);

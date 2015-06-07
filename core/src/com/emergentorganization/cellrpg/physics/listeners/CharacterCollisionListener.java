@@ -1,8 +1,9 @@
-package com.emergentorganization.cellrpg.physics;
+package com.emergentorganization.cellrpg.physics.listeners;
 
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
+import com.emergentorganization.cellrpg.physics.Tag;
 import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
@@ -11,7 +12,14 @@ import org.dyn4j.dynamics.CollisionAdapter;
 /**
  * Created by BrianErikson on 6/6/2015.
  */
-public class PlayerCollisionListener extends CollisionAdapter {
+public class CharacterCollisionListener extends CollisionAdapter {
+    Tag tag;
+
+    public CharacterCollisionListener(Tag collisionTag) {
+        tag = collisionTag;
+    }
+
+
     @Override
     public boolean collision(Body body1, BodyFixture fixture1, Body body2, BodyFixture fixture2, Penetration
             penetration) {
@@ -21,11 +29,11 @@ public class PlayerCollisionListener extends CollisionAdapter {
         Vector2 normal = new Vector2((float)penetration.getNormal().x, (float)penetration.getNormal().y);
         float depth = (float) penetration.getDepth();
 
-        if (data1.tag == Tag.PLAYER) {
+        if (data1.tag == tag) {
             handle(data1, normal, depth);
             return false;
         }
-        else if (data2.tag == Tag.PLAYER) {
+        else if (data2.tag == tag) {
             handle(data2, normal, depth);
             return false;
         }

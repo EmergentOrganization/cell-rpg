@@ -139,7 +139,7 @@ public class MovementComponent extends BaseComponent {
     }
 
     public Vector2 getVelocity(){
-        return velocity;
+        return velocity.cpy();
     }
 
     public void setDest(float x, float y){
@@ -164,7 +164,7 @@ public class MovementComponent extends BaseComponent {
         }
 
         if (!getVelocity().epsilonEquals(0f, 0f, 0.01f)) {
-            Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
+            Vector2 move = getVelocity().scl(Gdx.graphics.getDeltaTime());
 
             newPos.add(move);
             setWorldPosition(newPos);

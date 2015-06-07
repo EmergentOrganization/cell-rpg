@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.listeners.BaseComponentListener;
@@ -23,7 +22,6 @@ public class PhysicsComponent extends BaseComponent {
     private MovementComponent moveComponent;
     private Tag tag;
     private boolean rendering = false;
-    private ShapeRenderer debugRenderer = new ShapeRenderer();
     private org.dyn4j.geometry.Vector2 size;
 
     public PhysicsComponent(World world, Body body, Tag tag) {
@@ -36,30 +34,24 @@ public class PhysicsComponent extends BaseComponent {
     }
 
     @Override
-    public boolean shouldRender() {
-        return rendering;
+    public void debugRender(ShapeRenderer renderer) {
+        super.debugRender(renderer);
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+        drawBody(renderer);
     }
 
     @Override
-    public void render(SpriteBatch batch, Vector2 pos, float rot, Vector2 scale) {
-        super.render(batch, pos, rot, scale);
-        batch.end();
-
-        debugRenderer.setProjectionMatrix(batch.getProjectionMatrix());
-        debugRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        drawBody();
-        debugRenderer.end();
-
-        batch.begin();
+    public boolean shouldDebugRender() {
+        return rendering;
     }
 
     public void enableDebugRenderer(boolean on) {
         rendering = on;
     }
 
-    private void drawBody() {
+    private void drawBody(ShapeRenderer renderer) {
         org.dyn4j.geometry.Vector2 offset = body.getTransform().getTranslation();
-        debugRenderer.setColor(Color.GREEN);
+        renderer.setColor(Color.GREEN);
 
         for (BodyFixture fixture : body.getFixtures()) {
             if (fixture.getShape() instanceof Polygon) {
@@ -74,7 +66,7 @@ public class PhysicsComponent extends BaseComponent {
                     float x2 = (float) (verts[index].x + offset.x);
                     float y2 = (float) (verts[index].y + offset.y);
 
-                    debugRenderer.rectLine(x1, y1, x2, y2, 2f);
+                    renderer.rectLine(x1, y1, x2, y2, 2f);
                 }
             }
         }

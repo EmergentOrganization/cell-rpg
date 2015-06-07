@@ -5,6 +5,7 @@ package com.emergentorganization.cellrpg.entities;
  */
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.BaseComponent;
 import com.emergentorganization.cellrpg.components.ComponentType;
@@ -62,6 +63,18 @@ public abstract class Entity {
         for (BaseComponent component : components) {
             if (component.shouldRender()) {
                 component.render(batch, pos, rot, scale);
+            }
+        }
+    }
+
+    /**
+     * Calls debug render method on all added components after the render method if component.shouldRender() returns true
+     * @param renderer the scene's ShapeRenderer
+     */
+    public void debugRender(ShapeRenderer renderer) {
+        for (BaseComponent component : components) {
+            if (component.shouldDebugRender()) {
+                component.debugRender(renderer);
             }
         }
     }

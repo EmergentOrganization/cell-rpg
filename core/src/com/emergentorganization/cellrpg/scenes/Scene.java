@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -34,6 +35,7 @@ public abstract class Scene extends ApplicationAdapter {
     private HashMap<Entity, Integer> entityQueue;
 
     private SpriteBatch batch; // sprite batch for entities
+    private ShapeRenderer debugRenderer;
     private Vector3 clearColor;
     private Stage uiStage; // stage which handles all UI Actors
     private OrthographicCamera gameCamera;
@@ -49,6 +51,8 @@ public abstract class Scene extends ApplicationAdapter {
         entityQueue = new LinkedHashMap<Entity, Integer>();
 
         batch = new SpriteBatch();
+        debugRenderer = new ShapeRenderer();
+        debugRenderer.setAutoShapeType(true);
         clearColor = new Vector3(0,0,0);
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
@@ -94,6 +98,13 @@ public abstract class Scene extends ApplicationAdapter {
             entity.render(batch);
         }
         batch.end();
+
+        debugRenderer.setProjectionMatrix(gameCamera.combined);
+        debugRenderer.begin();
+        for (Entity entity : entities) {
+            entity.debugRender(debugRenderer);
+        }
+        debugRenderer.end();
 
         uiStage.draw();
     }

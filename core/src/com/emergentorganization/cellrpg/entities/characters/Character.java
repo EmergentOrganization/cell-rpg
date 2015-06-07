@@ -13,11 +13,16 @@ import com.emergentorganization.cellrpg.components.GraphicsComponent;
 public class Character extends Entity {
     private GraphicsComponent graphicsComponent;
 
-    
-
-    public Character(String textureFileName, int n_columns, int n_rows, float time_per_frame) {
+    public Character(String textureFileName){
         graphicsComponent = new GraphicsComponent();
-        graphicsComponent.register("idle", textureFileName, n_columns, n_rows, time_per_frame);
+        graphicsComponent.register("idle", textureFileName);
+        graphicsComponent.play("idle");
+        addComponent(this.graphicsComponent);
+    }
+
+    public Character(String sheetFileName, int n_columns, int n_rows, float time_per_frame) {
+        graphicsComponent = new GraphicsComponent();
+        graphicsComponent.register("idle", sheetFileName, n_columns, n_rows, time_per_frame);
         graphicsComponent.play("idle");
         addComponent(this.graphicsComponent);
     }

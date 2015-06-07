@@ -79,7 +79,8 @@ public class GraphicsComponent extends BaseComponent{
 
     public void register(String name, String spriteFile){
         // add a static sprite
-        // TODO
+        Texture texture = new Texture(spriteFile);
+        register(name, texture);
     }
 
     public void register(String name, String sheetFile, int n_columns, int n_rows, float time_per_frame){

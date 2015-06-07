@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.BaseComponent;
-import com.emergentorganization.cellrpg.components.ComponentType;
-import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 import java.util.HashMap;
@@ -24,6 +21,7 @@ public class GraphicsComponent extends BaseComponent{
     private HashMap<String, Animation> anims = new HashMap<String, Animation>();
     private Animation playing;
     private float stateTime = 0f;
+    private TextureRegion curFrame;
 
     public GraphicsComponent() {
         type = ComponentType.GRAPHICS;
@@ -40,12 +38,28 @@ public class GraphicsComponent extends BaseComponent{
 
         if(playing == null)
             return;
-
-        sprite.setRegion(playing.getKeyFrame(stateTime));
+        checkKeyFrames();
         sprite.setScale(scale.x, scale.y);
         sprite.setRotation(rot);
-        sprite.setCenter(pos.x, pos.y); // TODO: Isn't actually centered when scaled?
+        sprite.setPosition(pos.x, pos.y); // TODO: Isn't actually centered when scaled?
         sprite.draw(batch);
+    }
+
+    public void setKeyFrame(TextureRegion region) {
+        curFrame = region;
+        sprite.setRegion(region, 0, 0, 17, 17);
+        sprite.setSize(curFrame.getRegionWidth(), curFrame.getRegionHeight());
+    }
+
+    public void checkKeyFrames() {
+        if (curFrame == null) {
+            System.out.println("Setting key frame. curFrame is null");
+            setKeyFrame(playing.getKeyFrame(stateTime));
+        }
+        else if (playing.getKeyFrame(stateTime) != curFrame) {
+            System.out.println("Key frame is diff than curFrame");
+            setKeyFrame(playing.getKeyFrame(stateTime));
+        }
     }
 
     public void register(String name, Texture texture){

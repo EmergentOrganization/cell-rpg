@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 /**
@@ -148,6 +149,11 @@ public class MovementComponent extends BaseComponent {
         hasDest = true;
     }
 
+    public void removeDest(){
+        hasDest = false;
+        setVelocity(Vector2.Zero);
+    }
+
     public Vector2 getDest() {
         if(!hasDest)
             return null;
@@ -159,8 +165,8 @@ public class MovementComponent extends BaseComponent {
         Vector2 newPos = getWorldPosition();
 
         if(hasDest && dest.dst(newPos) <= 10) {
-            hasDest = false;
-            setVelocity(new Vector2(0, 0));
+            System.out.println("Arrived to dest.");
+            removeDest();
         }
 
         if (!getVelocity().epsilonEquals(0f, 0f, 0.01f)) {

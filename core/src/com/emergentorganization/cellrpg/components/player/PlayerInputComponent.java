@@ -69,9 +69,9 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
          * with the same velocity until it reaches the destination, which will never happen.
          * what needs to be done is apply [movementComponent.removeDest()] when a collision happens.
          * NOTE: the X key removes the destination from the moveComponent until this is fixed.
-         * also, make sure to get out of the building so you can it properly.
+         * also, make sure to get out of the building if you want to test it properly.
          *
-         * 2) the playing of the recording is very slow when turning.
+         * 2) the playing of the recording is not smooth, especially when turning around.
          * might want to apply a new angle every time on the velocity vector.
          *
          * 3) drawing the path needs to be done by going through all the points of the recording

@@ -13,7 +13,7 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
  * Created by tylar on 6/2/15.
  */
 public class Player extends Character {
-    private static final String ID = "char-player/0";
+    private static final String ID = "char-player";
     private static Integer HEIGHT = 40;
     private OrthographicCamera camera;
     private MovementComponent moveComponent;

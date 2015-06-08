@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.WeaponComponent;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.emergentorganization.cellrpg.components.player.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
@@ -15,12 +16,16 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
  * Created by tylar on 6/2/15.
  */
 public class Player extends Character {
-    private static final String ID = "light";
+    private static final String ID = "char-player";  // ID for getting spritesheet and collider
+    private static final int FRAME_COLS = 10;  // # of cols in spritesheet
+    private static final int FRAME_ROWS = 1;  //  # of rows in spritesheet
+    private static final float TPF = 0.2f;  // time per frame of animation
+
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
 
     public Player(){
-        super(ID + ".png");
+        super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
 
         moveComponent = getMovementComponent();
         moveComponent.setWorldPosition(Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
@@ -33,11 +38,17 @@ public class Player extends Character {
         super.added();
 
         camera = getScene().getGameCamera();
+
         PlayerInputComponent playerInput = new PlayerInputComponent(camera);
         addComponent(playerInput);
-        PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID, texture.getHeight()), Tag.PLAYER);
-        phys.enableDebugRenderer(true);
+
+        final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
+        int scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight());
+        PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
+                                BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
         phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));
+        //phys.enableDebugRenderer(true);
+
         addComponent(phys);
     }
 
@@ -57,6 +68,4 @@ public class Player extends Character {
         camera.position.set(cameraLoc, 0);
         camera.update();
     }
-
-
 }

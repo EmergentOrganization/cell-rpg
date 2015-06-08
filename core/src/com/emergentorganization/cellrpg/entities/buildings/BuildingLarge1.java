@@ -35,7 +35,7 @@ public class BuildingLarge1 extends Entity {
         World world = getScene().getWorld();
         Body body = BodyLoader.fetch().generateBody(ID, texture.getWidth());
         PhysicsComponent phys = new PhysicsComponent(world, body, Tag.BUILDING_LARGE_1);
-        phys.enableDebugRenderer(true);
+        //phys.enableDebugRenderer(true);
         addComponent(phys);
     }
 

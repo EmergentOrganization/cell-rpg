@@ -1,8 +1,7 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.components.GraphicsComponent;
 
 /**
  * Created by tylar on 6/2/15.
@@ -12,13 +11,23 @@ import com.emergentorganization.cellrpg.entities.Entity;
  *used for NPCs & players
  */
 public class Character extends Entity {
-    protected final Texture texture;
+    private GraphicsComponent graphicsComponent;
 
     public Character(String textureFileName){
-        super();
+        graphicsComponent = new GraphicsComponent();
+        graphicsComponent.register("idle", textureFileName);
+        graphicsComponent.play("idle");
+        addComponent(this.graphicsComponent);
+    }
 
-        texture = new Texture(textureFileName);
-        SpriteComponent spriteComponent = new SpriteComponent(texture);
-        addComponent(spriteComponent);
+    public Character(String sheetFileName, int n_columns, int n_rows, float time_per_frame) {
+        graphicsComponent = new GraphicsComponent();
+        graphicsComponent.register("idle", sheetFileName, n_columns, n_rows, time_per_frame);
+        graphicsComponent.play("idle");
+        addComponent(this.graphicsComponent);
+    }
+
+    public GraphicsComponent getGraphicsComponent() {
+        return graphicsComponent;
     }
 }

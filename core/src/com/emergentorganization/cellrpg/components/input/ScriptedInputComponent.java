@@ -11,7 +11,7 @@ public class ScriptedInputComponent extends InputComponent {
 
    public class ScriptedMovement {
        //TODO
-       
+
        public Vector2 dest;
 
        public ScriptedMovement(float time, Vector2 dest){

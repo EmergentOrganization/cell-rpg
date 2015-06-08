@@ -39,6 +39,11 @@ public class PlayerInputComponent extends InputComponent implements InputProcess
     }
 
     @Override
+    public boolean hasWeapon() {
+        return true;
+    }
+
+    @Override
     public void added() {
         super.added();
 

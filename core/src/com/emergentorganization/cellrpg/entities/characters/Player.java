@@ -2,12 +2,8 @@ package com.emergentorganization.cellrpg.entities.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.emergentorganization.cellrpg.components.MovementComponent;
-import com.emergentorganization.cellrpg.components.PhysicsComponent;
-import com.emergentorganization.cellrpg.components.WeaponComponent;
+import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.components.player.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.tools.BodyLoader;
@@ -17,7 +13,6 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
  */
 public class Player extends Character {
     private static final String ID = "char-player";  // ID for getting spritesheet and collider
-    private static int HEIGHT = 400;  // scale for collider mesh TODO: wtf why is this 400? sprite height is 40
     private static final int FRAME_COLS = 10;  // # of cols in spritesheet
     private static final int FRAME_ROWS = 1;  //  # of rows in spritesheet
     private static final float TPF = 0.2f;  // time per frame of animation
@@ -40,8 +35,11 @@ public class Player extends Character {
 
         camera = getScene().getGameCamera();
         addComponent(new PlayerInputComponent(camera));
-        PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID, HEIGHT), Tag.PLAYER);
-        phys.enableDebugRenderer(true);
+
+        final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
+        PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
+                                BodyLoader.fetch().generateBody(ID, currentFrame.getTexture().getWidth()), Tag.PLAYER);
+        //phys.enableDebugRenderer(true);
         addComponent(phys);
     }
 

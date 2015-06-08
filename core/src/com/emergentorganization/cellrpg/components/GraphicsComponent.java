@@ -42,7 +42,7 @@ public class GraphicsComponent extends BaseComponent{
         checkKeyFrames();
         sprite.setScale(scale.x, scale.y);
         sprite.setRotation(rot);
-        sprite.setPosition(pos.x, pos.y); // TODO: Isn't actually centered when scaled?
+        sprite.setCenter(pos.x, pos.y); // TODO: Isn't actually centered when scaled?
         sprite.draw(batch);
     }
 
@@ -52,7 +52,6 @@ public class GraphicsComponent extends BaseComponent{
         sprite.setSize(curFrame.getRegionWidth(), curFrame.getRegionHeight());
         // NOTE: might also want to do these?:
         //sprite.setColor(1, 1, 1, 1);
-        sprite.setOrigin(curFrame.getRegionWidth() / 2, curFrame.getRegionHeight() / 2);
     }
 
     public void checkKeyFrames() {
@@ -98,7 +97,12 @@ public class GraphicsComponent extends BaseComponent{
             throw new RuntimeException("Animation titled "+ name + " isn't registered.");
 
         playing = anims.get(name);
+        curFrame = playing.getKeyFrame(0.2f);
         stateTime = 0f;
+    }
+
+    public TextureRegion getCurrentFrame() {
+        return curFrame;
     }
 
     @Override

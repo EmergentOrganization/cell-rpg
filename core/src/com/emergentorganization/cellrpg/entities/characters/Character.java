@@ -27,4 +27,7 @@ public class Character extends Entity {
         addComponent(this.graphicsComponent);
     }
 
+    public GraphicsComponent getGraphicsComponent() {
+        return graphicsComponent;
+    }
 }

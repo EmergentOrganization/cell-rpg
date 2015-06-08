@@ -3,10 +3,7 @@ package com.emergentorganization.cellrpg.util;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.Vector2;
 
-import java.sql.Time;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Queue;
 
 /**
  * A utility class to record the screen coordinates with a delay between each "frame"
@@ -20,12 +17,7 @@ public class CoordinateRecorder {
     private boolean a = false;
     private long lastRecord;
 
-    /*
-     * I chose queue because the complexity is O(1) for both insertion and removal.
-     *
-     * ArrayDeque is memory efficient than LinkedList since it does not have to keep an additional reference to the next node.
-     */
-    private Queue<Vector2> coords = new ArrayDeque<Vector2>();
+    private ArrayList<Vector2> coords = new ArrayList<Vector2>();
 
     public CoordinateRecorder(float delay){
         this.delay = delay;
@@ -44,16 +36,23 @@ public class CoordinateRecorder {
         return coords.isEmpty();
     }
 
-    public Vector2 get(){
+    public Vector2 getFirst(){
         if(coords.isEmpty())
             return null;
 
-        return coords.remove();
+        Vector2 v = coords.get(0);
+        coords.remove(0);
+
+        return v;
+    }
+
+    public ArrayList<Vector2> getCoords(){
+        return coords;
     }
 
     public void clear(){
-        while(!coords.isEmpty())
-            coords.remove();
+        for(Vector2 v : coords)
+            coords.remove(v);
     }
 
     public void setDelay(float delay){

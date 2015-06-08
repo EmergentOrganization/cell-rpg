@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +15,8 @@ import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.WeaponComponent;
 import com.emergentorganization.cellrpg.util.CoordinateRecorder;
+
+import java.util.ArrayList;
 
 /**
  * Created by OrelBitton on 04/06/2015.
@@ -111,7 +114,17 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
 
     @Override
     public void debugRender(ShapeRenderer renderer) {
-        // TODO
+        renderer.setColor(Color.YELLOW);
+        Vector2 prev = null;
+        ArrayList<Vector2> v = cr.getCoords();
+        for(int i=0; i< v.size(); i++){
+            if(prev == null)
+                prev = mc.getLocalPosition();
+            Vector2 cur = v.get(i);
+
+            renderer.line(prev, cur);
+            prev = cur;
+        }
     }
 
     private void handleMovement(){
@@ -119,7 +132,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
 
         if(mc.getDest() == null && !cr.isEmpty())
         {
-            Vector2 dest = cr.get();
+            Vector2 dest = cr.getFirst();
             System.out.println("Moving towards " + dest);
             mc.setDest(dest.x, dest.y);
         }
@@ -149,7 +162,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
     @Override
     public boolean keyUp(int keycode) {
         if(keycode == Input.Keys.X){
-            cr.clear();
+            //cr.clear();
             mc.removeDest();
         }
 
@@ -190,5 +203,10 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    @Override
+    public boolean shouldDebugRender() {
+        return true;
     }
 }

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components.player;
+package com.emergentorganization.cellrpg.components.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,10 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.emergentorganization.cellrpg.components.BaseComponent;
 import com.emergentorganization.cellrpg.components.ComponentType;
-import com.emergentorganization.cellrpg.components.MovementComponent;
-import com.emergentorganization.cellrpg.components.WeaponComponent;
 import com.emergentorganization.cellrpg.util.CoordinateRecorder;
 
 import java.util.ArrayList;
@@ -21,14 +18,9 @@ import java.util.ArrayList;
 /**
  * Created by OrelBitton on 04/06/2015.
  */
-public class PlayerInputComponent extends BaseComponent implements InputProcessor{
+public class PlayerInputComponent extends InputComponent implements InputProcessor{
 
-    // TODO: implement InputComponent to add AI support.
-
-    private final float timeForWalking = 200; // Time for mouse press/touch to be held for walking instead of shooting in ms;
-
-    private MovementComponent mc;
-    private WeaponComponent wc;
+    private final float timeForWalking = 500; // Time for mouse press/touch to be held for walking instead of shooting in ms;
 
     private Camera camera; // Used to unproject screen coordinates for the mouse
     private Vector3 tmp = new Vector3();
@@ -38,7 +30,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
     private long lastPress = 0; // Last press time in milliseconds
 
     private boolean recording = false;
-    private final float pathDrawingDelay = 100;
+    private final float pathDrawingDelay = 300;
     private CoordinateRecorder cr = new CoordinateRecorder(pathDrawingDelay);
 
     public PlayerInputComponent(Camera camera){
@@ -48,8 +40,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
 
     @Override
     public void added() {
-        mc = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
-        wc = (WeaponComponent) getFirstSiblingByType(ComponentType.WEAPON);
+        super.added();
 
         InputMultiplexer input = (InputMultiplexer) Gdx.input.getInputProcessor();
         input.addProcessor(this);
@@ -119,9 +110,9 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
             if (!cr.isEmpty()) {
                 Vector2 dest = cr.getFirst();
                 System.out.println("Moving towards " + dest);
-                mc.setDest(dest.x, dest.y);
+                moveTo(dest.x, dest.y);
 
-            // This is temporary and can be very problematic if we want to apply forces on the player unrelated to movement
+                // This is temporary and can be very problematic if we want to apply forces on the player unrelated to movement
             } else {
                 mc.setVelocity(Vector2.Zero);
             }
@@ -132,7 +123,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
     private void handleShooting(){
         Vector3 v = getMouseCoords();
 
-        wc.shootTo(v.x, v.y);
+        shootTo(v.x, v.y);
     }
 
     private Vector3 getMouseCoords(){

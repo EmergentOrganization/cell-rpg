@@ -25,7 +25,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
 
     // TODO: implement InputComponent to add AI support.
 
-    private final float timeForWalking = 200; // Time for mouse press/touch to be held for walking instead of shooting;
+    private final float timeForWalking = 200; // Time for mouse press/touch to be held for walking instead of shooting in ms;
 
     private MovementComponent mc;
     private WeaponComponent wc;
@@ -40,8 +40,6 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
     private boolean recording = false;
     private final float pathDrawingDelay = 100;
     private CoordinateRecorder cr = new CoordinateRecorder(pathDrawingDelay);
-
-    private float lastRendererX, lastRendererY;
 
     public PlayerInputComponent(Camera camera){
         type = ComponentType.PLAYER_INPUT;
@@ -68,12 +66,6 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
         /*
          * the recording movement code is WIP
          * 1) RESOLVED IN PlayerCollisionListener
-         *
-         * 2) the playing of the recording is not smooth, especially when turning around.
-         * might want to apply a new angle every time on the velocity vector.
-         *
-         * 3) drawing the path needs to be done by going through all the points of the recording
-         * this means the queue on CoordinateRecorder might not be the best choice, and we will need to use a list.
          */
 
         handleMovement();

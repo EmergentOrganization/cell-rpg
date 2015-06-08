@@ -55,6 +55,7 @@ public class BodyLoader extends BodyEditorLoader {
         for (CircleModel circleModel : rawBody.circles) {
             Circle circle = new Circle(circleModel.radius * scale);
             result.addFixture(new BodyFixture(circle));
+            throw new RuntimeException("Circle colliders are currently unimplemented");
         }
 
         return result;

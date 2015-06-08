@@ -4,11 +4,13 @@ package com.emergentorganization.cellrpg.scenes;
  * Created by BrianErikson on 6/2/2015.
  */
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -17,16 +19,12 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.World;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
  */
-public abstract class Scene extends ApplicationAdapter {
+public abstract class Scene implements Screen {
     private ArrayList<Entity> entities;
 
     private static final int ENTITY_INSERT = 1;
@@ -34,23 +32,29 @@ public abstract class Scene extends ApplicationAdapter {
     private HashMap<Entity, Integer> entityQueue;
 
     private SpriteBatch batch; // sprite batch for entities
+    private ShapeRenderer debugRenderer;
     private Vector3 clearColor;
     private Stage uiStage; // stage which handles all UI Actors
     private OrthographicCamera gameCamera;
     private World physWorld;
     private static final double WORLD_WIDTH = 10000d;
     private static final double WORLD_HEIGHT = 10000d;
+    private InputMultiplexer input; // Not sure if should keep a reference for this
 
-    @Override
     public void create() {
-        super.create();
-
         entities = new ArrayList<Entity>();
         entityQueue = new LinkedHashMap<Entity, Integer>();
 
         batch = new SpriteBatch();
+        debugRenderer = new ShapeRenderer();
+        debugRenderer.setAutoShapeType(true);
         clearColor = new Vector3(0,0,0);
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        input = new InputMultiplexer();
+        input.addProcessor(uiStage);
+
+        Gdx.input.setInputProcessor(input);
 
         gameCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         gameCamera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0); // center camera with 0,0 in bottom left
@@ -62,28 +66,32 @@ public abstract class Scene extends ApplicationAdapter {
     }
 
     @Override
+    public void show() {
+        // check gameState for android-app-hiding instances
+        if (batch == null) {
+            create();
+        }
+    }
+
+    @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
+        // TODO
     }
 
     /**
      * Updates all entities, and then renders all entities
      */
     @Override
-    public void render() {
-        super.render();
-
-
+    public void render(float delta) {
         Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        physWorld.update(Gdx.graphics.getDeltaTime()); // variable update rate. change to static if instability occurs
+        physWorld.update(delta); // variable update rate. change to static if instability occurs
 
         handleQueue();
 
-        float deltaTime = Gdx.graphics.getDeltaTime();
         for (Entity entity : entities) {
-            entity.update(deltaTime);
+            entity.update(delta);
         }
 
         uiStage.act();
@@ -95,23 +103,28 @@ public abstract class Scene extends ApplicationAdapter {
         }
         batch.end();
 
+        debugRenderer.setProjectionMatrix(gameCamera.combined);
+        debugRenderer.begin();
+        for (Entity entity : entities) {
+            entity.debugRender(debugRenderer);
+        }
+        debugRenderer.end();
+
         uiStage.draw();
     }
 
     @Override
     public void pause() {
-        super.pause();
+        // TODO
     }
 
     @Override
     public void resume() {
-        super.resume();
+        // TODO
     }
 
     @Override
     public void dispose() {
-        super.dispose();
-
         for (Entity entity : entities) {
             entity.dispose();
         }

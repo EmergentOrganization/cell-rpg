@@ -86,7 +86,7 @@ public class MovementComponent extends BaseComponent {
     public Vector2 getLocalPosition() {
         Vector2 pos = new Vector2();
         translation.getTranslation(pos);
-        return pos.cpy();
+        return pos;
     }
 
     public Vector2 getWorldPosition() {
@@ -139,12 +139,21 @@ public class MovementComponent extends BaseComponent {
     }
 
     public Vector2 getVelocity(){
-        return velocity;
+        return velocity.cpy();
     }
 
     public void setDest(float x, float y){
         dest.set(x, y);
+        velocity.set(dest.cpy().sub(getWorldPosition()).nor().scl(speed));
         hasDest = true;
+    }
+
+    public void setDest(Vector2 dest) {
+        setDest(dest.x, dest.y);
+    }
+
+    public void removeDest(){
+        hasDest = false;
     }
 
     public Vector2 getDest() {
@@ -155,22 +164,19 @@ public class MovementComponent extends BaseComponent {
     }
 
     private void updateMovement(){
-        Vector2 pos = getWorldPosition();
+        Vector2 newPos = getWorldPosition();
 
-        if(hasDest){
-            velocity.set(dest.cpy().sub(pos).nor().scl(speed));
+        if(hasDest && dest.dst(newPos) <= 10) {
+            System.out.println("Arrived to dest.");
+            removeDest();
         }
 
-        if(!hasDest || hasDest && dest.dst(pos) >= 10)
-        {
-            Vector2 move = velocity.cpy().scl(Gdx.graphics.getDeltaTime());
+        if (!getVelocity().isZero()) {
+            Vector2 move = getVelocity().scl(Gdx.graphics.getDeltaTime());
 
-            pos.add(move);
-        }else{
-            hasDest = false;
+            newPos.add(move);
+            setWorldPosition(newPos);
         }
-
-        setWorldPosition(pos);
     }
 
 

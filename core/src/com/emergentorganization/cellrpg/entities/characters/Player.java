@@ -6,6 +6,7 @@ import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.WeaponComponent;
 import com.emergentorganization.cellrpg.components.player.PlayerInputComponent;
+import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.tools.BodyLoader;
 
@@ -31,9 +32,11 @@ public class Player extends Character {
         super.added();
 
         camera = getScene().getGameCamera();
-        addComponent(new PlayerInputComponent(camera));
+        PlayerInputComponent playerInput = new PlayerInputComponent(camera);
+        addComponent(playerInput);
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(), BodyLoader.fetch().generateBody(ID, texture.getHeight()), Tag.PLAYER);
         phys.enableDebugRenderer(true);
+        phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));
         addComponent(phys);
     }
 

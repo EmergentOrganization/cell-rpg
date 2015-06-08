@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.listeners.BaseComponentListener;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
@@ -44,6 +45,14 @@ public abstract class BaseComponent {
     public boolean shouldRender() {
         return false;
     }
+
+    public void debugRender(ShapeRenderer renderer) {}
+
+    /**
+     * Override this method if child component should call the debug render method each frame
+     * @return boolean: should the component render the debug?
+     */
+    public boolean shouldDebugRender() {return false;}
 
     public ComponentType getType() {
         return type;

@@ -64,12 +64,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
 
         /*
          * the recording movement code is WIP
-         * 1) issue with the movement component - it keeps moving until it reaches it's destination
-         * so when a collision happens, it loses the straight line to the destination, but it will keep moving
-         * with the same velocity until it reaches the destination, which will never happen.
-         * what needs to be done is apply [movementComponent.removeDest()] when a collision happens.
-         * NOTE: the X key removes the destination from the moveComponent until this is fixed.
-         * also, make sure to get out of the building if you want to test it properly.
+         * 1) RESOLVED IN PlayerCollisionListener
          *
          * 2) the playing of the recording is not smooth, especially when turning around.
          * might want to apply a new angle every time on the velocity vector.
@@ -117,7 +112,7 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
     private void handleMovement(){
         // if we are currently drawing a path and the destination is not set
 
-        if(mc.getDest() == null && !cr.isEmpty())
+        if(mc.getDest() == null && !cr.isEmpty() && !Gdx.input.isButtonPressed(Input.Buttons.LEFT))
         {
             Vector2 dest = cr.get();
             System.out.println("Moving towards " + dest);
@@ -141,6 +136,10 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
         return v;
     }
 
+    public CoordinateRecorder getCoordinateRecorder() {
+        return cr;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         return false;
@@ -148,10 +147,10 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
 
     @Override
     public boolean keyUp(int keycode) {
-        if(keycode == Input.Keys.X){
+        /*if(keycode == Input.Keys.X){
             cr.clear();
             mc.removeDest();
-        }
+        }*/
 
         return false;
     }

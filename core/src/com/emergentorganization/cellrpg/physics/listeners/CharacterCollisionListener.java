@@ -2,7 +2,7 @@ package com.emergentorganization.cellrpg.physics.listeners;
 
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.MovementComponent;
-import com.emergentorganization.cellrpg.components.PhysicsComponent;
+import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.dynamics.Body;
@@ -23,8 +23,8 @@ public class CharacterCollisionListener extends CollisionAdapter {
     @Override
     public boolean collision(Body body1, BodyFixture fixture1, Body body2, BodyFixture fixture2, Penetration
             penetration) {
-        PhysicsComponent.CellUserData data1 = (PhysicsComponent.CellUserData) body1.getUserData();
-        PhysicsComponent.CellUserData data2 = (PhysicsComponent.CellUserData) body2.getUserData();
+        CellUserData data1 = (CellUserData) body1.getUserData();
+       CellUserData data2 = (CellUserData) body2.getUserData();
 
         Vector2 normal = new Vector2((float)penetration.getNormal().x, (float)penetration.getNormal().y);
         float depth = (float) penetration.getDepth();
@@ -46,7 +46,7 @@ public class CharacterCollisionListener extends CollisionAdapter {
      * @param normal the collision normal
      * @param depth the depth of the collision
      */
-    private void handle(PhysicsComponent.CellUserData data, Vector2 normal, float depth) {
+    private void handle(CellUserData data, Vector2 normal, float depth) {
         MovementComponent mc = data.movementComponent;
         normal.scl(-depth);
         mc.setWorldPosition(mc.getWorldPosition().add(normal));

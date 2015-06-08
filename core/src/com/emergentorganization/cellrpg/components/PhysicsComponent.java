@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.listeners.BaseComponentListener;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
@@ -73,12 +74,18 @@ public class PhysicsComponent extends BaseComponent {
 
     }
 
+    public void setUserData(CellUserData data) {
+        body.setUserData(data);
+    }
+
     @Override
     public void added() {
         super.added();
 
         moveComponent = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
-        body.setUserData(new CellUserData(moveComponent, tag));
+        if (body.getUserData() == null) {
+            body.setUserData(new CellUserData(moveComponent, tag));
+        }
         AABB ab = body.createAABB();
         size = new org.dyn4j.geometry.Vector2(ab.getWidth(), ab.getHeight());
     }
@@ -125,15 +132,5 @@ public class PhysicsComponent extends BaseComponent {
     public void dispose() {
         super.dispose();
         world.removeBody(body);
-    }
-
-    public class CellUserData {
-        public final Tag tag;
-        public final MovementComponent movementComponent;
-
-        public CellUserData(MovementComponent movementComponent, Tag tag) {
-            this.movementComponent = movementComponent;
-            this.tag = tag;
-        }
     }
 }

@@ -3,7 +3,6 @@ package com.emergentorganization.cellrpg.components;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 /**
@@ -147,6 +146,10 @@ public class MovementComponent extends BaseComponent {
         dest.set(x, y);
         velocity.set(dest.cpy().sub(getWorldPosition()).nor().scl(speed));
         hasDest = true;
+    }
+
+    public void setDest(Vector2 dest) {
+        setDest(dest.x, dest.y);
     }
 
     public void removeDest(){

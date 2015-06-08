@@ -17,7 +17,7 @@ public class MovementComponent extends BaseComponent {
     private Matrix3 transform = new Matrix3();
     private boolean isDirty = false;
 
-    private float speed = 200; // default scalar for player movement
+    private float speed = 500; // default scalar for player movement
 
     private Vector2 velocity = new Vector2();
     private Vector2 dest = new Vector2();
@@ -172,7 +172,7 @@ public class MovementComponent extends BaseComponent {
             removeDest();
         }
 
-        if (!getVelocity().epsilonEquals(0f, 0f, 0.01f)) {
+        if (!getVelocity().isZero()) {
             Vector2 move = getVelocity().scl(Gdx.graphics.getDeltaTime());
 
             newPos.add(move);

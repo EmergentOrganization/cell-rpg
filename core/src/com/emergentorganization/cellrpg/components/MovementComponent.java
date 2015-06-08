@@ -17,7 +17,7 @@ public class MovementComponent extends BaseComponent {
     private Matrix3 transform = new Matrix3();
     private boolean isDirty = false;
 
-    private float speed = 200; // default scalar for player movement
+    private float speed = 200; // default scalar for player movement [px/s]
 
     private Vector2 velocity = new Vector2();
     private Vector2 dest = new Vector2();

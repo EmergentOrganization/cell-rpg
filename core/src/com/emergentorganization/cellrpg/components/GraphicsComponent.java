@@ -51,8 +51,8 @@ public class GraphicsComponent extends BaseComponent{
         sprite.setRegion(region);
         sprite.setSize(curFrame.getRegionWidth(), curFrame.getRegionHeight());
         // NOTE: might also want to do these?:
-        //setColor(1, 1, 1, 1);
-        //setOrigin(width / 2, height / 2);
+        //sprite.setColor(1, 1, 1, 1);
+        sprite.setOrigin(curFrame.getRegionWidth() / 2, curFrame.getRegionHeight() / 2);
     }
 
     public void checkKeyFrames() {

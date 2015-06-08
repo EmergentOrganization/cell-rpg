@@ -17,7 +17,7 @@ import com.emergentorganization.cellrpg.tools.BodyLoader;
  */
 public class Player extends Character {
     private static final String ID = "char-player";  // ID for getting spritesheet and collider
-    private static int HEIGHT = 400;  // scale for collider mesh
+    private static int HEIGHT = 400;  // scale for collider mesh TODO: wtf why is this 400? sprite height is 40
     private static final int FRAME_COLS = 10;  // # of cols in spritesheet
     private static final int FRAME_ROWS = 1;  //  # of rows in spritesheet
     private static final float TPF = 0.2f;  // time per frame of animation

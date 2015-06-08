@@ -55,7 +55,9 @@ public class Player extends Character {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        float EDGE_MARGIN = 100;  // min px between player & screen edge
+        float EDGE_MARGIN = 100f;  // min px between player & screen edge
+        int CLOSE_ENOUGH = 10;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
+
         float MAX_OFFSET = Math.min(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())/2-EDGE_MARGIN;  // max player-camera dist
         float PROPORTIONAL_GAIN = deltaTime * moveComponent.getSpeed() / MAX_OFFSET;
         Vector2 pos = getMovementComponent().getWorldPosition();
@@ -63,9 +65,12 @@ public class Player extends Character {
 
         Vector2 offset = new Vector2(pos);
         offset.sub(camera.position.x, camera.position.y);
-
-        cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));
-        camera.position.set(cameraLoc, 0);
-        camera.update();
+        
+        if (Math.abs(offset.x) > CLOSE_ENOUGH || Math.abs(offset.y) > CLOSE_ENOUGH) {
+            cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));
+            camera.position.set(cameraLoc, 0);
+            camera.update();
+            System.out.println("new camera pos:" + cameraLoc);
+        }
     }
 }

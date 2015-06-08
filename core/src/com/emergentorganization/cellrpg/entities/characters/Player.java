@@ -44,7 +44,8 @@ public class Player extends Character {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        float MAX_OFFSET = 150f;  // farthest the player should ever be from the camera
+        float EDGE_MARGIN = 100;  // min px between player & screen edge
+        float MAX_OFFSET = Math.min(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())/2-EDGE_MARGIN;  // max player-camera dist
         float PROPORTIONAL_GAIN = deltaTime * moveComponent.getSpeed() / MAX_OFFSET;
         Vector2 pos = getMovementComponent().getWorldPosition();
         Vector2 cameraLoc = new Vector2(camera.position.x, camera.position.y);

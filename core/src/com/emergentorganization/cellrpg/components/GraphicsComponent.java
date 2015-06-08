@@ -30,7 +30,7 @@ public class GraphicsComponent extends BaseComponent{
 
     @Override
     public void update(float deltaTime) {
-        stateTime++;
+        stateTime += deltaTime;
     }
 
     @Override
@@ -57,11 +57,11 @@ public class GraphicsComponent extends BaseComponent{
 
     public void checkKeyFrames() {
         if (curFrame == null) {
-            System.out.println("Setting key frame. curFrame is null");
+            //System.out.println("Setting key frame. curFrame is null");
             setKeyFrame(playing.getKeyFrame(stateTime));
         }
         else if (playing.getKeyFrame(stateTime) != curFrame) {
-            System.out.println("Key frame is diff than curFrame");
+            //System.out.println("Key frame is diff than curFrame");
             setKeyFrame(playing.getKeyFrame(stateTime));
         }
     }
@@ -88,7 +88,9 @@ public class GraphicsComponent extends BaseComponent{
         Texture sheet = new Texture(Gdx.files.internal(sheetFile));
         TextureRegion[][] spriteFrames = TextureRegion.split(sheet, sheet.getWidth()/n_columns, sheet.getHeight()/n_rows);
         TextureRegion[] firstAnimation = spriteFrames[0];  // assume exactly 1 animation per row
-        register("idle", new Animation(time_per_frame, firstAnimation));
+        Animation anim = new Animation(time_per_frame, firstAnimation);
+        anim.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        register("idle", anim);
     }
 
     public void play(String name){
@@ -96,7 +98,7 @@ public class GraphicsComponent extends BaseComponent{
             throw new RuntimeException("Animation titled "+ name + " isn't registered.");
 
         playing = anims.get(name);
-        stateTime = 0;
+        stateTime = 0f;
     }
 
     @Override

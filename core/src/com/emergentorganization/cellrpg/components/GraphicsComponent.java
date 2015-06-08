@@ -97,8 +97,8 @@ public class GraphicsComponent extends BaseComponent{
             throw new RuntimeException("Animation titled "+ name + " isn't registered.");
 
         playing = anims.get(name);
-        curFrame = playing.getKeyFrame(0.2f);
         stateTime = 0f;
+        setKeyFrame(playing.getKeyFrame(stateTime));
     }
 
     public TextureRegion getCurrentFrame() {

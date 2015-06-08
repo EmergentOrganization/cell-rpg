@@ -63,11 +63,6 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
         long now = TimeUtils.millis();
         long timePassed = now - lastPress;
 
-        /*
-         * the recording movement code is WIP
-         * 1) RESOLVED IN PlayerCollisionListener
-         */
-
         handleMovement();
 
         // if the button wasn't pressed last frame
@@ -82,8 +77,10 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
                 // begin recording a path
                 recording = true;
             }
-            // if the button was released
-        }else if(!framePress && lastFramePress){
+        }
+
+        // if the button was released
+        if(!framePress && lastFramePress){
 
             // if we were recording a path, stop recording
             if(recording) {
@@ -116,13 +113,20 @@ public class PlayerInputComponent extends BaseComponent implements InputProcesso
 
     private void handleMovement(){
         // if we are currently drawing a path and the destination is not set
+        // I removed the check for the button press because if we were trying to move and draw a path at the same time
+        // the player would not move to the next destination.
+        if(mc.getDest() == null) {
+            if (!cr.isEmpty()) {
+                Vector2 dest = cr.getFirst();
+                System.out.println("Moving towards " + dest);
+                mc.setDest(dest.x, dest.y);
 
-        if(mc.getDest() == null && !cr.isEmpty() && !Gdx.input.isButtonPressed(Input.Buttons.LEFT))
-        {
-            Vector2 dest = cr.getFirst();
-            System.out.println("Moving towards " + dest);
-            mc.setDest(dest.x, dest.y);
+            // This is temporary and can be very problematic if we want to apply forces on the player unrelated to movement
+            } else {
+                mc.setVelocity(Vector2.Zero);
+            }
         }
+
     }
 
     private void handleShooting(){

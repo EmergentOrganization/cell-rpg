@@ -7,14 +7,12 @@ import java.util.ArrayList;
 
 /**
  * A utility class to record the screen coordinates with a delay between each "frame"
- * It uses a queue (FIFO) to maintain the coordinates in an ordered way.
  *
  * Created by OrelBitton on 07/06/2015.
  */
 public class CoordinateRecorder {
 
     private float delay = 0; // Delay in ms
-    private boolean a = false;
     private long lastRecord;
 
     private ArrayList<Vector2> coords = new ArrayList<Vector2>();

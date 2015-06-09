@@ -30,7 +30,7 @@ public class PlayerInputComponent extends InputComponent implements InputProcess
     private long lastPress = 0; // Last press time in milliseconds
 
     private boolean recording = false;
-    private final float pathDrawingDelay = 300;
+    private final float pathDrawingDelay = 1;
     private CoordinateRecorder cr = new CoordinateRecorder(pathDrawingDelay);
 
     public PlayerInputComponent(Camera camera){

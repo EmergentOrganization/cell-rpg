@@ -37,4 +37,12 @@ public class InputComponent extends BaseComponent{
         return false;
     }
 
+    public MovementComponent getMovementComponent(){
+        return mc;
+    }
+
+    public WeaponComponent getWeaponComponent(){
+        return wc;
+    }
+
 }

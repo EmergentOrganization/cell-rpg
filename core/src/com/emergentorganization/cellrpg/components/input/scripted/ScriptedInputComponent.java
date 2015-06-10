@@ -2,7 +2,6 @@ package com.emergentorganization.cellrpg.components.input.scripted;
 
 import com.emergentorganization.cellrpg.components.input.InputComponent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -18,24 +17,51 @@ public class ScriptedInputComponent extends InputComponent {
         scripts = new HashMap<String, Script>();
     }
 
+    @Override
+    public void added() {
+        super.added();
+
+        for(Script s : scripts.values()){
+            s.added(this);
+        }
+    }
+
+    /**
+     * Registers a script
+     * @param name name
+     * @param script the script
+     */
     public void registerScript(String name, Script script){
         if(scripts.containsKey(name))
-            throw new RuntimeException("A script titled " + name + " is already registered.");
+            throw new RuntimeException("A script named " + name + " is already registered.");
 
         scripts.put(name, script);
     }
 
-    public void setScript(String name){
+    /**
+     * Plays a registered script by its name
+     * @param name script name
+     */
+    public void playScript(String name){
         if(!scripts.containsKey(name))
-            throw new RuntimeException("A script titled " + name + " is not registered.");
+            throw new RuntimeException("A script named " + name + " is not registered.");
 
         currentScript = scripts.get(name);
     }
 
-    public Script getCurrentScript(){
+    /**
+     *
+     * @return the current playing script or null if no script is playing.
+     */
+    public Script getPlayingScript(){
         return currentScript;
     }
 
+    /**
+     *
+     * @param name script name
+     * @return a registered script by its name
+     */
     public Script getScript(String name){
         if(!scripts.containsKey(name))
             return null;
@@ -47,6 +73,11 @@ public class ScriptedInputComponent extends InputComponent {
         if(currentScript == null)
             return;
 
-       // TODO
+        if(!currentScript.completed())
+            currentScript.run();
+        else if(currentScript.isLoop())
+            currentScript.restart();
+        else
+            currentScript = null;
     }
 }

@@ -10,14 +10,11 @@ public class Script {
 
     private ArrayList<ScriptAction> actions;
     private int i = 0;
+    private boolean loop = true;
 
-    private boolean loop = false;
+    private boolean curScriptStarted = false;
 
     protected ScriptedInputComponent input;
-
-    // TODO
-    // private ArrayList<ScriptAction> insertion = new ArrayList<>();
-    // private ArrayList<ScriptAction> removal = new ArrayList<>();
 
     public Script(){
         this.actions = new ArrayList<ScriptAction>();
@@ -31,7 +28,15 @@ public class Script {
         this.actions = actions;
     }
 
-    public void added(){};
+    // used to resolve dependencies
+    public void added(ScriptedInputComponent input){
+        for(ScriptAction sa : actions)
+            sa.init(input);
+    }
+
+    public void restart(){
+        i = 0;
+    }
 
     public void run(){
         if(actions.isEmpty())
@@ -39,30 +44,36 @@ public class Script {
 
         ScriptAction current = actions.get(i);
 
+        if(!curScriptStarted)
+        {
+            curScriptStarted = true;
+            current.start();
+        }
+
         if(!current.completed())
+        {
             current.run();
-        else
-            getNext();
-    }
-
-    public void setLoop(boolean loop){
-        this.loop = loop;
-    }
-
-    public boolean isLoop(){
-        return loop;
-    }
-
-    protected void getNext(){
-        // TODO
-
-        if(i == actions.size() - 1){
-
+        }
+        else {
+            i++;
+            curScriptStarted = false;
         }
     }
 
-    public void setInputComponent(ScriptedInputComponent input){
-        this.input = input;
+    public void addAction(ScriptAction action) {
+        actions.add(action);
+    }
+
+    public boolean completed(){
+        return i == actions.size();
+    }
+
+    public boolean isLoop() {
+        return loop;
+    }
+
+    public void setLoop(boolean loop) {
+        this.loop = loop;
     }
 
 }

@@ -21,6 +21,9 @@ public class Player extends Character {
     private static final int FRAME_ROWS = 1;  //  # of rows in spritesheet
     private static final float TPF = 0.2f;  // time per frame of animation
 
+    private static final float EDGE_MARGIN = 100f;  // min px between player & screen edge
+    private static final float CLOSE_ENOUGH = 10;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
+
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
 
@@ -55,8 +58,6 @@ public class Player extends Character {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        float EDGE_MARGIN = 100f;  // min px between player & screen edge
-        int CLOSE_ENOUGH = 10;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
 
         float MAX_OFFSET = Math.min(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())/2-EDGE_MARGIN;  // max player-camera dist
         float PROPORTIONAL_GAIN = deltaTime * moveComponent.getSpeed() / MAX_OFFSET;

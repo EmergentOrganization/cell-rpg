@@ -154,7 +154,7 @@ public abstract class Scene implements Screen {
                 e.setScene(this);
                 e.added();
                 entities.add(e);
-                entities.sort(new EntitySort());
+                Collections.sort(entities, new EntitySort());
             }
 
             if (type == ENTITY_REMOVE) {

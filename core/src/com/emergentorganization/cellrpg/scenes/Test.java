@@ -24,9 +24,6 @@ public class Test extends Scene {
 		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
 
-		player = new Player();
-		this.addEntity(player);
-
 		map = MapLoader.getMap("testMap.svg");
 		map.load(this);
 	}

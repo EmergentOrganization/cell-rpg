@@ -7,5 +7,6 @@ public enum MapImageType {
     THE_EDGE,
     BUILDING_LARGE_1,
     BUILDING_ROUND_1,
-    CHAR_CIV1_BLINKER
+    CHAR_CIV1_BLINKER,
+    CHAR_PLAYER
 }

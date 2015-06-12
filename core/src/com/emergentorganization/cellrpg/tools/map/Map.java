@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.tools.map;
 import com.emergentorganization.cellrpg.entities.backgrounds.TheEdge;
 import com.emergentorganization.cellrpg.entities.buildings.BuildingLarge1;
 import com.emergentorganization.cellrpg.entities.buildings.BuildingRound1;
+import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.entities.characters.npcs.CharCiv1Blinker;
 import com.emergentorganization.cellrpg.scenes.Scene;
 
@@ -56,6 +57,11 @@ public class Map {
             case CHAR_CIV1_BLINKER:
                 scene.addEntity(new CharCiv1Blinker(image.getTexture(), image.getPosition()));
                 break;
+            case CHAR_PLAYER:
+                scene.addEntity(new Player(image.getTexture(), image.getPosition()));
+                break;
+            default:
+                throw new RuntimeException("ERROR: " + image.type.name() + " is unsupported");
         }
     }
 

@@ -27,6 +27,8 @@ public class MapImage extends MapObject {
             return MapImageType.BUILDING_ROUND_1;
         else if (path.contains("char-civ1-blinker"))
             return MapImageType.CHAR_CIV1_BLINKER;
+        else if (path.contains("char-player"))
+            return MapImageType.CHAR_PLAYER;
         else
             throw new RuntimeException("ERROR: Could not find MapImageType for path: " + path);
     }

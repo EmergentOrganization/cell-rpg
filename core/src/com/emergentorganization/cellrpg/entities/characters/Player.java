@@ -2,11 +2,12 @@ package com.emergentorganization.cellrpg.entities.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.WeaponComponent;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.emergentorganization.cellrpg.components.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
@@ -32,6 +33,16 @@ public class Player extends Character {
 
         moveComponent = getMovementComponent();
         moveComponent.setWorldPosition(Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
+
+        addComponent(new WeaponComponent());
+    }
+
+    public Player(Texture texture, Vector2 position) {
+        super(texture, FRAME_COLS, FRAME_ROWS, TPF);
+
+
+        moveComponent = getMovementComponent();
+        moveComponent.setWorldPosition(position);
 
         addComponent(new WeaponComponent());
     }

@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="map.svg">
+   sodipodi:docname="testMap.svg">
   <defs
      id="defs4">
     <filter
@@ -62,54 +62,6 @@
          stdDeviation="44.45203"
          id="feGaussianBlur8351" />
     </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter8398"
-       x="-0.10252941"
-       width="1.2050588"
-       y="-0.04351572"
-       height="1.0870314">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="55.565038"
-         id="feGaussianBlur8400" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter8402"
-       x="-0.41700665"
-       width="1.8340133"
-       y="-0.28189202"
-       height="1.563784">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="55.565038"
-         id="feGaussianBlur8404" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter8406"
-       x="-0.25268436"
-       width="1.5053687"
-       y="-0.13804557"
-       height="1.2760911">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="55.565038"
-         id="feGaussianBlur8408" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       id="filter8410"
-       x="-0.22785196"
-       width="1.4557039"
-       y="-0.088978922"
-       height="1.1779578">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="55.565038"
-         id="feGaussianBlur8412" />
-    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -118,11 +70,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.175"
-     inkscape:cx="5643.1892"
-     inkscape:cy="4189.7259"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="6716.0274"
+     inkscape:cy="4385.1199"
      inkscape:document-units="px"
-     inkscape:current-layer="layer6"
+     inkscape:current-layer="layer5"
      showgrid="false"
      inkscape:window-width="1600"
      inkscape:window-height="849"
@@ -145,7 +97,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -248,12 +200,13 @@
      style="display:inline"
      sodipodi:insensitive="true">
     <image
-       y="-4927.6382"
-       x="4000"
-       id="image3896"
-       xlink:href="file:///home/tylar/cell-rpg/art/map/the_edge.png"
+       sodipodi:absref="/home/tylar/cell-rpg/android/assets/./the_edge.png"
+       xlink:href="./the_edge.png"
+       width="4000"
        height="3000"
-       width="4000" />
+       id="image3896"
+       x="4000"
+       y="-4927.6382" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -372,6 +325,14 @@
        xlink:href="file:///home/tylar/cell-rpg/android/assets/char-civ1-blinker.png"
        height="38"
        width="80" />
+    <image
+       style="display:inline"
+       y="1580.5714"
+       x="6614.2856"
+       id="image3295"
+       xlink:href="file:///home/tylar/cell-rpg/android/assets/char-player.png"
+       height="36"
+       width="400" />
   </g>
   <g
      inkscape:groupmode="layer"

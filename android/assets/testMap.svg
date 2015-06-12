@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="8000"
-   height="6000"
+   width="800"
+   height="600"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -20,7 +20,8 @@
      id="defs4">
     <filter
        inkscape:collect="always"
-       id="filter8337">
+       id="filter8337"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="44.45203"
@@ -32,7 +33,8 @@
        x="-0.33360532"
        width="1.6672106"
        y="-0.22551362"
-       height="1.4510272">
+       height="1.4510272"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="44.45203"
@@ -41,10 +43,11 @@
     <filter
        inkscape:collect="always"
        id="filter8345"
-       x="-0.20214749"
+       x="-0.20214748"
        width="1.404295"
        y="-0.11043645"
-       height="1.2208729">
+       height="1.2208729"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="44.45203"
@@ -55,13 +58,36 @@
        id="filter8349"
        x="-0.18228157"
        width="1.3645631"
-       y="-0.071183137"
-       height="1.1423663">
+       y="-0.071183138"
+       height="1.1423663"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="44.45203"
          id="feGaussianBlur8351" />
     </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3912">
+      <rect
+         style="opacity:0.7037037;fill:#ffffff;fill-opacity:1;stroke:none"
+         id="rect3914"
+         width="4.0741506"
+         height="4.3503642"
+         x="583.05237"
+         y="5695.2676" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3918">
+      <rect
+         style="opacity:0.7037037;fill:#ffffff;fill-opacity:1;stroke:none"
+         id="rect3920"
+         width="4.4539442"
+         height="4.8682647"
+         x="638.2951"
+         y="5791.3896" />
+    </clipPath>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -70,9 +96,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="6716.0274"
-     inkscape:cy="4385.1199"
+     inkscape:zoom="28.963094"
+     inkscape:cx="636.90713"
+     inkscape:cy="207.28915"
      inkscape:document-units="px"
      inkscape:current-layer="layer5"
      showgrid="false"
@@ -106,88 +132,86 @@
      id="layer3"
      inkscape:label="editor_tools"
      style="display:inline"
+     transform="translate(0,-5400)"
      sodipodi:insensitive="true">
     <text
-       transform="translate(0,4947.6378)"
        xml:space="preserve"
-       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
-       x="-3057.2363"
-       y="-5062.8008"
+       style="font-size:14.39999962px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
+       x="-300.63196"
+       y="5392.5396"
        id="text3004"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3006"
-         x="-3057.2363"
-         y="-5062.8008">assets</tspan></text>
+         x="-300.63196"
+         y="5392.5396">assets</tspan></text>
     <rect
-       transform="translate(0,4947.6378)"
-       style="fill:#505050;fill-opacity:1;stroke:#000000;stroke-width:10;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#505050;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
        id="rect3008"
-       width="3234.2859"
-       height="6000"
-       x="-3417.1428"
-       y="-4947.6377" />
+       width="323.42859"
+       height="600"
+       x="-336.62268"
+       y="5399.5" />
     <text
-       transform="translate(0,4947.6378)"
        xml:space="preserve"
-       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
-       x="610.31409"
-       y="-5047.9111"
+       style="font-size:14.39999962px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
+       x="66.123016"
+       y="5394.0288"
        id="text3004-8"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3006-7"
-         x="610.31409"
-         y="-5047.9111">map</tspan></text>
+         x="66.123016"
+         y="5394.0288">map</tspan></text>
     <rect
-       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:15.6913681;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.56913686;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        id="rect3008-8"
-       width="7984.3086"
-       height="5984.3086"
-       x="7.8456841"
-       y="7.8455372" />
+       width="798.43085"
+       height="598.43085"
+       x="0.78456843"
+       y="5400.7847" />
     <text
        xml:space="preserve"
-       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
-       x="-2842.7593"
-       y="377.04205"
+       style="font-size:14.39999962px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
+       x="-279.18433"
+       y="5441.7603"
        id="text3004-1"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3006-6"
-         x="-2842.7593"
-         y="377.04205">buildings</tspan></text>
+         x="-279.18433"
+         y="5441.7603">buildings</tspan></text>
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m -2160,320 1760,0"
+       style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m -210.90842,5436.0558 176.000004,0"
        id="path7659"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       d="m -3320,320 440,0"
+       style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m -326.90842,5436.0558 44,0"
        id="path7659-4"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
-       x="-2809.115"
-       y="3219.3806"
+       style="font-size:14.39999962px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
+       x="-275.81982"
+       y="5725.9941"
        id="text3004-1-8"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3006-6-1"
-         x="-2809.115"
-         y="3219.3806">characters</tspan></text>
+         x="-275.81982"
+         y="5725.9941">characters</tspan></text>
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       d="m -1986.3558,3162.3386 1620,0"
+       style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m -193.54402,5720.2896 162.000004,0"
        id="path7659-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
     <path
-       style="fill:none;stroke:#ffffff;stroke-width:10;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
-       d="m -3286.3558,3162.3386 440,0"
+       style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
+       d="m -323.54402,5720.2896 44,0"
        id="path7659-4-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
@@ -196,159 +220,166 @@
      inkscape:label="backgrounds"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,4947.6378)"
+     transform="translate(0,-452.3622)"
      style="display:inline"
      sodipodi:insensitive="true">
     <image
        sodipodi:absref="/home/tylar/cell-rpg/android/assets/./the_edge.png"
        xlink:href="./the_edge.png"
-       width="4000"
-       height="3000"
+       y="582.66064"
+       x="400.10919"
        id="image3896"
-       x="4000"
-       y="-4927.6382" />
+       height="300"
+       width="400" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="bg_paths"
      style="display:inline"
+     transform="translate(0,-5400)"
      sodipodi:insensitive="true">
     <path
        style="fill:none;stroke:#000000;stroke-width:70;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter8337)"
        d="m 6626.6007,-24.549774 c 0,0 0,24.24366094 36.3655,145.461964 36.3655,121.21831 -44.4467,416.18285 -129.2995,513.15749 -84.8529,96.97465 -262.6397,145.46197 -400.0205,181.82746 -137.3807,36.36549 -169.7056,294.96456 -141.4213,404.06106 28.2843,109.0964 -4.0406,521.2387 -48.4873,666.7006 -44.4467,145.462 -92.9341,355.5737 16.1624,529.32 109.0965,173.7462 357.2429,172.5926 357.2429,172.5926 0,0 88.5714,22.8572 200,-77.1428 111.4285,-100 185.7142,-580 234.2857,-651.4286 C 6800,1788.5714 6880,1588.5714 7008.5714,1620 c 128.5715,31.4286 168.5715,-22.8571 185.7143,65.7143 -60.0586,1181.9729 11.061,946.3864 -397.1429,1248.5714 0,0 -54.2857,31.4286 -54.2857,105.7143"
        id="path8040"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cssscc" />
+       sodipodi:nodetypes="cssscc"
+       transform="matrix(0.1,0,0,0.1,-78.663481,5543.7118)" />
     <path
        style="fill:none;stroke:#000000;stroke-width:70;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter8341)"
        d="m 6670.2861,2733.0308 c 109.0965,173.7462 357.2429,172.5926 357.2429,172.5926 0,0 88.5714,22.8572 200,-77.1428"
        id="path8040-7"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       transform="matrix(0.68096681,0.73231428,-0.73231428,0.68096681,4078.003,-4249.1343)" />
+       transform="matrix(0.06809668,0.07323143,-0.07323143,0.06809668,329.13682,5118.7984)" />
     <path
        style="fill:none;stroke:#000000;stroke-width:70;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter8345)"
        d="m 6160.7064,2557.131 c 218.7656,-39.5497 915.7822,253.2706 866.8226,348.4924 0,0 88.5714,22.8572 200,-77.1428"
        id="path8040-7-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       transform="matrix(-0.68096681,-0.73231428,0.73231428,-0.68096681,9397.8867,7883.1365)" />
+       transform="matrix(-0.06809668,-0.07323143,0.07323143,-0.06809668,861.12512,6332.0255)" />
     <path
        style="fill:none;stroke:#000000;stroke-width:70;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;filter:url(#filter8349)"
        d="m 6606.5208,2814.1914 c 109.0965,173.7462 597.836,6.1636 597.836,6.1636 0,0 267.1527,208.4246 378.5813,108.4246 0,0 57.8385,69.1867 97.8615,147.7854 40.023,78.5987 59.748,149.3577 139.3297,215.083 79.5817,65.7253 222.3669,179.1873 222.3669,179.1873"
        id="path8040-7-6"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       transform="matrix(0.68096681,0.73231428,-0.73231428,0.68096681,4255.3351,-6610.9565)" />
+       transform="matrix(0.06809668,0.07323143,-0.07323143,0.06809668,346.87002,4882.6161)" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="buildingsAndScenery"
      style="display:inline"
+     transform="translate(0,-5400)"
      sodipodi:insensitive="true">
     <image
-       y="1705.7142"
-       x="6985.9282"
+       y="5708.5088"
+       x="620.85413"
        id="image7413"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/building-large-1.png"
-       height="1000"
-       width="611" />
+       height="100"
+       width="61.099998" />
     <image
-       y="-1237.9044"
-       x="6177.875"
+       y="5074.5713"
+       x="2528.7634"
        id="image7558"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
-       height="304"
-       width="300"
+       height="30.4"
+       width="30"
        transform="matrix(0.93365404,0.35817613,-0.35817613,0.93365404,0,0)" />
     <image
-       y="599.35504"
-       x="-3018.2407"
+       y="5454.103"
+       x="-315.8439"
        id="image7413-2"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/building-large-1.png"
-       height="1000"
-       width="611" />
+       height="100"
+       width="61.099998" />
     <image
-       y="796.57135"
-       x="-2252.8572"
+       y="5473.8247"
+       x="-239.30556"
        id="image7558-8"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
-       height="304"
-       width="300" />
+       height="30.4"
+       width="30" />
     <image
        style="display:inline"
-       y="-1604.9695"
-       x="6986.0605"
+       y="-5698.4341"
+       x="620.86731"
        id="image7413-1"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/building-large-1.png"
-       height="1000"
-       width="611"
+       height="100"
+       width="61.099998"
        transform="scale(1,-1)" />
     <image
-       width="300"
-       height="304"
+       width="30"
+       height="30.4"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
        id="image8002"
-       x="-6654.3447"
-       y="67.237366"
+       x="-1807.1687"
+       y="5426.2471"
        transform="matrix(-0.97553143,-0.21986002,-0.21986002,0.97553143,0,0)" />
     <image
        style="display:inline"
-       y="943.38757"
-       x="6376.4282"
+       y="5584.4355"
+       x="1368.1367"
        id="image7558-5"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
-       height="304"
-       width="300"
+       height="30.4"
+       width="30"
        transform="matrix(0.98931486,0.14579472,-0.14579472,0.98931486,0,0)" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="chars"
-     sodipodi:insensitive="true">
+     transform="translate(0,-5400)"
+     style="display:inline">
     <image
        style="display:inline"
-       y="3362.6846"
-       x="-3062.3765"
+       y="5743.4961"
+       x="-301.24417"
        id="image7963"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/char-civ1-blinker.png"
-       height="38"
-       width="80" />
+       height="3.8"
+       width="8" />
     <image
        style="display:inline"
-       y="2541.853"
-       x="7170.2036"
+       y="5791.8813"
+       x="638.81067"
        id="image7963-5"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/char-civ1-blinker.png"
-       height="38"
-       width="80" />
+       height="3.8"
+       width="8"
+       clip-path="url(#clipPath3918)" />
     <image
        style="display:inline"
-       y="1580.5714"
-       x="6614.2856"
+       y="5695.7534"
+       x="583.21887"
        id="image3295"
        xlink:href="file:///home/tylar/cell-rpg/android/assets/char-player.png"
-       height="36"
-       width="400" />
+       height="3.5999999"
+       width="40"
+       clip-path="url(#clipPath3912)" />
   </g>
   <g
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="notes"
-     sodipodi:insensitive="true">
+     transform="translate(0,-5400)"
+     style="display:inline">
     <text
        xml:space="preserve"
-       style="font-size:144px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
-       x="5814.4385"
-       y="1490.679"
+       style="font-size:14.39999962px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ff0000;fill-opacity:1;stroke:none;font-family:Droid Arabic Naskh;-inkscape-font-specification:Droid Arabic Naskh"
+       x="571.90137"
+       y="5688.3628"
        id="text3906"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3908"
-         x="5814.4385"
-         y="1490.679">The Edge</tspan></text>
+         x="571.90137"
+         y="5688.3628">The Edge</tspan></text>
   </g>
 </svg>

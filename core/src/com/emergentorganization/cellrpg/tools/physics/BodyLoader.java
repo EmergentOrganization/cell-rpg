@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools;
+package com.emergentorganization.cellrpg.tools.physics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

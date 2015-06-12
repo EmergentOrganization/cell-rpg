@@ -8,10 +8,13 @@ import com.emergentorganization.cellrpg.entities.buildings.BuildingLarge1;
 import com.emergentorganization.cellrpg.entities.characters.NPC;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
+import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.tools.map.MapLoader;
 import org.dyn4j.geometry.Vector2;
 
 public class Test extends Scene {
-	Player player;
+	private Player player;
+	private Map map;
 
 	@Override
 	public void create() {
@@ -34,6 +37,9 @@ public class Test extends Scene {
 		BuildingLarge1 bldg = new BuildingLarge1();
 		bldg.getMovementComponent().setWorldPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
 		this.addEntity(bldg);
+
+		map = MapLoader.getMap("testMap.svg");
+		map.load(); //TODO
 	}
 	
 	@Override
@@ -49,5 +55,9 @@ public class Test extends Scene {
 	@Override
 	public void hide() {
 		// TODO
+	}
+
+	public Map getMap() {
+		return map;
 	}
 }

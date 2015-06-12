@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.emergentorganization.cellrpg.components.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.BodyLoader;
+import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
  * Created by tylar on 6/2/15.

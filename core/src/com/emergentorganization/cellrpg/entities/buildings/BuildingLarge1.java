@@ -9,7 +9,7 @@ import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.BodyLoader;
+import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
 

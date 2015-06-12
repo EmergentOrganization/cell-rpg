@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.World;
@@ -152,6 +153,7 @@ public abstract class Scene implements Screen {
                 e.setScene(this);
                 e.added();
                 entities.add(e);
+                entities.sort(new EntitySort());
             }
 
             if (type == ENTITY_REMOVE) {

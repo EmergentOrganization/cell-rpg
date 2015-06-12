@@ -1,11 +1,8 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.emergentorganization.cellrpg.entities.buildings.BuildingLarge1;
-import com.emergentorganization.cellrpg.entities.characters.NPC;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.tools.map.Map;
@@ -30,16 +27,8 @@ public class Test extends Scene {
 		player = new Player();
 		this.addEntity(player);
 
-		NPC npc = new NPC();
-		npc.getMovementComponent().setWorldPosition(Gdx.graphics.getWidth() * 0.7f, Gdx.graphics.getHeight() * 0.7f);
-		this.addEntity(npc);
-
-		BuildingLarge1 bldg = new BuildingLarge1();
-		bldg.getMovementComponent().setWorldPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
-		this.addEntity(bldg);
-
 		map = MapLoader.getMap("testMap.svg");
-		map.load(); //TODO
+		map.load(this);
 	}
 	
 	@Override

@@ -92,6 +92,15 @@ public class GraphicsComponent extends BaseComponent{
         register("idle", anim);
     }
 
+    public void register(String name, Texture texture, int n_columns, int n_rows, float time_per_frame){
+        // add a sprite animation
+        TextureRegion[][] spriteFrames = TextureRegion.split(texture, texture.getWidth()/n_columns, texture.getHeight()/n_rows);
+        TextureRegion[] firstAnimation = spriteFrames[0];  // assume exactly 1 animation per row
+        Animation anim = new Animation(time_per_frame, firstAnimation);
+        anim.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        register("idle", anim);
+    }
+
     public void play(String name){
         if(!anims.containsKey(name))
             throw new RuntimeException("Animation titled "+ name + " isn't registered.");

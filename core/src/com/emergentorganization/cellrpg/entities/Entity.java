@@ -22,6 +22,7 @@ import java.util.ListIterator;
  */
 public abstract class Entity {
     private Scene parentScene;
+    public final ZIndex zIndex;
     private ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();
 
     /**
@@ -31,7 +32,13 @@ public abstract class Entity {
     private MovementComponent moveComponent = new MovementComponent(); // TODO: move it into the array
 
     public Entity(){
+        zIndex = ZIndex.BUILDING;
         moveComponent.setEntity(this); // make sure to call super from child classes or null pointer exceptions may occur
+    }
+
+    public Entity(ZIndex zIndex) {
+        this.zIndex = zIndex;
+        moveComponent.setEntity(this);
     }
 
     /**

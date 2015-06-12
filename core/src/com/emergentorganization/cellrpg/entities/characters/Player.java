@@ -22,8 +22,10 @@ public class Player extends Character {
     private static final int FRAME_ROWS = 1;  //  # of rows in spritesheet
     private static final float TPF = 0.2f;  // time per frame of animation
 
-    private static final float EDGE_MARGIN = 100f;  // min px between player & screen edge
-    private static final float CLOSE_ENOUGH = 10;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
+    // camera behavior:
+    private static final int EDGE_MARGIN = 100;  // min px between player & screen edge
+    private static final int CLOSE_ENOUGH = 40;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
+    private static final float CAMERA_LEAD = 200;  // dist camera should try to lead player movement
 
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
@@ -59,7 +61,7 @@ public class Player extends Character {
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
         int scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight());
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
-                                BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
+                BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
         phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));
         //phys.enableDebugRenderer(true);
 
@@ -69,7 +71,10 @@ public class Player extends Character {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+        updateCameraPos(deltaTime);
+    }
 
+    private void updateCameraPos(float deltaTime){
         float MAX_OFFSET = Math.min(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())/2-EDGE_MARGIN;  // max player-camera dist
         float PROPORTIONAL_GAIN = deltaTime * moveComponent.getSpeed() / MAX_OFFSET;
         Vector2 pos = getMovementComponent().getWorldPosition();
@@ -77,7 +82,9 @@ public class Player extends Character {
 
         Vector2 offset = new Vector2(pos);
         offset.sub(camera.position.x, camera.position.y);
-        
+
+        offset.add(moveComponent.getVelocity().nor().scl(CAMERA_LEAD));
+
         if (Math.abs(offset.x) > CLOSE_ENOUGH || Math.abs(offset.y) > CLOSE_ENOUGH) {
             cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));
             camera.position.set(cameraLoc, 0);

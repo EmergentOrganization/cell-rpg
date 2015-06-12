@@ -6,4 +6,6 @@ package com.emergentorganization.cellrpg.physics;
 public enum Tag {
     PLAYER,
     BUILDING_LARGE_1,
+    BUILDING_ROUND_1,
+    CHAR_CIV1_BLINKER
 }

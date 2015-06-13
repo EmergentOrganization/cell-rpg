@@ -63,13 +63,10 @@ public class MapLoader {
             print("Importing layer: " + label);
             MapLayer layer = new MapLayer(getLayerType(label));
 
-            String transform = group.getAttributes().getNamedItem("transform").getTextContent();
-            Vector2 offset = parseTransform(transform);
-
             NodeList childNodes = group.getChildNodes();
             for (int c = 0; c < childNodes.getLength(); c++) {
                 Node item = childNodes.item(c);
-                MapObject obj = parseItem(item, offset);
+                MapObject obj = parseItem(item);
                 if (obj != null) {
                     layer.addMapObject(obj);
                 }
@@ -100,8 +97,11 @@ public class MapLoader {
         }
     }
 
-    private static MapObject parseItem(Node item, Vector2 offset) {
+    private static MapObject parseItem(Node item) {
         if (item.getNodeName().contentEquals("image")) {
+
+
+            Vector2 offset = new Vector2();
             return parseImage(item, offset);
         }
         else if (item.getNodeName().contentEquals("#text")) { /*stifle empty objects*/ }

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.util;
+package com.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -25,7 +25,7 @@ public class CoordinateRecorder {
         if(TimeUtils.timeSinceMillis(lastRecord) >= delay){
             lastRecord += delay;
 
-            //System.out.println("Recording " + x + ", " + y);
+            System.out.println("Recording " + x + ", " + y);
             coords.add(new Vector2(x, y));
         }
     }

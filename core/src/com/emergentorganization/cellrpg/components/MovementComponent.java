@@ -23,6 +23,7 @@ public class MovementComponent extends BaseComponent {
     private Vector2 velocity = new Vector2();
     private Vector2 dest = new Vector2();
     private boolean hasDest = false;
+    private boolean stopOnArrival = false;
 
     public MovementComponent() {
         type = ComponentType.MOVEMENT;
@@ -157,6 +158,10 @@ public class MovementComponent extends BaseComponent {
         hasDest = false;
     }
 
+    public void setStopOnArrival(boolean stopOnArrival){
+        this.stopOnArrival = stopOnArrival;
+    }
+
     public Vector2 getDest() {
         if(!hasDest)
             return null;
@@ -170,6 +175,9 @@ public class MovementComponent extends BaseComponent {
         if(hasDest && dest.dst(newPos) <= 1) {
             //System.out.println("Arrived to dest.");
             removeDest();
+            if(stopOnArrival){
+                setVelocity(Vector2.Zero);
+            }
         }
 
         if (!getVelocity().isZero()) {

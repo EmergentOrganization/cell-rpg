@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.physics;
 
 import com.emergentorganization.cellrpg.components.MovementComponent;
-import com.emergentorganization.cellrpg.util.CoordinateRecorder;
+import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 
 /**
  * Created by BrianErikson on 6/8/2015.

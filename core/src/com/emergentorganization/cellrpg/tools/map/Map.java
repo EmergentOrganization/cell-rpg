@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Map {
     private Scene scene;
     private ArrayList<MapLayer> layers = new ArrayList<MapLayer>();
+    public static float scale = 1f/10f;
 
     public ArrayList<MapLayer> getLayers() {
         return layers;

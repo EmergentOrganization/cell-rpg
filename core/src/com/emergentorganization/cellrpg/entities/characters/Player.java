@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +11,7 @@ import com.emergentorganization.cellrpg.components.WeaponComponent;
 import com.emergentorganization.cellrpg.components.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
+import com.emergentorganization.cellrpg.tools.map.Map;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -23,9 +24,9 @@ public class Player extends Character {
     private static final float TPF = 0.2f;  // time per frame of animation
 
     // camera behavior:
-    private static final int EDGE_MARGIN = 100;  // min px between player & screen edge
-    private static final int CLOSE_ENOUGH = 40;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
-    private static final float CAMERA_LEAD = 200;  // dist camera should try to lead player movement
+    private static final float EDGE_MARGIN = 10;  // min px between player & screen edge
+    private static final float CLOSE_ENOUGH = 4;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
+    private static final float CAMERA_LEAD = 20;  // dist camera should try to lead player movement
 
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
@@ -34,14 +35,12 @@ public class Player extends Character {
         super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
 
         moveComponent = getMovementComponent();
-        moveComponent.setWorldPosition(Gdx.graphics.getWidth() * 0.5f, Gdx.graphics.getHeight() * 0.5f);
 
         addComponent(new WeaponComponent());
     }
 
     public Player(Texture texture, Vector2 position) {
         super(texture, FRAME_COLS, FRAME_ROWS, TPF);
-
 
         moveComponent = getMovementComponent();
         moveComponent.setWorldPosition(position);
@@ -54,12 +53,14 @@ public class Player extends Character {
         super.added();
 
         camera = getScene().getGameCamera();
+        camera.position.set(getMovementComponent().getWorldPosition()
+                                                    .sub(camera.viewportWidth /2f, camera.viewportHeight /2f), 0f);
 
         PlayerInputComponent playerInput = new PlayerInputComponent(camera);
         addComponent(playerInput);
 
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        int scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight());
+        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Map.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
         phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));
@@ -75,7 +76,8 @@ public class Player extends Character {
     }
 
     private void updateCameraPos(float deltaTime){
-        float MAX_OFFSET = Math.min(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())/2-EDGE_MARGIN;  // max player-camera dist
+        Camera camera = getScene().getGameCamera();
+        float MAX_OFFSET = Math.min(camera.viewportWidth, camera.viewportHeight)/2-EDGE_MARGIN;  // max player-camera dist
         float PROPORTIONAL_GAIN = deltaTime * moveComponent.getSpeed() / MAX_OFFSET;
         Vector2 pos = getMovementComponent().getWorldPosition();
         Vector2 cameraLoc = new Vector2(camera.position.x, camera.position.y);
@@ -89,7 +91,7 @@ public class Player extends Character {
             cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));
             camera.position.set(cameraLoc, 0);
             camera.update();
-            System.out.println("new camera pos:" + cameraLoc);
+            //System.out.println("new camera pos:" + cameraLoc);
         }
     }
 }

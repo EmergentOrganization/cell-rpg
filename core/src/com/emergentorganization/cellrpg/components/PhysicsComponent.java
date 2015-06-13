@@ -7,6 +7,7 @@ import com.emergentorganization.cellrpg.components.listeners.BaseComponentListen
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
+import com.emergentorganization.cellrpg.tools.map.Map;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
@@ -32,6 +33,7 @@ public class PhysicsComponent extends BaseComponent {
         this.tag = tag;
         body.setMassType(Mass.Type.FIXED_ANGULAR_VELOCITY);
         world.addBody(body);
+        enableDebugRenderer(true);
     }
 
     @Override
@@ -67,7 +69,7 @@ public class PhysicsComponent extends BaseComponent {
                     float x2 = (float) (verts[index].x + offset.x);
                     float y2 = (float) (verts[index].y + offset.y);
 
-                    renderer.rectLine(x1, y1, x2, y2, 2f);
+                    renderer.rectLine(x1, y1, x2, y2, 2f * Map.scale);
                 }
             }
         }

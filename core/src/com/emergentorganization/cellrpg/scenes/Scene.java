@@ -57,8 +57,9 @@ public abstract class Scene implements Screen {
 
         Gdx.input.setInputProcessor(input);
 
-        gameCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        gameCamera.position.set(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0); // center camera with 0,0 in bottom left
+        float scale = com.emergentorganization.cellrpg.tools.map.Map.scale;
+        gameCamera = new OrthographicCamera(Gdx.graphics.getWidth() * scale, Gdx.graphics.getHeight() * scale);
+        gameCamera.position.set(gameCamera.viewportWidth / 2f, gameCamera.viewportHeight / 2f, 0); // center camera with 0,0 in bottom left
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 

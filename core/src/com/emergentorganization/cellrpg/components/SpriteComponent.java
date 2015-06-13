@@ -26,9 +26,9 @@ public class SpriteComponent extends BaseComponent {
     public void render(SpriteBatch batch, Vector2 pos, float rot, Vector2 scale) {
         super.render(batch, pos, rot, scale);
 
-        sprite.setScale(scale.x, scale.y);
+        sprite.setSize(sprite.getRegionWidth() * scale.x, sprite.getRegionHeight() * scale.y);
         sprite.setRotation(rot);
-        sprite.setCenter(pos.x, pos.y); // TODO: Isn't actually centered when scaled?
+        sprite.setCenter(pos.x, pos.y);
         sprite.draw(batch);
     }
 

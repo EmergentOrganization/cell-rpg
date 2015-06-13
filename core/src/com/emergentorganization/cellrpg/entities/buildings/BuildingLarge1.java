@@ -6,6 +6,7 @@ import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.Tag;
+import com.emergentorganization.cellrpg.tools.map.Map;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
@@ -35,7 +36,7 @@ public class BuildingLarge1 extends Entity {
         super.added();
 
         World world = getScene().getWorld();
-        Body body = BodyLoader.fetch().generateBody(ID, texture.getWidth());
+        Body body = BodyLoader.fetch().generateBody(ID, texture.getWidth() * Map.scale);
         PhysicsComponent phys = new PhysicsComponent(world, body, Tag.BUILDING_LARGE_1);
         //phys.enableDebugRenderer(true);
         addComponent(phys);

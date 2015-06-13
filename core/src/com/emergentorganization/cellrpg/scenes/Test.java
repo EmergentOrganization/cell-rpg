@@ -3,14 +3,12 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.tools.map.Map;
 import com.emergentorganization.cellrpg.tools.map.MapLoader;
 import org.dyn4j.geometry.Vector2;
 
 public class Test extends Scene {
-	private Player player;
 	private Map map;
 
 	@Override
@@ -33,7 +31,7 @@ public class Test extends Scene {
 		super.show();
 
 		// check gameState for android-app-hiding instances
-		if (player == null) {
+		if (map == null) {
 			create();
 		}
 	}

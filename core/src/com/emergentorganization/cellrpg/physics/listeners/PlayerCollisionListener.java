@@ -37,7 +37,7 @@ public class PlayerCollisionListener extends CharacterCollisionListener {
         data.movementComponent.removeDest();
         Vector2 next = data.cr.getFirst();
         if (next != null) {
-            System.out.println("Collision. Getting next coord");
+            //System.out.println("Collision. Getting next coord");
             data.movementComponent.setDest(next);
         }
     }

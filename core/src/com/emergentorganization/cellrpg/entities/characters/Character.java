@@ -1,8 +1,8 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.components.GraphicsComponent;
+import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 
 /**

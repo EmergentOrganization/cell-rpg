@@ -34,7 +34,7 @@ public class MapImage extends MapObject {
     }
 
     public Vector2 getPosition() {
-        return position;
+        return position.cpy();
     }
 
     public Texture getTexture() {

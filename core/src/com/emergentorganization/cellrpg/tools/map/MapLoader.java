@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * Created by BrianErikson on 6/12/2015.
@@ -62,10 +63,13 @@ public class MapLoader {
             print("Importing layer: " + label);
             MapLayer layer = new MapLayer(getLayerType(label));
 
+            String transform = group.getAttributes().getNamedItem("transform").getTextContent();
+            Vector2 offset = parseTransform(transform);
+
             NodeList childNodes = group.getChildNodes();
             for (int c = 0; c < childNodes.getLength(); c++) {
                 Node item = childNodes.item(c);
-                MapObject obj = parseItem(item);
+                MapObject obj = parseItem(item, offset);
                 if (obj != null) {
                     layer.addMapObject(obj);
                 }
@@ -77,9 +81,28 @@ public class MapLoader {
         return null;
     }
 
-    private static MapObject parseItem(Node item) {
+    private static Vector2 parseTransform(String transform) {
+        if (transform.contains("translate")) {
+            // RAW FORMAT: translate(0,0)
+
+            String[] split = transform.split(Pattern.quote(",")); // [translate(0] [0)]
+            String[] partX = split[0].split(Pattern.quote("(")); // [translate] [0]
+
+            Vector2 offset = new Vector2();
+            offset.x = Float.parseFloat(partX[partX.length - 1]);
+            offset.y = Float.parseFloat(split[1].substring(0, split[1].length() - 1));
+
+            return offset;
+        }
+        else {
+            //throw new RuntimeException("ERROR: Unsupported transform description: " + transform);
+            return new Vector2(0,0);
+        }
+    }
+
+    private static MapObject parseItem(Node item, Vector2 offset) {
         if (item.getNodeName().contentEquals("image")) {
-            return parseImage(item);
+            return parseImage(item, offset);
         }
         else if (item.getNodeName().contentEquals("#text")) { /*stifle empty objects*/ }
         else {
@@ -89,7 +112,7 @@ public class MapLoader {
         return null;
     }
 
-    private static MapImage parseImage(Node item) {
+    private static MapImage parseImage(Node item, Vector2 offset) {
         NamedNodeMap attributes = item.getAttributes();
 
         String rawPath = attributes.getNamedItem("xlink:href").getTextContent();
@@ -98,7 +121,7 @@ public class MapLoader {
 
         float x = Float.parseFloat(attributes.getNamedItem("x").getTextContent());
         float y = Float.parseFloat(attributes.getNamedItem("y").getTextContent());
-        Vector2 pos = new Vector2(x, y);
+        Vector2 pos = new Vector2(x, y).add(offset);
 
         return new MapImage(pos,internalPath);
     }

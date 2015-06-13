@@ -40,9 +40,9 @@ public class GraphicsComponent extends BaseComponent{
         if(playing == null)
             return;
         checkKeyFrames();
-        sprite.setScale(scale.x, scale.y);
+        sprite.setSize(sprite.getRegionWidth() * scale.x, sprite.getRegionHeight() * scale.y); // required for sprite sheets
         sprite.setRotation(rot);
-        sprite.setCenter(pos.x, pos.y); // TODO: Isn't actually centered when scaled?
+        sprite.setCenter(pos.x, pos.y);
         sprite.draw(batch);
     }
 

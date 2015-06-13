@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.ComponentType;
+import com.emergentorganization.cellrpg.tools.map.Map;
 import com.emergentorganization.cellrpg.util.CoordinateRecorder;
 
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class PlayerInputComponent extends InputComponent implements InputProcess
                 prev = mc.getLocalPosition();
             Vector2 cur = v.get(i);
 
-            renderer.line(prev, cur);
+            renderer.rectLine(prev, cur, 2f * Map.scale);
             prev = cur;
         }
     }
@@ -114,7 +115,7 @@ public class PlayerInputComponent extends InputComponent implements InputProcess
         if(mc.getDest() == null) {
             if (!cr.isEmpty()) {
                 Vector2 dest = cr.getFirst();
-                System.out.println("Moving towards " + dest);
+                //System.out.println("Moving towards " + dest);
                 moveTo(dest.x, dest.y);
 
                 // This is temporary and can be very problematic if we want to apply forces on the player unrelated to movement

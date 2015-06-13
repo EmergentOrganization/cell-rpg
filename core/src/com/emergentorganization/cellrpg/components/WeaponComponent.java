@@ -12,8 +12,8 @@ public class WeaponComponent extends BaseComponent{
     private MovementComponent mc;
 
     // TODO: weapon class
-    private float speed = 1000f;
-    private float maxDist = 500f;
+    private float speed = 100f;
+    private float maxDist = 50f;
     private float delay = 200;
 
     private long lastShot;

@@ -63,6 +63,17 @@ public class MapLoader {
             print("Importing layer: " + label);
             MapLayer layer = new MapLayer(getLayerType(label));
 
+<<<<<<< HEAD
+=======
+            String transform = "";
+            try {
+                transform = group.getAttributes().getNamedItem("transform").getTextContent();
+            } catch (NullPointerException err){
+                System.out.println(label + "has no transform.");
+            }
+            Vector2 offset = parseTransform(transform);
+
+>>>>>>> 027831233ae20c1f495ecabac41ea5b221e4abed
             NodeList childNodes = group.getChildNodes();
             for (int c = 0; c < childNodes.getLength(); c++) {
                 Node item = childNodes.item(c);
@@ -99,7 +110,9 @@ public class MapLoader {
 
     private static MapObject parseItem(Node item) {
         if (item.getNodeName().contentEquals("image")) {
-            Vector2 offset = new Vector2(); //TODO transform offset
+
+
+            Vector2 offset = new Vector2();
             return parseImage(item, offset);
         }
         else if (item.getNodeName().contentEquals("#text")) { /*stifle empty objects*/ }

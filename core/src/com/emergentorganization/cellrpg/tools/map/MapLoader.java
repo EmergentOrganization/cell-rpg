@@ -63,7 +63,12 @@ public class MapLoader {
             print("Importing layer: " + label);
             MapLayer layer = new MapLayer(getLayerType(label));
 
-            String transform = group.getAttributes().getNamedItem("transform").getTextContent();
+            String transform = "";
+            try {
+                transform = group.getAttributes().getNamedItem("transform").getTextContent();
+            } catch (NullPointerException err){
+                System.out.println(label + "has no transform.");
+            }
             Vector2 offset = parseTransform(transform);
 
             NodeList childNodes = group.getChildNodes();

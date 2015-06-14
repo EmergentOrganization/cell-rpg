@@ -180,7 +180,7 @@ public abstract class Scene implements Screen {
         return batch;
     }
 
-    protected Stage getUiStage() {
+    public Stage getUiStage() {
         return uiStage;
     }
 

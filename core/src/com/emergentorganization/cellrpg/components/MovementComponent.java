@@ -158,15 +158,15 @@ public class MovementComponent extends BaseComponent {
         hasDest = false;
     }
 
-    public void setStopOnArrival(boolean stopOnArrival){
-        this.stopOnArrival = stopOnArrival;
-    }
-
     public Vector2 getDest() {
         if(!hasDest)
             return null;
 
         return dest;
+    }
+
+    public void setStopOnArrival(boolean stopOnArrival){
+        this.stopOnArrival = stopOnArrival;
     }
 
     private void updateMovement(){

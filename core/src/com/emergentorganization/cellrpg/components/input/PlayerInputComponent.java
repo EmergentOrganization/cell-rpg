@@ -19,38 +19,27 @@ import java.util.ArrayList;
  */
 public class PlayerInputComponent extends InputComponent {
 
-    private final int WALK_TIME = 300; // Time for mouse press/touch to be held for walking instead of shooting in ms;
-    private final float FREE_MOVEMENT = 20f; // mouse distance from the player in pixels that lets you control the player freely
+    private final int WALK_TIME = 300; // Time for mouse to be held for the player to begin walking.
+    private final float FREE_MOVEMENT = 200 * Map.scale;  // The mouse distance from the player to allow free movement
 
     private Camera camera; // Used to unproject screen coordinates for the mouse
-    private Vector3 tmp = new Vector3();
+    private Vector3 tmp = new Vector3(); // A temporary vector, so we won't have to create a new every frame
 
-    private boolean lastFramePress = false; // If the left mouse button was pressed last frame
+    private boolean lastFramePressed = false; // If the left mouse button was pressed last frame
+    private long elapsedTime; // Time elapsed since last frame
+    private long lastClick = 0; // Last time the player has clicked the mouse button
 
-    private long elapsedTime, lastPress = 0; // Last press time in milliseconds
+    private CoordinateRecorder cr = new CoordinateRecorder(500); // The coordinate recorder, a utility used for saving the path
+    private boolean path = false; // Is the player moving along a path
+    private boolean clickedPath = false; // Has the player clicked the mouse since he began recording a path
+    private boolean recording = false; // Is the player recording a path
 
-    private boolean path = false, firstClick = false;
-    private final float pathDrawingDelay = 500;
-    private CoordinateRecorder cr = new CoordinateRecorder(pathDrawingDelay);
-
-    // mouse/touch coords for the current frame
-    private Vector3 mouse;
-    // player coords for the current frame
-    private Vector2 player;
+    private Vector3 mouse; // The mouse coordinates for the current frame (if mouse is pressed)
+    private Vector2 player; // The player coordinates for the current frame (if mouse is pressed)
 
     public PlayerInputComponent(Camera camera) {
         type = ComponentType.PLAYER_INPUT;
         this.camera = camera;
-    }
-
-    @Override
-    public boolean hasWeapon() {
-        return true;
-    }
-
-    @Override
-    public void added() {
-        super.added();
     }
 
     @Override
@@ -59,63 +48,71 @@ public class PlayerInputComponent extends InputComponent {
         boolean framePress = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
 
         long now = TimeUtils.millis();
-        elapsedTime = now - lastPress;
+        elapsedTime = now - lastClick;
 
-        // move through path
+        // handle movement along path regardless to mouse click
         handlePath();
+
+        clickedPath = false;
 
         // if the button is pressed right now
         if (framePress) {
-            if (!lastFramePress)
-                lastPress = now;
+            if (!lastFramePressed) {
+                lastClick = now;
+
+                if (path)
+                    clickedPath = framePress;
+            }
 
             // get mouse and player locations
             fetchMouseCoords();
             player = mc.getLocalPosition();
 
+            // handle movement
             handleMovement();
+
+            // handle path recording
             handleRecording();
         }
 
         // if the button was released
-        if (!framePress && lastFramePress) {
+        if (!framePress && lastFramePressed) {
+            handleShooting();
 
-            if (elapsedTime < WALK_TIME) {
-                handleShooting();
-            }
+            recording = false;
         }
 
-        lastFramePress = framePress;
+        lastFramePressed = framePress;
     }
 
-    @Override
-    public void debugRender(ShapeRenderer renderer) {
-        if (mc.getDest() == null)
+
+    private void handleMovement() {
+        if (elapsedTime < WALK_TIME)
             return;
-        renderer.setColor(Color.CYAN);
-        if (!path) {
-            renderer.line(player.x, player.y, mouse.x, mouse.y);
-        } else {
-            Vector2 prev = null;
-            ArrayList<Vector2> v = cr.getCoords();
-            for (int i = 0; i < v.size(); i++) {
-                if (prev == null)
-                    prev = mc.getLocalPosition();
-                Vector2 cur = v.get(i);
 
-                renderer.line(prev, cur);
-                prev = cur;
+        boolean dst = mouse.dst(player.x, player.y, 0) < FREE_MOVEMENT;
+
+        // check if the mouse button is not very far away from the player
+        if (!path && dst || path && clickedPath && dst) {
+            // if it isn't, use player to mouse direct movement
+            recording = false;
+            path = false;
+
+            mc.setDest(mouse.x, mouse.y);
+            mc.setStopOnArrival(true);
+
+
+            if (!cr.isEmpty()) {
+                cr.clear();
             }
+        } else { // if it is, start recording a path
+            recording = true;
+            path = true;
         }
-    }
-
-    @Override
-    public boolean shouldDebugRender() {
-        return true;
     }
 
     private void handlePath() {
-        if(!path || mc.getDest() != null || cr.isEmpty())
+        if (!path || mc.getDest() != null || cr.isEmpty())
             return;
 
         mc.setStopOnArrival(false);
@@ -128,28 +125,45 @@ public class PlayerInputComponent extends InputComponent {
     }
 
     private void handleRecording() {
-        if (!path)
+        if (!recording)
             return;
 
         cr.record(mouse.x, mouse.y);
     }
 
-    private void handleMovement() {
-        if (elapsedTime < WALK_TIME)
-            return;
-
-        if (mouse.dst(player.x, player.y, 0) < FREE_MOVEMENT) {
-            System.out.println("regular movement");
-
-            mc.setDest(mouse.x, mouse.y);
-            mc.setStopOnArrival(true);
-        } else {
-            path = true;
-        }
-    }
 
     private void handleShooting() {
+        if (elapsedTime > WALK_TIME)
+            return;
+
         shootTo(mouse.x, mouse.y);
+    }
+
+
+    @Override
+    public void debugRender(ShapeRenderer renderer) {
+        if (mc.getDest() == null)
+            return;
+
+        renderer.setColor(Color.MAGENTA);
+
+        // the class-scope player variable is updated only if the mouse is pressed.
+        Vector2 player = mc.getLocalPosition();
+
+        if (!path) {
+            renderer.line(player.x, player.y, mouse.x, mouse.y);
+        } else {
+            Vector2 prev = null;
+            ArrayList<Vector2> v = cr.getCoords();
+            for (int i = 0; i < v.size(); i++) {
+                if (prev == null)
+                    prev = player;
+                Vector2 cur = v.get(i);
+
+                renderer.line(prev, cur);
+                prev = cur;
+            }
+        }
     }
 
     private void fetchMouseCoords() {
@@ -157,11 +171,25 @@ public class PlayerInputComponent extends InputComponent {
         float y = Gdx.input.getY();
 
         tmp.set(x, y, 0);
+
+        /*
+         *  Not necessary, [ float yCoord = Gdx.graphics.getHeight() - y ] does the same. look up the source.
+         */
         mouse = camera.unproject(tmp);
     }
 
     public CoordinateRecorder getCoordinateRecorder() {
-        return cr;
+        return this.cr;
+    }
+
+    @Override
+    public boolean shouldDebugRender() {
+        return true;
+    }
+
+    @Override
+    public boolean hasWeapon() {
+        return true;
     }
 
 }

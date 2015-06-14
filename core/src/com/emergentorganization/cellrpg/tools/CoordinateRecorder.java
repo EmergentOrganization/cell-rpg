@@ -49,8 +49,7 @@ public class CoordinateRecorder {
     }
 
     public void clear(){
-        for(Vector2 v : coords)
-            coords.remove(v);
+        coords.clear();
     }
 
     public void setDelay(float delay){

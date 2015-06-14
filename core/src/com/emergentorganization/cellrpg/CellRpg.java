@@ -1,8 +1,7 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.FPSLogger;
-import com.emergentorganization.cellrpg.scenes.Test;
+import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.kotcrab.vis.ui.VisUI;
 
 /**
@@ -15,7 +14,7 @@ public class CellRpg extends Game {
     public void create() {
         VisUI.load();
 
-        setScreen(new Test());
+        setScreen(new MapEditor());
     }
 
     @Override

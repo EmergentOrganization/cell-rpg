@@ -12,7 +12,7 @@ import com.emergentorganization.cellrpg.components.WeaponComponent;
 import com.emergentorganization.cellrpg.components.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -61,7 +61,7 @@ public class Player extends Character {
         addComponent(playerInput);
 
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Map.scale;
+        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
         phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));

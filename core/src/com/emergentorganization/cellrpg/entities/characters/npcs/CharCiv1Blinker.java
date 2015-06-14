@@ -13,7 +13,7 @@ import com.emergentorganization.cellrpg.components.input.scripted.actions.WaitAc
 import com.emergentorganization.cellrpg.entities.characters.Character;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -47,7 +47,7 @@ public class CharCiv1Blinker extends Character {
         super.added();
 
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Map.scale;
+        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.CHAR_CIV1_BLINKER);
         phys.setUserData(new CellUserData(getMovementComponent(), Tag.CHAR_CIV1_BLINKER));

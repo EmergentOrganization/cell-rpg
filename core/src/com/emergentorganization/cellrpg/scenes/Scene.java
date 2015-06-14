@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
@@ -27,6 +26,8 @@ import java.util.*;
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
  */
 public abstract class Scene implements Screen {
+    public static float scale = 1/10f;
+
     private ArrayList<Entity> entities;
 
     private static final int ENTITY_INSERT = 1;
@@ -58,7 +59,6 @@ public abstract class Scene implements Screen {
 
         Gdx.input.setInputProcessor(input);
 
-        float scale = com.emergentorganization.cellrpg.tools.map.Map.scale;
         gameCamera = new OrthographicCamera(Gdx.graphics.getWidth() * scale, Gdx.graphics.getHeight() * scale);
         gameCamera.position.set(gameCamera.viewportWidth / 2f, gameCamera.viewportHeight / 2f, 0); // center camera with 0,0 in bottom left
         gameCamera.update();

@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.ComponentType;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class PlayerInputComponent extends InputComponent {
 
     private final int WALK_TIME = 300; // Time for mouse to be held for the player to begin walking.
-    private final float FREE_MOVEMENT = 200 * Map.scale;  // The mouse distance from the player to allow free movement
+    private final float FREE_MOVEMENT = 200 * Scene.scale;  // The mouse distance from the player to allow free movement
 
     private Camera camera; // Used to unproject screen coordinates for the mouse
     private Vector3 tmp = new Vector3(); // A temporary vector, so we won't have to create a new every frame

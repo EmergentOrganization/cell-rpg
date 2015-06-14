@@ -21,7 +21,7 @@ public class DialogComponent extends BaseComponent {
     private Dialog dialog;
     private Label label;
 
-    private float typewriterDelay = 0;
+    private long typewriterDelay = 0;
     private String typewriterText = "";
 
     private long timer;
@@ -38,22 +38,35 @@ public class DialogComponent extends BaseComponent {
 
         stage.addActor(dialog);
 
-        setTypewriterText("Hello", 2000);
+        setTypewriterText("Hello, this is a test message...", 0.1f);
     }
 
     @Override
     public void update(float deltaTime){
-        if(timer == 0L) {
-            System.out.println("initialized first");
-            timer = TimeUtils.millis();
+        handleTypewriter();
+    }
+
+    private void handleTypewriter(){
+        if(typewriterDelay == 0)
+            return;
+
+        if(typewriterText.isEmpty()) {
+            typewriterDelay = 0;
+            return;
         }
 
-        long dif = TimeUtils.timeSinceMillis(timer);
+        if (timer == 0L)
+            timer = TimeUtils.millis();
 
-        if (dif >= typewriterDelay){
+        if (TimeUtils.timeSinceMillis(timer) >= typewriterDelay) {
             timer += typewriterDelay;
 
+            char c = typewriterText.charAt(0);
+            typewriterText = typewriterText.substring(1);
+
+            setText(getText() + c);
         }
+
     }
 
     public void setName(String name){
@@ -68,9 +81,9 @@ public class DialogComponent extends BaseComponent {
         return label.getText().toString();
     }
 
-    public void setTypewriterText(String text, float delay){
+    public void setTypewriterText(String text, float delaySeconds){
         typewriterText = text;
-        typewriterDelay = delay;
+        typewriterDelay = (long) (delaySeconds * 1000);
 
         setText("");
     }

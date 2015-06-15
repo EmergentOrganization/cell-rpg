@@ -44,6 +44,8 @@ public abstract class Scene implements Screen {
     private static final double WORLD_HEIGHT = 10000d;
     private InputMultiplexer input;
 
+    private boolean isEditor = false;
+
     public void create() {
         entities = new ArrayList<Entity>();
         entityQueue = new LinkedHashMap<Entity, Integer>();
@@ -91,12 +93,14 @@ public abstract class Scene implements Screen {
         Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        physWorld.update(delta); // variable update rate. change to static if instability occurs
+        if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
 
         handleQueue();
 
-        for (Entity entity : entities) {
-            entity.update(delta);
+        if (!isEditor) {
+            for (Entity entity : entities) {
+                entity.update(delta);
+            }
         }
 
         uiStage.act();
@@ -196,5 +200,9 @@ public abstract class Scene implements Screen {
 
     public InputMultiplexer getInputMultiplexer() {
         return input;
+    }
+
+    protected void setToEditor() {
+        isEditor = true;
     }
 }

@@ -2,7 +2,6 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix3;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -21,7 +20,7 @@ public class MapEditor extends Scene {
     
     private final Matrix3 scaler = new Matrix3();
     private final Matrix3 rotator = new Matrix3();
-    private final Matrix3 translator = new Matrix3();
+    private final Matrix3 translator = new Matrix3().scale(Scene.scale, Scene.scale);
     
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
@@ -31,9 +30,9 @@ public class MapEditor extends Scene {
     @Override
     public void create() {
         super.create();
+        setToEditor();
 
         VisUI.setDefaultTitleAlign(Align.center);
-        setClearColor(new Vector3(1, 1, 1));
 
         initLeftPane();
         initMenuBar();

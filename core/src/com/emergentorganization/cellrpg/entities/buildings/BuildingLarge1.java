@@ -18,6 +18,9 @@ public class BuildingLarge1 extends Entity {
     public static final String ID = "building-large-1";
     Texture texture;
 
+    /*
+    This constructor is needed for MapEditor. Do not remove.
+     */
     public BuildingLarge1() {
         texture = new Texture(ID + ".png");
         addComponent(new SpriteComponent(texture));

@@ -17,6 +17,9 @@ public class BuildingRound1 extends Entity {
     public static final String ID = "building-round-1";
     Texture texture;
 
+    /*
+    This constructor is needed for MapEditor. Do not remove.
+     */
     public BuildingRound1() {
         super(ZIndex.BUILDING);
         texture = new Texture(ID + ".png");

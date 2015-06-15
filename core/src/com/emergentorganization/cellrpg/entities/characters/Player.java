@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.DialogComponent;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.WeaponComponent;
@@ -32,6 +31,9 @@ public class Player extends Character {
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
 
+    /*
+    This constructor is needed for MapEditor. Do not remove.
+     */
     public Player(){
         super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
 
@@ -69,7 +71,7 @@ public class Player extends Character {
 
         addComponent(phys);
 
-        addComponent(new DialogComponent());
+        //addComponent(new DialogComponent());
     }
 
     @Override

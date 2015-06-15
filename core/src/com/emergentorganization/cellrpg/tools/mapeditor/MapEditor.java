@@ -15,7 +15,7 @@ import com.kotcrab.vis.ui.widget.*;
  * Created by BrianErikson on 6/14/2015.
  */
 public class MapEditor extends Scene {
-    VisList<String> entityList;
+    private VisList<EntityListNode> entityList;
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
     public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
@@ -68,10 +68,19 @@ public class MapEditor extends Scene {
     }
 
     private void initLeftPane() {
-        entityList = new VisList<String>();
+        entityList = new VisList<EntityListNode>();
         entityList.setVisible(true);
 
-        entityList.setItems(EntityList.getList());
+        entityList.setItems(EntityList.get());
+
+        final VisList<EntityListNode> listRef = entityList;
+        entityList.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                EntityListNode node = listRef.getItems().get(listRef.getSelectedIndex());
+                System.out.println(node);
+            }
+        });
 
         VisScrollPane scrollPane = new VisScrollPane(entityList);
         scrollPane.setVisible(true);

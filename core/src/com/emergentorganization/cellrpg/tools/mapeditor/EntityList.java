@@ -11,7 +11,7 @@ import com.emergentorganization.cellrpg.entities.characters.npcs.CharCiv1Blinker
  * Created by BrianErikson on 6/15/2015.
  */
 public class EntityList {
-    public static Array<EntityListNode> getList() {
+    public static Array<EntityListNode> get() {
         Array<EntityListNode> list = new Array<EntityListNode>();
 
         list.add(new EntityListNode("The Edge", TheEdge.class));

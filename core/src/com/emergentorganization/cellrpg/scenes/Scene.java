@@ -42,7 +42,7 @@ public abstract class Scene implements Screen {
     private World physWorld;
     private static final double WORLD_WIDTH = 10000d;
     private static final double WORLD_HEIGHT = 10000d;
-    private InputMultiplexer input; // Not sure if should keep a reference for this
+    private InputMultiplexer input;
 
     public void create() {
         entities = new ArrayList<Entity>();
@@ -192,5 +192,9 @@ public abstract class Scene implements Screen {
 
     public World getWorld() {
         return physWorld;
+    }
+
+    public InputMultiplexer getInputMultiplexer() {
+        return input;
     }
 }

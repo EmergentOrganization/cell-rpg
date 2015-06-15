@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -16,6 +17,12 @@ import com.kotcrab.vis.ui.widget.*;
  */
 public class MapEditor extends Scene {
     private VisList<EntityListNode> entityList;
+    private EntityListNode selectedItem;
+    
+    private final Matrix3 scaler = new Matrix3();
+    private final Matrix3 rotator = new Matrix3();
+    private final Matrix3 translator = new Matrix3();
+    
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
     public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
@@ -30,6 +37,8 @@ public class MapEditor extends Scene {
 
         initLeftPane();
         initMenuBar();
+
+        getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
     }
 
     private void initMenuBar() {
@@ -72,13 +81,12 @@ public class MapEditor extends Scene {
         entityList.setVisible(true);
 
         entityList.setItems(EntityList.get());
-
+        selectedItem = entityList.getItems().get(entityList.getSelectedIndex());
         final VisList<EntityListNode> listRef = entityList;
         entityList.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                EntityListNode node = listRef.getItems().get(listRef.getSelectedIndex());
-                System.out.println(node);
+                selectedItem = listRef.getItems().get(listRef.getSelectedIndex());
             }
         });
 
@@ -109,5 +117,13 @@ public class MapEditor extends Scene {
     @Override
     public void hide() {
 
+    }
+
+    public EntityListNode getSelectedItem() {
+        return selectedItem;
+    }
+    
+    public Matrix3 getNewObjectTransform() {
+        return new Matrix3().mul(scaler).mul(rotator).mul(translator); // scale, rotate translate
     }
 }

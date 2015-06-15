@@ -39,7 +39,7 @@ public class MapEditor extends Scene {
         table.setHeight(MENU_BAR_HEIGHT);
         table.setPosition(LEFT_PANEL_WIDTH, Gdx.graphics.getHeight() - MENU_BAR_HEIGHT);
 
-        Menu modify = new Menu("Modify Object");
+        Menu modify = new Menu("Modify");
         modify.setSkin(VisUI.getSkin());
         menuBar.addMenu(modify);
 
@@ -71,31 +71,7 @@ public class MapEditor extends Scene {
         entityList = new VisList<String>();
         entityList.setVisible(true);
 
-        entityList.getItems().add("Test");
-        entityList.getItems().add("Test2");
-        entityList.getItems().add("Test3");
-        entityList.getItems().add("Test4");
-        entityList.getItems().add("Test5");
-        entityList.getItems().add("Test6");
-        entityList.getItems().add("Test7");
-        entityList.getItems().add("Test8");
-        entityList.getItems().add("Test9");
-        entityList.getItems().add("Test10Longer");
-        entityList.getItems().add("Tes0Loner");
-        entityList.getItems().add("Test10Lnger");
-        entityList.getItems().add("Test10ongr");
-        entityList.getItems().add("Test10ger");
-        entityList.getItems().add("Tes10Longer");
-        entityList.getItems().add("Test10onger");
-        entityList.getItems().add("Test10Loner");
-        entityList.getItems().add("Test10Logr");
-        entityList.getItems().add("Test10Lon");
-        entityList.getItems().add("TestLoger");
-        entityList.getItems().add("Test10Longe");
-        entityList.getItems().add("Test10Longer");
-        entityList.getItems().add("Tet10Longr");
-        entityList.getItems().add("Test0Longer");
-
+        entityList.setItems(EntityList.getList());
 
         VisScrollPane scrollPane = new VisScrollPane(entityList);
         scrollPane.setVisible(true);

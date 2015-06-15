@@ -3,19 +3,19 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.widget.VisList;
-import com.kotcrab.vis.ui.widget.VisScrollPane;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.*;
 
 /**
  * Created by BrianErikson on 6/14/2015.
  */
 public class MapEditor extends Scene {
     VisList<String> entityList;
-    public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
+    public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 20f;
+    public static float LEFT_PANEL_WIDTH = (Gdx.graphics.getWidth() / 5f) - MENU_BAR_HEIGHT;
 
     @Override
     public void create() {
@@ -25,6 +25,26 @@ public class MapEditor extends Scene {
         setClearColor(new Vector3(1, 1, 1));
 
         initLeftPane();
+        initMenuBar();
+    }
+
+    private void initMenuBar() {
+        MenuBar menuBar = new MenuBar();
+        Table table = menuBar.getTable();
+        table.setWidth(Gdx.graphics.getWidth());
+        table.setHeight(MENU_BAR_HEIGHT);
+        table.setPosition(0f, Gdx.graphics.getHeight() - MENU_BAR_HEIGHT);
+
+        Menu translate = new Menu("Translate");
+        menuBar.addMenu(translate);
+
+        Menu rotate = new Menu("Rotate");
+        menuBar.addMenu(rotate);
+
+        Menu scale = new Menu("Scale");
+        menuBar.addMenu(scale);
+
+        getUiStage().addActor(menuBar.getTable());
     }
 
     private void initLeftPane() {

@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.tools.mapeditor;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix3;
@@ -35,29 +36,20 @@ public class EditorInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // TODO: If raycast doesn't hit object that isn't background layer, spawn a new object
-        try {
-            Entity entity = editor.getSelectedItem().entity.newInstance();
+        Vector3 screenVec = editor.getUiStage().getCamera().unproject(new Vector3(screenX, screenY, 0f));
+        /*Ray ray = new Ray(new org.dyn4j.geometry.Vector2(mousePos.x, mousePos.y), new org.dyn4j.geometry.Vector2(0, -1));
 
-            Matrix3 transform = editor.getNewObjectTransform();
-            MovementComponent mc = entity.getMovementComponent();
+        ArrayList<RaycastResult> results = new ArrayList<RaycastResult>();
+        editor.getWorld().raycast(ray, 1000d, false, false, results);*/
 
-            mc.setScale(transform.getScale(new Vector2()));
-            mc.setRotation(transform.getRotation());
+        //if (results.get(0)) // TODO: configure entities to store refs in userdata of body
 
-            Vector3 pos = new Vector3(screenX, screenY, 0f);
-            Vector3 unproject = editor.getGameCamera().unproject(pos);
-            Vector2 mousePos = new Vector2(unproject.x, unproject.y);
-            mc.setWorldPosition(transform.getTranslation(new Vector2()).add(mousePos));
-
-            editor.addEntity(entity);
-
-            //System.out.println("Spawning " + entity.getClass().getName());
-            //System.out.println(transform);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        if (button == Input.Buttons.LEFT) {
+            editor.setLastLMBClick(new Vector2(screenVec.x, screenVec.y));
+        }
+        else if (button == Input.Buttons.RIGHT) {
+            editor.setLastRMBClick(new Vector2(screenVec.x, screenVec.y));
+            editor.openContextMenu();
         }
 
         return false;
@@ -88,5 +80,19 @@ public class EditorInputProcessor implements InputProcessor {
         }
         camera.update();
         return false;
+    }
+
+    private void addSelectedEntity(Vector2 mousePos) throws IllegalAccessException, InstantiationException {
+        Entity entity = editor.getSelectedItem().entity.newInstance();
+
+        Matrix3 transform = editor.getNewObjectTransform();
+        MovementComponent mc = entity.getMovementComponent();
+
+        mc.setScale(transform.getScale(new Vector2()));
+        mc.setRotation(transform.getRotation());
+        mc.setWorldPosition(transform.getTranslation(new Vector2()).add(mousePos));
+
+
+        editor.addEntity(entity);
     }
 }

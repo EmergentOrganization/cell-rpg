@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
@@ -31,6 +32,8 @@ public class MapEditor extends Scene {
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
     public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
+    public static float MOVE_SPEED = 2f;
+
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
     public final Vector2 rayStart = new Vector2(); // in world space
@@ -163,6 +166,8 @@ public class MapEditor extends Scene {
     public void render(float delta) {
         super.render(delta);
 
+        handleInput();
+
         Vector3 rayA = getGameCamera().project(new Vector3(rayStart.x, rayStart.y, 0f));
         Vector3 rayB = getGameCamera().project(new Vector3(rayEnd.x, rayEnd.y, 0f));
 
@@ -175,6 +180,31 @@ public class MapEditor extends Scene {
         //shapeRenderer.rect(0, 0, 10000f, 10f * getGameCamera().zoom, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
         shapeRenderer.rectLine(rayA.x, rayA.y, rayB.x, rayB.y, 2f);
         shapeRenderer.end();
+    }
+
+    private void handleInput() {
+        boolean update = false;
+
+        float speed = MOVE_SPEED * getGameCamera().zoom;
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            update = true;
+            getGameCamera().position.add(0f, speed, 0f);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            update = true;
+            getGameCamera().position.add(0f, -speed, 0f);
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            update = true;
+            getGameCamera().position.add(speed, 0f, 0f);
+        }
+        else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            update = true;
+            getGameCamera().position.add(-speed, 0f, 0f);
+        }
+
+        if (update) getGameCamera().update();
     }
 
     @Override

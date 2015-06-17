@@ -1,16 +1,16 @@
 package com.emergentorganization.cellrpg.physics;
 
-import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.entities.Entity;
 
 /**
  * Created by BrianErikson on 6/8/2015.
  */
 public class CellUserData {
     public final Tag tag;
-    public final MovementComponent movementComponent;
+    public final Entity entity;
 
-    public CellUserData(MovementComponent movementComponent, Tag tag) {
-        this.movementComponent = movementComponent;
+    public CellUserData(Entity entity, Tag tag) {
+        this.entity = entity;
         this.tag = tag;
     }
 }

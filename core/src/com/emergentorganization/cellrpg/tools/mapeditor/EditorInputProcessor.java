@@ -3,15 +3,17 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.components.ComponentType;
+import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
-import org.dyn4j.dynamics.RaycastResult;
-import org.dyn4j.geometry.Ray;
+import com.emergentorganization.cellrpg.physics.CellUserData;
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.AABB;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by BrianErikson on 6/15/2015.
@@ -52,14 +54,23 @@ public class EditorInputProcessor implements InputProcessor {
             editor.setLastLMBClick(new Vector2(screenVec.x, screenVec.y));
 
             Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenX, screenY, 0f));
-            Ray ray = new Ray(new org.dyn4j.geometry.Vector2(gameVec.x - 10f, gameVec.y), new org.dyn4j.geometry.Vector2(1, 0));
-            editor.rayStart.set(gameVec.x - 2f, gameVec.y);
-            editor.rayEnd.set(gameVec.x + 2f, gameVec.y);
+            AABB ab = new AABB(10f);
+            ab.translate(new org.dyn4j.geometry.Vector2(gameVec.x, gameVec.y));
+            List<Body> results = editor.getWorld().detect(ab);
 
-            ArrayList<RaycastResult> results = new ArrayList<RaycastResult>();
-            editor.getWorld().raycast(ray, 4d, false, false, results);
-
-            if (results.size() > 0) System.out.println("Hit something!!");
+            if (results.size() > 0) {
+                Entity entity = ((CellUserData) results.get(0).getUserData()).entity;
+                SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
+                if (sc != null) {
+                    Sprite sprite = sc.getSprite();
+                    Vector2 size = new Vector2(sprite.getWidth() * sprite.getScaleX(),
+                                                sprite.getHeight() * sprite.getScaleY());
+                    editor.setMapTarget(new MapTarget(entity, size, entity.getMovementComponent()));
+                }
+            }
+            else {
+                editor.setMapTarget(null);
+            }
         }
         else if (button == Input.Buttons.RIGHT) {
             editor.setLastRMBClick(new Vector2(screenVec.x, screenVec.y));
@@ -94,19 +105,5 @@ public class EditorInputProcessor implements InputProcessor {
         }
         camera.update();
         return false;
-    }
-
-    private void addSelectedEntity(Vector2 mousePos) throws IllegalAccessException, InstantiationException {
-        Entity entity = editor.getSelectedItem().entity.newInstance();
-
-        Matrix3 transform = editor.getNewObjectTransform();
-        MovementComponent mc = entity.getMovementComponent();
-
-        mc.setScale(transform.getScale(new Vector2()));
-        mc.setRotation(transform.getRotation());
-        mc.setWorldPosition(transform.getTranslation(new Vector2()).add(mousePos));
-
-
-        editor.addEntity(entity);
     }
 }

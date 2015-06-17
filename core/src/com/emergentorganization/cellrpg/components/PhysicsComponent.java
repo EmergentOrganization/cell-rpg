@@ -85,7 +85,7 @@ public class PhysicsComponent extends BaseComponent {
 
         moveComponent = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
         if (body.getUserData() == null) {
-            body.setUserData(new CellUserData(moveComponent, tag));
+            body.setUserData(new CellUserData(getEntity(), tag));
         }
         AABB ab = body.createAABB();
         size = new org.dyn4j.geometry.Vector2(ab.getWidth(), ab.getHeight());

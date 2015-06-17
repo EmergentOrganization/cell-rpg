@@ -49,7 +49,7 @@ public class CharCiv1Blinker extends Character {
         float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.CHAR_CIV1_BLINKER);
-        phys.setUserData(new CellUserData(getMovementComponent(), Tag.CHAR_CIV1_BLINKER));
+        phys.setUserData(new CellUserData(this, Tag.CHAR_CIV1_BLINKER));
         addComponent(phys);
     }
 

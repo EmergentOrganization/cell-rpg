@@ -47,7 +47,7 @@ public class CharacterCollisionListener extends CollisionAdapter {
      * @param depth the depth of the collision
      */
     private void handle(CellUserData data, Vector2 normal, float depth) {
-        MovementComponent mc = data.movementComponent;
+        MovementComponent mc = data.entity.getMovementComponent();
         normal.scl(depth);
         mc.setWorldPosition(mc.getWorldPosition().add(normal));
     }

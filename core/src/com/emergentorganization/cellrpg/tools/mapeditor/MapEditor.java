@@ -34,12 +34,15 @@ public class MapEditor extends Scene {
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
     public static float MOVE_SPEED = 2f;
 
+    public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
+
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
     public final Vector2 rayStart = new Vector2(); // in world space
     public final Vector2 rayEnd = new Vector2(); // in world space
     private PopupMenu contextMenu;
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private MapTarget target = null;
 
     @Override
     public void create() {
@@ -53,6 +56,7 @@ public class MapEditor extends Scene {
         initContextMenu();
 
         getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
+
     }
 
     private void initContextMenu() {
@@ -172,14 +176,31 @@ public class MapEditor extends Scene {
         Vector3 rayB = getGameCamera().project(new Vector3(rayEnd.x, rayEnd.y, 0f));
 
         float offset = 15f;
-        shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.begin();
-        shapeRenderer.rectLine(lastLMBClick.x - offset, lastLMBClick.y, lastLMBClick.x + offset, lastLMBClick.y, 10f);
-        shapeRenderer.rectLine(lastLMBClick.x, lastLMBClick.y - offset, lastLMBClick.x, lastLMBClick.y + offset, 10f);
-        //shapeRenderer.rect(0, 0, 10f * getGameCamera().zoom, 10000f, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
-        //shapeRenderer.rect(0, 0, 10000f, 10f * getGameCamera().zoom, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+        shapeRenderer.setProjectionMatrix(getGameCamera().combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        if (target != null) {
+            Vector2 size = target.size;
+            Vector2 pos = target.movementComponent.getWorldPosition();
+            drawBoundingBox(size, new Vector2(pos.x, pos.y));
+        }
+        shapeRenderer.setProjectionMatrix(getUiStage().getCamera().combined);
+        shapeRenderer.rectLine(lastLMBClick.x - offset, lastLMBClick.y, lastLMBClick.x + offset, lastLMBClick.y, 1f);
+        shapeRenderer.rectLine(lastLMBClick.x, lastLMBClick.y - offset, lastLMBClick.x, lastLMBClick.y + offset, 1f);
         shapeRenderer.rectLine(rayA.x, rayA.y, rayB.x, rayB.y, 2f);
         shapeRenderer.end();
+    }
+
+    /**
+     * Must call between ShapeRenderer.begin() and ShapeRenderer.end()
+     * @param size Scaled size of the object
+     * @param pos center origin of object
+     */
+    private void drawBoundingBox(Vector2 size, Vector2 pos) {
+        Vector2 hs = size.cpy().scl(0.5f);
+        shapeRenderer.rectLine(pos.x - hs.x, pos.y - hs.y, pos.x + hs.x, pos.y - hs.y, BB_THICKNESS); // bl to br
+        shapeRenderer.rectLine(pos.x + hs.x, pos.y - hs.y, pos.x + hs.x, pos.y + hs.y, BB_THICKNESS); // br to tr
+        shapeRenderer.rectLine(pos.x + hs.x, pos.y + hs.y, pos.x - hs.x, pos.y + hs.y, BB_THICKNESS); // tr to tl
+        shapeRenderer.rectLine(pos.x - hs.x, pos.y + hs.y, pos.x - hs.x, pos.y - hs.y, BB_THICKNESS); // tl to bl
     }
 
     private void handleInput() {
@@ -243,4 +264,10 @@ public class MapEditor extends Scene {
     public void closeContextMenu() {
         contextMenu.remove();
     }
+
+    public void setMapTarget(MapTarget target) {
+        this.target = target;
+    }
+
+    public MapTarget getMapTarget() { return target; }
 }

@@ -34,11 +34,11 @@ public class PlayerCollisionListener extends CharacterCollisionListener {
     }
 
     private void updateDestination(PlayerUserData data) {
-        data.movementComponent.removeDest();
+        data.entity.getMovementComponent().removeDest();
         Vector2 next = data.cr.getFirst();
         if (next != null) {
             //System.out.println("Collision. Getting next coord");
-            data.movementComponent.setDest(next);
+            data.entity.getMovementComponent().setDest(next);
         }
     }
 }

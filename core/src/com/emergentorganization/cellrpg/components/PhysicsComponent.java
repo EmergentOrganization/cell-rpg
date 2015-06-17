@@ -33,7 +33,7 @@ public class PhysicsComponent extends BaseComponent {
         this.tag = tag;
         body.setMassType(Mass.Type.FIXED_ANGULAR_VELOCITY);
         world.addBody(body);
-        //enableDebugRenderer(true);
+        enableDebugRenderer(true);
     }
 
     @Override
@@ -73,7 +73,6 @@ public class PhysicsComponent extends BaseComponent {
                 }
             }
         }
-
     }
 
     public void setUserData(CellUserData data) {
@@ -97,7 +96,7 @@ public class PhysicsComponent extends BaseComponent {
         super.update(deltaTime);
 
         Vector2 pos = moveComponent.getWorldPosition();
-        body.getTransform().setTranslation(pos.x - (size.x / 2f), pos.y - (size.y / 2f));
+        body.getTransform().setTranslation(pos.x - (size.x / 2d), pos.y - (size.y / 2d));
     }
 
     @Override

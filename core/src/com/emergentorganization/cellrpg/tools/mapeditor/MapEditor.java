@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -22,9 +23,9 @@ public class MapEditor extends Scene {
     private VisList<EntityListNode> entityList;
     private EntityListNode selectedItem;
     
-    private final Matrix3 scaler = new Matrix3();
+    private final Matrix3 scaler = new Matrix3().setToScaling(Scene.scale, Scene.scale);
     private final Matrix3 rotator = new Matrix3();
-    private final Matrix3 translator = new Matrix3().scale(Scene.scale, Scene.scale);
+    private final Matrix3 translator = new Matrix3();
     
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
@@ -32,7 +33,10 @@ public class MapEditor extends Scene {
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
+    public final Vector2 rayStart = new Vector2(); // in world space
+    public final Vector2 rayEnd = new Vector2(); // in world space
     private PopupMenu contextMenu;
+    private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     @Override
     public void create() {
@@ -156,6 +160,24 @@ public class MapEditor extends Scene {
     }
 
     @Override
+    public void render(float delta) {
+        super.render(delta);
+
+        Vector3 rayA = getGameCamera().project(new Vector3(rayStart.x, rayStart.y, 0f));
+        Vector3 rayB = getGameCamera().project(new Vector3(rayEnd.x, rayEnd.y, 0f));
+
+        float offset = 15f;
+        shapeRenderer.setAutoShapeType(true);
+        shapeRenderer.begin();
+        shapeRenderer.rectLine(lastLMBClick.x - offset, lastLMBClick.y, lastLMBClick.x + offset, lastLMBClick.y, 10f);
+        shapeRenderer.rectLine(lastLMBClick.x, lastLMBClick.y - offset, lastLMBClick.x, lastLMBClick.y + offset, 10f);
+        //shapeRenderer.rect(0, 0, 10f * getGameCamera().zoom, 10000f, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+        //shapeRenderer.rect(0, 0, 10000f, 10f * getGameCamera().zoom, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY, Color.LIGHT_GRAY);
+        shapeRenderer.rectLine(rayA.x, rayA.y, rayB.x, rayB.y, 2f);
+        shapeRenderer.end();
+    }
+
+    @Override
     public void hide() {
 
     }
@@ -177,11 +199,11 @@ public class MapEditor extends Scene {
     }
 
     public Vector2 getLastLMBClick() {
-        return lastRMBClick.cpy();
+        return lastLMBClick.cpy();
     }
 
     public void setLastLMBClick(Vector2 vec) {
-        lastRMBClick.set(vec);
+        lastLMBClick.set(vec);
     }
 
     public void openContextMenu() {

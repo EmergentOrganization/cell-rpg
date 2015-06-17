@@ -8,6 +8,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
+import org.dyn4j.dynamics.RaycastResult;
+import org.dyn4j.geometry.Ray;
+
+import java.util.ArrayList;
 
 /**
  * Created by BrianErikson on 6/15/2015.
@@ -46,6 +50,16 @@ public class EditorInputProcessor implements InputProcessor {
 
         if (button == Input.Buttons.LEFT) {
             editor.setLastLMBClick(new Vector2(screenVec.x, screenVec.y));
+
+            Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenX, screenY, 0f));
+            Ray ray = new Ray(new org.dyn4j.geometry.Vector2(gameVec.x - 10f, gameVec.y), new org.dyn4j.geometry.Vector2(1, 0));
+            editor.rayStart.set(gameVec.x - 2f, gameVec.y);
+            editor.rayEnd.set(gameVec.x + 2f, gameVec.y);
+
+            ArrayList<RaycastResult> results = new ArrayList<RaycastResult>();
+            editor.getWorld().raycast(ray, 4d, false, false, results);
+
+            if (results.size() > 0) System.out.println("Hit something!!");
         }
         else if (button == Input.Buttons.RIGHT) {
             editor.setLastRMBClick(new Vector2(screenVec.x, screenVec.y));

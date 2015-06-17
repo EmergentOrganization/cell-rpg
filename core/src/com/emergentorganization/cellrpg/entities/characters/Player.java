@@ -55,18 +55,20 @@ public class Player extends Character {
     public void added() {
         super.added();
 
-        camera = getScene().getGameCamera();
-        camera.position.set(getMovementComponent().getWorldPosition()
-                                                    .sub(camera.viewportWidth /2f, camera.viewportHeight /2f), 0f);
-
-        PlayerInputComponent playerInput = new PlayerInputComponent(camera);
-        addComponent(playerInput);
-
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
         float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
-        phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));
+
+        if (!getScene().isEditor()) {
+            camera = getScene().getGameCamera();
+            camera.position.set(getMovementComponent().getWorldPosition()
+                    .sub(camera.viewportWidth /2f, camera.viewportHeight /2f), 0f);
+
+            PlayerInputComponent playerInput = new PlayerInputComponent(camera);
+            addComponent(playerInput);
+            phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));
+        }
         //phys.enableDebugRenderer(true);
 
         addComponent(phys);

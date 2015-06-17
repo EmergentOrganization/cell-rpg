@@ -97,10 +97,8 @@ public abstract class Scene implements Screen {
 
         handleQueue();
 
-        if (!isEditor) {
-            for (Entity entity : entities) {
-                entity.update(delta);
-            }
+        for (Entity entity : entities) {
+            entity.update(delta);
         }
 
         uiStage.act();
@@ -204,5 +202,9 @@ public abstract class Scene implements Screen {
 
     protected void setToEditor() {
         isEditor = true;
+    }
+
+    public boolean isEditor() {
+        return isEditor;
     }
 }

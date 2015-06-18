@@ -116,8 +116,6 @@ public abstract class Scene implements Screen {
             entity.debugRender(debugRenderer);
         }
         debugRenderer.end();
-
-        uiStage.draw();
     }
 
     @Override
@@ -137,6 +135,10 @@ public abstract class Scene implements Screen {
         }
         uiStage.dispose();
         physWorld.removeAllBodiesAndJoints();
+    }
+
+    public void drawUI() {
+        uiStage.draw();
     }
 
     public void addEntity(Entity e) {

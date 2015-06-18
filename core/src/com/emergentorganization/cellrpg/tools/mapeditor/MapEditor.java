@@ -16,6 +16,7 @@ import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
+import org.dyn4j.collision.AxisAlignedBounds;
 
 /**
  * Created by BrianErikson on 6/14/2015.
@@ -44,6 +45,7 @@ public class MapEditor extends Scene {
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private MapTarget target = null;
+    private Vector2 worldSize;
 
     @Override
     public void create() {
@@ -58,6 +60,10 @@ public class MapEditor extends Scene {
 
         getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
 
+        AxisAlignedBounds bounds = (AxisAlignedBounds) getWorld().getBounds();
+        float width = (float) bounds.getBounds().getWidth();
+        float height = (float) bounds.getBounds().getHeight();
+        worldSize = new Vector2(width, height);
     }
 
     private void initContextMenu() {
@@ -177,16 +183,25 @@ public class MapEditor extends Scene {
         float offset = 15f;
         shapeRenderer.setProjectionMatrix(getGameCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        // World bounds
+        drawBoundingBox(worldSize, worldSize.cpy().scl(0.5f));
+
+        // selected object bounds
         if (target != null) {
             Vector2 size = target.size;
             Vector2 pos = target.movementComponent.getWorldPosition();
             drawBoundingBox(size, new Vector2(pos.x, pos.y));
         }
+
+        //debug lines
         shapeRenderer.setProjectionMatrix(getUiStage().getCamera().combined);
         shapeRenderer.rectLine(lastLMBClick.x - offset, lastLMBClick.y, lastLMBClick.x + offset, lastLMBClick.y, 1f);
         shapeRenderer.rectLine(lastLMBClick.x, lastLMBClick.y - offset, lastLMBClick.x, lastLMBClick.y + offset, 1f);
         shapeRenderer.rectLine(rayA.x, rayA.y, rayB.x, rayB.y, 2f);
         shapeRenderer.end();
+
+        drawUI();
 
         handleInput();
     }

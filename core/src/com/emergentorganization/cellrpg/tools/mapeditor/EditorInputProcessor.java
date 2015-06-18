@@ -10,9 +10,10 @@ import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.CellUserData;
-import org.dyn4j.dynamics.RaycastResult;
+import org.dyn4j.dynamics.Body;
+import org.dyn4j.geometry.AABB;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by BrianErikson on 6/15/2015.
@@ -58,32 +59,34 @@ public class EditorInputProcessor implements InputProcessor {
         editor.setLastLMBClick(new Vector2(uiVec.x, uiVec.y));
 
         Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
-        editor.rayStart.set(gameVec.x - 5f, gameVec.y);
-        editor.rayEnd.set(gameVec.x + 5f, gameVec.y);
+        AABB box = new AABB(1d);
+        org.dyn4j.geometry.Vector2 point = new org.dyn4j.geometry.Vector2(gameVec.x, gameVec.y);
+        box.translate(point);
+        List<Body> detect = editor.getWorld().detect(box);
 
-        ArrayList<RaycastResult> results = new ArrayList<RaycastResult>();
-
-        boolean intersect = editor.getWorld().raycast(new org.dyn4j.geometry.Vector2(gameVec.x - 5f, gameVec.y),
-                new org.dyn4j.geometry.Vector2(gameVec.x + 5f, gameVec.y), false, false, results);
-        // TODO: Raycasting not consistent
-
-        if (intersect) {
-            Entity entity = ((CellUserData) results.get(0).getBody().getUserData()).entity;
-            SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
-            SpriteComponent gc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.GRAPHICS);
-            if (sc != null) {
-                setMapTarget(sc.getSprite(), entity);
-            }
-            else if (gc != null) {
-                setMapTarget(gc.getSprite(), entity);
-            }
-            else {
-                throw new RuntimeException("Cannot select a component with no render-able component");
+        boolean foundBody = false;
+        for (Body body : detect) {
+            if (body.contains(point)) {
+                foundBody = true;
+                System.out.println("found body");
+                Entity entity = ((CellUserData) body.getUserData()).entity;
+                SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
+                SpriteComponent gc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.GRAPHICS);
+                if (sc != null) {
+                    System.out.println("Sprite component");
+                    setMapTarget(sc.getSprite(), entity);
+                }
+                else if (gc != null) {
+                    System.out.println("Graphics component");
+                    setMapTarget(gc.getSprite(), entity);
+                }
+                else {
+                    throw new RuntimeException("Cannot select a component with no render-able component");
+                }
             }
         }
-        else {
-            editor.setMapTarget(null);
-        }
+
+        if (!foundBody) editor.setMapTarget(null);
     }
 
     private void onRightClick(Vector2 screenPos) {

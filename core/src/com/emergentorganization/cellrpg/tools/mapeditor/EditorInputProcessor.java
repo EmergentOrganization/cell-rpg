@@ -10,10 +10,9 @@ import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.CellUserData;
-import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.AABB;
+import org.dyn4j.dynamics.RaycastResult;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by BrianErikson on 6/15/2015.
@@ -42,42 +41,61 @@ public class EditorInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector3 screenVec = editor.getUiStage().getCamera().unproject(new Vector3(screenX, screenY, 0f));
-        /*Ray ray = new Ray(new org.dyn4j.geometry.Vector2(mousePos.x, mousePos.y), new org.dyn4j.geometry.Vector2(0, -1));
 
-        ArrayList<RaycastResult> results = new ArrayList<RaycastResult>();
-        editor.getWorld().raycast(ray, 1000d, false, false, results);*/
-
-        //if (results.get(0)) // TODO: configure entities to store refs in userdata of body
-
+        Vector2 screenCoords = new Vector2(screenX, screenY);
         if (button == Input.Buttons.LEFT) {
-            editor.setLastLMBClick(new Vector2(screenVec.x, screenVec.y));
-
-            Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenX, screenY, 0f));
-            AABB ab = new AABB(10f);
-            ab.translate(new org.dyn4j.geometry.Vector2(gameVec.x, gameVec.y));
-            List<Body> results = editor.getWorld().detect(ab);
-
-            if (results.size() > 0) {
-                Entity entity = ((CellUserData) results.get(0).getUserData()).entity;
-                SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
-                if (sc != null) {
-                    Sprite sprite = sc.getSprite();
-                    Vector2 size = new Vector2(sprite.getWidth() * sprite.getScaleX(),
-                                                sprite.getHeight() * sprite.getScaleY());
-                    editor.setMapTarget(new MapTarget(entity, size, entity.getMovementComponent()));
-                }
-            }
-            else {
-                editor.setMapTarget(null);
-            }
+            onLeftClick(screenCoords);
         }
         else if (button == Input.Buttons.RIGHT) {
-            editor.setLastRMBClick(new Vector2(screenVec.x, screenVec.y));
-            editor.openContextMenu();
+            onRightClick(screenCoords);
         }
 
         return false;
+    }
+
+    private void onLeftClick(Vector2 screenCoords) {
+        Vector3 uiVec = editor.getUiStage().getCamera().unproject(new Vector3(screenCoords, 0f));
+        editor.setLastLMBClick(new Vector2(uiVec.x, uiVec.y));
+
+        Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
+        editor.rayStart.set(gameVec.x - 5f, gameVec.y);
+        editor.rayEnd.set(gameVec.x + 5f, gameVec.y);
+
+        ArrayList<RaycastResult> results = new ArrayList<RaycastResult>();
+
+        boolean intersect = editor.getWorld().raycast(new org.dyn4j.geometry.Vector2(gameVec.x - 5f, gameVec.y),
+                new org.dyn4j.geometry.Vector2(gameVec.x + 5f, gameVec.y), false, false, results);
+        // TODO: Raycasting not consistent
+
+        if (intersect) {
+            Entity entity = ((CellUserData) results.get(0).getBody().getUserData()).entity;
+            SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
+            SpriteComponent gc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.GRAPHICS);
+            if (sc != null) {
+                setMapTarget(sc.getSprite(), entity);
+            }
+            else if (gc != null) {
+                setMapTarget(gc.getSprite(), entity);
+            }
+            else {
+                throw new RuntimeException("Cannot select a component with no render-able component");
+            }
+        }
+        else {
+            editor.setMapTarget(null);
+        }
+    }
+
+    private void onRightClick(Vector2 screenPos) {
+        Vector3 worldPos = editor.getUiStage().getCamera().unproject(new Vector3(screenPos.x, screenPos.y, 0f));
+        editor.setLastRMBClick(new Vector2(worldPos.x, worldPos.y));
+        editor.openContextMenu();
+    }
+
+    private void setMapTarget(Sprite sprite, Entity entity) {
+        Vector2 size = new Vector2(sprite.getWidth() * sprite.getScaleX(),
+                sprite.getHeight() * sprite.getScaleY());
+        editor.setMapTarget(new MapTarget(entity, size, entity.getMovementComponent()));
     }
 
     @Override

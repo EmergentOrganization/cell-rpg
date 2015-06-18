@@ -79,7 +79,9 @@ public class Player extends Character {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        updateCameraPos(deltaTime);
+
+        if (!getScene().isEditor())
+            updateCameraPos(deltaTime);
     }
 
     private void updateCameraPos(float deltaTime){

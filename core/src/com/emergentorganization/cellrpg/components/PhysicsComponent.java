@@ -25,6 +25,7 @@ public class PhysicsComponent extends BaseComponent {
     private Tag tag;
     private boolean rendering = false;
     private org.dyn4j.geometry.Vector2 size;
+    public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
 
     public PhysicsComponent(World world, Body body, Tag tag) {
         type = ComponentType.PHYSICS;
@@ -73,6 +74,22 @@ public class PhysicsComponent extends BaseComponent {
                 }
             }
         }
+
+        AABB ab = body.createAABB();
+        drawBoundingBox(renderer, new Vector2((float)ab.getWidth(), (float)ab.getHeight()), getEntity().getMovementComponent().getWorldPosition());
+    }
+
+    /**
+     * Must call between ShapeRenderer.begin() and ShapeRenderer.end()
+     * @param size Scaled size of the object
+     * @param pos center origin of object
+     */
+    private void drawBoundingBox(ShapeRenderer shapeRenderer, Vector2 size, Vector2 pos) {
+        Vector2 hs = size.cpy().scl(0.5f);
+        shapeRenderer.rectLine(pos.x - hs.x, pos.y - hs.y, pos.x + hs.x, pos.y - hs.y, BB_THICKNESS); // bl to br
+        shapeRenderer.rectLine(pos.x + hs.x, pos.y - hs.y, pos.x + hs.x, pos.y + hs.y, BB_THICKNESS); // br to tr
+        shapeRenderer.rectLine(pos.x + hs.x, pos.y + hs.y, pos.x - hs.x, pos.y + hs.y, BB_THICKNESS); // tr to tl
+        shapeRenderer.rectLine(pos.x - hs.x, pos.y + hs.y, pos.x - hs.x, pos.y - hs.y, BB_THICKNESS); // tl to bl
     }
 
     public void setUserData(CellUserData data) {

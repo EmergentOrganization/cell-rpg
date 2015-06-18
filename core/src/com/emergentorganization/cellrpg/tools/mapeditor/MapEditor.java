@@ -32,16 +32,17 @@ public class MapEditor extends Scene {
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
     public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
-    public static float MOVE_SPEED = 2f;
+    public static float MOVE_SPEED = 20f;
 
     public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
 
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
-    public final Vector2 rayStart = new Vector2(); // in world space
-    public final Vector2 rayEnd = new Vector2(); // in world space
+    public final Vector2 rayStart = new Vector2(); // in game space
+    public final Vector2 rayEnd = new Vector2(); // in game space
     private PopupMenu contextMenu;
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
+
     private MapTarget target = null;
 
     @Override
@@ -170,8 +171,6 @@ public class MapEditor extends Scene {
     public void render(float delta) {
         super.render(delta);
 
-        handleInput();
-
         Vector3 rayA = getGameCamera().project(new Vector3(rayStart.x, rayStart.y, 0f));
         Vector3 rayB = getGameCamera().project(new Vector3(rayEnd.x, rayEnd.y, 0f));
 
@@ -188,6 +187,8 @@ public class MapEditor extends Scene {
         shapeRenderer.rectLine(lastLMBClick.x, lastLMBClick.y - offset, lastLMBClick.x, lastLMBClick.y + offset, 1f);
         shapeRenderer.rectLine(rayA.x, rayA.y, rayB.x, rayB.y, 2f);
         shapeRenderer.end();
+
+        handleInput();
     }
 
     /**
@@ -206,7 +207,7 @@ public class MapEditor extends Scene {
     private void handleInput() {
         boolean update = false;
 
-        float speed = MOVE_SPEED * getGameCamera().zoom;
+        float speed = MOVE_SPEED * getGameCamera().zoom * Gdx.graphics.getDeltaTime();
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             update = true;
             getGameCamera().position.add(0f, speed, 0f);

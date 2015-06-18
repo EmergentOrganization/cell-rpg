@@ -185,7 +185,8 @@ public class MapEditor extends Scene {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // World bounds
-        drawBoundingBox(worldSize, worldSize.cpy().scl(0.5f));
+        org.dyn4j.geometry.Vector2 worldPos = getWorld().getBounds().getTransform().getTranslation();
+        drawBoundingBox(worldSize, new Vector2((float)worldPos.x, (float)worldPos.y));
 
         // selected object bounds
         if (target != null) {

@@ -69,6 +69,7 @@ public abstract class Scene implements Screen {
         BodyLoader.fetch(); // initialize bodyLoader if it isn't already
 
         physWorld = new World(new AxisAlignedBounds(WORLD_WIDTH, WORLD_HEIGHT));
+        physWorld.getBounds().getTransform().setTranslation(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d);
     }
 
     @Override

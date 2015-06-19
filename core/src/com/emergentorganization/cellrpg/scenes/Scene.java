@@ -17,9 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
-import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.World;
-import org.dyn4j.geometry.Vector2;
 
 import java.util.*;
 
@@ -69,8 +67,8 @@ public abstract class Scene implements Screen {
 
         BodyLoader.fetch(); // initialize bodyLoader if it isn't already
 
-        physWorld = new World(new AxisAlignedBounds(WORLD_WIDTH, WORLD_HEIGHT));
-        physWorld.shiftCoordinates(new Vector2(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d));
+        physWorld = new World();
+        //physWorld.shiftCoordinates(new Vector2(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d));
     }
 
     @Override

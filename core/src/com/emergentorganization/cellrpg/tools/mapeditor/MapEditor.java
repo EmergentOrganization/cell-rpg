@@ -2,6 +2,7 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
@@ -16,7 +17,6 @@ import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
-import org.dyn4j.collision.AxisAlignedBounds;
 
 /**
  * Created by BrianErikson on 6/14/2015.
@@ -45,7 +45,7 @@ public class MapEditor extends Scene {
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private MapTarget target = null;
-    private Vector2 worldSize;
+    //private Vector2 worldSize;
 
     @Override
     public void create() {
@@ -60,10 +60,10 @@ public class MapEditor extends Scene {
 
         getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
 
-        AxisAlignedBounds bounds = (AxisAlignedBounds) getWorld().getBounds();
-        float width = (float) bounds.getBounds().getWidth();
-        float height = (float) bounds.getBounds().getHeight();
-        worldSize = new Vector2(width, height);
+        //AxisAlignedBounds bounds = (AxisAlignedBounds) getWorld().getBounds();
+        //float width = (float) bounds.getBounds().getWidth();
+        //float height = (float) bounds.getBounds().getHeight();
+        //worldSize = new Vector2(width, height);
     }
 
     private void initContextMenu() {
@@ -180,13 +180,12 @@ public class MapEditor extends Scene {
         Vector3 rayA = getGameCamera().project(new Vector3(rayStart.x, rayStart.y, 0f));
         Vector3 rayB = getGameCamera().project(new Vector3(rayEnd.x, rayEnd.y, 0f));
 
-        float offset = 15f;
         shapeRenderer.setProjectionMatrix(getGameCamera().combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        // World bounds
-        org.dyn4j.geometry.Vector2 worldPos = getWorld().getBounds().getTransform().getTranslation();
-        drawBoundingBox(worldSize, new Vector2((float)worldPos.x, (float)worldPos.y));
+        // x / y axis
+        shapeRenderer.rect(0f, 0f, 10000f, 0.1f * getGameCamera().zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0f, 0f, 0.1f * getGameCamera().zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
 
         // selected object bounds
         if (target != null) {
@@ -196,6 +195,7 @@ public class MapEditor extends Scene {
         }
 
         //debug lines
+        float offset = 15f;
         shapeRenderer.setProjectionMatrix(getUiStage().getCamera().combined);
         shapeRenderer.rectLine(lastLMBClick.x - offset, lastLMBClick.y, lastLMBClick.x + offset, lastLMBClick.y, 1f);
         shapeRenderer.rectLine(lastLMBClick.x, lastLMBClick.y - offset, lastLMBClick.x, lastLMBClick.y + offset, 1f);

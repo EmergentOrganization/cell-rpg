@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.tools.mapeditor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -62,22 +63,22 @@ public class EditorInputProcessor implements InputProcessor {
         AABB box = new AABB(1d);
         org.dyn4j.geometry.Vector2 point = new org.dyn4j.geometry.Vector2(gameVec.x, gameVec.y);
         box.translate(point);
-        List<Body> detect = editor.getWorld().detect(box);
+
+        editor.getWorld().update(Gdx.graphics.getDeltaTime());
+        List<Body> detect = editor.getWorld().getBroadphaseDetector().detect(box);
 
         boolean foundBody = false;
         for (Body body : detect) {
             if (body.contains(point)) {
                 foundBody = true;
-                System.out.println("found body");
+
                 Entity entity = ((CellUserData) body.getUserData()).entity;
                 SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
                 SpriteComponent gc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.GRAPHICS);
                 if (sc != null) {
-                    System.out.println("Sprite component");
                     setMapTarget(sc.getSprite(), entity);
                 }
                 else if (gc != null) {
-                    System.out.println("Graphics component");
                     setMapTarget(gc.getSprite(), entity);
                 }
                 else {

@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.MovementComponent;
@@ -28,7 +27,7 @@ public class MapEditor extends Scene {
     private final Matrix3 scaler = new Matrix3().setToScaling(Scene.scale, Scene.scale);
     private final Matrix3 rotator = new Matrix3();
     private final Matrix3 translator = new Matrix3();
-    
+
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
     public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
@@ -82,12 +81,30 @@ public class MapEditor extends Scene {
 
     private void initMenuBar() {
         MenuBar menuBar = new MenuBar();
-        Table table = menuBar.getTable();
+        VisTable table = (VisTable) menuBar.getTable();
         table.setWidth(MENU_BAR_WIDTH);
         table.setHeight(MENU_BAR_HEIGHT);
         table.setPosition(LEFT_PANEL_WIDTH, Gdx.graphics.getHeight() - MENU_BAR_HEIGHT);
 
-        Menu modify = new Menu("Modify");
+        table.add(new VisLabel("Translation: "));
+        VisTextField xField = new VisTextField("0.0");
+        table.add(xField).width(MENU_BAR_WIDTH / 8f);
+        VisTextField yField = new VisTextField("0.0");
+        table.add(yField).width(MENU_BAR_WIDTH / 8f);
+        table.addSeparator(true);
+
+        table.add(new VisLabel("Rotation: "));
+        VisTextField rotField = new VisTextField("0.0");
+        table.add(rotField).width(MENU_BAR_WIDTH / 8f);
+        table.addSeparator(true);
+
+        table.add(new VisLabel("Scale: "));
+        VisTextField scaleField = new VisTextField("0.0");
+        table.add(scaleField).width(MENU_BAR_WIDTH / 8f);
+        table.addSeparator(true);
+
+
+        /*Menu modify = new Menu("Modify");
         modify.setSkin(VisUI.getSkin());
         menuBar.addMenu(modify);
 
@@ -110,7 +127,7 @@ public class MapEditor extends Scene {
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("Scale triggered");
             }
-        }));
+        }));*/
 
         getUiStage().addActor(menuBar.getTable());
     }

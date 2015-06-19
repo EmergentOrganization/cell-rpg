@@ -21,6 +21,7 @@ import java.util.List;
  */
 public class EditorInputProcessor implements InputProcessor {
     private MapEditor editor;
+    public static float HIT_ACCURACY = 5f; // lower the value, the more accurate the hit detection
 
     public EditorInputProcessor(MapEditor editor) {
         this.editor = editor;
@@ -60,7 +61,7 @@ public class EditorInputProcessor implements InputProcessor {
         editor.setLastLMBClick(new Vector2(uiVec.x, uiVec.y));
 
         Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
-        AABB box = new AABB(1d);
+        AABB box = new AABB(HIT_ACCURACY);
         org.dyn4j.geometry.Vector2 point = new org.dyn4j.geometry.Vector2(gameVec.x, gameVec.y);
         box.translate(point);
 

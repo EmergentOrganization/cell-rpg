@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor;
+package com.emergentorganization.cellrpg.tools.mapeditor.ui;
 
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.MovementComponent;

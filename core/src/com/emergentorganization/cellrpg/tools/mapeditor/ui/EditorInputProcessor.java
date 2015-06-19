@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor;
+package com.emergentorganization.cellrpg.tools.mapeditor.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +11,7 @@ import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.CellUserData;
+import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.geometry.AABB;
 

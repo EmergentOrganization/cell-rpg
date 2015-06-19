@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor;
+package com.emergentorganization.cellrpg.tools.mapeditor.ui;
 
 import com.kotcrab.vis.ui.widget.VisTextField;
 

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor;
+package com.emergentorganization.cellrpg.tools.mapeditor.ui;
 
 import com.badlogic.gdx.utils.Array;
 import com.emergentorganization.cellrpg.entities.backgrounds.TheEdge;

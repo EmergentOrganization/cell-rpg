@@ -145,6 +145,18 @@ public abstract class Scene implements Screen {
         entityQueue.put(e, ENTITY_INSERT);
     }
 
+    public void addEntities (Entity... e) {
+        for (Entity entity : e) {
+            addEntity(entity);
+        }
+    }
+
+    public void addEntities(ArrayList<Entity> entities) {
+        for (Entity entity : entities) {
+            addEntity(entity);
+        }
+    }
+
     public void removeEntity(Entity e) {
         entityQueue.put(e, ENTITY_REMOVE);
     }
@@ -209,4 +221,5 @@ public abstract class Scene implements Screen {
     public boolean isEditor() {
         return isEditor;
     }
+
 }

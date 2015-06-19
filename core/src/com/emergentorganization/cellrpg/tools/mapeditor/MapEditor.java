@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 import com.kotcrab.vis.ui.VisUI;
@@ -127,6 +128,8 @@ public class MapEditor extends Scene {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println("Import");
+                Map map = MapTools.importMap("TEST_MAP_EXPORT");
+                _this.addEntities(map.getEntities());
             }
         });
 

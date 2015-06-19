@@ -29,7 +29,7 @@ public class MapEditor extends Scene {
     private final Matrix3 translator = new Matrix3();
 
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
-    public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 5f;
+    public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;
     public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
     public static float MOVE_SPEED = 20f;
@@ -89,9 +89,23 @@ public class MapEditor extends Scene {
         table.setHeight(MENU_BAR_HEIGHT);
         table.setPosition(LEFT_PANEL_WIDTH, Gdx.graphics.getHeight() - MENU_BAR_HEIGHT);
 
-        table.add(new VisLabel("Translation: "));
+        Menu menu = new Menu("File");
+
+        MenuItem imp = new MenuItem("Import");
+        menu.addItem(imp);
+
+        MenuItem exp = new MenuItem("Export");
+        menu.addItem(exp);
+
+        menuBar.addMenu(menu);
+        table.addSeparator(true);
+
+        table.add(new VisLabel("X: "));
         xField = new VisTextField("0.0");
         table.add(xField).width(MENU_BAR_WIDTH / 8f);
+        table.addSeparator(true);
+
+        table.add(new VisLabel("Y: "));
         yField = new VisTextField("0.0");
         table.add(yField).width(MENU_BAR_WIDTH / 8f);
         table.addSeparator(true);
@@ -105,6 +119,21 @@ public class MapEditor extends Scene {
         scaleField = new VisTextField("0.0");
         table.add(scaleField).width(MENU_BAR_WIDTH / 8f);
         table.addSeparator(true);
+
+
+        imp.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Import");
+            }
+        });
+
+        exp.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("Export");
+            }
+        });
 
         xField.setTextFieldFilter(new TransformTextFilter());
         xField.setTextFieldListener(new VisTextField.TextFieldListener() {

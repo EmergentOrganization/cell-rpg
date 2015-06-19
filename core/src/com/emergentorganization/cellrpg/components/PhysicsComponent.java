@@ -96,6 +96,10 @@ public class PhysicsComponent extends BaseComponent {
         body.setUserData(data);
     }
 
+    public Body getBody() {
+        return body;
+    }
+
     @Override
     public void added() {
         super.added();

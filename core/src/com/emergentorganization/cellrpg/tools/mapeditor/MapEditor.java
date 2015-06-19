@@ -44,7 +44,10 @@ public class MapEditor extends Scene {
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private MapTarget target = null;
-    //private Vector2 worldSize;
+    private VisTextField xField;
+    private VisTextField yField;
+    private VisTextField rotField;
+    private VisTextField scaleField;
 
     @Override
     public void create() {
@@ -81,53 +84,85 @@ public class MapEditor extends Scene {
 
     private void initMenuBar() {
         MenuBar menuBar = new MenuBar();
-        VisTable table = (VisTable) menuBar.getTable();
+        final VisTable table = (VisTable) menuBar.getTable();
         table.setWidth(MENU_BAR_WIDTH);
         table.setHeight(MENU_BAR_HEIGHT);
         table.setPosition(LEFT_PANEL_WIDTH, Gdx.graphics.getHeight() - MENU_BAR_HEIGHT);
 
         table.add(new VisLabel("Translation: "));
-        VisTextField xField = new VisTextField("0.0");
+        xField = new VisTextField("0.0");
         table.add(xField).width(MENU_BAR_WIDTH / 8f);
-        VisTextField yField = new VisTextField("0.0");
+        yField = new VisTextField("0.0");
         table.add(yField).width(MENU_BAR_WIDTH / 8f);
         table.addSeparator(true);
 
         table.add(new VisLabel("Rotation: "));
-        VisTextField rotField = new VisTextField("0.0");
+        rotField = new VisTextField("0.0");
         table.add(rotField).width(MENU_BAR_WIDTH / 8f);
         table.addSeparator(true);
 
         table.add(new VisLabel("Scale: "));
-        VisTextField scaleField = new VisTextField("0.0");
+        scaleField = new VisTextField("0.0");
         table.add(scaleField).width(MENU_BAR_WIDTH / 8f);
         table.addSeparator(true);
 
-
-        /*Menu modify = new Menu("Modify");
-        modify.setSkin(VisUI.getSkin());
-        menuBar.addMenu(modify);
-
-        modify.addItem(new MenuItem("Translate", new ChangeListener() {
+        xField.setTextFieldFilter(new TransformTextFilter());
+        xField.setTextFieldListener(new VisTextField.TextFieldListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Translate triggered");
+            public void keyTyped(VisTextField textField, char c) {
+                try {
+                    float v = Float.parseFloat(textField.getText());
+                    MapTarget target = getMapTarget();
+                    target.movementComponent.setWorldPosition(v, target.movementComponent.getWorldPosition().y);
+                }
+                catch (NumberFormatException e) {
+                    // meh
+                }
             }
-        }));
-
-        modify.addItem(new MenuItem("Rotate", new ChangeListener() {
+        });
+        yField.setTextFieldFilter(new TransformTextFilter());
+        yField.setTextFieldListener(new VisTextField.TextFieldListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Rotate triggered");
+            public void keyTyped(VisTextField textField, char c) {
+                try {
+                    float v = Float.parseFloat(textField.getText());
+                    MapTarget target = getMapTarget();
+                    target.movementComponent.setWorldPosition(target.movementComponent.getWorldPosition().x, v);
+                } catch (NumberFormatException e) {
+                    // meh
+                }
             }
-        }));
-
-        modify.addItem(new MenuItem("Scale", new ChangeListener() {
+        });
+        rotField.setTextFieldFilter(new TransformTextFilter());
+        rotField.setTextFieldListener(new VisTextField.TextFieldListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Scale triggered");
+            public void keyTyped(VisTextField textField, char c) {
+                try {
+                    float v = Float.parseFloat(textField.getText());
+                    MapTarget target = getMapTarget();
+                    target.movementComponent.setRotation(v);
+
+                    /*PhysicsComponent physComp = (PhysicsComponent) target.target.getFirstComponentByType(ComponentType.PHYSICS);
+                    if (physComp != null)
+                        physComp.getBody().rotate(v);*/ // TODO
+                } catch (NumberFormatException e) {
+                    // meh
+                }
             }
-        }));*/
+        });
+        scaleField.setTextFieldFilter(new TransformTextFilter());
+        scaleField.setTextFieldListener(new VisTextField.TextFieldListener() {
+            @Override
+            public void keyTyped(VisTextField textField, char c) {
+                try {
+                    float v = Float.parseFloat(textField.getText());
+                    MapTarget target = getMapTarget();
+                    target.movementComponent.setScale(v);
+                } catch (NumberFormatException e) {
+                    // meh
+                }
+            }
+        });
 
         getUiStage().addActor(menuBar.getTable());
     }
@@ -301,6 +336,19 @@ public class MapEditor extends Scene {
 
     public void setMapTarget(MapTarget target) {
         this.target = target;
+
+        if (this.target == null) {
+            xField.setText("0.0");
+            yField.setText("0.0");
+            rotField.setText("0.0");
+            scaleField.setText("0.0");
+        }
+        else {
+            xField.setText(String.valueOf(target.movementComponent.getWorldPosition().x));
+            yField.setText(String.valueOf(target.movementComponent.getWorldPosition().y));
+            rotField.setText(String.valueOf(target.movementComponent.getRotation()));
+            scaleField.setText(String.valueOf(target.movementComponent.getScale().x)); //TODO Fix this
+        }
     }
 
     public MapTarget getMapTarget() { return target; }

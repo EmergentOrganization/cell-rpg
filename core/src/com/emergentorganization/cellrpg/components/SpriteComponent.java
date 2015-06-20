@@ -10,11 +10,21 @@ import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage
  * Created by BrianErikson on 6/3/2015.
  */
 public class SpriteComponent extends BaseComponent {
+
     private Sprite sprite;
+
+    public SpriteComponent() {
+        type = ComponentType.SPRITE;
+        this.sprite = new Sprite();
+    }
 
     public SpriteComponent(Texture texture) {
         type = ComponentType.SPRITE;
         this.sprite = new Sprite(texture);
+    }
+
+    public Sprite getSprite() {
+        return sprite;
     }
 
     @Override

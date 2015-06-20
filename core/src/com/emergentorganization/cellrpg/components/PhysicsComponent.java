@@ -7,7 +7,7 @@ import com.emergentorganization.cellrpg.components.listeners.BaseComponentListen
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
@@ -25,6 +25,7 @@ public class PhysicsComponent extends BaseComponent {
     private Tag tag;
     private boolean rendering = false;
     private org.dyn4j.geometry.Vector2 size;
+    public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
 
     public PhysicsComponent(World world, Body body, Tag tag) {
         type = ComponentType.PHYSICS;
@@ -33,7 +34,6 @@ public class PhysicsComponent extends BaseComponent {
         this.tag = tag;
         body.setMassType(Mass.Type.FIXED_ANGULAR_VELOCITY);
         world.addBody(body);
-        //enableDebugRenderer(true);
     }
 
     @Override
@@ -69,15 +69,34 @@ public class PhysicsComponent extends BaseComponent {
                     float x2 = (float) (verts[index].x + offset.x);
                     float y2 = (float) (verts[index].y + offset.y);
 
-                    renderer.rectLine(x1, y1, x2, y2, 2f * Map.scale);
+                    renderer.rectLine(x1, y1, x2, y2, 2f * Scene.scale);
                 }
             }
         }
 
+        AABB ab = body.createAABB();
+        drawBoundingBox(renderer, new Vector2((float)ab.getWidth(), (float)ab.getHeight()), getEntity().getMovementComponent().getWorldPosition());
+    }
+
+    /**
+     * Must call between ShapeRenderer.begin() and ShapeRenderer.end()
+     * @param size Scaled size of the object
+     * @param pos center origin of object
+     */
+    private void drawBoundingBox(ShapeRenderer shapeRenderer, Vector2 size, Vector2 pos) {
+        Vector2 hs = size.cpy().scl(0.5f);
+        shapeRenderer.rectLine(pos.x - hs.x, pos.y - hs.y, pos.x + hs.x, pos.y - hs.y, BB_THICKNESS); // bl to br
+        shapeRenderer.rectLine(pos.x + hs.x, pos.y - hs.y, pos.x + hs.x, pos.y + hs.y, BB_THICKNESS); // br to tr
+        shapeRenderer.rectLine(pos.x + hs.x, pos.y + hs.y, pos.x - hs.x, pos.y + hs.y, BB_THICKNESS); // tr to tl
+        shapeRenderer.rectLine(pos.x - hs.x, pos.y + hs.y, pos.x - hs.x, pos.y - hs.y, BB_THICKNESS); // tl to bl
     }
 
     public void setUserData(CellUserData data) {
         body.setUserData(data);
+    }
+
+    public Body getBody() {
+        return body;
     }
 
     @Override
@@ -86,7 +105,7 @@ public class PhysicsComponent extends BaseComponent {
 
         moveComponent = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
         if (body.getUserData() == null) {
-            body.setUserData(new CellUserData(moveComponent, tag));
+            body.setUserData(new CellUserData(getEntity(), tag));
         }
         AABB ab = body.createAABB();
         size = new org.dyn4j.geometry.Vector2(ab.getWidth(), ab.getHeight());
@@ -97,7 +116,7 @@ public class PhysicsComponent extends BaseComponent {
         super.update(deltaTime);
 
         Vector2 pos = moveComponent.getWorldPosition();
-        body.getTransform().setTranslation(pos.x - (size.x / 2f), pos.y - (size.y / 2f));
+        body.getTransform().setTranslation(pos.x - (size.x / 2d), pos.y - (size.y / 2d));
     }
 
     @Override

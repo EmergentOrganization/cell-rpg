@@ -5,15 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
-import com.emergentorganization.cellrpg.components.input.scripted.Script;
-import com.emergentorganization.cellrpg.components.input.scripted.ScriptAction;
-import com.emergentorganization.cellrpg.components.input.scripted.ScriptedInputComponent;
-import com.emergentorganization.cellrpg.components.input.scripted.actions.MoveToAction;
-import com.emergentorganization.cellrpg.components.input.scripted.actions.WaitAction;
 import com.emergentorganization.cellrpg.entities.characters.Character;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -22,9 +17,13 @@ import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 public class CharCiv1Blinker extends Character {
     private static final String ID = "char-civ1-blinker";
 
+    /*
+    This constructor is needed for MapEditor. Do not remove.
+     */
     public CharCiv1Blinker() {
         super(ID + ".png", 2, 1, 1.2f);
 
+        /*
         getMovementComponent().setSpeed(50);
 
         ScriptedInputComponent input = new ScriptedInputComponent();
@@ -39,7 +38,7 @@ public class CharCiv1Blinker extends Character {
         input.registerScript("walkAndReturn", new Script(walkAndReturn));
         input.playScript("walkAndReturn");
 
-        addComponent(input);
+        addComponent(input);*/
     }
 
     @Override
@@ -47,10 +46,10 @@ public class CharCiv1Blinker extends Character {
         super.added();
 
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Map.scale;
+        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.CHAR_CIV1_BLINKER);
-        phys.setUserData(new CellUserData(getMovementComponent(), Tag.CHAR_CIV1_BLINKER));
+        phys.setUserData(new CellUserData(this, Tag.CHAR_CIV1_BLINKER));
         addComponent(phys);
     }
 

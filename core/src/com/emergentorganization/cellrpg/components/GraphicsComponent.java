@@ -17,8 +17,7 @@ import java.util.HashMap;
  * 
  * Created by OrelBitton on 06/06/2015.
  */
-public class GraphicsComponent extends BaseComponent{
-    private Sprite sprite = new Sprite();
+public class GraphicsComponent extends SpriteComponent{
     private HashMap<String, Animation> anims = new HashMap<String, Animation>();
     private Animation playing;
     private float stateTime = 0f;
@@ -35,11 +34,11 @@ public class GraphicsComponent extends BaseComponent{
 
     @Override
     public void render(SpriteBatch batch, Vector2 pos, float rot, Vector2 scale) {
-        super.render(batch, pos, rot, scale);
-
         if(playing == null)
             return;
         checkKeyFrames();
+
+        Sprite sprite = getSprite();
         sprite.setSize(sprite.getRegionWidth() * scale.x, sprite.getRegionHeight() * scale.y); // required for sprite sheets
         sprite.setRotation(rot);
         sprite.setCenter(pos.x, pos.y);
@@ -48,6 +47,7 @@ public class GraphicsComponent extends BaseComponent{
 
     public void setKeyFrame(TextureRegion region) {
         curFrame = region;
+        Sprite sprite = getSprite();
         sprite.setRegion(region);
         sprite.setSize(curFrame.getRegionWidth(), curFrame.getRegionHeight());
         // NOTE: might also want to do these?:

@@ -4,12 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
-import com.emergentorganization.cellrpg.tools.map.Map;
-import com.emergentorganization.cellrpg.tools.map.MapLoader;
+import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
+import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import org.dyn4j.geometry.Vector2;
 
 public class Test extends Scene {
-	private Map map;
 
 	@Override
 	public void create() {
@@ -21,9 +20,8 @@ public class Test extends Scene {
 
 		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
-
-		map = MapLoader.getMap("testMap.svg");
-		map.load(this);
+		Map map = MapTools.importMap("TEST_MAP_EXPORT");
+		addEntities(map.getEntities());
 	}
 	
 	@Override
@@ -31,17 +29,20 @@ public class Test extends Scene {
 		super.show();
 
 		// check gameState for android-app-hiding instances
-		if (map == null) {
+		if (getUiStage() == null) {
 			create();
 		}
 	}
 
 	@Override
-	public void hide() {
-		// TODO
+	public void render(float delta) {
+		super.render(delta);
+
+		drawUI();
 	}
 
-	public Map getMap() {
-		return map;
+	@Override
+	public void hide() {
+		// TODO
 	}
 }

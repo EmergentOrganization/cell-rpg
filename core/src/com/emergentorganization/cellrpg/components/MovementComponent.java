@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 
 /**
  * Created by BrianErikson on 6/3/2015.
@@ -18,7 +18,7 @@ public class MovementComponent extends BaseComponent {
     private Matrix3 transform = new Matrix3();
     private boolean isDirty = false;
 
-    private float speed = 200 * Map.scale; // default scalar for player movement [px/s]
+    private float speed = 200 * Scene.scale; // default scalar for player movement [px/s]
 
     private Vector2 velocity = new Vector2();
     private Vector2 dest = new Vector2();

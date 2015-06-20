@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.physics;
 
-import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 
 /**
@@ -8,8 +8,8 @@ import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
  */
 public class PlayerUserData extends CellUserData {
     public final CoordinateRecorder cr;
-    public PlayerUserData(MovementComponent movementComponent, CoordinateRecorder cr) {
-        super(movementComponent, Tag.PLAYER);
+    public PlayerUserData(Entity entity, CoordinateRecorder cr) {
+        super(entity, Tag.PLAYER);
         this.cr = cr;
     }
 }

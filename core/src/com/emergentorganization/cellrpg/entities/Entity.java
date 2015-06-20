@@ -12,7 +12,6 @@ import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.tools.map.Map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +34,13 @@ public abstract class Entity {
     public Entity(){
         zIndex = ZIndex.BUILDING;
         moveComponent.setEntity(this); // make sure to call super from child classes or null pointer exceptions may occur
-        moveComponent.setScale(Map.scale);
+        moveComponent.setScale(Scene.scale);
     }
 
     public Entity(ZIndex zIndex) {
         this.zIndex = zIndex;
         moveComponent.setEntity(this);
-        moveComponent.setScale(Map.scale);
+        moveComponent.setScale(Scene.scale);
     }
 
     public Entity(ZIndex zIndex, float scale) {

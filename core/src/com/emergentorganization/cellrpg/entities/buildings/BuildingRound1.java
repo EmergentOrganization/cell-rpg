@@ -7,7 +7,7 @@ import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -17,6 +17,9 @@ public class BuildingRound1 extends Entity {
     public static final String ID = "building-round-1";
     Texture texture;
 
+    /*
+    This constructor is needed for MapEditor. Do not remove.
+     */
     public BuildingRound1() {
         super(ZIndex.BUILDING);
         texture = new Texture(ID + ".png");
@@ -35,7 +38,7 @@ public class BuildingRound1 extends Entity {
     public void added() {
         super.added();
 
-        float scale = Math.max(texture.getWidth(), texture.getHeight()) * Map.scale;
+        float scale = Math.max(texture.getWidth(), texture.getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.BUILDING_ROUND_1);
         addComponent(phys);

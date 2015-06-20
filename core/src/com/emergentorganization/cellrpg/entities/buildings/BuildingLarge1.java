@@ -6,7 +6,7 @@ import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.World;
@@ -18,6 +18,9 @@ public class BuildingLarge1 extends Entity {
     public static final String ID = "building-large-1";
     Texture texture;
 
+    /*
+    This constructor is needed for MapEditor. Do not remove.
+     */
     public BuildingLarge1() {
         texture = new Texture(ID + ".png");
         addComponent(new SpriteComponent(texture));
@@ -36,7 +39,7 @@ public class BuildingLarge1 extends Entity {
         super.added();
 
         World world = getScene().getWorld();
-        Body body = BodyLoader.fetch().generateBody(ID, texture.getWidth() * Map.scale);
+        Body body = BodyLoader.fetch().generateBody(ID, texture.getWidth() * Scene.scale);
         PhysicsComponent phys = new PhysicsComponent(world, body, Tag.BUILDING_LARGE_1);
         //phys.enableDebugRenderer(true);
         addComponent(phys);

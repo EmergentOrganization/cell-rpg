@@ -13,12 +13,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
-import org.dyn4j.collision.AxisAlignedBounds;
 import org.dyn4j.dynamics.World;
 
 import java.util.*;
@@ -27,6 +25,8 @@ import java.util.*;
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
  */
 public abstract class Scene implements Screen {
+    public static float scale = 1/10f;
+
     private ArrayList<Entity> entities;
 
     private static final int ENTITY_INSERT = 1;
@@ -41,7 +41,9 @@ public abstract class Scene implements Screen {
     private World physWorld;
     private static final double WORLD_WIDTH = 10000d;
     private static final double WORLD_HEIGHT = 10000d;
-    private InputMultiplexer input; // Not sure if should keep a reference for this
+    private InputMultiplexer input;
+
+    private boolean isEditor = false;
 
     public void create() {
         entities = new ArrayList<Entity>();
@@ -58,7 +60,6 @@ public abstract class Scene implements Screen {
 
         Gdx.input.setInputProcessor(input);
 
-        float scale = com.emergentorganization.cellrpg.tools.map.Map.scale;
         gameCamera = new OrthographicCamera(Gdx.graphics.getWidth() * scale, Gdx.graphics.getHeight() * scale);
         gameCamera.position.set(gameCamera.viewportWidth / 2f, gameCamera.viewportHeight / 2f, 0); // center camera with 0,0 in bottom left
         gameCamera.update();
@@ -66,7 +67,8 @@ public abstract class Scene implements Screen {
 
         BodyLoader.fetch(); // initialize bodyLoader if it isn't already
 
-        physWorld = new World(new AxisAlignedBounds(WORLD_WIDTH, WORLD_HEIGHT));
+        physWorld = new World();
+        //physWorld.shiftCoordinates(new Vector2(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d));
     }
 
     @Override
@@ -91,7 +93,7 @@ public abstract class Scene implements Screen {
         Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        physWorld.update(delta); // variable update rate. change to static if instability occurs
+        if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
 
         handleQueue();
 
@@ -114,8 +116,6 @@ public abstract class Scene implements Screen {
             entity.debugRender(debugRenderer);
         }
         debugRenderer.end();
-
-        uiStage.draw();
     }
 
     @Override
@@ -137,8 +137,24 @@ public abstract class Scene implements Screen {
         physWorld.removeAllBodiesAndJoints();
     }
 
+    public void drawUI() {
+        uiStage.draw();
+    }
+
     public void addEntity(Entity e) {
         entityQueue.put(e, ENTITY_INSERT);
+    }
+
+    public void addEntities (Entity... e) {
+        for (Entity entity : e) {
+            addEntity(entity);
+        }
+    }
+
+    public void addEntities(ArrayList<Entity> entities) {
+        for (Entity entity : entities) {
+            addEntity(entity);
+        }
     }
 
     public void removeEntity(Entity e) {
@@ -193,4 +209,17 @@ public abstract class Scene implements Screen {
     public World getWorld() {
         return physWorld;
     }
+
+    public InputMultiplexer getInputMultiplexer() {
+        return input;
+    }
+
+    protected void setToEditor() {
+        isEditor = true;
+    }
+
+    public boolean isEditor() {
+        return isEditor;
+    }
+
 }

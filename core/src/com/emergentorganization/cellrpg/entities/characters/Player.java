@@ -5,14 +5,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.DialogComponent;
 import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.WeaponComponent;
 import com.emergentorganization.cellrpg.components.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.tools.map.Map;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -32,6 +31,9 @@ public class Player extends Character {
     private OrthographicCamera camera;
     private MovementComponent moveComponent;
 
+    /*
+    This constructor is needed for MapEditor. Do not remove.
+     */
     public Player(){
         super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
 
@@ -53,29 +55,33 @@ public class Player extends Character {
     public void added() {
         super.added();
 
-        camera = getScene().getGameCamera();
-        camera.position.set(getMovementComponent().getWorldPosition()
-                                                    .sub(camera.viewportWidth /2f, camera.viewportHeight /2f), 0f);
-
-        PlayerInputComponent playerInput = new PlayerInputComponent(camera);
-        addComponent(playerInput);
-
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Map.scale;
+        float scale = Math.max(currentFrame.getTexture().getWidth(), currentFrame.getTexture().getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
-        phys.setUserData(new PlayerUserData(moveComponent, playerInput.getCoordinateRecorder()));
+
+        if (!getScene().isEditor()) {
+            camera = getScene().getGameCamera();
+            camera.position.set(getMovementComponent().getWorldPosition()
+                    .sub(camera.viewportWidth /2f, camera.viewportHeight /2f), 0f);
+
+            PlayerInputComponent playerInput = new PlayerInputComponent(camera);
+            addComponent(playerInput);
+            phys.setUserData(new PlayerUserData(this, playerInput.getCoordinateRecorder()));
+        }
         //phys.enableDebugRenderer(true);
 
         addComponent(phys);
 
-        addComponent(new DialogComponent());
+        //addComponent(new DialogComponent());
     }
 
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-        updateCameraPos(deltaTime);
+
+        if (!getScene().isEditor())
+            updateCameraPos(deltaTime);
     }
 
     private void updateCameraPos(float deltaTime){

@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
-import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
+import com.emergentorganization.cellrpg.scenes.MainMenu;
 import com.kotcrab.vis.ui.VisUI;
 
 /**
@@ -9,12 +9,21 @@ import com.kotcrab.vis.ui.VisUI;
  */
 public class CellRpg extends Game {
     // private FPSLogger fps = new FPSLogger();
+    private static CellRpg singleton;
+
+    public CellRpg() {
+        singleton = this;
+    }
+
+    public static CellRpg fetch() {
+        return singleton;
+    }
 
     @Override
     public void create() {
         VisUI.load();
 
-        setScreen(new MapEditor());
+        setScreen(new MainMenu());
     }
 
     @Override

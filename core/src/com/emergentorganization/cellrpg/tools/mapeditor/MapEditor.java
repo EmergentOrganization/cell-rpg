@@ -11,7 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
@@ -19,6 +21,7 @@ import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
+import org.dyn4j.geometry.AABB;
 
 /**
  * Created by BrianErikson on 6/14/2015.
@@ -275,7 +278,8 @@ public class MapEditor extends Scene {
 
         // selected object bounds
         if (target != null) {
-            Vector2 size = target.size;
+            AABB rect = ((PhysicsComponent)target.target.getFirstComponentByType(ComponentType.PHYSICS)).getBody().createAABB();
+            Vector2 size = new Vector2((float)rect.getWidth(), (float)rect.getHeight());
             Vector2 pos = target.movementComponent.getWorldPosition();
             drawBoundingBox(size, new Vector2(pos.x, pos.y));
         }

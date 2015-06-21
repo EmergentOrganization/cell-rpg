@@ -14,6 +14,7 @@ import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Mass;
 import org.dyn4j.geometry.Polygon;
+import org.dyn4j.geometry.Transform;
 
 /**
  * Created by BrianErikson on 6/6/2015.
@@ -34,6 +35,7 @@ public class PhysicsComponent extends BaseComponent {
         this.tag = tag;
         body.setMassType(Mass.Type.FIXED_ANGULAR_VELOCITY);
         world.addBody(body);
+        enableDebugRenderer(true);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class PhysicsComponent extends BaseComponent {
     }
 
     private void drawBody(ShapeRenderer renderer) {
-        org.dyn4j.geometry.Vector2 offset = body.getTransform().getTranslation();
+        Transform transform = body.getTransform();
         renderer.setColor(Color.GREEN);
 
         for (BodyFixture fixture : body.getFixtures()) {
@@ -62,14 +64,16 @@ public class PhysicsComponent extends BaseComponent {
                 org.dyn4j.geometry.Vector2[] verts = gon.getVertices();
                 for (int i = 0; i < gon.getVertices().length; i++) {
                     int index = i;
-                    float x1 = (float) (verts[index].x + offset.x);
-                    float y1 = (float) (verts[index].y + offset.y);
+                    org.dyn4j.geometry.Vector2 p1 = new org.dyn4j.geometry.Vector2(verts[index].x, verts[index].y);
+                    p1 = transform.getTransformed(p1);
+
                     if (index == gon.getVertices().length - 1) index = 0; // connect last line
                     else index++;
-                    float x2 = (float) (verts[index].x + offset.x);
-                    float y2 = (float) (verts[index].y + offset.y);
 
-                    renderer.rectLine(x1, y1, x2, y2, 2f * Scene.scale);
+                    org.dyn4j.geometry.Vector2 p2 = new org.dyn4j.geometry.Vector2(verts[index].x, verts[index].y);
+                    p2 = transform.getTransformed(p2);
+
+                    renderer.rectLine((float)p1.x, (float)p1.y, (float)p2.x, (float)p2.y, 2f * Scene.scale);
                 }
             }
         }
@@ -116,7 +120,10 @@ public class PhysicsComponent extends BaseComponent {
         super.update(deltaTime);
 
         Vector2 pos = moveComponent.getWorldPosition();
-        body.getTransform().setTranslation(pos.x - (size.x / 2d), pos.y - (size.y / 2d));
+
+        Transform transform = body.getTransform();
+        transform.setTranslation(pos.x - (size.x / 2d), pos.y - (size.y / 2d));
+        transform.setRotation(moveComponent.getRotationRad());
     }
 
     @Override

@@ -284,12 +284,6 @@ public class MapEditor extends Scene {
             drawBoundingBox(size, new Vector2(pos.x, pos.y));
         }
 
-        //debug lines
-        float offset = 15f;
-        shapeRenderer.setProjectionMatrix(getUiStage().getCamera().combined);
-        shapeRenderer.rectLine(lastLMBClick.x - offset, lastLMBClick.y, lastLMBClick.x + offset, lastLMBClick.y, 1f);
-        shapeRenderer.rectLine(lastLMBClick.x, lastLMBClick.y - offset, lastLMBClick.x, lastLMBClick.y + offset, 1f);
-        shapeRenderer.rectLine(rayA.x, rayA.y, rayB.x, rayB.y, 2f);
         shapeRenderer.end();
 
         drawUI();

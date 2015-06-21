@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
 
 import java.util.HashMap;
@@ -33,15 +32,13 @@ public class GraphicsComponent extends SpriteComponent{
     }
 
     @Override
-    public void render(SpriteBatch batch, Vector2 pos, float rot, Vector2 scale) {
+    public void render(SpriteBatch batch) {
         if(playing == null)
             return;
         checkKeyFrames();
 
+        setSpriteTransform();
         Sprite sprite = getSprite();
-        sprite.setSize(sprite.getRegionWidth() * scale.x, sprite.getRegionHeight() * scale.y); // required for sprite sheets
-        sprite.setRotation(rot);
-        sprite.setCenter(pos.x, pos.y);
         sprite.draw(batch);
     }
 

@@ -33,14 +33,21 @@ public class SpriteComponent extends BaseComponent {
     }
 
     @Override
-    public void render(SpriteBatch batch, Vector2 pos, float rot, Vector2 scale) {
-        super.render(batch, pos, rot, scale);
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+        setSpriteTransform();
+        sprite.draw(batch);
+    }
+
+    public void setSpriteTransform() {
+        MovementComponent moveComponent = getEntity().getMovementComponent();
+        Vector2 scale = moveComponent.getScale();
+        Vector2 pos = moveComponent.getWorldPosition();
 
         sprite.setSize(sprite.getRegionWidth() * scale.x, sprite.getRegionHeight() * scale.y);
         sprite.setOriginCenter();
-        sprite.setRotation(rot);
+        sprite.setRotation(moveComponent.getRotation());
         sprite.setCenter(pos.x, pos.y);
-        sprite.draw(batch);
     }
 
     @Override

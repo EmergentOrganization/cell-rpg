@@ -6,7 +6,6 @@ package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.BaseComponent;
 import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.MovementComponent;
@@ -71,13 +70,9 @@ public abstract class Entity {
      * @param batch the scene batch
      */
     public void render(SpriteBatch batch) {
-        Vector2 pos = moveComponent.getWorldPosition();
-        float rot = moveComponent.getRotation();
-        Vector2 scale = moveComponent.getScale();
-
         for (BaseComponent component : components) {
             if (component.shouldRender()) {
-                component.render(batch, pos, rot, scale);
+                component.render(batch);
             }
         }
     }

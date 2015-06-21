@@ -120,10 +120,13 @@ public class PhysicsComponent extends BaseComponent {
         super.update(deltaTime);
 
         Vector2 pos = moveComponent.getWorldPosition();
+        org.dyn4j.geometry.Vector2 worldCenter = new org.dyn4j.geometry.Vector2(pos.x - (size.x / 2d),
+                                                                                pos.y - (size.y / 2d));
 
         Transform transform = body.getTransform();
-        transform.setTranslation(pos.x - (size.x / 2d), pos.y - (size.y / 2d));
-        transform.setRotation(moveComponent.getRotationRad());
+        transform.setTranslation(worldCenter);
+        transform.setRotation(0d);
+        body.rotate(moveComponent.getRotationRad(), pos.x, pos.y);
     }
 
     @Override

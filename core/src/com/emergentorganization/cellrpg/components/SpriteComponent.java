@@ -37,6 +37,7 @@ public class SpriteComponent extends BaseComponent {
         super.render(batch, pos, rot, scale);
 
         sprite.setSize(sprite.getRegionWidth() * scale.x, sprite.getRegionHeight() * scale.y);
+        sprite.setOriginCenter();
         sprite.setRotation(rot);
         sprite.setCenter(pos.x, pos.y);
         sprite.draw(batch);

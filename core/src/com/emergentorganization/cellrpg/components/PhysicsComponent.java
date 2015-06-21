@@ -35,7 +35,6 @@ public class PhysicsComponent extends BaseComponent {
         this.tag = tag;
         body.setMassType(Mass.Type.FIXED_ANGULAR_VELOCITY);
         world.addBody(body);
-        enableDebugRenderer(true);
     }
 
     @Override

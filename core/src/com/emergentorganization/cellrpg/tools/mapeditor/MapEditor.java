@@ -8,8 +8,10 @@ import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.ComponentType;
 import com.emergentorganization.cellrpg.components.MovementComponent;
@@ -38,6 +40,8 @@ public class MapEditor extends Scene {
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;
     public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
+    public static float SAVE_WINDOW_WIDTH = Gdx.graphics.getWidth() / 6f;
+    public static float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
     public static float MOVE_SPEED = 20f;
 
     public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
@@ -55,6 +59,10 @@ public class MapEditor extends Scene {
     private VisTextField rotField;
     private VisTextField scaleField;
 
+    private final VisWindow saveWindow = new VisWindow("Save", true);
+    private final VisWindow loadWindow = new VisWindow("Load", true);
+    private boolean mapInputEnabled = true;
+
     @Override
     public void create() {
         super.create();
@@ -66,12 +74,115 @@ public class MapEditor extends Scene {
         initMenuBar();
         initContextMenu();
 
+        initSaveWindow();
+        initLoadWindow();
+
         getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
 
         //AxisAlignedBounds bounds = (AxisAlignedBounds) getWorld().getBounds();
         //float width = (float) bounds.getBounds().getWidth();
         //float height = (float) bounds.getBounds().getHeight();
         //worldSize = new Vector2(width, height);
+    }
+
+    private void initSaveWindow() {
+        final float PADDING = 2f;
+
+        saveWindow.setWidth(SAVE_WINDOW_WIDTH);
+        saveWindow.setHeight(SAVE_WINDOW_HEIGHT);
+        saveWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
+
+        VisTable table = new VisTable();
+
+        VisLabel fileNameLabel = new VisLabel("Map Name", Align.center);
+        table.add(fileNameLabel).pad(PADDING).fill(true, false).colspan(2).row();
+
+        final VisTextField fileField = new VisTextField();
+        table.add(fileField).pad(PADDING).fill(true, false).colspan(2).row();
+
+        VisTextButton save = new VisTextButton("Save");
+        table.add(save).pad(PADDING).fill(true, false);
+
+        VisTextButton cancel = new VisTextButton("Cancel");
+        table.add(cancel).pad(PADDING).fill(true, false);
+
+        saveWindow.add(table).expand().fill();
+        saveWindow.setVisible(false);
+        saveWindow.getTitleLabel().setColor(Color.GRAY);
+        getUiStage().addActor(saveWindow);
+
+        final MapEditor _this = this;
+        save.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (!fileField.getText().isEmpty()) {
+                    MapTools.exportMap(_this, fileField.getText());
+                    setSaveWindowVisible(false);
+                }
+            }
+        });
+
+        cancel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                setSaveWindowVisible(false);
+            }
+        });
+    }
+
+    private void initLoadWindow() {
+        final float PADDING = 2f;
+
+        loadWindow.setWidth(SAVE_WINDOW_WIDTH);
+        loadWindow.setHeight(SAVE_WINDOW_HEIGHT);
+        loadWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
+
+        VisTable table = new VisTable();
+
+        VisLabel fileNameLabel = new VisLabel("Map Name", Align.center);
+        table.add(fileNameLabel).pad(PADDING).fill(true, false).colspan(2).row();
+
+        final VisTextField fileField = new VisTextField();
+        table.add(fileField).pad(PADDING).fill(true, false).colspan(2).row();
+
+        VisTextButton load = new VisTextButton("Load");
+        table.add(load).pad(PADDING).fill(true, false);
+
+        VisTextButton cancel = new VisTextButton("Cancel");
+        table.add(cancel).pad(PADDING).fill(true, false);
+
+        loadWindow.add(table).expand().fill();
+        loadWindow.setVisible(false);
+        loadWindow.getTitleLabel().setColor(Color.GRAY);
+        getUiStage().addActor(loadWindow);
+
+        final MapEditor _this = this;
+        load.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if (!fileField.getText().isEmpty()) {
+                    Map map = MapTools.importMap(fileField.getText());
+                    _this.getEntities().clear();
+                    _this.addEntities(map.getEntities());
+                    setLoadWindowVisible(false);
+                }
+            }
+        });
+
+        cancel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                setLoadWindowVisible(false);
+            }
+        });
     }
 
     private void initContextMenu() {
@@ -96,6 +207,9 @@ public class MapEditor extends Scene {
         table.setPosition(LEFT_PANEL_WIDTH, Gdx.graphics.getHeight() - MENU_BAR_HEIGHT);
 
         Menu menu = new Menu("File");
+
+        MenuItem clear = new MenuItem("Clear Map");
+        menu.addItem(clear);
 
         MenuItem imp = new MenuItem("Import");
         menu.addItem(imp);
@@ -127,19 +241,24 @@ public class MapEditor extends Scene {
         table.addSeparator(true);
 
         final MapEditor _this = this;
+        clear.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                _this.getEntities().clear();
+            }
+        });
+
         imp.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("Import");
-                Map map = MapTools.importMap("TEST_MAP_EXPORT");
-                _this.addEntities(map.getEntities());
+                setLoadWindowVisible(true);
             }
         });
 
         exp.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                MapTools.exportMap(_this, "TEST_MAP_EXPORT");
+                setSaveWindowVisible(true);
             }
         });
 
@@ -305,28 +424,30 @@ public class MapEditor extends Scene {
     }
 
     private void handleInput() {
-        boolean update = false;
+        if (mapInputEnabled) {
+            boolean update = false;
 
-        float speed = MOVE_SPEED * getGameCamera().zoom * Gdx.graphics.getDeltaTime();
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            update = true;
-            getGameCamera().position.add(0f, speed, 0f);
-        }
-        else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            update = true;
-            getGameCamera().position.add(0f, -speed, 0f);
-        }
+            float speed = MOVE_SPEED * getGameCamera().zoom * Gdx.graphics.getDeltaTime();
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                update = true;
+                getGameCamera().position.add(0f, speed, 0f);
+            }
+            else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                update = true;
+                getGameCamera().position.add(0f, -speed, 0f);
+            }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            update = true;
-            getGameCamera().position.add(speed, 0f, 0f);
-        }
-        else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            update = true;
-            getGameCamera().position.add(-speed, 0f, 0f);
-        }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                update = true;
+                getGameCamera().position.add(speed, 0f, 0f);
+            }
+            else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                update = true;
+                getGameCamera().position.add(-speed, 0f, 0f);
+            }
 
-        if (update) getGameCamera().update();
+            if (update) getGameCamera().update();
+        }
     }
 
     @Override
@@ -384,4 +505,18 @@ public class MapEditor extends Scene {
     }
 
     public MapTarget getMapTarget() { return target; }
+
+    public void enableMapInput(boolean enable) {
+        this.mapInputEnabled = enable;
+    }
+
+    public void setSaveWindowVisible(boolean show) {
+        saveWindow.setVisible(show);
+        enableMapInput(!show);
+    }
+
+    public void setLoadWindowVisible(boolean show) {
+        loadWindow.setVisible(show);
+        enableMapInput(!show);
+    }
 }

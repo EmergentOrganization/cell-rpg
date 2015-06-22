@@ -13,10 +13,8 @@ import com.emergentorganization.cellrpg.scenes.Test;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.widget.*;
-import javafx.scene.control.Cell;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * Created by BrianErikson on 6/20/2015.
@@ -56,8 +54,8 @@ public class MainMenu extends Scene {
         final VisList<FileListNode> list = new VisList<FileListNode>();
 
         FileListNode[] maps = getMaps();
-        if (getMaps() != null) {
-            list.setItems(getMaps());
+        if (maps != null) {
+            list.setItems(maps);
             selectedMapName = list.getSelected().file.getName();
         }
 

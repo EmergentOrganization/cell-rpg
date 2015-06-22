@@ -18,6 +18,7 @@ import com.emergentorganization.cellrpg.components.MovementComponent;
 import com.emergentorganization.cellrpg.components.PhysicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.mainmenu.FileListNode;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
@@ -25,12 +26,15 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 import org.dyn4j.geometry.AABB;
 
+import java.io.File;
+
 /**
  * Created by BrianErikson on 6/14/2015.
  */
 public class MapEditor extends Scene {
     private VisList<EntityListNode> entityList;
     private EntityListNode selectedItem;
+    public String selectedMapName = "";
     
     private final Matrix3 scaler = new Matrix3().setToScaling(Scene.scale, Scene.scale);
     private final Matrix3 rotator = new Matrix3();
@@ -134,25 +138,39 @@ public class MapEditor extends Scene {
 
         loadWindow.setWidth(SAVE_WINDOW_WIDTH);
         loadWindow.setHeight(SAVE_WINDOW_HEIGHT);
+        loadWindow.setVisible(false);
         loadWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
+
+        final VisList<FileListNode> list = new VisList<FileListNode>();
+
+        FileListNode[] maps = getMaps();
+        if (getMaps() != null) {
+            list.setItems(getMaps());
+            selectedMapName = list.getSelected().file.getName();
+        }
+
+        list.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                selectedMapName = list.getSelected().file.getName();
+            }
+        });
+
+        VisScrollPane scrollPane = new VisScrollPane(list);
+        scrollPane.setScrollingDisabled(true, false);
+        scrollPane.setupFadeScrollBars(1f, 0.3f);
+        scrollPane.setupOverscroll(20f, 30f, 200f);
 
         VisTable table = new VisTable();
 
-        VisLabel fileNameLabel = new VisLabel("Map Name", Align.center);
-        table.add(fileNameLabel).pad(PADDING).fill(true, false).colspan(2).row();
-
-        final VisTextField fileField = new VisTextField();
-        table.add(fileField).pad(PADDING).fill(true, false).colspan(2).row();
-
         VisTextButton load = new VisTextButton("Load");
-        table.add(load).pad(PADDING).fill(true, false);
+        table.add(load).pad(PADDING).expand().fill().align(Align.left);
 
         VisTextButton cancel = new VisTextButton("Cancel");
-        table.add(cancel).pad(PADDING).fill(true, false);
+        table.add(cancel).pad(PADDING).fill();
 
-        loadWindow.add(table).expand().fill();
-        loadWindow.setVisible(false);
-        loadWindow.getTitleLabel().setColor(Color.GRAY);
+        loadWindow.add(scrollPane).pad(PADDING).expand().fill(true, false).row();
+        loadWindow.add(table).expand().fill(true, false);
         getUiStage().addActor(loadWindow);
 
         final MapEditor _this = this;
@@ -160,13 +178,13 @@ public class MapEditor extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                String fileName = list.getSelected().file.getName();
+                String mapName = fileName.substring(0, fileName.length() - MapTools.EXTENSION.length());
 
-                if (!fileField.getText().isEmpty()) {
-                    Map map = MapTools.importMap(fileField.getText());
-                    _this.getEntities().clear();
-                    _this.addEntities(map.getEntities());
-                    setLoadWindowVisible(false);
-                }
+                Map map = MapTools.importMap(mapName);
+                _this.getEntities().clear();
+                _this.addEntities(map.getEntities());
+                setLoadWindowVisible(false);
             }
         });
 
@@ -174,7 +192,6 @@ public class MapEditor extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 setLoadWindowVisible(false);
             }
         });
@@ -347,6 +364,25 @@ public class MapEditor extends Scene {
         Cell<VisScrollPane> scrollCell = leftPane.add(scrollPane);
         scrollCell.align(Align.topLeft);
         getUiStage().addActor(leftPane);
+    }
+
+    private FileListNode[] getMaps() {
+        File folder = new File(MapTools.FOLDER_ROOT);
+
+        if (folder.exists()) {
+            File[] files = folder.listFiles();
+            FileListNode[] fileNodes = new FileListNode[files.length];
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+                if (file.getName().contains(MapTools.EXTENSION)) {
+                    fileNodes[i] = new FileListNode(file);
+                }
+            }
+
+            return fileNodes;
+        }
+
+        return null;
     }
 
     private void createNewEntity(Vector2 pos) {

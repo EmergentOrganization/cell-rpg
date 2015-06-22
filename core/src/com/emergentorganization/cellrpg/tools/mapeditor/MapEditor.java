@@ -78,11 +78,6 @@ public class MapEditor extends Scene {
         initLoadWindow();
 
         getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
-
-        //AxisAlignedBounds bounds = (AxisAlignedBounds) getWorld().getBounds();
-        //float width = (float) bounds.getBounds().getWidth();
-        //float height = (float) bounds.getBounds().getHeight();
-        //worldSize = new Vector2(width, height);
     }
 
     private void initSaveWindow() {
@@ -245,6 +240,7 @@ public class MapEditor extends Scene {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 _this.getEntities().clear();
+                setMapTarget(null);
             }
         });
 

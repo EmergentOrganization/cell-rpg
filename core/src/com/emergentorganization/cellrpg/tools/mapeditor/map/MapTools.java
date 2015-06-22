@@ -10,10 +10,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -21,13 +18,15 @@ import java.util.LinkedHashMap;
  * Created by BrianErikson on 6/19/2015.
  */
 public class MapTools {
+    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + "maps/";
+    public static String EXTENSION = ".json";
 
     public static Map importMap(String fileName) {
         JSONParser parser = new JSONParser();
         Map map = new Map();
 
         try {
-            String path = Gdx.files.getLocalStoragePath() + fileName + ".json";
+            String path = FOLDER_ROOT + fileName + EXTENSION;
             JSONObject obj = (JSONObject) parser.parse(new FileReader(path));
             JSONArray jsonEntities = (JSONArray) obj.get(JSONKey.ENTITIES);
 
@@ -87,13 +86,18 @@ public class MapTools {
 
         JSONObject obj = new JSONObject(map);
         try {
-            String path = Gdx.files.getLocalStoragePath() + fileName + ".json";
+            String path = FOLDER_ROOT + fileName + EXTENSION;
             System.out.println("Writing map to path " + path);
 
-            FileWriter file = new FileWriter(path);
-            file.write(obj.toJSONString());
-            file.flush();
-            file.close();
+            new File(FOLDER_ROOT).mkdirs(); // create folder if necessary
+
+            FileWriter writer = new FileWriter(path);
+            writer.write(obj.toJSONString());
+            writer.flush();
+            writer.close();
+
+        } catch (FileNotFoundException e) {
+
 
         } catch (Exception e) {
             e.printStackTrace();

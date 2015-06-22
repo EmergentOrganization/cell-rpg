@@ -20,7 +20,7 @@ public class Test extends Scene {
 
 		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
-		Map map = MapTools.importMap("TEST_MAP_EXPORT");
+		Map map = MapTools.importMap("TestMap");
 		addEntities(map.getEntities());
 	}
 	

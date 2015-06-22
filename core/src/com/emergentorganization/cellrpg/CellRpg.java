@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
-import com.emergentorganization.cellrpg.scenes.MainMenu;
+import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.kotcrab.vis.ui.VisUI;
 
 /**

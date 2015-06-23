@@ -24,7 +24,11 @@ import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
+import org.dyn4j.collision.narrowphase.NarrowphaseDetector;
+import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.geometry.AABB;
+import org.dyn4j.geometry.Convex;
+import org.dyn4j.geometry.Transform;
 
 import java.io.File;
 
@@ -71,6 +75,20 @@ public class MapEditor extends Scene {
     public void create() {
         super.create();
         setToEditor();
+
+        // fixes bug #29. Effectively disables NarrowphaseDetector from doing penetration testing
+        getWorld().setNarrowphaseDetector(new NarrowphaseDetector() {
+            @Override
+            public boolean detect(Convex convex1, Transform transform1, Convex convex2, Transform transform2,
+                                  Penetration penetration) {
+                return false;
+            }
+
+            @Override
+            public boolean detect(Convex convex1, Transform transform1, Convex convex2, Transform transform2) {
+                return false;
+            }
+        });
 
         VisUI.setDefaultTitleAlign(Align.center);
 

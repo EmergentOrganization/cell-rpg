@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.components.input.scripted;
+package com.emergentorganization.cellrpg.components.entity.input.scripted;
 
-import com.emergentorganization.cellrpg.components.input.InputComponent;
+import com.emergentorganization.cellrpg.components.entity.input.InputComponent;
 
 import java.util.HashMap;
 

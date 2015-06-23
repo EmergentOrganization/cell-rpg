@@ -1,11 +1,12 @@
-package com.emergentorganization.cellrpg.components;
+package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.EntityComponent;
 
 /**
  * Created by OrelBitton on 07/06/2015.
  */
-public class BulletComponent extends BaseComponent {
+public class BulletComponent extends EntityComponent {
 
     private MovementComponent mc;
 

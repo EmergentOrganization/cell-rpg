@@ -2,7 +2,7 @@ package com.emergentorganization.cellrpg.tools.mapeditor.map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import org.json.simple.JSONArray;

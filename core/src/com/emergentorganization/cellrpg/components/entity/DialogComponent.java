@@ -1,18 +1,18 @@
-package com.emergentorganization.cellrpg.components;
+package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.utils.StringBuilder;
+import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.kotcrab.vis.ui.VisUI;
 
 
 /**
  * Created by OrelBitton on 14/06/2015.
  */
-public class DialogComponent extends BaseComponent {
+public class DialogComponent extends EntityComponent {
 
     private final float dialogWidth = Gdx.graphics.getWidth();
     private final float dialogHeight = Gdx.graphics.getHeight() * 0.35f;

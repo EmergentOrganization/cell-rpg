@@ -6,14 +6,12 @@ package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.emergentorganization.cellrpg.components.BaseComponent;
-import com.emergentorganization.cellrpg.components.ComponentType;
-import com.emergentorganization.cellrpg.components.MovementComponent;
-import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.components.EntityComponent;
+import com.emergentorganization.cellrpg.components.entity.ComponentType;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ListIterator;
 
 /**
@@ -22,7 +20,7 @@ import java.util.ListIterator;
 public abstract class Entity {
     private Scene parentScene;
     public final ZIndex zIndex;
-    private ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();
+    private ArrayList<EntityComponent> components = new ArrayList<EntityComponent>();
 
     /**
      * The movement component is out of the array because movement is implied for each entity.
@@ -60,7 +58,7 @@ public abstract class Entity {
      */
     public void update(float deltaTime) {
         moveComponent.update(deltaTime);
-        for (BaseComponent component : components) {
+        for (EntityComponent component : components) {
             component.update(deltaTime);
         }
     }
@@ -70,7 +68,7 @@ public abstract class Entity {
      * @param batch the scene batch
      */
     public void render(SpriteBatch batch) {
-        for (BaseComponent component : components) {
+        for (EntityComponent component : components) {
             if (component.shouldRender()) {
                 component.render(batch);
             }
@@ -82,14 +80,14 @@ public abstract class Entity {
      * @param renderer the scene's ShapeRenderer
      */
     public void debugRender(ShapeRenderer renderer) {
-        for (BaseComponent component : components) {
+        for (EntityComponent component : components) {
             if (component.shouldDebugRender()) {
                 component.debugRender(renderer);
             }
         }
     }
 
-    public ArrayList<BaseComponent> getComponents() {
+    public ArrayList<EntityComponent> getComponents() {
         return components;
     }
 
@@ -98,11 +96,11 @@ public abstract class Entity {
      * @param type the type of component
      * @return derived component, or null if there is none
      */
-    public BaseComponent getFirstComponentByType(ComponentType type) {
+    public EntityComponent getFirstComponentByType(ComponentType type) {
         if(type == ComponentType.MOVEMENT)
             return moveComponent;
 
-        for (BaseComponent component : components) {
+        for (EntityComponent component : components) {
             if (component.getType() == type) {
                 return component;
             }
@@ -110,10 +108,10 @@ public abstract class Entity {
         return null;
     }
 
-    public ArrayList<BaseComponent> getComponentsByType(ComponentType type) {
-        ArrayList<BaseComponent> comps = new ArrayList<BaseComponent>();
+    public ArrayList<EntityComponent> getComponentsByType(ComponentType type) {
+        ArrayList<EntityComponent> comps = new ArrayList<EntityComponent>();
 
-        for (BaseComponent component : this.components) {
+        for (EntityComponent component : this.components) {
             if (component.getType() == type) {
                 comps.add(component);
             }
@@ -122,54 +120,22 @@ public abstract class Entity {
         return comps;
     }
 
-    public void addComponent(BaseComponent component) {
+    public void addComponent(EntityComponent component) {
         component.setEntity(this);
         component.added();
         components.add(component);
     }
 
-    public void removeComponent(BaseComponent component) {
+    public void removeComponent(EntityComponent component) {
         components.remove(component);
     }
 
     public void removeAllComponentsByType(ComponentType type) {
-        final ListIterator<BaseComponent> iterator = components.listIterator();
+        final ListIterator<EntityComponent> iterator = components.listIterator();
         while (iterator.hasNext()) {
             if (iterator.next().getType() == type) {
                 iterator.remove();
             }
-        }
-    }
-
-    /**
-     * Broadcasts a message to all of the components
-     * @param message the message to be broadcasted.
-     */
-    public void broadcastMessage(BaseComponentMessage message) {
-        moveComponent.receiveMessage(message);
-
-        for(BaseComponent comp : components){
-            comp.receiveMessage(message);
-        }
-    }
-
-    /**
-     * Broadcasts a message to a specific component type.
-     * @param type the component type
-     * @param message the message to be broadcasted.
-     */
-    public void broadcastMessage(ComponentType type, BaseComponentMessage message) {
-        // I don't see why this is necessary, but let it be.
-        if(type == ComponentType.MOVEMENT)
-        {
-            moveComponent.receiveMessage(message);
-            return;
-        }
-
-        List<BaseComponent> comps = getComponentsByType(type);
-        for(BaseComponent comp : comps)
-        {
-            comp.receiveMessage(message);
         }
     }
 
@@ -190,7 +156,7 @@ public abstract class Entity {
 
     public void dispose() {
         moveComponent.dispose();
-        for (BaseComponent component : components) {
+        for (EntityComponent component : components) {
             component.dispose();
         }
     }

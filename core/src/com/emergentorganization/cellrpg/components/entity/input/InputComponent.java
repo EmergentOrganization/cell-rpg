@@ -1,16 +1,16 @@
-package com.emergentorganization.cellrpg.components.input;
+package com.emergentorganization.cellrpg.components.entity.input;
 
-import com.emergentorganization.cellrpg.components.BaseComponent;
-import com.emergentorganization.cellrpg.components.ComponentType;
-import com.emergentorganization.cellrpg.components.MovementComponent;
-import com.emergentorganization.cellrpg.components.WeaponComponent;
+import com.emergentorganization.cellrpg.components.EntityComponent;
+import com.emergentorganization.cellrpg.components.entity.ComponentType;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
+import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 
 /**
  * A universal class to send input.
  *
  * Created by OrelBitton on 08/06/2015.
  */
-public class InputComponent extends BaseComponent{
+public class InputComponent extends EntityComponent {
 
     protected MovementComponent mc;
     protected WeaponComponent wc;

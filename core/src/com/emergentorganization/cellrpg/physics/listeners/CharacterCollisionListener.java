@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.physics.listeners;
 
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.MovementComponent;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import org.dyn4j.collision.narrowphase.Penetration;

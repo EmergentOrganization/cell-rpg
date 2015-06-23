@@ -1,15 +1,14 @@
-package com.emergentorganization.cellrpg.components;
+package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.characters.Bullet;
-
-import java.sql.Time;
 
 /**
  * Created by OrelBitton on 06/06/2015.
  */
-public class WeaponComponent extends BaseComponent{
+public class WeaponComponent extends EntityComponent {
 
     private MovementComponent mc;
 

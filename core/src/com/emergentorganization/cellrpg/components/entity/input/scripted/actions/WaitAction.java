@@ -1,7 +1,7 @@
-package com.emergentorganization.cellrpg.components.input.scripted.actions;
+package com.emergentorganization.cellrpg.components.entity.input.scripted.actions;
 
 import com.badlogic.gdx.utils.TimeUtils;
-import com.emergentorganization.cellrpg.components.input.scripted.ScriptAction;
+import com.emergentorganization.cellrpg.components.entity.input.scripted.ScriptAction;
 
 /**
  * Created by OrelBitton on 10/06/2015.

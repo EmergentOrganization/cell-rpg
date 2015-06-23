@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components.input;
+package com.emergentorganization.cellrpg.components.entity.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.emergentorganization.cellrpg.components.ComponentType;
+import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 

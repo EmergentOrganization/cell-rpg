@@ -3,7 +3,7 @@ package com.emergentorganization.cellrpg.entities.backgrounds;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.SpriteComponent;
+import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components;
+package com.emergentorganization.cellrpg.components.entity;
 
 /**
  * Created by BrianErikson on 6/2/2015.

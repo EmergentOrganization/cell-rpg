@@ -1,15 +1,15 @@
-package com.emergentorganization.cellrpg.components;
+package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.components.EntityComponent;
 
 /**
  * Created by BrianErikson on 6/3/2015.
  */
-public class SpriteComponent extends BaseComponent {
+public class SpriteComponent extends EntityComponent {
 
     private Sprite sprite;
 
@@ -53,16 +53,6 @@ public class SpriteComponent extends BaseComponent {
     @Override
     public boolean shouldRender() {
         return true;
-    }
-
-    @Override
-    public ComponentType getType() {
-        return super.getType();
-    }
-
-    @Override
-    public void receiveMessage(BaseComponentMessage message) {
-        super.receiveMessage(message);
     }
 
     @Override

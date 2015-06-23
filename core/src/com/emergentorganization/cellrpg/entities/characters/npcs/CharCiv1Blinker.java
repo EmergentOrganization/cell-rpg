@@ -4,7 +4,7 @@ package com.emergentorganization.cellrpg.entities.characters.npcs;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.PhysicsComponent;
+import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.entities.characters.Character;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;

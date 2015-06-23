@@ -2,8 +2,8 @@ package com.emergentorganization.cellrpg.entities.buildings;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.PhysicsComponent;
-import com.emergentorganization.cellrpg.components.SpriteComponent;
+import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
+import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.Scene;

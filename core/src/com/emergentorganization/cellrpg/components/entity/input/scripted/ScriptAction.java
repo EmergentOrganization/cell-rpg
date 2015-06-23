@@ -1,6 +1,4 @@
-package com.emergentorganization.cellrpg.components.input.scripted;
-
-import com.emergentorganization.cellrpg.components.input.InputComponent;
+package com.emergentorganization.cellrpg.components.entity.input.scripted;
 
 /**
  * Created by OrelBitton on 09/06/2015.

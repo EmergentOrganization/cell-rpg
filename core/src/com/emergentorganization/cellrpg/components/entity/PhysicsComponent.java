@@ -1,10 +1,9 @@
-package com.emergentorganization.cellrpg.components;
+package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.listeners.BaseComponentListener;
-import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.Scene;
@@ -19,7 +18,7 @@ import org.dyn4j.geometry.Transform;
 /**
  * Created by BrianErikson on 6/6/2015.
  */
-public class PhysicsComponent extends BaseComponent {
+public class PhysicsComponent extends EntityComponent {
     private final World world;
     private final Body body;
     private MovementComponent moveComponent;
@@ -126,36 +125,6 @@ public class PhysicsComponent extends BaseComponent {
         transform.setTranslation(worldCenter);
         transform.setRotation(0d);
         body.rotate(moveComponent.getRotationRad(), pos.x, pos.y);
-    }
-
-    @Override
-    public ComponentType getType() {
-        return super.getType();
-    }
-
-    @Override
-    public void addListener(BaseComponentListener listener) {
-        super.addListener(listener);
-    }
-
-    @Override
-    public void removeListener(BaseComponentListener listener) {
-        super.removeListener(listener);
-    }
-
-    @Override
-    public void receiveMessage(BaseComponentMessage message) {
-        super.receiveMessage(message);
-    }
-
-    @Override
-    protected void broadcast(BaseComponentMessage message) {
-        super.broadcast(message);
-    }
-
-    @Override
-    protected void broadcast(ComponentType type, BaseComponentMessage message) {
-        super.broadcast(type, message);
     }
 
     @Override

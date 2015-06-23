@@ -1,15 +1,15 @@
-package com.emergentorganization.cellrpg.components;
+package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.messages.BaseComponentMessage;
+import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 
 /**
  * Created by BrianErikson on 6/3/2015.
  */
-public class MovementComponent extends BaseComponent {
+public class MovementComponent extends EntityComponent {
 
     private Matrix3 identity = new Matrix3();
     private Matrix3 translation = new Matrix3();
@@ -195,16 +195,6 @@ public class MovementComponent extends BaseComponent {
 
         updateTransform();
         updateMovement();
-    }
-
-    @Override
-    public ComponentType getType() {
-        return type;
-    }
-
-    @Override
-    public void receiveMessage(BaseComponentMessage message) {
-        super.receiveMessage(message);
     }
 
     @Override

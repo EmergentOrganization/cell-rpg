@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components.input.scripted;
+package com.emergentorganization.cellrpg.components.entity.input.scripted;
 
 import java.util.ArrayList;
 import java.util.Arrays;

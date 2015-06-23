@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
-import com.emergentorganization.cellrpg.components.BulletComponent;
-import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.components.entity.BulletComponent;
 import com.badlogic.gdx.math.Vector2;
 /**
  * Created by OrelBitton on 06/06/2015.

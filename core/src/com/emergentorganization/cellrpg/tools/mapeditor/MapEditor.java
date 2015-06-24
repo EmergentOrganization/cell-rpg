@@ -14,12 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.mainmenu.FileListNode;
+import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
@@ -250,6 +252,9 @@ public class MapEditor extends Scene {
         MenuItem exp = new MenuItem("Export");
         menu.addItem(exp);
 
+        MenuItem exit = new MenuItem("Exit to Main Menu");
+        menu.addItem(exit);
+
         menuBar.addMenu(menu);
         table.addSeparator(true);
 
@@ -293,6 +298,14 @@ public class MapEditor extends Scene {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 setSaveWindowVisible(true);
+            }
+        });
+
+        exit.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // TODO: Throw warning window saying that changes won't be saved if they continue
+                CellRpg.fetch().setScreen(new MainMenu());
             }
         });
 

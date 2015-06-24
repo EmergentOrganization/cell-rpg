@@ -539,18 +539,21 @@ public class MapEditor extends Scene {
 
     public void setMapTarget(MapTarget target) {
         this.target = target;
+        updateTargetTransform();
+    }
 
-        if (this.target == null) {
-            xField.setText("0.0");
-            yField.setText("0.0");
-            rotField.setText("0.0");
-            scaleField.setText("0.0");
-        }
-        else {
+    public void updateTargetTransform() {
+        if (this.target != null) {
             xField.setText(String.valueOf(target.movementComponent.getWorldPosition().x));
             yField.setText(String.valueOf(target.movementComponent.getWorldPosition().y));
             rotField.setText(String.valueOf(target.movementComponent.getRotation()));
             scaleField.setText(String.valueOf(target.movementComponent.getScale().x)); //TODO Fix this
+        }
+        else {
+            xField.setText("0.0");
+            yField.setText("0.0");
+            rotField.setText("0.0");
+            scaleField.setText("0.0");
         }
     }
 

@@ -23,6 +23,7 @@ import java.util.List;
 public class EditorInputProcessor implements InputProcessor {
     private MapEditor editor;
     public static float HIT_ACCURACY = 5f; // lower the value, the more accurate the hit detection
+    private Vector2 dragOffset = new Vector2();
 
     public EditorInputProcessor(MapEditor editor) {
         this.editor = editor;
@@ -79,9 +80,11 @@ public class EditorInputProcessor implements InputProcessor {
                 SpriteComponent gc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.GRAPHICS);
                 if (sc != null) {
                     setMapTarget(sc.getSprite(), entity);
+                    setDragOffset(screenCoords);
                 }
                 else if (gc != null) {
                     setMapTarget(gc.getSprite(), entity);
+                    setDragOffset(screenCoords);
                 }
                 else {
                     throw new RuntimeException("Cannot select a component with no render-able component");
@@ -98,6 +101,19 @@ public class EditorInputProcessor implements InputProcessor {
         editor.openContextMenu();
     }
 
+    private void setDragOffset(Vector2 mousePos) {
+        Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(mousePos.x, mousePos.y, 0f));
+        MapTarget mapTarget = editor.getMapTarget();
+
+        if (mapTarget != null) {
+            Vector2 targetPos = mapTarget.movementComponent.getWorldPosition();
+            dragOffset = new Vector2(gameVec.x - targetPos.x, gameVec.y - targetPos.y);
+        }
+        else {
+            throw new RuntimeException("Cannot set drag offset when the editor has no target");
+        }
+    }
+
     private void setMapTarget(Sprite sprite, Entity entity) {
         Vector2 size = new Vector2(sprite.getWidth() * sprite.getScaleX(),
                 sprite.getHeight() * sprite.getScaleY());
@@ -111,6 +127,14 @@ public class EditorInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenX, screenY, 0f));
+        MapTarget mapTarget = editor.getMapTarget();
+
+        if (mapTarget != null) {
+            mapTarget.movementComponent.setWorldPosition(gameVec.x - dragOffset.x, gameVec.y - dragOffset.y);
+            editor.updateTargetTransform();
+            return false;
+        }
         return false;
     }
 

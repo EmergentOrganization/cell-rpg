@@ -107,7 +107,7 @@ public class EditorInputProcessor implements InputProcessor {
 
         if (mapTarget != null) {
             Vector2 targetPos = mapTarget.movementComponent.getWorldPosition();
-            dragOffset = new Vector2(gameVec.x - targetPos.x, gameVec.y - targetPos.y);
+            dragOffset = new Vector2(targetPos.x - gameVec.x, targetPos.y - gameVec.y);
         }
         else {
             throw new RuntimeException("Cannot set drag offset when the editor has no target");
@@ -131,7 +131,7 @@ public class EditorInputProcessor implements InputProcessor {
         MapTarget mapTarget = editor.getMapTarget();
 
         if (mapTarget != null) {
-            mapTarget.movementComponent.setWorldPosition(gameVec.x - dragOffset.x, gameVec.y - dragOffset.y);
+            mapTarget.movementComponent.setWorldPosition(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
             editor.updateTargetTransform();
             return false;
         }

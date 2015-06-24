@@ -169,7 +169,7 @@ public class EditorInputProcessor implements InputProcessor {
     public boolean scrolled(int amount) {
         OrthographicCamera camera = editor.getGameCamera();
         camera.zoom += amount;
-        if (camera.zoom <= 0) camera.zoom = 0.1f;
+        if (camera.zoom <= 0) camera.zoom = MapEditor.MIN_ZOOM;
         else {
             camera.zoom = (float) Math.floor(camera.zoom);
         }

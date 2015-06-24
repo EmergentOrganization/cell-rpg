@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -51,6 +52,7 @@ public class MapEditor extends Scene {
     public static float SAVE_WINDOW_WIDTH = Gdx.graphics.getWidth() / 6f;
     public static float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
     public static float MOVE_SPEED = 20f;
+    public static float MIN_ZOOM = 0.1f;
 
     public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
 
@@ -100,6 +102,7 @@ public class MapEditor extends Scene {
         initLoadWindow();
 
         getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
+        getInputMultiplexer().addProcessor(new GestureDetector(new EditorGestureListener(getGameCamera())));
     }
 
     private void initSaveWindow() {

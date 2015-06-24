@@ -23,6 +23,7 @@ import java.util.List;
 public class EditorInputProcessor implements InputProcessor {
     private MapEditor editor;
     public static float HIT_ACCURACY = 5f; // lower the value, the more accurate the hit detection
+    public static float ZOOM_AMT = 0.1f; // amount of zoom per keypress
     private Vector2 dragOffset = new Vector2();
 
     public EditorInputProcessor(MapEditor editor) {
@@ -31,6 +32,16 @@ public class EditorInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
+        OrthographicCamera camera = editor.getGameCamera();
+        if (keycode == Input.Keys.Z) { // zoom in
+            camera.zoom -= ZOOM_AMT;
+        }
+        else if (keycode == Input.Keys.X) { // zoom out
+            camera.zoom += ZOOM_AMT;
+        }
+
+        if (camera.zoom <= 0f) camera.zoom = MapEditor.MIN_ZOOM;
+        camera.update();
         return false;
     }
 

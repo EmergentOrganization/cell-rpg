@@ -50,9 +50,9 @@ public class EditorGestureListener implements GestureDetector.GestureListener {
     public boolean zoom(float initialDistance, float distance) {
         float diff = initialDistance - distance;
         diff *= ZOOM_FACTOR;
-
         camera.zoom += diff;
-        if (camera.zoom <= 0) camera.zoom = MapEditor.MIN_ZOOM;
+        if (camera.zoom <= 0f) camera.zoom = MapEditor.MIN_ZOOM;
+        camera.update();
 
         return true;
     }

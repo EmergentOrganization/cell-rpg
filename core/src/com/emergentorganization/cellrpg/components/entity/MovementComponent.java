@@ -11,7 +11,13 @@ import com.emergentorganization.cellrpg.scenes.Scene;
  */
 public class MovementComponent extends EntityComponent {
 
-    private Matrix3 identity = new Matrix3();
+    public enum MoveState {
+        NOT_MOVING,
+        MOUSE_FOLLOW,
+        PATH_FOLLOW
+    }
+    private MoveState moveState = MoveState.NOT_MOVING;
+
     private Matrix3 translation = new Matrix3();
     private Matrix3 rotation = new Matrix3();
     private Matrix3 scale = new Matrix3();
@@ -19,14 +25,18 @@ public class MovementComponent extends EntityComponent {
     private boolean isDirty = false;
 
     private float speed = 200 * Scene.scale; // default scalar for player movement [px/s]
-
     private Vector2 velocity = new Vector2();
-    private Vector2 dest = new Vector2();
-    private boolean hasDest = false;
-    private boolean stopOnArrival = false;
 
     public MovementComponent() {
         type = ComponentType.MOVEMENT;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        updateTransform();
+        updateMovement();
     }
 
     public void updateTransform() {
@@ -40,7 +50,7 @@ public class MovementComponent extends EntityComponent {
         translation.translate(vec);
         isDirty = true;
     }
-    
+
     public void rotateRad(float rads) {
         rotation.rotateRad(rads);
         isDirty = true;
@@ -69,7 +79,7 @@ public class MovementComponent extends EntityComponent {
         // TODO: World position
         setLocalPosition(position);
     }
-    
+
     public void setRotation(Vector2 rotation) {
         rotation.setAngleRad(rotation.angleRad());
         isDirty = true;
@@ -144,57 +154,30 @@ public class MovementComponent extends EntityComponent {
         return velocity.cpy();
     }
 
-    public void setDest(float x, float y){
-        dest.set(x, y);
-        velocity.set(dest.cpy().sub(getWorldPosition()).nor().scl(speed));
-        hasDest = true;
+    public void setMoveState(MoveState state) {
+        if (state == MoveState.NOT_MOVING) {
+            stopMoving();
+            return;
+        }
+
+        this.moveState = state;
     }
 
-    public void setDest(Vector2 dest) {
-        setDest(dest.x, dest.y);
-    }
-
-    public void removeDest(){
-        hasDest = false;
-    }
-
-    public Vector2 getDest() {
-        if(!hasDest)
-            return null;
-
-        return dest;
-    }
-
-    public void setStopOnArrival(boolean stopOnArrival){
-        this.stopOnArrival = stopOnArrival;
+    public MoveState getMoveState() {
+        return moveState;
     }
 
     private void updateMovement(){
         Vector2 newPos = getWorldPosition();
+        Vector2 move = getVelocity().scl(Gdx.graphics.getDeltaTime());
 
-        if(hasDest && dest.dst(newPos) <= 1) {
-            //System.out.println("Arrived to dest.");
-            removeDest();
-            if(stopOnArrival){
-                setVelocity(Vector2.Zero);
-            }
-        }
-
-        if (!getVelocity().isZero()) {
-            Vector2 move = getVelocity().scl(Gdx.graphics.getDeltaTime());
-
-            newPos.add(move);
-            setWorldPosition(newPos);
-        }
+        newPos.add(move);
+        setWorldPosition(newPos);
     }
 
-
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-
-        updateTransform();
-        updateMovement();
+    public void stopMoving() {
+        setVelocity(Vector2.Zero);
+        moveState = MoveState.NOT_MOVING;
     }
 
     @Override

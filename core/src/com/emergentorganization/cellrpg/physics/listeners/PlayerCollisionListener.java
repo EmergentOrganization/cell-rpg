@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.physics.listeners;
 
-import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import org.dyn4j.collision.narrowphase.Penetration;
@@ -34,11 +34,8 @@ public class PlayerCollisionListener extends CharacterCollisionListener {
     }
 
     private void updateDestination(PlayerUserData data) {
-        data.entity.getMovementComponent().removeDest();
-        Vector2 next = data.cr.getFirst();
-        if (next != null) {
-            //System.out.println("Collision. Getting next coord");
-            data.entity.getMovementComponent().setDest(next);
+        if (data.entity.getMovementComponent().getMoveState() == MovementComponent.MoveState.PATH_FOLLOW) {
+            data.playerInputComponent.skipDest();
         }
     }
 }

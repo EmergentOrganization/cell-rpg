@@ -25,7 +25,7 @@ public class CoordinateRecorder {
         if(TimeUtils.timeSinceMillis(lastRecord) >= delay){
             lastRecord += delay;
 
-            System.out.println("Recording " + x + ", " + y);
+            //System.out.println("Recording " + x + ", " + y);
             coords.add(new Vector2(x, y));
         }
     }

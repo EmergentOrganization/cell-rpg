@@ -1,15 +1,15 @@
 package com.emergentorganization.cellrpg.physics;
 
+import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
-import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 
 /**
  * Created by BrianErikson on 6/8/2015.
  */
 public class PlayerUserData extends CellUserData {
-    public final CoordinateRecorder cr;
-    public PlayerUserData(Entity entity, CoordinateRecorder cr) {
+    public final PlayerInputComponent playerInputComponent;
+    public PlayerUserData(Entity entity, PlayerInputComponent pic) {
         super(entity, Tag.PLAYER);
-        this.cr = cr;
+        this.playerInputComponent = pic;
     }
 }

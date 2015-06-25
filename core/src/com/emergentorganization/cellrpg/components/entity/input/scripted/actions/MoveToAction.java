@@ -26,15 +26,15 @@ public class MoveToAction extends ScriptAction {
 
     @Override
     public void start() {
-        Vector2 pos = mc.getWorldPosition().add(x, y);
-        mc.setDest(pos);
+        //Vector2 pos = mc.getWorldPosition().add(x, y);
+        //mc.setDest(pos); TODO: Removed destination triggers in movement component to preserve composition. re-implement
 
         completed = false;
     }
 
     @Override
     public void run() {
-        completed = mc.getDest() == null;
+        //completed = mc.getDest() == null; TODO: Removed destination triggers in movement component to preserve composition. re-implement
     }
 
     @Override

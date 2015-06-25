@@ -67,7 +67,7 @@ public class Player extends Character {
 
             PlayerInputComponent playerInput = new PlayerInputComponent(camera);
             addComponent(playerInput);
-            phys.setUserData(new PlayerUserData(this, playerInput.getCoordinateRecorder()));
+            phys.setUserData(new PlayerUserData(this, playerInput));
         }
         //phys.enableDebugRenderer(true);
 

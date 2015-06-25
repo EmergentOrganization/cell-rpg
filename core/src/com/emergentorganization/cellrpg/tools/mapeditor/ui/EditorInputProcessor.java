@@ -90,14 +90,12 @@ public class EditorInputProcessor implements InputProcessor {
                 SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
                 SpriteComponent gc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.GRAPHICS);
                 if (sc != null) {
-                    boolean switched = switchMapTarget(sc.getSprite(), entity);
+                    setMapTarget(sc.getSprite(), entity);
                     setDragOffset(screenCoords);
-                    if (switched) break;
                 }
                 else if (gc != null) {
-                    boolean switched = switchMapTarget(gc.getSprite(), entity);
+                    setMapTarget(gc.getSprite(), entity);
                     setDragOffset(screenCoords);
-                    if (switched) break;
                 }
                 else {
                     throw new RuntimeException("Cannot select a component with no render-able component");
@@ -106,26 +104,6 @@ public class EditorInputProcessor implements InputProcessor {
         }
 
         if (!foundBody) editor.setMapTarget(null);
-    }
-
-    /**
-     * Handles selecting map targets and switching to a different one if one is already selected in overlay instances
-     * @param sprite Sprite to switch to
-     * @param entity Entity to switch to
-     * @return whether or not a switch happened
-     */
-    private boolean switchMapTarget(Sprite sprite, Entity entity) {
-        if (editor.getMapTarget() != null) {
-            if (entity != editor.getMapTarget().target) {
-                setMapTarget(sprite, entity);
-                return true;
-            }
-            else return false;
-        }
-        else {
-            setMapTarget(sprite, entity);
-            return true;
-        }
     }
 
     private void onRightClick(Vector2 screenPos) {

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.entity.ComponentType;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 
@@ -36,6 +37,7 @@ public class PlayerInputComponent extends InputComponent {
 
     private Vector3 mouse; // The mouse coordinates for the current frame (if mouse is pressed)
     private Vector2 player; // The player coordinates for the current frame (if mouse is pressed)
+    private Vector2 dest = null;
 
     public PlayerInputComponent(Camera camera) {
         type = ComponentType.PLAYER_INPUT;
@@ -80,6 +82,8 @@ public class PlayerInputComponent extends InputComponent {
             handleShooting();
 
             recording = false;
+            if (mc.getMoveState() == MovementComponent.MoveState.MOUSE_FOLLOW)
+                mc.setMoveState(MovementComponent.MoveState.NOT_MOVING);
         }
 
         lastFramePressed = framePress;
@@ -97,31 +101,38 @@ public class PlayerInputComponent extends InputComponent {
             // if it isn't, use player to mouse direct movement
             recording = false;
             path = false;
-
-            mc.setDest(mouse.x, mouse.y);
-            mc.setStopOnArrival(true);
-
-
+            dest = null;
+            mc.setMoveState(MovementComponent.MoveState.MOUSE_FOLLOW);
             if (!cr.isEmpty()) {
                 cr.clear();
             }
+
+            Vector3 mousePos = getEntity().getScene().getGameCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f));
+            Vector2 dir = new Vector2(mousePos.x, mousePos.y).sub(mc.getWorldPosition()).nor();
+            Vector2 travelDst = dir.scl(mc.getSpeed());
+            mc.setVelocity(travelDst);
         } else { // if it is, start recording a path
             recording = true;
             path = true;
+            mc.setMoveState(MovementComponent.MoveState.PATH_FOLLOW);
         }
     }
 
     private void handlePath() {
-        if (!path || mc.getDest() != null || cr.isEmpty())
+        if (!path || mc.getMoveState() != MovementComponent.MoveState.PATH_FOLLOW)
             return;
 
-        mc.setStopOnArrival(false);
+        if (dest == null || dest.dst(mc.getWorldPosition()) <= 1f)
+            dest = cr.getFirst();
 
-        Vector2 coord = cr.getFirst();
-        mc.setDest(coord);
-
-        if (cr.isEmpty())
-            mc.setStopOnArrival(true);
+        if (dest != null) {
+            Vector2 dir = dest.cpy().sub(mc.getWorldPosition()).nor();
+            Vector2 travelDst = dir.scl(mc.getSpeed());
+            mc.setVelocity(travelDst);
+        }
+        else {
+            mc.stopMoving();
+        }
     }
 
     private void handleRecording() {
@@ -142,7 +153,7 @@ public class PlayerInputComponent extends InputComponent {
 
     @Override
     public void debugRender(ShapeRenderer renderer) {
-        if (mc.getDest() == null)
+        if (mc.getMoveState() == MovementComponent.MoveState.NOT_MOVING)
             return;
 
         renderer.setColor(Color.MAGENTA);
@@ -164,6 +175,16 @@ public class PlayerInputComponent extends InputComponent {
                 prev = cur;
             }
         }
+    }
+
+    public Vector2 getDest() {
+        return dest;
+    }
+
+    public void skipDest() {
+        dest = cr.getFirst();
+        if (dest == null)
+            mc.stopMoving();
     }
 
     private void fetchMouseCoords() {

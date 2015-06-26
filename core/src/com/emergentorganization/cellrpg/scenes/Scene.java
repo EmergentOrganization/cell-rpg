@@ -22,8 +22,6 @@ import org.dyn4j.dynamics.World;
 
 import java.util.*;
 
-import jdk.nashorn.internal.objects.Global;
-
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
  */

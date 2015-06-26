@@ -14,12 +14,15 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.World;
 
 import java.util.*;
+
+import jdk.nashorn.internal.objects.Global;
 
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
@@ -28,6 +31,7 @@ public abstract class Scene implements Screen {
     public static float scale = 1/10f;
 
     private ArrayList<Entity> entities;
+    private ArrayList<GlobalComponent> comps;
 
     private static final int ENTITY_INSERT = 1;
     private static final int ENTITY_REMOVE = 2;
@@ -45,8 +49,10 @@ public abstract class Scene implements Screen {
 
     private boolean isEditor = false;
 
+
     public void create() {
         entities = new ArrayList<Entity>();
+        comps = new ArrayList<GlobalComponent>();
         entityQueue = new LinkedHashMap<Entity, Integer>();
 
         batch = new SpriteBatch();
@@ -96,6 +102,10 @@ public abstract class Scene implements Screen {
         if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
 
         handleQueue();
+
+        for ( GlobalComponent comp : comps){
+            comp.update(delta);
+        }
 
         for (Entity entity : entities) {
             entity.update(delta);
@@ -159,6 +169,10 @@ public abstract class Scene implements Screen {
 
     public void removeEntity(Entity e) {
         entityQueue.put(e, ENTITY_REMOVE);
+    }
+
+    public void addComponent(GlobalComponent comp){
+        comps.add(comp);
     }
 
     private void handleQueue(){

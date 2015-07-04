@@ -23,13 +23,10 @@ public class Player extends Character {
     private static final int FRAME_ROWS = 1;  //  # of rows in spritesheet
     private static final float TPF = 0.2f;  // time per frame of animation
 
-    // camera behavior:
-    private static final float EDGE_MARGIN = 10;  // min px between player & screen edge
-    private static final float CLOSE_ENOUGH = 4;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
-    private static final float CAMERA_LEAD = 20;  // dist camera should try to lead player movement
-
-    private OrthographicCamera camera;
     private MovementComponent moveComponent;
+
+    // map editor camera:
+    private OrthographicCamera camera;
 
     /*
     This constructor is needed for MapEditor. Do not remove.
@@ -79,28 +76,5 @@ public class Player extends Character {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-
-        if (!getScene().isEditor())
-            updateCameraPos(deltaTime);
-    }
-
-    private void updateCameraPos(float deltaTime){
-        Camera camera = getScene().getGameCamera();
-        float MAX_OFFSET = Math.min(camera.viewportWidth, camera.viewportHeight)/2-EDGE_MARGIN;  // max player-camera dist
-        float PROPORTIONAL_GAIN = deltaTime * moveComponent.getSpeed() / MAX_OFFSET;
-        Vector2 pos = getMovementComponent().getWorldPosition();
-        Vector2 cameraLoc = new Vector2(camera.position.x, camera.position.y);
-
-        Vector2 offset = new Vector2(pos);
-        offset.sub(camera.position.x, camera.position.y);
-
-        offset.add(moveComponent.getVelocity().nor().scl(CAMERA_LEAD));
-
-        if (Math.abs(offset.x) > CLOSE_ENOUGH || Math.abs(offset.y) > CLOSE_ENOUGH) {
-            cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));
-            camera.position.set(cameraLoc, 0);
-            camera.update();
-            //System.out.println("new camera pos:" + cameraLoc);
-        }
     }
 }

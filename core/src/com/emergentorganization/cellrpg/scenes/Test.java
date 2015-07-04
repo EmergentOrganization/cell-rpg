@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
@@ -14,6 +15,8 @@ public class Test extends Scene {
 	public void create() {
 		super.create();
 
+		System.out.println("loading test scene...");
+
 		Stage uiStage = getUiStage();
 		Image cellRPG = new Image(new Texture("CellRPG.png"));
 		uiStage.addActor(cellRPG);
@@ -22,6 +25,12 @@ public class Test extends Scene {
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
 		Map map = MapTools.importMap("TestMap");
 		addEntities(map.getEntities());
+
+		// TODO: these two should match now?!? (but they don't, Test.getEntities() is empty!)
+		System.out.println(getEntities());
+		System.out.println(map.getEntities());
+
+		addEntity(new FollowingCamera(getPlayer()));  // TODO: this fails b/c there is no player in empty array
 	}
 	
 	@Override

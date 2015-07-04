@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
+import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.World;
 
@@ -143,6 +144,16 @@ public abstract class Scene implements Screen {
         }
         uiStage.dispose();
         physWorld.removeAllBodiesAndJoints();
+    }
+
+    public Entity getPlayer(){
+        for (int i = 0; i < entities.size(); i++){
+            if (entities.get(i) instanceof Player){
+                return entities.get(i);
+            }
+        } // else
+        throw new UnsupportedOperationException("cannot getPlayer(); no player in scene");
+        // TODO: this should be changed to NoPlayerFoundException or similar...
     }
 
     public void drawUI() {

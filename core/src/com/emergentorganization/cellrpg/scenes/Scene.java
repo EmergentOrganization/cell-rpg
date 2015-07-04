@@ -16,12 +16,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
-import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.World;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
@@ -30,11 +29,8 @@ public abstract class Scene implements Screen {
     public static float scale = 1/10f;
 
     private ArrayList<Entity> entities;
+    private ArrayList<Entity> removeQueue;
     private ArrayList<GlobalComponent> comps;
-
-    private static final int ENTITY_INSERT = 1;
-    private static final int ENTITY_REMOVE = 2;
-    private HashMap<Entity, Integer> entityQueue;
 
     private SpriteBatch batch; // sprite batch for entities
     private ShapeRenderer debugRenderer;
@@ -52,7 +48,7 @@ public abstract class Scene implements Screen {
     public void create() {
         entities = new ArrayList<Entity>();
         comps = new ArrayList<GlobalComponent>();
-        entityQueue = new LinkedHashMap<Entity, Integer>();
+        removeQueue = new ArrayList<Entity>();
 
         batch = new SpriteBatch();
         debugRenderer = new ShapeRenderer();
@@ -161,7 +157,7 @@ public abstract class Scene implements Screen {
     }
 
     public void addEntity(Entity e) {
-        entityQueue.put(e, ENTITY_INSERT);
+        entities.add(e);
     }
 
     public void addEntities (Entity... e) {
@@ -177,36 +173,20 @@ public abstract class Scene implements Screen {
     }
 
     public void removeEntity(Entity e) {
-        entityQueue.put(e, ENTITY_REMOVE);
+        removeQueue.add(e);
     }
 
     public void addComponent(GlobalComponent comp){
         comps.add(comp);
     }
 
-    private void handleQueue(){
-        Iterator it = entityQueue.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry<Entity, Integer> entry = (Map.Entry) it.next();
-
-            Entity e = entry.getKey();
-            Integer type = entry.getValue();
-
-            if(type == ENTITY_INSERT){
-                e.setScene(this);
-                e.added();
-                entities.add(e);
-                Collections.sort(entities, new EntitySort());
-            }
-
-            if (type == ENTITY_REMOVE) {
-                e.setScene(null);
-                entities.remove(e);
-                e.dispose();
-            }
-
-            it.remove();
+    protected void handleQueue(){
+        for (Entity entity : removeQueue) {
+            entities.remove(entity);
+            entity.dispose();
         }
+
+        removeQueue.clear();
     }
 
     public ArrayList<Entity> getEntities() {

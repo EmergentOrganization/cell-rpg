@@ -158,6 +158,7 @@ public abstract class Scene implements Screen {
 
     public void addEntity(Entity e) {
         entities.add(e);
+        e.setScene(this);
     }
 
     public void addEntities (Entity... e) {

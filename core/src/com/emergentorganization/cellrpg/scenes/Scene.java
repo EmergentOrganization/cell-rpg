@@ -16,11 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.World;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
@@ -157,8 +159,13 @@ public abstract class Scene implements Screen {
     }
 
     public void addEntity(Entity e) {
-        entities.add(e);
         e.setScene(this);
+        System.out.println("adding entity...");
+        entities.add(e);
+        System.out.println(e);
+        e.added();
+        System.out.println("done");
+        Collections.sort(entities, new EntitySort());
     }
 
     public void addEntities (Entity... e) {
@@ -183,6 +190,7 @@ public abstract class Scene implements Screen {
 
     protected void handleQueue(){
         for (Entity entity : removeQueue) {
+            entity.setScene(null);
             entities.remove(entity);
             entity.dispose();
         }

@@ -26,11 +26,7 @@ public class Test extends Scene {
 		Map map = MapTools.importMap("TestMap");
 		addEntities(map.getEntities());
 
-		// TODO: these two should match now?!? (but they don't, Test.getEntities() is empty!)
-		System.out.println(getEntities());
-		System.out.println(map.getEntities());
-
-		addEntity(new FollowingCamera(getPlayer()));  // TODO: this fails b/c there is no player in empty array
+		addEntity(new FollowingCamera(getPlayer()));
 	}
 	
 	@Override

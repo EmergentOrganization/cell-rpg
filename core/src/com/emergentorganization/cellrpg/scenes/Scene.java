@@ -18,6 +18,7 @@ import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.entities.characters.Player;
+import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import org.dyn4j.dynamics.World;
 
@@ -32,9 +33,10 @@ public abstract class Scene implements Screen {
     private ArrayList<Entity> entities;
     private ArrayList<GlobalComponent> comps;
 
-    private static final int ENTITY_INSERT = 1;
-    private static final int ENTITY_REMOVE = 2;
-    private HashMap<Entity, Integer> entityQueue;
+    private ArrayList<EntityActionListener> entityActionListeners;
+
+    private ArrayList<Entity> entityAddQueue;
+    private ArrayList<Entity> entityRemoveQueue;
 
     private SpriteBatch batch; // sprite batch for entities
     private ShapeRenderer debugRenderer;
@@ -52,7 +54,11 @@ public abstract class Scene implements Screen {
     public void create() {
         entities = new ArrayList<Entity>();
         comps = new ArrayList<GlobalComponent>();
-        entityQueue = new LinkedHashMap<Entity, Integer>();
+
+        entityActionListeners = new ArrayList<EntityActionListener>();
+
+        entityAddQueue = new ArrayList<Entity>();
+        entityRemoveQueue = new ArrayList<Entity>();
 
         batch = new SpriteBatch();
         debugRenderer = new ShapeRenderer();
@@ -161,7 +167,7 @@ public abstract class Scene implements Screen {
     }
 
     public void addEntity(Entity e) {
-        entityQueue.put(e, ENTITY_INSERT);
+        entityAddQueue.add(e);
     }
 
     public void addEntities (Entity... e) {
@@ -177,49 +183,46 @@ public abstract class Scene implements Screen {
     }
 
     public void removeEntity(Entity e) {
-        entityQueue.put(e, ENTITY_REMOVE);
+        entityRemoveQueue.add(e);
     }
 
     public void addComponent(GlobalComponent comp){
         comps.add(comp);
     }
 
-    private void handleQueue(){
-        if (entityQueue.size() > 0) {
-            boolean playerAdded = false;
-            Iterator it = entityQueue.entrySet().iterator();
-            while(it.hasNext()){
-                Map.Entry<Entity, Integer> entry = (Map.Entry) it.next();
+    private void handleQueue() {
+        // Using standard for-loop to avoid ConcurrentModificationException when listeners modify the queues
+        for (int i = 0; i < entityAddQueue.size(); i++) {
+            Entity e = entityAddQueue.get(i);
+            e.setScene(this);
+            e.added();
+            entities.add(e);
 
-                Entity e = entry.getKey();
-                Integer type = entry.getValue();
-
-                if(type == ENTITY_INSERT){
-                    e.setScene(this);
-                    e.added();
-                    entities.add(e);
-                    Collections.sort(entities, new EntitySort());
-
-                    if (e instanceof Player) {
-                        playerAdded = true;
-                    }
+            for (EntityActionListener listener : entityActionListeners) {
+                if (listener.getEntityClass() == e.getClass()) {
+                    listener.onAdd();
                 }
-
-                if (type == ENTITY_REMOVE) {
-                    e.setScene(null);
-                    entities.remove(e);
-                    e.dispose();
-                }
-
-                it.remove();
             }
 
-            if (playerAdded)
-                onPlayerAdded();
+            Collections.sort(entities, new EntitySort());
         }
-    }
 
-    protected void onPlayerAdded() {}
+        for (int i = 0; i < entityRemoveQueue.size(); i++) {
+            Entity e = entityRemoveQueue.get(i);
+            e.setScene(null);
+            entities.remove(e);
+            e.dispose();
+
+            for (EntityActionListener listener : entityActionListeners) {
+                if (listener.getEntityClass() == e.getClass()) {
+                    listener.onRemove();
+                }
+            }
+        }
+
+        entityAddQueue.clear();
+        entityRemoveQueue.clear();
+    }
 
     public ArrayList<Entity> getEntities() {
         return entities;
@@ -257,4 +260,15 @@ public abstract class Scene implements Screen {
         return isEditor;
     }
 
+    public ArrayList<EntityActionListener> getEntityActionListeners() {
+        return entityActionListeners;
+    }
+
+    public void addEntityListener(EntityActionListener listener) {
+        entityActionListeners.add(listener);
+    }
+
+    public void removeEntityActionListener(EntityActionListener listener) {
+        entityActionListeners.remove(listener);
+    }
 }

@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
+import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
+import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import org.dyn4j.geometry.Vector2;
@@ -23,13 +25,21 @@ public class Test extends Scene {
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
 		Map map = MapTools.importMap("TestMap");
 		addEntities(map.getEntities());
-	}
 
-	@Override
-	protected void onPlayerAdded() {
-		super.onPlayerAdded();
+		addEntityListener(new EntityActionListener(Player.class) {
+			private FollowingCamera followingCamera;
 
-		addEntity(new FollowingCamera(getPlayer()));
+			@Override
+			public void onAdd() {
+				followingCamera = new FollowingCamera(getPlayer());
+				addEntity(followingCamera);
+			}
+
+			@Override
+			public void onRemove() {
+				removeEntity(followingCamera);
+			}
+		});
 	}
 
 	@Override

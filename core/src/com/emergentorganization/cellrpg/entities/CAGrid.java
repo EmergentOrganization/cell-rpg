@@ -22,7 +22,7 @@ public class CAGrid extends Entity {
     private int cellSize;
 
     private int[][] states;
-    private ShapeRenderer shapeRenderer;
+    private ShapeRenderer shapeRenderer;  // TODO: use a 1px texture instead for better performance???
 
     public CAGrid(int sizeOfCells) {
         /*
@@ -33,6 +33,20 @@ public class CAGrid extends Entity {
 
         cellSize = sizeOfCells;
 
+        shapeRenderer = new ShapeRenderer();
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+        if (!getScene().isEditor())
+            updateView(deltaTime);
+    }
+
+    @Override
+    public void added(){
+        super.added();
         Camera camera = getScene().getGameCamera();
         sx = (int)camera.viewportWidth + OFF_SCREEN_PIXELS;
         sy = (int)camera.viewportHeight + OFF_SCREEN_PIXELS;
@@ -43,20 +57,7 @@ public class CAGrid extends Entity {
         states = new int[w][h];
 
         // init states for testing (TODO: remove this after testing done, all init to 0)
-        for (int i=0; i < states.length; i++){
-            for (int j = 0; j < states[0].length; j++){
-                states[i][j] = Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
-            }
-        }
-        shapeRenderer = new ShapeRenderer();
-    }
-
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-
-        if (!getScene().isEditor())
-            updateView(deltaTime);
+        randomizeState();
     }
 
     private void updateView(float deltaTime){
@@ -110,6 +111,14 @@ public class CAGrid extends Entity {
             throw new UnsupportedOperationException("previous cell size must be >= 3");
         } else {
             return 3*lastSize + 2;
+        }
+    }
+
+    private void randomizeState(){
+        for (int i=0; i < states.length; i++){
+            for (int j = 0; j < states[0].length; j++){
+                states[i][j] = Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
+            }
         }
     }
 }

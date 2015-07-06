@@ -2,11 +2,15 @@ package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by tylar on 2015-07-06.
  */
 public class CAGrid extends Entity {
+    private final Logger logger = LogManager.getLogger(getClass());
 
     private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
 
@@ -48,11 +52,14 @@ public class CAGrid extends Entity {
     public void added(){
         super.added();
         Camera camera = getScene().getGameCamera();
-        sx = (int)camera.viewportWidth + OFF_SCREEN_PIXELS;
-        sy = (int)camera.viewportHeight + OFF_SCREEN_PIXELS;
+        float scale = getScene().scale;
+        sx = (int)(camera.viewportWidth/scale) + OFF_SCREEN_PIXELS;
+        sy = (int)(camera.viewportHeight/scale) + OFF_SCREEN_PIXELS;
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
         h = sy / (cellSize + 1);
+
+        logger.info("created CAGrid "+ w + "(" + sx +"px)x" + h + "(" + sy + "px)" );
 
         states = new int[w][h];
 
@@ -62,11 +69,13 @@ public class CAGrid extends Entity {
 
     private void updateView(float deltaTime){
         // maintains grid around player while not computing on grid farther from player
+        Camera camera = getScene().getGameCamera();
+        float scale = getScene().scale;
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 1, 0, 1);
+        shapeRenderer.setColor(0, 1, 0, .3f);
 
-        int x;
-        int y;
+        float x;
+        float y;
 
         // TODO: pad leading edge of states with 0s, push existing states over, drop falling edge
 
@@ -76,8 +85,8 @@ public class CAGrid extends Entity {
                     // draw square
 
                     // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
-                    x = i*(cellSize+1);  // +1 for cell border
-                    y = j*(cellSize+1);
+                    x = i*(cellSize+1) - camera.position.x/scale;  // +1 for cell border
+                    y = j*(cellSize+1) - camera.position.y/scale;
                     shapeRenderer.rect(x, y, cellSize, cellSize);
                 }
             }

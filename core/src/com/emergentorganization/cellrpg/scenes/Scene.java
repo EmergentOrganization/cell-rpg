@@ -80,6 +80,8 @@ public abstract class Scene implements Screen {
         gameCamera.position.set(gameCamera.viewportWidth / 2f, gameCamera.viewportHeight / 2f, 0); // center camera with 0,0 in bottom left
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
+        logger.info("init game camera " + gameCamera.viewportWidth + "x" + gameCamera.viewportHeight );
+
 
         logger.info("parsing external physics meshes");
         BodyLoader.fetch(); // initialize bodyLoader if it isn't already

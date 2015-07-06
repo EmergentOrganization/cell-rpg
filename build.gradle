@@ -105,6 +105,8 @@ project(":core") {
         compile "com.kotcrab.vis:vis-ui:0.7.7"
         compile "org.dyn4j:dyn4j:3.1.11"
         compile "com.googlecode.json-simple:json-simple:1.1.1"
+        compile "org.apache.logging.log4j:log4j-api:2.3"
+        compile "org.apache.logging.log4j:log4j-core:2.3"
     }
 }
 

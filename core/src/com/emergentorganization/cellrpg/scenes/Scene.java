@@ -20,15 +20,19 @@ import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dyn4j.dynamics.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Think of this like the stage or level; used to update every entity in the stage, as well as render the world
  */
 public abstract class Scene implements Screen {
     public static float scale = 1/10f;
+    private final Logger logger = LogManager.getLogger(getClass());
 
     private ArrayList<Entity> entities;
     private ArrayList<GlobalComponent> comps;
@@ -52,6 +56,7 @@ public abstract class Scene implements Screen {
 
 
     public void create() {
+        logger.info("Creating scene");
         entities = new ArrayList<Entity>();
         comps = new ArrayList<GlobalComponent>();
 
@@ -76,6 +81,7 @@ public abstract class Scene implements Screen {
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
 
+        logger.info("parsing external physics meshes");
         BodyLoader.fetch(); // initialize bodyLoader if it isn't already
 
         physWorld = new World();
@@ -85,6 +91,7 @@ public abstract class Scene implements Screen {
     @Override
     public void show() {
         // check gameState for android-app-hiding instances
+        logger.info("show event triggered");
         if (batch == null) {
             create();
         }
@@ -93,6 +100,7 @@ public abstract class Scene implements Screen {
     @Override
     public void resize(int width, int height) {
         // TODO
+        logger.info("resize event triggered");
         // uiStage.getViewport().update(width, height, true);
     }
 
@@ -145,6 +153,7 @@ public abstract class Scene implements Screen {
 
     @Override
     public void dispose() {
+        logger.info("disposing");
         for (Entity entity : entities) {
             entity.dispose();
         }
@@ -167,6 +176,7 @@ public abstract class Scene implements Screen {
     }
 
     public void addEntity(Entity e) {
+        logger.info("adding entity " + e.getClass());
         entityAddQueue.add(e);
     }
 
@@ -183,10 +193,12 @@ public abstract class Scene implements Screen {
     }
 
     public void removeEntity(Entity e) {
+        logger.info("removing entity " + e.getClass());
         entityRemoveQueue.add(e);
     }
 
     public void addComponent(GlobalComponent comp){
+        logger.info("adding GlobalComponent " + comp.getClass());
         comps.add(comp);
     }
 

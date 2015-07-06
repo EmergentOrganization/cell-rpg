@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.emergentorganization.cellrpg.entities.CAGrid;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
@@ -28,9 +29,13 @@ public class Test extends Scene {
 
 		addEntityListener(new EntityActionListener(Player.class) {
 			private FollowingCamera followingCamera;
+			private CAGrid ca_grid;
 
 			@Override
 			public void onAdd() {
+				ca_grid = new CAGrid(11);
+				addEntity(ca_grid);
+
 				followingCamera = new FollowingCamera(getPlayer());
 				addEntity(followingCamera);
 			}

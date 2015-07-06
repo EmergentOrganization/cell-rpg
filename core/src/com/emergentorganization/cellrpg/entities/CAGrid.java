@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import org.apache.logging.log4j.LogManager;
@@ -10,9 +11,12 @@ import org.apache.logging.log4j.Logger;
  * Created by tylar on 2015-07-06.
  */
 public class CAGrid extends Entity {
-    private final Logger logger = LogManager.getLogger(getClass());
-
     private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
+    private static final int TIME_PER_GENERATION = 800;  // ms allocated per generation (approximate, actual is slightly longer)
+
+    public long timeToGenerate = TIME_PER_GENERATION;
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     // size of grid in pixels
     private int sx;
@@ -25,6 +29,7 @@ public class CAGrid extends Entity {
     // size of each cell
     private int cellSize;
 
+    private long lastGenerationTime = 0;
     private int[][] states;
     private ShapeRenderer shapeRenderer;  // TODO: use a 1px texture instead for better performance???
 
@@ -44,8 +49,17 @@ public class CAGrid extends Entity {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        if (!getScene().isEditor())
+        if (!getScene().isEditor()) {
             updateView(deltaTime);
+
+            long now = System.currentTimeMillis();
+            if (now - lastGenerationTime > TIME_PER_GENERATION) {
+                lastGenerationTime = now;
+                generate();
+                timeToGenerate = System.currentTimeMillis() - now;
+                logger.info("new cell generation computed. t=" + timeToGenerate + "ms");
+            }
+        }
     }
 
     @Override
@@ -67,12 +81,17 @@ public class CAGrid extends Entity {
         randomizeState();
     }
 
+    private void generate(){
+        // generates the next frame of the CA
+        randomizeState();  // TODO: replace this with actual CA
+    }
+
     private void updateView(float deltaTime){
         // maintains grid around player while not computing on grid farther from player
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0, 1, 0, .3f);
+        shapeRenderer.setColor(0f, .1f, .08f, 1f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
 
         float x;
         float y;

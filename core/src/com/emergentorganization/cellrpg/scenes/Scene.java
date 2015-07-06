@@ -185,29 +185,41 @@ public abstract class Scene implements Screen {
     }
 
     private void handleQueue(){
-        Iterator it = entityQueue.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry<Entity, Integer> entry = (Map.Entry) it.next();
+        if (entityQueue.size() > 0) {
+            boolean playerAdded = false;
+            Iterator it = entityQueue.entrySet().iterator();
+            while(it.hasNext()){
+                Map.Entry<Entity, Integer> entry = (Map.Entry) it.next();
 
-            Entity e = entry.getKey();
-            Integer type = entry.getValue();
+                Entity e = entry.getKey();
+                Integer type = entry.getValue();
 
-            if(type == ENTITY_INSERT){
-                e.setScene(this);
-                e.added();
-                entities.add(e);
-                Collections.sort(entities, new EntitySort());
+                if(type == ENTITY_INSERT){
+                    e.setScene(this);
+                    e.added();
+                    entities.add(e);
+                    Collections.sort(entities, new EntitySort());
+
+                    if (e instanceof Player) {
+                        playerAdded = true;
+                    }
+                }
+
+                if (type == ENTITY_REMOVE) {
+                    e.setScene(null);
+                    entities.remove(e);
+                    e.dispose();
+                }
+
+                it.remove();
             }
 
-            if (type == ENTITY_REMOVE) {
-                e.setScene(null);
-                entities.remove(e);
-                e.dispose();
-            }
-
-            it.remove();
+            if (playerAdded)
+                onPlayerAdded();
         }
     }
+
+    protected void onPlayerAdded() {}
 
     public ArrayList<Entity> getEntities() {
         return entities;

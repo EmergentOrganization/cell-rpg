@@ -15,8 +15,6 @@ public class Test extends Scene {
 	public void create() {
 		super.create();
 
-		System.out.println("loading test scene...");
-
 		Stage uiStage = getUiStage();
 		Image cellRPG = new Image(new Texture("CellRPG.png"));
 		uiStage.addActor(cellRPG);
@@ -25,14 +23,15 @@ public class Test extends Scene {
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
 		Map map = MapTools.importMap("TestMap");
 		addEntities(map.getEntities());
-
-		// TODO: these two should match now?!? (but they don't, Test.getEntities() is empty!)
-		System.out.println(getEntities());
-		System.out.println(map.getEntities());
-
-		addEntity(new FollowingCamera(getPlayer()));  // TODO: this fails b/c there is no player in empty array
 	}
-	
+
+	@Override
+	protected void onPlayerAdded() {
+		super.onPlayerAdded();
+
+		addEntity(new FollowingCamera(getPlayer()));
+	}
+
 	@Override
 	public void show () {
 		super.show();

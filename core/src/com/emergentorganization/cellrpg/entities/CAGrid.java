@@ -2,6 +2,7 @@ package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -34,8 +35,7 @@ public class CAGrid extends Entity {
 
     private long lastGenerationTime = 0;
     private int[][] states;
-    private ShapeRenderer shapeRenderer;  // TODO: use a 1px texture instead for better performance???
-    private Texture cellTexture;
+    private Sprite cellSprite;
 
     public CAGrid(int sizeOfCells, ZIndex z_index) {
         /*
@@ -46,27 +46,22 @@ public class CAGrid extends Entity {
 
         cellSize = sizeOfCells;
 
-        /*
         // create cell texture of appropriate size
         Pixmap pix = new Pixmap(sizeOfCells, sizeOfCells, Pixmap.Format.RGBA8888);
-        pix.setColor(0f, 1f, 0f, .3f);
+        pix.setColor(0f, 1f, .8f, .2f);
         pix.fill();
-        cellTexture = new Texture(pix);
+        cellSprite = new Sprite(new Texture(pix));
         pix.dispose();
-        */
 
-        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void render(SpriteBatch batch){
         super.render(batch);
-
+        long before = System.currentTimeMillis();
         // maintains grid around player while not computing on grid farther from player
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0f, 1f, .8f, .2f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
 
         float x;
         float y;
@@ -79,13 +74,16 @@ public class CAGrid extends Entity {
                     // draw square
 
                     // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
-                    x = i*(cellSize+1) - camera.position.x/scale;  // +1 for cell border
-                    y = j*(cellSize+1) - camera.position.y/scale;
-                    shapeRenderer.rect(x, y, cellSize, cellSize);
+                    x = ((float)(i*(cellSize+1)) - camera.position.x)*scale;  // +1 for cell border
+                    y = ((float)(j*(cellSize+1)) - camera.position.y)*scale;
+                    cellSprite.setSize(scale*cellSize, scale*cellSize);
+                    cellSprite.setPosition(x, y);
+                    //sprite.setRotation(moveComponent.getRotation());
+                    cellSprite.draw(batch);
                 }
             }
         }
-        shapeRenderer.end();
+        logger.info("renderTime=" + (System.currentTimeMillis() - before));
     }
 
     @Override

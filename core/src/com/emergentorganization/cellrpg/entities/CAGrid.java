@@ -2,6 +2,7 @@ package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import org.apache.logging.log4j.LogManager;
@@ -33,11 +34,11 @@ public class CAGrid extends Entity {
     private int[][] states;
     private ShapeRenderer shapeRenderer;  // TODO: use a 1px texture instead for better performance???
 
-    public CAGrid(int sizeOfCells) {
+    public CAGrid(int sizeOfCells, ZIndex z_index) {
         /*
         :param cellSize: size level of grid
          */
-        super();
+        super(z_index);
         checkCellSize(sizeOfCells);
 
         cellSize = sizeOfCells;
@@ -50,10 +51,6 @@ public class CAGrid extends Entity {
         super.update(deltaTime);
 
         if (!getScene().isEditor()) {
-            long before = System.currentTimeMillis();
-            updateView(deltaTime);
-            logger.info("renderTime=" + (System.currentTimeMillis()-before));
-
             long now = System.currentTimeMillis();
             if (now - lastGenerationTime > TIME_PER_GENERATION) {
                 lastGenerationTime = now;
@@ -88,12 +85,14 @@ public class CAGrid extends Entity {
         randomizeState();  // TODO: replace this with actual CA
     }
 
-    private void updateView(float deltaTime){
-        // maintains grid around player while not computing on grid farther from player
+    @Override
+    public void render(SpriteBatch batch){
+        super.render(batch);
+        //long before = System.currentTimeMillis();
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0f, .1f, .08f, 1f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
+        shapeRenderer.setColor(0f, .8f, .5f, .4f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
 
         float x;
         float y;
@@ -113,6 +112,7 @@ public class CAGrid extends Entity {
             }
         }
         shapeRenderer.end();
+        //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 
     private void checkCellSize(int size){

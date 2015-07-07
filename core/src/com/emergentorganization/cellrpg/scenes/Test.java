@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.entities.CAGrid;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
+import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
@@ -33,7 +34,7 @@ public class Test extends Scene {
 
 			@Override
 			public void onAdd() {
-				ca_grid = new CAGrid(1);
+				ca_grid = new CAGrid(1, ZIndex.CHARACTER);
 				addEntity(ca_grid);
 
 				followingCamera = new FollowingCamera(getPlayer());

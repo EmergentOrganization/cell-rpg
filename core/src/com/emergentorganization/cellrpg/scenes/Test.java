@@ -33,7 +33,7 @@ public class Test extends Scene {
 
 			@Override
 			public void onAdd() {
-				ca_grid = new CAGrid(11);
+				ca_grid = new CAGrid(1);
 				addEntity(ca_grid);
 
 				followingCamera = new FollowingCamera(getPlayer());

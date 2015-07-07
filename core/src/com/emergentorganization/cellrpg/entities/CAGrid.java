@@ -50,7 +50,9 @@ public class CAGrid extends Entity {
         super.update(deltaTime);
 
         if (!getScene().isEditor()) {
+            long before = System.currentTimeMillis();
             updateView(deltaTime);
+            logger.info("renderTime=" + (System.currentTimeMillis()-before));
 
             long now = System.currentTimeMillis();
             if (now - lastGenerationTime > TIME_PER_GENERATION) {

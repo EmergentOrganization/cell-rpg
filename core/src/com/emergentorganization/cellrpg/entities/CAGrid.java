@@ -2,14 +2,11 @@ package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Pixmap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.zip.ZipEntry;
 
 /**
  * Created by tylar on 2015-07-06.
@@ -35,7 +32,7 @@ public class CAGrid extends Entity {
 
     private long lastGenerationTime = 0;
     private int[][] states;
-    private Sprite cellSprite;
+    private Texture gridTexture;  // texture which contains all cells
 
     public CAGrid(int sizeOfCells, ZIndex z_index) {
         /*
@@ -45,13 +42,6 @@ public class CAGrid extends Entity {
         checkCellSize(sizeOfCells);
 
         cellSize = sizeOfCells;
-
-        // create cell texture of appropriate size
-        Pixmap pix = new Pixmap(sizeOfCells, sizeOfCells, Pixmap.Format.RGBA8888);
-        pix.setColor(0f, 1f, .8f, .2f);
-        pix.fill();
-        cellSprite = new Sprite(new Texture(pix));
-        pix.dispose();
 
     }
 
@@ -63,26 +53,16 @@ public class CAGrid extends Entity {
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
 
-        float x;
-        float y;
+        //cellSprite.setSize(scale*cellSize, scale*cellSize);
+        //cellSprite.setPosition(x, y);
+        //sprite.setRotation(moveComponent.getRotation());
+        batch.draw(gridTexture,
+            -OFF_SCREEN_PIXELS,
+            -OFF_SCREEN_PIXELS//);
+            sx,
+            sy
+        );
 
-        // TODO: pad leading edge of states with 0s, push existing states over, drop falling edge
-
-        for (int i=0; i < states.length; i++){
-            for (int j = 0; j < states[0].length; j++) {
-                if (states[i][j] != 0) {
-                    // draw square
-
-                    // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
-                    x = ((float)(i*(cellSize+1)) - camera.position.x)*scale;  // +1 for cell border
-                    y = ((float)(j*(cellSize+1)) - camera.position.y)*scale;
-                    cellSprite.setSize(scale*cellSize, scale*cellSize);
-                    cellSprite.setPosition(x, y);
-                    //sprite.setRotation(moveComponent.getRotation());
-                    cellSprite.draw(batch);
-                }
-            }
-        }
         logger.info("renderTime=" + (System.currentTimeMillis() - before));
     }
 
@@ -106,7 +86,7 @@ public class CAGrid extends Entity {
         super.added();
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
-        sx = (int)(camera.viewportWidth/scale) + OFF_SCREEN_PIXELS;
+        sx = (int)(camera.viewportWidth/scale) + OFF_SCREEN_PIXELS;  // TODO: OFF_SCREEN_PIXELS * 2??? (try it after load test)
         sy = (int)(camera.viewportHeight/scale) + OFF_SCREEN_PIXELS;
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
@@ -120,9 +100,42 @@ public class CAGrid extends Entity {
         randomizeState();
     }
 
+    private void onStateChange(){
+        gridTexture = generateSpriteTexture();
+    }
+
+    private Texture generateSpriteTexture(){
+        // returns texture of entire grid with cells in it
+        float x;
+        float y;
+        Camera camera = getScene().getGameCamera();
+        float scale = getScene().scale;
+        Pixmap pix = new Pixmap(sx, sy, Pixmap.Format.RGBA8888);
+        pix.setColor(0f, 1f, .8f, .2f);
+
+        // TODO: pad leading edge of states with 0s, push existing states over, drop falling edge
+        for (int i=0; i < states.length; i++){
+            for (int j = 0; j < states[0].length; j++) {
+                if (states[i][j] != 0) {
+                    // draw square
+
+                    // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
+                    x = ((float)(i*(cellSize+1)) - camera.position.x)*scale;  // +1 for cell border
+                    y = ((float)(j*(cellSize+1)) - camera.position.y)*scale;
+
+                    pix.drawRectangle((int) x, (int) y, cellSize, cellSize);
+                }
+            }
+        }
+        Texture tex = new Texture(pix);
+        pix.dispose();
+        return tex;
+    }
+
     private void generate(){
         // generates the next frame of the CA
         randomizeState();  // TODO: replace this with actual CA
+        onStateChange();
     }
 
     private void checkCellSize(int size){
@@ -160,5 +173,6 @@ public class CAGrid extends Entity {
                 states[i][j] = Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
             }
         }
+        onStateChange();
     }
 }

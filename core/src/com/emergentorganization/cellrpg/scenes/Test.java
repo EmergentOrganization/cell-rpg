@@ -34,7 +34,7 @@ public class Test extends Scene {
 
 			@Override
 			public void onAdd() {
-				ca_grid = new CAGrid(1, ZIndex.CHARACTER);  // TODO: this shouldn't have to be CHARACTER, but changing it breaks things
+				ca_grid = new CAGrid(11, ZIndex.CHARACTER);  // TODO: this shouldn't have to be CHARACTER, but changing it breaks things
 				addEntity(ca_grid);
 
 				followingCamera = new FollowingCamera(getPlayer());

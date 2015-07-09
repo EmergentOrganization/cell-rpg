@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -45,8 +46,14 @@ public class CAGrid extends Entity {
 
         // create cell texture of appropriate size
         Pixmap pix = new Pixmap(sizeOfCells, sizeOfCells, Pixmap.Format.RGBA8888);
-        pix.setColor(0f, 1f, .8f, .2f);
-        pix.fill();
+        //pix.setColor(0f, 1f, .8f, .2f);
+        //pix.fill();
+        for (int i=0; i < cellSize; i++) {
+            for (int j = 0; j < cellSize; j++) {
+                pix.setColor(0f, (i+1f)/(float)cellSize, (j+1f)/(float)cellSize, .5f);
+                pix.drawPixel(i, j);
+            }
+        }
         cellTexture = new Texture(pix);
         pix.dispose();
 
@@ -109,13 +116,13 @@ public class CAGrid extends Entity {
         sy = (int)(camera.viewportHeight/scale) + OFF_SCREEN_PIXELS;
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
-        h = sy / (cellSize + 1);
+                        h = sy / (cellSize + 1);
 
         logger.info("created CAGrid "+ w + "(" + sx +"px)x" + h + "(" + sy + "px)" );
 
         states = new int[w][h];
 
-        // init states for testing (TODO: remove this after testing done, all init to 0)
+                        // init states for testing (TODO: remove this after testing done, all init to 0)
         randomizeState();
     }
 

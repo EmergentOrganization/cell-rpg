@@ -62,6 +62,7 @@ public class CAGrid extends Entity {
 
         float x;
         float y;
+        float size = cellSize*scale;
 
         // TODO: pad leading edge of states with 0s, push existing states over, drop falling edge
 
@@ -77,7 +78,7 @@ public class CAGrid extends Entity {
                     //cellSprite.setPosition(x, y);
                     //sprite.setRotation(moveComponent.getRotation());
                     //cellSprite.draw(batch);
-                    batch.draw(cellTexture, x, y);
+                    batch.draw(cellTexture, x, y, size, size);
                 }
             }
         }

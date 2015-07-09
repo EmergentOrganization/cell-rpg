@@ -4,12 +4,9 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Pixmap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.zip.ZipEntry;
 
 /**
  * Created by tylar on 2015-07-06.
@@ -35,7 +32,7 @@ public class CAGrid extends Entity {
 
     private long lastGenerationTime = 0;
     private int[][] states;
-    private Sprite cellSprite;
+    private Texture cellTexture;
 
     public CAGrid(int sizeOfCells, ZIndex z_index) {
         /*
@@ -50,7 +47,7 @@ public class CAGrid extends Entity {
         Pixmap pix = new Pixmap(sizeOfCells, sizeOfCells, Pixmap.Format.RGBA8888);
         pix.setColor(0f, 1f, .8f, .2f);
         pix.fill();
-        cellSprite = new Sprite(new Texture(pix));
+        cellTexture = new Texture(pix);
         pix.dispose();
 
     }
@@ -76,10 +73,11 @@ public class CAGrid extends Entity {
                     // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
                     x = ((float)(i*(cellSize+1)) - camera.position.x)*scale;  // +1 for cell border
                     y = ((float)(j*(cellSize+1)) - camera.position.y)*scale;
-                    cellSprite.setSize(scale*cellSize, scale*cellSize);
-                    cellSprite.setPosition(x, y);
+                    //cellSprite.setSize(scale*cellSize, scale*cellSize);
+                    //cellSprite.setPosition(x, y);
                     //sprite.setRotation(moveComponent.getRotation());
-                    cellSprite.draw(batch);
+                    //cellSprite.draw(batch);
+                    batch.draw(cellTexture, x, y);
                 }
             }
         }

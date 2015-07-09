@@ -1,10 +1,8 @@
 package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +30,7 @@ public class CAGrid extends Entity {
 
     private long lastGenerationTime = 0;
     private int[][] states;
-    private ShapeRenderer shapeRenderer;  // TODO: use a 1px texture instead for better performance???
+    private ShapeRenderer shapeRenderer;  // maybe use sprite(texture(pixmap())) for better performance; see pixmap branch
 
     public CAGrid(int sizeOfCells, ZIndex z_index) {
         /*

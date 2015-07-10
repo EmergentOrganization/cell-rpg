@@ -37,6 +37,8 @@ public class PausableScene extends Scene {
 
     public void setPaused(boolean paused) {
         this.paused = paused;
-        frameBufferTexture = ScreenUtils.getFrameBufferTexture(); // cache frame to prevent double-buffer flickering
+
+        if (paused)
+            frameBufferTexture = ScreenUtils.getFrameBufferTexture(); // cache frame to prevent double-buffer flickering
     }
 }

@@ -80,7 +80,154 @@ public class CAGrid extends Entity {
 
     private void generate(){
         // generates the next frame of the CA
-        randomizeState();  // TODO: replace this with actual CA
+        int [][] stateBuffer = new int[states.length][states[0].length];
+        for (int i=0; i < states.length; i++){
+            for (int j = 0; j < states[0].length; j++){
+                 stateBuffer[i][j] = ca_rule(i, j, states);
+            }
+        }
+        states = stateBuffer;
+    }
+
+    /*
+       ===========================================================
+                  TEMPORARY METHODS FOR PLAYING WITH CA
+       ============================================================
+         These methods are here to create an easy-to-understand
+         baseline against which to compare more efficient methods.
+         These should probably not be used in production, as there
+         are much more efficient ways of achieving the same results.
+       ============================================================
+     */
+
+
+    private void checkSize (int size){
+        if (size%2 < 1) {
+            throw new UnsupportedOperationException("size must be odd!");
+        } else {
+            return;
+        }
+    }
+
+    private int getState( final int row, final int col){
+        // returns state of given location, returns 0 for out-of-bounds
+        return getState( row, col, states);
+    }
+
+    private int getState( final int row, final int col, final int[][] cellStates){
+        // returns state of given location, returns 0 for out-of-bounds
+        try{
+            return cellStates[row][col];
+        } catch (IndexOutOfBoundsException err){
+            return 0;
+        }
+    }
+
+    private int[][] getNeighborhood(final int row, final int col, final int size, final int[][] cellStates){
+        // returns matrix of neighborhood around (row, col) with edge size "size"
+        // size MUST be odd! (not checked for efficiency)
+
+        // checkSize(size);
+        int radius = (size-1)/2;
+        int[][] neighbors = new int[size][size];
+        for (int i=row-radius; i <= row+radius; i++){
+            int neighbor_i = i-row+radius;
+            for (int j=col-radius; j <= col+radius; j++){
+                int neighbor_j = j-col+radius;
+                neighbors[neighbor_i][neighbor_j] = getState(i, j, cellStates);
+            }
+        }
+        return neighbors;
+    }
+
+    private int getNeighborhoodSum(final int row, final int col, final int size, final int[][] cellStates){
+        // returns sum of all states in neighborhood
+        // size MUST be odd! (not checked for efficiency)
+        final boolean SKIP_SELF = true;
+
+        // checkSize(size);
+        final int radius = (size-1)/2;
+        int sum = 0;
+        for (int i=row-radius; i <= row+radius; i++){
+            for (int j=col-radius; j <= col+radius; j++){
+                if (SKIP_SELF && i-row+radius == j-col+radius && i-row+radius == radius){
+                        continue;
+                } else {
+                    sum += getState(i, j, cellStates);
+                }
+            }
+        }
+        return sum;
+    }
+
+    private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, final int[][] cellStates){
+        // returns value from applying the kernel matrix to the given neighborhood
+        final boolean SKIP_SELF = true;
+
+        // checkSize(size);
+        final int radius = (size-1)/2;
+        int sum = 0;
+        for (int i=row-radius; i <= row+radius; i++){
+            int kernel_i = i-row+radius;
+            for (int j=col-radius; j <= col+radius; j++){
+                int kernel_j = j-row+radius;
+                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius){
+                    continue;
+                } else {
+                    sum += getState(i, j, cellStates) * kernel[kernel_i][kernel_j];
+                }
+            }
+        }
+        return sum;
+    }
+
+    private float get3dKernelizedValue(final int[][][] kernel, final int row, final int col, final int size, final int[][] cellStates){
+        // returns value from applying the kernel matrix to the given neighborhood
+        // 3rd dimension of the kernel is state-space (ie, kernel[x][y][state])
+        final boolean SKIP_SELF = true;
+
+        // checkSize(size);
+        final int radius = (size-1)/2;
+        int sum = 0;
+        for (int i=row-radius; i <= row+radius; i++){
+            int kernel_i = i-row+radius;
+            for (int j=col-radius; j <= col+radius; j++){
+                int kernel_j = j-row+radius;
+                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius){
+                    continue;
+                } else {
+                    try {
+                        sum += getState(i, j, cellStates) * kernel[kernel_i][kernel_j][getState(i, j, cellStates)];
+                    } catch (IndexOutOfBoundsException err) {
+                        throw new IndexOutOfBoundsException("kernel has no value for [" + kernel_i + "," + kernel_j + "," + getState(i, j, cellStates) + "]");
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+
+    /*
+       ============================================================
+                         END TEMPORARY CA METHODS
+       ============================================================
+     */
+
+    private int ca_rule(final int row, final int col, final int[][] cellStates){
+        // computes the rule at given row, col in cellStates array, returns result
+
+        // Conway's Game of Life:
+        switch (getNeighborhoodSum(row, col, 3, cellStates)){
+            case 2:
+                return cellStates[row][col];
+            case 3:
+                return 1;
+            default:
+                return 0;
+        }
+
+        // random state:
+        //return Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
     }
 
     @Override

@@ -142,6 +142,11 @@ public abstract class Scene implements Screen {
     }
 
     @Override
+    public void hide() {
+        // TODO
+    }
+
+    @Override
     public void pause() {
         // TODO
     }

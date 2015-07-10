@@ -11,7 +11,7 @@ import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import org.dyn4j.geometry.Vector2;
 
-public class Test extends Scene {
+public class Test extends PausableScene {
 
 	@Override
 	public void create() {

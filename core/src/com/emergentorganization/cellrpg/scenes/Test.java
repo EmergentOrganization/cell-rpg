@@ -14,6 +14,9 @@ import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import org.dyn4j.geometry.Vector2;
 
 public class Test extends Scene {
+	private CAGrid ca_grid;
+	private final int RENDERS_PER_GLIDER_INSERT = 10;  // TODO: temporary for testing only!
+	private int render_n = 0;  // TODO: temporary for testing only!
 
 	@Override
 	public void create() {
@@ -30,11 +33,10 @@ public class Test extends Scene {
 
 		addEntityListener(new EntityActionListener(Player.class) {
 			private FollowingCamera followingCamera;
-			private CAGrid ca_grid;
 
 			@Override
 			public void onAdd() {
-				ca_grid = new CAGrid(1, ZIndex.CHARACTER);
+				ca_grid = new CAGrid(3, ZIndex.CHARACTER);  // TODO: what is the proper ZIndex?
 				addEntity(ca_grid);
 
 				followingCamera = new FollowingCamera(getPlayer());
@@ -62,7 +64,21 @@ public class Test extends Scene {
 	public void render(float delta) {
 		super.render(delta);
 
-		drawUI();
+		if (render_n > RENDERS_PER_GLIDER_INSERT){
+			render_n = 0;
+			int[][] testPattern = {
+					{0,1,0},
+					{0,0,1},
+					{1,1,1}
+			};
+			int x = (int)(Math.random()*(ca_grid.getSizeX() - testPattern.length));
+			int y = (int)(Math.random()*(ca_grid.getSizeY() - testPattern[0].length));
+			ca_grid.stampState(testPattern, x, y);
+			System.out.println("inserting glider @ " + x + "," + y);
+			drawUI();
+		} else {
+			render_n++;
+		}
 	}
 
 	@Override

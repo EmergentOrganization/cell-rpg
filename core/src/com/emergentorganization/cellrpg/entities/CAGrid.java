@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class CAGrid extends Entity {
     private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
-    private static final int TIME_PER_GENERATION = 800;  // ms allocated per generation (approximate, actual is slightly longer)
+    private static final int TIME_PER_GENERATION = 100;  // ms allocated per generation (approximate, actual is slightly longer)
 
     public long timeToGenerate = TIME_PER_GENERATION;
 
@@ -44,6 +44,14 @@ public class CAGrid extends Entity {
         shapeRenderer = new ShapeRenderer();
     }
 
+    public int getSizeX(){
+        return states.length;
+    }
+
+    public int getSizeY(){
+        return states[0].length;
+    }
+
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
@@ -60,30 +68,30 @@ public class CAGrid extends Entity {
     }
 
     @Override
-    public void added(){
+    public void added() {
         super.added();
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
-        sx = (int)(camera.viewportWidth/scale) + OFF_SCREEN_PIXELS;
-        sy = (int)(camera.viewportHeight/scale) + OFF_SCREEN_PIXELS;
+        sx = (int) (camera.viewportWidth / scale) + OFF_SCREEN_PIXELS;
+        sy = (int) (camera.viewportHeight / scale) + OFF_SCREEN_PIXELS;
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
         h = sy / (cellSize + 1);
 
-        logger.info("created CAGrid "+ w + "(" + sx +"px)x" + h + "(" + sy + "px)" );
+        logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
 
         states = new int[w][h];
 
         // init states for testing (TODO: remove this after testing done, all init to 0)
-        randomizeState();
+        //randomizeState();
     }
 
-    private void generate(){
+    private void generate() {
         // generates the next frame of the CA
-        int [][] stateBuffer = new int[states.length][states[0].length];
-        for (int i=0; i < states.length; i++){
-            for (int j = 0; j < states[0].length; j++){
-                 stateBuffer[i][j] = ca_rule(i, j, states);
+        int[][] stateBuffer = new int[states.length][states[0].length];
+        for (int i = 0; i < states.length; i++) {
+            for (int j = 0; j < states[0].length; j++) {
+                stateBuffer[i][j] = ca_rule(i, j, states);
             }
         }
         states = stateBuffer;
@@ -101,57 +109,57 @@ public class CAGrid extends Entity {
      */
 
 
-    private void checkSize (int size){
-        if (size%2 < 1) {
+    private void checkSize(int size) {
+        if (size % 2 < 1) {
             throw new UnsupportedOperationException("size must be odd!");
         } else {
             return;
         }
     }
 
-    private int getState( final int row, final int col){
+    private int getState(final int row, final int col) {
         // returns state of given location, returns 0 for out-of-bounds
-        return getState( row, col, states);
+        return getState(row, col, states);
     }
 
-    private int getState( final int row, final int col, final int[][] cellStates){
+    private int getState(final int row, final int col, final int[][] cellStates) {
         // returns state of given location, returns 0 for out-of-bounds
-        try{
+        try {
             return cellStates[row][col];
-        } catch (IndexOutOfBoundsException err){
+        } catch (IndexOutOfBoundsException err) {
             return 0;
         }
     }
 
-    private int[][] getNeighborhood(final int row, final int col, final int size, final int[][] cellStates){
+    private int[][] getNeighborhood(final int row, final int col, final int size, final int[][] cellStates) {
         // returns matrix of neighborhood around (row, col) with edge size "size"
         // size MUST be odd! (not checked for efficiency)
 
         // checkSize(size);
-        int radius = (size-1)/2;
+        int radius = (size - 1) / 2;
         int[][] neighbors = new int[size][size];
-        for (int i=row-radius; i <= row+radius; i++){
-            int neighbor_i = i-row+radius;
-            for (int j=col-radius; j <= col+radius; j++){
-                int neighbor_j = j-col+radius;
+        for (int i = row - radius; i <= row + radius; i++) {
+            int neighbor_i = i - row + radius;
+            for (int j = col - radius; j <= col + radius; j++) {
+                int neighbor_j = j - col + radius;
                 neighbors[neighbor_i][neighbor_j] = getState(i, j, cellStates);
             }
         }
         return neighbors;
     }
 
-    private int getNeighborhoodSum(final int row, final int col, final int size, final int[][] cellStates){
+    private int getNeighborhoodSum(final int row, final int col, final int size, final int[][] cellStates) {
         // returns sum of all states in neighborhood
         // size MUST be odd! (not checked for efficiency)
         final boolean SKIP_SELF = true;
 
         // checkSize(size);
-        final int radius = (size-1)/2;
+        final int radius = (size - 1) / 2;
         int sum = 0;
-        for (int i=row-radius; i <= row+radius; i++){
-            for (int j=col-radius; j <= col+radius; j++){
-                if (SKIP_SELF && i-row+radius == j-col+radius && i-row+radius == radius){
-                        continue;
+        for (int i = row - radius; i <= row + radius; i++) {
+            for (int j = col - radius; j <= col + radius; j++) {
+                if (SKIP_SELF && i - row + radius == j - col + radius && i - row + radius == radius) {
+                    continue;
                 } else {
                     sum += getState(i, j, cellStates);
                 }
@@ -160,18 +168,18 @@ public class CAGrid extends Entity {
         return sum;
     }
 
-    private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, final int[][] cellStates){
+    private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, final int[][] cellStates) {
         // returns value from applying the kernel matrix to the given neighborhood
         final boolean SKIP_SELF = true;
 
         // checkSize(size);
-        final int radius = (size-1)/2;
+        final int radius = (size - 1) / 2;
         int sum = 0;
-        for (int i=row-radius; i <= row+radius; i++){
-            int kernel_i = i-row+radius;
-            for (int j=col-radius; j <= col+radius; j++){
-                int kernel_j = j-row+radius;
-                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius){
+        for (int i = row - radius; i <= row + radius; i++) {
+            int kernel_i = i - row + radius;
+            for (int j = col - radius; j <= col + radius; j++) {
+                int kernel_j = j - row + radius;
+                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius) {
                     continue;
                 } else {
                     sum += getState(i, j, cellStates) * kernel[kernel_i][kernel_j];
@@ -181,19 +189,19 @@ public class CAGrid extends Entity {
         return sum;
     }
 
-    private float get3dKernelizedValue(final int[][][] kernel, final int row, final int col, final int size, final int[][] cellStates){
+    private float get3dKernelizedValue(final int[][][] kernel, final int row, final int col, final int size, final int[][] cellStates) {
         // returns value from applying the kernel matrix to the given neighborhood
         // 3rd dimension of the kernel is state-space (ie, kernel[x][y][state])
         final boolean SKIP_SELF = true;
 
         // checkSize(size);
-        final int radius = (size-1)/2;
+        final int radius = (size - 1) / 2;
         int sum = 0;
-        for (int i=row-radius; i <= row+radius; i++){
-            int kernel_i = i-row+radius;
-            for (int j=col-radius; j <= col+radius; j++){
-                int kernel_j = j-row+radius;
-                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius){
+        for (int i = row - radius; i <= row + radius; i++) {
+            int kernel_i = i - row + radius;
+            for (int j = col - radius; j <= col + radius; j++) {
+                int kernel_j = j - row + radius;
+                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius) {
                     continue;
                 } else {
                     try {
@@ -213,11 +221,11 @@ public class CAGrid extends Entity {
        ============================================================
      */
 
-    private int ca_rule(final int row, final int col, final int[][] cellStates){
+    private int ca_rule(final int row, final int col, final int[][] cellStates) {
         // computes the rule at given row, col in cellStates array, returns result
 
         // Conway's Game of Life:
-        switch (getNeighborhoodSum(row, col, 3, cellStates)){
+        switch (getNeighborhoodSum(row, col, 3, cellStates)) {
             case 2:
                 return cellStates[row][col];
             case 3:
@@ -231,7 +239,7 @@ public class CAGrid extends Entity {
     }
 
     @Override
-    public void render(SpriteBatch batch){
+    public void render(SpriteBatch batch) {
         super.render(batch);
         //long before = System.currentTimeMillis();
         Camera camera = getScene().getGameCamera();
@@ -244,14 +252,14 @@ public class CAGrid extends Entity {
 
         // TODO: pad leading edge of states with 0s, push existing states over, drop falling edge
 
-        for (int i=0; i < states.length; i++){
+        for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
                 if (states[i][j] != 0) {
                     // draw square
 
                     // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
-                    x = i*(cellSize+1) - camera.position.x/scale;  // +1 for cell border
-                    y = j*(cellSize+1) - camera.position.y/scale;
+                    x = i * (cellSize + 1) - camera.position.x / scale;  // +1 for cell border
+                    y = j * (cellSize + 1) - camera.position.y / scale;
                     shapeRenderer.rect(x, y, cellSize, cellSize);
                 }
             }
@@ -260,14 +268,14 @@ public class CAGrid extends Entity {
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 
-    private void checkCellSize(int size){
+    private void checkCellSize(int size) {
         // checks that given size is acceptable, else throws error
-        if ( size == 1 ){
+        if (size == 1) {
             return;
         } else {
             int acceptableSize = 3;
-            while (acceptableSize <= size){
-                if (size == acceptableSize){
+            while (acceptableSize <= size) {
+                if (size == acceptableSize) {
                     return;
                 } else {
                     acceptableSize = getNextSizeUp(acceptableSize);
@@ -277,22 +285,51 @@ public class CAGrid extends Entity {
         }
     }
 
-    private int getNextSizeUp(int lastSize){
+    private int getNextSizeUp(int lastSize) {
         /*
          * available sizes assuming 1px border between cells given by
          * s(n) = 3(s(n-1))+2 for n > 1 (i.e. starting at s(2)=11)
          */
-        if (lastSize < 3){
+        if (lastSize < 3) {
             throw new UnsupportedOperationException("previous cell size must be >= 3");
         } else {
-            return 3*lastSize + 2;
+            return 3 * lastSize + 2;
         }
     }
 
-    private void randomizeState(){
-        for (int i=0; i < states.length; i++){
-            for (int j = 0; j < states[0].length; j++){
+    private void randomizeState() {
+        for (int i = 0; i < states.length; i++) {
+            for (int j = 0; j < states[0].length; j++) {
                 states[i][j] = Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
+            }
+        }
+    }
+
+    /*
+        === === === === ===
+       CELL STATES INTERFACE
+        === === === === ===
+     */
+
+    public long stampState(final int[][] pattern, final int row, final int col) {
+        return stampState(pattern, row, col, states);
+    }
+
+    public long stampState(final int[][] pattern, final int row, final int col, final int[][] cellStates) {
+        // stamps a pattern onto the state with top-left corner @ (row, col)
+        // returns estimated UNIX time when the pattern will be applied (@ next generation)
+
+        // TODO: add pattern, row, col to queue which will be handled, call _stampState during next generation
+        _stampState(pattern, row, col, cellStates);
+
+        return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
+    }
+
+    private void _stampState(final int[][] pattern, final int row, final int col, final int[][] cellStates) {
+        // stamps pattern immediately into given cellStates
+        for (int i = 0; i < pattern.length; i++) {
+            for (int j = 0; j < pattern[0].length; j++) {
+                cellStates[row + i][col + j] = pattern[i][j];
             }
         }
     }

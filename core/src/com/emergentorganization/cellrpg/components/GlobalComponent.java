@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.BaseComponent;
 import com.emergentorganization.cellrpg.components.entity.ComponentType;
+import com.emergentorganization.cellrpg.scenes.Scene;
 
 /**
  * Created by OrelBitton on 23/06/2015.
@@ -11,7 +12,8 @@ import com.emergentorganization.cellrpg.components.entity.ComponentType;
 public class GlobalComponent implements BaseComponent{
     //TODO
 
-    private boolean enabled = true;
+    private boolean enabled = false;
+    private Scene scene;
 
     @Override
     public void added() {
@@ -52,6 +54,14 @@ public class GlobalComponent implements BaseComponent{
     @Override
     public boolean shouldDebugRender() {
         return false;
+    }
+
+    public void setScene(Scene scene){
+        this.scene = scene;
+    }
+
+    protected Scene getScene(){
+        return scene;
     }
 
     @Override

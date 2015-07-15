@@ -1,18 +1,17 @@
-package com.emergentorganization.cellrpg.components.entity;
+package com.emergentorganization.cellrpg.components.global;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.utils.*;
-import com.emergentorganization.cellrpg.components.EntityComponent;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.kotcrab.vis.ui.VisUI;
 
-
 /**
- * Created by OrelBitton on 14/06/2015.
+ * Created by OrelBitton on 11/07/2015.
  */
-public class DialogComponent extends EntityComponent {
+public class DialogComponent extends GlobalComponent{
 
     private final float dialogWidth = Gdx.graphics.getWidth();
     private final float dialogHeight = Gdx.graphics.getHeight() * 0.35f;
@@ -28,12 +27,13 @@ public class DialogComponent extends EntityComponent {
 
     @Override
     public void added() {
-        stage = getEntity().getScene().getUiStage();
+        stage = getScene().getUiStage();
 
         label = new Label("", VisUI.getSkin());
 
         dialog = new Dialog("", VisUI.getSkin());
         dialog.text(label);
+        dialog.setMovable(false);
         dialog.setBounds(0, 0, dialogWidth, dialogHeight);
 
         stage.addActor(dialog);
@@ -43,6 +43,8 @@ public class DialogComponent extends EntityComponent {
 
     @Override
     public void update(float deltaTime){
+        if(!isEnabled())
+            return;
         handleTypewriter();
     }
 
@@ -66,7 +68,6 @@ public class DialogComponent extends EntityComponent {
 
             setText(getText() + c);
         }
-
     }
 
     public void setName(String name){
@@ -86,5 +87,10 @@ public class DialogComponent extends EntityComponent {
         typewriterDelay = (long) (delaySeconds * 1000);
 
         setText("");
+    }
+
+    @Override
+    public void onToggle(boolean enabled) {
+        dialog.setVisible(enabled);
     }
 }

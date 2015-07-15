@@ -8,7 +8,7 @@ import org.dyn4j.geometry.Vector2;
 /**
  * Created by Brian on 6/22/2015.
  */
-public class CustomMap extends Scene {
+public class CustomMap extends PausableScene {
     private String mapName;
 
     public CustomMap(String mapName) {

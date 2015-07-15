@@ -34,6 +34,7 @@ public class DialogComponent extends GlobalComponent{
         dialog = new Dialog("", VisUI.getSkin());
         dialog.text(label);
         dialog.setMovable(false);
+        dialog.setVisible(false);
         dialog.setBounds(0, 0, dialogWidth, dialogHeight);
 
         stage.addActor(dialog);

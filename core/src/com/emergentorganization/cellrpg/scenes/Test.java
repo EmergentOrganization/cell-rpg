@@ -21,7 +21,7 @@ public class Test extends PausableScene {
 		DialogComponent dc = new DialogComponent();
 		addComponent(dc);
 		//dc.setEnabled(true);
-		dc.setTypewriterText("This is a test message.", 0.3f);
+		//dc.setTypewriterText("This is a test message.", 0.3f);
 
 		Stage uiStage = getUiStage();
 		Image cellRPG = new Image(new Texture("CellRPG.png"));

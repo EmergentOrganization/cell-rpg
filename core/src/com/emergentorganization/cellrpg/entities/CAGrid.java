@@ -86,7 +86,7 @@ public class CAGrid extends Entity {
 
         states = new int[w][h];
 
-        // init states for testing (TODO: remove this after testing done, all init to 0)
+        // init states for testing
         //randomizeState();
     }
 
@@ -265,7 +265,6 @@ public class CAGrid extends Entity {
                 if (states[i][j] != 0) {
                     // draw square
 
-                    // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
                     x = i * (cellSize + 1) + x_origin;  // +1 for cell border
                     y = j * (cellSize + 1) + y_origin;
                     shapeRenderer.rect(x, y, cellSize, cellSize);

@@ -40,6 +40,7 @@ public class CAScene extends PausableScene {
     public void render(float delta) {
         super.render(delta);
 
+        // TODO: this next part temporary for testing only:
         if (render_n > RENDERS_PER_GLIDER_INSERT){
             render_n = 0;
             int[][] testPattern = {

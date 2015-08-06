@@ -14,5 +14,6 @@ public enum ComponentType {
     PHYSICS,
     PLAYER_INPUT,
     WEAPON,
-    BULLET
+    BULLET,
+    GRID_SEED
 }

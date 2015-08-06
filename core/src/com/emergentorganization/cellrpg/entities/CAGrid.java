@@ -79,8 +79,8 @@ public class CAGrid extends Entity {
         super.added();
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
-        sx = (int) (camera.viewportWidth / scale) + OFF_SCREEN_PIXELS;
-        sy = (int) (camera.viewportHeight / scale) + OFF_SCREEN_PIXELS;
+        sx = (int) (camera.viewportWidth / scale) + 2*OFF_SCREEN_PIXELS;
+        sy = (int) (camera.viewportHeight / scale) + 2*OFF_SCREEN_PIXELS;
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
         h = sy / (cellSize + 1);
@@ -261,7 +261,9 @@ public class CAGrid extends Entity {
         float x;
         float y;
 
-        // TODO: pad leading edge of states with 0s, push existing states over, drop falling edge
+        // for setting origin (computed outside loop for efficiency++)
+        float x_origin = -OFF_SCREEN_PIXELS + gridCenterX - camera.position.x/scale;
+        float y_origin = -OFF_SCREEN_PIXELS + gridCenterY - camera.position.y/scale;
 
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
@@ -269,8 +271,8 @@ public class CAGrid extends Entity {
                     // draw square
 
                     // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
-                    x = gridCenterX + i * (cellSize + 1) - camera.position.x / scale;  // +1 for cell border
-                    y = gridCenterY + j * (cellSize + 1) - camera.position.y / scale;
+                    x = i * (cellSize + 1) + x_origin;  // +1 for cell border
+                    y = j * (cellSize + 1) + y_origin;
                     shapeRenderer.rect(x, y, cellSize, cellSize);
                 }
             }

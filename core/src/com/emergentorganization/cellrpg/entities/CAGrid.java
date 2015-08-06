@@ -295,12 +295,23 @@ public class CAGrid extends Entity {
         float dX = gridOriginX - camera.position.x/scale;
     }
 
+    private int getEdgeState(int x){
+        // returns cell state in position x on a newly added edge
+        // currently, this state is random, but intentional features could be added in future.
+        final float PERCENT_ONE = 0.5f;
+        if (Math.random() > PERCENT_ONE){
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     private void addRowBottom(float scale){
         // pushes a column of zeros
         for (int i = 0; i < states.length; i++){
             for (int j = states[0].length-1; j >= 0; j--){
                 if ( j == 0 ){
-                    states[i][j] = 0;
+                    states[i][j] = getEdgeState(i);
                 } else {
                     states[i][j] = states[i][j-1];
                 }
@@ -314,7 +325,7 @@ public class CAGrid extends Entity {
         for (int i = 0; i < states.length; i++){
             for (int j = 0; j < states[0].length; j++){
                 if ( j == states[0].length-1 ){
-                    states[i][j] = 0;
+                    states[i][j] = getEdgeState(i);
                 } else {
                     states[i][j] = states[i][j+1];
                 }

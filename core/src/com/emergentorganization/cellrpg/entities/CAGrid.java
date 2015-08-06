@@ -280,16 +280,16 @@ public class CAGrid extends Entity {
         float dY = gridOriginY - camera.position.y/scale;
 
         while ( dY > cellSize+1){
-            System.out.println("BotAddRow");
+            //System.out.println("BotAddRow");
             addRowBottom(scale);
             dY = gridOriginY - camera.position.y/scale;
-            System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
         while ( dY < -cellSize+1){
-            System.out.println("TopAddRow");
+            //System.out.println("TopAddRow");
             addRowTop(scale);
             dY = gridOriginY - camera.position.y/scale;
-            System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
 
         float dX = gridOriginX - camera.position.x/scale;
@@ -298,7 +298,7 @@ public class CAGrid extends Entity {
     private int getEdgeState(int x){
         // returns cell state in position x on a newly added edge
         // currently, this state is random, but intentional features could be added in future.
-        final float PERCENT_ONE = 0.5f;
+        final float PERCENT_ONE = 0.05f;
         if (Math.random() > PERCENT_ONE){
             return 0;
         } else {

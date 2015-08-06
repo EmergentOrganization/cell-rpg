@@ -25,15 +25,12 @@ public class CAGrid extends Entity {
     private int w;
     private int h;
 
-    // distance to move as the grid is moved
-    private int gridMoveUnitSize; // +1 b/c of border
-
     // size of each cell
     private int cellSize;
 
     // location of grid center
-    private float gridCenterX = 0;
-    private float gridCenterY = 0;
+    private float gridOriginX = 0;
+    private float gridOriginY = 0;
 
     private long lastGenerationTime = 0;
     private int[][] states;
@@ -84,8 +81,6 @@ public class CAGrid extends Entity {
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
         h = sy / (cellSize + 1);
-
-        gridMoveUnitSize = cellSize+1;
 
         logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
 
@@ -262,8 +257,8 @@ public class CAGrid extends Entity {
         float y;
 
         // for setting origin (computed outside loop for efficiency++)
-        float x_origin = -OFF_SCREEN_PIXELS + gridCenterX - camera.position.x/scale;
-        float y_origin = -OFF_SCREEN_PIXELS + gridCenterY - camera.position.y/scale;
+        float x_origin = -OFF_SCREEN_PIXELS + gridOriginX - camera.position.x/scale;
+        float y_origin = -OFF_SCREEN_PIXELS + gridOriginY - camera.position.y/scale;
 
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
@@ -283,22 +278,22 @@ public class CAGrid extends Entity {
 
     private void gridFollow(float scale, Camera camera){
         // enables grid to follow the camera
-        float dY = gridCenterY - camera.position.y/scale;
+        float dY = gridOriginY - camera.position.y/scale;
 
-        while ( dY > gridMoveUnitSize){
+        while ( dY > cellSize+1){
             System.out.println("BotAddRow");
             addRowBottom(scale);
-            dY = gridCenterY - camera.position.y/scale;
-            System.out.println(dY + "=" + gridCenterY + "-" + camera.position.y + "/" + scale);
+            dY = gridOriginY - camera.position.y/scale;
+            System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
-        while ( dY < -gridMoveUnitSize){
+        while ( dY < -cellSize+1){
             System.out.println("TopAddRow");
             addRowTop(scale);
-            dY = gridCenterY - camera.position.y/scale;
-            System.out.println(dY + "=" + gridCenterY + "-" + camera.position.y + "/" + scale);
+            dY = gridOriginY - camera.position.y/scale;
+            System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
 
-        float dX = gridCenterX - camera.position.x/scale;
+        float dX = gridOriginX - camera.position.x/scale;
     }
 
     private void addRowBottom(float scale){
@@ -312,7 +307,7 @@ public class CAGrid extends Entity {
                 }
             }
         }
-        gridCenterY -= gridMoveUnitSize;
+        gridOriginY -= cellSize+1;
     }
 
     private void addRowTop(float scale){
@@ -326,7 +321,7 @@ public class CAGrid extends Entity {
                 }
             }
         }
-        gridCenterY += gridMoveUnitSize;
+        gridOriginY += cellSize+1;
     }
 
     private void checkCellSize(int size) {

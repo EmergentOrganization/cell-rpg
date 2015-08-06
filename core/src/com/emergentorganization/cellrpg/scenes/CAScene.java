@@ -50,7 +50,7 @@ public class CAScene extends PausableScene {
             int x = (int)(Math.random()*(ca_grid.getSizeX() - testPattern.length));
             int y = (int)(Math.random()*(ca_grid.getSizeY() - testPattern[0].length));
             ca_grid.stampState(testPattern, x, y);
-            System.out.println("inserting glider @ " + x + "," + y);
+            //System.out.println("inserting glider @ " + x + "," + y);
         } else {
             render_n++;
         }

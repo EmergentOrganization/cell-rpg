@@ -25,8 +25,15 @@ public class CAGrid extends Entity {
     private int w;
     private int h;
 
+    // distance to move as the grid is moved
+    private int gridMoveUnitSize; // +1 b/c of border
+
     // size of each cell
     private int cellSize;
+
+    // location of grid center
+    private float gridCenterX = 0;
+    private float gridCenterY = 0;
 
     private long lastGenerationTime = 0;
     private int[][] states;
@@ -62,7 +69,7 @@ public class CAGrid extends Entity {
                 lastGenerationTime = now;
                 generate();
                 timeToGenerate = System.currentTimeMillis() - now;
-                logger.info("new cell generation computed. t=" + timeToGenerate + "ms");
+                //logger.info("new cell generation computed. t=" + timeToGenerate + "ms");
             }
         }
     }
@@ -77,6 +84,8 @@ public class CAGrid extends Entity {
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
         h = sy / (cellSize + 1);
+
+        gridMoveUnitSize = cellSize+1;
 
         logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
 
@@ -247,6 +256,8 @@ public class CAGrid extends Entity {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0f, .8f, .5f, .4f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
 
+        gridFollow(scale, camera);
+
         float x;
         float y;
 
@@ -258,14 +269,62 @@ public class CAGrid extends Entity {
                     // draw square
 
                     // TODO: adjust position based on camera, move (lower left) corner into negative using OFF_SCREEN_PIXELS
-                    x = i * (cellSize + 1) - camera.position.x / scale;  // +1 for cell border
-                    y = j * (cellSize + 1) - camera.position.y / scale;
+                    x = gridCenterX + i * (cellSize + 1) - camera.position.x / scale;  // +1 for cell border
+                    y = gridCenterY + j * (cellSize + 1) - camera.position.y / scale;
                     shapeRenderer.rect(x, y, cellSize, cellSize);
                 }
             }
         }
         shapeRenderer.end();
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
+    }
+
+    private void gridFollow(float scale, Camera camera){
+        // enables grid to follow the camera
+        float dY = gridCenterY - camera.position.y/scale;
+
+        while ( dY > gridMoveUnitSize){
+            System.out.println("BotAddRow");
+            addRowBottom(scale);
+            dY = gridCenterY - camera.position.y/scale;
+            System.out.println(dY + "=" + gridCenterY + "-" + camera.position.y + "/" + scale);
+        }
+        while ( dY < -gridMoveUnitSize){
+            System.out.println("TopAddRow");
+            addRowTop(scale);
+            dY = gridCenterY - camera.position.y/scale;
+            System.out.println(dY + "=" + gridCenterY + "-" + camera.position.y + "/" + scale);
+        }
+
+        float dX = gridCenterX - camera.position.x/scale;
+    }
+
+    private void addRowBottom(float scale){
+        // pushes a column of zeros
+        for (int i = 0; i < states.length; i++){
+            for (int j = states[0].length-1; j >= 0; j--){
+                if ( j == 0 ){
+                    states[i][j] = 0;
+                } else {
+                    states[i][j] = states[i][j-1];
+                }
+            }
+        }
+        gridCenterY -= gridMoveUnitSize;
+    }
+
+    private void addRowTop(float scale){
+        // pushes a column of zeros
+        for (int i = 0; i < states.length; i++){
+            for (int j = 0; j < states[0].length; j++){
+                if ( j == states[0].length-1 ){
+                    states[i][j] = 0;
+                } else {
+                    states[i][j] = states[i][j+1];
+                }
+            }
+        }
+        gridCenterY += gridMoveUnitSize;
     }
 
     private void checkCellSize(int size) {

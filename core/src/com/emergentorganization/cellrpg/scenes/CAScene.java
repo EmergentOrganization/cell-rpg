@@ -61,4 +61,7 @@ public class CAScene extends PausableScene {
         }
     }
 
+    public CAGrid getLayer(CALayer layer){
+        return ca_layers.get(layer);
+    }
 }

@@ -418,19 +418,21 @@ public class CAGrid extends Entity {
     private int getIndexOfX(float x){
         float scale = getScene().scale;
         float relative_x = x/scale-gridOriginX;
-        return (int)relative_x/(cellSize+1);
+        return (int)relative_x/(cellSize+1) + w/2;
     }
     private int getIndexOfY(float y){
         float scale = getScene().scale;
         float relative_y = y/scale-gridOriginY  ;
-        return (int)relative_y/(cellSize+1);
+        int cell = (int)relative_y/(cellSize+1) + h/2;
+        //System.out.println(y + " from " + gridOriginY + " nearest to " + cell);
+        return cell;
     }
 
     public long stampState(final int[][] pattern, Vector2 position){
         // stamps a pattern onto the grid at the nearest grid cells to the given world position
         int row = getIndexOfX(position.x);
         int col = getIndexOfY(position.y);
-        System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
+        //System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
 
         return stampState(pattern, row, col, states);
     }

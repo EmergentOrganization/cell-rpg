@@ -18,11 +18,11 @@ public class GridSeedComponent extends EntityComponent {
 
     private boolean reseed;
     private int reseedPeriod;
-    private int reseedCycleN = 0;
     private Vector2 seedPos;
     private CALayer seedLayer;
 
     private int[][] seedPattern;
+    private long lastSeededGeneration = 0;
 
     public GridSeedComponent(int[][] seed_pattern, int reseed_period, Vector2 seed_pos, CALayer seed_layer) {
         /*
@@ -82,29 +82,25 @@ public class GridSeedComponent extends EntityComponent {
         // moveComponent.getRotationRad();
     }
 
-    private void seedIt(){
-        // puts the seed into the grid
-
-        // TODO: this doesn't work b/c getScene returns parent of type Scene, when what we need is CAScene...
-        CAGrid seedGrid = null;
+    private CAGrid getGrid(){
         Scene scene = getEntity().getScene();
         if (scene instanceof CAScene) {
             CAScene caScene = (CAScene) scene;
-            seedGrid = caScene.getLayer(CALayer.VYROIDS);
-        }
-
-        if (seedGrid == null)
+            return caScene.getLayer(seedLayer);
+        } else {
             throw new RuntimeException("Returned scene is not a CAScene");
+        }
+    }
 
-
-        if (reseedCycleN > reseedPeriod){
-            reseedCycleN = 0;
+    private void seedIt(){
+        // puts the seed into the grid
+        CAGrid seedGrid = getGrid();
+        long currentGen = seedGrid.generation;
+        if ( currentGen - lastSeededGeneration >= reseedPeriod){
+            lastSeededGeneration = currentGen;
             // TODO: use position relative to Entity here:
             Vector2 pos = moveComponent.getWorldPosition();// + seedPos.x;
             seedGrid.stampState(seedPattern, pos);
-            //System.out.println("inserting glider @ " + x + "," + y);
-        } else {
-            reseedCycleN++;
         }
     }
 

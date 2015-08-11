@@ -44,21 +44,25 @@ public class CAScene extends PausableScene {
         super.render(delta);
 
         // TODO: this next part temporary for testing only:
-        CAGrid vyroidLayer = ca_layers.get(CALayer.VYROIDS);
         if (render_n > RENDERS_PER_GLIDER_INSERT){
-            render_n = 0;
-            int[][] testPattern = {
-                    {0,1,0},
-                    {0,0,1},
-                    {1,1,1}
-            };
-            int x = (int)(Math.random()*(vyroidLayer.getSizeX() - testPattern.length));
-            int y = (int)(Math.random()*(vyroidLayer.getSizeY() - testPattern[0].length));
-            vyroidLayer.stampState(testPattern, x, y);
-            //System.out.println("inserting glider @ " + x + "," + y);
+            //addRandomSpawn();
         } else {
             render_n++;
         }
+    }
+
+    private void addRandomSpawn(){
+        CAGrid vyroidLayer = ca_layers.get(CALayer.VYROIDS);
+        render_n = 0;
+        int[][] testPattern = {
+                {0,1,0},
+                {0,0,1},
+                {1,1,1}
+        };
+        int x = (int)(Math.random()*(vyroidLayer.getSizeX() - testPattern.length));
+        int y = (int)(Math.random()*(vyroidLayer.getSizeY() - testPattern[0].length));
+        vyroidLayer.stampState(testPattern, x, y);
+        //System.out.println("inserting glider @ " + x + "," + y);
     }
 
     public CAGrid getLayer(CALayer layer){

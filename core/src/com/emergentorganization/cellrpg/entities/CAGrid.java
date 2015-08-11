@@ -3,8 +3,10 @@ package com.emergentorganization.cellrpg.entities;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.security.util.BigInt;
 
 /**
  * Created by tylar on 2015-07-06.
@@ -14,6 +16,8 @@ public class CAGrid extends Entity {
     private static final int TIME_PER_GENERATION = 100;  // ms allocated per generation (approximate, actual is slightly longer)
 
     public long timeToGenerate = TIME_PER_GENERATION;
+
+    public long generation = 0;
 
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -31,6 +35,8 @@ public class CAGrid extends Entity {
     // location of grid center
     private float gridOriginX = 0;
     private float gridOriginY = 0;
+
+    private CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
 
     private long lastGenerationTime = 0;
     private int[][] states;
@@ -99,7 +105,8 @@ public class CAGrid extends Entity {
             }
         }
         states = stateBuffer;
-    }
+        generation += 1;
+}
 
     /*
        ===========================================================
@@ -242,6 +249,23 @@ public class CAGrid extends Entity {
         //return Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
     }
 
+    private float getXOrigin(Camera camera, float scale){
+        return -OFF_SCREEN_PIXELS + gridOriginX - camera.position.x/scale;
+    }
+    private float getXOrigin(){
+        Camera camera = getScene().getGameCamera();
+        float scale = getScene().scale;
+        return getXOrigin(camera, scale);
+    }
+    private float getYOrigin(){
+        Camera camera = getScene().getGameCamera();
+        float scale = getScene().scale;
+        return getYOrigin(camera, scale);
+    }
+    private float getYOrigin(Camera camera, float scale){
+        return -OFF_SCREEN_PIXELS + gridOriginY - camera.position.y/scale;
+    }
+
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
@@ -257,8 +281,8 @@ public class CAGrid extends Entity {
         float y;
 
         // for setting origin (computed outside loop for efficiency++)
-        float x_origin = -OFF_SCREEN_PIXELS + gridOriginX - camera.position.x/scale;
-        float y_origin = -OFF_SCREEN_PIXELS + gridOriginY - camera.position.y/scale;
+        float x_origin = getXOrigin(camera, scale);
+        float y_origin = getYOrigin(camera, scale);
 
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
@@ -278,6 +302,8 @@ public class CAGrid extends Entity {
     private void gridFollow(float scale, Camera camera){
         // enables grid to follow the camera
         float dY = gridOriginY - camera.position.y/scale;
+        //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+
 
         while ( dY > cellSize+1){
             //System.out.println("BotAddRow");
@@ -297,9 +323,21 @@ public class CAGrid extends Entity {
 
     private int getEdgeState(int x){
         // returns cell state in position x on a newly added edge
-        // currently, this state is random, but intentional features could be added in future.
-        final float PERCENT_ONE = 0.05f;
-        if (Math.random() > PERCENT_ONE){
+        if (edgeSpawner == CAEdgeSpawnType.RANDOM_SPARSE) {
+            return getRandomState(0.05f);
+        } else if ( edgeSpawner == CAEdgeSpawnType.RANDOM_50_50) {
+            return getRandomState(.5f);
+        } else if ( edgeSpawner == CAEdgeSpawnType.RANDOM_DENSE){
+            return getRandomState(.8f);
+        } else if (edgeSpawner == CAEdgeSpawnType.EMPTY){
+            return 0;
+        } else {
+            throw new IllegalStateException("edgeSpawn type not recognized");
+        }
+    }
+
+    private int getRandomState(float percentLive){
+        if (Math.random() > percentLive) {
             return 0;
         } else {
             return 1;
@@ -377,22 +415,53 @@ public class CAGrid extends Entity {
         === === === === ===
      */
 
+    private int getIndexOfX(float x){
+        float scale = getScene().scale;
+        float relative_x = x/scale-gridOriginX;
+        return (int)relative_x/(cellSize+1);
+    }
+    private int getIndexOfY(float y){
+        float scale = getScene().scale;
+        float relative_y = y/scale-gridOriginY  ;
+        return (int)relative_y/(cellSize+1);
+    }
+
+    public long stampState(final int[][] pattern, Vector2 position){
+        // stamps a pattern onto the grid at the nearest grid cells to the given world position
+        int row = getIndexOfX(position.x);
+        int col = getIndexOfY(position.y);
+        System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
+
+        return stampState(pattern, row, col, states);
+    }
+
     public long stampState(final int[][] pattern, final int row, final int col) {
+        // stamps a pattern into specific grid location
         return stampState(pattern, row, col, states);
     }
 
     public long stampState(final int[][] pattern, final int row, final int col, final int[][] cellStates) {
         // stamps a pattern onto the state with top-left corner @ (row, col)
         // returns estimated UNIX time when the pattern will be applied (@ next generation)
+        if (       row > 0
+                && col > 0
+                && row < states.length-pattern.length
+                && col < states[0].length-pattern[0].length) {
 
-        // TODO: add pattern, row, col to queue which will be handled, call _stampState during next generation
-        _stampState(pattern, row, col, cellStates);
+            // TODO: add pattern, row, col to queue which will be handled, call _stampState during next generation
+            _stampState(pattern, row, col, cellStates);
 
-        return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
+            return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
+
+        } else {
+            logger.warn("attempt to stamp pattern out of bounds; error suppressed.");
+            return -1;  // -1 indicates pattern not drawn, out-of-CAGrid bounds
+        }
     }
 
     private void _stampState(final int[][] pattern, final int row, final int col, final int[][] cellStates) {
         // stamps pattern immediately into given cellStates
+        System.out.println("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
         for (int i = 0; i < pattern.length; i++) {
             for (int j = 0; j < pattern[0].length; j++) {
                 cellStates[row + i][col + j] = pattern[i][j];

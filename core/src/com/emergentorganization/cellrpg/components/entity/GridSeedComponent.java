@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.CAGrid;
 import com.emergentorganization.cellrpg.scenes.CALayer;
+import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.CAScene;
 
 /**
  * Created by 7yl4r 2015-08-06.
@@ -84,14 +86,22 @@ public class GridSeedComponent extends EntityComponent {
         // puts the seed into the grid
 
         // TODO: this doesn't work b/c getScene returns parent of type Scene, when what we need is CAScene...
-        CAGrid seedGrid = getEntity().getScene().getLayer(CALayer.VYROIDS);
+        CAGrid seedGrid = null;
+        Scene scene = getEntity().getScene();
+        if (scene instanceof CAScene) {
+            CAScene caScene = (CAScene) scene;
+            seedGrid = caScene.getLayer(CALayer.VYROIDS);
+        }
+
+        if (seedGrid == null)
+            throw new RuntimeException("Returned scene is not a CAScene");
 
 
         if (reseedCycleN > reseedPeriod){
             reseedCycleN = 0;
-            int x = (int)seedPos.x - seedPattern.length;
-            int y = (int)seedPos.y - seedPattern[0].length;
-            seedGrid.stampState(seedPattern, x, y);
+            // TODO: use position relative to Entity here:
+            Vector2 pos = moveComponent.getWorldPosition();// + seedPos.x;
+            seedGrid.stampState(seedPattern, pos);
             //System.out.println("inserting glider @ " + x + "," + y);
         } else {
             reseedCycleN++;

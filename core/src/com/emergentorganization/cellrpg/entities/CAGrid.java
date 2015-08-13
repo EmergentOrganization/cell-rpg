@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import sun.security.util.BigInt;
 
 /**
  * Created by tylar on 2015-07-06.
@@ -14,8 +13,10 @@ import sun.security.util.BigInt;
 public class CAGrid extends Entity {
     private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
     private static final int TIME_PER_GENERATION = 100;  // ms allocated per generation (approximate, actual is slightly longer)
+    private static final int TIME_PER_FOLLOW = 8000; // ms between checks between grid movements
 
     public long timeToGenerate = TIME_PER_GENERATION;
+    private long lastFollowCheckTime = 0;
 
     public long generation = 0;
 
@@ -73,6 +74,9 @@ public class CAGrid extends Entity {
                 generate();
                 timeToGenerate = System.currentTimeMillis() - now;
                 //logger.info("new cell generation computed. t=" + timeToGenerate + "ms");
+            } else if (now - lastFollowCheckTime > TIME_PER_FOLLOW){
+                lastFollowCheckTime = now;
+                gridFollow(); // do this only in non-generation frames to even out computational requirements
             }
         }
     }
@@ -275,8 +279,6 @@ public class CAGrid extends Entity {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0f, .8f, .5f, .4f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
 
-        gridFollow(scale, camera);
-
         float x;
         float y;
 
@@ -299,21 +301,24 @@ public class CAGrid extends Entity {
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 
-    private void gridFollow(float scale, Camera camera){
+    private void gridFollow(){
         // enables grid to follow the camera
+        System.out.println("repositioning grid...");
+        Camera camera = getScene().getGameCamera();
+        float scale = getScene().scale;
 
         float dY = gridOriginY - camera.position.y/scale;
         //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
 
         while ( dY > cellSize+1){
             //System.out.println("BotAddRow");
-            addRowBottom(scale);
+            addRowBottom();
             dY = gridOriginY - camera.position.y/scale;
             //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
         while ( dY < -cellSize+1){
             //System.out.println("TopAddRow");
-            addRowTop(scale);
+            addRowTop();
             dY = gridOriginY - camera.position.y/scale;
             //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
@@ -321,13 +326,11 @@ public class CAGrid extends Entity {
         float dX = gridOriginX - camera.position.x/scale;
 
         while ( dX > cellSize+1){
-            //System.out.println("BotAddRow");
-            addColLeft(scale);
+            addColLeft();
             dX = gridOriginX - camera.position.x/scale;
         }
         while ( dX < -cellSize+1){
-            //System.out.println("TopAddRow");
-            addColRight(scale);
+            addColRight();
             dX = gridOriginX - camera.position.x/scale;
         }
     }
@@ -355,9 +358,8 @@ public class CAGrid extends Entity {
         }
     }
 
-    private void addColLeft(float scale){
+    private void addColLeft(){
         // pushes a column onto left side
-        System.out.println("addLeft");
         for (int i = states.length-1; i >= 0; i--){
             for (int j = 0; j < states[0].length; j++){
                 if ( i == 0 ){
@@ -370,7 +372,7 @@ public class CAGrid extends Entity {
         gridOriginX -= cellSize+1;
     }
 
-    private void addColRight(float scale){
+    private void addColRight(){
         // pushes a column onto right side
         for (int i = 0; i < states.length; i++){
             for (int j = 0; j < states[0].length; j++){
@@ -384,7 +386,7 @@ public class CAGrid extends Entity {
         gridOriginX += cellSize+1;
     }
 
-    private void addRowBottom(float scale){
+    private void addRowBottom(){
         // pushes a column of zeros
         for (int i = 0; i < states.length; i++){
             for (int j = states[0].length-1; j >= 0; j--){
@@ -398,7 +400,7 @@ public class CAGrid extends Entity {
         gridOriginY -= cellSize+1;
     }
 
-    private void addRowTop(float scale){
+    private void addRowTop(){
         // pushes a column of zeros
         for (int i = 0; i < states.length; i++){
             for (int j = 0; j < states[0].length; j++){
@@ -503,7 +505,7 @@ public class CAGrid extends Entity {
 
     private void _stampState(final int[][] pattern, final int row, final int col, final int[][] cellStates) {
         // stamps pattern immediately into given cellStates
-        System.out.println("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
+        //System.out.println("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
         for (int i = 0; i < pattern.length; i++) {
             for (int j = 0; j < pattern[0].length; j++) {
                 cellStates[row + i][col + j] = pattern[i][j];

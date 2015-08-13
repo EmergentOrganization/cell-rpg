@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.entity.GridSeedComponent;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
+import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
@@ -37,6 +39,7 @@ public class Player extends Character {
         moveComponent = getMovementComponent();
 
         addComponent(new WeaponComponent());
+        initCAGrid();
     }
 
     public Player(Texture texture, Vector2 position) {
@@ -46,6 +49,19 @@ public class Player extends Character {
         moveComponent.setWorldPosition(position);
 
         addComponent(new WeaponComponent());
+        initCAGrid();
+    }
+
+    private void initCAGrid(){
+        int[][] pattern = {
+                {1,1,1}
+        };
+        addComponent(new GridSeedComponent(
+                pattern,
+                5,
+                new Vector2(0,0),  // TODO: place this in center of img
+                CALayer.VYROIDS
+        ));
     }
 
     @Override

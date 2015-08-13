@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 public class CAGrid extends Entity {
     private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
     private static final int TIME_PER_GENERATION = 100;  // ms allocated per generation (approximate, actual is slightly longer)
-    private static final int TIME_PER_FOLLOW = 8000; // ms between checks between grid movements
+    private static final int TIME_PER_FOLLOW = 1000; // ms between checks between grid movements
 
     public long timeToGenerate = TIME_PER_GENERATION;
     private long lastFollowCheckTime = 0;
@@ -303,7 +303,6 @@ public class CAGrid extends Entity {
 
     private void gridFollow(){
         // enables grid to follow the camera
-        System.out.println("repositioning grid...");
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
 
@@ -323,6 +322,7 @@ public class CAGrid extends Entity {
             //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
 
+
         float dX = gridOriginX - camera.position.x/scale;
 
         while ( dX > cellSize+1){
@@ -333,6 +333,7 @@ public class CAGrid extends Entity {
             addColRight();
             dX = gridOriginX - camera.position.x/scale;
         }
+
     }
 
     private int getEdgeState(int x){
@@ -498,7 +499,7 @@ public class CAGrid extends Entity {
             return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
 
         } else {
-            logger.warn("attempt to stamp pattern out of bounds; error suppressed.");
+            logger.warn("attempt to stamp pattern out of bounds (" + row + "," + col +"); error suppressed.");
             return -1;  // -1 indicates pattern not drawn, out-of-CAGrid bounds
         }
     }

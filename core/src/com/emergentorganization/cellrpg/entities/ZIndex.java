@@ -8,5 +8,6 @@ public enum ZIndex {
     BUILDING,
     SCENERY,
     PROJECTILE,
-    CHARACTER
+    CHARACTER,
+    VYROIDS
 }

@@ -27,7 +27,7 @@ public class CAScene extends PausableScene {
 
             @Override
             public void onAdd() {
-                ca_layers.put( CALayer.VYROIDS, new CAGrid(11, ZIndex.CHARACTER));  // TODO: what is the proper ZIndex?
+                ca_layers.put( CALayer.VYROIDS, new CAGrid(11, ZIndex.VYROIDS));  // TODO: what is the proper ZIndex?
                 addEntity(ca_layers.get(CALayer.VYROIDS));
             }
 

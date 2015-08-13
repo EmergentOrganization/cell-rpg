@@ -301,9 +301,9 @@ public class CAGrid extends Entity {
 
     private void gridFollow(float scale, Camera camera){
         // enables grid to follow the camera
+
         float dY = gridOriginY - camera.position.y/scale;
         //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
-
 
         while ( dY > cellSize+1){
             //System.out.println("BotAddRow");
@@ -319,6 +319,17 @@ public class CAGrid extends Entity {
         }
 
         float dX = gridOriginX - camera.position.x/scale;
+
+        while ( dX > cellSize+1){
+            //System.out.println("BotAddRow");
+            addColRight(scale);
+            dX = gridOriginX - camera.position.x/scale;
+        }
+        while ( dX < -cellSize+1){
+            //System.out.println("TopAddRow");
+            addColLeft(scale);
+            dX = gridOriginX - camera.position.x/scale;
+        }
     }
 
     private int getEdgeState(int x){
@@ -342,6 +353,34 @@ public class CAGrid extends Entity {
         } else {
             return 1;
         }
+    }
+
+    private void addColLeft(float scale){
+        // pushes a column onto left side
+        for (int i = 0; i < states.length; i++){
+            for (int j = 0; j < states[0].length; j++){
+                if ( i == 0 ){
+                    states[i][j] = getEdgeState(j);
+                } else {
+                    states[i][j] = states[i-1][j];
+                }
+            }
+        }
+        gridOriginX += cellSize+1;
+    }
+
+    private void addColRight(float scale){
+        // pushes a column onto left side
+        for (int i = states.length-1; i >= 0; i--){
+            for (int j = 0; j < states[0].length; j++){
+                if ( i == states.length-1 ){
+                    states[i][j] = getEdgeState(j);
+                } else {
+                    states[i][j] = states[i+1][j];
+                }
+            }
+        }
+        gridOriginX -= cellSize+1;
     }
 
     private void addRowBottom(float scale){

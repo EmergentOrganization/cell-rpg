@@ -53,11 +53,13 @@ public class Player extends Character {
 
     private void initCAGrid(){
         int[][] pattern = {
-                {1,1,1}
+                {0,1,0},
+                {1,0,1},
+                {0,1,0}
         };
         addComponent(new GridSeedComponent(
                 pattern,
-                5,
+                1,
                 new Vector2(0,0),  // TODO: place this in center of img
                 CALayer.VYROIDS
         ));

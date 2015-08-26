@@ -45,22 +45,30 @@ public class BulletComponent extends EntityComponent {
         }
     }
 
-    private boolean collide(){
-        // checks for collisions
-        // returns true if collided, else false
+    private boolean checkCollideAt(float x, float y){
         CAScene caScene = (CAScene) getEntity().getScene();
         CAGrid layer = caScene.getLayer(CALayer.VYROIDS);
-        int state = layer.getState(mc.getWorldPosition().x, mc.getWorldPosition().y);
+        int state = layer.getState(x, y);
         // this is a switch statement so we can do things with different states if desired
         int[][] collideEffect;
         switch (state){
             case 0:
+                collideEffect = new int[][] {{0,1,0},{1,1,1},{0,1,0}};  // this stamp just destroys the cell
+                layer.stampState(collideEffect,mc.getWorldPosition());
                 return false;
             default:
                 collideEffect = new int[][] {{0,0,0},{0,0,0},{0,0,0}};  // this stamp just destroys the cell
                 layer.stampState(collideEffect,mc.getWorldPosition());
                 return true;
         }
+    }
 
+    private boolean collide(){
+        // checks for collisions
+        // returns true if collided, else false
+        float bulletSize = 10f;
+        float x = mc.getWorldPosition().x;
+        float y = mc.getWorldPosition().y;
+        return checkCollideAt(x-bulletSize, y-bulletSize) && checkCollideAt(x-bulletSize, y+bulletSize) && checkCollideAt(x+bulletSize, y-bulletSize) && checkCollideAt(x+bulletSize, y+bulletSize);
     }
 }

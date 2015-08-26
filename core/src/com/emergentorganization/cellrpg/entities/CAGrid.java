@@ -132,6 +132,12 @@ public class CAGrid extends Entity {
         }
     }
 
+    public int getState(final float x, final float y){
+        int row = getIndexOfX(x);
+        int col = getIndexOfX(y);
+        return getState(row, col);
+    }
+
     private int getState(final int row, final int col) {
         // returns state of given location, returns 0 for out-of-bounds
         return getState(row, col, states);

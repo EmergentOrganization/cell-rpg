@@ -1,8 +1,10 @@
 package com.emergentorganization.cellrpg.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -276,10 +278,18 @@ public class CAGrid extends Entity {
     @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
         super.debugRender(shapeRenderer);
+
+        //NOTE: this is getting called... so maybe it's drawing in wrong location/scale?
+        //shapeRenderer.setProjectionMatrix(new Matrix4());
+
+        Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
+
         //long before = System.currentTimeMillis();
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
-        shapeRenderer.setColor(0f, .8f, .5f, .4f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
+        ShapeRenderer.ShapeType oldType = shapeRenderer.getCurrentType();
+        shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0f, .8f, .5f, .4f);
 
         float x;
         float y;
@@ -299,6 +309,8 @@ public class CAGrid extends Entity {
                 }
             }
         }
+        shapeRenderer.set(oldType);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 

@@ -135,7 +135,7 @@ public abstract class Scene implements Screen {
         }
         batch.end();
 
-        debugRenderer.setProjectionMatrix(gameCamera.combined);
+        //debugRenderer.setProjectionMatrix(gameCamera.combined);  // this should be uncommented, but doing so breaks cagrid...
         debugRenderer.begin();
         for (Entity entity : entities) {
             entity.debugRender(debugRenderer);

@@ -7,10 +7,7 @@ import com.emergentorganization.cellrpg.entities.ZIndex;
 
 /**
  * Created by tylar on 6/2/15.
- */
-
-/**
- *used for NPCs & players
+ * used for NPCs & players
  */
 public class Character extends Entity {
     private GraphicsComponent graphicsComponent;

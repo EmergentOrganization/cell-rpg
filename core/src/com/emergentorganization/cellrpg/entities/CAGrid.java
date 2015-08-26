@@ -41,7 +41,6 @@ public class CAGrid extends Entity {
 
     private long lastGenerationTime = 0;
     private int[][] states;
-    private ShapeRenderer shapeRenderer;  // maybe use sprite(texture(pixmap())) for better performance; see pixmap branch
 
     public CAGrid(int sizeOfCells, ZIndex z_index) {
         /*
@@ -51,8 +50,6 @@ public class CAGrid extends Entity {
         checkCellSize(sizeOfCells);
 
         cellSize = sizeOfCells;
-
-        shapeRenderer = new ShapeRenderer();
     }
 
     public int getSizeX(){
@@ -277,12 +274,11 @@ public class CAGrid extends Entity {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        super.render(batch);
+    public void debugRender(ShapeRenderer shapeRenderer) {
+        super.debugRender(shapeRenderer);
         //long before = System.currentTimeMillis();
         Camera camera = getScene().getGameCamera();
         float scale = getScene().scale;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0f, .8f, .5f, .4f); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
 
         float x;
@@ -303,7 +299,6 @@ public class CAGrid extends Entity {
                 }
             }
         }
-        shapeRenderer.end();
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 

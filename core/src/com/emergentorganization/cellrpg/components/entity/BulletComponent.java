@@ -53,12 +53,22 @@ public class BulletComponent extends EntityComponent {
         int[][] collideEffect;
         switch (state){
             case 0:
-                //collideEffect = new int[][] {{0,1,0}};  // this stamp just destroys the cell
-                //layer.stampState(collideEffect,mc.getWorldPosition());
+                collideEffect = new int[][] {
+                        {0,1,0},
+                        {1,0,1},
+                        {0,1,0},
+                };
+                caScene.getLayer(CALayer.ENERGY).stampState(collideEffect,mc.getWorldPosition());
                 return false;
             default:
-                collideEffect = new int[][] {{0,0,0},{0,0,0},{0,0,0}};  // this stamp just destroys the cell
-                layer.stampState(collideEffect,mc.getWorldPosition());
+                collideEffect = new int[][] {
+                        {0,0,0,0,0},
+                        {0,0,0,0,0},
+                        {0,0,0,0,0},
+                        {0,0,0,0,0},
+                        {0,0,0,0,0}
+                };  // this stamp destroys the cells nearby
+                caScene.getLayer(CALayer.VYROIDS).stampState(collideEffect,mc.getWorldPosition());
                 return true;
         }
     }

@@ -6,5 +6,6 @@ package com.emergentorganization.cellrpg.scenes;
 public enum CALayer {
     VYROIDS,
     SCENERY_COLLIDABLE,
-    SCENERY_NONCOLLIDABLE
+    SCENERY_NONCOLLIDABLE,
+    ENERGY
 }

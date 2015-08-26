@@ -2,6 +2,7 @@ package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
@@ -43,13 +44,15 @@ public class CAGrid extends Entity {
 
     private long lastGenerationTime = 0;
     private int[][] states;
+    private Color[] stateColorMap;
 
-    public CAGrid(int sizeOfCells, ZIndex z_index) {
+    public CAGrid(int sizeOfCells, ZIndex z_index, Color[] state_color_map) {
         /*
         :param cellSize: size level of grid
          */
         super(z_index);
         checkCellSize(sizeOfCells);
+        stateColorMap = state_color_map;
 
         cellSize = sizeOfCells;
     }
@@ -291,7 +294,6 @@ public class CAGrid extends Entity {
         float scale = getScene().scale;
         ShapeRenderer.ShapeType oldType = shapeRenderer.getCurrentType();
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0f, .8f, .5f, .4f);
 
         float x;
         float y;
@@ -302,8 +304,9 @@ public class CAGrid extends Entity {
 
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                if (states[i][j] != 0) {
+                if (states[i][j] != 0) {  // state must be > 0 else stateColorMap indexError
                     // draw square
+                    shapeRenderer.setColor(stateColorMap[states[i][j]-1]);
 
                     x = i * (cellSize + 1) + x_origin;  // +1 for cell border
                     y = j * (cellSize + 1) + y_origin;

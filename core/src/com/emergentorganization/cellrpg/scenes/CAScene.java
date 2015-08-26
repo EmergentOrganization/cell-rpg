@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes;
 
+import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.entities.CAGrid;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.ZIndex;
@@ -27,14 +28,16 @@ public class CAScene extends PausableScene {
 
             @Override
             public void onAdd() {
-                ca_layers.put( CALayer.VYROIDS, new CAGrid(11, ZIndex.VYROIDS));  // TODO: what is the proper ZIndex?
+                ca_layers.put(CALayer.VYROIDS, new CAGrid(11, ZIndex.VYROIDS, new Color[] {new Color(0f, .8f, .5f, .4f)}));
+                ca_layers.put(CALayer.ENERGY,  new CAGrid(11, ZIndex.VYROIDS, new Color[] {new Color(0f, .1f, .8f, .2f)}));
                 addEntity(ca_layers.get(CALayer.VYROIDS));
+                addEntity(ca_layers.get(CALayer.ENERGY));
             }
 
             @Override
             public void onRemove() {
-
                 removeEntity(ca_layers.get(CALayer.VYROIDS));
+                removeEntity(ca_layers.get(CALayer.ENERGY));
             }
         });
     }

@@ -283,6 +283,8 @@ public class CAGrid extends Entity {
         //shapeRenderer.setProjectionMatrix(new Matrix4());
 
         Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
+        Matrix4 oldMatrix = shapeRenderer.getProjectionMatrix();
+        shapeRenderer.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         //long before = System.currentTimeMillis();
         Camera camera = getScene().getGameCamera();
@@ -310,6 +312,7 @@ public class CAGrid extends Entity {
             }
         }
         shapeRenderer.set(oldType);
+        shapeRenderer.setProjectionMatrix(oldMatrix);
         Gdx.gl.glDisable(GL20.GL_BLEND);
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }

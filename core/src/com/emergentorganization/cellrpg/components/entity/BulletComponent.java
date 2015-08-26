@@ -40,6 +40,7 @@ public class BulletComponent extends EntityComponent {
         }
         if(collide()){
             // if bullet has collided
+            System.out.println("collided!");
             removeEntityFromScene(getEntity());
         }
     }
@@ -56,7 +57,7 @@ public class BulletComponent extends EntityComponent {
             case 0:
                 return false;
             default:
-                collideEffect = new int[][] {{0}};  // this stamp just destroys the cell
+                collideEffect = new int[][] {{0,0,0},{0,0,0},{0,0,0}};  // this stamp just destroys the cell
                 layer.stampState(collideEffect,mc.getWorldPosition());
                 return true;
         }

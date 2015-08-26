@@ -53,8 +53,8 @@ public class BulletComponent extends EntityComponent {
         int[][] collideEffect;
         switch (state){
             case 0:
-                collideEffect = new int[][] {{0,1,0},{1,1,1},{0,1,0}};  // this stamp just destroys the cell
-                layer.stampState(collideEffect,mc.getWorldPosition());
+                //collideEffect = new int[][] {{0,1,0}};  // this stamp just destroys the cell
+                //layer.stampState(collideEffect,mc.getWorldPosition());
                 return false;
             default:
                 collideEffect = new int[][] {{0,0,0},{0,0,0},{0,0,0}};  // this stamp just destroys the cell
@@ -69,6 +69,7 @@ public class BulletComponent extends EntityComponent {
         float bulletSize = 10f;
         float x = mc.getWorldPosition().x;
         float y = mc.getWorldPosition().y;
-        return checkCollideAt(x-bulletSize, y-bulletSize) && checkCollideAt(x-bulletSize, y+bulletSize) && checkCollideAt(x+bulletSize, y-bulletSize) && checkCollideAt(x+bulletSize, y+bulletSize);
+        return checkCollideAt(x,y);
+        //return checkCollideAt(x-bulletSize, y-bulletSize) && checkCollideAt(x-bulletSize, y+bulletSize) && checkCollideAt(x+bulletSize, y-bulletSize) && checkCollideAt(x+bulletSize, y+bulletSize);
     }
 }

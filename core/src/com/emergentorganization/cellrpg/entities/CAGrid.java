@@ -133,7 +133,7 @@ public class CAGrid extends Entity {
 
     public int getState(final float x, final float y){
         int row = getIndexOfX(x);
-        int col = getIndexOfX(y);
+        int col = getIndexOfY(y);
         return getState(row, col);
     }
 

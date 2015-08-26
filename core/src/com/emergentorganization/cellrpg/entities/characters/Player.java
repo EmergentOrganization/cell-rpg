@@ -38,7 +38,7 @@ public class Player extends Character {
         moveComponent = getMovementComponent();
 
         addComponent(new WeaponComponent());
-        initCAGrid();
+        //initCAGrid();
     }
 
     public Player(Texture texture, Vector2 position) {
@@ -48,13 +48,12 @@ public class Player extends Character {
         moveComponent.setWorldPosition(position);
 
         addComponent(new WeaponComponent());
-        initCAGrid();
+        //initCAGrid();
     }
 
     private void initCAGrid(){
         int[][] pattern = {
-                {0,1,0},
-                {1,0,1},
+                {1,1,1},
                 {0,1,0}
         };
         addComponent(new GridSeedComponent(

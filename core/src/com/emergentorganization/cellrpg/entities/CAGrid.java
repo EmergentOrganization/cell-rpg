@@ -491,11 +491,13 @@ public class CAGrid extends Entity {
     }
 
     public long stampState(final int[][] pattern, Vector2 position){
-        // stamps a pattern onto the grid at the nearest grid cells to the given world position
+        // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
         int row = getIndexOfX(position.x);
         int col = getIndexOfY(position.y);
         //System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
-
+        //center the pattern
+        row -= pattern.length/2;
+        col -= pattern[0].length/2;
         return stampState(pattern, row, col, states);
     }
 

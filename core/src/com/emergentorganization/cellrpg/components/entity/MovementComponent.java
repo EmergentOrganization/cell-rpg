@@ -27,10 +27,6 @@ public class MovementComponent extends EntityComponent {
     private float speed = 200 * Scene.scale; // default scalar for player movement [px/s]
     private Vector2 velocity = new Vector2();
 
-    public MovementComponent() {
-        type = ComponentType.MOVEMENT;
-    }
-
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);

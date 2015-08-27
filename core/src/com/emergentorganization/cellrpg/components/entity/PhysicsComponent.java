@@ -28,7 +28,6 @@ public class PhysicsComponent extends EntityComponent {
     public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
 
     public PhysicsComponent(World world, Body body, Tag tag) {
-        type = ComponentType.PHYSICS;
         this.world = world;
         this.body = body;
         this.tag = tag;
@@ -105,7 +104,7 @@ public class PhysicsComponent extends EntityComponent {
     public void added() {
         super.added();
 
-        moveComponent = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
+        moveComponent = getFirstSiblingByType(MovementComponent.class);
         if (body.getUserData() == null) {
             body.setUserData(new CellUserData(getEntity(), tag));
         }

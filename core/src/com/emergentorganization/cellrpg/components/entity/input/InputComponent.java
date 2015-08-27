@@ -16,10 +16,10 @@ public class InputComponent extends EntityComponent {
     protected WeaponComponent wc;
 
     public void added(){
-        mc = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
+        mc = getFirstSiblingByType(MovementComponent.class);
 
         if(hasWeapon()){
-            wc = (WeaponComponent) getFirstSiblingByType(ComponentType.WEAPON);
+            wc = getFirstSiblingByType(WeaponComponent.class);
         }
     }
 

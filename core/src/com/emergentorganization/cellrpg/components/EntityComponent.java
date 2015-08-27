@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * Created by BrianErikson on 6/2/2015.
  */
 public abstract class EntityComponent implements BaseComponent{
-    protected ComponentType type; // Never assigned because base class cannot be constructed
     private Entity entity; // Parent entity reference
 
     /**
@@ -48,10 +47,6 @@ public abstract class EntityComponent implements BaseComponent{
      */
     public boolean shouldDebugRender() {return false;}
 
-    public ComponentType getType() {
-        return type;
-    }
-
     public void setEntity(Entity entity){ this.entity = entity; }
 
     protected Entity getEntity(){
@@ -63,13 +58,22 @@ public abstract class EntityComponent implements BaseComponent{
         return getEntity().getComponents();
     }
 
-    protected ArrayList<EntityComponent> getSiblingsByType(ComponentType type) {
+
+    protected <T extends EntityComponent> ArrayList<EntityComponent> getSiblingsByType(Class<T> componentType){
+        return getEntity().getComponentsByType(componentType);
+    }
+
+    protected <T extends EntityComponent> T getFirstSiblingByType(Class<T> componentType){
+        return getEntity().getFirstComponentByType(componentType);
+    }
+
+  /**  protected ArrayList<EntityComponent> getSiblingsByType(ComponentType type) {
         return getEntity().getComponentsByType(type);
     }
 
     protected EntityComponent getFirstSiblingByType(ComponentType type) {
         return getEntity().getFirstComponentByType(type);
-    }
+    }*/
 
     protected void addEntityToScene(Entity e) {
         getEntity().getScene().addEntity(e);

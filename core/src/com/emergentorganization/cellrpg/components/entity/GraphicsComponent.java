@@ -22,7 +22,7 @@ public class GraphicsComponent extends SpriteComponent{
     private TextureRegion curFrame;
 
     public GraphicsComponent() {
-        type = ComponentType.GRAPHICS;
+
     }
 
     @Override
@@ -114,12 +114,6 @@ public class GraphicsComponent extends SpriteComponent{
     public boolean shouldRender() {
         return true;
     }
-
-    @Override
-    public ComponentType getType() {
-        return super.getType();
-    }
-
     @Override
     public void dispose() {
         super.dispose();

@@ -65,11 +65,6 @@ public class GlobalComponent implements BaseComponent{
     }
 
     @Override
-    public ComponentType getType() {
-        return null;
-    }
-
-    @Override
     public void dispose() {
 
     }

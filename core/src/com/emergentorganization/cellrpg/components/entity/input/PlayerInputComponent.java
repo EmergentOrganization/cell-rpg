@@ -40,7 +40,6 @@ public class PlayerInputComponent extends InputComponent {
     private Vector2 dest = null;
 
     public PlayerInputComponent(Camera camera) {
-        type = ComponentType.PLAYER_INPUT;
         this.camera = camera;
     }
 

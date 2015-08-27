@@ -14,8 +14,6 @@ public class BulletComponent extends EntityComponent {
     private float maxDist;
 
     public BulletComponent(Vector2 start, Vector2 velocity, float maxDist){
-        type = ComponentType.BULLET;
-
         this.start = start;
         this.velocity = velocity;
         this.maxDist = maxDist;
@@ -23,7 +21,7 @@ public class BulletComponent extends EntityComponent {
 
     @Override
     public void added() {
-        mc = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
+        mc = getFirstSiblingByType(MovementComponent.class);
 
         // TODO: translation from local pos to world pos
         mc.setWorldPosition(start);

@@ -463,7 +463,7 @@ public class MapEditor extends Scene {
 
         // selected object bounds
         if (target != null) {
-            AABB rect = ((PhysicsComponent)target.target.getFirstComponentByType(ComponentType.PHYSICS)).getBody().createAABB();
+            AABB rect = (target.target.getFirstComponentByType(PhysicsComponent.class)).getBody().createAABB();
             Vector2 size = new Vector2((float)rect.getWidth(), (float)rect.getHeight());
             Vector2 pos = target.movementComponent.getWorldPosition();
             drawBoundingBox(size, new Vector2(pos.x, pos.y));

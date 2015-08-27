@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.ComponentType;
+import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
 import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.CellUserData;
@@ -87,8 +88,8 @@ public class EditorInputProcessor implements InputProcessor {
                 foundBody = true;
 
                 Entity entity = ((CellUserData) body.getUserData()).entity;
-                SpriteComponent sc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.SPRITE);
-                SpriteComponent gc = (SpriteComponent) entity.getFirstComponentByType(ComponentType.GRAPHICS);
+                SpriteComponent sc = entity.getFirstComponentByType(SpriteComponent.class);
+                SpriteComponent gc = entity.getFirstComponentByType(GraphicsComponent.class);
                 if (sc != null) {
                     boolean switched = switchMapTarget(sc.getSprite(), entity);
                     setDragOffset(screenCoords);

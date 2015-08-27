@@ -95,7 +95,6 @@ public abstract class Entity {
      * Returns the first component in the iterator. Used for performance reasons when only one component is expected
      * @param type the type of component
      * @return derived component, or null if there is none
-     */
     public EntityComponent getFirstComponentByType(ComponentType type) {
         if(type == ComponentType.MOVEMENT)
             return moveComponent;
@@ -106,13 +105,43 @@ public abstract class Entity {
             }
         }
         return null;
+    }     */
+
+
+    /**
+     * Returns the first component in the iterator. Used for performance reasons when only one component is expected
+     * @param componentType the component class
+     * @return derived component, or null if there is none
+     */
+    public <T extends EntityComponent> T getFirstComponentByType(Class<T> componentType){
+        if(componentType == MovementComponent.class)
+            return (T)moveComponent;
+
+        for (EntityComponent component : components) {
+            if (component.getClass() == componentType) {
+                return (T)component;
+            }
+        }
+        return null;
     }
 
-    public ArrayList<EntityComponent> getComponentsByType(ComponentType type) {
+    /*public ArrayList<EntityComponent> getComponentsByType(ComponentType type) {
         ArrayList<EntityComponent> comps = new ArrayList<EntityComponent>();
 
         for (EntityComponent component : this.components) {
             if (component.getType() == type) {
+                comps.add(component);
+            }
+        }
+
+        return comps;
+    }  */
+
+    public <T extends EntityComponent> ArrayList<EntityComponent> getComponentsByType(Class<T> componentType) {
+        ArrayList<EntityComponent> comps = new ArrayList<EntityComponent>();
+
+        for (EntityComponent component : this.components) {
+            if (component.getClass() == componentType) {
                 comps.add(component);
             }
         }
@@ -130,10 +159,23 @@ public abstract class Entity {
         components.remove(component);
     }
 
+    /**
+
     public void removeAllComponentsByType(ComponentType type) {
         final ListIterator<EntityComponent> iterator = components.listIterator();
         while (iterator.hasNext()) {
             if (iterator.next().getType() == type) {
+                iterator.remove();
+            }
+        }
+    }
+     */
+
+
+    public <T extends EntityComponent> void removeAllComponentsByType(Class<T> componentType) {
+        final ListIterator<EntityComponent> iterator = components.listIterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getClass() == componentType) {
                 iterator.remove();
             }
         }

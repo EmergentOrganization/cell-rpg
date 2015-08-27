@@ -52,9 +52,9 @@ public class PausableScene extends Scene {
         }
     }
 
-    private void closePauseMenu(){
-        // TODO: check if pauseMenu is null/undefined (i am terrible java :*( )
-        pauseWindow.fadeOut();
+    private void closePauseMenu() {
+        if (pauseWindow != null)
+            pauseWindow.fadeOut();
     }
 
     private void initPauseMenu(){

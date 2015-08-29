@@ -424,7 +424,7 @@ public class MapEditor extends Scene {
             Entity entity = getSelectedItem().entity.newInstance();
 
             Matrix3 transform = getNewObjectTransform();
-            MovementComponent mc = entity.getMovementComponent();
+            MovementComponent mc = entity.getFirstComponentByType(MovementComponent.class);
 
             mc.setScale(transform.getScale(new Vector2()));
             mc.setRotation(transform.getRotation());

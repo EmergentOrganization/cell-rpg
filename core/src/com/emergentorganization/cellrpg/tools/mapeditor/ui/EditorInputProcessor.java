@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.physics.CellUserData;
@@ -151,7 +152,7 @@ public class EditorInputProcessor implements InputProcessor {
     private void setMapTarget(Sprite sprite, Entity entity) {
         Vector2 size = new Vector2(sprite.getWidth() * sprite.getScaleX(),
                 sprite.getHeight() * sprite.getScaleY());
-        editor.setMapTarget(new MapTarget(entity, size, entity.getMovementComponent()));
+        editor.setMapTarget(new MapTarget(entity, size, entity.getFirstComponentByType(MovementComponent.class)));
     }
 
     @Override

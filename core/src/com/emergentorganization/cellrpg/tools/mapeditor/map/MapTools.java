@@ -45,7 +45,7 @@ public class MapTools {
 
                 Entity instance = (Entity) cls.newInstance();
 
-                MovementComponent move = instance.getMovementComponent();
+                MovementComponent move = instance.getFirstComponentByType(MovementComponent.class);
                 move.setScale(new Vector2(scaleX, scaleY));
                 move.setRotation(rot);
                 move.setWorldPosition(new Vector2(x, y));
@@ -107,12 +107,14 @@ public class MapTools {
     private static LinkedHashMap exportEntity(Entity entity) {
         LinkedHashMap map = new LinkedHashMap();
 
+        MovementComponent mc = entity.getFirstComponentByType(MovementComponent.class);
+
         map.put(JSONKey.TYPE, entity.getClass().getName());
-        map.put(JSONKey.POSITION_X, entity.getMovementComponent().getWorldPosition().x);
-        map.put(JSONKey.POSITION_Y, entity.getMovementComponent().getWorldPosition().y);
-        map.put(JSONKey.ROTATION, entity.getMovementComponent().getRotation());
-        map.put(JSONKey.SCALE_X, entity.getMovementComponent().getScale().x);
-        map.put(JSONKey.SCALE_Y, entity.getMovementComponent().getScale().y);
+        map.put(JSONKey.POSITION_X, mc.getWorldPosition().x);
+        map.put(JSONKey.POSITION_Y, mc.getWorldPosition().y);
+        map.put(JSONKey.ROTATION, mc.getRotation());
+        map.put(JSONKey.SCALE_X, mc.getScale().x);
+        map.put(JSONKey.SCALE_Y, mc.getScale().y);
 
         return map;
     }

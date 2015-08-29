@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.entities;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 
 /**
  * Created by tylar on 6/2/15.
@@ -36,18 +37,21 @@ public class FollowingCamera extends Entity {
 
     private void updateCameraPos(float deltaTime){
         Camera camera = getScene().getGameCamera();
+
+        MovementComponent mc = target.getFirstComponentByType(MovementComponent.class);
+
         float MAX_OFFSET = Math.min(camera.viewportWidth, camera.viewportHeight)/2-EDGE_MARGIN;  // max player-camera dist
-        float PROPORTIONAL_GAIN = deltaTime * target.getMovementComponent().getSpeed() / MAX_OFFSET;
+        float PROPORTIONAL_GAIN = deltaTime * mc.getSpeed() / MAX_OFFSET;
 
         // TODO: check target has movement component? or at least throw meaningful error if not...
 
-        Vector2 pos = target.getMovementComponent().getWorldPosition();
+        Vector2 pos = mc.getWorldPosition();
         Vector2 cameraLoc = new Vector2(camera.position.x, camera.position.y);
 
         Vector2 offset = new Vector2(pos);
         offset.sub(camera.position.x, camera.position.y);
 
-        offset.add(target.getMovementComponent().getVelocity().nor().scl(CAMERA_LEAD));
+        offset.add(mc.getVelocity().nor().scl(CAMERA_LEAD));
 
         if (Math.abs(offset.x) > CLOSE_ENOUGH || Math.abs(offset.y) > CLOSE_ENOUGH) {
             cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));

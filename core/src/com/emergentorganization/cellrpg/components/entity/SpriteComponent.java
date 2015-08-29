@@ -38,7 +38,7 @@ public class SpriteComponent extends EntityComponent {
     }
 
     public void setSpriteTransform() {
-        MovementComponent moveComponent = getEntity().getMovementComponent();
+        MovementComponent moveComponent = getEntity().getFirstComponentByType(MovementComponent.class);
         Vector2 scale = moveComponent.getScale();
         Vector2 pos = moveComponent.getWorldPosition();
 

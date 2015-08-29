@@ -76,7 +76,7 @@ public class PhysicsComponent extends EntityComponent {
         }
 
         AABB ab = body.createAABB();
-        drawBoundingBox(renderer, new Vector2((float)ab.getWidth(), (float)ab.getHeight()), getEntity().getMovementComponent().getWorldPosition());
+        drawBoundingBox(renderer, new Vector2((float)ab.getWidth(), (float)ab.getHeight()), getEntity().getFirstComponentByType(MovementComponent.class).getWorldPosition());
     }
 
     /**

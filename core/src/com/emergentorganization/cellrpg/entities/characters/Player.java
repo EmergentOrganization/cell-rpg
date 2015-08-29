@@ -34,7 +34,7 @@ public class Player extends Character {
     public Player(){
         super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
 
-        moveComponent = getMovementComponent();
+        moveComponent = getFirstComponentByType(MovementComponent.class);
 
         addComponent(new WeaponComponent());
     }
@@ -42,7 +42,7 @@ public class Player extends Character {
     public Player(Texture texture, Vector2 position) {
         super(texture, FRAME_COLS, FRAME_ROWS, TPF);
 
-        moveComponent = getMovementComponent();
+        moveComponent = getFirstComponentByType(MovementComponent.class);
         moveComponent.setWorldPosition(position);
 
         addComponent(new WeaponComponent());
@@ -59,7 +59,7 @@ public class Player extends Character {
 
         if (!getScene().isEditor()) {
             camera = getScene().getGameCamera();
-            camera.position.set(getMovementComponent().getWorldPosition()
+            camera.position.set(moveComponent.getWorldPosition()
                     .sub(camera.viewportWidth /2f, camera.viewportHeight /2f), 0f);
 
             PlayerInputComponent playerInput = new PlayerInputComponent(camera);

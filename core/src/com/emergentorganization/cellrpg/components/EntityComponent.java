@@ -67,14 +67,6 @@ public abstract class EntityComponent implements BaseComponent{
         return getEntity().getFirstComponentByType(componentType);
     }
 
-  /**  protected ArrayList<EntityComponent> getSiblingsByType(ComponentType type) {
-        return getEntity().getComponentsByType(type);
-    }
-
-    protected EntityComponent getFirstSiblingByType(ComponentType type) {
-        return getEntity().getFirstComponentByType(type);
-    }*/
-
     protected void addEntityToScene(Entity e) {
         getEntity().getScene().addEntity(e);
     }

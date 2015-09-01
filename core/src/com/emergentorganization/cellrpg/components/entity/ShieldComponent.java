@@ -29,7 +29,7 @@ public class ShieldComponent extends EntityComponent {
         health_changed = true;
     }
 
-    private void recharge(final float amount){
+    public void recharge(final float amount){
         health += amount/divisor;
         health_changed = true;
     }

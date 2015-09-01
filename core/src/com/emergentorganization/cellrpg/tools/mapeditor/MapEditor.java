@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.CellRpg;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
@@ -345,7 +344,7 @@ public class MapEditor extends Scene {
                     MapTarget target = getMapTarget();
                     target.movementComponent.setRotation(v);
 
-                    /*PhysicsComponent physComp = (PhysicsComponent) target.target.getFirstComponentByType(ComponentType.PHYSICS);
+                    /*PhysicsComponent physComp = (PhysicsComponent) target.target.getFirstComponentByType(PhysicsComponent.class);
                     if (physComp != null)
                         physComp.getBody().rotate(v);*/ // TODO
                 } catch (NumberFormatException e) {

@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.components.entity.input;
 
 import com.emergentorganization.cellrpg.components.EntityComponent;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 

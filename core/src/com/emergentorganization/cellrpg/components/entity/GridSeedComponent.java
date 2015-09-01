@@ -31,7 +31,6 @@ public class GridSeedComponent extends EntityComponent {
         :param seed_pos:      relative position of stamp from entity origin
         :param seed_layer:    CA grid layer to seed into
          */
-        type = ComponentType.GRID_SEED;
 
         if (reseed_period < 1){
             reseed = false;
@@ -68,7 +67,7 @@ public class GridSeedComponent extends EntityComponent {
     public void added() {
         super.added();
 
-        moveComponent = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
+        moveComponent = getFirstSiblingByType(MovementComponent.class);
 
     }
 

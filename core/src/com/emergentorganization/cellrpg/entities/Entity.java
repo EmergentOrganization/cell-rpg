@@ -150,6 +150,7 @@ public abstract class Entity {
         }
         if (event == EntityEvents.DESTROYED){
             dispose();
+            getScene().removeEntity(this);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.components;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.entities.EntityEvents;
 
 import java.util.ArrayList;
 
@@ -73,5 +74,8 @@ public abstract class EntityComponent implements BaseComponent{
     protected void removeEntityFromScene(Entity e) { getEntity().getScene().removeEntity(e); }
 
     public void dispose() {
+    }
+
+    public void fireEvent(EntityEvents event){
     }
 }

@@ -1,12 +1,12 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
+import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
 import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
@@ -69,6 +69,7 @@ public class Player extends Character {
         //phys.enableDebugRenderer(true);
 
         addComponent(phys);
+        addComponent(new ShieldComponent());
 
         //addComponent(new DialogComponent());
     }

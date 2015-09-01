@@ -2,8 +2,8 @@ package com.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.entities.EntityEvents;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * Created by BrianErikson on 6/2/2015.
  */
 public abstract class EntityComponent implements BaseComponent{
-    protected ComponentType type; // Never assigned because base class cannot be constructed
     private Entity entity; // Parent entity reference
 
     /**
@@ -48,10 +47,6 @@ public abstract class EntityComponent implements BaseComponent{
      */
     public boolean shouldDebugRender() {return false;}
 
-    public ComponentType getType() {
-        return type;
-    }
-
     public void setEntity(Entity entity){ this.entity = entity; }
 
     protected Entity getEntity(){
@@ -63,12 +58,13 @@ public abstract class EntityComponent implements BaseComponent{
         return getEntity().getComponents();
     }
 
-    protected ArrayList<EntityComponent> getSiblingsByType(ComponentType type) {
-        return getEntity().getComponentsByType(type);
+
+    protected <T extends EntityComponent> ArrayList<EntityComponent> getSiblingsByType(Class<T> componentType){
+        return getEntity().getComponentsByType(componentType);
     }
 
-    protected EntityComponent getFirstSiblingByType(ComponentType type) {
-        return getEntity().getFirstComponentByType(type);
+    protected <T extends EntityComponent> T getFirstSiblingByType(Class<T> componentType){
+        return getEntity().getFirstComponentByType(componentType);
     }
 
     protected void addEntityToScene(Entity e) {
@@ -78,5 +74,8 @@ public abstract class EntityComponent implements BaseComponent{
     protected void removeEntityFromScene(Entity e) { getEntity().getScene().removeEntity(e); }
 
     public void dispose() {
+    }
+
+    public void fireEvent(EntityEvents event){
     }
 }

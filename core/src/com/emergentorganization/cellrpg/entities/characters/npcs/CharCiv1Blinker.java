@@ -1,9 +1,9 @@
 package com.emergentorganization.cellrpg.entities.characters.npcs;
 
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.entities.characters.Character;
 import com.emergentorganization.cellrpg.physics.CellUserData;
@@ -56,7 +56,7 @@ public class CharCiv1Blinker extends Character {
     public CharCiv1Blinker(Texture texture, Vector2 position) {
         super(texture, 2, 1, 1.2f);
 
-        getMovementComponent().setWorldPosition(position);
+        getFirstComponentByType(MovementComponent.class).setWorldPosition(position);
 
         // TODO: Add scripted input component with position offset
     }

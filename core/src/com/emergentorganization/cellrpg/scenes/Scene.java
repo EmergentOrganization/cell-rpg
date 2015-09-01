@@ -207,6 +207,8 @@ public abstract class Scene implements Screen {
     public void addComponent(GlobalComponent comp){
         logger.info("adding GlobalComponent " + comp.getClass());
         comps.add(comp);
+        comp.setScene(this);
+        comp.added();
     }
 
     private void handleQueue() {

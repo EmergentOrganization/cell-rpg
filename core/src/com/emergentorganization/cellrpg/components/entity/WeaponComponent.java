@@ -20,21 +20,21 @@ public class WeaponComponent extends EntityComponent {
     private long lastShot;
     private Vector2 vel = new Vector2();
 
-    public WeaponComponent(){
-        type = ComponentType.WEAPON;
+    public WeaponComponent() {
+
     }
 
     @Override
     public void added() {
-        mc = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
+        mc = getFirstSiblingByType(MovementComponent.class);
     }
 
-    public void shootTo(float x, float y){
-        if(lastShot == 0L)
+    public void shootTo(float x, float y) {
+        if (lastShot == 0L)
             lastShot = TimeUtils.millis();
 
         // check if we can shoot right now
-        if(TimeUtils.timeSinceMillis(lastShot) >= delay) {
+        if (TimeUtils.timeSinceMillis(lastShot) >= delay) {
             lastShot += delay;
 
             // get player position

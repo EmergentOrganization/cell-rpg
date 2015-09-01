@@ -7,7 +7,6 @@ package com.emergentorganization.cellrpg.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.EntityComponent;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 
@@ -18,32 +17,26 @@ import java.util.ListIterator;
  * The root class for every object in the game
  */
 public abstract class Entity {
+    public static final ZIndex defaultZIndex = ZIndex.BUILDING;
+
     private Scene parentScene;
     public final ZIndex zIndex;
     private ArrayList<EntityComponent> components = new ArrayList<EntityComponent>();
 
-    /**
-     * The movement component is out of the array because movement is implied for each entity.
-     * Performance degradation is only incurred when the entity is moved, rotated, or scaled
-     */
-    private MovementComponent moveComponent = new MovementComponent(); // TODO: move it into the array
-
     public Entity(){
-        zIndex = ZIndex.BUILDING;
-        moveComponent.setEntity(this); // make sure to call super from child classes or null pointer exceptions may occur
-        moveComponent.setScale(Scene.scale);
+        this(defaultZIndex);
     }
 
     public Entity(ZIndex zIndex) {
-        this.zIndex = zIndex;
-        moveComponent.setEntity(this);
-        moveComponent.setScale(Scene.scale);
+        this(zIndex, Scene.scale);
     }
 
     public Entity(ZIndex zIndex, float scale) {
         this.zIndex = zIndex;
-        moveComponent.setEntity(this);
-        moveComponent.setScale(scale);
+
+        MovementComponent mc = new MovementComponent();
+        mc.setScale(scale);
+        addComponent(mc);
     }
 
     /**
@@ -57,7 +50,6 @@ public abstract class Entity {
      * @param deltaTime the time passed between each frame render
      */
     public void update(float deltaTime) {
-        moveComponent.update(deltaTime);
         for (EntityComponent component : components) {
             component.update(deltaTime);
         }
@@ -93,26 +85,23 @@ public abstract class Entity {
 
     /**
      * Returns the first component in the iterator. Used for performance reasons when only one component is expected
-     * @param type the type of component
+     * @param componentType the component class
      * @return derived component, or null if there is none
      */
-    public EntityComponent getFirstComponentByType(ComponentType type) {
-        if(type == ComponentType.MOVEMENT)
-            return moveComponent;
-
+    public <T extends EntityComponent> T getFirstComponentByType(Class<T> componentType){
         for (EntityComponent component : components) {
-            if (component.getType() == type) {
-                return component;
+            if (component.getClass() == componentType) {
+                return (T)component;
             }
         }
         return null;
     }
 
-    public ArrayList<EntityComponent> getComponentsByType(ComponentType type) {
+    public <T extends EntityComponent> ArrayList<EntityComponent> getComponentsByType(Class<T> componentType) {
         ArrayList<EntityComponent> comps = new ArrayList<EntityComponent>();
 
         for (EntityComponent component : this.components) {
-            if (component.getType() == type) {
+            if (component.getClass() == componentType) {
                 comps.add(component);
             }
         }
@@ -130,19 +119,14 @@ public abstract class Entity {
         components.remove(component);
     }
 
-    public void removeAllComponentsByType(ComponentType type) {
+    public <T extends EntityComponent> void removeAllComponentsByType(Class<T> componentType) {
         final ListIterator<EntityComponent> iterator = components.listIterator();
         while (iterator.hasNext()) {
-            if (iterator.next().getType() == type) {
+            if (iterator.next().getClass() == componentType) {
                 iterator.remove();
             }
         }
     }
-
-    public MovementComponent getMovementComponent() {
-        return moveComponent;
-    }
-
 
     public Scene getScene() {
         if (parentScene == null) throw new NullPointerException("Cannot get scene before entity is added by it");
@@ -155,9 +139,17 @@ public abstract class Entity {
     }
 
     public void dispose() {
-        moveComponent.dispose();
         for (EntityComponent component : components) {
             component.dispose();
+        }
+    }
+
+    public void fireEvent(EntityEvents event){
+        for (EntityComponent component : components){
+            component.fireEvent(event);
+        }
+        if (event == EntityEvents.DESTROYED){
+            dispose();
         }
     }
 }

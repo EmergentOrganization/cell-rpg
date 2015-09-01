@@ -34,7 +34,7 @@ public class PlayerCollisionListener extends CharacterCollisionListener {
     }
 
     private void updateDestination(PlayerUserData data) {
-        if (data.entity.getMovementComponent().getMoveState() == MovementComponent.MoveState.PATH_FOLLOW) {
+        if (data.entity.getFirstComponentByType(MovementComponent.class).getMoveState() == MovementComponent.MoveState.PATH_FOLLOW) {
             data.playerInputComponent.skipDest();
         }
     }

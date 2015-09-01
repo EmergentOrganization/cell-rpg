@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.components.entity.input;
 
 import com.emergentorganization.cellrpg.components.EntityComponent;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 
@@ -16,10 +15,10 @@ public class InputComponent extends EntityComponent {
     protected WeaponComponent wc;
 
     public void added(){
-        mc = (MovementComponent) getFirstSiblingByType(ComponentType.MOVEMENT);
+        mc = getFirstSiblingByType(MovementComponent.class);
 
         if(hasWeapon()){
-            wc = (WeaponComponent) getFirstSiblingByType(ComponentType.WEAPON);
+            wc = getFirstSiblingByType(WeaponComponent.class);
         }
     }
 

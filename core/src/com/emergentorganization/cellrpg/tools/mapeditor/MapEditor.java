@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.CellRpg;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
@@ -305,7 +304,7 @@ public class MapEditor extends Scene {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // TODO: Throw warning window saying that changes won't be saved if they continue
-                CellRpg.fetch().setScreen(new MainMenu());
+                CellRpg.fetch().setScreen(new MainMenu("done editing?"));
             }
         });
 
@@ -345,7 +344,7 @@ public class MapEditor extends Scene {
                     MapTarget target = getMapTarget();
                     target.movementComponent.setRotation(v);
 
-                    /*PhysicsComponent physComp = (PhysicsComponent) target.target.getFirstComponentByType(ComponentType.PHYSICS);
+                    /*PhysicsComponent physComp = (PhysicsComponent) target.target.getFirstComponentByType(PhysicsComponent.class);
                     if (physComp != null)
                         physComp.getBody().rotate(v);*/ // TODO
                 } catch (NumberFormatException e) {
@@ -424,7 +423,7 @@ public class MapEditor extends Scene {
             Entity entity = getSelectedItem().entity.newInstance();
 
             Matrix3 transform = getNewObjectTransform();
-            MovementComponent mc = entity.getMovementComponent();
+            MovementComponent mc = entity.getFirstComponentByType(MovementComponent.class);
 
             mc.setScale(transform.getScale(new Vector2()));
             mc.setRotation(transform.getRotation());
@@ -463,7 +462,7 @@ public class MapEditor extends Scene {
 
         // selected object bounds
         if (target != null) {
-            AABB rect = ((PhysicsComponent)target.target.getFirstComponentByType(ComponentType.PHYSICS)).getBody().createAABB();
+            AABB rect = (target.target.getFirstComponentByType(PhysicsComponent.class)).getBody().createAABB();
             Vector2 size = new Vector2((float)rect.getWidth(), (float)rect.getHeight());
             Vector2 pos = target.movementComponent.getWorldPosition();
             drawBoundingBox(size, new Vector2(pos.x, pos.y));

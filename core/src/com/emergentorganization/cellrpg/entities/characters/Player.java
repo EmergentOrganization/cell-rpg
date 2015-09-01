@@ -5,14 +5,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.GridSeedComponent;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
+import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
 import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
+import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -35,7 +39,7 @@ public class Player extends Character {
     public Player(){
         super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
 
-        moveComponent = getMovementComponent();
+        moveComponent = getFirstComponentByType(MovementComponent.class);
 
         addComponent(new WeaponComponent());
         initCAGrid();
@@ -44,7 +48,7 @@ public class Player extends Character {
     public Player(Texture texture, Vector2 position) {
         super(texture, FRAME_COLS, FRAME_ROWS, TPF);
 
-        moveComponent = getMovementComponent();
+        moveComponent = getFirstComponentByType(MovementComponent.class);
         moveComponent.setWorldPosition(position);
 
         addComponent(new WeaponComponent());
@@ -78,7 +82,7 @@ public class Player extends Character {
 
         if (!getScene().isEditor()) {
             camera = getScene().getGameCamera();
-            camera.position.set(getMovementComponent().getWorldPosition()
+            camera.position.set(moveComponent.getWorldPosition()
                     .sub(camera.viewportWidth /2f, camera.viewportHeight /2f), 0f);
 
             PlayerInputComponent playerInput = new PlayerInputComponent(camera);
@@ -88,6 +92,7 @@ public class Player extends Character {
         //phys.enableDebugRenderer(true);
 
         addComponent(phys);
+        addComponent(new ShieldComponent());
 
         //addComponent(new DialogComponent());
     }
@@ -95,5 +100,17 @@ public class Player extends Character {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
+    }
+
+    @Override
+    public void fireEvent(EntityEvents event){
+        super.fireEvent(event);
+        switch(event){
+            case SHIELD_DOWN:
+                // player is dead!
+                CellRpg.fetch().setScreen(new MainMenu("bridge to planiverse collapsed..."));
+                getScene().dispose();
+                break;
+        }
     }
 }

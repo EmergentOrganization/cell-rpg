@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.entities.backgrounds;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
@@ -36,8 +37,10 @@ public class TheEdge extends Entity {
         super.added();
 
         if (getScene().isEditor()) {
-            Vector2 size = new Vector2(spriteComponent.getSprite().getWidth() * getMovementComponent().getScale().x,
-                    spriteComponent.getSprite().getHeight() * getMovementComponent().getScale().y);
+            MovementComponent mc = getFirstComponentByType(MovementComponent.class);
+
+            Vector2 size = new Vector2(spriteComponent.getSprite().getWidth() * mc.getScale().x,
+                    spriteComponent.getSprite().getHeight() * mc.getScale().y);
             Rectangle rect = new Rectangle(size.x, size.y);
             rect.translate(size.x / 2f, size.y /2f);
             BodyFixture fixture = new BodyFixture(rect);
@@ -56,6 +59,6 @@ public class TheEdge extends Entity {
         spriteComponent = new SpriteComponent(texture);
         addComponent(spriteComponent);
 
-        this.getMovementComponent().setWorldPosition(position);
+        getFirstComponentByType(MovementComponent.class).setWorldPosition(position);
     }
 }

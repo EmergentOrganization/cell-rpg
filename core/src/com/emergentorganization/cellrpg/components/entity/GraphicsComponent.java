@@ -22,7 +22,7 @@ public class GraphicsComponent extends SpriteComponent{
     private TextureRegion curFrame;
 
     public GraphicsComponent() {
-        type = ComponentType.GRAPHICS;
+
     }
 
     @Override
@@ -85,7 +85,7 @@ public class GraphicsComponent extends SpriteComponent{
         TextureRegion[] firstAnimation = spriteFrames[0];  // assume exactly 1 animation per row
         Animation anim = new Animation(time_per_frame, firstAnimation);
         anim.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        register("idle", anim);
+        register(name, anim);
     }
 
     public void register(String name, Texture texture, int n_columns, int n_rows, float time_per_frame){
@@ -94,7 +94,7 @@ public class GraphicsComponent extends SpriteComponent{
         TextureRegion[] firstAnimation = spriteFrames[0];  // assume exactly 1 animation per row
         Animation anim = new Animation(time_per_frame, firstAnimation);
         anim.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        register("idle", anim);
+        register(name, anim);
     }
 
     public void play(String name){
@@ -114,12 +114,6 @@ public class GraphicsComponent extends SpriteComponent{
     public boolean shouldRender() {
         return true;
     }
-
-    @Override
-    public ComponentType getType() {
-        return super.getType();
-    }
-
     @Override
     public void dispose() {
         super.dispose();

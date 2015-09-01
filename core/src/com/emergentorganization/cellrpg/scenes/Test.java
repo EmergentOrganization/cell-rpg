@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
@@ -16,6 +17,11 @@ public class Test extends CAScene {
 	@Override
 	public void create() {
 		super.create();
+
+		DialogComponent dc = new DialogComponent();
+		addComponent(dc);
+		//dc.setEnabled(true);
+		//dc.setTypewriterText("This is a test message.", 0.3f);
 
 		Stage uiStage = getUiStage();
 		Image cellRPG = new Image(new Texture("CellRPG.png"));

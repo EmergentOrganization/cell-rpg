@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg4786"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="shield.svg">
+  <defs
+     id="defs4788">
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5837"
+       id="radialGradient6221"
+       gradientUnits="userSpaceOnUse"
+       cx="688.19165"
+       cy="380.78754"
+       fx="688.19165"
+       fy="380.78754"
+       r="21.920311"
+       gradientTransform="matrix(0.82750736,0,0,0.82750736,-193.35955,-37.281428)" />
+    <linearGradient
+       id="linearGradient5837">
+      <stop
+         style="stop-color:#0ce6ff;stop-opacity:0;"
+         offset="0"
+         id="stop5839" />
+      <stop
+         style="stop-color:#04ffff;stop-opacity:1;"
+         offset="1"
+         id="stop5841" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5837"
+       id="radialGradient5995"
+       gradientUnits="userSpaceOnUse"
+       cx="688.19165"
+       cy="380.78754"
+       fx="688.19165"
+       fy="380.78754"
+       r="21.920311"
+       gradientTransform="matrix(0.82750736,0,0,0.82750736,-233.35955,-37.281428)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5837"
+       id="radialGradient5891"
+       gradientUnits="userSpaceOnUse"
+       cx="688.19165"
+       cy="380.78754"
+       fx="688.19165"
+       fy="380.78754"
+       r="21.920311"
+       gradientTransform="matrix(0.82750736,0,0,0.82750736,-273.35955,-37.281428)" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5837"
+       id="radialGradient5921"
+       gradientUnits="userSpaceOnUse"
+       cx="688.19165"
+       cy="380.78754"
+       fx="688.19165"
+       fy="380.78754"
+       r="21.920311"
+       gradientTransform="matrix(0.82750736,0,0,0.82750736,-393.35955,-37.281428)" />
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter5600"
+       x="-0.036"
+       width="1.072"
+       y="-0.036"
+       height="1.072">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.54417658"
+         id="feGaussianBlur5602" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4234"
+       x="-0.036"
+       width="1.072"
+       y="-0.036"
+       height="1.072">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.54417658"
+         id="feGaussianBlur4236" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4246"
+       x="-0.036"
+       width="1.072"
+       y="-0.036"
+       height="1.072">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.54417658"
+         id="feGaussianBlur4248" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter4258"
+       x="-0.036"
+       width="1.072"
+       y="-0.036"
+       height="1.072">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.54417658"
+         id="feGaussianBlur4260" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5837"
+       id="radialGradient4264"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.82750736,0,0,0.82750736,-313.35955,-37.281428)"
+       cx="688.19165"
+       cy="380.78754"
+       fx="688.19165"
+       fy="380.78754"
+       r="21.920311" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.8725091"
+     inkscape:cx="313.51214"
+     inkscape:cy="772.12236"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer4"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="706"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4791">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="bg" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="bounds"
+     style="display:inline">
+    <circle
+       id="path5887"
+       style="display:inline;opacity:0.25;fill:url(#radialGradient5891);fill-opacity:1;stroke:none;filter:url(#filter4258)"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\cell-rpg\art\_sprites\shield\75p.png"
+       inkscape:export-xdpi="231.41896"
+       inkscape:export-ydpi="231.41896"
+       cx="296.12411"
+       cy="277.82306"
+       r="18.139219" />
+    <circle
+       style="display:inline;opacity:0.5;fill:url(#radialGradient5995);fill-opacity:1;stroke:none;filter:url(#filter4246)"
+       id="path5963"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\cell-rpg\art\_sprites\shield\50p.png"
+       inkscape:export-xdpi="231.41896"
+       inkscape:export-ydpi="231.41896"
+       cx="336.12411"
+       cy="277.82306"
+       r="18.139219" />
+    <circle
+       id="path6217"
+       style="display:inline;fill:url(#radialGradient6221);fill-opacity:1;stroke:none;filter:url(#filter4234);opacity:0.8"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\cell-rpg\art\_sprites\shield\25p.png"
+       inkscape:export-xdpi="231.42"
+       inkscape:export-ydpi="231.42"
+       cx="376.12411"
+       cy="277.82306"
+       r="18.139219" />
+    <circle
+       r="18.139219"
+       cy="277.82306"
+       cx="256.12411"
+       inkscape:export-ydpi="231.41905"
+       inkscape:export-xdpi="231.41905"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\cell-rpg\art\_sprites\shield\100p.png"
+       style="display:inline;opacity:0.13;fill:url(#radialGradient4264);fill-opacity:1;stroke:none;filter:url(#filter4258)"
+       id="circle4262" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <circle
+       style="display:inline;opacity:0.38999999;fill:url(#radialGradient5921);fill-opacity:1;stroke:none;filter:url(#filter5600)"
+       id="path5057"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\cell-rpg\art\_sprites\shield\base.png"
+       inkscape:export-xdpi="231.42"
+       inkscape:export-ydpi="231.42"
+       cx="176.12411"
+       cy="277.82306"
+       r="18.139219" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 309.12503,275.97018 1.4375,-1.9375 0.4375,-2.125 1.5625,-1.1875"
+       id="path5893"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 304.62503,288.90768 1.125,-1.75 2.125,0.4375 -0.3125,1.8125 0,2.5"
+       id="path5895"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 302.75003,291.65768 1.4375,1.3125 -2.4375,1.3125 0.3125,0.875"
+       id="path5897"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 293.68753,289.34518 -0.1875,2 1.1875,0.4375 1.375,0.75 0.625,1.6875 -3.75,-0.875 -1.3125,-2.25 -2.375,3.5"
+       id="path5899"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 289.06253,290.22018 0.8125,1.25 -2.375,2.1875"
+       id="path5901"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 284.06253,286.22018 -1.5,-0.75 -1.75,1.25 -1,-1.9375 -0.625,-0.125"
+       id="path5903"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 285.25003,285.40768 -2.25,-2.0625 -2.875,0.0625 -1.5625,-1.5"
+       id="path5905"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 281.50003,275.84518 -2.625,0.25 1.5625,-2.8125 -2.3125,-0.75"
+       id="path5907"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 285.87503,272.90768 -0.4375,-1.9375 0.3125,1.0625 -2.375,0 0.1875,-2.4375 -3,-1.3125"
+       id="path5909"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 297.81253,264.53268 -1.625,-2.5 4.5625,0.6875 0.5625,-2.6875"
+       id="path5911"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 300.62503,267.34518 -0.5625,-2.25 2.1875,0.375 1.375,-4.125"
+       id="path5913"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 304.18753,267.90768 1.0625,-1.5 -0.6875,-2.5625 1.0625,-1.75"
+       id="path5915"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 306.18753,270.15768 1.125,1.3125 3.625,-4.5"
+       id="path5917"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 307.31253,274.15768 1.25,0.1875 0,-1.9375 3.5,-3.6875"
+       id="path5919"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5965"
+       d="m 349.12503,275.97018 1.4375,-1.9375 0.4375,-2.125 1.5625,-1.1875"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5967"
+       d="m 347.56253,291.90768 0,-2.5 0.3125,-1.8125 -2.125,-0.4375 -1.125,1.75 -5.28934,-8.09273"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5969"
+       d="m 342.75003,291.65768 1.4375,1.3125 -2.4375,1.3125 0.3125,0.875"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5971"
+       d="m 333.68753,289.34518 -0.1875,2 1.1875,0.4375 1.375,0.75 0.625,1.6875 -3.75,-0.875 -1.3125,-2.25 -2.375,3.5"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5973"
+       d="m 329.06253,290.22018 0.8125,1.25 -2.375,2.1875"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5975"
+       d="m 324.06253,286.22018 -1.5,-0.75 -1.75,1.25 -1,-1.9375 -0.625,-0.125"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5977"
+       d="m 325.25003,285.40768 -2.25,-2.0625 -2.875,0.0625 -1.5625,-1.5"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5979"
+       d="m 321.50003,275.84518 -2.625,0.25 1.5625,-2.8125 -2.3125,-0.75"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5981"
+       d="m 325.87503,272.90768 -0.4375,-1.9375 0.3125,1.0625 -2.375,0 0.1875,-2.4375 -3,-1.3125"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5983"
+       d="m 337.81253,264.53268 -1.625,-2.5 4.5625,0.6875 0.5625,-2.6875"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5985"
+       d="m 340.62503,267.34518 -0.5625,-2.25 2.1875,0.375 1.375,-4.125"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5987"
+       d="m 344.18753,267.90768 1.0625,-1.5 -0.6875,-2.5625 1.0625,-1.75"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5989"
+       d="m 346.18753,270.15768 1.125,1.3125 3.625,-4.5"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path5991"
+       d="m 347.31253,274.15768 1.25,0.1875 0,-1.9375 3.5,-3.6875"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:0.80000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6013"
+       d="m 333.33512,289.74438 0.50004,-2.28594 1.42871,0 2.07163,-0.85722 -0.35718,-4.71474"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6015"
+       d="m 329.12043,290.17299 4.71473,-8.50081"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6017"
+       d="m 323.4056,286.02974 8.64368,-5.42909"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6019"
+       d="m 321.04823,275.74304 2.14306,1.57158 1.14297,2.92885 2.00019,-0.21431 0.50005,-1.4287 2.07162,-0.35718 0.0714,-0.35718 2.71454,-0.71435"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6021"
+       d="m 326.04871,271.31405 0.57148,-0.50005 2.92885,1.57158 1.42871,-1.28584 2.21449,3.28603"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6023"
+       d="m 337.47837,264.45625 -2.28593,0.0714 0.35717,5.92913 0.71436,-0.0714 -0.42862,3.21459"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6027"
+       d="m 344.26473,267.81371 -1.64301,2.2145 -0.28575,1.85732 -3.28602,2.78598"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6029"
+       d="m 346.26492,270.38539 -1.07153,-0.78579 -2.85742,2.57167"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6031"
+       d="m 347.62219,274.10003 -1.78588,0.2143 -0.85723,-0.42861 -2.00019,-0.35718 0.14287,1.92876 -1.14296,0.57148 -3.00029,-0.35717"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       inkscape:connector-curvature="0"
+       id="path6033"
+       d="m 349.19377,275.81448 -5.14335,0.0714 -0.50004,-0.42861 0.42861,2.00019 -2.85742,0.42861 -0.0714,1.14297 -0.92866,-0.71436"
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 387.56253,291.90768 0,-2.5 0.3125,-1.8125 -2.125,-0.4375 -1.125,1.75 -5.28934,-8.09273"
+       id="path6079"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 382.75003,291.65768 1.4375,1.3125 -2.4375,1.3125 0.3125,0.875"
+       id="path6081"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 373.68753,289.34518 -0.1875,2 1.1875,0.4375 1.375,0.75 0.625,1.6875 -3.75,-0.875 -1.3125,-2.25 -2.375,3.5"
+       id="path6083"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 369.06253,290.22018 0.8125,1.25 -2.375,2.1875"
+       id="path6085"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 364.06253,286.22018 -1.5,-0.75 -1.75,1.25 -1,-1.9375 -0.625,-0.125"
+       id="path6087"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 365.25003,285.40768 -2.25,-2.0625 -2.875,0.0625 -1.5625,-1.5"
+       id="path6089"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 365.87503,272.90768 -0.4375,-1.9375 0.3125,1.0625 -2.375,0 0.1875,-2.4375 -3,-1.3125"
+       id="path6093"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 377.81253,264.53268 -1.625,-2.5 4.5625,0.6875 0.5625,-2.6875"
+       id="path6095"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 384.18753,267.90768 1.0625,-1.5 -0.6875,-2.5625 1.0625,-1.75"
+       id="path6099"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 387.31253,274.15768 1.25,0.1875 0,-1.9375 3.5,-3.6875"
+       id="path6103"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 373.33512,289.74438 0.50004,-2.28594 1.42871,0 2.07163,-0.85722 -0.35718,-4.71474"
+       id="path6105"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 369.12043,290.17299 4.71473,-8.50081"
+       id="path6107"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 363.4056,286.02974 8.64368,-5.42909"
+       id="path6109"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 361.04823,275.74304 2.14306,1.57158 1.14297,2.92885 2.00019,-0.21431 0.50005,-1.4287 2.07162,-0.35718 0.0714,-0.35718 2.71454,-0.71435"
+       id="path6111"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 366.04871,271.31405 0.57148,-0.50005 2.92885,1.57158 1.42871,-1.28584 2.21449,3.28603"
+       id="path6113"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 377.47837,264.45625 -2.28593,0.0714 0.35717,5.92913 0.71436,-0.0714 -0.42862,3.21459"
+       id="path6115"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 380.69296,267.95658 -0.14287,3.4289 0.28574,0.42861 -0.85722,1.42871 -1.14297,1.28584"
+       id="path6117"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 384.26473,267.81371 -1.64301,2.2145 -0.28575,1.85732 -3.28602,2.78598"
+       id="path6119"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 386.26492,270.38539 -1.07153,-0.78579 -2.85742,2.57167"
+       id="path6121"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 387.62219,274.10003 -1.78588,0.2143 -0.85723,-0.42861 -2.00019,-0.35718 0.14287,1.92876 -1.14296,0.57148 -3.00029,-0.35717"
+       id="path6123"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 389.19377,275.81448 -5.14335,0.0714 -0.50004,-0.42861 0.42861,2.00019 -2.85742,0.42861 -0.0714,1.14297 -0.92866,-0.71436"
+       id="path6125"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 396.06051,276.57413 -4.34407,4.4451 -3.43484,-0.70718 -1.6164,1.41435 -2.62665,-0.20205 10.00147,3.03075"
+       id="path6273"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 383.0283,292.03094 -3.23279,-3.6369 -1.01025,2.32357 2.0205,5.85945"
+       id="path6275"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 363.5305,293.34426 c 0.70717,-0.70717 3.73792,-5.85944 3.73792,-5.85944"
+       id="path6277"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 361.51,290.11147 3.13177,-0.60615"
+       id="path6279"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 363.9346,262.53167 3.83895,6.26354 2.22254,-1.21229 2.72768,0.90922"
+       id="path6281"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 367.26842,262.43065 1.41435,3.23279 2.72767,0 0.8082,-1.71742 -0.4041,-4.041"
+       id="path6283"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <path
+       style="display:inline;fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 368.88482,260.41015 0.90922,3.13177"
+       id="path6285"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="/home/tylar/Pictures/cell-rpg-charShield-mockup.png"
+       inkscape:export-xdpi="458.55579"
+       inkscape:export-ydpi="458.55579" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:125%;font-family:'Droid Arabic Naskh';-inkscape-font-specification:'Droid Arabic Naskh';letter-spacing:0px;word-spacing:0px;fill:#00ffff;fill-opacity:1;stroke:none"
+       x="240.73132"
+       y="304.87485"
+       id="text6783-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6785-5"
+         x="240.73132"
+         y="304.87485">shield full</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:125%;font-family:'Droid Arabic Naskh';-inkscape-font-specification:'Droid Arabic Naskh';letter-spacing:0px;word-spacing:0px;fill:#00ffff;fill-opacity:1;stroke:none"
+       x="355.93637"
+       y="303.40903"
+       id="text6783-8-6"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan6785-5-3"
+         x="355.93637"
+         y="303.40903">shield empty</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text4268"
+       y="304.87485"
+       x="160.73132"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:6px;line-height:125%;font-family:'Droid Arabic Naskh';-inkscape-font-specification:'Droid Arabic Naskh';letter-spacing:0px;word-spacing:0px;fill:#00ffff;fill-opacity:1;stroke:none"
+       xml:space="preserve"><tspan
+         y="304.87485"
+         x="160.73132"
+         id="tspan4270"
+         sodipodi:role="line">shield base</tspan></text>
+  </g>
+</svg>

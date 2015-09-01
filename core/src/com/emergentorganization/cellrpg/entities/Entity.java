@@ -143,4 +143,13 @@ public abstract class Entity {
             component.dispose();
         }
     }
+
+    public void fireEvent(EntityEvents event){
+        for (EntityComponent component : components){
+            component.fireEvent(event);
+        }
+        if (event == EntityEvents.DESTROYED){
+            dispose();
+        }
+    }
 }

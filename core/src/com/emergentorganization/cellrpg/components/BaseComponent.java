@@ -21,5 +21,4 @@ public interface BaseComponent {
     public boolean shouldDebugRender();
 
     public void dispose();
-
 }

@@ -27,10 +27,16 @@ public class ShieldComponent extends EntityComponent {
         // deals damage to shield
         health -= amount/divisor;
         health_changed = true;
+        if (health < 0){
+            // TODO: getEntity().fireEvent(EntityEvents.SHIELD_DOWN);
+        }
     }
 
     public void recharge(final float amount){
         health += amount/divisor;
+        if (health > 100){
+            health = 100;
+        }
         health_changed = true;
     }
 

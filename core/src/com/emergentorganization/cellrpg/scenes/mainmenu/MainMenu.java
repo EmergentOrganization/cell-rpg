@@ -23,12 +23,21 @@ public class MainMenu extends Scene {
     public String selectedMapName = "";
     private VisWindow loadWindow;
 
+    public MainMenu(String subtitleText){
+        create(subtitleText);
+    }
+
+    public void create(String subtitleText) {
+        super.create();
+
+        initMainMenu(subtitleText);
+        initLoadWindow();
+    }
+
     @Override
     public void create() {
         super.create();
-
-        initMainMenu();
-        initLoadWindow();
+        initMainMenu("...");
     }
 
     private FileListNode[] getMaps() {
@@ -74,7 +83,7 @@ public class MainMenu extends Scene {
         VisTable table = new VisTable();
         final float PADDING = 2f;
 
-        VisTextButton load = new VisTextButton("Play");
+        VisTextButton load = new VisTextButton("Initiate Bridge Connection");
         table.add(load).pad(PADDING).expand().fill().align(Align.left);
 
         VisTextButton cancel = new VisTextButton("Cancel");
@@ -113,36 +122,35 @@ public class MainMenu extends Scene {
         System.out.println("Set window visible");
     }
 
-    private void initMainMenu() {
-       VisTable table = new VisTable();
+    private void initMainMenu(String subtitleText) {
+        final MainMenu _this = this;
+
+        VisTable table = new VisTable();
         VisWindow window = new VisWindow("", false);
         window.setFillParent(true);
         window.add(table);
         window.clearListeners();
 
-        VisTextButton play = new VisTextButton("Play");
+        VisLabel title = new VisLabel("Planiverse Bridge");
+        table.add(title).pad(0f, 0f, 10f, 0f).fill(true, false).row();
+
+        VisLabel subtitle = new VisLabel(subtitleText);
+        table.add(subtitle).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+
+        VisTextButton play = new VisTextButton("Initiate Bridge Connection");
         table.add(play).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-
-        VisTextButton custom = new VisTextButton("Custom Map");
-        table.add(custom).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-
-        VisTextButton editor = new VisTextButton("Map Editor");
-        table.add(editor).fill(true, false);
-
-        table.align(Align.center);
-
-        getUiStage().addActor(window);
-
-        final MainMenu _this = this;
         play.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
                 CellRpg.fetch().setScreen(new Test());
+                dispose();
             }
         });
 
+        VisTextButton custom = new VisTextButton("Custom Map");
+        table.add(custom).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         custom.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -152,6 +160,8 @@ public class MainMenu extends Scene {
             }
         });
 
+        VisTextButton editor = new VisTextButton("Map Editor");
+        table.add(editor).fill(true, false);
         editor.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -160,6 +170,11 @@ public class MainMenu extends Scene {
                 CellRpg.fetch().setScreen(new MapEditor());
             }
         });
+
+        table.align(Align.center);
+
+        getUiStage().addActor(window);
+
     }
 
     @Override

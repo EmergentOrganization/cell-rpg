@@ -304,7 +304,7 @@ public class MapEditor extends Scene {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // TODO: Throw warning window saying that changes won't be saved if they continue
-                CellRpg.fetch().setScreen(new MainMenu());
+                CellRpg.fetch().setScreen(new MainMenu("done editing?"));
             }
         });
 

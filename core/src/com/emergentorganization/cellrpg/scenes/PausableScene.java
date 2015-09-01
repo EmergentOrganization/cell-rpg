@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
 import com.kotcrab.vis.ui.widget.*;
 
 /**
@@ -67,7 +68,7 @@ public class PausableScene extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                //TODO: damage player
+                getPlayer().getFirstComponentByType(ShieldComponent.class).damage(26);
             }
         });
         table.align(Align.center);
@@ -79,6 +80,7 @@ public class PausableScene extends Scene {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 // TODO: recharge player shield
+                getPlayer().getFirstComponentByType(ShieldComponent.class).recharge(26);
             }
         });
         table.align(Align.center);

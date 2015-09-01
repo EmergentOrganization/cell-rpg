@@ -4,12 +4,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.entity.GridSeedComponent;
+import com.emergentorganization.cellrpg.components.entity.*;
 import com.emergentorganization.cellrpg.CellRpg;
-import com.emergentorganization.cellrpg.components.entity.MovementComponent;
-import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
-import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
-import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
@@ -41,8 +37,7 @@ public class Player extends Character {
 
         moveComponent = getFirstComponentByType(MovementComponent.class);
 
-        addComponent(new WeaponComponent());
-        initCAGrid();
+        initPlayer();
     }
 
     public Player(Texture texture, Vector2 position) {
@@ -51,8 +46,30 @@ public class Player extends Character {
         moveComponent = getFirstComponentByType(MovementComponent.class);
         moveComponent.setWorldPosition(position);
 
+        initPlayer();
+    }
+
+    private void initPlayer(){
         addComponent(new WeaponComponent());
+
         initCAGrid();
+
+        CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS);
+        // bullet trail energy layer effect
+        cacc.addCollision(
+                1,
+                EntityEvents.VYROID_DAMAGE
+        );
+        cacc.addCollision(
+                1,
+                new int[][] {
+                        {0,0,0},
+                        {0,0,0},
+                        {0,0,0}
+                },
+                CALayer.VYROIDS
+        );
+        addComponent(cacc);
     }
 
     private void initCAGrid(){
@@ -110,6 +127,9 @@ public class Player extends Character {
                 // player is dead!
                 CellRpg.fetch().setScreen(new MainMenu("bridge to planiverse collapsed..."));
                 getScene().dispose();
+                break;
+            case VYROID_DAMAGE:
+                getFirstComponentByType(ShieldComponent.class).damage(10);
                 break;
         }
     }

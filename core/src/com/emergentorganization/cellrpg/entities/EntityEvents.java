@@ -5,5 +5,6 @@ package com.emergentorganization.cellrpg.entities;
  */
 public enum EntityEvents {
     SHIELD_DOWN,
-    DESTROYED
+    DESTROYED,
+    VYROID_DAMAGE
 }

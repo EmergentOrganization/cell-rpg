@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.components.entity;
 
 import com.emergentorganization.cellrpg.components.EntityComponent;
+import com.emergentorganization.cellrpg.entities.EntityEvents;
 
 /**
  * Created by 7yl4r on 2015-07-27
@@ -28,7 +29,7 @@ public class ShieldComponent extends EntityComponent {
         health -= amount/divisor;
         health_changed = true;
         if (health < 0){
-            // TODO: getEntity().fireEvent(EntityEvents.SHIELD_DOWN);
+            getEntity().fireEvent(EntityEvents.SHIELD_DOWN);
         }
     }
 

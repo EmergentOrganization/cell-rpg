@@ -2,7 +2,6 @@ package com.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.entities.Entity;
 
 import java.util.ArrayList;

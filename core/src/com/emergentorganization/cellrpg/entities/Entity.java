@@ -7,7 +7,6 @@ package com.emergentorganization.cellrpg.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.EntityComponent;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 

@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.emergentorganization.cellrpg.components.entity.ComponentType;
 import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.SpriteComponent;

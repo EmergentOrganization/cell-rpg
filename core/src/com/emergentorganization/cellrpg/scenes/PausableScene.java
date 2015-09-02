@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.emergentorganization.cellrpg.scenes.submenus.DebugMenu;
+import com.emergentorganization.cellrpg.scenes.submenus.SettingsMenu;
 import com.kotcrab.vis.ui.widget.*;
 
 /**
@@ -19,6 +20,7 @@ public class PausableScene extends Scene {
     private TextureRegion frameBufferTexture;
     private VisWindow pauseWindow;
     private DebugMenu debug_menu;
+    private SettingsMenu settings_menu;
 
     @Override
     public void render(float delta) {
@@ -55,7 +57,12 @@ public class PausableScene extends Scene {
     }
 
     private void closePauseMenu() {
-        debug_menu.closeSubmenu();
+        if (debug_menu != null){
+            debug_menu.closeSubmenu();
+        }
+        if (settings_menu != null){
+            settings_menu.closeSubmenu();
+        }
         if (pauseWindow != null)
             pauseWindow.fadeOut();
     }
@@ -68,7 +75,7 @@ public class PausableScene extends Scene {
         pauseWindow.add(table);
         pauseWindow.clearListeners();
 
-        VisTextButton map = new VisTextButton("map");
+        VisTextButton map = new VisTextButton("map(N/A)");
         table.add(map).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         map.addListener(new ClickListener() {
             @Override
@@ -79,18 +86,9 @@ public class PausableScene extends Scene {
             }
         });
 
-        VisTextButton settings = new VisTextButton("settings");
-        table.add(settings).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        settings.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+        settings_menu = new SettingsMenu(table, this, "settings");
 
-                System.out.println("opened settings");
-            }
-        });
-
-        debug_menu = new DebugMenu(table, this);
+        debug_menu = new DebugMenu(table, this, "debug menu");
 
         table.align(Align.center);
 

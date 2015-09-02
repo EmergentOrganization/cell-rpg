@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
+import com.emergentorganization.cellrpg.scenes.submenus.DebugMenu;
 import com.kotcrab.vis.ui.widget.*;
 
 /**
@@ -18,7 +18,7 @@ public class PausableScene extends Scene {
     private boolean paused = false;
     private TextureRegion frameBufferTexture;
     private VisWindow pauseWindow;
-    private VisWindow debugWindow;
+    private DebugMenu debug_menu;
 
     @Override
     public void render(float delta) {
@@ -54,59 +54,8 @@ public class PausableScene extends Scene {
         }
     }
 
-    private void initDebugMenu(){
-        VisTable table = new VisTable();
-        debugWindow = new VisWindow("", false);
-        debugWindow.setFillParent(false);
-        debugWindow.centerWindow();
-        debugWindow.add(table);
-        debugWindow.clearListeners();
-
-        VisTextButton damageMe = new VisTextButton("damageMe");
-        table.add(damageMe).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        damageMe.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                getPlayer().getFirstComponentByType(ShieldComponent.class).damage(26);
-            }
-        });
-        table.align(Align.center);
-
-        VisTextButton regenShield = new VisTextButton("regenShield");
-        table.add(regenShield).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        regenShield.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                // TODO: recharge player shield
-                getPlayer().getFirstComponentByType(ShieldComponent.class).recharge(26);
-            }
-        });
-        table.align(Align.center);
-
-        VisTextButton back = new VisTextButton("<-back");
-        table.add(back).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        back.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                closeDebugMenu();
-                System.out.println("back out of debug menu");
-            }
-        });
-        table.align(Align.center);
-
-        getUiStage().addActor(debugWindow);
-    }
-
-    private void closeDebugMenu() {
-        if (debugWindow != null)
-            debugWindow.fadeOut();
-    }
-
     private void closePauseMenu() {
-        closeDebugMenu();
+        debug_menu.closeSubmenu();
         if (pauseWindow != null)
             pauseWindow.fadeOut();
     }
@@ -141,16 +90,7 @@ public class PausableScene extends Scene {
             }
         });
 
-        VisTextButton debug = new VisTextButton("debug");
-        table.add(debug).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        debug.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                initDebugMenu();
-
-            }
-        });
+        debug_menu = new DebugMenu(table, this);
 
         table.align(Align.center);
 

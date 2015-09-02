@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,8 @@ import java.util.ArrayList;
  * Created by OrelBitton on 04/06/2015.
  */
 public class PlayerInputComponent extends InputComponent {
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     private final int WALK_TIME = 300; // Time for mouse to be held for the player to begin walking.
     private final float FREE_MOVEMENT = 200 * Scene.scale;  // The mouse distance from the player to allow free movement
@@ -38,12 +42,35 @@ public class PlayerInputComponent extends InputComponent {
     private Vector2 player; // The player coordinates for the current frame (if mouse is pressed)
     private Vector2 dest = null;
 
+    private PlayerInputType inputMethod = PlayerInputType.MOUSE;  // base control type
+
     public PlayerInputComponent(Camera camera) {
         this.camera = camera;
     }
 
+    public void setInputMethod(PlayerInputType newMethod){
+        // sets base input
+        logger.info("input method set to " + newMethod.name() + " (" + newMethod.toString() + ")" );
+        inputMethod = newMethod;
+    }
+
+    public PlayerInputType getInputMethod(){
+        return inputMethod;
+    }
+
     @Override
     public void update(float deltaTime) {
+        switch(inputMethod) {
+            case MOUSE:
+                update_DEFAULT(deltaTime);
+                break;
+            case TELEPATHIC:
+                // TODO: implement mental game controls
+                break;
+        }
+    }
+
+    private void update_DEFAULT(float deltaTime){
         // if left mouse button (touch down) is pressed in the current frame
         boolean framePress = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
 
@@ -86,7 +113,6 @@ public class PlayerInputComponent extends InputComponent {
 
         lastFramePressed = framePress;
     }
-
 
     private void handleMovement() {
         if (elapsedTime < WALK_TIME)
@@ -140,14 +166,12 @@ public class PlayerInputComponent extends InputComponent {
         cr.record(mouse.x, mouse.y);
     }
 
-
     private void handleShooting() {
         if (elapsedTime > WALK_TIME)
             return;
 
         shootTo(mouse.x, mouse.y);
     }
-
 
     @Override
     public void debugRender(ShapeRenderer renderer) {

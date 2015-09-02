@@ -30,18 +30,8 @@ public class Submenu {
                 super.clicked(event, x, y);
                 launchSubmenu();
 
-                VisTextButton back = new VisTextButton("<-back");
-                menuTable.add(back).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-                back.addListener(new ClickListener() {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
-                        closeSubmenu();
-                        //System.out.println("back out of sub-menu");
-                    }
-                });
+                addBackButton();
 
-                menuTable.align(Align.center);
                 parentScene.getUiStage().addActor(menuWindow);
             }
         });
@@ -60,5 +50,20 @@ public class Submenu {
         if (menuWindow != null) {
             menuWindow.fadeOut();
         }
+    }
+
+    protected void addBackButton(){
+        VisTextButton back = new VisTextButton("<-back");
+        menuTable.add(back).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        back.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                closeSubmenu();
+                //System.out.println("back out of sub-menu");
+            }
+        });
+
+        menuTable.align(Align.center);
     }
 }

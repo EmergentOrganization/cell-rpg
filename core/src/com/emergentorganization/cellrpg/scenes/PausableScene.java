@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.emergentorganization.cellrpg.CellRpg;
+import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.scenes.submenus.DebugMenu;
 import com.emergentorganization.cellrpg.scenes.submenus.SettingsMenu;
 import com.kotcrab.vis.ui.widget.*;
@@ -76,7 +78,6 @@ public class PausableScene extends Scene {
         pauseWindow.clearListeners();
 
         VisTextButton map = new VisTextButton("map(N/A)");
-        table.add(map).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         map.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -85,10 +86,23 @@ public class PausableScene extends Scene {
                 System.out.println("opened map setting");
             }
         });
+        table.add(map).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+
 
         settings_menu = new SettingsMenu(table, this, "settings");
 
         debug_menu = new DebugMenu(table, this, "debug menu");
+
+        VisTextButton exit = new VisTextButton("exit to main menu");
+        exit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                CellRpg.fetch().setScreen(new MainMenu("disconnected. Dimensional hash saved."));
+                dispose();
+            }
+        });
+        table.add(exit).pad(0f, 0f, 5f, 0f).fill(true, false).row();
 
         table.align(Align.center);
 

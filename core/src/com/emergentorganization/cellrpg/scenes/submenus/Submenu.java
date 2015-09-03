@@ -65,5 +65,6 @@ public class Submenu {
         });
 
         menuTable.align(Align.center);
+        menuWindow.pack();
     }
 }

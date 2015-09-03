@@ -12,7 +12,7 @@ import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import org.dyn4j.geometry.Vector2;
 
-public class Test extends CAScene {
+public class RPGScene extends CAScene {
 
 	@Override
 	public void create() {

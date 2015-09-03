@@ -7,9 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.CellRpg;
+import com.emergentorganization.cellrpg.scenes.ArcadeScene;
 import com.emergentorganization.cellrpg.scenes.CustomMap;
+import com.emergentorganization.cellrpg.scenes.RPGScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.scenes.Test;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.widget.*;
@@ -126,25 +127,38 @@ public class MainMenu extends Scene {
         final MainMenu _this = this;
 
         VisTable table = new VisTable();
-        VisWindow window = new VisWindow("", false);
+        VisWindow window = new VisWindow("Planiverse Bridge", false); // TODO: include version #
         window.setFillParent(true);
         window.add(table);
         window.clearListeners();
 
-        VisLabel title = new VisLabel("Planiverse Bridge");
-        table.add(title).pad(0f, 0f, 10f, 0f).fill(true, false).row();
+        //VisLabel title = new VisLabel("Planiverse Bridge");
+        //table.add(title).pad(0f, 0f, 10f, 0f).fill(true, false).row();
 
         VisLabel subtitle = new VisLabel(subtitleText);
         table.add(subtitle).pad(0f, 0f, 5f, 0f).fill(true, false).row();
 
-        VisTextButton play = new VisTextButton("Initiate Bridge Connection");
-        table.add(play).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        play.addListener(new ClickListener() {
+
+        VisTextButton arcadeMode = new VisTextButton("Bridge to Condemned Planiverse (arcade mode)");
+        table.add(arcadeMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        arcadeMode.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                CellRpg.fetch().setScreen(new Test());
+                CellRpg.fetch().setScreen(new ArcadeScene());
+                dispose();
+            }
+        });
+
+        VisTextButton storyMode = new VisTextButton("Bridge to Stable Planiverse (story mode)");
+        table.add(storyMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        storyMode.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                CellRpg.fetch().setScreen(new RPGScene());
                 dispose();
             }
         });

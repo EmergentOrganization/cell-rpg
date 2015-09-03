@@ -10,15 +10,14 @@ varying vec2[9] v_pixelCoords;
 void main() {
     gl_Position =  u_projTrans * a_position;
 
-    float scale = 1.0f;
     float v_texelSize = 1.0f / a_resolution.x;
-    v_pixelCoords[0] = a_texCoord0 + vec2(v_texelSize * -4.0f * scale, 0.0);
-    v_pixelCoords[1] = a_texCoord0 + vec2(v_texelSize * -3.0f * scale, 0.0);
-    v_pixelCoords[2] = a_texCoord0 + vec2(v_texelSize * -2.0f * scale, 0.0);
-    v_pixelCoords[3] = a_texCoord0 + vec2(v_texelSize * -1.0f * scale, 0.0);
+    v_pixelCoords[0] = a_texCoord0 + vec2(v_texelSize * -4.0f, 0.0);
+    v_pixelCoords[1] = a_texCoord0 + vec2(v_texelSize * -3.0f, 0.0);
+    v_pixelCoords[2] = a_texCoord0 + vec2(v_texelSize * -2.0f, 0.0);
+    v_pixelCoords[3] = a_texCoord0 + vec2(v_texelSize * -1.0f, 0.0);
     v_pixelCoords[4] = a_texCoord0;
-    v_pixelCoords[5] = a_texCoord0 + vec2(v_texelSize * 1.0f * scale, 0.0);
-    v_pixelCoords[6] = a_texCoord0 + vec2(v_texelSize * 2.0f * scale, 0.0);
-    v_pixelCoords[7] = a_texCoord0 + vec2(v_texelSize * 3.0f * scale, 0.0);
-    v_pixelCoords[8] = a_texCoord0 + vec2(v_texelSize * 4.0f * scale, 0.0);
+    v_pixelCoords[5] = a_texCoord0 + vec2(v_texelSize * 1.0f, 0.0);
+    v_pixelCoords[6] = a_texCoord0 + vec2(v_texelSize * 2.0f, 0.0);
+    v_pixelCoords[7] = a_texCoord0 + vec2(v_texelSize * 3.0f, 0.0);
+    v_pixelCoords[8] = a_texCoord0 + vec2(v_texelSize * 4.0f, 0.0);
 }

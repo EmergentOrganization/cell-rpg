@@ -26,8 +26,11 @@ public class TronShader implements PostProcessor {
     private FrameBuffer maskBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
     private SpriteBatch batch = new SpriteBatch(1);
+    private int passes;
 
-    public TronShader() throws ShaderException {
+    public TronShader(int passes) throws ShaderException {
+        this.passes = passes;
+
         if (!horizontalBlurProgram.isCompiled()) {
             throw new ShaderException(horizontalBlurProgram.getLog());
         }
@@ -37,6 +40,7 @@ public class TronShader implements PostProcessor {
         else if (!alphaMaskProgram.isCompiled()) {
             throw new ShaderException(alphaMaskProgram.getLog());
         }
+
         horizontalBlurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
         verticalBlurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
 
@@ -60,18 +64,21 @@ public class TronShader implements PostProcessor {
         batch.begin();
         batch.draw(fboRegion, 0, 0);
 
-        batch.setShader(horizontalBlurProgram);
-        batch.draw(maskRegion, 0, 0);
+        for (int i = 0; i < passes; i++) {
+            batch.setShader(horizontalBlurProgram);
+            batch.draw(maskRegion, 0, 0);
 
-        batch.setShader(verticalBlurProgram);
-        batch.draw(maskRegion, 0, 0);
+            batch.setShader(verticalBlurProgram);
+            batch.draw(maskRegion, 0, 0);
+        }
+
         batch.end();
         maskBuffer.end();
 
         // blend
         frameBuffer.begin();
         batch.begin();
-        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_SRC_ALPHA);
+        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_DST_COLOR);
         batch.draw(maskRegion, 0, 0);
         batch.end();
         frameBuffer.end();

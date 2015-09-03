@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
+import com.emergentorganization.cellrpg.scenes.RenderTest;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +30,7 @@ public class CellRpg extends Game {
         logger.info("Loading VisUI");
         VisUI.load();
 
-        setScreen(new MainMenu("ready to connect"));
+        setScreen(new RenderTest());
     }
 
     @Override

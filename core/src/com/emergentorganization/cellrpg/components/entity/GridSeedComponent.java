@@ -76,7 +76,12 @@ public class GridSeedComponent extends EntityComponent {
         super.update(deltaTime);
 
         Vector2 pos = moveComponent.getWorldPosition();
-        seedIt();
+        try {
+            seedIt();
+        } catch(RuntimeException err){
+            // non-CAGrid scene. no problem.
+            return;
+        }
 
         // moveComponent.getRotationRad();
     }

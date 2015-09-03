@@ -64,8 +64,13 @@ public class CACollisionComponent extends EntityComponent {
 
     @Override
     public void update(float deltaTime) {
-        if(collide()){
-            // if bullet has collided
+        try {
+            if (collide()) {
+                // if bullet has collided
+                return;
+            }
+        } catch(ClassCastException err){
+            // non-cascene, can't check for ca collisions
             return;
         }
     }

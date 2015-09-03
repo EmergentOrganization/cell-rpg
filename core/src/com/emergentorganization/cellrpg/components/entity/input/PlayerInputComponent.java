@@ -23,8 +23,12 @@ public class PlayerInputComponent extends InputComponent {
 
     private final Logger logger = LogManager.getLogger(getClass());
 
-    private final int WALK_TIME = 300; // Time for mouse to be held for the player to begin walking.
-    private final float FREE_MOVEMENT = 200 * Scene.scale;  // The mouse distance from the player to allow free movement
+    public int WALK_TIME = 300; // Time for mouse to be held for the player to begin walking.
+    public final int WALK_TIME_MIN = 100;
+    public final int WALK_TIME_MAX = 3000;
+    public float FREE_MOVEMENT = 200 * Scene.scale;  // The mouse distance from the player to allow free movement
+    public final float FREE_MOVEMENT_MIN = 10;
+    public final float FREE_MOVEMENT_MAX = 1000;
 
     private Camera camera; // Used to unproject screen coordinates for the mouse
     private Vector3 tmp = new Vector3(); // A temporary vector, so we won't have to create a new every frame

@@ -50,11 +50,10 @@ public class MovementSettingsMenu extends Submenu{
 
         switch(currentInputType){
             case MOUSE:
-                VisTextButton mouseCtrl = new VisTextButton("mouse-ctrl-optn");
-                menuTable.add(mouseCtrl).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-
                 VisLabel walkDelayLabel = new VisLabel("walk delay");
-                menuTable.add(walkDelayLabel).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+                menuTable.add(walkDelayLabel).pad(0f, 0f, 5f, 0f).fill(true, false);
+                final VisLabel walkDelayValue = new VisLabel(Integer.toString(inComp.WALK_TIME));
+                menuTable.add(walkDelayValue).pad(0f, 0f, 5f, 0f).fill(true, false).row();
                 final VisSlider walkDelaySlider = new VisSlider(inComp.WALK_TIME_MIN, inComp.WALK_TIME_MAX, 1, false);
                 walkDelaySlider.setValue(inComp.WALK_TIME);
                 walkDelaySlider.addListener(
@@ -62,6 +61,8 @@ public class MovementSettingsMenu extends Submenu{
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
                                 inComp.WALK_TIME = (int) walkDelaySlider.getValue();
+                                walkDelayValue.setText(Integer.toString(inComp.WALK_TIME));
+                                menuWindow.pack();
                             }
                         }
                 );
@@ -69,7 +70,7 @@ public class MovementSettingsMenu extends Submenu{
 
                 VisLabel freeMoveLabel = new VisLabel("free-move radius");
                 menuTable.add(freeMoveLabel).pad(0f, 0f, 5f, 0f).fill(true, false);
-                final VisLabel freeMoveValue = new VisLabel(Float.toString(inComp.FREE_MOVEMENT));
+                final VisLabel freeMoveValue = new VisLabel(Integer.toString((int)inComp.FREE_MOVEMENT));
                 menuTable.add(freeMoveValue).pad(0f, 0f, 5f, 0f).fill(true, false).row();
                 final VisSlider freeMoveSlider = new VisSlider(inComp.FREE_MOVEMENT_MIN, inComp.FREE_MOVEMENT_MAX, 1, false);
                 freeMoveSlider.setValue(inComp.FREE_MOVEMENT);
@@ -78,7 +79,8 @@ public class MovementSettingsMenu extends Submenu{
                             @Override
                             public void changed(ChangeEvent event, Actor actor) {
                                 inComp.FREE_MOVEMENT = (int) freeMoveSlider.getValue();
-                                freeMoveValue.setText(Float.toString(inComp.FREE_MOVEMENT));
+                                freeMoveValue.setText(Integer.toString((int)inComp.FREE_MOVEMENT));
+                                menuWindow.pack();
                             }
                         }
                 );
@@ -86,13 +88,16 @@ public class MovementSettingsMenu extends Submenu{
 
                 break;
             case TELEPATHIC:
-                VisTextButton teleTest = new VisTextButton("test-telepathic-control");
+                VisTextButton teleTest = new VisTextButton("test telepathic control");
                 menuTable.add(teleTest).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+                final VisLabel testResult = new VisLabel("...");
+                menuTable.add(testResult).pad(0f, 0f, 5f, 0f).fill(true, false).row();
                 teleTest.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        // TODO: display something like "no telepathic abilities detected"
+                        testResult.setText("Test failed: no telepathic abilities detected.");
+                        menuWindow.pack();
                     }
                 });
                 break;

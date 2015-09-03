@@ -13,12 +13,12 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  * Created by BrianErikson on 9/3/15.
  */
 public class TronShader implements PostProcessor {
-    public static final String horizontalVertexShader = Gdx.files.internal("shaders/Tron_Vert_Horizontal.glsl").readString();
-    public static final String verticalVertexShader = Gdx.files.internal("shaders/Tron_Vert_Vertical.glsl").readString();
-    public static final String horizontalFragShader = Gdx.files.internal("shaders/Tron_Frag_Horizontal.glsl").readString();
-    public static final String verticalFragShader = Gdx.files.internal("shaders/Tron_Frag_Vertical.glsl").readString();
-    public static final String alphaMaskVertexShader = Gdx.files.internal("shaders/Tron_Vert_AlphaMask.glsl").readString();
-    public static final String alphaMaskFragShader = Gdx.files.internal("shaders/Tron_Frag_AlphaMask.glsl").readString();
+    public static final String horizontalVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_Horizontal.glsl").readString();
+    public static final String verticalVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_Vertical.glsl").readString();
+    public static final String horizontalFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Horizontal.glsl").readString();
+    public static final String verticalFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Vertical.glsl").readString();
+    public static final String alphaMaskVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_AlphaMask.glsl").readString();
+    public static final String alphaMaskFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_AlphaMask.glsl").readString();
     private final TextureRegion maskRegion;
     private ShaderProgram alphaMaskProgram = new ShaderProgram(alphaMaskVertexShader, alphaMaskFragShader);
     private ShaderProgram horizontalBlurProgram = new ShaderProgram(horizontalVertexShader, horizontalFragShader);

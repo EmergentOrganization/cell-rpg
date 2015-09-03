@@ -18,7 +18,7 @@ public class RenderTest extends Scene {
         super.create();
 
         try {
-            addPostProcessor(new TronShader(5));
+            addPostProcessor(new TronShader(1));
         } catch (ShaderException e) {
             e.printStackTrace();
         }

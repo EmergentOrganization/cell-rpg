@@ -25,7 +25,7 @@ public class TronShader implements PostProcessor {
     private ShaderProgram verticalBlurProgram = new ShaderProgram(verticalVertexShader, verticalFragShader);
     private FrameBuffer maskBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
-    private SpriteBatch batch = new SpriteBatch(1);
+    private SpriteBatch batch = new SpriteBatch(2);
     private int passes;
 
     public TronShader(int passes) throws ShaderException {

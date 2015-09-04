@@ -9,8 +9,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -20,6 +25,7 @@ import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
+import com.emergentorganization.cellrpg.tools.postprocessing.PostProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dyn4j.dynamics.World;
@@ -43,8 +49,12 @@ public abstract class Scene implements Screen {
     private ArrayList<Entity> entityRemoveQueue;
 
     private SpriteBatch batch; // sprite batch for entities
+    private SpriteBatch outBatch;
     private ShapeRenderer debugRenderer;
     private Vector3 clearColor;
+    private FrameBuffer frameBuffer;
+    private ArrayList<PostProcessor> postProcessors;
+
     private Stage uiStage; // stage which handles all UI Actors
     private OrthographicCamera gameCamera;
     private World physWorld;
@@ -66,9 +76,12 @@ public abstract class Scene implements Screen {
         entityRemoveQueue = new ArrayList<Entity>();
 
         batch = new SpriteBatch();
+        outBatch = new SpriteBatch();
         debugRenderer = new ShapeRenderer();
         debugRenderer.setAutoShapeType(true);
         clearColor = new Vector3(0,0,0);
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        postProcessors = new ArrayList<PostProcessor>();
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         input = new InputMultiplexer();
@@ -111,8 +124,6 @@ public abstract class Scene implements Screen {
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
 
@@ -128,6 +139,10 @@ public abstract class Scene implements Screen {
 
         uiStage.act();
 
+        frameBuffer.begin();
+        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.setProjectionMatrix(gameCamera.combined);
         batch.begin();
         for (Entity entity : entities) {
@@ -141,6 +156,21 @@ public abstract class Scene implements Screen {
             entity.debugRender(debugRenderer);
         }
         debugRenderer.end();
+        frameBuffer.end();
+
+        for (PostProcessor pp : postProcessors) {
+            pp.render(frameBuffer);
+        }
+
+        // Render final texture to screen
+        Texture cb = frameBuffer.getColorBufferTexture();
+        TextureRegion fboRegion = new TextureRegion(cb, 0, 0, cb.getWidth(), cb.getHeight());
+        fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
+        outBatch.begin();
+        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        outBatch.draw(fboRegion, 0, 0);
+        outBatch.end();
     }
 
     @Override
@@ -291,5 +321,13 @@ public abstract class Scene implements Screen {
 
     public void removeEntityActionListener(EntityActionListener listener) {
         entityActionListeners.remove(listener);
+    }
+
+    public ArrayList<PostProcessor> getPostProcessors() {
+        return postProcessors;
+    }
+
+    public void addPostProcessor(PostProcessor... postProcessors) {
+        Collections.addAll(this.postProcessors, postProcessors);
     }
 }

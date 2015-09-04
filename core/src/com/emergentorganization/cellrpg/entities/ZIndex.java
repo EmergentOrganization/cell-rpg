@@ -9,5 +9,6 @@ public enum ZIndex {
     SCENERY,
     PROJECTILE,
     CHARACTER,
-    VYROIDS
+    VYROIDS,
+    HUD
 }

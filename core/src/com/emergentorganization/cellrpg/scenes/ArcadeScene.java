@@ -7,6 +7,7 @@ import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
+import com.emergentorganization.cellrpg.entities.ScoreHUD;
 import com.emergentorganization.cellrpg.entities.buildings.VyroidGenerator;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
@@ -49,6 +50,7 @@ public class ArcadeScene extends CAScene {
 		addArcadeEntity(cameraTarget, 0, 0, .0000001f, .0000001f);
 
 		// TODO: add score HUD
+		addEntity(new ScoreHUD());
 
 		// TODO: initiate difficulty ramp which adds generators as score goes up (use addGenerator)
 	}
@@ -61,10 +63,6 @@ public class ArcadeScene extends CAScene {
 		addComponent(dc);
 		//dc.setEnabled(true);
 		//dc.setTypewriterText("This is a test message.", 0.3f);
-
-		Stage uiStage = getUiStage();
-		Image cellRPG = new Image(new Texture("CellRPG.png"));
-		uiStage.addActor(cellRPG);
 
 		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders

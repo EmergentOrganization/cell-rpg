@@ -63,6 +63,7 @@ public abstract class Scene implements Screen {
     private InputMultiplexer input;
 
     private boolean isEditor = false;
+    private TextureRegion fboRegion;
 
 
     public void create() {
@@ -82,6 +83,9 @@ public abstract class Scene implements Screen {
         clearColor = new Vector3(0,0,0);
         frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
         postProcessors = new ArrayList<PostProcessor>();
+        Texture cb = frameBuffer.getColorBufferTexture();
+        fboRegion = new TextureRegion(cb, 0, 0, cb.getWidth(), cb.getHeight());
+        fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
         uiStage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         input = new InputMultiplexer();
@@ -163,9 +167,6 @@ public abstract class Scene implements Screen {
         }
 
         // Render final texture to screen
-        Texture cb = frameBuffer.getColorBufferTexture();
-        TextureRegion fboRegion = new TextureRegion(cb, 0, 0, cb.getWidth(), cb.getHeight());
-        fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
         outBatch.begin();
         Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

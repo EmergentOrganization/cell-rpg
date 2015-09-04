@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by BrianErikson on 9/3/15.
@@ -17,10 +18,10 @@ public class TronShader implements PostProcessor {
     public static final String verticalVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_Vertical.glsl").readString();
     public static final String horizontalFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Horizontal.glsl").readString();
     public static final String verticalFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Vertical.glsl").readString();
-    public static final String alphaMaskVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_AlphaMask.glsl").readString();
-    public static final String alphaMaskFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_AlphaMask.glsl").readString();
+    public static final String colorMaskVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_ColorMask.glsl").readString();
+    public static final String colorMaskFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_ColorMask.glsl").readString();
     private final TextureRegion maskRegion;
-    private ShaderProgram alphaMaskProgram = new ShaderProgram(alphaMaskVertexShader, alphaMaskFragShader);
+    private ShaderProgram colorMaskProgram = new ShaderProgram(colorMaskVertexShader, colorMaskFragShader);
     private ShaderProgram horizontalBlurProgram = new ShaderProgram(horizontalVertexShader, horizontalFragShader);
     private ShaderProgram verticalBlurProgram = new ShaderProgram(verticalVertexShader, verticalFragShader);
     private FrameBuffer maskBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
@@ -28,21 +29,36 @@ public class TronShader implements PostProcessor {
     private SpriteBatch batch = new SpriteBatch(2);
     private int passes;
 
-    public TronShader(int passes) throws ShaderException {
+    public TronShader(int passes) {
+        this(new Vector3(1f, 1f, 1f), passes);
+    }
+
+    public TronShader(Vector3 targetColor, int passes) {
         this.passes = passes;
 
-        if (!horizontalBlurProgram.isCompiled()) {
-            throw new ShaderException(horizontalBlurProgram.getLog());
-        }
-        else if (!verticalBlurProgram.isCompiled()) {
-            throw new ShaderException(verticalBlurProgram.getLog());
-        }
-        else if (!alphaMaskProgram.isCompiled()) {
-            throw new ShaderException(alphaMaskProgram.getLog());
+        try {
+            if (!horizontalBlurProgram.isCompiled()) {
+                throw new ShaderException(horizontalBlurProgram.getLog());
+            }
+            else if (!verticalBlurProgram.isCompiled()) {
+                throw new ShaderException(verticalBlurProgram.getLog());
+            }
+            else if (!colorMaskProgram.isCompiled()) {
+                throw new ShaderException(colorMaskProgram.getLog());
+            }
+        } catch (ShaderException e) {
+            e.printStackTrace();
         }
 
+        colorMaskProgram.begin();
+        colorMaskProgram.setUniformf("maskColor", targetColor.x, targetColor.y, targetColor.z);
+        colorMaskProgram.end();
+        horizontalBlurProgram.begin();
         horizontalBlurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
+        horizontalBlurProgram.end();
+        verticalBlurProgram.begin();
         verticalBlurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
+        verticalBlurProgram.end();
 
         Texture mask = maskBuffer.getColorBufferTexture();
         maskRegion = new TextureRegion(mask, 0, 0, mask.getWidth(), mask.getHeight());
@@ -58,9 +74,9 @@ public class TronShader implements PostProcessor {
 
         // draw blur
         maskBuffer.begin();
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setShader(alphaMaskProgram);
+        batch.setShader(colorMaskProgram);
         batch.begin();
         batch.draw(fboRegion, 0, 0);
 
@@ -78,7 +94,7 @@ public class TronShader implements PostProcessor {
         // blend
         frameBuffer.begin();
         batch.begin();
-        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_DST_COLOR);
+        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
         batch.draw(maskRegion, 0, 0);
         batch.end();
         frameBuffer.end();

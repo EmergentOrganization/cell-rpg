@@ -11,15 +11,15 @@ void main() {
 
     float[10] weights;
     weights[0] = 1.0;
-    weights[1] = 0.9f;
-    weights[2] = 0.8f;
-    weights[3] = 0.7f;
-    weights[4] = 0.5f;
-    weights[5] = 0.4f;
-    weights[6] = 0.3f;
-    weights[7] = 0.2f;
-    weights[8] = 0.1f;
-    weights[9] = 0.05f;
+    weights[1] = 0.2f;
+    weights[2] = 0.1f;
+    weights[3] = 0.09f;
+    weights[4] = 0.08f;
+    weights[5] = 0.07f;
+    weights[6] = 0.05f;
+    weights[7] = 0.03f;
+    weights[8] = 0.02f;
+    weights[9] = 0.01f;
 
     float normalization = (weights[0] + weights[1] + weights[2] + weights[3] + weights[4] + weights[5] +
                                                 weights[6] + weights[7] + weights[8] + weights[9]);

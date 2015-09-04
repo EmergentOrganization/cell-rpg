@@ -10,6 +10,7 @@ import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListene
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 import org.dyn4j.geometry.Vector2;
 
 public class RPGScene extends CAScene {
@@ -47,6 +48,8 @@ public class RPGScene extends CAScene {
 				removeEntity(followingCamera);
 			}
 		});
+
+		addPostProcessor(new TronShader(1));
 	}
 
 	@Override

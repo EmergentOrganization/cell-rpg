@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes;
+package com.emergentorganization.cellrpg.scenes.tests;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,13 +6,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.postprocessing.ShaderException;
 import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 
 /**
  * Created by brian on 9/3/15.
  */
-public class RenderTest extends Scene {
+public class BlurTest extends Scene {
     @Override
     public void create() {
         super.create();

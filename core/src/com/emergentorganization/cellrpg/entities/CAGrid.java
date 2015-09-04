@@ -501,6 +501,10 @@ public class CAGrid extends Entity {
         return stampState(pattern, row, col, states);
     }
 
+    public long stampState(final int[][] pattern, final float x, final float y){
+        return stampState(pattern, getIndexOfX(x), getIndexOfY(y));
+    }
+
     public long stampState(final int[][] pattern, final int row, final int col) {
         // stamps a pattern into specific grid location
         return stampState(pattern, row, col, states);

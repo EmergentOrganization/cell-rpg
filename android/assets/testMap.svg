@@ -14,7 +14,7 @@
    height="600"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="testMap.svg">
   <defs
      id="defs4">
@@ -96,16 +96,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.64000001"
-     inkscape:cx="402.01216"
-     inkscape:cy="219.49007"
+     inkscape:zoom="3.6203868"
+     inkscape:cx="-215.98578"
+     inkscape:cy="491.89176"
      inkscape:document-units="px"
      inkscape:current-layer="layer12"
      showgrid="false"
-     inkscape:window-width="1600"
-     inkscape:window-height="849"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-width="1366"
+     inkscape:window-height="706"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
      inkscape:window-maximized="1">
     <inkscape:grid
        type="xygrid"
@@ -221,15 +221,15 @@
      inkscape:label="backgrounds"
      sodipodi:insensitive="true">
     <image
-       sodipodi:absref="/home/tylar/cell-rpg/android/assets/./the_edge.png"
-       xlink:href="./the_edge.png"
-       width="400"
-       height="300"
-       id="image3896"
-       x="400.10919"
-       y="582.66064"
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\.\the_edge.png"
+       xlink:href=".\the_edge.png"
+       transform="translate(0,-452.3622)"
        style="display:inline"
-       transform="translate(0,-452.3622)" />
+       y="582.66064"
+       x="400.10919"
+       id="image3896"
+       height="300"
+       width="400" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -271,68 +271,75 @@
      inkscape:label="buildingsAndScenery"
      sodipodi:insensitive="true">
     <image
-       transform="translate(0,-5400)"
-       style="display:inline"
-       y="5708.5088"
-       x="620.85413"
-       id="image7413"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/building-large-1.png"
-       height="100"
-       width="61.099998" />
-    <image
-       style="display:inline"
-       y="5073.4619"
-       x="2530.1128"
-       id="image7558"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
-       height="30.4"
-       width="30"
-       transform="matrix(0.93365404,0.35817613,-0.35817613,0.93365404,0,-5400)" />
-    <image
-       transform="translate(0,-5400)"
-       style="display:inline"
-       y="5454.103"
-       x="-315.8439"
-       id="image7413-2"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/building-large-1.png"
-       height="100"
-       width="61.099998" />
-    <image
-       transform="translate(0,-5400)"
-       style="display:inline"
-       y="5473.8247"
-       x="-239.30556"
-       id="image7558-8"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
-       height="30.4"
-       width="30" />
-    <image
-       style="display:inline"
-       y="-5698.4341"
-       x="620.86731"
-       id="image7413-1"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/building-large-1.png"
-       height="100"
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\building-large-1.png"
+       xlink:href="building-large-1.png"
        width="61.099998"
-       transform="matrix(1,0,0,-1,0,-5400)" />
-    <image
+       height="100"
+       id="image7413"
+       x="620.85413"
+       y="5708.5088"
        style="display:inline"
+       transform="translate(0,-5400)" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\building-round-1.png"
+       xlink:href="building-round-1.png"
+       transform="matrix(0.93365404,0.35817613,-0.35817613,0.93365404,0,-5400)"
        width="30"
        height="30.4"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
-       id="image8002"
-       x="-1807.1687"
+       id="image7558"
+       x="2530.1128"
+       y="5073.4619"
+       style="display:inline" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\building-large-1.png"
+       xlink:href="building-large-1.png"
+       width="61.099998"
+       height="100"
+       id="image7413-2"
+       x="-315.8439"
+       y="5454.103"
+       style="display:inline"
+       transform="translate(0,-5400)" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\building-round-1.png"
+       xlink:href="building-round-1.png"
+       width="30"
+       height="30.4"
+       id="image7558-8"
+       x="-239.30556"
+       y="5473.8247"
+       style="display:inline"
+       transform="translate(0,-5400)" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\building-large-1.png"
+       xlink:href="building-large-1.png"
+       transform="matrix(1,0,0,-1,0,-5400)"
+       width="61.099998"
+       height="100"
+       id="image7413-1"
+       x="620.86731"
+       y="-5698.4341"
+       style="display:inline" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\building-round-1.png"
+       xlink:href="building-round-1.png"
+       transform="matrix(-0.97553143,-0.21986002,-0.21986002,0.97553143,0,-5400)"
        y="5426.2471"
-       transform="matrix(-0.97553143,-0.21986002,-0.21986002,0.97553143,0,-5400)" />
-    <image
-       style="display:inline"
-       y="5584.4355"
-       x="1368.1367"
-       id="image7558-5"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/building-round-1.png"
+       x="-1807.1687"
+       id="image8002"
        height="30.4"
        width="30"
-       transform="matrix(0.98931486,0.14579472,-0.14579472,0.98931486,0,-5400)" />
+       style="display:inline" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\building-round-1.png"
+       xlink:href="building-round-1.png"
+       transform="matrix(0.98931486,0.14579472,-0.14579472,0.98931486,0,-5400)"
+       width="30"
+       height="30.4"
+       id="image7558-5"
+       x="1368.1367"
+       y="5584.4355"
+       style="display:inline" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -340,34 +347,37 @@
      inkscape:label="chars"
      sodipodi:insensitive="true">
     <image
-       transform="translate(0,-5400)"
-       style="display:inline"
-       y="5743.4961"
-       x="-301.24417"
-       id="image7963"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/char-civ1-blinker.png"
-       height="3.8"
-       width="8" />
-    <image
-       transform="translate(0,-5400)"
-       style="display:inline"
-       y="5791.8813"
-       x="638.81067"
-       id="image7963-5"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/char-civ1-blinker.png"
-       height="3.8"
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\char-civ1-blinker.png"
+       xlink:href="char-civ1-blinker.png"
        width="8"
-       clip-path="url(#clipPath3918)" />
-    <image
-       transform="translate(0,-5400)"
+       height="3.8"
+       id="image7963"
+       x="-301.24417"
+       y="5743.4961"
        style="display:inline"
-       y="5695.7534"
-       x="583.21887"
-       id="image3295"
-       xlink:href="file:///home/tylar/cell-rpg/android/assets/char-player.png"
-       height="3.5999999"
+       transform="translate(0,-5400)" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\char-civ1-blinker.png"
+       xlink:href="char-civ1-blinker.png"
+       clip-path="url(#clipPath3918)"
+       width="8"
+       height="3.8"
+       id="image7963-5"
+       x="638.81067"
+       y="5791.8813"
+       style="display:inline"
+       transform="translate(0,-5400)" />
+    <image
+       sodipodi:absref="C:\Users\7yl4r\Documents\cell-rpg\android\assets\char-player.png"
+       xlink:href="char-player.png"
+       clip-path="url(#clipPath3912)"
        width="40"
-       clip-path="url(#clipPath3912)" />
+       height="3.5999999"
+       id="image3295"
+       x="583.21887"
+       y="5695.7534"
+       style="display:inline"
+       transform="translate(0,-5400)" />
   </g>
   <g
      inkscape:groupmode="layer"

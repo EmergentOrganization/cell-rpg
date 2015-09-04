@@ -3,16 +3,55 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
+import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
+import com.emergentorganization.cellrpg.entities.buildings.VyroidGenerator;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
-import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
-import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import org.dyn4j.geometry.Vector2;
 
 public class ArcadeScene extends CAScene {
+
+	Entity cameraTarget;
+
+	private void addArcadeEntity(Entity ent, float x, float y, float scaleX, float scaleY){
+		MovementComponent move = ent.getFirstComponentByType(MovementComponent.class);
+		move.setScale(new com.badlogic.gdx.math.Vector2(scaleX, scaleY));
+		move.setRotation(0);
+		move.setWorldPosition(new com.badlogic.gdx.math.Vector2(x, y));
+		addEntity(ent);
+	}
+
+	private void addArcadeEntity(Entity ent, float x, float y){
+		addArcadeEntity(ent, x, y, .1f, .1f);
+	}
+
+	private void addArcadeEntity(Entity ent){
+		addArcadeEntity(ent, 0, 0);
+	}
+
+	private void addGenerator(){
+		// adds another vyroid generator
+		float x = 0;
+		float y = 0;
+		addArcadeEntity(new VyroidGenerator(), x, y, .0000001f, .0000001f);
+	}
+
+	private void setupArcadeScene(){
+		// add player
+		addArcadeEntity(new Player());
+
+		// add 1st generator
+		cameraTarget = new VyroidGenerator();
+		addArcadeEntity(cameraTarget, 0, 0, .0000001f, .0000001f);
+
+		// TODO: add score HUD
+
+		// TODO: initiate difficulty ramp which adds generators as score goes up (use addGenerator)
+	}
 
 	@Override
 	public void create() {
@@ -29,8 +68,8 @@ public class ArcadeScene extends CAScene {
 
 		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
-		Map map = MapTools.importMap("TestMap");
-		addEntities(map.getEntities());
+
+		setupArcadeScene();
 
 		addEntityListener(new EntityActionListener(Player.class) {
 			private FollowingCamera followingCamera;
@@ -38,7 +77,7 @@ public class ArcadeScene extends CAScene {
 			@Override
 			public void onAdd() {
 
-				followingCamera = new FollowingCamera(getPlayer());
+				followingCamera = new FollowingCamera(cameraTarget);
 				addEntity(followingCamera);
 			}
 

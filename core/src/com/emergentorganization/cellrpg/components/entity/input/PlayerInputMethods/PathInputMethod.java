@@ -110,7 +110,8 @@ public class PathInputMethod extends BaseInputMethod {
     @Override
     public void inputComponentUpdate(float deltaTime, Camera camera, Vector3 mousePos, MovementComponent mc) {
         // if left mouse button (touch down) is pressed in the current frame
-        boolean framePress = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
+        boolean framePress = Gdx.input.isButtonPressed(Input.Buttons.LEFT);// || Gdx.input.isTouched();
+
 
         long now = TimeUtils.millis();
         elapsedTime = now - lastClick;
@@ -170,8 +171,8 @@ public class PathInputMethod extends BaseInputMethod {
 
         // check if the mouse button is not very far away from the player
         if (mouse.dst(player.x, player.y, 0) < pathDrawRadius) {
-            // if it is close, start recording new path
-            if (!savedPath.isEmpty()) {
+            // if it is close and we're not already recording, start recording new path
+            if (!savedPath.isEmpty() && !recording) {
                 savedPath.clear();
             }
             recording = true;

@@ -524,7 +524,7 @@ public class CAGrid extends Entity {
             return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
 
         } else {
-            logger.warn("attempt to stamp pattern out of bounds (" + row + "," + col +"); error suppressed.");
+            //logger.warn("attempt to stamp pattern out of bounds (" + row + "," + col +"); error suppressed.");
             return -1;  // -1 indicates pattern not drawn, out-of-CAGrid bounds
         }
     }

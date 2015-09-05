@@ -45,7 +45,7 @@ public class TronShader implements PostProcessor {
         }
 
         colorMaskProgram.begin();
-        colorMaskProgram.setUniformf("maskColor", targetColor.x, targetColor.y, targetColor.z);
+        colorMaskProgram.setUniformf("u_maskColor", targetColor.x, targetColor.y, targetColor.z);
         colorMaskProgram.end();
         blurProgram.begin();
         blurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
@@ -63,22 +63,57 @@ public class TronShader implements PostProcessor {
         TextureRegion fboRegion = new TextureRegion(cb, 0, 0, cb.getWidth(), cb.getHeight());
         fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
 
-        // draw blur
+        // wide blur pass
         maskBuffer.begin();
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setShader(colorMaskProgram);
         batch.begin();
         batch.draw(fboRegion, 0, 0);
+        batch.end();
 
         batch.setShader(blurProgram);
-        for (int i = 0; i < passes; i++) {
-            blurProgram.setUniformf("isVertical", 0);
-            batch.draw(maskRegion, 0, 0);
+        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+        batch.begin();
 
-            blurProgram.setUniformf("isVertical", 1);
-            batch.draw(maskRegion, 0, 0);
-        }
+        blurProgram.setUniformf("u_radius", 7f);
+        blurProgram.setUniformf("u_brightness", 0.1f);
+        blurProgram.setUniformf("u_isVertical", 0f);
+        batch.draw(maskRegion, 0, 0);
+        batch.flush();
+        blurProgram.setUniformf("u_isVertical", 1f);
+        batch.draw(maskRegion, 0, 0);
+
+        batch.end();
+        maskBuffer.end();
+
+        frameBuffer.begin();
+        batch.begin();
+        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
+        batch.draw(maskRegion, 0, 0);
+        batch.end();
+        frameBuffer.end();
+
+        // narrow blur pass
+        maskBuffer.begin();
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setShader(colorMaskProgram);
+        batch.begin();
+        batch.draw(fboRegion, 0, 0);
+        batch.end();
+
+        batch.setShader(blurProgram);
+        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+        batch.begin();
+
+        blurProgram.setUniformf("u_radius", 1f);
+        blurProgram.setUniformf("u_brightness", 0.2f);
+        blurProgram.setUniformf("u_isVertical", 0f);
+        batch.draw(maskRegion, 0, 0);
+        batch.flush();
+        blurProgram.setUniformf("u_isVertical", 1f);
+        batch.draw(maskRegion, 0, 0);
 
         batch.end();
         maskBuffer.end();
@@ -86,7 +121,7 @@ public class TronShader implements PostProcessor {
         // blend
         frameBuffer.begin();
         batch.begin();
-        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
         batch.draw(maskRegion, 0, 0);
         batch.end();
         frameBuffer.end();

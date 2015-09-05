@@ -218,8 +218,8 @@ public class PathInputMethod extends BaseInputMethod {
     }
 
     private void handleShooting() {
-        //if (elapsedTime > minPathTime)
-        //    return;
+        if (recording)
+            return;
         parentInputComp.shootTo(mouse.x, mouse.y);
     }
 

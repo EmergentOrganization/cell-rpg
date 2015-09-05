@@ -1,22 +1,15 @@
 package com.emergentorganization.cellrpg.components.entity.input;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
-import com.emergentorganization.cellrpg.components.entity.MovementComponent;
-import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
+import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.BaseInputMethod;
+import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.MouseInputMethod;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.ArrayList;
 
 /**
  * Created by OrelBitton on 04/06/2015.
@@ -28,12 +21,12 @@ public class PlayerInputComponent extends InputComponent {
     protected Camera camera; // Used to unproject screen coordinates for the mouse
 
     public int currentInputMethodIndex;     // base control type
-    private BaseInputComponent[] inputChoices;
+    private BaseInputMethod[] inputChoices;
 
     public PlayerInputComponent(Camera camera) {
         this.camera = camera;
-        inputChoices = new BaseInputComponent[] {
-                new MouseInputComponent(this)  // TODO: add more here
+        inputChoices = new BaseInputMethod[] {
+                new MouseInputMethod(this)  // TODO: add more here
         };
     }
 
@@ -47,7 +40,7 @@ public class PlayerInputComponent extends InputComponent {
         logger.info("input method set to " + inputChoices[newMethodIndex].getName());
     }
 
-    public BaseInputComponent getCurrentInputMethod(){
+    public BaseInputMethod getCurrentInputMethod(){
         return inputChoices[currentInputMethodIndex];
     }
 

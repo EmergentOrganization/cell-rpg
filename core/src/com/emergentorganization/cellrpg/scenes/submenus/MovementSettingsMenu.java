@@ -1,11 +1,8 @@
 package com.emergentorganization.cellrpg.scenes.submenus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
-import com.emergentorganization.cellrpg.components.entity.input.PlayerInputType;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.kotcrab.vis.ui.widget.*;
 
@@ -25,7 +22,7 @@ public class MovementSettingsMenu extends Submenu{
         final PlayerInputComponent inComp = parentScene.getPlayer().getFirstComponentByType(PlayerInputComponent.class);
         final VisSelectBox controlsType = new VisSelectBox();
         menuTable.add(controlsType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        controlsType.setItems(PlayerInputType.values());
+        controlsType.setItems(inComp.getInputTypeChoices());
         controlsType.setSelectedIndex(inComp.currentInputMethodIndex);
         controlsType.addListener(
                 new ChangeListener() {

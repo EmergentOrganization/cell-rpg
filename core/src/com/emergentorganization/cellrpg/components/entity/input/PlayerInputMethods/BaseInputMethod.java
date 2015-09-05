@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components.entity.input;
+package com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
+import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 import com.kotcrab.vis.ui.widget.VisLabel;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by OrelBitton on 04/06/2015.
  */
-public class BaseInputComponent {
+public class BaseInputMethod {
 
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -53,7 +54,7 @@ public class BaseInputComponent {
 
     private PlayerInputComponent parentInputComp;
 
-    public BaseInputComponent(PlayerInputComponent parent) {
+    public BaseInputMethod(PlayerInputComponent parent) {
         parentInputComp = parent;
     }
 

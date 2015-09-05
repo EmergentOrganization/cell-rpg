@@ -26,7 +26,7 @@ public class InputComponent extends EntityComponent {
         //mc.setDest(x, y); TODO: Removed destination triggers in movement component to preserve composition. re-implement
     }*/
 
-    protected void shootTo(float x, float y){
+    public void shootTo(float x, float y){
         if(hasWeapon()){
             wc.shootTo(x, y);
         }

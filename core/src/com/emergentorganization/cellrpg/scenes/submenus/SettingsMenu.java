@@ -24,7 +24,7 @@ public class SettingsMenu extends Submenu{
 
         // set up menu buttons:
 
-        moveMenu = new MovementSettingsMenu(menuTable, parentScene, "movement");
+        moveMenu = new MovementSettingsMenu(menuTable, parentScene, "controls");
 
         VisTextButton audio = new VisTextButton("audio(disabled)");
         menuTable.add(audio).pad(0f, 0f, 5f, 0f).fill(true, false).row();

@@ -1,9 +1,7 @@
 package com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
@@ -30,6 +28,10 @@ public class BaseInputMethod {
     public String getName(){
         // returns human-readable name string
         return "base input component";
+    }
+
+    public String getDesc(){
+        return "controls control controllers";
     }
 
     public void addInputConfigButtons(VisTable menuTable, final VisWindow menuWindow){

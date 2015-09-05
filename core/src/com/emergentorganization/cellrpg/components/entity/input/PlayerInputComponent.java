@@ -5,7 +5,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.BaseInputMethod;
-import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.MouseInputMethod;
+import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.DirectFollowAndPathInputMethod;
+import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.PathInputMethod;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import org.apache.logging.log4j.LogManager;
@@ -20,13 +21,14 @@ public class PlayerInputComponent extends InputComponent {
 
     protected Camera camera; // Used to unproject screen coordinates for the mouse
 
-    public int currentInputMethodIndex;     // base control type
+    public int currentInputMethodIndex = 0;     // base control type
     private BaseInputMethod[] inputChoices;
 
     public PlayerInputComponent(Camera camera) {
         this.camera = camera;
         inputChoices = new BaseInputMethod[] {
-                new MouseInputMethod(this)  // TODO: add more here
+                new PathInputMethod(this),
+                new DirectFollowAndPathInputMethod(this)  // TODO: add more control methods here
         };
     }
 

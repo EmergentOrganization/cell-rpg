@@ -34,7 +34,8 @@ public class CoordinateRecorder {
         return coords.isEmpty();
     }
 
-    public Vector2 getFirst(){
+    public Vector2 pop(){
+        // gets first co-ord from queue, removes it from stack and returns it
         if(coords.isEmpty())
             return null;
 

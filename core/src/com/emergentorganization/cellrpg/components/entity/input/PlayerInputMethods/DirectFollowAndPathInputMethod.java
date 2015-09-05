@@ -26,7 +26,10 @@ import java.util.ArrayList;
  *
  * Created by OrelBitton on 04/06/2015.
  */
-public class MouseInputMethod extends BaseInputMethod {
+public class DirectFollowAndPathInputMethod extends BaseInputMethod {
+    private final String NAME = "follow + path";
+    private final String DESC = "(mouse or touch) Direct control movement near to player," +
+            " draws path further away, tap/click to shoot.";
 
     public int WALK_TIME = 300; // Time for mouse to be held for the player to begin walking.
     public final int WALK_TIME_MIN = 100;
@@ -49,13 +52,18 @@ public class MouseInputMethod extends BaseInputMethod {
     protected Vector2 player; // The player coordinates for the current frame (if mouse is pressed)
     protected Vector2 dest = null;
 
-    public MouseInputMethod(PlayerInputComponent parent) {
+    public DirectFollowAndPathInputMethod(PlayerInputComponent parent) {
         super(parent);
     }
 
     @Override
     public String getName(){
-        return "mouse only";
+        return NAME;
+    }
+
+    @Override
+    public String getDesc(){
+        return DESC;
     }
 
     @Override
@@ -177,7 +185,7 @@ public class MouseInputMethod extends BaseInputMethod {
             return;
 
         if (dest == null || dest.dst(mc.getWorldPosition()) <= 1f)
-            dest = cr.getFirst();
+            dest = cr.pop();
 
         if (dest != null) {
             Vector2 dir = dest.cpy().sub(mc.getWorldPosition()).nor();
@@ -252,7 +260,7 @@ public class MouseInputMethod extends BaseInputMethod {
 
     @Override
     public void skipDest(MovementComponent mc) {
-        dest = cr.getFirst();
+        dest = cr.pop();
         if (dest == null)
             mc.stopMoving();
     }

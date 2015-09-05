@@ -5,6 +5,7 @@ precision mediump float;
 #endif
 varying vec2[17] v_pixelCoords;
 uniform sampler2D u_texture;
+uniform float isVertical;
 
 void main() {
     vec4 pixel = texture2D(u_texture,v_pixelCoords[8]);

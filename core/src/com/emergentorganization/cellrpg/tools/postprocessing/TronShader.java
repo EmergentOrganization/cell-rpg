@@ -14,16 +14,13 @@ import com.badlogic.gdx.math.Vector3;
  * Created by BrianErikson on 9/3/15.
  */
 public class TronShader implements PostProcessor {
-    public static final String horizontalVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_Horizontal.glsl").readString();
-    public static final String verticalVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_Vertical.glsl").readString();
-    public static final String horizontalFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Horizontal.glsl").readString();
-    public static final String verticalFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Vertical.glsl").readString();
-    public static final String colorMaskVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_ColorMask.glsl").readString();
+    public static final String blurVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_Blur.glsl").readString();
+    public static final String blurFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Blur.glsl").readString();
+    public static final String colorMaskVertexShader = Gdx.files.internal("shaders/Vert_Passthrough.glsl").readString();
     public static final String colorMaskFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_ColorMask.glsl").readString();
     private final TextureRegion maskRegion;
     private ShaderProgram colorMaskProgram = new ShaderProgram(colorMaskVertexShader, colorMaskFragShader);
-    private ShaderProgram horizontalBlurProgram = new ShaderProgram(horizontalVertexShader, horizontalFragShader);
-    private ShaderProgram verticalBlurProgram = new ShaderProgram(verticalVertexShader, verticalFragShader);
+    private ShaderProgram blurProgram = new ShaderProgram(blurVertexShader, blurFragShader);
     private FrameBuffer maskBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
     private SpriteBatch batch = new SpriteBatch(2);
@@ -37,11 +34,8 @@ public class TronShader implements PostProcessor {
         this.passes = passes;
 
         try {
-            if (!horizontalBlurProgram.isCompiled()) {
-                throw new ShaderException(horizontalBlurProgram.getLog());
-            }
-            else if (!verticalBlurProgram.isCompiled()) {
-                throw new ShaderException(verticalBlurProgram.getLog());
+            if (!blurProgram.isCompiled()) {
+                throw new ShaderException(blurProgram.getLog());
             }
             else if (!colorMaskProgram.isCompiled()) {
                 throw new ShaderException(colorMaskProgram.getLog());
@@ -53,12 +47,9 @@ public class TronShader implements PostProcessor {
         colorMaskProgram.begin();
         colorMaskProgram.setUniformf("maskColor", targetColor.x, targetColor.y, targetColor.z);
         colorMaskProgram.end();
-        horizontalBlurProgram.begin();
-        horizontalBlurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
-        horizontalBlurProgram.end();
-        verticalBlurProgram.begin();
-        verticalBlurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
-        verticalBlurProgram.end();
+        blurProgram.begin();
+        blurProgram.setAttributef("a_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0f, 0f);
+        blurProgram.end();
 
         Texture mask = maskBuffer.getColorBufferTexture();
         maskRegion = new TextureRegion(mask, 0, 0, mask.getWidth(), mask.getHeight());
@@ -80,11 +71,12 @@ public class TronShader implements PostProcessor {
         batch.begin();
         batch.draw(fboRegion, 0, 0);
 
+        batch.setShader(blurProgram);
         for (int i = 0; i < passes; i++) {
-            batch.setShader(horizontalBlurProgram);
+            blurProgram.setUniformf("isVertical", 0);
             batch.draw(maskRegion, 0, 0);
 
-            batch.setShader(verticalBlurProgram);
+            blurProgram.setUniformf("isVertical", 1);
             batch.draw(maskRegion, 0, 0);
         }
 

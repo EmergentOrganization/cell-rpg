@@ -30,8 +30,7 @@ public class CellRpg extends Game {
         logger.info("Loading VisUI");
         VisUI.load();
 
-        //setScreen(new MainMenu("ready to connect"));
-        setScreen(new RPGScene());
+        setScreen(new MainMenu("ready to connect"));
     }
 
     @Override

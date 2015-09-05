@@ -94,7 +94,7 @@ public class TronShader implements PostProcessor {
         // blend
         frameBuffer.begin();
         batch.begin();
-        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+        batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batch.draw(maskRegion, 0, 0);
         batch.end();
         frameBuffer.end();

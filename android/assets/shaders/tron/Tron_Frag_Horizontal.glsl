@@ -53,6 +53,6 @@ void main() {
     color += texture2D(u_texture, v_pixelCoords[15]) * weights[7];
     color += texture2D(u_texture, v_pixelCoords[16]) * weights[8];
 
-    color.a = 1.0;
+    color.a = 0.1;
     gl_FragColor = color;
 }

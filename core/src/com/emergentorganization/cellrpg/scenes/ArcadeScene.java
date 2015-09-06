@@ -14,9 +14,24 @@ import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListene
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import org.dyn4j.geometry.Vector2;
 
-public class ArcadeScene extends CAScene {
+public class ArcadeScene extends CAScene implements arcadeScore {
 
+	static final float POINTS_PER_SEC = 100f;  // # of points per second survived
 	Entity cameraTarget;
+	private int score = 0;
+	private float pointBuffer = 0f;
+
+	public int getScore(){
+		return score;
+	}
+
+	public void addPoints(final int amount){
+		score += amount;
+	}
+
+	public void resetScore(){
+		score = 0;
+	}
 
 	private void addArcadeEntity(Entity ent, float x, float y, float scaleX, float scaleY){
 		MovementComponent move = ent.getFirstComponentByType(MovementComponent.class);
@@ -99,7 +114,9 @@ public class ArcadeScene extends CAScene {
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-
+		pointBuffer += delta*POINTS_PER_SEC;  // get points for each render you survive
+		addPoints((int) pointBuffer);  // whole points added to score
+		pointBuffer%=1f;  // then chop off whole points and save only decimal parts
 		drawUI();
 
 	}

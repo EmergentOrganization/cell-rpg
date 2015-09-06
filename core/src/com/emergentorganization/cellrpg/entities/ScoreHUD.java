@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
+import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
@@ -16,7 +18,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
  */
 public class ScoreHUD extends Entity {
     private Stage stage;
-    private int score = 12345;
+    private VisLabel scoreLabel;
 
     public ScoreHUD(){
         super(ZIndex.HUD);
@@ -24,8 +26,19 @@ public class ScoreHUD extends Entity {
     }
 
     private String getFormattedScoreStr(){
+        Scene scene = getScene();
+        int score = -1;
+        if (scene instanceof arcadeScore){
+            score = ((arcadeScore)scene).getScore();
+        }
+
         String str = Integer.toString(score);
         return ("000000000" + str).substring(str.length());
+    }
+
+    @Override
+    public void update(float deltaTime){
+        scoreLabel.setText(getFormattedScoreStr());
     }
 
     @Override
@@ -34,7 +47,7 @@ public class ScoreHUD extends Entity {
         VisWindow scoreWindow = new VisWindow("", true);
         VisTable tabl = new VisTable();
         scoreWindow.add(tabl);
-        VisLabel scoreLabel = new VisLabel(getFormattedScoreStr());
+        scoreLabel = new VisLabel(getFormattedScoreStr());
         tabl.add(scoreLabel);
         stage.addActor(scoreWindow);
     }

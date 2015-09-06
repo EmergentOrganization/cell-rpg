@@ -8,12 +8,14 @@ import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.scenes.CALayer;
+import com.emergentorganization.cellrpg.scenes.arcadeScore;
 
 /**
  * Created by OrelBitton on 06/06/2015.
  */
 public class Bullet extends Entity {
 
+    static final int POINTS_FOR_VYROID_HIT = 100;
     private final GraphicsComponent graphicsComponent;
     private BulletComponent bc;
 
@@ -52,6 +54,18 @@ public class Bullet extends Entity {
         );
         cacc.addCollision(1, EntityEvents.DESTROYED);
         addComponent(cacc);
+    }
+
+    @Override
+    public void fireEvent(EntityEvents event){
+        super.fireEvent(event);
+        switch (event){
+            case DESTROYED:
+                if(getScene() instanceof arcadeScore){
+                    ((arcadeScore) getScene()).addPoints(POINTS_FOR_VYROID_HIT);
+                }
+                break;
+        }
     }
 
 }

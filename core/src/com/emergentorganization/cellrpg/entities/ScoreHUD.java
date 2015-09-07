@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
@@ -39,16 +40,23 @@ public class ScoreHUD extends Entity {
     @Override
     public void update(float deltaTime){
         scoreLabel.setText(getFormattedScoreStr());
+
+        // scoreWindow.pack() repack? not needed as long as score stays same length.
     }
 
     @Override
     public void added(){
         stage = getScene().getUiStage();
         VisWindow scoreWindow = new VisWindow("", true);
+        scoreWindow.setPosition(0, 1000, Align.topRight);
+
         VisTable tabl = new VisTable();
         scoreWindow.add(tabl);
         scoreLabel = new VisLabel(getFormattedScoreStr());
         tabl.add(scoreLabel);
+
+        scoreWindow.pack();
+
         stage.addActor(scoreWindow);
     }
 }

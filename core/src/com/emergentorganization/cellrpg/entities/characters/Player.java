@@ -12,6 +12,7 @@ import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
@@ -125,7 +126,15 @@ public class Player extends Character {
         switch(event){
             case SHIELD_DOWN:
                 // player is dead!
-                CellRpg.fetch().setScreen(new MainMenu("bridge to planiverse collapsed..."));
+                String message;
+                if (getScene() instanceof arcadeScore){
+                    int score = ((arcadeScore) getScene()).getScore();
+                    message = "bridge to planiverse collapsed. \nFinal score: " + Integer.toString(score);
+                } else {
+                    String hash = Long.toHexString(Double.doubleToLongBits(Math.random())).toUpperCase().substring(0, 6);
+                    message = "bridge to planiverse collapsed. \nSpatiotemporal hash: " + hash;
+                }
+                CellRpg.fetch().setScreen(new MainMenu(message));
                 getScene().dispose();
                 break;
             case VYROID_DAMAGE:

@@ -20,6 +20,7 @@ public class TheEdge extends Entity {
     public static final String ID = "the_edge";
     private final Texture texture;
     private final SpriteComponent spriteComponent;
+    private Wind wind;
 
     /*
     This constructor is needed for MapEditor. Do not remove.
@@ -42,7 +43,7 @@ public class TheEdge extends Entity {
             Vector2 size = new Vector2(spriteComponent.getSprite().getWidth() * mc.getScale().x,
                     spriteComponent.getSprite().getHeight() * mc.getScale().y);
             Rectangle rect = new Rectangle(size.x, size.y);
-            rect.translate(size.x / 2f, size.y /2f);
+            rect.translate(size.x / 2f, size.y / 2f);
             BodyFixture fixture = new BodyFixture(rect);
             Body body = new Body();
             body.addFixture(fixture);
@@ -50,7 +51,11 @@ public class TheEdge extends Entity {
             PhysicsComponent physicsComponent = new PhysicsComponent(getScene().getWorld(), body, Tag.THE_EDGE);
             physicsComponent.enableDebugRenderer(true);
             addComponent(physicsComponent);
+
+        } else {
+            addComponent(new Wind(10f, 0f));
         }
+
     }
 
     public TheEdge(Texture texture, Vector2 position) {

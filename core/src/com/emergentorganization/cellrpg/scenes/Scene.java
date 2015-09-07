@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
+import com.emergentorganization.cellrpg.entities.ProfilerHUD;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
@@ -38,6 +39,8 @@ import java.util.Collections;
  */
 public abstract class Scene implements Screen {
     public static float scale = 1/10f;
+    public long renderTime = 0;  // est time used to render
+
     private final Logger logger = LogManager.getLogger(getClass());
 
     private ArrayList<Entity> entities;
@@ -105,6 +108,8 @@ public abstract class Scene implements Screen {
 
         physWorld = new World();
         //physWorld.shiftCoordinates(new Vector2(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d));
+
+        addEntity(new ProfilerHUD());
     }
 
     @Override
@@ -128,6 +133,7 @@ public abstract class Scene implements Screen {
      */
     @Override
     public void render(float delta) {
+        long now = System.currentTimeMillis();
 
         if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
 
@@ -172,6 +178,8 @@ public abstract class Scene implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         outBatch.draw(fboRegion, 0, 0);
         outBatch.end();
+
+        renderTime = System.currentTimeMillis() - now;
     }
 
     @Override

@@ -77,7 +77,7 @@ public class TronShader implements PostProcessor {
         batch.begin();
 
         blurProgram.setUniformf("u_radius", 7f);
-        blurProgram.setUniformf("u_brightness", 0.1f);
+        blurProgram.setUniformf("u_brightness", 0.07f);
         blurProgram.setUniformf("u_isVertical", 0f);
         batch.draw(maskRegion, 0, 0);
         batch.flush();

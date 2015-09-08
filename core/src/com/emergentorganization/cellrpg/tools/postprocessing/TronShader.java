@@ -24,15 +24,12 @@ public class TronShader implements PostProcessor {
     private FrameBuffer maskBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
     private SpriteBatch batch = new SpriteBatch(2);
-    private int passes;
 
-    public TronShader(int passes) {
-        this(new Vector3(1f, 1f, 1f), passes);
+    public TronShader() {
+        this(new Vector3(1f, 1f, 1f));
     }
 
-    public TronShader(Vector3 targetColor, int passes) {
-        this.passes = passes;
-
+    public TronShader(Vector3 targetColor) {
         try {
             if (!blurProgram.isCompiled()) {
                 throw new ShaderException(blurProgram.getLog());

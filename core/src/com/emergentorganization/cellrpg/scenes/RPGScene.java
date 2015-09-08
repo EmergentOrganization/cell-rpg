@@ -49,7 +49,7 @@ public class RPGScene extends CAScene {
 			}
 		});
 
-		addPostProcessor(new TronShader(1));
+		addPostProcessor(new TronShader());
 	}
 
 	@Override

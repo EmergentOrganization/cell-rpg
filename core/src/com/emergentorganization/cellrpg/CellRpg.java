@@ -11,6 +11,8 @@ import org.apache.logging.log4j.Logger;
  * Created by BrianErikson on 6/7/2015.
  */
 public class CellRpg extends Game {
+    public static final String VERSION = "0.0.1";
+
     // private FPSLogger fps = new FPSLogger();
     private static CellRpg singleton;
     private final Logger logger;

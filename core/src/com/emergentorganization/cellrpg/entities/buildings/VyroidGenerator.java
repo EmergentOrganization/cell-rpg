@@ -76,7 +76,7 @@ public class VyroidGenerator extends Entity {
 
         float scale = Math.max(texture.getWidth(), texture.getHeight()) * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
-                BodyLoader.fetch().generateBody(ID, scale), Tag.BUILDING_ROUND_1);
+                BodyLoader.fetch().generateBody(ID, scale), Tag.VYROID_GEN);
         addComponent(phys);
     }
 }

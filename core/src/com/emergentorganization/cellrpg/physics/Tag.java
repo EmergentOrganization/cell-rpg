@@ -8,5 +8,7 @@ public enum Tag {
     BUILDING_LARGE_1,
     BUILDING_ROUND_1,
     THE_EDGE,
-    CHAR_CIV1_BLINKER
+    CHAR_CIV1_BLINKER,
+    VYROID_GEN,
+    RIFT_1
 }

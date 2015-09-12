@@ -52,14 +52,17 @@ public class VyroidGenerator extends Entity {
 
         if (genSinceLastSpawn > GEN_BTWN_SPAWNS) {
             // add randomly generated spawn
-            // TODO: try/catch this to avoid problems for non CAScene scenes
-            CAScene scen = (CAScene) getScene();
-            MovementComponent mc = getFirstComponentByType(MovementComponent.class);
-            float x = mc.getWorldPosition().x + (float) (Math.random()-.5)*MAX_SPAWN_DIST;
-            float y = mc.getWorldPosition().y + (float) (Math.random()-.5)*MAX_SPAWN_DIST;
-            CAGrid layr = scen.getLayer(CALayer.VYROIDS);
-            layr.stampState(pattern, x, y);
-
+            try {
+                CAScene scen = (CAScene) getScene();
+                MovementComponent mc = getFirstComponentByType(MovementComponent.class);
+                float x = mc.getWorldPosition().x + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
+                float y = mc.getWorldPosition().y + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
+                CAGrid layr = scen.getLayer(CALayer.VYROIDS);
+                layr.stampState(pattern, x, y);
+            } catch(ClassCastException err){
+                // scene is not CSScene
+                return;
+            }
             genSinceLastSpawn = 0;
         } else {
             genSinceLastSpawn += 1;

@@ -27,7 +27,7 @@ public class WindParticleEffect extends ParticleEffect {
     public void update(float timeDelta){
         super.update(timeDelta);
         x += dx * timeDelta;
-        y += dy * timeDelta;
+        y -= dy * timeDelta;
 
         // TODO: convert x & y from screen-coords to world-coords?
         setPosition(x, y);

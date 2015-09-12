@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by 7yl4r on 9/11/2015.
  */
 public class WindWaker extends Entity{
-    private static final int RENDERS_PER_INSERT = 200;
+    private static final int RENDERS_PER_INSERT = 50;  // TODO: (improvement) more inserts for more intense wind
 
     private int renderN = 0;
     private float speed;
@@ -34,18 +34,31 @@ public class WindWaker extends Entity{
     private void addWindPixel(){
         // add new active pixel
         Camera cam = getScene().getGameCamera();
-        Vector3 ppp = cam.unproject(new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
-        float x =  cam.position.x - ppp.x; //; // TODO: set +/- based on direction
-        float y =  cam.position.y - ppp.y;
+        // TODO: set width/height or 0 based on direction
+        float xp = Gdx.graphics.getWidth();
+        float yp = Gdx.graphics.getHeight();
+        if (Math.random() > .5){
+            xp *= (float)Math.random();
+        } else {
+            yp *= (float)Math.random();
+        }
 
-        float dx = 1f;  // TODO: base these on speed
-        float dy = 1f;
+        Vector3 ppp = cam.unproject(new Vector3(
+                xp,
+                yp,
+                0
+        ));
+        float x =  ppp.x;
+        float y =  ppp.y;
+
+        float dx = -10f;  // TODO: base these on speed
+        float dy = -10f;
 
         System.out.println("add new particle @ (" + x + ',' + y + ")");
         WindParticleEffect newEffect = new WindParticleEffect(x, y, dx, dy);
         // TODO: use pooling for loading: https://www.youtube.com/watch?v=3OwIiELYa70
         newEffect.load(Gdx.files.internal("particleEffects/wind.p"), Gdx.files.internal("particleEffects"));
-        newEffect.setPosition(x, y);
+//        newEffect.setPosition(x, y);
         newEffect.scaleEffect(getScene().scale);
         newEffect.start();
         effects.add(newEffect);

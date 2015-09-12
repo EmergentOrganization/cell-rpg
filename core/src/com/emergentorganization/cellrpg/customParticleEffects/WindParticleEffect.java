@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.customParticleEffects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /**
@@ -33,20 +34,27 @@ public class WindParticleEffect extends ParticleEffect {
 
         // get pixels nearby (TODO: (optimization: in direction of travel only)
         final float size = 5f;
-        Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(
-                (int) (x - size),
-                (int) (y - size),
-                (int) (x + size),
-                (int) (y + size)
-        );
+        try {
+            Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(
+                    (int) (x - size),
+                    (int) (y - size),
+                    (int) (x + size),
+                    (int) (y + size)
+            );
+            // TODO: analyze colors for each pixel
+            //.getPixel(x, y);
+            int i = (int)x;
+            int j = (int)y;
+            Color color = new Color(pixmap.getPixel(i, j));
+            //System.out.println(color.r + " " + color.b + " " + color.g);
 
-        // TODO: analyze colors for each pixel
-        //.getPixel(x, y);
-        int i = (int)x;
-        int j = (int)y;
-        Color color = new Color(pixmap.getPixel(i, j));
-        //System.out.println(color.r + " " + color.b + " " + color.g);
-
-        // TODO: push pixel away from wind-collidable colors
+            // TODO: push pixel away from wind-collidable colors
+        } catch (IllegalArgumentException err){
+            // if off screen?
+            return;
+        } catch (GdxRuntimeException err){
+            // if off screen and therefore the pixmap broke?
+            return;
+        }
     }
 }

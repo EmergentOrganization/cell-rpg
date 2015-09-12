@@ -1,8 +1,10 @@
 package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.customParticleEffects.WindParticleEffect;
 
@@ -31,20 +33,23 @@ public class WindWaker extends Entity{
 
     private void addWindPixel(){
         // add new active pixel
-        Vector2 pos = getScene().getPlayer().getFirstComponentByType(MovementComponent.class).getWorldPosition();
-        float x = pos.x - Gdx.graphics.getWidth()/2; // TODO: set +/- based on direction
-        float y = pos.y - Gdx.graphics.getHeight()/2;
+        Camera cam = getScene().getGameCamera();
+        Vector3 ppp = cam.unproject(new Vector3(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 0));
+        float x =  cam.position.x - ppp.x; //; // TODO: set +/- based on direction
+        float y =  cam.position.y - ppp.y;
+
         float dx = 1f;  // TODO: base these on speed
         float dy = 1f;
 
         System.out.println("add new particle @ (" + x + ',' + y + ")");
-
         WindParticleEffect newEffect = new WindParticleEffect(x, y, dx, dy);
         // TODO: use pooling for loading: https://www.youtube.com/watch?v=3OwIiELYa70
         newEffect.load(Gdx.files.internal("particleEffects/wind.p"), Gdx.files.internal("particleEffects"));
         newEffect.setPosition(x, y);
+        newEffect.scaleEffect(getScene().scale);
         newEffect.start();
         effects.add(newEffect);
+        System.out.println("particle count:" + effects.size());
     }
 
     @Override
@@ -64,8 +69,12 @@ public class WindWaker extends Entity{
     @Override
     public void update(float deltaTime){
         super.update(deltaTime);
-        for (WindParticleEffect windParticle : effects){
+        ArrayList<WindParticleEffect> effectsBuffer = new ArrayList<WindParticleEffect>(effects);
+        for (WindParticleEffect windParticle : effectsBuffer){
             windParticle.update(deltaTime);
+            if (windParticle.isComplete()){
+                effects.remove(windParticle);
+            }
         }
     }
 }

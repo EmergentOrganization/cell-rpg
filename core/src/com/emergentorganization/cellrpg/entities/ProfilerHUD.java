@@ -1,6 +1,8 @@
 package com.emergentorganization.cellrpg.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.scenes.Scene;
@@ -21,6 +23,8 @@ public class ProfilerHUD extends Entity {
     private VisLabel FPSLabel;
     private VisLabel renderTimeLabel;
     private VisLabel memoryUsageLabel;
+    private VisLabel xLabel;
+    private VisLabel yLabel;
 
     private Runtime runtime = Runtime.getRuntime();
 
@@ -44,6 +48,11 @@ public class ProfilerHUD extends Entity {
         memoryUsageLabel.setText(
                 Long.toString(runtime.totalMemory()/1024)
         );
+
+        Vector3 pos = getScene().getGameCamera().position;
+        xLabel.setText(Float.toString(pos.x));
+        yLabel.setText(Float.toString(pos.y));
+
         profilerWindow.pack();
     }
 
@@ -78,6 +87,15 @@ public class ProfilerHUD extends Entity {
         memoryUsageLabel = new VisLabel("?");
         tabl.add(memoryUsageLabel);
         tabl.add(new VisLabel("kb RAM taken"));
+
+        tabl.row();
+
+        tabl.add(new VisLabel("cam pos:"));
+        xLabel = new VisLabel("?");
+        tabl.add(xLabel);
+        yLabel = new VisLabel("?");
+        tabl.add(yLabel);
+
 
         stage.addActor(profilerWindow);
     }

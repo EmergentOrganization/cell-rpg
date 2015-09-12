@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
+import com.emergentorganization.cellrpg.customParticleEffects.WindDirection;
 import com.emergentorganization.cellrpg.customParticleEffects.WindParticleEffect;
 
 import java.util.ArrayList;
@@ -19,13 +20,13 @@ public class WindWaker extends Entity{
 
     private int renderN = 0;
     private float speed;
-    private float direction;
+    private WindDirection direction;
     private ArrayList<WindParticleEffect> effects = new ArrayList<WindParticleEffect>();
 
     public WindWaker(){  // TODO: init with wind-map file?
         super();
-        float windSpeed = 1;
-        float windDirection = 1;
+        float windSpeed = 10;
+        WindDirection windDirection = WindDirection.UP_LEFT;
         speed = windSpeed;
         direction = windDirection;
         System.out.println("WIND INIT?");
@@ -51,8 +52,8 @@ public class WindWaker extends Entity{
         float x =  ppp.x;
         float y =  ppp.y;
 
-        float dx = -10f;  // TODO: base these on speed
-        float dy = -10f;
+        float dx = direction.getX() * speed;  // TODO: base these on speed & direction
+        float dy = direction.getY() * speed;
 
         System.out.println("add new particle @ (" + x + ',' + y + ")");
         WindParticleEffect newEffect = new WindParticleEffect(x, y, dx, dy, cam);

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
+import com.emergentorganization.cellrpg.entities.WindWaker;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
@@ -32,6 +33,8 @@ public class RPGScene extends CAScene {
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
 		Map map = MapTools.importMap("TestMap");
 		addEntities(map.getEntities());
+
+		addEntity(new WindWaker());
 
 		addEntityListener(new EntityActionListener(Player.class) {
 			private FollowingCamera followingCamera;

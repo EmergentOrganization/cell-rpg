@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by 7yl4r on 9/11/2015.
  */
 public class WindWaker extends Entity{
-    private static final int RENDERS_PER_INSERT = 20;  // TODO: (improvement) more inserts for more intense wind
+    private static final int RENDERS_PER_INSERT = 2;  // TODO: (improvement) more inserts for more intense wind
 
     private int renderN = 0;
     private float speed;
@@ -52,11 +52,8 @@ public class WindWaker extends Entity{
         float x =  ppp.x;
         float y =  ppp.y;
 
-        float dx = direction.getX() * speed;  // TODO: base these on speed & direction
-        float dy = direction.getY() * speed;
-
         System.out.println("add new particle @ (" + x + ',' + y + ")");
-        WindParticleEffect newEffect = new WindParticleEffect(x, y, dx, dy, cam);
+        WindParticleEffect newEffect = new WindParticleEffect(x, y, direction, speed, cam);
         // TODO: use pooling for loading: https://www.youtube.com/watch?v=3OwIiELYa70
         newEffect.load(Gdx.files.internal("particleEffects/wind.p"), Gdx.files.internal("particleEffects"));
 //        newEffect.setPosition(x, y);

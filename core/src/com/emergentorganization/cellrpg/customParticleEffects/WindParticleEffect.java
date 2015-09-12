@@ -20,14 +20,16 @@ public class WindParticleEffect extends ParticleEffect {
     private float dy;
     private float collideForceX=0f;  // used to add temporary push to dx/dy
     private float collideForceY=0f;
+    private WindDirection direction;
     private Camera cam;
 
-    public WindParticleEffect(float X, float Y, float dX, float dY, Camera camera){
+    public WindParticleEffect(float X, float Y, WindDirection windDirection, float speed, Camera camera){
         super();
+        direction = windDirection;
         x = X;
         y = Y;
-        dx = dX;
-        dy = dY;
+        dx = windDirection.getX()*speed;
+        dy = windDirection.getY()*speed;
         cam = camera;
     }
 
@@ -41,27 +43,49 @@ public class WindParticleEffect extends ParticleEffect {
         collideForceX *= .9f;
         collideForceY *= .9f;
 
-        // TODO: convert x & y from screen-coords to world-coords?
         setPosition(x, y);
 
         // get pixels nearby TODO: (optimization) in direction of travel only
-        Vector3 pos = new Vector3(cam.project(new Vector3(x, y, 0)));
-        final int size = 1;
-        int x1 = (int)pos.x - size;
-        int x2 = (int)pos.x + size;
-        int y1 = (int)pos.y - size;
-        int y2 = (int)pos.y + size;
+        Vector3 pos = new Vector3(cam.project(new Vector3(x, y, 0)));  // convert from world-coords to screen coords
+        final int radius = 1;
+        int W = radius * 2 + 1;
+        int H = W;
+        int X, Y;
+        switch(direction){
+            case UP_LEFT:
+                X = (int)pos.x - radius;
+                Y = (int)pos.y - radius;
+                break;
+            default:
+                X = 0;  // TODO: should be unreachable; throw err here
+                Y = 0;
+        }
+
+        // check not out-of-screen-bounds
         int w = Gdx.graphics.getWidth();
         int h = Gdx.graphics.getHeight();
-        if (x1 > 0 && x2 < w && y1 > 0 && y2 < h) {
+        if (X > 0 && X+W < w && Y > 0 && Y+H < h) {
             Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(
-                    x1,
-                    y1,
-                    x2,
-                    y2
+                    X,
+                    Y,
+                    W,
+                    H
             );
-            // TODO: what about the other pixels?
 
+            Color right = new Color(pixmap.getPixel(radius+1, radius));
+            Color left = new Color(pixmap.getPixel(radius-1, radius));
+            Color above = new Color(pixmap.getPixel(radius, radius+1));
+            Color below  = new Color(pixmap.getPixel(radius, radius-1));
+            float ab = above.r + above.g + above.b;
+            float be = below.r + below.g + below.b;
+            float ri = right.r + right.g + right.b;
+            float le = left.r + left.g + left.b;
+            float gradX = ri - le;
+            float gradY = ab - be;
+            collideForceX -= ((float)Math.exp(gradX)-1)*dx;
+            collideForceY -= ((float)Math.exp(gradY)-1)*dy;
+
+            /*
             if (collidesWithPixel(0, 1, pixmap)) {
                 // push pixel away from wind-collidable colors
                 collideForceX = -2*dx;  // bounce off in x direction
@@ -69,17 +93,9 @@ public class WindParticleEffect extends ParticleEffect {
             if (collidesWithPixel(1, 0, pixmap)) {
                 collideForceY = -2*dy;
             }
+            */
             pixmap.dispose();
         }
-        /*
-        } catch (IllegalArgumentException err) {
-            // if off screen?
-            return;
-        } catch (GdxRuntimeException err) {
-            // if off screen and therefore the pixmap broke?
-            return;
-        }
-        */
     }
 
     private boolean collidesWithPixel(int i, int j, Pixmap pixmap){

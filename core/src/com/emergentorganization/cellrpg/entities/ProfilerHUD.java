@@ -46,7 +46,7 @@ public class ProfilerHUD extends Entity {
                 Long.toString(getScene().renderTime)
         );
         memoryUsageLabel.setText(
-                Long.toString(runtime.totalMemory()/1024)
+                Long.toString((runtime.totalMemory() - runtime.freeMemory())/1024)
         );
 
         Vector3 pos = getScene().getGameCamera().position;

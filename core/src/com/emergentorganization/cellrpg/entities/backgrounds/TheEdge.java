@@ -47,7 +47,7 @@ public class TheEdge extends Entity {
             Body body = new Body();
             body.addFixture(fixture);
 
-            PhysicsComponent physicsComponent = new PhysicsComponent(getScene().getWorld(), body, Tag.THE_EDGE);
+            PhysicsComponent physicsComponent = new PhysicsComponent(getScene().getWorld(), body, Tag.STATIC);
             physicsComponent.enableDebugRenderer(true);
             addComponent(physicsComponent);
         }

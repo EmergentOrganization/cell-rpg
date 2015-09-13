@@ -24,6 +24,7 @@ import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
 import com.emergentorganization.cellrpg.entities.ProfilerHUD;
 import com.emergentorganization.cellrpg.entities.characters.Player;
+import com.emergentorganization.cellrpg.physics.listeners.StaticCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 import com.emergentorganization.cellrpg.tools.postprocessing.PostProcessor;
@@ -100,13 +101,14 @@ public abstract class Scene implements Screen {
         gameCamera.position.set(gameCamera.viewportWidth / 2f, gameCamera.viewportHeight / 2f, 0); // center camera with 0,0 in bottom left
         gameCamera.update();
         batch.setProjectionMatrix(gameCamera.combined);
-        logger.info("init game camera " + gameCamera.viewportWidth + "x" + gameCamera.viewportHeight );
+        logger.info("init game camera " + gameCamera.viewportWidth + "x" + gameCamera.viewportHeight);
 
 
         logger.info("parsing external physics meshes");
         BodyLoader.fetch(); // initialize bodyLoader if it isn't already
 
         physWorld = new World();
+        physWorld.addListener(new StaticCollisionListener());
         //physWorld.shiftCoordinates(new Vector2(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d));
 
         addEntity(new ProfilerHUD());

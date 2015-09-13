@@ -126,6 +126,8 @@ public class PhysicsComponent extends EntityComponent {
         if (sc != null){
             size = new org.dyn4j.geometry.Vector2(sc.getSprite().getRegionWidth()*scaler, sc.getSprite().getRegionHeight()*scaler);
         }
+
+        System.out.println("w:" + ab.getWidth() + " h:" + ab.getHeight());
     }
 
     @Override

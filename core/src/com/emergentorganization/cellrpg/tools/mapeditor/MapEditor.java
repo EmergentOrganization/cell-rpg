@@ -204,7 +204,7 @@ public class MapEditor extends Scene {
                 String mapName = fileName.substring(0, fileName.length() - MapTools.EXTENSION.length());
 
                 Map map = MapTools.importMap(mapName);
-                _this.getEntities().clear();
+                clearMap();
                 _this.addEntities(map.getEntities());
                 setLoadWindowVisible(false);
             }
@@ -281,8 +281,7 @@ public class MapEditor extends Scene {
         clear.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                _this.getEntities().clear();
-                setMapTarget(null);
+                clearMap();
             }
         });
 
@@ -473,6 +472,12 @@ public class MapEditor extends Scene {
         drawUI();
 
         handleInput();
+    }
+
+    private void clearMap() {
+        getEntities().clear();
+        getWorld().removeAllBodies();
+        setMapTarget(null);
     }
 
     /**

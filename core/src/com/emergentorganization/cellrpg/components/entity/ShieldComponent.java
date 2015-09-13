@@ -15,13 +15,16 @@ public class ShieldComponent extends EntityComponent {
     private GraphicsComponent graphicsComponent;
 
     public ShieldComponent() {
-        String sheetFileName = "";
         graphicsComponent = new GraphicsComponent();
         graphicsComponent.register("100percent", "shield/100p.png", 1, 1, 500);
         graphicsComponent.register("75percent", "shield/75p.png", 1, 1, 500);
         graphicsComponent.register("50percent", "shield/50p.png", 1, 1, 500);
         graphicsComponent.register("25percent", "shield/25p.png", 1, 1, 500);
         graphicsComponent.play("100percent");
+    }
+
+    public float getHealth(){
+        return health;
     }
 
     public void damage(final float amount){

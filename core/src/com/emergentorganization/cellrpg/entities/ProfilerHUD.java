@@ -5,6 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
+import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
+import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.kotcrab.vis.ui.widget.VisLabel;
@@ -25,6 +27,8 @@ public class ProfilerHUD extends Entity {
     private VisLabel memoryUsageLabel;
     private VisLabel xLabel;
     private VisLabel yLabel;
+    private VisLabel shieldLabel;
+    private VisLabel weaponChargeLabel;
 
     private Runtime runtime = Runtime.getRuntime();
 
@@ -52,6 +56,18 @@ public class ProfilerHUD extends Entity {
         Vector3 pos = getScene().getGameCamera().position;
         xLabel.setText(Float.toString(pos.x));
         yLabel.setText(Float.toString(pos.y));
+
+        try {  // updates requiring getPlayer() here:
+            shieldLabel.setText(
+                    Float.toString(getScene().getPlayer().getFirstComponentByType(ShieldComponent.class).getHealth())
+            );
+
+            weaponChargeLabel.setText(
+                    Integer.toString(getScene().getPlayer().getFirstComponentByType(WeaponComponent.class).getCharge())
+            );
+        } catch(UnsupportedOperationException err){
+            // cannot getPlayer, no player in scene, move along
+        }
 
         profilerWindow.pack();
     }
@@ -86,7 +102,7 @@ public class ProfilerHUD extends Entity {
 
         memoryUsageLabel = new VisLabel("?");
         tabl.add(memoryUsageLabel);
-        tabl.add(new VisLabel("kb RAM taken"));
+        tabl.add(new VisLabel("kb RAM used"));
 
         tabl.row();
 
@@ -96,6 +112,17 @@ public class ProfilerHUD extends Entity {
         yLabel = new VisLabel("?");
         tabl.add(yLabel);
 
+        tabl.row();
+
+        shieldLabel = new VisLabel("?");
+        tabl.add(shieldLabel);
+        tabl.add("shield");
+
+        tabl.row();
+
+        weaponChargeLabel = new VisLabel("?");
+        tabl.add(weaponChargeLabel);
+        tabl.add("weaponCharge");
 
         stage.addActor(profilerWindow);
     }

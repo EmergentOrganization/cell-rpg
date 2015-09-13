@@ -23,7 +23,7 @@ public class PhysicsComponent extends EntityComponent {
     private final Body body;
     private MovementComponent moveComponent;
     private Tag tag;
-    private boolean rendering = false;
+    private boolean rendering = true;
     private org.dyn4j.geometry.Vector2 size;
     public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
 

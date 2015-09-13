@@ -55,7 +55,7 @@ public class BuildingRound1 extends Entity {
     public void added() {
         super.added();
 
-        float scale = Math.max(texture.getWidth(), texture.getHeight()) * Scene.scale;
+        float scale = texture.getWidth() * Scene.scale;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.STATIC);
         addComponent(phys);

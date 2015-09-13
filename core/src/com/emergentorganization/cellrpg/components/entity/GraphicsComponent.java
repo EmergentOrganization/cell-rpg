@@ -27,7 +27,7 @@ public class GraphicsComponent extends SpriteComponent{
 
     public org.dyn4j.geometry.Vector2 getSize(){
         float scale = getEntity().getScene().scale;
-        return new org.dyn4j.geometry.Vector2(curFrame.getRegionWidth()*scale, curFrame.getRegionHeight()*scale);
+        return new org.dyn4j.geometry.Vector2(curFrame.getRegionWidth(), curFrame.getRegionHeight());
     }
 
     @Override

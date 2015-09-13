@@ -38,9 +38,9 @@ public class BuildingLarge1 extends Entity {
     @Override
     public void added() {
         super.added();
-
+        float scale = texture.getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
         World world = getScene().getWorld();
-        Body body = BodyLoader.fetch().generateBody(ID, texture.getWidth() * Scene.scale);
+        Body body = BodyLoader.fetch().generateBody(ID, scale);
         PhysicsComponent phys = new PhysicsComponent(world, body, Tag.STATIC);
         //phys.enableDebugRenderer(true);
         addComponent(phys);

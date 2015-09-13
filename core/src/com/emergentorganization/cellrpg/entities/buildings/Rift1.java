@@ -41,7 +41,7 @@ public class Rift1 extends Entity {
     public void added() {
         super.added();
 
-        float scale = texture.getWidth() * Scene.scale;
+        float scale = texture.getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.STATIC);
         addComponent(phys);

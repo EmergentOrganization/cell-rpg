@@ -9,7 +9,6 @@ import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.Scene;
-import com.sun.corba.se.impl.orbutil.graph.Graph;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
@@ -124,10 +123,12 @@ public class PhysicsComponent extends EntityComponent {
         }
         SpriteComponent sc = getFirstSiblingByType(SpriteComponent.class);
         if (sc != null){
-            size = new org.dyn4j.geometry.Vector2(sc.getSprite().getRegionWidth()*scaler, sc.getSprite().getRegionHeight()*scaler);
+            size = new org.dyn4j.geometry.Vector2(sc.getSprite().getRegionWidth(), sc.getSprite().getRegionHeight());
         }
 
-        System.out.println("w:" + ab.getWidth() + " h:" + ab.getHeight());
+        Vector2 scale = moveComponent.getScale();
+        size.x *= scale.x;
+        size.y *= scale.y;
     }
 
     @Override

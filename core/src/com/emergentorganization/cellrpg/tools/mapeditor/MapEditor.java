@@ -2,7 +2,9 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Matrix3;
@@ -54,6 +56,7 @@ public class MapEditor extends Scene {
     public static float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
     public static float MOVE_SPEED = 20f;
     public static float MIN_ZOOM = 0.1f;
+    public static float ZOOM_AMT = 0.1f; // amount of zoom per keypress
 
     public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
 
@@ -128,9 +131,7 @@ public class MapEditor extends Scene {
         table.add(cancel).pad(PADDING).fill(true, false);
 
         saveWindow.add(table).expand().fill();
-        saveWindow.setVisible(false);
         saveWindow.getTitleLabel().setColor(Color.GRAY);
-        getUiStage().addActor(saveWindow);
 
         final MapEditor _this = this;
         save.addListener(new ClickListener() {
@@ -160,7 +161,6 @@ public class MapEditor extends Scene {
 
         loadWindow.setWidth(SAVE_WINDOW_WIDTH);
         loadWindow.setHeight(SAVE_WINDOW_HEIGHT);
-        loadWindow.setVisible(false);
         loadWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
 
         final VisList<FileListNode> list = new VisList<FileListNode>();
@@ -193,7 +193,6 @@ public class MapEditor extends Scene {
 
         loadWindow.add(scrollPane).pad(PADDING).expand().fill(true, false).row();
         loadWindow.add(table).expand().fill(true, false);
-        getUiStage().addActor(loadWindow);
 
         final MapEditor _this = this;
         load.addListener(new ClickListener() {
@@ -497,23 +496,33 @@ public class MapEditor extends Scene {
         if (mapInputEnabled) {
             boolean update = false;
 
-            float speed = MOVE_SPEED * getGameCamera().zoom * Gdx.graphics.getDeltaTime();
+            OrthographicCamera camera = getGameCamera();
+            float speed = MOVE_SPEED * camera.zoom * Gdx.graphics.getDeltaTime();
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 update = true;
-                getGameCamera().position.add(0f, speed, 0f);
+                camera.position.add(0f, speed, 0f);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 update = true;
-                getGameCamera().position.add(0f, -speed, 0f);
+                camera.position.add(0f, -speed, 0f);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 update = true;
-                getGameCamera().position.add(speed, 0f, 0f);
+                camera.position.add(speed, 0f, 0f);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 update = true;
-                getGameCamera().position.add(-speed, 0f, 0f);
+                camera.position.add(-speed, 0f, 0f);
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.Z)) { // zoom in
+                update = true;
+                camera.zoom -= ZOOM_AMT;
+            }
+            else if (Gdx.input.isKeyPressed(Input.Keys.X)) { // zoom out
+                update = true;
+                camera.zoom += ZOOM_AMT;
             }
 
             if (update) getGameCamera().update();
@@ -583,13 +592,29 @@ public class MapEditor extends Scene {
         this.mapInputEnabled = enable;
     }
 
+    public boolean isMapInputEnabled() {
+        return mapInputEnabled;
+    }
+
     public void setSaveWindowVisible(boolean show) {
-        saveWindow.setVisible(show);
+        if (show) {
+            getUiStage().addActor(saveWindow);
+            saveWindow.fadeIn();
+        }
+        else
+            saveWindow.fadeOut();
+
         enableMapInput(!show);
     }
 
     public void setLoadWindowVisible(boolean show) {
-        loadWindow.setVisible(show);
+        if (show) {
+            getUiStage().addActor(loadWindow);
+            loadWindow.fadeIn();
+        }
+        else
+            loadWindow.fadeOut();
+
         enableMapInput(!show);
     }
 }

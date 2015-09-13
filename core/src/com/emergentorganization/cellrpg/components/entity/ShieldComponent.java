@@ -17,10 +17,10 @@ public class ShieldComponent extends EntityComponent {
     public ShieldComponent() {
         String sheetFileName = "";
         graphicsComponent = new GraphicsComponent();
-        graphicsComponent.register("100percent", "100p.png", 1, 1, 500);
-        graphicsComponent.register("75percent", "75p.png", 1, 1, 500);
-        graphicsComponent.register("50percent", "50p.png", 1, 1, 500);
-        graphicsComponent.register("25percent", "25p.png", 1, 1, 500);
+        graphicsComponent.register("100percent", "shield/100p.png", 1, 1, 500);
+        graphicsComponent.register("75percent", "shield/75p.png", 1, 1, 500);
+        graphicsComponent.register("50percent", "shield/50p.png", 1, 1, 500);
+        graphicsComponent.register("25percent", "shield/25p.png", 1, 1, 500);
         graphicsComponent.play("100percent");
     }
 

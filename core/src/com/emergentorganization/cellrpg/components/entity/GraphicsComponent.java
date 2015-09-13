@@ -25,6 +25,10 @@ public class GraphicsComponent extends SpriteComponent{
 
     }
 
+    public org.dyn4j.geometry.Vector2 getSize(){
+        return new org.dyn4j.geometry.Vector2(curFrame.getRegionWidth(), curFrame.getRegionHeight());
+    }
+
     @Override
     public void update(float deltaTime) {
         stateTime += deltaTime;

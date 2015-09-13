@@ -1,12 +1,15 @@
 package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.physics.CellUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import com.sun.corba.se.impl.orbutil.graph.Graph;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.World;
@@ -108,8 +111,21 @@ public class PhysicsComponent extends EntityComponent {
         if (body.getUserData() == null) {
             body.setUserData(new CellUserData(getEntity(), tag));
         }
+
+        // size using bb in case of no graphics
         AABB ab = body.createAABB();
         size = new org.dyn4j.geometry.Vector2(ab.getWidth(), ab.getHeight());
+
+        // set size using graphics/sprite
+        float scaler = getEntity().getScene().scale;
+        GraphicsComponent gc = getFirstSiblingByType(GraphicsComponent.class);
+        if (gc != null){
+            size = gc.getSize();
+        }
+        SpriteComponent sc = getFirstSiblingByType(SpriteComponent.class);
+        if (sc != null){
+            size = new org.dyn4j.geometry.Vector2(sc.getSprite().getRegionWidth()*scaler, sc.getSprite().getRegionHeight()*scaler);
+        }
     }
 
     @Override

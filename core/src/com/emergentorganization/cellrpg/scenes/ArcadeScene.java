@@ -1,8 +1,5 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
@@ -12,14 +9,21 @@ import com.emergentorganization.cellrpg.entities.buildings.VyroidGenerator;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.dyn4j.geometry.Vector2;
 
 public class ArcadeScene extends CAScene implements arcadeScore {
+	private final Logger logger = LogManager.getLogger(getClass());
 
 	static final float POINTS_PER_SEC = 100f;  // # of points per second survived
 	Entity cameraTarget;
 	private int score = 0;
 	private float pointBuffer = 0f;
+
+	private final long MIN_TIME_BTWN_GENS = 2000; // min ms between generator spawns
+	private long timeUntilNextGenerator = 10000; // ms until next generator spawns
+	private long lastGenSpawnTime;
 
 	public int getScore(){
 		return score;
@@ -49,11 +53,15 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		addArcadeEntity(ent, 0, 0);
 	}
 
-	private void addGenerator(){
+	private VyroidGenerator addGenerator(){
 		// adds another vyroid generator
 		float x = 0;
 		float y = 0;
-		addArcadeEntity(new VyroidGenerator(), x, y, .0000001f, .0000001f);
+		VyroidGenerator gen = new VyroidGenerator();
+		addArcadeEntity(gen, x, y, .0000001f, .0000001f);
+		lastGenSpawnTime = System.currentTimeMillis();
+		logger.info("new vyroid gen added!");
+		return gen;
 	}
 
 	private void setupArcadeScene(){
@@ -61,13 +69,10 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		addArcadeEntity(new Player());
 
 		// add 1st generator
-		cameraTarget = new VyroidGenerator();
+		cameraTarget = addGenerator();
 		addArcadeEntity(cameraTarget, 0, 0, .0000001f, .0000001f);
 
-		// TODO: add score HUD
 		addEntity(new ScoreHUD());
-
-		// TODO: initiate difficulty ramp which adds generators as score goes up (use addGenerator)
 	}
 
 	@Override
@@ -117,8 +122,15 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		pointBuffer += delta*POINTS_PER_SEC;  // get points for each render you survive
 		addPoints((int) pointBuffer);  // whole points added to score
 		pointBuffer%=1f;  // then chop off whole points and save only decimal parts
-		drawUI();
 
+		// increase difficulty by adding generator if time
+		long now = System.currentTimeMillis();
+		if (now - lastGenSpawnTime > timeUntilNextGenerator){
+			// TODO: decrease timeUntilNextGenerator?
+			addGenerator();
+		}
+
+		drawUI();
 	}
 
 	@Override

@@ -163,7 +163,7 @@ public class MainMenu extends Scene {
             }
         });
 
-        VisTextButton custom = new VisTextButton("Custom Map");
+        VisTextButton custom = new VisTextButton("Bridge to Custom Map");
         table.add(custom).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         custom.addListener(new ClickListener() {
             @Override

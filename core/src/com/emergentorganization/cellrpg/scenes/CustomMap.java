@@ -1,6 +1,9 @@
 package com.emergentorganization.cellrpg.scenes;
 
+import com.emergentorganization.cellrpg.entities.FollowingCamera;
+import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
+import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import org.dyn4j.geometry.Vector2;
@@ -23,6 +26,22 @@ public class CustomMap extends PausableScene {
         getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
         Map map = MapTools.importMap(mapName);
         this.addEntities(map.getEntities());
+
+        addEntityListener(new EntityActionListener(Player.class) {
+            private FollowingCamera followingCamera;
+
+            @Override
+            public void onAdd() {
+
+                followingCamera = new FollowingCamera(getPlayer());
+                addEntity(followingCamera);
+            }
+
+            @Override
+            public void onRemove() {
+                removeEntity(followingCamera);
+            }
+        });
     }
 
     /**

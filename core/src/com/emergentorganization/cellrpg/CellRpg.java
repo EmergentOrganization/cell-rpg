@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
-import com.emergentorganization.cellrpg.scenes.RPGScene;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.Config;
 import com.kotcrab.vis.ui.VisUI;
@@ -13,6 +12,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class CellRpg extends Game {
     public static final String VERSION = "0.2.6";
+    private boolean devModeEnabled = false;
+    private Config config = new Config();
 
     // private FPSLogger fps = new FPSLogger();
     private static CellRpg singleton;
@@ -30,8 +31,15 @@ public class CellRpg extends Game {
 
     @Override
     public void create() {
-        logger.info("Enabling development mode");
-        Config.Development.setDevMode(true);
+        config.initialize();
+        devModeEnabled = config.getDevMode();
+        if (!devModeEnabled) {
+            logger.info("Enabling development mode");
+            config.setDevMode(true);
+        }
+        else
+            logger.info("Development mode enabled");
+
         logger.info("Loading VisUI");
         VisUI.load();
 
@@ -43,5 +51,13 @@ public class CellRpg extends Game {
         super.render();
 
         // fps.log();
+    }
+
+    public boolean isDevModeEnabled() {
+        return devModeEnabled;
+    }
+
+    public Config getConfig() {
+        return config;
     }
 }

@@ -61,3 +61,7 @@ Make sure it is marked as executable using `chmod +x ./gradlew`
 > `.gradlew clean` FAILURE: SDK location not found
 
 $ANDROID_HOME environment variable is not set properly. You may need to edit it or reboot.
+
+> Gradle is giving me unusual build errors!
+
+Ensure that you are using the copy of gradle provided in the repository (`gradlew`), or that you are using version `2.4`

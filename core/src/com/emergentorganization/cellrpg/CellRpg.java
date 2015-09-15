@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg;
 import com.badlogic.gdx.Game;
 import com.emergentorganization.cellrpg.scenes.RPGScene;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
+import com.emergentorganization.cellrpg.tools.Config;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,6 +30,8 @@ public class CellRpg extends Game {
 
     @Override
     public void create() {
+        logger.info("Enabling development mode");
+        Config.Development.setDevMode(true);
         logger.info("Loading VisUI");
         VisUI.load();
 

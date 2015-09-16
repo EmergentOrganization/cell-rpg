@@ -8,8 +8,9 @@ import com.badlogic.gdx.Preferences;
  */
 public class Config {
     private static String PREFS_FILE = "com.emergentorganization.cellrpg.configuration";
-    public static String KEY_DEV_DEVMODE = "DevMode";
+    public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
     private boolean initialized = false;
+    private boolean devModeEnabled = false;
     private Preferences prefs;
 
     /**
@@ -17,6 +18,9 @@ public class Config {
      */
     public void initialize() {
         prefs = Gdx.app.getPreferences(PREFS_FILE);
+
+        devModeEnabled = prefs.getBoolean(KEY_DEV_DEVMODE);
+
         initialized = true;
     }
 
@@ -25,11 +29,12 @@ public class Config {
             throw new RuntimeException("Initialize Config before use");
         prefs.putBoolean(KEY_DEV_DEVMODE, on);
         prefs.flush();
+        devModeEnabled = on;
     }
 
-    public boolean getDevMode() {
+    public boolean isDevModeEnabled() {
         if (!initialized)
             throw new RuntimeException("Initialize Config before use");
-        return prefs.getBoolean(KEY_DEV_DEVMODE);
+        return devModeEnabled;
     }
 }

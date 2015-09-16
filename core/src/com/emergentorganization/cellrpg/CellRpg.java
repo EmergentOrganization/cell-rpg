@@ -12,17 +12,17 @@ import org.apache.logging.log4j.Logger;
  */
 public class CellRpg extends Game {
     public static final String VERSION = "0.2.6";
-    private boolean devModeEnabled = false;
-    private Config config = new Config();
 
     // private FPSLogger fps = new FPSLogger();
     private static CellRpg singleton;
     private final Logger logger;
+    private Config config;
 
     public CellRpg() {
         singleton = this;
         System.setProperty("log4j.configurationFile", "log4j2.xml");
         logger = LogManager.getLogger(getClass());
+        config = new Config();
     }
 
     public static CellRpg fetch() {
@@ -32,8 +32,7 @@ public class CellRpg extends Game {
     @Override
     public void create() {
         config.initialize();
-        devModeEnabled = config.getDevMode();
-        if (!devModeEnabled) {
+        if (!config.isDevModeEnabled()) {
             logger.info("Enabling development mode");
             config.setDevMode(true);
         }
@@ -53,11 +52,7 @@ public class CellRpg extends Game {
         // fps.log();
     }
 
-    public boolean isDevModeEnabled() {
-        return devModeEnabled;
-    }
-
-    public Config getConfig() {
+    public Config getConfiguration() {
         return config;
     }
 }

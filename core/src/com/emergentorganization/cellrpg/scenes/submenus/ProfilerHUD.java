@@ -1,8 +1,10 @@
-package com.emergentorganization.cellrpg.entities;
+package com.emergentorganization.cellrpg.scenes.submenus;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
@@ -17,8 +19,8 @@ import com.kotcrab.vis.ui.widget.VisWindow;
  * Created by tylar on 6/2/15.
  * used for NPCs & players
  */
-public class ProfilerHUD extends Entity {
-    private Stage stage;
+public class ProfilerHUD extends Actor {
+    private final Scene parentScene;
     private VisWindow profilerWindow;
 
     private VisLabel entityCountLabel;
@@ -32,49 +34,9 @@ public class ProfilerHUD extends Entity {
 
     private Runtime runtime = Runtime.getRuntime();
 
-
-    public ProfilerHUD(){
-        super(ZIndex.HUD);
-
-    }
-
-    @Override
-    public void update(float deltaTime){
-        entityCountLabel.setText(
-                Integer.toString(getScene().getEntities().size())
-        );
-        FPSLabel.setText(
-                Integer.toString(Gdx.graphics.getFramesPerSecond())
-        );
-        renderTimeLabel.setText(
-                Long.toString(getScene().renderTime)
-        );
-        memoryUsageLabel.setText(
-                Long.toString((runtime.totalMemory() - runtime.freeMemory())/1024)
-        );
-
-        Vector3 pos = getScene().getGameCamera().position;
-        xLabel.setText(Float.toString(pos.x));
-        yLabel.setText(Float.toString(pos.y));
-
-        try {  // updates requiring getPlayer() here:
-            shieldLabel.setText(
-                    Float.toString(getScene().getPlayer().getFirstComponentByType(ShieldComponent.class).getHealth())
-            );
-
-            weaponChargeLabel.setText(
-                    Integer.toString(getScene().getPlayer().getFirstComponentByType(WeaponComponent.class).getCharge())
-            );
-        } catch(UnsupportedOperationException err){
-            // cannot getPlayer, no player in scene, move along
-        }
-
-        profilerWindow.pack();
-    }
-
-    @Override
-    public void added(){
-        stage = getScene().getUiStage();
+    public ProfilerHUD(Scene parentScene) {
+        this.parentScene = parentScene;
+        Stage stage = parentScene.getUiStage();
         profilerWindow = new VisWindow("", true);  // TODO: add window style
         profilerWindow.setPosition(1000f, 1000f, Align.topRight);  // TODO: add more clever positioning
 
@@ -125,5 +87,40 @@ public class ProfilerHUD extends Entity {
         tabl.add("weaponCharge");
 
         stage.addActor(profilerWindow);
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        profilerWindow.toFront();
+        entityCountLabel.setText(
+                Integer.toString(parentScene.getEntities().size())
+        );
+        FPSLabel.setText(
+                Integer.toString(Gdx.graphics.getFramesPerSecond())
+        );
+        renderTimeLabel.setText(
+                Long.toString(parentScene.renderTime)
+        );
+        memoryUsageLabel.setText(
+                Long.toString((runtime.totalMemory() - runtime.freeMemory())/1024)
+        );
+
+        Vector3 pos = parentScene.getGameCamera().position;
+        xLabel.setText(Float.toString(pos.x));
+        yLabel.setText(Float.toString(pos.y));
+
+        try {  // updates requiring getPlayer() here:
+            shieldLabel.setText(
+                    Float.toString(parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).getHealth())
+            );
+
+            weaponChargeLabel.setText(
+                    Integer.toString(parentScene.getPlayer().getFirstComponentByType(WeaponComponent.class).getCharge())
+            );
+        } catch(UnsupportedOperationException err){
+            // cannot getPlayer, no player in scene, move along
+        }
+
+        profilerWindow.pack();
     }
 }

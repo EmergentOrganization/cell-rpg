@@ -15,14 +15,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
-import com.emergentorganization.cellrpg.entities.ProfilerHUD;
+import com.emergentorganization.cellrpg.scenes.submenus.ProfilerHUD;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.StaticCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
@@ -111,7 +110,7 @@ public abstract class Scene implements Screen {
         physWorld.addListener(new StaticCollisionListener());
         //physWorld.shiftCoordinates(new Vector2(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d));
 
-        addEntity(new ProfilerHUD());
+        getUiStage().addActor(new ProfilerHUD(this));
     }
 
     @Override

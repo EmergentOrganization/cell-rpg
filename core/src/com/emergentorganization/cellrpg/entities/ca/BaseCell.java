@@ -10,7 +10,6 @@ public class BaseCell {
     public int state2;
     // TODO: should store two state values here, one used for current, one used for previous.
     // for max efficiency, CAGrid should switch back and forth, copying one into the other.
-    // or... should there be 2 BaseCell[][] arrays in CAGrid? no. that is a waste of space.
     //
 
 

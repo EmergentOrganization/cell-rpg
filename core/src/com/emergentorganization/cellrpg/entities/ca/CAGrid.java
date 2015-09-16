@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.compression.lzma.Base;
-import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,12 +14,12 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by tylar on 2015-07-06.
  */
-public class CAGrid extends Entity {
+public class CAGrid extends CAGridBase {
     private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
     private static final int TIME_PER_GENERATION = 100;  // ms allocated per generation (approximate, actual is slightly longer)
     private static final int TIME_PER_FOLLOW = 1000; // ms between checks between grid movements
 
-    public long timeToGenerate = TIME_PER_GENERATION;
+    private long timeToGenerate = TIME_PER_GENERATION;
     private long lastFollowCheckTime = 0;
 
     public long generation = 0;
@@ -51,13 +49,23 @@ public class CAGrid extends Entity {
 
     public CAGrid(int sizeOfCells, ZIndex z_index, Color[] state_color_map) {
         /*
-        :param cellSize: size level of grid
+        @sizeOfCells     : display size of an individual cell
+        @z_index         : ZIndex level to render the grid
+        @state_color_map : list of colors which correspond to ca states  TODO: use a CAColorDefinition class instead
          */
         super(z_index);
         checkCellSize(sizeOfCells);
         stateColorMap = state_color_map;
 
         cellSize = sizeOfCells;
+    }
+
+    public long getGenerationNumber(){
+        return generation;
+    }
+
+    public void resetGenerationNumber(){
+        generation = 0;
     }
 
     public int getSizeX(){
@@ -142,6 +150,7 @@ public class CAGrid extends Entity {
     }
 
     public int getState(final float x, final float y){
+        // returns state of cell nearest to given world-coordinates
         int row = getIndexOfX(x);
         int col = getIndexOfY(y);
         return getState(row, col);

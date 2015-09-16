@@ -122,6 +122,8 @@ public class GraphicsComponent extends SpriteComponent{
     @Override
     public void dispose() {
         super.dispose();
+
+        curFrame.getTexture().dispose();
     }
 }
 

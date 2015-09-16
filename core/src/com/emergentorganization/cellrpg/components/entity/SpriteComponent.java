@@ -56,5 +56,7 @@ public class SpriteComponent extends EntityComponent {
     @Override
     public void dispose() {
         super.dispose();
+
+        sprite.getTexture().dispose();
     }
 }

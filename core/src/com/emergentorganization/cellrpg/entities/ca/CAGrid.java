@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import org.apache.logging.log4j.LogManager;
@@ -46,7 +47,6 @@ public class CAGrid extends Entity {
 
     private long lastGenerationTime = 0;
     private BaseCell[][] states;
-    int[][] cellStateBuffer;
     private Color[] stateColorMap;
 
     public CAGrid(int sizeOfCells, ZIndex z_index, Color[] state_color_map) {
@@ -100,12 +100,10 @@ public class CAGrid extends Entity {
         logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
 
         states = new BaseCell[w][h];
-        cellStateBuffer = new int[w][h];
         // init states. ?required?
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
                 states[i][j] = new BaseCell(0);
-                cellStateBuffer[i][j] = 0;
             }
         }
         // init states for testing
@@ -116,14 +114,7 @@ public class CAGrid extends Entity {
         // generates the next frame of the CA
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j].state = ca_rule(i, j, cellStateBuffer);
-            }
-        }
-
-        // updates cell state buffer
-        for ( int i = 0; i < states.length; i++){
-            for (int j = 0; j < states[0].length; j++){
-                cellStateBuffer[i][j] = states[i][j].state;
+                states[i][j].state = ca_rule(i, j, states);
             }
         }
 
@@ -158,13 +149,22 @@ public class CAGrid extends Entity {
 
     private int getState(final int row, final int col) {
         // returns state of given location, returns 0 for out-of-bounds
-        return getState(row, col, cellStateBuffer);
+        return getState(row, col, states);
     }
 
     private int getState(final int row, final int col, final int[][] cellStates) {
         // returns state of given location, returns 0 for out-of-bounds
         try {
             return cellStates[row][col];
+        } catch (IndexOutOfBoundsException err) {
+            return 0;
+        }
+    }
+
+    private int getState(final int row, final int col, final BaseCell[][] cellStates) {
+        // returns state of given location, returns 0 for out-of-bounds
+        try {
+            return cellStates[row][col].state;
         } catch (IndexOutOfBoundsException err) {
             return 0;
         }
@@ -187,7 +187,7 @@ public class CAGrid extends Entity {
         return neighbors;
     }
 
-    private int getNeighborhoodSum(final int row, final int col, final int size, final int[][] cellStates) {
+    private int getNeighborhoodSum(final int row, final int col, final int size, final BaseCell[][] cellStates) {
         // returns sum of all states in neighborhood
         // size MUST be odd! (not checked for efficiency)
         final boolean SKIP_SELF = true;
@@ -260,13 +260,13 @@ public class CAGrid extends Entity {
        ============================================================
      */
 
-    private int ca_rule(final int row, final int col, final int[][] cellStates) {
+    private int ca_rule(final int row, final int col, final BaseCell[][] cellStates) {
         // computes the rule at given row, col in cellStates array, returns result
 
         // Conway's Game of Life:
         switch (getNeighborhoodSum(row, col, 3, cellStates)) {
             case 2:
-                return cellStates[row][col];
+                return cellStates[row][col].state;
             case 3:
                 return 1;
             default:
@@ -276,6 +276,8 @@ public class CAGrid extends Entity {
         // random state:
         //return Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
     }
+
+
 
     private float getXOrigin(Camera camera, float scale){
         return -OFF_SCREEN_PIXELS + gridOriginX - camera.position.x/scale;
@@ -484,8 +486,7 @@ public class CAGrid extends Entity {
     private void randomizeState() {
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                cellStateBuffer[i][j] = Math.round(Math.round(Math.random()));
-                states[i][j].state = cellStateBuffer[i][j];  // round twice? one is just a cast (I think)
+                states[i][j].state = Math.round(Math.round(Math.random()));// round twice? one is just a cast (I think)
             }
         }
     }

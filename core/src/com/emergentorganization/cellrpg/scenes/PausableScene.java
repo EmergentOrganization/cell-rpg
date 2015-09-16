@@ -108,4 +108,11 @@ public class PausableScene extends Scene {
         getUiStage().addActor(pauseWindow);
 
     }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+
+        frameBufferTexture.getTexture().dispose();
+    }
 }

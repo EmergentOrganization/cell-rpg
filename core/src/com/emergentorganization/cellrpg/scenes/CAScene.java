@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.scenes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.entities.CAGrid;
+import com.emergentorganization.cellrpg.entities.ca.CAGrid;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.entities.characters.Player;

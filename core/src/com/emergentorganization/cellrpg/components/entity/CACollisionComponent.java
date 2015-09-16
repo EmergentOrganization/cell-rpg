@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.components.entity;
 
 import com.emergentorganization.cellrpg.components.EntityComponent;
-import com.emergentorganization.cellrpg.entities.CAGrid;
+import com.emergentorganization.cellrpg.entities.ca.CAGrid;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;

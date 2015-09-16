@@ -2,9 +2,6 @@ package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.EntityComponent;
-import com.emergentorganization.cellrpg.entities.CAGrid;
-import com.emergentorganization.cellrpg.scenes.CALayer;
-import com.emergentorganization.cellrpg.scenes.CAScene;
 
 /**
  * Created by OrelBitton on 07/06/2015.

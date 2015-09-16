@@ -101,7 +101,13 @@ public class CAGrid extends Entity {
 
         states = new BaseCell[w][h];
         cellStateBuffer = new int[w][h];
-
+        // init states. ?required?
+        for (int i = 0; i < states.length; i++) {
+            for (int j = 0; j < states[0].length; j++) {
+                states[i][j] = new BaseCell(0);
+                cellStateBuffer[i][j] = 0;
+            }
+        }
         // init states for testing
         //randomizeState();
     }
@@ -110,14 +116,14 @@ public class CAGrid extends Entity {
         // generates the next frame of the CA
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j].generate(this, i, j);
+                states[i][j].state = ca_rule(i, j, cellStateBuffer);
             }
         }
 
         // updates cell state buffer
         for ( int i = 0; i < states.length; i++){
             for (int j = 0; j < states[0].length; j++){
-                cellStateBuffer[i][j] = states[i][j].getState();
+                cellStateBuffer[i][j] = states[i][j].state;
             }
         }
 
@@ -152,19 +158,19 @@ public class CAGrid extends Entity {
 
     private int getState(final int row, final int col) {
         // returns state of given location, returns 0 for out-of-bounds
-        return getState(row, col, states);
+        return getState(row, col, cellStateBuffer);
     }
 
-    private int getState(final int row, final int col, final BaseCell[][] cellStates) {
+    private int getState(final int row, final int col, final int[][] cellStates) {
         // returns state of given location, returns 0 for out-of-bounds
         try {
-            return cellStates[row][col].getState();
+            return cellStates[row][col];
         } catch (IndexOutOfBoundsException err) {
             return 0;
         }
     }
 
-    private int[][] getNeighborhood(final int row, final int col, final int size, final BaseCell[][] cellStates) {
+    private int[][] getNeighborhood(final int row, final int col, final int size, final int[][] cellStates) {
         // returns matrix of neighborhood around (row, col) with edge size "size"
         // size MUST be odd! (not checked for efficiency)
 
@@ -181,7 +187,7 @@ public class CAGrid extends Entity {
         return neighbors;
     }
 
-    private int getNeighborhoodSum(final int row, final int col, final int size, final BaseCell[][] cellStates) {
+    private int getNeighborhoodSum(final int row, final int col, final int size, final int[][] cellStates) {
         // returns sum of all states in neighborhood
         // size MUST be odd! (not checked for efficiency)
         final boolean SKIP_SELF = true;
@@ -201,7 +207,7 @@ public class CAGrid extends Entity {
         return sum;
     }
 
-    private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, final BaseCell[][] cellStates) {
+    private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, final int[][] cellStates) {
         // returns value from applying the kernel matrix to the given neighborhood
         final boolean SKIP_SELF = true;
 
@@ -222,7 +228,7 @@ public class CAGrid extends Entity {
         return sum;
     }
 
-    private float get3dKernelizedValue(final int[][][] kernel, final int row, final int col, final int size, final BaseCell[][] cellStates) {
+    private float get3dKernelizedValue(final int[][][] kernel, final int row, final int col, final int size, final int[][] cellStates) {
         // returns value from applying the kernel matrix to the given neighborhood
         // 3rd dimension of the kernel is state-space (ie, kernel[x][y][state])
         final boolean SKIP_SELF = true;
@@ -254,13 +260,13 @@ public class CAGrid extends Entity {
        ============================================================
      */
 
-    private int ca_rule(final int row, final int col, final BaseCell[][] cellStates) {
+    private int ca_rule(final int row, final int col, final int[][] cellStates) {
         // computes the rule at given row, col in cellStates array, returns result
 
         // Conway's Game of Life:
         switch (getNeighborhoodSum(row, col, 3, cellStates)) {
             case 2:
-                return cellStates[row][col].getState();
+                return cellStates[row][col];
             case 3:
                 return 1;
             default:
@@ -314,9 +320,9 @@ public class CAGrid extends Entity {
 
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                if (states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
+                if (states[i][j].state != 0) {  // state must be > 0 else stateColorMap indexError
                     // draw square
-                    shapeRenderer.setColor(stateColorMap[states[i][j].getState()-1]);
+                    shapeRenderer.setColor(stateColorMap[states[i][j].state-1]);
 
                     x = i * (cellSize + 1) + x_origin;  // +1 for cell border
                     y = j * (cellSize + 1) + y_origin;
@@ -478,7 +484,8 @@ public class CAGrid extends Entity {
     private void randomizeState() {
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j].setState(Math.round(Math.round(Math.random())));  // round twice? one is just a cast (I think)
+                cellStateBuffer[i][j] = Math.round(Math.round(Math.random()));
+                states[i][j].state = cellStateBuffer[i][j];  // round twice? one is just a cast (I think)
             }
         }
     }
@@ -546,7 +553,7 @@ public class CAGrid extends Entity {
         //System.out.println("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
         for (int i = 0; i < pattern.length; i++) {
             for (int j = 0; j < pattern[0].length; j++) {
-                cellStates[row + i][col + j].setState(pattern[i][j]);
+                cellStates[row + i][col + j].state = pattern[i][j];
             }
         }
     }

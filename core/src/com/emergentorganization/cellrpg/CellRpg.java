@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.Config;
 import com.kotcrab.vis.ui.VisUI;
@@ -54,5 +55,12 @@ public class CellRpg extends Game {
 
     public Config getConfiguration() {
         return config;
+    }
+
+    @Override
+    public void setScreen(Screen screen) {
+        if (getScreen() != null)
+            getScreen().dispose();
+        super.setScreen(screen);
     }
 }

@@ -123,4 +123,11 @@ public class TronShader implements PostProcessor {
         batch.end();
         frameBuffer.end();
     }
+
+    @Override
+    public void dispose() {
+        maskRegion.getTexture().dispose();
+        colorMaskProgram.dispose();
+        blurProgram.dispose();
+    }
 }

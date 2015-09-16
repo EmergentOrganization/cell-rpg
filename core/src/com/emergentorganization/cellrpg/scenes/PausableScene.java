@@ -99,7 +99,6 @@ public class PausableScene extends Scene {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 CellRpg.fetch().setScreen(new MainMenu("disconnected. Dimensional hash saved."));
-                dispose();
             }
         });
         table.add(exit).pad(0f, 0f, 5f, 0f).fill(true, false).row();

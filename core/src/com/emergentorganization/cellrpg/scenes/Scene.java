@@ -204,8 +204,17 @@ public abstract class Scene implements Screen {
         for (Entity entity : entities) {
             entity.dispose();
         }
+        for (PostProcessor postProcessor : postProcessors) {
+            postProcessor.dispose();
+        }
+
         uiStage.dispose();
         physWorld.removeAllBodiesAndJoints();
+        batch.dispose();
+        outBatch.dispose();
+        debugRenderer.dispose();
+        frameBuffer.dispose();
+        fboRegion.getTexture().dispose();
     }
 
     public Entity getPlayer(){

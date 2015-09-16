@@ -135,7 +135,6 @@ public class Player extends Character {
                     message = "bridge to planiverse collapsed. \nSpatiotemporal hash: " + hash;
                 }
                 CellRpg.fetch().setScreen(new MainMenu(message));
-                getScene().dispose();
                 break;
             case VYROID_DAMAGE:
                 getFirstComponentByType(ShieldComponent.class).damage(10);

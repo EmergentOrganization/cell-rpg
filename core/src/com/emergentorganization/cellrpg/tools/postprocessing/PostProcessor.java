@@ -12,4 +12,6 @@ public interface PostProcessor {
      * @param frameBuffer
      */
     void render(FrameBuffer frameBuffer);
+
+    void dispose();
 }

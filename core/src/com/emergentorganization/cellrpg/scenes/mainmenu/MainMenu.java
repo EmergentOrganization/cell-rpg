@@ -147,7 +147,6 @@ public class MainMenu extends Scene {
                 super.clicked(event, x, y);
 
                 CellRpg.fetch().setScreen(new ArcadeScene());
-                dispose();
             }
         });
 
@@ -159,7 +158,6 @@ public class MainMenu extends Scene {
                 super.clicked(event, x, y);
 
                 CellRpg.fetch().setScreen(new RPGScene());
-                dispose();
             }
         });
 

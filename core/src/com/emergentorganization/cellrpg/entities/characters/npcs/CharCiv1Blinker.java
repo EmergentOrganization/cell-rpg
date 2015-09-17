@@ -54,7 +54,7 @@ public class CharCiv1Blinker extends Character {
         super.added();
 
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        float scale = currentFrame.getTexture().getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
+        float scale = currentFrame.getRegionWidth() * Scene.scale * 2; // Not sure why *2 is necessary after texture packing
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.CHAR_CIV1_BLINKER);
         phys.setUserData(new CellUserData(this, Tag.CHAR_CIV1_BLINKER));

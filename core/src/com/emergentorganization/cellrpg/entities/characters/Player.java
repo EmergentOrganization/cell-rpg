@@ -108,7 +108,7 @@ public class Player extends Character {
         super.added();
 
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        float scale = currentFrame.getTexture().getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
+        float scale = currentFrame.getRegionWidth(); // Why does this work without scaling?
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.PLAYER);
 

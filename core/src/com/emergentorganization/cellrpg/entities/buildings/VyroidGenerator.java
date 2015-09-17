@@ -20,7 +20,6 @@ import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
  */
 public class VyroidGenerator extends Entity {
     public static final String ID = "vyroid-generator";
-    Texture texture;
     int genSinceLastSpawn = 0;
     final int GEN_BTWN_SPAWNS = 1;  // generations between spawn drop-ins
     final int[][] pattern = {  // pre-pulsar
@@ -34,16 +33,14 @@ public class VyroidGenerator extends Entity {
      */
     public VyroidGenerator() {
         super(ZIndex.BUILDING);
-        texture = new Texture(ID + ".png");
-        addComponent(new SpriteComponent(texture));
+        addComponent(new SpriteComponent("game/buildings/" + ID));
     }
 
-    public VyroidGenerator(Texture texture, Vector2 position) {
+    public VyroidGenerator(Vector2 position) {
         super(ZIndex.BUILDING);
-        this.texture = texture;
         getFirstComponentByType(MovementComponent.class).setWorldPosition(position);
 
-        addComponent(new SpriteComponent(texture));
+        addComponent(new SpriteComponent("game/buildings/" + ID));
     }
 
     @Override
@@ -74,7 +71,8 @@ public class VyroidGenerator extends Entity {
     public void added() {
         super.added();
 
-        float scale = texture.getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
+        float width = getFirstComponentByType(SpriteComponent.class).getSprite().getWidth();
+        float scale = width * getFirstComponentByType(MovementComponent.class).getScale().x;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.STATIC);
         addComponent(phys);

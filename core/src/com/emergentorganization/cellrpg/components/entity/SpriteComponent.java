@@ -3,7 +3,9 @@ package com.emergentorganization.cellrpg.components.entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 
 /**
@@ -15,6 +17,14 @@ public class SpriteComponent extends EntityComponent {
 
     public SpriteComponent() {
         this.sprite = new Sprite();
+    }
+
+    /**
+     * To be used in conjunction with a TextureAtlas
+     * @param fileName name of the file without the extension
+     */
+    public SpriteComponent(String fileName) {
+        this.sprite = CellRpg.fetch().getTextureAtlas().createSprite(fileName);
     }
 
     public SpriteComponent(Texture texture) {

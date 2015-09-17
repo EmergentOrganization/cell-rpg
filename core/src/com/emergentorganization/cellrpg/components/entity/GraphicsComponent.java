@@ -2,10 +2,8 @@ package com.emergentorganization.cellrpg.components.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.emergentorganization.cellrpg.CellRpg;
 
 import java.util.HashMap;
 
@@ -16,17 +14,17 @@ import java.util.HashMap;
  * Created by OrelBitton on 06/06/2015.
  */
 public class GraphicsComponent extends SpriteComponent{
+    private final TextureAtlas textureAtlas;
     private HashMap<String, Animation> anims = new HashMap<String, Animation>();
     private Animation playing;
     private float stateTime = 0f;
     private TextureRegion curFrame;
 
     public GraphicsComponent() {
-
+        this.textureAtlas = CellRpg.fetch().getTextureAtlas();
     }
 
     public org.dyn4j.geometry.Vector2 getSize(){
-        float scale = getEntity().getScene().scale;
         return new org.dyn4j.geometry.Vector2(curFrame.getRegionWidth(), curFrame.getRegionHeight());
     }
 
@@ -70,6 +68,10 @@ public class GraphicsComponent extends SpriteComponent{
         register(name, new Animation(0, new TextureRegion(texture)));
     }
 
+    public void register(String name, TextureRegion region){
+        register(name, new Animation(0, region));
+    }
+
     public void register(String name, Animation anim){
         if(anims.containsKey(name))
             throw new RuntimeException("Animation titled "+ name + " is already registered.");
@@ -79,8 +81,12 @@ public class GraphicsComponent extends SpriteComponent{
 
     public void register(String name, String spriteFile){
         // add a static sprite
-        Texture texture = new Texture(spriteFile);
-        register(name, texture);
+        register(name, textureAtlas.findRegion(spriteFile));
+    }
+
+    public void register(String name, String spriteFile, float timePerFrame){
+        // add a sprite animation
+        register(name, textureAtlas.findRegion(spriteFile));
     }
 
     public void register(String name, String sheetFile, int n_columns, int n_rows, float time_per_frame){

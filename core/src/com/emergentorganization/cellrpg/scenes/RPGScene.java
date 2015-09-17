@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.characters.Player;
@@ -25,7 +26,7 @@ public class RPGScene extends CAScene {
 		//dc.setTypewriterText("This is a test message.", 0.3f);
 
 		Stage uiStage = getUiStage();
-		Image cellRPG = new Image(new Texture("CellRPG.png"));
+		Image cellRPG = new Image(CellRpg.fetch().getTextureAtlas().findRegion("ui/CellRPG"));
 		uiStage.addActor(cellRPG);
 
 		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s

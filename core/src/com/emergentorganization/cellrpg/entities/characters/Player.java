@@ -2,6 +2,7 @@ package com.emergentorganization.cellrpg.entities.characters;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.*;
@@ -21,8 +22,6 @@ import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
  */
 public class Player extends Character {
     private static final String ID = "char-player";  // ID for getting spritesheet and collider
-    private static final int FRAME_COLS = 10;  // # of cols in spritesheet
-    private static final int FRAME_ROWS = 1;  //  # of rows in spritesheet
     private static final float TPF = 0.2f;  // time per frame of animation
 
     private MovementComponent moveComponent;
@@ -34,20 +33,35 @@ public class Player extends Character {
     This constructor is needed for MapEditor. Do not remove.
      */
     public Player(){
-        super(ID + ".png", FRAME_COLS, FRAME_ROWS, TPF);
+        super(getAssetNames(), TPF);
 
         moveComponent = getFirstComponentByType(MovementComponent.class);
 
         initPlayer();
     }
 
-    public Player(Texture texture, Vector2 position) {
-        super(texture, FRAME_COLS, FRAME_ROWS, TPF);
+    public Player(Vector2 position) {
+        super(getAssetNames(), TPF);
 
         moveComponent = getFirstComponentByType(MovementComponent.class);
         moveComponent.setWorldPosition(position);
 
         initPlayer();
+    }
+
+    public static String[] getAssetNames() {
+        return new String[] {
+                "game/char-player/0",
+                "game/char-player/1",
+                "game/char-player/2",
+                "game/char-player/3",
+                "game/char-player/4",
+                "game/char-player/5",
+                "game/char-player/6",
+                "game/char-player/7",
+                "game/char-player/8",
+                "game/char-player/9"
+        };
     }
 
     private void initPlayer(){

@@ -22,7 +22,7 @@ public class Bullet extends Entity {
     public Bullet(Vector2 shootingPos, Vector2 velocity, float maxDist){
         super(ZIndex.PROJECTILE);
         graphicsComponent = new GraphicsComponent();
-        graphicsComponent.register("idle", "bullet.png");
+        graphicsComponent.register("idle", "game/bullet");
         graphicsComponent.play("idle");
         addComponent(this.graphicsComponent);
 

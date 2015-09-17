@@ -1,5 +1,18 @@
 
 TexturePack.png
+size: 256,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ui/CellRPG
+  rotate: false
+  xy: 2, 2
+  size: 236, 56
+  orig: 236, 56
+  offset: 0, 0
+  index: -1
+
+TexturePack2.png
 size: 4096,4096
 format: RGBA8888
 filter: Nearest,Nearest
@@ -27,7 +40,7 @@ game/buildings/vyroid-generator
   index: -1
 game/bullet
   rotate: false
-  xy: 1573, 406
+  xy: 1530, 444
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -48,7 +61,7 @@ game/char-civ1-blinker/1
   index: -1
 game/char-player/0
   rotate: false
-  xy: 1573, 423
+  xy: 1488, 423
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
@@ -83,35 +96,35 @@ game/char-player/4
   index: -1
 game/char-player/5
   rotate: false
-  xy: 1386, 134
+  xy: 1386, 219
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/6
   rotate: false
-  xy: 1488, 236
+  xy: 4004, 4005
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/7
   rotate: false
-  xy: 4004, 4005
+  xy: 4046, 4045
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/8
   rotate: false
-  xy: 4046, 4045
+  xy: 2, 2
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/9
   rotate: false
-  xy: 2, 2
+  xy: 44, 42
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
@@ -139,84 +152,71 @@ game/environment/the_edge
   index: -1
 game/light
   rotate: false
-  xy: 44, 61
+  xy: 1488, 404
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 game/player-ammo/0p
   rotate: false
-  xy: 1615, 449
+  xy: 1900, 623
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/100p
   rotate: false
-  xy: 1900, 623
+  xy: 1942, 661
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/25p
   rotate: false
-  xy: 1942, 661
+  xy: 2002, 725
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/50p
   rotate: false
-  xy: 2002, 725
+  xy: 2044, 763
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/75p
   rotate: false
-  xy: 2044, 763
+  xy: 2202, 929
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
-game/shield/base
+game/shield/100p
+  rotate: false
+  xy: 1386, 359
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game/shield/25p
   rotate: false
   xy: 1900, 673
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
-game/shield/stage1
+game/shield/50p
   rotate: false
   xy: 2202, 979
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
-game/shield/stage2
+game/shield/75p
   rotate: false
-  xy: 1386, 172
+  xy: 1386, 257
   size: 100, 100
   orig: 100, 100
-  offset: 0, 0
-  index: -1
-game/shield/stage3
-  rotate: false
-  xy: 1386, 274
-  size: 185, 185
-  orig: 185, 185
-  offset: 0, 0
-  index: -1
-
-TexturePack2.png
-size: 256,64
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-ui/CellRPG
-  rotate: false
-  xy: 2, 2
-  size: 236, 56
-  orig: 236, 56
   offset: 0, 0
   index: -1

@@ -16,12 +16,13 @@ import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
  */
 public class CharCiv1Blinker extends Character {
     private static final String ID = "char-civ1-blinker";
+    private static final float TPF = 1.2f;  // time per frame of animation
 
     /*
     This constructor is needed for MapEditor. Do not remove.
      */
     public CharCiv1Blinker() {
-        super(ID + ".png", 2, 1, 1.2f);
+        super(getAssetNames(), TPF);
 
         /*
         getMovementComponent().setSpeed(50);
@@ -39,6 +40,13 @@ public class CharCiv1Blinker extends Character {
         input.playScript("walkAndReturn");
 
         addComponent(input);*/
+    }
+
+    public static String[] getAssetNames() {
+        return new String[]{
+                "game/char-civ1-blinker/0",
+                "game/char-civ1-blinker/1"
+        };
     }
 
     @Override

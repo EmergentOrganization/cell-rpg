@@ -30,10 +30,10 @@ public class WeaponComponent extends EntityComponent {
 
     public WeaponComponent() {
         graphicsComponent = new GraphicsComponent();
-        graphicsComponent.register("100percent", "player-ammo/100p.png", 1, 1, 500);
-        graphicsComponent.register("75percent", "player-ammo/75p.png", 1, 1, 500);
-        graphicsComponent.register("50percent", "player-ammo/50p.png", 1, 1, 500);
-        graphicsComponent.register("25percent", "player-ammo/25p.png", 1, 1, 500);
+        graphicsComponent.register("100percent", "game/player-ammo/100p");
+        graphicsComponent.register("75percent", "game/player-ammo/75p");
+        graphicsComponent.register("50percent", "game/player-ammo/50p");
+        graphicsComponent.register("25percent", "game/player-ammo/25p");
         graphicsComponent.play("100percent");
     }
 

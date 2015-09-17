@@ -18,7 +18,6 @@ import org.dyn4j.geometry.Rectangle;
  */
 public class TheEdge extends Entity {
     public static final String ID = "the_edge";
-    private final Texture texture;
     private final SpriteComponent spriteComponent;
 
     /*
@@ -26,9 +25,8 @@ public class TheEdge extends Entity {
      */
     public TheEdge() {
         super(ZIndex.BACKGROUND);
-        texture = new Texture(Gdx.files.internal(ID + ".png"));
 
-        spriteComponent = new SpriteComponent(texture);
+        spriteComponent = new SpriteComponent("game/environment/" + ID);
         addComponent(spriteComponent);
     }
 
@@ -55,7 +53,6 @@ public class TheEdge extends Entity {
 
     public TheEdge(Texture texture, Vector2 position) {
         super(ZIndex.BACKGROUND);
-        this.texture = texture;
         spriteComponent = new SpriteComponent(texture);
         addComponent(spriteComponent);
 

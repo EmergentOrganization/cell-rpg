@@ -16,10 +16,10 @@ public class ShieldComponent extends EntityComponent {
 
     public ShieldComponent() {
         graphicsComponent = new GraphicsComponent();
-        graphicsComponent.register("100percent", "shield/100p.png", 1, 1, 500);
-        graphicsComponent.register("75percent", "shield/75p.png", 1, 1, 500);
-        graphicsComponent.register("50percent", "shield/50p.png", 1, 1, 500);
-        graphicsComponent.register("25percent", "shield/25p.png", 1, 1, 500);
+        graphicsComponent.register("100percent", "game/shield/100p");
+        graphicsComponent.register("75percent", "game/shield/75p");
+        graphicsComponent.register("50percent", "game/shield/50p");
+        graphicsComponent.register("25percent", "game/shield/25p");
         graphicsComponent.play("100percent");
     }
 

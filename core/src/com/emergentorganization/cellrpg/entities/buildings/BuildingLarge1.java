@@ -17,28 +17,24 @@ import org.dyn4j.dynamics.World;
  */
 public class BuildingLarge1 extends Entity {
     public static final String ID = "building-large-1";
-    Texture texture;
 
     /*
     This constructor is needed for MapEditor. Do not remove.
      */
     public BuildingLarge1() {
-        texture = new Texture(ID + ".png");
-        addComponent(new SpriteComponent(texture));
-
+        addComponent(new SpriteComponent("game/buildings/" + ID));
     }
 
-    public BuildingLarge1(Texture texture, Vector2 position) {
-        this.texture = texture;
+    public BuildingLarge1(Vector2 position) {
         getFirstComponentByType(MovementComponent.class).setWorldPosition(position);
-
-        addComponent(new SpriteComponent(texture));
+        addComponent(new SpriteComponent("game/buildings/" + ID));
     }
 
     @Override
     public void added() {
         super.added();
-        float scale = texture.getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
+        float width = getFirstComponentByType(SpriteComponent.class).getSprite().getWidth();
+        float scale = width * getFirstComponentByType(MovementComponent.class).getScale().x;
         World world = getScene().getWorld();
         Body body = BodyLoader.fetch().generateBody(ID, scale);
         PhysicsComponent phys = new PhysicsComponent(world, body, Tag.STATIC);

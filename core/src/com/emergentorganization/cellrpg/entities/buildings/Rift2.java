@@ -15,30 +15,28 @@ import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
  */
 public class Rift2 extends Entity {
     public static final String ID = "rift2";
-    Texture texture;
 
     /*
     This constructor is needed for MapEditor. Do not remove.
      */
     public Rift2() {
         super(ZIndex.BUILDING);
-        texture = new Texture(ID + ".png");
-        addComponent(new SpriteComponent(texture));
+        addComponent(new SpriteComponent("game/environment/" + ID));
     }
 
-    public Rift2(Texture texture, Vector2 position) {
+    public Rift2(Vector2 position) {
         super(ZIndex.BUILDING);
-        this.texture = texture;
         getFirstComponentByType(MovementComponent.class).setWorldPosition(position);
 
-        addComponent(new SpriteComponent(texture));
+        addComponent(new SpriteComponent("game/environment/" + ID));
     }
 
     @Override
     public void added() {
         super.added();
 
-        float scale = texture.getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
+        float width = getFirstComponentByType(SpriteComponent.class).getSprite().getWidth();
+        float scale = width * getFirstComponentByType(MovementComponent.class).getScale().x;
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.STATIC);
         addComponent(phys);

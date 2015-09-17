@@ -16,12 +16,13 @@ import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
  */
 public class CharCiv1Blinker extends Character {
     private static final String ID = "char-civ1-blinker";
+    private static final float TPF = 1.2f;  // time per frame of animation
 
     /*
     This constructor is needed for MapEditor. Do not remove.
      */
     public CharCiv1Blinker() {
-        super(ID + ".png", 2, 1, 1.2f);
+        super(getAssetNames(), TPF);
 
         /*
         getMovementComponent().setSpeed(50);
@@ -41,12 +42,19 @@ public class CharCiv1Blinker extends Character {
         addComponent(input);*/
     }
 
+    public static String[] getAssetNames() {
+        return new String[]{
+                "game/char-civ1-blinker/0",
+                "game/char-civ1-blinker/1"
+        };
+    }
+
     @Override
     public void added() {
         super.added();
 
         final TextureRegion currentFrame = getGraphicsComponent().getCurrentFrame();
-        float scale = currentFrame.getTexture().getWidth() * getFirstComponentByType(MovementComponent.class).getScale().x;
+        float scale = currentFrame.getRegionWidth() * Scene.scale * 2; // Not sure why *2 is necessary after texture packing
         PhysicsComponent phys = new PhysicsComponent(getScene().getWorld(),
                 BodyLoader.fetch().generateBody(ID, scale), Tag.CHAR_CIV1_BLINKER);
         phys.setUserData(new CellUserData(this, Tag.CHAR_CIV1_BLINKER));

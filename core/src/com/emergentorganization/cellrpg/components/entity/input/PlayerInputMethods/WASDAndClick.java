@@ -80,16 +80,25 @@ public class WASDAndClick extends BaseInputMethod {
 
     private void handleMovement(MovementComponent mc){
         float maxSpeed = mc.getSpeed();
+        Vector2 velocity = new Vector2();
         if (Gdx.input.isKeyPressed(Input.Keys.W)){
-            mc.setVelocity(new Vector2(0, maxSpeed));
+            velocity.add(0, maxSpeed);
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
-            mc.setVelocity(new Vector2(0, -maxSpeed));
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)){
-            mc.setVelocity(new Vector2(-maxSpeed, 0));
+            velocity.add(0, -maxSpeed);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)){
+            velocity.add(-maxSpeed, 0);
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)){
-            mc.setVelocity(new Vector2(maxSpeed, 0));
-        } else {
+            velocity.add(maxSpeed, 0);
+        }
+
+        float len = velocity.len();
+        if (len == 0f){
             mc.stopMoving();
+        }
+        // TODO: Normalize if diagonals so that you don't go faster than maxSpeed
+        else {
+            mc.setVelocity(velocity);
         }
     }
 

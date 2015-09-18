@@ -27,6 +27,10 @@ public class SpriteComponent extends EntityComponent {
         this.sprite = CellRpg.fetch().getTextureAtlas().createSprite(fileName);
     }
 
+    /**
+     * Does not manage texture lifecycle
+     * @param texture
+     */
     public SpriteComponent(Texture texture) {
         this.sprite = new Sprite(texture);
     }
@@ -61,12 +65,5 @@ public class SpriteComponent extends EntityComponent {
     @Override
     public boolean shouldRender() {
         return true;
-    }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        sprite.getTexture().dispose();
     }
 }

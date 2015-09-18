@@ -125,11 +125,5 @@ public class GraphicsComponent extends SpriteComponent{
     public boolean shouldRender() {
         return true;
     }
-    @Override
-    public void dispose() {
-        super.dispose();
-
-        curFrame.getTexture().dispose();
-    }
 }
 

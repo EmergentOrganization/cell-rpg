@@ -14,6 +14,7 @@ import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.widget.*;
+import javafx.scene.control.Cell;
 
 import java.io.File;
 
@@ -138,7 +139,6 @@ public class MainMenu extends Scene {
         VisLabel subtitle = new VisLabel(subtitleText);
         table.add(subtitle).pad(0f, 0f, 5f, 0f).fill(true, false).row();
 
-
         VisTextButton arcadeMode = new VisTextButton("Bridge to Condemned Planiverse (arcade mode)");
         table.add(arcadeMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         arcadeMode.addListener(new ClickListener() {
@@ -150,16 +150,22 @@ public class MainMenu extends Scene {
             }
         });
 
-        VisTextButton storyMode = new VisTextButton("Bridge to Stable Planiverse (story mode)");
-        table.add(storyMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        storyMode.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
+        if (CellRpg.fetch().getConfiguration().isDevModeEnabled()) {
+            VisTextButton storyMode = new VisTextButton("Bridge to Stable Planiverse (story mode)");
+            table.add(storyMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+            storyMode.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
 
-                CellRpg.fetch().setScreen(new RPGScene());
-            }
-        });
+                    CellRpg.fetch().setScreen(new RPGScene());
+                }
+            });
+        }
+        else {
+            VisTextButton storyMode = new VisTextButton("Bridge to Stable Planiverse (Coming Soon)");
+            table.add(storyMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        }
 
         VisTextButton custom = new VisTextButton("Bridge to Custom Map");
         table.add(custom).pad(0f, 0f, 5f, 0f).fill(true, false).row();

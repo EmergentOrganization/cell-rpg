@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
@@ -110,7 +111,8 @@ public abstract class Scene implements Screen {
         physWorld.addListener(new StaticCollisionListener());
         //physWorld.shiftCoordinates(new Vector2(WORLD_WIDTH / 2d, WORLD_HEIGHT / 2d));
 
-        getUiStage().addActor(new ProfilerHUD(this));
+        if (CellRpg.fetch().getConfiguration().isDevModeEnabled())
+            getUiStage().addActor(new ProfilerHUD(this));
     }
 
     @Override

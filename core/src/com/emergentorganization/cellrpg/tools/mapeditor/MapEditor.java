@@ -2,7 +2,6 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -526,6 +525,14 @@ public class MapEditor extends Scene {
             }
 
             if (update) getGameCamera().update();
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL) && target != null) {
+                removeEntity(target.target);
+                PhysicsComponent phys = target.target.getFirstComponentByType(PhysicsComponent.class);
+                if (phys != null)
+                    getWorld().removeBody(phys.getBody());
+                setMapTarget(null);
+            }
         }
     }
 

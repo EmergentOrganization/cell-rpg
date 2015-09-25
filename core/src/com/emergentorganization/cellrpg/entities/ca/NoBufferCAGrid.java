@@ -14,40 +14,9 @@ import org.apache.logging.log4j.Logger;
 /**
  * Created by tylar on 2015-07-06.
  */
-public class CAGrid extends CAGridBase {
-    private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
-    private static final int TIME_PER_GENERATION = 100;  // ms allocated per generation (approximate, actual is slightly longer)
-    private static final int TIME_PER_FOLLOW = 1000; // ms between checks between grid movements
+public class NoBufferCAGrid extends CAGridBase {
 
-    private long timeToGenerate = TIME_PER_GENERATION;
-    private long lastFollowCheckTime = 0;
-
-    public long generation = 0;
-
-    private final Logger logger = LogManager.getLogger(getClass());
-
-    // size of grid in pixels
-    private int sx;
-    private int sy;
-
-    // size of grid in cells
-    private int w;
-    private int h;
-
-    // size of each cell
-    private int cellSize;
-
-    // location of grid center
-    private float gridOriginX = 0;
-    private float gridOriginY = 0;
-
-    private CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
-
-    private long lastGenerationTime = 0;
-    private BaseCell[][] states;
-    private Color[] stateColorMap;
-
-    public CAGrid(int sizeOfCells, ZIndex z_index, Color[] state_color_map) {
+    public NoBufferCAGrid(int sizeOfCells, ZIndex z_index, Color[] state_color_map) {
         /*
         @sizeOfCells     : display size of an individual cell
         @z_index         : ZIndex level to render the grid
@@ -58,40 +27,6 @@ public class CAGrid extends CAGridBase {
         stateColorMap = state_color_map;
 
         cellSize = sizeOfCells;
-    }
-
-    public long getGenerationNumber(){
-        return generation;
-    }
-
-    public void resetGenerationNumber(){
-        generation = 0;
-    }
-
-    public int getSizeX(){
-        return states.length;
-    }
-
-    public int getSizeY(){
-        return states[0].length;
-    }
-
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-
-        if (!getScene().isEditor()) {
-            long now = System.currentTimeMillis();
-            if (now - lastGenerationTime > TIME_PER_GENERATION) {
-                lastGenerationTime = now;
-                generate();
-                timeToGenerate = System.currentTimeMillis() - now;
-                //logger.info("new cell generation computed. t=" + timeToGenerate + "ms");
-            } else if (now - lastFollowCheckTime > TIME_PER_FOLLOW){
-                lastFollowCheckTime = now;
-                gridFollow(); // do this only in non-generation frames to even out computational requirements
-            }
-        }
     }
 
     @Override
@@ -118,16 +53,17 @@ public class CAGrid extends CAGridBase {
         //randomizeState();
     }
 
-    private void generate() {
+    @Override
+    protected void generate() {
+        super.generate();
         // generates the next frame of the CA
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
                 states[i][j].state = ca_rule(i, j, states);
             }
         }
-
         generation += 1;
-}
+    }
 
     /*
        ===========================================================
@@ -286,65 +222,9 @@ public class CAGrid extends CAGridBase {
         //return Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
     }
 
-
-
-    private float getXOrigin(Camera camera, float scale){
-        return -OFF_SCREEN_PIXELS + gridOriginX - camera.position.x/scale;
-    }
-    private float getXOrigin(){
-        Camera camera = getScene().getGameCamera();
-        float scale = getScene().scale;
-        return getXOrigin(camera, scale);
-    }
-    private float getYOrigin(){
-        Camera camera = getScene().getGameCamera();
-        float scale = getScene().scale;
-        return getYOrigin(camera, scale);
-    }
-    private float getYOrigin(Camera camera, float scale){
-        return -OFF_SCREEN_PIXELS + gridOriginY - camera.position.y/scale;
-    }
-
     @Override
-    public void debugRender(ShapeRenderer shapeRenderer) {
-        super.debugRender(shapeRenderer);
-
-        //NOTE: this is getting called... so maybe it's drawing in wrong location/scale?
-        //shapeRenderer.setProjectionMatrix(new Matrix4());
-
-        Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
-        Matrix4 oldMatrix = shapeRenderer.getProjectionMatrix();
-        shapeRenderer.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
-        //long before = System.currentTimeMillis();
-        Camera camera = getScene().getGameCamera();
-        float scale = getScene().scale;
-        ShapeRenderer.ShapeType oldType = shapeRenderer.getCurrentType();
-        shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-
-        float x;
-        float y;
-
-        // for setting origin (computed outside loop for efficiency++)
-        float x_origin = getXOrigin(camera, scale);
-        float y_origin = getYOrigin(camera, scale);
-
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                if (states[i][j].state != 0) {  // state must be > 0 else stateColorMap indexError
-                    // draw square
-                    shapeRenderer.setColor(stateColorMap[states[i][j].state-1]);
-
-                    x = i * (cellSize + 1) + x_origin;  // +1 for cell border
-                    y = j * (cellSize + 1) + y_origin;
-                    shapeRenderer.rect(x, y, cellSize, cellSize);
-                }
-            }
-        }
-        shapeRenderer.set(oldType);
-        shapeRenderer.setProjectionMatrix(oldMatrix);
-        Gdx.gl.glDisable(GL20.GL_BLEND);
-        //logger.info("renderTime=" + (System.currentTimeMillis()-before));
+    protected void reposition(){
+        gridFollow();
     }
 
     private void gridFollow(){

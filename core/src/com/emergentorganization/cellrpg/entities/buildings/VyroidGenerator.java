@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
-import com.emergentorganization.cellrpg.entities.ca.CAGrid;
+import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.physics.Tag;
@@ -55,7 +55,7 @@ public class VyroidGenerator extends Entity {
                 MovementComponent mc = getFirstComponentByType(MovementComponent.class);
                 float x = mc.getWorldPosition().x + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
                 float y = mc.getWorldPosition().y + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
-                CAGrid layr = scen.getLayer(CALayer.VYROIDS);
+                NoBufferCAGrid layr = scen.getLayer(CALayer.VYROIDS);
                 layr.stampState(pattern, x, y);
             } catch(ClassCastException err){
                 // scene is not CSScene

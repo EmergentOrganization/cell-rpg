@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.scenes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.entities.ca.CAGrid;
+import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.entities.characters.Player;
@@ -15,7 +15,7 @@ import java.util.Map;
  * Created by Tylar on 2015-07-14.
  */
 public class CAScene extends PausableScene {
-    private Map<CALayer, CAGrid> ca_layers = new EnumMap<CALayer, CAGrid>(CALayer.class);
+    private Map<CALayer, NoBufferCAGrid> ca_layers = new EnumMap<CALayer, NoBufferCAGrid>(CALayer.class);
     private final int RENDERS_PER_GLIDER_INSERT = 10;  // TODO: temporary for testing only!
     private int render_n = 0;  // TODO: temporary for testing only!
 
@@ -28,8 +28,8 @@ public class CAScene extends PausableScene {
 
             @Override
             public void onAdd() {
-                ca_layers.put(CALayer.VYROIDS, new CAGrid(11, ZIndex.VYROIDS, new Color[] {new Color(1f, .87f, .42f, 1f)}));
-                ca_layers.put(CALayer.ENERGY,  new CAGrid(11, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .1f)}));
+                ca_layers.put(CALayer.VYROIDS, new NoBufferCAGrid(11, ZIndex.VYROIDS, new Color[] {new Color(1f, .87f, .42f, 1f)}));
+                ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(11, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .1f)}));
                 addEntity(ca_layers.get(CALayer.VYROIDS));
                 addEntity(ca_layers.get(CALayer.ENERGY));
             }
@@ -55,7 +55,7 @@ public class CAScene extends PausableScene {
     }
 
     private void addRandomSpawn(){
-        CAGrid vyroidLayer = ca_layers.get(CALayer.VYROIDS);
+        NoBufferCAGrid vyroidLayer = ca_layers.get(CALayer.VYROIDS);
         render_n = 0;
         int[][] testPattern = {
                 {0,1,0},
@@ -68,7 +68,7 @@ public class CAScene extends PausableScene {
         //System.out.println("inserting glider @ " + x + "," + y);
     }
 
-    public CAGrid getLayer(CALayer layer){
+    public NoBufferCAGrid getLayer(CALayer layer){
         return ca_layers.get(layer);
     }
 }

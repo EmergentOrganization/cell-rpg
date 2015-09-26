@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.components.entity;
 
 import com.emergentorganization.cellrpg.components.EntityComponent;
+import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
 import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.scenes.CALayer;
@@ -77,7 +78,7 @@ public class CACollisionComponent extends EntityComponent {
 
     private boolean checkCollideAt(float x, float y){
         CAScene caScene = (CAScene) getEntity().getScene();
-        NoBufferCAGrid layer = caScene.getLayer(collidingLayer);
+        CAGridBase layer = caScene.getLayer(collidingLayer);
         Integer state = new Integer(layer.getState(x, y));
 
         if (collidingStates.contains(state)){

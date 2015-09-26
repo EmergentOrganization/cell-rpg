@@ -44,7 +44,7 @@ public abstract class CAGridBase extends Entity {
     protected CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
 
     protected long lastGenerationTime = 0;
-    protected BaseCell[][] states;
+    protected TwoStateCell[][] states;
     protected Color[] stateColorMap;
 
     public CAGridBase(int sizeOfCells, ZIndex z_index, Color[] state_color_map){
@@ -120,11 +120,11 @@ public abstract class CAGridBase extends Entity {
 
         logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
 
-        states = new BaseCell[w][h];
+        states = new TwoStateCell[w][h];
         // init states. ?required?
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j] = new BaseCell(0);
+                states[i][j] = new TwoStateCell(0);
             }
         }
         // init states for testing
@@ -165,23 +165,13 @@ public abstract class CAGridBase extends Entity {
         ShapeRenderer.ShapeType oldType = shapeRenderer.getCurrentType();
         shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
 
-        float x;
-        float y;
-
         // for setting origin (computed outside loop for efficiency++)
         float x_origin = getXOrigin(camera, scale);
         float y_origin = getYOrigin(camera, scale);
 
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                if (states[i][j].state != 0) {  // state must be > 0 else stateColorMap indexError
-                    // draw square
-                    shapeRenderer.setColor(stateColorMap[states[i][j].state-1]);
-
-                    x = i * (cellSize + 1) + x_origin;  // +1 for cell border
-                    y = j * (cellSize + 1) + y_origin;
-                    shapeRenderer.rect(x, y, cellSize, cellSize);
-                }
+                renderCell(i, j, shapeRenderer, x_origin, y_origin);
             }
         }
         shapeRenderer.set(oldType);
@@ -189,6 +179,9 @@ public abstract class CAGridBase extends Entity {
         Gdx.gl.glDisable(GL20.GL_BLEND);
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
+
+    protected abstract void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
+                                       final float x_origin, final float y_origin);
 
     private void checkSize(int size) {
         if (size % 2 < 1) {
@@ -235,30 +228,25 @@ public abstract class CAGridBase extends Entity {
         return getState(row, col);
     }
 
-    private int getState(final int row, final int col) {
-        // returns state of given location, returns 0 for out-of-bounds
-        return getState(row, col, states);
-    }
-
-    private int getState(final int row, final int col, final int[][] cellStates) {
+    protected int getState(final int row, final int col) {
         // returns state of given location, returns 0 for out-of-bounds
         try {
-            return cellStates[row][col];
+            return _getState(row,col);
         } catch (IndexOutOfBoundsException err) {
             return 0;
         }
     }
 
-    private int getState(final int row, final int col, final BaseCell[][] cellStates) {
-        // returns state of given location, returns 0 for out-of-bounds
-        try {
-            return cellStates[row][col].state;
-        } catch (IndexOutOfBoundsException err) {
-            return 0;
-        }
+    protected int _getState(final int row, final int col){
+        // returns state, throws exception if out of bounds
+        return states[row][col].getState();
     }
 
-    private int[][] getNeighborhood(final int row, final int col, final int size, final int[][] cellStates) {
+    protected void setState(final int row, final int col, final int newVal){
+        states[row][col].setState(newVal);
+    }
+
+    private int[][] getNeighborhood(final int row, final int col, final int size) {
         // returns matrix of neighborhood around (row, col) with edge size "size"
         // size MUST be odd! (not checked for efficiency)
 
@@ -269,13 +257,13 @@ public abstract class CAGridBase extends Entity {
             int neighbor_i = i - row + radius;
             for (int j = col - radius; j <= col + radius; j++) {
                 int neighbor_j = j - col + radius;
-                neighbors[neighbor_i][neighbor_j] = getState(i, j, cellStates);
+                neighbors[neighbor_i][neighbor_j] = getState(i, j);
             }
         }
         return neighbors;
     }
 
-    private int getNeighborhoodSum(final int row, final int col, final int size, final BaseCell[][] cellStates) {
+    private int getNeighborhoodSum(final int row, final int col, final int size) {
         // returns sum of all states in neighborhood
         // size MUST be odd! (not checked for efficiency)
         final boolean SKIP_SELF = true;
@@ -288,7 +276,7 @@ public abstract class CAGridBase extends Entity {
                 if (SKIP_SELF && i - row + radius == j - col + radius && i - row + radius == radius) {
                     continue;
                 } else {
-                    sum += getState(i, j, cellStates);
+                    sum += getState(i, j);
                 }
             }
         }
@@ -309,7 +297,7 @@ public abstract class CAGridBase extends Entity {
                 if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius) {
                     continue;
                 } else {
-                    sum += getState(i, j, cellStates) * kernel[kernel_i][kernel_j];
+                    sum += getState(i, j) * kernel[kernel_i][kernel_j];
                 }
             }
         }
@@ -332,9 +320,12 @@ public abstract class CAGridBase extends Entity {
                     continue;
                 } else {
                     try {
-                        sum += getState(i, j, cellStates) * kernel[kernel_i][kernel_j][getState(i, j, cellStates)];
+                        sum += getState(i, j) * kernel[kernel_i][kernel_j][getState(i, j)];
                     } catch (IndexOutOfBoundsException err) {
-                        throw new IndexOutOfBoundsException("kernel has no value for [" + kernel_i + "," + kernel_j + "," + getState(i, j, cellStates) + "]");
+                        throw new IndexOutOfBoundsException(
+                                "kernel has no value for [" + kernel_i + "," + kernel_j + ","
+                                + getState(i, j) + "]"
+                        );
                     }
                 }
             }
@@ -352,9 +343,9 @@ public abstract class CAGridBase extends Entity {
         // computes the rule at given row, col in cellStates array, returns result
 
         // Conway's Game of Life:
-        switch (getNeighborhoodSum(row, col, 3, cellStates)) {
+        switch (getNeighborhoodSum(row, col, 3)) {
             case 2:
-                return cellStates[row][col].state;
+                return cellStates[row][col].getState();
             case 3:
                 return 1;
             default:
@@ -428,7 +419,7 @@ public abstract class CAGridBase extends Entity {
         //System.out.println("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
         for (int i = 0; i < pattern.length; i++) {
             for (int j = 0; j < pattern[0].length; j++) {
-                cellStates[row + i][col + j].state = pattern[i][j];
+                cellStates[row + i][col + j].setState(pattern[i][j]);
             }
         }
     }
@@ -472,7 +463,7 @@ public abstract class CAGridBase extends Entity {
 
     }
 
-    private BaseCell getEdgeState(int x){
+    private TwoStateCell getEdgeState(int x){
         // returns cell state in position x on a newly added edge
         int state;
         if (edgeSpawner == CAEdgeSpawnType.RANDOM_SPARSE) {
@@ -486,7 +477,7 @@ public abstract class CAGridBase extends Entity {
         } else {
             throw new IllegalStateException("edgeSpawn type not recognized");
         }
-        return new BaseCell(state);  // TODO: this should be constructor based on desired cell type
+        return new TwoStateCell(state);  // TODO: this should be constructor based on desired cell type
     }
 
     private int getRandomState(float percentLive){
@@ -556,7 +547,7 @@ public abstract class CAGridBase extends Entity {
     private void randomizeState() {
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j].state = Math.round(Math.round(Math.random()));// round twice? one is just a cast (I think)
+                states[i][j].setState(Math.round(Math.round(Math.random())));// round twice? one is just a cast (I think)
             }
         }
     }

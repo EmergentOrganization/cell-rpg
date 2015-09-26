@@ -1,15 +1,8 @@
 package com.emergentorganization.cellrpg.entities.ca;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.entities.ZIndex;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Created by tylar on 2015-07-06.
@@ -31,9 +24,21 @@ public class NoBufferCAGrid extends CAGridBase {
         // generates the next frame of the CA
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j].state = ca_rule(i, j, states);
+                states[i][j].setState(ca_rule(i, j, states));
             }
         }
-        generation += 1;
+    }
+
+    @Override
+    protected void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
+                            final float x_origin, final float y_origin){
+        if (states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
+            // draw square
+            shapeRenderer.setColor(stateColorMap[states[i][j].getState()-1]);
+
+            float x = i * (cellSize + 1) + x_origin;  // +1 for cell border
+            float y = j * (cellSize + 1) + y_origin;
+            shapeRenderer.rect(x, y, cellSize, cellSize);
+        }
     }
 }

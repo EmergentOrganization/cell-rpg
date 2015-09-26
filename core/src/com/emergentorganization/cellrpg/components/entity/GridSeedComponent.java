@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.components.entity;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.EntityComponent;
+import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
 import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.Scene;
@@ -86,7 +87,7 @@ public class GridSeedComponent extends EntityComponent {
         // moveComponent.getRotationRad();
     }
 
-    private NoBufferCAGrid getGrid(){
+    private CAGridBase getGrid(){
         Scene scene = getEntity().getScene();
         if (scene instanceof CAScene) {
             CAScene caScene = (CAScene) scene;
@@ -98,7 +99,7 @@ public class GridSeedComponent extends EntityComponent {
 
     private void seedIt(){
         // puts the seed into the grid
-        NoBufferCAGrid seedGrid = getGrid();
+        CAGridBase seedGrid = getGrid();
         long currentGen = seedGrid.generation;
         if ( currentGen - lastSeededGeneration >= reseedPeriod){
             lastSeededGeneration = currentGen;

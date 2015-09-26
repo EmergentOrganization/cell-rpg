@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.BaseInputMethod;
-import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.DirectFollowAndPathInputMethod;
-import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.PathInputMethod;
-import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.WASDAndClick;
+import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.*;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +25,7 @@ public class PlayerInputComponent extends InputComponent {
     public PlayerInputComponent(Camera camera) {
         this.camera = camera;
         inputChoices = new BaseInputMethod[] {
+                new WASDAndArrows(this),
                 new WASDAndClick(this),
                 new PathInputMethod(this),
                 new DirectFollowAndPathInputMethod(this)

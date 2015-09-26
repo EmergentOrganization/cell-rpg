@@ -12,13 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
-import com.emergentorganization.cellrpg.scenes.ArcadeScene;
 import com.emergentorganization.cellrpg.tools.CoordinateRecorder;
 import com.kotcrab.vis.ui.widget.*;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.ArrayList;
 

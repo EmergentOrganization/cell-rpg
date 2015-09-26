@@ -14,7 +14,6 @@ import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.widget.*;
-import javafx.scene.control.Cell;
 
 import java.io.File;
 

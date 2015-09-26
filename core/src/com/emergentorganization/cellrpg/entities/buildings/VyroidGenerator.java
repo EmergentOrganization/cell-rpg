@@ -2,17 +2,16 @@ package com.emergentorganization.cellrpg.entities.buildings;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.entity.GridSeedComponent;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
 import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
-import com.emergentorganization.cellrpg.entities.CAGrid;
+import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
+import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
-import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
 
 /**
@@ -54,7 +53,7 @@ public class VyroidGenerator extends Entity {
                 MovementComponent mc = getFirstComponentByType(MovementComponent.class);
                 float x = mc.getWorldPosition().x + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
                 float y = mc.getWorldPosition().y + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
-                CAGrid layr = scen.getLayer(CALayer.VYROIDS);
+                CAGridBase layr = scen.getLayer(CALayer.VYROIDS);
                 layr.stampState(pattern, x, y);
             } catch(ClassCastException err){
                 // scene is not CSScene

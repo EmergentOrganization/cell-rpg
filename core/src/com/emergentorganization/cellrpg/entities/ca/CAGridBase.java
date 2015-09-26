@@ -44,7 +44,7 @@ public abstract class CAGridBase extends Entity {
     protected CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
 
     protected long lastGenerationTime = 0;
-    protected TwoStateCell[][] states;
+    protected BaseCell[][] states;
     protected Color[] stateColorMap;
 
     public CAGridBase(int sizeOfCells, ZIndex z_index, Color[] state_color_map){
@@ -120,11 +120,15 @@ public abstract class CAGridBase extends Entity {
 
         logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
 
-        states = new TwoStateCell[w][h];
+        initStates();
+    }
+
+    protected void initStates(){
+        states = new BaseCell[w][h];
         // init states. ?required?
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j] = new TwoStateCell(0);
+                states[i][j] = newCell(0);
             }
         }
         // init states for testing
@@ -220,6 +224,7 @@ public abstract class CAGridBase extends Entity {
         }
     }
 
+    public abstract int getLastState(final int row, final int col);
 
     public int getState(final float x, final float y){
         // returns state of cell nearest to given world-coordinates
@@ -276,7 +281,7 @@ public abstract class CAGridBase extends Entity {
                 if (SKIP_SELF && i - row + radius == j - col + radius && i - row + radius == radius) {
                     continue;
                 } else {
-                    sum += getState(i, j);
+                    sum += getLastState(i, j);
                 }
             }
         }
@@ -339,13 +344,13 @@ public abstract class CAGridBase extends Entity {
        ============================================================
      */
 
-    protected int ca_rule(final int row, final int col, final BaseCell[][] cellStates) {
+    protected int ca_rule(final int row, final int col) {
         // computes the rule at given row, col in cellStates array, returns result
 
         // Conway's Game of Life:
         switch (getNeighborhoodSum(row, col, 3)) {
             case 2:
-                return cellStates[row][col].getState();
+                return getState(row, col);
             case 3:
                 return 1;
             default:
@@ -383,7 +388,7 @@ public abstract class CAGridBase extends Entity {
         //center the pattern
         row -= pattern.length/2;
         col -= pattern[0].length/2;
-        return stampState(pattern, row, col, states);
+        return stampState(pattern, row, col);
     }
 
     public long stampState(final int[][] pattern, final float x, final float y){
@@ -391,11 +396,6 @@ public abstract class CAGridBase extends Entity {
     }
 
     public long stampState(final int[][] pattern, final int row, final int col) {
-        // stamps a pattern into specific grid location
-        return stampState(pattern, row, col, states);
-    }
-
-    public long stampState(final int[][] pattern, final int row, final int col, final BaseCell[][] cellStates) {
         // stamps a pattern onto the state with top-left corner @ (row, col)
         // returns estimated UNIX time when the pattern will be applied (@ next generation)
         if (       row > 0
@@ -404,7 +404,7 @@ public abstract class CAGridBase extends Entity {
                 && col < states[0].length-pattern[0].length) {
 
             // TODO: add pattern, row, col to queue which will be handled, call _stampState during next generation
-            _stampState(pattern, row, col, cellStates);
+            _stampState(pattern, row, col);
 
             return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
 
@@ -414,12 +414,12 @@ public abstract class CAGridBase extends Entity {
         }
     }
 
-    private void _stampState(final int[][] pattern, final int row, final int col, final BaseCell[][] cellStates) {
+    private void _stampState(final int[][] pattern, final int row, final int col) {
         // stamps pattern immediately into given cellStates
         //System.out.println("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
         for (int i = 0; i < pattern.length; i++) {
             for (int j = 0; j < pattern[0].length; j++) {
-                cellStates[row + i][col + j].setState(pattern[i][j]);
+                states[row + i][col + j].setState(pattern[i][j]);
             }
         }
     }
@@ -460,10 +460,13 @@ public abstract class CAGridBase extends Entity {
             addColRight();
             dX = gridOriginX - camera.position.x/scale;
         }
-
     }
 
-    private TwoStateCell getEdgeState(int x){
+    protected BaseCell newCell(int init_state){
+        return new BaseCell(init_state);
+    }
+
+    private BaseCell getEdgeState(int x){
         // returns cell state in position x on a newly added edge
         int state;
         if (edgeSpawner == CAEdgeSpawnType.RANDOM_SPARSE) {
@@ -477,7 +480,7 @@ public abstract class CAGridBase extends Entity {
         } else {
             throw new IllegalStateException("edgeSpawn type not recognized");
         }
-        return new TwoStateCell(state);  // TODO: this should be constructor based on desired cell type
+        return newCell(state);  // TODO: this should be constructor based on desired cell type
     }
 
     private int getRandomState(float percentLive){

@@ -1,11 +1,11 @@
 package com.emergentorganization.cellrpg.scenes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.entities.ca.BufferSwapCAGrid;
+import com.emergentorganization.cellrpg.entities.ca.BufferedCAGrid;
 import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
-import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.ZIndex;
+import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 
@@ -30,10 +30,10 @@ public class CAScene extends PausableScene {
 
             @Override
             public void onAdd() {
-                ca_layers.put(CALayer.VYROIDS, new BufferSwapCAGrid(
+                ca_layers.put(CALayer.VYROIDS, new BufferedCAGrid(
                         11, ZIndex.VYROIDS, new Color[] {new Color(1f, .87f, .42f, 1f)}
                 ));
-                ca_layers.put(CALayer.ENERGY,  new BufferSwapCAGrid(
+                ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(
                         11, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .1f)}
                 ));
                 addEntity(ca_layers.get(CALayer.VYROIDS));

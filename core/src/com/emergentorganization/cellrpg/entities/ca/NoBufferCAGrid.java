@@ -24,9 +24,14 @@ public class NoBufferCAGrid extends CAGridBase {
         // generates the next frame of the CA
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                states[i][j].setState(ca_rule(i, j, states));
+                states[i][j].setState(ca_rule(i, j));
             }
         }
+    }
+
+    public int getLastState(final int row, final int col){
+        // with no buffer there is no last state, just use current
+        return getState(row, col);
     }
 
     @Override

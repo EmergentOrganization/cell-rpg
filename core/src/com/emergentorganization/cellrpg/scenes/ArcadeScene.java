@@ -5,7 +5,8 @@ import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.ScoreHUD;
-import com.emergentorganization.cellrpg.entities.buildings.VyroidGenerator;
+import com.emergentorganization.cellrpg.entities.ZIndex;
+import com.emergentorganization.cellrpg.entities.buildings.VyroidGenEntity;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
@@ -53,11 +54,11 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		addArcadeEntity(ent, 0, 0);
 	}
 
-	private VyroidGenerator addGenerator(){
+	private VyroidGenEntity addGenerator(){
 		// adds another vyroid generator
 		float x = 0;
 		float y = 0;
-		VyroidGenerator gen = new VyroidGenerator();
+		VyroidGenEntity gen = new VyroidGenEntity(ZIndex.BUILDING);
 		addArcadeEntity(gen, x, y, .0000001f, .0000001f);
 		lastGenSpawnTime = System.currentTimeMillis();
 		logger.info("new vyroid gen added!");

@@ -1,8 +1,6 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.*;
@@ -12,15 +10,18 @@ import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.CALayer;
-import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by tylar on 6/2/15.
  */
 public class Player extends Character {
+    private final Logger logger = LogManager.getLogger(getClass());
+
     private static final String ID = "char-player";  // ID for getting spritesheet and collider
     private static final float TPF = 0.2f;  // time per frame of animation
 
@@ -139,6 +140,7 @@ public class Player extends Character {
         super.fireEvent(event);
         switch(event){
             case SHIELD_DOWN:
+                logger.info("game over");
                 // player is dead!
                 String message;
                 if (getScene() instanceof arcadeScore){

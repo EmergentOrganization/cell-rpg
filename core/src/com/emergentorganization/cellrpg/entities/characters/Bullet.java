@@ -34,9 +34,8 @@ public class Bullet extends Entity {
         cacc.addCollision(
             0,
             new int[][] {
-                    {0,1,0},
-                    {1,0,1},
-                    {0,1,0},
+                    {1,1},
+                    {1,1}
             },
             CALayer.ENERGY
         );

@@ -15,10 +15,11 @@ public class WeaponComponent extends EntityComponent {
     // TODO: weapon class
     private float speed = 100f;
     private float maxDist = 50f;
-    private long delay = 200;
+    private long delay = 100;
 
-    private final int SHOT_CHARGE_COST = 25;
-    private final float RECHARGE_RATE = 20f;
+    private final int SHOT_CHARGE_COST = 30;
+    private final float RECHARGE_RATE_DELTA = 5f;
+    private float rechargeRate = 20f;
     private float recharge_remainder = 0f;
 
     private int charge = 100;
@@ -35,6 +36,30 @@ public class WeaponComponent extends EntityComponent {
         graphicsComponent.register("50percent", "game/player-ammo/50p");
         graphicsComponent.register("25percent", "game/player-ammo/25p");
         graphicsComponent.play("100percent");
+    }
+
+    public void increaseRechargeRate(final int numberOfTimes){
+        for (int i = 0; i < numberOfTimes; i++){
+            increaseRechargeRate();
+        }
+    }
+
+    public void decreaseRechargeRate(final int numberOfTimes){
+        for (int i = 0; i < numberOfTimes; i++){
+            decreaseRechargeRate();
+        }
+    }
+
+    public float getRechargeRate(){
+        return rechargeRate;
+    }
+
+    public void decreaseRechargeRate(){
+        rechargeRate -= RECHARGE_RATE_DELTA;
+    }
+
+    public void increaseRechargeRate(){
+        rechargeRate += RECHARGE_RATE_DELTA;
     }
 
     public int getCharge(){
@@ -72,7 +97,7 @@ public class WeaponComponent extends EntityComponent {
 
     public void recharge(float rechargeTime){
         // applies recharge over given time
-        recharge_remainder += rechargeTime*RECHARGE_RATE;
+        recharge_remainder += rechargeTime* rechargeRate;
         charge += (int)recharge_remainder;  // add whole numbers to int
         recharge_remainder %= 1;  // save remainder for later
         charge_changed = true;

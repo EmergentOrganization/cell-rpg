@@ -8,6 +8,7 @@ import com.emergentorganization.cellrpg.entities.ScoreHUD;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.entities.buildings.VyroidGenEntity;
 import com.emergentorganization.cellrpg.entities.characters.Player;
+import com.emergentorganization.cellrpg.entities.WeaponPowerup;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import org.apache.logging.log4j.LogManager;
@@ -62,6 +63,12 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		addArcadeEntity(gen, x, y, .0000001f, .0000001f);
 		lastGenSpawnTime = System.currentTimeMillis();
 		logger.info("new vyroid gen added!");
+
+		// add weapon powerup TODO: at random position on screen (currently just near origin)
+		x = (float)Math.random()*40-20;
+		y = (float)Math.random()*40-20;
+		WeaponPowerup wp = new WeaponPowerup();
+		addArcadeEntity(wp, x, y, .01f, .01f);
 		return gen;
 	}
 

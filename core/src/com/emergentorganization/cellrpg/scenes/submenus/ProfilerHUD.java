@@ -31,6 +31,7 @@ public class ProfilerHUD extends Actor {
     private VisLabel yLabel;
     private VisLabel shieldLabel;
     private VisLabel weaponChargeLabel;
+    private VisLabel weaponRechargeLabel;
 
     private Runtime runtime = Runtime.getRuntime();
 
@@ -86,6 +87,11 @@ public class ProfilerHUD extends Actor {
         tabl.add(weaponChargeLabel);
         tabl.add("weaponCharge");
 
+        tabl.row();
+        weaponRechargeLabel = new VisLabel("?");
+        tabl.add(weaponRechargeLabel);
+        tabl.add("wpnRechargeRate");
+
         stage.addActor(profilerWindow);
     }
 
@@ -110,12 +116,19 @@ public class ProfilerHUD extends Actor {
         yLabel.setText(Float.toString(pos.y));
 
         try {  // updates requiring getPlayer() here:
+            WeaponComponent wc = parentScene.getPlayer().getFirstComponentByType(WeaponComponent.class);
+            ShieldComponent sc = parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class);
+
             shieldLabel.setText(
-                    Float.toString(parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).getHealth())
+                    Float.toString(sc.getHealth())
             );
 
             weaponChargeLabel.setText(
-                    Integer.toString(parentScene.getPlayer().getFirstComponentByType(WeaponComponent.class).getCharge())
+                Integer.toString(wc.getCharge())
+            );
+
+            weaponRechargeLabel.setText(
+                Float.toString(wc.getRechargeRate())
             );
         } catch(UnsupportedOperationException err){
             // cannot getPlayer, no player in scene, move along

@@ -31,10 +31,10 @@ public class CAScene extends PausableScene {
             @Override
             public void onAdd() {
                 ca_layers.put(CALayer.VYROIDS, new BufferedCAGrid(
-                        11, ZIndex.VYROIDS, new Color[] {new Color(1f, .87f, .42f, 1f), new Color(1f, .4f, .8f, .8f)}
+                        3, ZIndex.VYROIDS, new Color[] {new Color(1f, .87f, .42f, 1f), new Color(1f, .4f, .8f, .8f)}
                 ));
                 ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(
-                        11, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}
+                        35, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}
                 ));
                 addEntity(ca_layers.get(CALayer.VYROIDS));
                 addEntity(ca_layers.get(CALayer.ENERGY));

@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  * Created by BrianErikson on 6/7/2015.
  */
 public class CellRpg extends Game {
-    public static final String VERSION = "0.3.3";
+    public static final String VERSION = "0.3.4";
     private static final String ATLAS_PATH = "textures/TexturePack.atlas";
 
     // private FPSLogger fps = new FPSLogger();

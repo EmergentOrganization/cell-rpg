@@ -123,6 +123,10 @@ public abstract class CAGridBase extends Entity {
         initStates();
     }
 
+    public int getCellSize(){
+        return cellSize;
+    }
+
     protected void initStates(){
         states = new BaseCell[w][h];
         // init states. ?required?

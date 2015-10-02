@@ -10,6 +10,7 @@ import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
 import com.emergentorganization.cellrpg.scenes.CALayer;
+import com.emergentorganization.cellrpg.scenes.CAScene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.physics.BodyLoader;
@@ -67,25 +68,6 @@ public class Player extends Character {
 
     private void initPlayer(){
         addComponent(new WeaponComponent());
-
-        initCAGrid();
-
-        CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS);
-        // bullet trail energy layer effect
-        cacc.addCollision(
-                1,
-                EntityEvents.VYROID_DAMAGE
-        );
-        cacc.addCollision(
-                1,
-                new int[][] {
-                        {0,0,0},
-                        {0,0,0},
-                        {0,0,0}
-                },
-                CALayer.VYROIDS
-        );
-        addComponent(cacc);
     }
 
     private void initCAGrid(){
@@ -128,6 +110,40 @@ public class Player extends Character {
         addComponent(new ShieldComponent());
 
         //addComponent(new DialogComponent());
+
+        CAScene scene =  (CAScene) getScene();
+        if (scene instanceof CAScene) {
+            // NOTE: this uses only x-dimension; assumes width ~= height
+            int collideRadius = 0; //TODO: (int) (getGraphicsComponent().getSize().x*scale);
+            int collideGrid;
+            try {
+                collideGrid = scene.getLayer(CALayer.VYROIDS).getCellSize();
+            } catch(NullPointerException err){
+                collideGrid = 1;
+            }
+            initCAGrid();
+
+            CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS);
+            // bullet trail energy layer effect
+            cacc.addCollision(
+                    1,
+                    EntityEvents.VYROID_DAMAGE,
+                    collideRadius,
+                    collideGrid
+            );
+            cacc.addCollision(
+                    1,
+                    new int[][]{
+                            {0, 0, 0},
+                            {0, 0, 0},
+                            {0, 0, 0}
+                    },
+                    CALayer.VYROIDS,
+                    collideRadius,
+                    collideGrid
+            );
+            addComponent(cacc);
+        }
     }
 
     @Override

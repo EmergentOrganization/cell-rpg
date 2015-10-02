@@ -12,6 +12,9 @@ import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by BrianErikson on 6/7/2015.
  */
@@ -26,6 +29,8 @@ public class CellRpg extends Game {
     private AssetManager assetManager;
     private TextureAtlas textureAtlas;
     private Config config;
+
+    private Screen oldScreen;
 
     public CellRpg() {
         singleton = this;
@@ -69,9 +74,18 @@ public class CellRpg extends Game {
 
     @Override
     public void setScreen(Screen screen) {
-        if (getScreen() != null)
-            getScreen().dispose();
+        oldScreen = getScreen();
         super.setScreen(screen);
+
+        if (oldScreen != null) {
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    oldScreen.dispose();
+                }
+            }, 2 * 1000);
+        }
     }
 
     @Override

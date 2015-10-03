@@ -43,7 +43,11 @@ Now that you have all of the dependencies you can make and run a build using `./
 ### import into Intellij
 Finally, import the project **as a Gradle Project** in your favorite IDE. [Follow LibGDX's import guide](https://github.com/libgdx/libgdx/wiki/Gradle-and-Eclipse) to import the project. That particular link is for Eclipse, but if you look on the table of contents, you will see setup guides for various other IDEs.
 
-You should now be able to run the desktop launcher from Intellij.
+#### run configurations:
+
+* desktop game (application): `workingDir=\android\assets`, `mainClass=desktop.DesktopLauncher`
+* texturePacker (application): `workingDir=\`, `mainClass=desktop.TexPacker`
+* jUnit test suite (JUnit): `workingDir=\`, `mainClass=desktop.AllTestSuite`
 
 ### Troubleshooting
 > `JDK Required: 'tools.jar' seems to be not in IDEA classpath. Please ensure JAVA_HOME points to JDK rather than JRE.`

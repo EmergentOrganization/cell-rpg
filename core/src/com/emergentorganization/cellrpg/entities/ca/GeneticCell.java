@@ -9,7 +9,6 @@ import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeType;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.GexfImpl;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.StaxGraphWriter;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.data.AttributeListImpl;
-import it.uniroma1.dis.wsngroup.gexf4j.core.viz.NodeShape;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -44,6 +43,7 @@ public class GeneticCell extends BaseCell{
     }
 
     public void test() {
+        initGraph();
         Graph graph = gexf.getGraph();
         graph.setDefaultEdgeType(EdgeType.DIRECTED)
                 .setMode(Mode.STATIC);

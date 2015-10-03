@@ -4,6 +4,7 @@ package com.emergentorganization.cellrpg.scenes;
  * Created by BrianErikson on 6/2/2015.
  */
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;

@@ -35,7 +35,6 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
-
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -43,6 +42,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:0.4.4-BETA'
     }
 }
 
@@ -59,6 +59,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
+        compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:0.4.4-BETA'
     }
 }
 
@@ -73,6 +74,7 @@ project(":ios") {
         compile "org.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+        compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:0.4.4-BETA'
     }
 }
 
@@ -91,6 +93,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion:sources"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.10.0:sources"
         compile "com.kotcrab.vis:vis-ui:0.7.7:sources"
+        compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:0.4.4-BETA'
     }
 }
 
@@ -107,6 +110,7 @@ project(":core") {
         compile "com.googlecode.json-simple:json-simple:1.1.1"
         compile "org.apache.logging.log4j:log4j-api:2.3"
         compile "org.apache.logging.log4j:log4j-core:2.3"
+        compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:0.4.4-BETA'
     }
 }
 

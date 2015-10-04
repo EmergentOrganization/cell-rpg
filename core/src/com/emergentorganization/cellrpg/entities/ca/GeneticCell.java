@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.entities.ca;
 
+import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.CellRpg;
 import it.uniroma1.dis.wsngroup.gexf4j.core.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
@@ -27,9 +28,24 @@ import java.util.List;
 public class GeneticCell extends BaseCell{
     private final Logger logger = LogManager.getLogger(getClass());
 
+    public enum inflowNodes{
+        ALWAYS_ON
+    }
+    public enum outflowNodes{
+        COLOR_LIGHTEN,
+        COLOR_DARKEN,
+        COLOR_ADD_R,
+        COLOR_ADD_G,
+        COLOR_ADD_B,
+        COLOR_SUB_R,
+        COLOR_SUB_G,
+        COLOR_SUB_B
+    }
     public enum nodeAttribute{
         ACTIVATION_VALUE
     }
+    static final Color DEFAULT_COLOR = new Color(.7f,.7f,.7f,1f);
+    private Color color = new Color(DEFAULT_COLOR);
     private Gexf gexf;
     private Graph graph;
     private static AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
@@ -74,13 +90,18 @@ public class GeneticCell extends BaseCell{
                 .setMode(Mode.STATIC);
     }
 
+    public Color getColor(){
+        return color;
+    }
+
     public void tick() throws KeySelectorException{
         // computes one cycle through the DGRN
         HashMap<String, Integer> nodeUpdates = new HashMap<String, Integer>();
         for (Edge edge : graph.getAllEdges()){
             try{
                 if (Integer.parseInt(getNodeAttributeValue(
-                        edge.getSource(), nodeAttribute.ACTIVATION_VALUE.toString())) > 0){
+                        edge.getSource(), nodeAttribute.ACTIVATION_VALUE.toString())) > 0
+                        && !isInflowNode(edge.getTarget().getId())){
 
 //                      // FOR CUMULATIVE DGRN
 //                    int i = getNodeAttributeIndex(edge.getTarget(), nodeAttribute.ACTIVATION_VALUE.toString());
@@ -111,6 +132,7 @@ public class GeneticCell extends BaseCell{
         }
         // now apply updates
         for (String key : nodeUpdates.keySet()){
+            handleOutputNodes(key, nodeUpdates.get(key));
             //try {
                 String newVal = Integer.toString(nodeUpdates.get(key));
                 setNodeAttributeValue(
@@ -124,14 +146,48 @@ public class GeneticCell extends BaseCell{
         }
     }
 
+    public boolean isInflowNode(String id){
+        // returns true if given id is id of inflow node
+        for (inflowNodes inNode : inflowNodes.values()){
+            if (inNode.toString() == id){
+                return true;
+            }
+        } // else
+        return false;
+    }
+
+    public void handleOutputNodes(String key, int value){
+        // handles special actions caused by outflow nodes
+        final float COLOR_DELTA = .1f;
+        if( key == outflowNodes.COLOR_LIGHTEN.toString()) {
+            color.add(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
+        } else if (key == outflowNodes.COLOR_DARKEN.toString()) {
+            color.sub(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
+        } else if (key == outflowNodes.COLOR_ADD_R.toString()) {
+            color.add(COLOR_DELTA, 0, 0, 0);
+        } else if (key == outflowNodes.COLOR_ADD_G.toString()) {
+            color.add(0, COLOR_DELTA, 0, 0);
+        } else if (key == outflowNodes.COLOR_ADD_B.toString()) {
+            color.add(0, 0, COLOR_DELTA, 0);
+        } else if (key == outflowNodes.COLOR_SUB_R.toString()) {
+            color.sub(COLOR_DELTA, 0, 0, 0);
+        } else if (key == outflowNodes.COLOR_SUB_G.toString()) {
+            color.sub(0, COLOR_DELTA, 0, 0);
+        } else if (key == outflowNodes.COLOR_SUB_B.toString()) {
+            color.sub(0, 0, COLOR_DELTA, 0);
+        } else { // not an output key
+            return;
+        }
+    }
+
     public void setGraphToDefault() {
         // Create test graph of shape:
         //   (on) -> (TF1) -> (colorAdd)
         //  (onClick) -^
 
-        Node alwaysOn = graph.createNode("alwaysOn");
+        Node alwaysOn = graph.createNode(inflowNodes.ALWAYS_ON.toString());
         alwaysOn
-                .setLabel("alwaysOn")
+                .setLabel("always on")
                 .getAttributeValues()
                 .addValue(attr_ActivationValue, "1");
 
@@ -141,9 +197,9 @@ public class GeneticCell extends BaseCell{
                 .getAttributeValues()
                 .addValue(attr_ActivationValue, "0");
 
-        Node colorAdd1 = graph.createNode("colorAdd(50,50,50)");
+        Node colorAdd1 = graph.createNode(outflowNodes.COLOR_LIGHTEN.toString());
         colorAdd1
-                .setLabel("colorAdd(50,50,50)")
+                .setLabel("colorAdd(x,x,x)")
                 .getAttributeValues()
                 .addValue(attr_ActivationValue, "0");
 

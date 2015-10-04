@@ -1,9 +1,14 @@
 package com.emergentorganization.cellrpg.entities.ca;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Created by 7yl4r on 9/15/2015.
  */
 public class BaseCell {
+    protected final Logger logger = LogManager.getLogger(getClass());
+
     protected int state;  // cell state value
     public boolean lock; // TODO: true locks the cell, means "don't compute rule on this cell"
 

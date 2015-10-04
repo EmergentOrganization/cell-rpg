@@ -94,7 +94,7 @@ public class DGRN {
         }
     }
 
-    public void tick() throws KeySelectorException, InvocationTargetException, IllegalAccessException {
+    public void tick() {
         // computes one cycle through the DGRN
         primeInflowNodes();
 
@@ -134,17 +134,17 @@ public class DGRN {
         }
         // now apply updates
         for (String key : nodeUpdates.keySet()){
-            handleOutputNodes.handleOutputNode(key, nodeUpdates.get(key));
-            //try {
-            String newVal = Integer.toString(nodeUpdates.get(key));
-            setNodeAttributeValue(
-                    getNode(key),
-                    ACTIVATION_VALUE,
-                    newVal
-            );
-//            } catch (KeySelectorException err){
-//                logger.error("node not found for key:" + key);
-//            }
+            try {
+                handleOutputNodes.handleOutputNode(key, nodeUpdates.get(key));
+                String newVal = Integer.toString(nodeUpdates.get(key));
+                setNodeAttributeValue(
+                        getNode(key),
+                        ACTIVATION_VALUE,
+                        newVal
+                );
+            } catch (KeySelectorException err){
+                logger.error("node not found for key:" + key);
+            }
         }
     }
 

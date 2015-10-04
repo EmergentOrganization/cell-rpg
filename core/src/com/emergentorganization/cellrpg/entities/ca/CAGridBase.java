@@ -272,7 +272,7 @@ public abstract class CAGridBase extends Entity {
         return neighbors;
     }
 
-    private int getNeighborhoodSum(final int row, final int col, final int size) {
+    public int getNeighborhoodSum(final int row, final int col, final int size) {
         // returns sum of all states in neighborhood
         // size MUST be odd! (not checked for efficiency)
         final boolean SKIP_SELF = true;
@@ -350,7 +350,6 @@ public abstract class CAGridBase extends Entity {
 
     protected int ca_rule(final int row, final int col) {
         // computes the rule at given row, col in cellStates array, returns result
-
         // Conway's Game of Life:
         switch (getNeighborhoodSum(row, col, 3)) {
             case 2:
@@ -360,7 +359,6 @@ public abstract class CAGridBase extends Entity {
             default:
                 return 0;
         }
-
         // random state:
         //return Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
     }

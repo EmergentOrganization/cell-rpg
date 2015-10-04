@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 
+import java.util.ArrayList;
+
 /**
  * Created by 7yl4r on 9/18/2015.
  */
@@ -19,10 +21,27 @@ public class GeneticCAGrid extends CAGridBase{
     @Override
     public int getLastState(final int row, final int col){
         try {
-            CellWithHistory cell = (CellWithHistory) states[row][col];
-            return cell.getLastState();
+            return states[row][col].state;
         } catch (IndexOutOfBoundsException err){
             return 0;  // if out-of-bounds, assume state=0
+        }
+    }
+
+    enum CellAction{
+        DIE,   // living cell -> dead cell
+        SPAWN, // dead  cell -> living cell
+        NONE  // no change to cell state
+    }
+
+    protected CellAction ca_rule(final int neighborCount) {
+        // Conway's Game of Life:
+        switch (neighborCount) {
+            case 2:
+                return CellAction.NONE;
+            case 3:
+                return CellAction.SPAWN;
+            default:
+                return CellAction.DIE;
         }
     }
 
@@ -32,17 +51,67 @@ public class GeneticCAGrid extends CAGridBase{
         // generates the next frame of the CA
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                CellWithHistory cell = (CellWithHistory) states[i][j];
-                cell.setLastState(states[i][j].getState());
+                GeneticCell cell = (GeneticCell) states[i][j];
+                cell.neighborCount = getNeighborhoodSum(i, j, 3);
+                states[i][j] = cell;
             }
         }
 
         for (int i = 0; i < states.length; i++) {
             for (int j = 0; j < states[0].length; j++) {
-                //System.out.print(i + "," + j +'\t');
-                setState(i, j, ca_rule(i, j));
+                GeneticCell cell = (GeneticCell) states[i][j];
+                cell.dgrn.tick();
+                CellAction act = ca_rule(cell.neighborCount);
+//                if (cell.state > 0) {
+//                    System.out.println(cell.neighborCount + "->" + act.toString());
+//                }
+                switch(act){
+                    case SPAWN:
+                        if (cell.state == 0 ){
+                            states[i][j] = new GeneticCell(1, getLiveParentsOf(i, j, 3));
+                        }
+                        break;
+                    case DIE:
+                        setState(i, j, 0);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+    }
+
+    private ArrayList<GeneticCell> getLiveParentsOf(int row, int col, int neighborhoodSize){
+        // returns list of live cells surrounding cell
+        // size must be odd!
+        ArrayList<GeneticCell> parents = new ArrayList<GeneticCell>();
+        final boolean SKIP_SELF = true;
+
+        // checkSize(size);
+        final int radius = (neighborhoodSize - 1) / 2;
+        for (int i = row - radius; i <= row + radius; i++) {
+            for (int j = col - radius; j <= col + radius; j++) {
+                if (SKIP_SELF && i - row + radius == j - col + radius && i - row + radius == radius) {
+                    continue;
+                } else {
+                    try {
+                        GeneticCell cell = (GeneticCell) states[i][j];
+                        if (cell.state > 0) {
+                            parents.add(cell);
+                        }  // else cell is not alive, exclude
+                    } catch(ArrayIndexOutOfBoundsException err){
+                        // cell is on edge of grid, trying to access off-grid neighbor as potential parent
+                        // ignore
+                    }
+                }
+            }
+        }
+        return parents;
+    }
+
+    @Override
+    public void setState(int row, int col, int newState){
+        super.setState(row, col, newState);
     }
 
     @Override

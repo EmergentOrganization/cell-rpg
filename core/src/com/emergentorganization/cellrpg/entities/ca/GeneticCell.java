@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.entities.ca;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.InflowNodeHandler;
@@ -9,6 +10,7 @@ import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.data.AttributeListImpl;
 
 import javax.xml.crypto.KeySelectorException;
+import java.util.ArrayList;
 
 /**
  * CA grid cell which has a digital gene regulatory network (DGRN) to represent it's genome,
@@ -16,13 +18,15 @@ import javax.xml.crypto.KeySelectorException;
  *
  * Created by 7yl4r on 9/25/2015.
  */
-public class GeneticCell extends CellWithHistory implements OutflowNodeHandler, InflowNodeHandler{
+public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowNodeHandler{
     protected DGRN dgrn;
+    public int neighborCount = 0;
     public static class inflowNodes{
         public static final String ALWAYS_ON = "alwaysOn";
+        public static final String NEIGHBOR_COUNT = "# of neighbors";
 
         public static String[] values(){
-            return new String[]{ALWAYS_ON};
+            return new String[]{ALWAYS_ON, NEIGHBOR_COUNT};
         }
     }
 
@@ -46,7 +50,7 @@ public class GeneticCell extends CellWithHistory implements OutflowNodeHandler, 
     public static class nodeAttribute{
         public static final String ACTIVATION_VALUE = "activation level";
     }
-    static final Color DEFAULT_COLOR = new Color(.7f,.7f,.7f,1f);
+    static final Color DEFAULT_COLOR = new Color(.4f,.4f,.4f,.9f);
     private Color color = new Color(DEFAULT_COLOR);
     private static AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
 
@@ -57,18 +61,26 @@ public class GeneticCell extends CellWithHistory implements OutflowNodeHandler, 
     ).setDefaultValue("0");  // NOTE: default value doesn't seem to have intended effect?
     // active state of a node defines whether the node is
 
-    public GeneticCell(int _state, GeneticCell[] parents, int mutateLevel){
+    public GeneticCell(int _state, ArrayList<GeneticCell> parents, int mutateLevel){
         // builds cell network inherting from parent(s), mutated based on given level
         this(_state);
         initDGRN();
         // TODO: inherit + mutation
     }
 
-    public GeneticCell(int _state, GeneticCell[] parents){
+    public GeneticCell(int _state, ArrayList<GeneticCell> parents){
         // builds cell network inherting from parent(s) (no mutations)
         this(_state);
         initDGRN();
-        // TODO: inherit network from parents
+
+        try {
+            // temporary connections for testing purposes:
+            dgrn.connect(inflowNodes.ALWAYS_ON, outflowNodes.COLOR_LIGHTEN, 1);
+            dgrn.connect(inflowNodes.NEIGHBOR_COUNT, outflowNodes.COLOR_LIGHTEN, 1);
+            // TODO: inherit network from parents
+        } catch(KeySelectorException err){
+            logger.error(err.getMessage());
+        }
     }
 
     public GeneticCell(int _state){
@@ -99,7 +111,9 @@ public class GeneticCell extends CellWithHistory implements OutflowNodeHandler, 
     public int getInflowNodeValue(String key) throws KeySelectorException{
         if (key == inflowNodes.ALWAYS_ON){
             return 1;
-        } else {
+        } else if (key == inflowNodes.NEIGHBOR_COUNT) {
+            return neighborCount;
+        }else {
             throw new KeySelectorException("inflow node '" + key + "' not recognized");
         }
     }

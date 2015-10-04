@@ -1,8 +1,8 @@
 package com.emergentorganization.cellrpg.entities.ca;
 
 import com.badlogic.gdx.graphics.Color;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Graph;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
+import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
+import com.emergentorganization.cellrpg.entities.ca.DGRN4j.GraphInitializer;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -19,33 +19,6 @@ public class GeneticCellTest {
         tester.multiply(1000, 5);
     }
     */
-    public void buildLightenCellTestGraph(Graph graph) {
-        // Create test graph of shape:
-        //   (on) -> (TF1) -> (colorAdd)
-        //  (onClick) -^
-
-        Node alwaysOn = graph.createNode(GeneticCell.inflowNodes.ALWAYS_ON);
-        alwaysOn
-                .setLabel("always on")
-                .getAttributeValues()
-                .addValue(GeneticCell.attr_ActivationValue, "1");
-
-        Node TF1 = graph.createNode("TF1");
-        TF1
-                .setLabel("TF1")
-                .getAttributeValues()
-                .addValue(GeneticCell.attr_ActivationValue, "0");
-
-        Node colorAdd1 = graph.createNode(GeneticCell.outflowNodes.COLOR_LIGHTEN);
-        colorAdd1
-                .setLabel("colorAdd(x,x,x)")
-                .getAttributeValues()
-                .addValue(GeneticCell.attr_ActivationValue, "0");
-
-
-        alwaysOn.connectTo("0", TF1).setWeight(1);
-        TF1.connectTo("1", colorAdd1).setWeight(2);
-    }
 
     @Test
     public void testCellStateIsSetByConstructor() {
@@ -57,16 +30,16 @@ public class GeneticCellTest {
     @Test
     public void testDefaultGraphHasAlwaysOnNode() throws KeySelectorException {
         GeneticCell testCell = new GeneticCell(0);
-        buildLightenCellTestGraph(testCell.graph);
-        testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON);
+        GraphInitializer.buildLightenCellTestGraph(testCell.dgrn.graph);
+        testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON);
     }
 
     @Test
     public void testDefaultGraphAlwaysOnNodeIsActive() throws Exception {
         GeneticCell testCell = new GeneticCell(0);
-        buildLightenCellTestGraph(testCell.graph);
-        int TF = Integer.parseInt(GeneticCell.getNodeAttributeValue(
-                testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
+        GraphInitializer.buildLightenCellTestGraph(testCell.dgrn.graph);
+        int TF = Integer.parseInt(DGRN.getNodeAttributeValue(
+                testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
         if (TF < 1){
@@ -75,24 +48,9 @@ public class GeneticCellTest {
     }
 
     @Test
-    public void testGetNode() throws KeySelectorException{
+    public void testTicksPropagateStrengthForActiveNodes() throws Exception{
         GeneticCell testCell = new GeneticCell(0);
-        buildLightenCellTestGraph(testCell.graph);
-        Assert.assertEquals(
-                testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON).getId(),
-                GeneticCell.inflowNodes.ALWAYS_ON
-        );
-        Assert.assertEquals(testCell.getNode("TF1").getId(), "TF1");
-        Assert.assertEquals(
-                testCell.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN).getId(),
-                GeneticCell.outflowNodes.COLOR_LIGHTEN
-        );
-    }
-
-    @Test
-    public void testTicksPropagateStrengthForActiveNodes() throws KeySelectorException{
-        GeneticCell testCell = new GeneticCell(0);
-        buildLightenCellTestGraph(testCell.graph);
+        GraphInitializer.buildLightenCellTestGraph(testCell.dgrn.graph);
         // assuming default structure:
         //   (on) -a-> (TF1) -b-> (colorAdd)
         // where weights of a=1 and b=2
@@ -100,64 +58,64 @@ public class GeneticCellTest {
         String attr = GeneticCell.nodeAttribute.ACTIVATION_VALUE;
         // before tick values should be
         //   (1) -> (0) -> (0)
-        Assert.assertEquals("1", GeneticCell.getNodeAttributeValue(
-                testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
-                attr)
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
+                        attr)
         );
-        Assert.assertEquals("0", GeneticCell.getNodeAttributeValue(testCell.getNode("TF1"), attr));
+        Assert.assertEquals("0", DGRN.getNodeAttributeValue(testCell.dgrn.getNode("TF1"), attr));
         Assert.assertEquals(
                 "0",
-                GeneticCell.getNodeAttributeValue(
-                        testCell.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
+                DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
                         attr
                 )
         );
 
-        testCell.tick();
+        testCell.dgrn.tick();
         // after 1 tick
         //   (1) -> (1) -> (0)
-        Assert.assertEquals("1", GeneticCell.getNodeAttributeValue(
-                        testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                         attr)
         );
-        Assert.assertEquals("1", GeneticCell.getNodeAttributeValue(testCell.getNode("TF1"), attr));
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(testCell.dgrn.getNode("TF1"), attr));
         Assert.assertEquals(
                 "0",
-                GeneticCell.getNodeAttributeValue(
-                        testCell.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
+                DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
                         attr
                 )
         );
 
-        testCell.tick();
+        testCell.dgrn.tick();
         // after 2 ticks
         //   (1) -> (1) -> (2)
-        Assert.assertEquals("1", GeneticCell.getNodeAttributeValue(
-                        testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                         attr)
         );
-        Assert.assertEquals("1", GeneticCell.getNodeAttributeValue(testCell.getNode("TF1"), attr));
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(testCell.dgrn.getNode("TF1"), attr));
         Assert.assertEquals(
                 "2",
-                GeneticCell.getNodeAttributeValue(
-                        testCell.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
+                DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
                         attr
                 )
         );
 
         // now at steady state, extra ticks should make no difference
-        testCell.tick();
-        testCell.tick();
-        testCell.tick();
-        Assert.assertEquals("1", GeneticCell.getNodeAttributeValue(
-                        testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                         attr)
         );
-        Assert.assertEquals("1", GeneticCell.getNodeAttributeValue(testCell.getNode("TF1"), attr));
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(testCell.dgrn.getNode("TF1"), attr));
         Assert.assertEquals(
                 "2",
-                GeneticCell.getNodeAttributeValue(
-                        testCell.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
+                DGRN.getNodeAttributeValue(
+                        testCell.dgrn.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
                         attr
                 )
         );
@@ -170,17 +128,17 @@ public class GeneticCellTest {
     }
 
     @Test
-    public void testColorizeAfterEnoughTicks() throws KeySelectorException{
+    public void testColorizeAfterEnoughTicks() throws Exception{
         GeneticCell testCell = new GeneticCell(0);
-        buildLightenCellTestGraph(testCell.graph);
+        GraphInitializer.buildLightenCellTestGraph(testCell.dgrn.graph);
         // assuming default structure:
         //   (on) -a-> (TF1) -b-> (colorAdd)
         // where weights of a=1 and b=2
         // thus, colorAdd should achieve activation level of 2 after 2 ticks
         //       and color should therefore be lighter
         Color color_0 = testCell.getColor();
-        testCell.tick();
-        testCell.tick();
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
         Color color_f = testCell.getColor();
 
         assert (color_0.r <= color_f.r);

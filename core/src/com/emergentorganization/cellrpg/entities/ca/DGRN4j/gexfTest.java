@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.entities.ca;
+package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
 
 import it.uniroma1.dis.wsngroup.gexf4j.core.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;

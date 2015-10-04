@@ -5,7 +5,6 @@ import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.InflowNodeHandler;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.OutflowNodeHandler;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.data.AttributeListImpl;
 
@@ -17,7 +16,7 @@ import javax.xml.crypto.KeySelectorException;
  *
  * Created by 7yl4r on 9/25/2015.
  */
-public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowNodeHandler{
+public class GeneticCell extends CellWithHistory implements OutflowNodeHandler, InflowNodeHandler{
     protected DGRN dgrn;
     public static class inflowNodes{
         public static final String ALWAYS_ON = "alwaysOn";

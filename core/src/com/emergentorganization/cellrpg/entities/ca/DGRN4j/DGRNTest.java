@@ -1,9 +1,6 @@
 package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
 
-import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCell;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Graph;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.Attribute;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeClass;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeList;
@@ -18,8 +15,7 @@ import javax.xml.crypto.KeySelectorException;
  * Created by 7yl4r on 10/3/2015.
  */
 public class DGRNTest {
-    @Test
-    public void testGetNode() throws KeySelectorException{
+    public DGRN getMockDGRN(){
         AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
         Attribute attr_ActivationValue = attrList.createAttribute(
                 "activation value id",
@@ -27,7 +23,7 @@ public class DGRNTest {
                 "activation value"
         ).setDefaultValue("0");
 
-        DGRN dgrn = new DGRN(
+        return new DGRN(
                 "DGRNTest.java",
                 "Test Digital Gene Regulatory Network",
                 attrList,
@@ -35,15 +31,101 @@ public class DGRNTest {
                 new MockOutflowNodeHandler(),
                 new MockInflowNodeHandler()
         );
-        GraphInitializer.buildLightenCellTestGraph(dgrn.graph);
+    }
+
+    @Test
+    public void testGetNode() throws KeySelectorException{
+
+        DGRN dgrn = getMockDGRN();
+        GraphInitializer.buildLightenCellTestGraph(dgrn);
         Assert.assertEquals(
-                dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON).getId(),
-                GeneticCell.inflowNodes.ALWAYS_ON
+                dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON).getId(),
+                GraphInitializer.inflowNode.ALWAYS_ON
         );
-        Assert.assertEquals(dgrn.getNode("TF1").getId(), "TF1");
+        Assert.assertEquals(dgrn.getNode(GraphInitializer.innerNode.TF1).getId(), GraphInitializer.innerNode.TF1);
         Assert.assertEquals(
-                dgrn.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN).getId(),
-                GeneticCell.outflowNodes.COLOR_LIGHTEN
+                dgrn.getNode(GraphInitializer.outflowNode.COLOR_LIGHTEN).getId(),
+                GraphInitializer.outflowNode.COLOR_LIGHTEN
         );
+    }
+
+    @Test
+    public void testTicksPropagateStrengthForActiveNodes() throws Exception{
+        DGRN dgrn = getMockDGRN();
+        GraphInitializer.buildLightenCellTestGraph(dgrn);
+        // assuming default structure:
+        //   (on) -a-> (TF1) -b-> (colorAdd)
+        // where weights of a=1 and b=2
+
+        String attr = dgrn.attr_ActivationValue.getId();
+        // before tick values should be
+        //   (1) -> (0) -> (0)
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                        attr)
+        );
+        Assert.assertEquals("0", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
+        Assert.assertEquals(
+                "0",
+                DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.outflowNode.COLOR_LIGHTEN),
+                        attr
+                )
+        );
+
+        dgrn.tick();
+        // after 1 tick
+        //   (1) -> (1) -> (0)
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                        attr)
+        );
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
+        Assert.assertEquals(
+                "0",
+                DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.outflowNode.COLOR_LIGHTEN),
+                        attr
+                )
+        );
+
+        dgrn.tick();
+        // after 2 ticks
+        //   (1) -> (1) -> (2)
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                        attr)
+        );
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
+        Assert.assertEquals(
+                "2",
+                DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.outflowNode.COLOR_LIGHTEN),
+                        attr
+                )
+        );
+
+        // now at steady state, extra ticks should make no difference
+        dgrn.tick();
+        dgrn.tick();
+        dgrn.tick();
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                        attr)
+        );
+        Assert.assertEquals("1", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
+        Assert.assertEquals(
+                "2",
+                DGRN.getNodeAttributeValue(
+                        dgrn.getNode(GraphInitializer.outflowNode.COLOR_LIGHTEN),
+                        attr
+                )
+        );
+
+        // NOTE: alternatively, for a "cumulative" network (no steady state):
+        // (1) -> (0) -> (0)
+        // (1) -> (1) -> (0)
+        // (1) -> (2) -> (2)
+        // (1) -> (3) -> (4)
     }
 }

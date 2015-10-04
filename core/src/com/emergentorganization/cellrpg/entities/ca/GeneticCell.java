@@ -28,21 +28,27 @@ import java.util.List;
 public class GeneticCell extends BaseCell{
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public enum inflowNodes{
-        ALWAYS_ON
+    public static class inflowNodes{
+        public static final String ALWAYS_ON = "alwaysOn";
+
+        public static String[] values(){
+            return new String[]{ALWAYS_ON};
+        }
     }
-    public enum outflowNodes{
-        COLOR_LIGHTEN,
-        COLOR_DARKEN,
-        COLOR_ADD_R,
-        COLOR_ADD_G,
-        COLOR_ADD_B,
-        COLOR_SUB_R,
-        COLOR_SUB_G,
-        COLOR_SUB_B
+
+    public static class outflowNodes{
+        public static final String COLOR_LIGHTEN = "COLOR_LIGHTEN";
+        public static final String COLOR_DARKEN = "COLOR_DARKEN";
+        public static final String COLOR_ADD_R = "COLOR_ADD_R";
+        public static final String COLOR_ADD_G = "COLOR_ADD_G";
+        public static final String COLOR_ADD_B = "COLOR_ADD_B";
+        public static final String COLOR_SUB_R = "COLOR_SUB_R";
+        public static final String COLOR_SUB_G = "COLOR_SUB_G";
+        public static final String COLOR_SUB_B = "COLOR_SUB_B";
+
     }
-    public enum nodeAttribute{
-        ACTIVATION_VALUE
+    public static class nodeAttribute{
+        public static final String ACTIVATION_VALUE = "activation level";
     }
     static final Color DEFAULT_COLOR = new Color(.7f,.7f,.7f,1f);
     private Color color = new Color(DEFAULT_COLOR);
@@ -51,10 +57,10 @@ public class GeneticCell extends BaseCell{
     private static AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
 
     protected static Attribute attr_ActivationValue = attrList.createAttribute(
-            nodeAttribute.ACTIVATION_VALUE.toString(),
+            nodeAttribute.ACTIVATION_VALUE,
             AttributeType.INTEGER,
             "activation value"
-    ).setDefaultValue("0");  // NOTE: default value doesn't seem to have indended effect?
+    ).setDefaultValue("0");  // NOTE: default value doesn't seem to have intended effect?
     // active state of a node defines whether the node is
 
     public GeneticCell(int _state, GeneticCell[] parents, int mutateLevel){
@@ -100,11 +106,11 @@ public class GeneticCell extends BaseCell{
         for (Edge edge : graph.getAllEdges()){
             try{
                 if (Integer.parseInt(getNodeAttributeValue(
-                        edge.getSource(), nodeAttribute.ACTIVATION_VALUE.toString())) > 0
+                        edge.getSource(), nodeAttribute.ACTIVATION_VALUE)) > 0
                         && !isInflowNode(edge.getTarget().getId())){
 
 //                      // FOR CUMULATIVE DGRN
-//                    int i = getNodeAttributeIndex(edge.getTarget(), nodeAttribute.ACTIVATION_VALUE.toString());
+//                    int i = getNodeAttributeIndex(edge.getTarget(), nodeAttribute.ACTIVATION_VALUE);
 //                    AttributeValue targetAttr = edge.getTarget().getAttributeValues().get(i);
 //                    int attrVal = Integer.parseInt(targetAttr.getValue()) + (int)edge.getWeight();
 //                    edge.getTarget().getAttributeValues().get(i).setValue(Integer.toString(attrVal));
@@ -137,7 +143,7 @@ public class GeneticCell extends BaseCell{
                 String newVal = Integer.toString(nodeUpdates.get(key));
                 setNodeAttributeValue(
                         getNode(key),
-                        nodeAttribute.ACTIVATION_VALUE.toString(),
+                        nodeAttribute.ACTIVATION_VALUE,
                         newVal
                 );
 //            } catch (KeySelectorException err){
@@ -148,8 +154,8 @@ public class GeneticCell extends BaseCell{
 
     public boolean isInflowNode(String id){
         // returns true if given id is id of inflow node
-        for (inflowNodes inNode : inflowNodes.values()){
-            if (inNode.toString() == id){
+        for (String inNode : inflowNodes.values()){
+            if (inNode == id){
                 return true;
             }
         } // else
@@ -159,21 +165,21 @@ public class GeneticCell extends BaseCell{
     public void handleOutputNodes(String key, int value){
         // handles special actions caused by outflow nodes
         final float COLOR_DELTA = .1f;
-        if( key == outflowNodes.COLOR_LIGHTEN.toString()) {
+        if( key == outflowNodes.COLOR_LIGHTEN) {
             color.add(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
-        } else if (key == outflowNodes.COLOR_DARKEN.toString()) {
+        } else if (key == outflowNodes.COLOR_DARKEN) {
             color.sub(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
-        } else if (key == outflowNodes.COLOR_ADD_R.toString()) {
+        } else if (key == outflowNodes.COLOR_ADD_R) {
             color.add(COLOR_DELTA, 0, 0, 0);
-        } else if (key == outflowNodes.COLOR_ADD_G.toString()) {
+        } else if (key == outflowNodes.COLOR_ADD_G) {
             color.add(0, COLOR_DELTA, 0, 0);
-        } else if (key == outflowNodes.COLOR_ADD_B.toString()) {
+        } else if (key == outflowNodes.COLOR_ADD_B) {
             color.add(0, 0, COLOR_DELTA, 0);
-        } else if (key == outflowNodes.COLOR_SUB_R.toString()) {
+        } else if (key == outflowNodes.COLOR_SUB_R) {
             color.sub(COLOR_DELTA, 0, 0, 0);
-        } else if (key == outflowNodes.COLOR_SUB_G.toString()) {
+        } else if (key == outflowNodes.COLOR_SUB_G) {
             color.sub(0, COLOR_DELTA, 0, 0);
-        } else if (key == outflowNodes.COLOR_SUB_B.toString()) {
+        } else if (key == outflowNodes.COLOR_SUB_B) {
             color.sub(0, 0, COLOR_DELTA, 0);
         } else { // not an output key
             return;
@@ -220,9 +226,6 @@ public class GeneticCell extends BaseCell{
         throw new KeySelectorException("attribute '" + attributeId + "' not found!");
     }
 
-    protected static String getNodeAttributeValue(Node node, nodeAttribute attributeId) throws KeySelectorException{
-        return getNodeAttributeValue(node, attributeId.toString());
-    }
     protected static String getNodeAttributeValue(Node node, String attributeId) throws KeySelectorException{
         // gets value from attribute with given Id from given node
         // throws KeySelectorException if node not found

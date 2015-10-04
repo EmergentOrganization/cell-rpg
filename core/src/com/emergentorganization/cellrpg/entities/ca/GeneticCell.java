@@ -47,10 +47,10 @@ public class GeneticCell extends BaseCell{
     static final Color DEFAULT_COLOR = new Color(.7f,.7f,.7f,1f);
     private Color color = new Color(DEFAULT_COLOR);
     private Gexf gexf;
-    private Graph graph;
+    protected Graph graph;
     private static AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
 
-    private static Attribute attr_ActivationValue = attrList.createAttribute(
+    protected static Attribute attr_ActivationValue = attrList.createAttribute(
             nodeAttribute.ACTIVATION_VALUE.toString(),
             AttributeType.INTEGER,
             "activation value"
@@ -178,34 +178,6 @@ public class GeneticCell extends BaseCell{
         } else { // not an output key
             return;
         }
-    }
-
-    public void setGraphToDefault() {
-        // Create test graph of shape:
-        //   (on) -> (TF1) -> (colorAdd)
-        //  (onClick) -^
-
-        Node alwaysOn = graph.createNode(inflowNodes.ALWAYS_ON.toString());
-        alwaysOn
-                .setLabel("always on")
-                .getAttributeValues()
-                .addValue(attr_ActivationValue, "1");
-
-        Node TF1 = graph.createNode("TF1");
-        TF1
-                .setLabel("TF1")
-                .getAttributeValues()
-                .addValue(attr_ActivationValue, "0");
-
-        Node colorAdd1 = graph.createNode(outflowNodes.COLOR_LIGHTEN.toString());
-        colorAdd1
-                .setLabel("colorAdd(x,x,x)")
-                .getAttributeValues()
-                .addValue(attr_ActivationValue, "0");
-
-
-        alwaysOn.connectTo("0", TF1).setWeight(1);
-        TF1.connectTo("1", colorAdd1).setWeight(2);
     }
 
     public void saveGraph(Gexf gexf){

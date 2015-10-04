@@ -1,6 +1,8 @@
 package com.emergentorganization.cellrpg.entities.ca;
 
 import com.badlogic.gdx.graphics.Color;
+import it.uniroma1.dis.wsngroup.gexf4j.core.Graph;
+import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -17,6 +19,33 @@ public class GeneticCellTest {
         tester.multiply(1000, 5);
     }
     */
+    public void buildLightenCellTestGraph(Graph graph) {
+        // Create test graph of shape:
+        //   (on) -> (TF1) -> (colorAdd)
+        //  (onClick) -^
+
+        Node alwaysOn = graph.createNode(GeneticCell.inflowNodes.ALWAYS_ON.toString());
+        alwaysOn
+                .setLabel("always on")
+                .getAttributeValues()
+                .addValue(GeneticCell.attr_ActivationValue, "1");
+
+        Node TF1 = graph.createNode("TF1");
+        TF1
+                .setLabel("TF1")
+                .getAttributeValues()
+                .addValue(GeneticCell.attr_ActivationValue, "0");
+
+        Node colorAdd1 = graph.createNode(GeneticCell.outflowNodes.COLOR_LIGHTEN.toString());
+        colorAdd1
+                .setLabel("colorAdd(x,x,x)")
+                .getAttributeValues()
+                .addValue(GeneticCell.attr_ActivationValue, "0");
+
+
+        alwaysOn.connectTo("0", TF1).setWeight(1);
+        TF1.connectTo("1", colorAdd1).setWeight(2);
+    }
 
     @Test
     public void testCellStateIsSetByConstructor() {
@@ -28,14 +57,14 @@ public class GeneticCellTest {
     @Test
     public void testDefaultGraphHasAlwaysOnNode() throws KeySelectorException {
         GeneticCell testCell = new GeneticCell(0);
-        testCell.setGraphToDefault();
+        buildLightenCellTestGraph(testCell.graph);
         testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON.toString());
     }
 
     @Test
     public void testDefaultGraphAlwaysOnNodeIsActive() throws Exception {
         GeneticCell testCell = new GeneticCell(0);
-        testCell.setGraphToDefault();
+        buildLightenCellTestGraph(testCell.graph);
         int TF = Integer.parseInt(GeneticCell.getNodeAttributeValue(
                 testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON.toString()),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE.toString()
@@ -48,7 +77,7 @@ public class GeneticCellTest {
     @Test
     public void testGetNode() throws KeySelectorException{
         GeneticCell testCell = new GeneticCell(0);
-        testCell.setGraphToDefault();
+        buildLightenCellTestGraph(testCell.graph);
         Assert.assertEquals(
                 testCell.getNode(GeneticCell.inflowNodes.ALWAYS_ON.toString()).getId(),
                 GeneticCell.inflowNodes.ALWAYS_ON.toString()
@@ -63,7 +92,7 @@ public class GeneticCellTest {
     @Test
     public void testTicksPropagateStrengthForActiveNodes() throws KeySelectorException{
         GeneticCell testCell = new GeneticCell(0);
-        testCell.setGraphToDefault();
+        buildLightenCellTestGraph(testCell.graph);
         // assuming default structure:
         //   (on) -a-> (TF1) -b-> (colorAdd)
         // where weights of a=1 and b=2
@@ -143,7 +172,7 @@ public class GeneticCellTest {
     @Test
     public void testColorizeAfterEnoughTicks() throws KeySelectorException{
         GeneticCell testCell = new GeneticCell(0);
-        testCell.setGraphToDefault();
+        buildLightenCellTestGraph(testCell.graph);
         // assuming default structure:
         //   (on) -a-> (TF1) -b-> (colorAdd)
         // where weights of a=1 and b=2

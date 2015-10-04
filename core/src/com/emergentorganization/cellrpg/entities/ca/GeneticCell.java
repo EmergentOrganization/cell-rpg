@@ -22,40 +22,21 @@ import java.util.List;
  * Created by 7yl4r on 9/25/2015.
  */
 public class GeneticCell extends BaseCell{
+    public enum nodeAttribute{
+        ACTIVATION_VALUE
+    }
     private Gexf gexf;
     private Graph graph;
     // === SETUP NODE ATTRIBUTES ===
     private static AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
 
-    private static Attribute attNodeType = attrList.createAttribute("0", AttributeType.STRING, "nodetype");
-    // node type defines how a node behaves when using the DGRN.
+    private static Attribute attr_ActivationValue = attrList.createAttribute(
+            nodeAttribute.ACTIVATION_VALUE.toString(),
+            AttributeType.INTEGER,
+            "activation value"
+    ).setDefaultValue("0");  // NOTE: default value doesn't seem to have indended effect?
+    // active state of a node defines whether the node is
 
-    // === NODE TYPES ===  TODO: these could be in an enum, but there's no AttributeType.ENUM
-    // NOTE: this may not be the appropriate formulation, since these are not mutually exclusive types.
-    //           maybe better to have several booleans isGene, isTransFact, etc.
-
-    private static String nodeType_gene = "gene";
-    // node which expresses something (color, behavior). cell "outflow"
-    //     genes generally don't have outgoing connections (though they could if allowed to also be a TF)
-
-    private static String nodeType_transcriptionFactor = "transcriptionFactor";
-    // node that affects expression of another node.
-    //     DGRN "hidden" nodes. TFs have incoming & outgoing connections.
-
-    private static String nodeType_externalProtein = "externalProtein";
-    // node that has a value set from the cell environment
-    //     (onClick, neighborCount, alwaysOn). cell "inflow"
-    //     external proteins should have no inflows... though they could, if a TF was allowed to "fake" user input.
-
-    // === END NODE TYPES ===
-
-    private static Attribute attActive = attrList.createAttribute("activated", AttributeType.BOOLEAN, "activated")
-            .setDefaultValue("false");  // NOTE: default value doesn't seem to have indended effect?
-    // active state of a node defines wheter the node is
-
-    private static Attribute attTranscriptionFactorValue = attrList.createAttribute("tf_value", AttributeType.INTEGER,
-            "transcription factor value")
-            .setDefaultValue("1");
     // === END SETUP NOTE ATTR ===
 
     public GeneticCell(int _state, GeneticCell[] parents, int mutateLevel){
@@ -100,27 +81,23 @@ public class GeneticCell extends BaseCell{
         alwaysOn
                 .setLabel("alwaysOn")
                 .getAttributeValues()
-                .addValue(attNodeType, nodeType_externalProtein)
-                .addValue(attActive, "true")
-                .addValue(attTranscriptionFactorValue, "1");
+                .addValue(attr_ActivationValue, "100");
 
         Node TF1 = graph.createNode("TF1");
         TF1
                 .setLabel("TF1")
                 .getAttributeValues()
-                .addValue(attNodeType, nodeType_transcriptionFactor)
-                .addValue(attTranscriptionFactorValue, "1");
+                .addValue(attr_ActivationValue, "0");
 
         Node colorAdd1 = graph.createNode("colorAdd(50,50,50)");
         colorAdd1
                 .setLabel("colorAdd(50,50,50)")
                 .getAttributeValues()
-                .addValue(attNodeType, nodeType_gene)
-                .addValue(attTranscriptionFactorValue, "1");
+                .addValue(attr_ActivationValue, "0");
 
 
-        alwaysOn.connectTo("0", TF1);
-        TF1.connectTo("1", colorAdd1);
+        alwaysOn.connectTo("0", TF1).setWeight(2);
+        TF1.connectTo("1", colorAdd1).setWeight(1);
     }
 
     public void saveGraph(Gexf gexf){

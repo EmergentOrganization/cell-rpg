@@ -35,7 +35,10 @@ public class GeneticCellTest {
     public void testDefaultGraphAlwaysOnNodeIsActive() throws KeySelectorException, Exception {
         GeneticCell testCell = new GeneticCell(0);
         testCell.setGraphToDefault();
-        int TF = Integer.parseInt(GeneticCell.getNodeAttributeValue(testCell.getNode("alwaysOn"), "tf_value"));
+        int TF = Integer.parseInt(GeneticCell.getNodeAttributeValue(
+                testCell.getNode("alwaysOn"),
+                GeneticCell.nodeAttribute.ACTIVATION_VALUE.toString()
+        ));
         if (TF < 1){
             throw new Exception("alwaysOn.TF should be > 1, found:" + TF);
         }

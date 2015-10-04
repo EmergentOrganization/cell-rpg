@@ -12,13 +12,7 @@ import javax.xml.crypto.KeySelectorException;
  * Created by 7yl4r on 10/3/2015.
  */
 public class GeneticCellTest {
-    /*
-    @Test(expected = IllegalArgumentException.class)
-    public void testExceptionIsThrown() {
-        MyClass tester = new MyClass();
-        tester.multiply(1000, 5);
-    }
-    */
+
     private final String TEST_INNER_NODE_ID_1 = "test inner node 1";
     private GeneticCell getMockGeneticCell_1() throws Exception{
         // returns genetic cell with following structure:
@@ -71,5 +65,25 @@ public class GeneticCellTest {
         assert (color_0.r <= color_f.r);
         assert (color_0.g <= color_f.g);
         assert (color_0.b <= color_f.b);
+    }
+
+    @Test
+    public void testColorReachesSteadyState() throws Exception{
+        GeneticCell testCell = getMockGeneticCell_1();
+        // colorAdd should achieve activation level of 2 after 2 ticks
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
+        Color color_0 = testCell.getColor();
+        // additional ticks should not matter, should now be steady
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
+        testCell.dgrn.tick();
+        Color color_f = testCell.getColor();
+
+        Assert.assertEquals(color_0.r, color_f.r);
+        Assert.assertEquals(color_0.g, color_f.g);
+        Assert.assertEquals(color_0.b, color_f.b);
     }
 }

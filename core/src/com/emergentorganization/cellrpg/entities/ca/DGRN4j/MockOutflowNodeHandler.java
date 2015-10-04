@@ -8,7 +8,7 @@ public class MockOutflowNodeHandler implements OutflowNodeHandler {
         return new String[]{};
     }
 
-    public void handleOutputNodes(String key, int val){
+    public void handleOutputNode(String key, int val){
         return;
     }
 }

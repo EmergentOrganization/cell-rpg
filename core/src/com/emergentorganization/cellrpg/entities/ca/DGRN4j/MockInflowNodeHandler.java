@@ -8,7 +8,7 @@ public class MockInflowNodeHandler implements InflowNodeHandler {
         return new String[]{};
     }
 
-    public void primeInflowNodes(){
-        return;
+    public int getInflowNodeValue(String key){
+        return 1;
     }
 }

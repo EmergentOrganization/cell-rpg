@@ -5,8 +5,11 @@ import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.InflowNodeHandler;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.OutflowNodeHandler;
+import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.data.AttributeListImpl;
+
+import javax.xml.crypto.KeySelectorException;
 
 /**
  * CA grid cell which has a digital gene regulatory network (DGRN) to represent it's genome,
@@ -70,7 +73,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
     }
 
     public GeneticCell(int _state){
-        // sets up cell with empty DGRN
+        // sets up cell with DGRN that has only inflow & outflow nodes, no connections
         super(_state);
         initDGRN();
     }
@@ -94,15 +97,19 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         return inflowNodes.values();
     }
 
-    public void primeInflowNodes(){
-
+    public int getInflowNodeValue(String key) throws KeySelectorException{
+        if (key == inflowNodes.ALWAYS_ON){
+            return 1;
+        } else {
+            throw new KeySelectorException("inflow node '" + key + "' not recognized");
+        }
     }
 
     public String[] getListOfOutflowNodes(){
         return outflowNodes.values();
     }
 
-    public void handleOutputNodes(String key, int value){
+    public void handleOutputNode(String key, int value){
         // handles special actions caused by outflow nodes
         final float COLOR_DELTA = .1f;
         if( key == outflowNodes.COLOR_LIGHTEN) {
@@ -122,7 +129,8 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         } else if (key == outflowNodes.COLOR_SUB_B) {
             color.sub(0, 0, COLOR_DELTA, 0);
         } else { // not an output key
-            return;
+            return;  // do nothing
+            //throw new KeySelectorException("inflow node '" + key + "' not recognized");
         }
     }
 

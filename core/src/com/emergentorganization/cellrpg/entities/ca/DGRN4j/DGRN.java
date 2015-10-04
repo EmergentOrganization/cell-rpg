@@ -36,11 +36,26 @@ public class DGRN {
 
     public DGRN(String creator, String description, AttributeList attrList, Attribute attributeActivationValue,
                 OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler) {
-        initGraph(creator,description,attrList);
         attr_ActivationValue = attributeActivationValue;
         ACTIVATION_VALUE = attr_ActivationValue.getId();
         inflowNodeHandle = inflowNodeHandler;
         handleOutputNodes = outflowNodeHandler;
+        initGraph(creator, description, attrList);
+        addNodes(inflowNodeHandler.getListOfInflowNodes());
+        addNodes(outflowNodeHandler.getListOfOutflowNodes());
+        primeInflowNodes();
+    }
+
+    private void primeInflowNodes(){
+        // inserts appropriate values into inflow nodes
+        for (String node : inflowNodeHandle.getListOfInflowNodes()){
+            try {
+                int newValue = inflowNodeHandle.getInflowNodeValue(node);
+                setNodeAttributeValue(getNode(node), ACTIVATION_VALUE, Integer.toString(newValue));
+            } catch( KeySelectorException err){
+                logger.error("inflow node '" + node + "' attr '" + ACTIVATION_VALUE + "' not set; not found!");
+            }
+        }
     }
 
     public void initGraph(String creator, String description, AttributeList attrList){
@@ -58,14 +73,37 @@ public class DGRN {
                 .setMode(Mode.STATIC);
     }
 
+    public void addNodes(String[] nodeNameList){
+        for (String nodeName : nodeNameList) {
+            Node colorAdd1 = graph.createNode(nodeName);
+            colorAdd1
+                    .setLabel(nodeName)
+                    .getAttributeValues()
+                    .addValue(attr_ActivationValue, "0");
+        }
+    }
+
+    public void connect(String nodeId1, String nodeId2, int connectionWeight) throws KeySelectorException{
+        // connects n1 -> n2 with given weight
+        Node n1 = getNode(nodeId1);
+        Node n2 = getNode(nodeId2);
+        if (n1.hasEdgeTo(nodeId2)){
+            throw new IllegalStateException("node '" + nodeId1 + "' is already connected to '" + nodeId2 + "'");
+        } else {
+            n1.connectTo(n2).setWeight(connectionWeight);
+        }
+    }
+
     public void tick() throws KeySelectorException, InvocationTargetException, IllegalAccessException {
         // computes one cycle through the DGRN
+        primeInflowNodes();
+
+        // propagate signals through network
         HashMap<String, Integer> nodeUpdates = new HashMap<String, Integer>();
         for (Edge edge : graph.getAllEdges()){
             try{
                 if (Integer.parseInt(getNodeAttributeValue(
-                        edge.getSource(), ACTIVATION_VALUE)) > 0
-                        && !isInflowNode(edge.getTarget().getId())){
+                        edge.getSource(), ACTIVATION_VALUE)) > 0){
 
 //                      // FOR CUMULATIVE DGRN
 //                    int i = getNodeAttributeIndex(edge.getTarget(), nodeAttribute.ACTIVATION_VALUE);
@@ -96,7 +134,7 @@ public class DGRN {
         }
         // now apply updates
         for (String key : nodeUpdates.keySet()){
-            handleOutputNodes.handleOutputNodes(key, nodeUpdates.get(key));
+            handleOutputNodes.handleOutputNode(key, nodeUpdates.get(key));
             //try {
             String newVal = Integer.toString(nodeUpdates.get(key));
             setNodeAttributeValue(

@@ -19,6 +19,18 @@ public class GeneticCellTest {
         tester.multiply(1000, 5);
     }
     */
+    private final String TEST_INNER_NODE_ID_1 = "test inner node 1";
+    private GeneticCell getMockGeneticCell_1() throws Exception{
+        // returns genetic cell with following structure:
+        //   (on) -a-> (TF1) -b-> (colorAdd)
+        // where weights of a=1 and b=2
+        GeneticCell testCell = new GeneticCell(0);
+        testCell.dgrn.graph.createNode(TEST_INNER_NODE_ID_1);
+        testCell.dgrn.connect(GeneticCell.inflowNodes.ALWAYS_ON, TEST_INNER_NODE_ID_1, 1);
+        testCell.dgrn.connect(TEST_INNER_NODE_ID_1, GeneticCell.outflowNodes.COLOR_LIGHTEN, 2);
+        return testCell;
+    }
+
 
     @Test
     public void testCellStateIsSetByConstructor() {
@@ -30,7 +42,6 @@ public class GeneticCellTest {
     @Test
     public void testDefaultGraphHasAlwaysOnNode() throws KeySelectorException {
         GeneticCell testCell = new GeneticCell(0);
-        GraphInitializer.buildLightenCellTestGraph(testCell.dgrn);
         testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON);
     }
 
@@ -49,12 +60,8 @@ public class GeneticCellTest {
 
     @Test
     public void testColorizeAfterEnoughTicks() throws Exception{
-        GeneticCell testCell = new GeneticCell(0);
-        GraphInitializer.buildLightenCellTestGraph(testCell.dgrn);
-        // assuming default structure:
-        //   (on) -a-> (TF1) -b-> (colorAdd)
-        // where weights of a=1 and b=2
-        // thus, colorAdd should achieve activation level of 2 after 2 ticks
+        GeneticCell testCell = getMockGeneticCell_1();
+        // colorAdd should achieve activation level of 2 after 2 ticks
         //       and color should therefore be lighter
         Color color_0 = testCell.getColor();
         testCell.dgrn.tick();

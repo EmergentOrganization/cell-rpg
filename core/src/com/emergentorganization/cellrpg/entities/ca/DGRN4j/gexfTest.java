@@ -15,6 +15,9 @@ import java.util.Calendar;
  */
 public class gexfTest {
 
+    // TODO: compare node.getAllEdges() and node.getEdges()
+    // TODO: do either of the above include inflowing edges AND outflowing edges?
+
     @Test
     public void testCellStateIsSetByConstructor() {
         Gexf gexf = new GexfImpl();

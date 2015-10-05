@@ -61,6 +61,8 @@ public class GeneticCAGrid extends CAGridBase{
             for (int j = 0; j < states[0].length; j++) {
                 GeneticCell cell = (GeneticCell) states[i][j];
                 cell.dgrn.tick();
+                cell.dgrn.tick();
+                cell.dgrn.tick();
                 CellAction act = ca_rule(cell.neighborCount);
 //                if (cell.state > 0) {
 //                    System.out.println(cell.neighborCount + "->" + act.toString());

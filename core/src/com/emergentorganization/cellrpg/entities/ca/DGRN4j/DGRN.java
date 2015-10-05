@@ -1,10 +1,8 @@
 package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
 
+import com.emergentorganization.cellrpg.scenes.CAScene;
 import it.uniroma1.dis.wsngroup.gexf4j.core.*;
-import it.uniroma1.dis.wsngroup.gexf4j.core.data.Attribute;
-import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeList;
-import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeValue;
-import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeValueList;
+import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.GexfImpl;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.StaxGraphWriter;
 import org.apache.logging.log4j.LogManager;
@@ -15,29 +13,39 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by 7yl4r on 10/4/2015.
  */
 
 public class DGRN {
+    // NOTE: these vars should be the only connection back to cellRPG
     private final Logger logger = LogManager.getLogger(getClass());
+    Random randomGenerator = CAScene.randomGenerator;
+    // END cellRPG dependent vars
 
     private Gexf gexf;
     public Graph graph;
-    private String ACTIVATION_VALUE;
-    protected static Attribute attr_ActivationValue;
+    private String ACTIVATION_VALUE_ID;
+    private String ALLELE_COUNT_ID = "# of alleles";
+    public static Attribute attr_ActivationValue;
+    public static Attribute attr_AlleleCount;
     private OutflowNodeHandler handleOutputNodes;
     private InflowNodeHandler inflowNodeHandle;
 
     public DGRN(String creator, String description, AttributeList attrList, Attribute attributeActivationValue,
                 OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler) {
+        attr_AlleleCount = attrList.createAttribute(
+                ALLELE_COUNT_ID,
+                AttributeType.INTEGER,
+                ALLELE_COUNT_ID
+        );
         attr_ActivationValue = attributeActivationValue;
-        ACTIVATION_VALUE = attr_ActivationValue.getId();
+        ACTIVATION_VALUE_ID = attr_ActivationValue.getId();
         inflowNodeHandle = inflowNodeHandler;
         handleOutputNodes = outflowNodeHandler;
         initGraph(creator, description, attrList);
@@ -51,9 +59,9 @@ public class DGRN {
         for (String node : inflowNodeHandle.getListOfInflowNodes()){
             try {
                 int newValue = inflowNodeHandle.getInflowNodeValue(node);
-                setNodeAttributeValue(getNode(node), ACTIVATION_VALUE, Integer.toString(newValue));
+                setNodeAttributeValue(getNode(node), ACTIVATION_VALUE_ID, Integer.toString(newValue));
             } catch( KeySelectorException err){
-                logger.error("inflow node '" + node + "' attr '" + ACTIVATION_VALUE + "' not set; not found!");
+                logger.error("inflow node '" + node + "' attr '" + ACTIVATION_VALUE_ID + "' not set; not found!");
             }
         }
     }
@@ -79,7 +87,8 @@ public class DGRN {
             colorAdd1
                     .setLabel(nodeName)
                     .getAttributeValues()
-                    .addValue(attr_ActivationValue, "0");
+                    .addValue(attr_ActivationValue, "0")
+                    .addValue(attr_AlleleCount, "1");
         }
     }
 
@@ -103,10 +112,10 @@ public class DGRN {
         for (Edge edge : graph.getAllEdges()){
             try{
                 if (Integer.parseInt(getNodeAttributeValue(
-                        edge.getSource(), ACTIVATION_VALUE)) > 0){
+                        edge.getSource(), ACTIVATION_VALUE_ID)) > 0){
 
 //                      // FOR CUMULATIVE DGRN
-//                    int i = getNodeAttributeIndex(edge.getTarget(), nodeAttribute.ACTIVATION_VALUE);
+//                    int i = getNodeAttributeIndex(edge.getTarget(), nodeAttribute.ACTIVATION_VALUE_ID);
 //                    AttributeValue targetAttr = edge.getTarget().getAttributeValues().get(i);
 //                    int attrVal = Integer.parseInt(targetAttr.getValue()) + (int)edge.getWeight();
 //                    edge.getTarget().getAttributeValues().get(i).setValue(Integer.toString(attrVal));
@@ -126,7 +135,9 @@ public class DGRN {
                 }
 
             } catch( KeySelectorException err){
-                logger.error("node has no activation value attribute. attempting to add it.");
+                logger.error(edge.getSource().getId() +
+                        " or " + edge.getTarget().getId() +
+                        " node has no activation value attribute. attempting to add it.");
                 edge.getSource().getAttributeValues().addValue(attr_ActivationValue, "0");
                 edge.getTarget().getAttributeValues().addValue(attr_ActivationValue, "0");
                 return;
@@ -139,7 +150,7 @@ public class DGRN {
                 String newVal = Integer.toString(nodeUpdates.get(key));
                 setNodeAttributeValue(
                         getNode(key),
-                        ACTIVATION_VALUE,
+                        ACTIVATION_VALUE_ID,
                         newVal
                 );
             } catch (KeySelectorException err){
@@ -148,8 +159,81 @@ public class DGRN {
         }
     }
 
-    private void applyUpdates(){
+    public void inheritGenes(DGRN parent, int maxAlleles){
+        // inherits genes from given parent assuming parent will represent 1/maxAlleles in genetic material
+        //     example: maxAlleles=2 (haploid)
+        //      parent_1: gene1(alleles:2), gene2(alleles:1)
+        //      patent_2: gene1(alleles:1), gene2(alleles:1), gene3(alleles:1)
+        //      child   : gene1(1 or 2),    gene2(0, 1, 2)  , gene3(0 or 1)
 
+        //     example2: maxAlleles=2 (triploid)
+        //      parent_1: gene1(alleles:2), gene2(alleles:1)
+        //      parent_2: gene1(alleles:1), gene2(alleles:1), gene3(alleles:1)
+        //      parent_3: gene1( 0       ), gene2(   3     ), gene3(   0     ), gene4( 3 )
+        //      child   : gene1(1 or 2),    gene2(1, 2, 3)  , gene3(0 or 1)   , gene4( 1 )
+
+        //     example3: maxAlleles=1 (mitosis)
+        //      child == parent_1
+
+        // for each gene pair
+        //logger.info("inheriting from parent " + parent.toString());
+        for (Node node : parent.graph.getNodes()){
+            if (isInflowNode(node.getId()) || isOutflowNode(node.getId())){
+                continue;  // don't inherit inflow/outflow nodes (these are in all by default)
+            } else {
+                //logger.info("gene node " + node.getId());
+                try {
+                    // choose if gene gets included based on node # of alleles attribute
+                    int n_alleles = Integer.parseInt(getNodeAttributeValue(node, ALLELE_COUNT_ID));
+                    // n_alleles/maxAlleles = chance of inheriting this gene
+                    if (randomGenerator.nextInt(maxAlleles + 1) < n_alleles) {
+                        // dice roll has determined that gene is inherited.
+                        try {
+                            // if gene already exists, # of alleles += 1
+                            Node childNode = getNode(node.getId());
+                            int newAlleleCount = Integer.parseInt(getNodeAttributeValue(childNode, ALLELE_COUNT_ID));
+                            newAlleleCount++;
+                            setNodeAttributeValue(childNode, ALLELE_COUNT_ID, Integer.toString(newAlleleCount));
+                        } catch (KeySelectorException err) {
+                            // else add chosen gene w/ # of alleles = 1
+                            Node newNode = graph.createNode(node.getId());
+                            newNode
+                                    .setLabel(node.getLabel())
+                                    .getAttributeValues()
+                                    .addValue(attr_ActivationValue, "0")
+                                    .addValue(attr_AlleleCount, "1");
+                            // copy connections
+                            for (Edge edge : node.getAllEdges()) {  // or node.getEdges()?
+                                if (edge.getSource().equals(node)) {
+                                    // outgoing
+                                    Node otherNode = getNode(edge.getTarget().getId());
+                                    newNode.connectTo(otherNode);
+                                } else if (edge.getTarget().equals(node)) {
+                                    // incoming
+                                    Node otherNode = getNode(edge.getSource().getId());
+                                    otherNode.connectTo(newNode);
+                                } else {
+                                    throw new IllegalStateException("node is not src or tgt of edge?!?");
+                                }
+                            }
+                        }
+                    } // else dice roll determines gene not to be inherited
+
+                } catch (KeySelectorException err) {
+                    logger.error("failed to inherit " + node.getId() + " gene: " + err.getMessage());
+                }
+            }
+        }
+    }
+
+    public boolean isOutflowNode(String id){
+        // returns true if given id is id of an outflow node
+        for (String outNode : handleOutputNodes.getListOfOutflowNodes()){
+            if (outNode == id){
+                return true;
+            }
+        } // else
+        return false;
     }
 
     public boolean isInflowNode(String id){

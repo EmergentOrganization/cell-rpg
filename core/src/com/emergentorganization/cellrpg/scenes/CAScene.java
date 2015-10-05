@@ -12,6 +12,7 @@ import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Pausable scene with cellular automata grid functionality.
@@ -19,6 +20,8 @@ import java.util.Map;
  */
 public class CAScene extends PausableScene {
     private Map<CALayer, CAGridBase> ca_layers = new EnumMap<CALayer, CAGridBase>(CALayer.class);
+    public static Random randomGenerator = new Random();
+
     private final int RENDERS_PER_GLIDER_INSERT = 10;  // TODO: temporary for testing only!
     private int render_n = 0;  // TODO: temporary for testing only!
 
@@ -32,7 +35,7 @@ public class CAScene extends PausableScene {
             @Override
             public void onAdd() {
                 ca_layers.put(CALayer.VYROIDS, new GeneticCAGrid(
-                        11, ZIndex.VYROIDS
+                        /*1, 3,*/11/*35*/, ZIndex.VYROIDS
                 ));
                 ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(
                         35, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}

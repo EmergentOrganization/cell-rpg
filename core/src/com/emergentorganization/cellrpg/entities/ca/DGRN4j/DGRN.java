@@ -13,10 +13,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by 7yl4r on 10/4/2015.
@@ -52,6 +49,18 @@ public class DGRN {
         addNodes(inflowNodeHandler.getListOfInflowNodes());
         addNodes(outflowNodeHandler.getListOfOutflowNodes());
         primeInflowNodes();
+    }
+
+    public List<Edge> getAllEdgesOf(Node node){
+        // returns list of all edges with given node as tgt or src
+        List<Edge> edges = new ArrayList<Edge>();
+        for ( Edge edge : graph.getAllEdges()){
+            if ( edge.getSource().getId() == node.getId()
+                    || edge.getTarget().getId() == node.getId()){
+                edges.add(edge);
+            }
+        }
+        return edges;
     }
 
     protected void primeInflowNodes(){
@@ -121,7 +130,7 @@ public class DGRN {
         //    thus, no abs() on the src potential
         int srcPotential = Integer.parseInt(getNodeAttributeValue(edge.getSource(), ACTIVATION_VALUE_ID));
         // traversing negative weights requires positive potential...
-        logger.trace("("+srcPotential+")-"+edgeMagnitude+"->?");
+        logger.trace("(" + srcPotential + ")-" + edgeMagnitude + "->?");
         if (srcPotential >= edgeMagnitude){
             return true;
         } else {
@@ -199,26 +208,30 @@ public class DGRN {
         //      child == parent_1
 
         // for each gene pair
-        //logger.info("inheriting from parent " + parent.toString());
+        logger.info("inheriting from parent " + parent.toString());
         for (Node node : parent.graph.getNodes()){
             if (isInflowNode(node.getId()) || isOutflowNode(node.getId())){
                 continue;  // don't inherit inflow/outflow nodes (these are in all by default)
             } else {
-                //logger.info("gene node " + node.getId());
                 try {
                     // choose if gene gets included based on node # of alleles attribute
                     int n_alleles = Integer.parseInt(getNodeAttributeValue(node, ALLELE_COUNT_ID));
                     // n_alleles/maxAlleles = chance of inheriting this gene
-                    if (randomGenerator.nextInt(maxAlleles + 1) < n_alleles) {
+                    int diceRoll = randomGenerator.nextInt(maxAlleles + 1);
+                    logger.debug("@ gene node " + node.getId() + " | " + n_alleles+"/"+maxAlleles + " alleles");
+                    if (diceRoll <= n_alleles) {
                         // dice roll has determined that gene is inherited.
+                        logger.trace("    inherited");
                         try {
                             // if gene already exists, # of alleles += 1
+                            logger.trace("    adding to existing node");
                             Node childNode = getNode(node.getId());
                             int newAlleleCount = Integer.parseInt(getNodeAttributeValue(childNode, ALLELE_COUNT_ID));
                             newAlleleCount++;
                             setNodeAttributeValue(childNode, ALLELE_COUNT_ID, Integer.toString(newAlleleCount));
                         } catch (KeySelectorException err) {
                             // else add chosen gene w/ # of alleles = 1
+                            logger.trace("    creating new gene node");
                             Node newNode = graph.createNode(node.getId());
                             newNode
                                     .setLabel(node.getLabel())
@@ -226,13 +239,17 @@ public class DGRN {
                                     .addValue(attr_ActivationValue, "0")
                                     .addValue(attr_AlleleCount, "1");
                             // copy connections
-                            for (Edge edge : node.getAllEdges()) {  // or node.getEdges()?
+                            List<Edge> edgesList = getAllEdgesOf(node);
+                            logger.trace("      found " +edgesList.size()+ " edges.");  // TODO: this should != 0
+                            for (Edge edge : edgesList) {
                                 if (edge.getSource().equals(node)) {
+                                    logger.trace("copying "+node.getId()+"->"+edge.getTarget().getId());
                                     // outgoing
                                     Node otherNode = getNode(edge.getTarget().getId());
                                     newNode.connectTo(otherNode);
                                 } else if (edge.getTarget().equals(node)) {
                                     // incoming
+                                    logger.trace("copying "+edge.getSource().getId()+"->"+node.getId());
                                     Node otherNode = getNode(edge.getSource().getId());
                                     otherNode.connectTo(newNode);
                                 } else {
@@ -240,8 +257,9 @@ public class DGRN {
                                 }
                             }
                         }
-                    } // else dice roll determines gene not to be inherited
-
+                    } else { // dice roll determines gene not to be inherited
+                        logger.trace("    not inherited");
+                    }
                 } catch (KeySelectorException err) {
                     logger.error("failed to inherit " + node.getId() + " gene: " + err.getMessage());
                 }

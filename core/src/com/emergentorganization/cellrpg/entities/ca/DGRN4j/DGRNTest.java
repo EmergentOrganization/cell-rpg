@@ -275,4 +275,21 @@ public class DGRNTest {
                 )
         );
     }
+
+    @Test
+    public void testGetAllEdgesOf() {
+        // TODO: compare node.getAllEdges() and node.getEdges()
+        // TODO: do either of the above include inflowing edges AND outflowing edges?
+        DGRN dgrn = getMockDGRN();
+
+        Node in = dgrn.graph.createNode("in");
+        Node middle = dgrn.graph.createNode("middle");
+        Node out = dgrn.graph.createNode("out");
+
+        in.connectTo(middle);
+        middle.connectTo(out);
+
+        List<Edge> edges = dgrn.getAllEdgesOf(middle);
+        Assert.assertEquals(2, edges.size());
+    }
 }

@@ -1,5 +1,7 @@
 package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
 
+import it.uniroma1.dis.wsngroup.gexf4j.core.Edge;
+import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.Attribute;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeClass;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeList;
@@ -11,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import javax.xml.crypto.KeySelectorException;
+import java.util.List;
 
 /**
  * Created by 7yl4r on 10/3/2015.
@@ -50,8 +53,14 @@ public class InheritanceTest {
         child.inheritGenes(parent1, 2);
         child.inheritGenes(parent2, 2);
 
-        // TODO: finish this test
+        // check same # of nodes
+        List<Node> pNodes = parent1.graph.getNodes();
+        List<Node> cNodes = child.graph.getNodes();
+        Assert.assertEquals(pNodes.size(), cNodes.size());
 
-       return;
+        // check same # of edges
+        List<Edge> pEdges = parent1.graph.getAllEdges();
+        List<Edge> cEdges = child.graph.getAllEdges();
+        Assert.assertEquals(pEdges.size(), cEdges.size());
     }
 }

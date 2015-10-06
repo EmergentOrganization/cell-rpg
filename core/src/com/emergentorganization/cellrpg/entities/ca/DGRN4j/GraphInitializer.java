@@ -1,7 +1,5 @@
 package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
 
-import com.emergentorganization.cellrpg.entities.ca.GeneticCell;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Graph;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 
 import javax.xml.crypto.KeySelectorException;
@@ -45,5 +43,22 @@ public class GraphInitializer {
         TF1.connectTo("1", colorAdd1).setWeight(2);
     }
 
+    public static void buildDGRNExample_homozygous(DGRN dgrn) throws KeySelectorException{
+        Node TF1 = dgrn.graph.createNode(innerNode.TF1);
+        TF1
+                .setLabel("TF1")
+                .getAttributeValues()
+                .addValue(dgrn.attr_ActivationValue, "0")
+                .addValue(dgrn.attr_AlleleCount, "2");
 
+        Node colorAdd1 = dgrn.graph.createNode(outflowNode.COLOR_LIGHTEN);
+        colorAdd1
+                .setLabel("colorAdd(x,x,x)")
+                .getAttributeValues()
+                .addValue(dgrn.attr_ActivationValue, "0")
+                .addValue(dgrn.attr_AlleleCount, "2");
+
+        dgrn.connect(inflowNode.ALWAYS_ON, innerNode.TF1, 1);
+        TF1.connectTo("1", colorAdd1).setWeight(10);
+    }
 }

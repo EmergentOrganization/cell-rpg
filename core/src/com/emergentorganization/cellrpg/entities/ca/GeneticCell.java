@@ -92,25 +92,29 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
                     .addValue(attr_ActivationValue, "0")
                     .addValue(DGRN.attr_AlleleCount, "1");
             dgrn.connect(inflowNodes.ALWAYS_ON, lightener.getId(), 1);
-            dgrn.connect(lightener.getId(), outflowNodes.COLOR_LIGHTEN, 1);
+            dgrn.connect(lightener.getId(), outflowNodes.COLOR_DARKEN, 1);
 
-            Node bluer = dgrn.graph.createNode("blue-lonely-gene");
-            bluer.setLabel("blue-lonely-gene")
-                    .getAttributeValues()
-                    .addValue(attr_ActivationValue, "0")
-                    .addValue(DGRN.attr_AlleleCount, "2");
-            dgrn.connect(inflowNodes.LONELY, bluer.getId(), 1);
-            dgrn.connect(bluer.getId(), outflowNodes.COLOR_ADD_B, 1);
-            bluer.connectTo(lightener).setWeight(-2);
-            // end temporary connections for testing
+//            Node bluer = dgrn.graph.createNode("blue-lonely-gene");
+//            bluer.setLabel("blue-lonely-gene")
+//                    .getAttributeValues()
+//                    .addValue(attr_ActivationValue, "0")
+//                    .addValue(DGRN.attr_AlleleCount, "2");
+//            dgrn.connect(inflowNodes.LONELY, bluer.getId(), 1);
+//            dgrn.connect(bluer.getId(), outflowNodes.COLOR_ADD_B, 1);
+//            bluer.connectTo(lightener).setWeight(-2);
+            dgrn.connect(inflowNodes.LONELY, outflowNodes.COLOR_ADD_B, 1);
+//
+//            Node reddener = dgrn.graph.createNode("redden-crowded-gene");
+//            reddener.setLabel("redden-crowded-gene")
+//                    .getAttributeValues()
+//                    .addValue(attr_ActivationValue, "0")
+//                    .addValue(DGRN.attr_AlleleCount, "2");
+//            dgrn.connect(inflowNodes.CROWDED, reddener.getId(), 1);
+//            dgrn.connect(reddener.getId(), outflowNodes.COLOR_ADD_R, 1);
+            dgrn.connect(inflowNodes.CROWDED, outflowNodes.COLOR_ADD_R, 1);
 
-            Node reddener = dgrn.graph.createNode("redden-crowded-gene");
-            reddener.setLabel("redden-crowded-gene")
-                    .getAttributeValues()
-                    .addValue(attr_ActivationValue, "0")
-                    .addValue(DGRN.attr_AlleleCount, "2");
-            dgrn.connect(inflowNodes.CROWDED, reddener.getId(), 1);
-            dgrn.connect(reddener.getId(), outflowNodes.COLOR_ADD_R, 1);
+            // green-ize
+            dgrn.connect(inflowNodes.ALWAYS_ON, outflowNodes.COLOR_ADD_G, 1);
 
         } catch(KeySelectorException err){
             logger.error("nodes failed to insert in building mock network: " + err.getMessage());
@@ -123,7 +127,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         initDGRN();
 
         // inherit network from parents
-        if (parents.size() > 1) {
+        if (parents.size() > 100){//1) {
             // choose 2 parents at random
             int p1 = CAScene.randomGenerator.nextInt(parents.size());
             int p2 = CAScene.randomGenerator.nextInt(parents.size());
@@ -143,6 +147,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         // sets up cell with DGRN that has only inflow & outflow nodes, no connections
         super(_state);
         initDGRN();
+        //buildMockNetwork(dgrn);  // ?
     }
 
     public void initDGRN(){
@@ -165,21 +170,23 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
     }
 
     public int getInflowNodeValue(String key) throws KeySelectorException{
+        int TRUE = 9999;
+        int FALSE = 0;
         if (key == inflowNodes.ALWAYS_ON){
-            return 1;
+            return TRUE;
         } else if (key == inflowNodes.NEIGHBOR_COUNT) {
             return neighborCount;
         } else if (key == inflowNodes.CROWDED) {
             if (neighborCount > 2) {
-                return 1;
+                return TRUE;
             } else {
-                return 0;
+                return FALSE;
             }
         } else if (key == inflowNodes.LONELY){
             if (neighborCount < 3){
-                return 1;
+                return TRUE;
             } else {
-                return 0;
+                return FALSE;
             }
         }else {
             throw new KeySelectorException("inflow node '" + key + "' not recognized");
@@ -193,23 +200,33 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
     public void handleOutputNode(String key, int value){
         // handles special actions caused by outflow nodes
         //logger.info("taking action " + key + "(" + value + ")");
-        final float COLOR_DELTA = .1f;
+        final float COLOR_DELTA = .1f*value;
+        final float tooDark = .2f;
+        final float tooLight = .9f;
         if( key == outflowNodes.COLOR_LIGHTEN) {
-            color.add(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
+            if(color.r < tooLight && color.g < tooLight && color.b < tooLight)
+                color.add(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
         } else if (key == outflowNodes.COLOR_DARKEN) {
-            color.sub(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
+            if(color.r > tooDark && color.g > tooDark && color.b > tooDark)
+                color.sub(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
         } else if (key == outflowNodes.COLOR_ADD_R) {
-            color.add(COLOR_DELTA, 0, 0, 0);
+            if (color.r < tooLight)
+                color.add(COLOR_DELTA, 0, 0, 0);
         } else if (key == outflowNodes.COLOR_ADD_G) {
-            color.add(0, COLOR_DELTA, 0, 0);
+            if (color.g < tooLight)
+                color.add(0, COLOR_DELTA, 0, 0);
         } else if (key == outflowNodes.COLOR_ADD_B) {
-            color.add(0, 0, COLOR_DELTA, 0);
+            if (color.b< tooLight)
+                color.add(0, 0, COLOR_DELTA, 0);
         } else if (key == outflowNodes.COLOR_SUB_R) {
-            color.sub(COLOR_DELTA, 0, 0, 0);
+            if (color.r < tooDark)
+                color.sub(COLOR_DELTA, 0, 0, 0);
         } else if (key == outflowNodes.COLOR_SUB_G) {
-            color.sub(0, COLOR_DELTA, 0, 0);
+            if (color.g < tooDark)
+                color.sub(0, COLOR_DELTA, 0, 0);
         } else if (key == outflowNodes.COLOR_SUB_B) {
-            color.sub(0, 0, COLOR_DELTA, 0);
+            if (color.b < tooDark)
+                color.sub(0, 0, COLOR_DELTA, 0);
         } else { // not an output key
             return;  // do nothing
             //throw new KeySelectorException("inflow node '" + key + "' not recognized");

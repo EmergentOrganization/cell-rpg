@@ -24,6 +24,11 @@ public class GraphInitializer {
         //   (on) -> (TF1) -> (colorAdd)
         //  (onClick) -^
 
+        Node alwaysOn = dgrn.graph.createNode(inflowNode.ALWAYS_ON);
+        alwaysOn.setLabel(inflowNode.ALWAYS_ON)
+                .getAttributeValues()
+                .addValue(dgrn.attr_ActivationValue, "1");
+
         Node TF1 = dgrn.graph.createNode(innerNode.TF1);
         TF1
                 .setLabel("TF1")

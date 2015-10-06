@@ -48,12 +48,12 @@ public class GeneticCellTest {
     @Test
     public void testActivationPropagation() throws Exception{
         GeneticCell testCell = getMockGeneticCell_2();
+        // t=0, states: 1 -> 0 -> 0
         int TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
         assert TF == 1;
-
         TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(TEST_INNER_NODE_ID_1),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
@@ -67,7 +67,7 @@ public class GeneticCellTest {
         assert TF == 0;
 
         testCell.dgrn.tick();
-
+        // t=1, states: 1 -> 1 -> 0
         TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
@@ -87,7 +87,7 @@ public class GeneticCellTest {
         assert TF == 0;
 
         testCell.dgrn.tick();
-
+        // t=0, states: 1 -> 2 -> 0
         TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
@@ -98,13 +98,13 @@ public class GeneticCellTest {
                 testCell.dgrn.getNode(TEST_INNER_NODE_ID_1),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
-        assert TF == 1;
+        Assert.assertEquals(TF, 2);
 
         TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.outflowNodes.COLOR_LIGHTEN),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
-        assert TF == 2;
+        Assert.assertEquals(TF, 2);
     }
 
     @Test

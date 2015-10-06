@@ -30,8 +30,8 @@ public class DGRN {
 
     private Gexf gexf;
     public Graph graph;
-    private String ACTIVATION_VALUE_ID;
-    private String ALLELE_COUNT_ID = "# of alleles";
+    public String ACTIVATION_VALUE_ID;
+    public String ALLELE_COUNT_ID = "# of alleles";
     public static Attribute attr_ActivationValue;
     public static Attribute attr_AlleleCount;
     private OutflowNodeHandler handleOutputNodes;
@@ -54,11 +54,12 @@ public class DGRN {
         primeInflowNodes();
     }
 
-    private void primeInflowNodes(){
+    protected void primeInflowNodes(){
         // inserts appropriate values into inflow nodes
         for (String node : inflowNodeHandle.getListOfInflowNodes()){
             try {
                 int newValue = inflowNodeHandle.getInflowNodeValue(node);
+                logger.trace("inflow " + node + " set to " + newValue);
                 setNodeAttributeValue(getNode(node), ACTIVATION_VALUE_ID, Integer.toString(newValue));
             } catch( KeySelectorException err){
                 logger.error("inflow node '" + node + "' attr '" + ACTIVATION_VALUE_ID + "' not set; not found!");
@@ -103,28 +104,44 @@ public class DGRN {
         }
     }
 
+    private void deductEdgeWeightFromSrc(Edge edge) throws KeySelectorException {
+        // deduct the magnitude of the edge weight from the src potential
+        Node src = edge.getSource();
+        int oldVal = Integer.parseInt(getNodeAttributeValue(src, ACTIVATION_VALUE_ID));
+        int newVal = oldVal - Math.abs((int) edge.getWeight());
+        setNodeAttributeValue(src, ACTIVATION_VALUE_ID, Integer.toString(newVal));
+    }
+
+    protected boolean edgePropagatesSignal(Edge edge) throws KeySelectorException {
+        // returns true if the given node has a signal that should be passed along the given edge
+        // assuming single-step weight-threshold-gate drain
+        // check if src node has enough potential to traverse edge
+        int edgeMagnitude = Math.abs((int) edge.getWeight());
+        // potential must be positive to traverse edge, even if edge weight is negative
+        //    thus, no abs() on the src potential
+        int srcPotential = Integer.parseInt(getNodeAttributeValue(edge.getSource(), ACTIVATION_VALUE_ID));
+        // traversing negative weights requires positive potential...
+        logger.trace("("+srcPotential+")-"+edgeMagnitude+"->?");
+        if (srcPotential >= edgeMagnitude){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void tick() {
         // computes one cycle through the DGRN
-        primeInflowNodes();
-
         // propagate signals through network
         HashMap<String, Integer> nodeUpdates = new HashMap<String, Integer>();
         for (Edge edge : graph.getAllEdges()){
             try{
-                if (Integer.parseInt(getNodeAttributeValue(
-                        edge.getSource(), ACTIVATION_VALUE_ID)) > 0){
-
-//                      // FOR CUMULATIVE DGRN
-//                    int i = getNodeAttributeIndex(edge.getTarget(), nodeAttribute.ACTIVATION_VALUE_ID);
-//                    AttributeValue targetAttr = edge.getTarget().getAttributeValues().get(i);
-//                    int attrVal = Integer.parseInt(targetAttr.getValue()) + (int)edge.getWeight();
-//                    edge.getTarget().getAttributeValues().get(i).setValue(Integer.toString(attrVal));
-
-                    // for stabilizing DGRN, read all updates before applying
+                if (edgePropagatesSignal(edge)) {
+                    logger.trace("running "+edge.getSource().getId()+"->"+edge.getTarget().getId());
+                    // must read all updates before applying additions, so they are stored in temp hashMap
                     if (nodeUpdates.containsKey(edge.getTarget().getId())){
                         nodeUpdates.put(
                                 edge.getTarget().getId(),
-                                nodeUpdates.get(edge.getTarget().getId()) + (int)edge.getWeight()
+                                nodeUpdates.get(edge.getTarget().getId()) + (int) edge.getWeight()
                         );
                     } else {
                         nodeUpdates.put(
@@ -132,6 +149,7 @@ public class DGRN {
                                 (int)edge.getWeight()
                         );
                     }
+                    deductEdgeWeightFromSrc(edge);
                 }
 
             } catch( KeySelectorException err){
@@ -146,17 +164,22 @@ public class DGRN {
         // now apply updates
         for (String key : nodeUpdates.keySet()){
             try {
-                handleOutputNodes.handleOutputNode(key, nodeUpdates.get(key));
-                String newVal = Integer.toString(nodeUpdates.get(key));
+                // src nodes have already been reduced, but need to add weights to tgt nodes
+                int oldVal = Integer.parseInt(getNodeAttributeValue(getNode(key), ACTIVATION_VALUE_ID));
+                int delta = nodeUpdates.get(key);
+                logger.trace("" + key + "=" + oldVal + "+" + delta);
+                String newVal = Integer.toString(oldVal + delta);
                 setNodeAttributeValue(
                         getNode(key),
                         ACTIVATION_VALUE_ID,
                         newVal
                 );
+                handleOutputNodes.handleOutputNode(key, nodeUpdates.get(key));
             } catch (KeySelectorException err){
                 logger.error("node not found for key:" + key);
             }
         }
+        primeInflowNodes();
     }
 
     public void inheritGenes(DGRN parent, int maxAlleles){
@@ -254,7 +277,7 @@ public class DGRN {
         try {
             out =  new FileWriter(f, false);
             graphWriter.writeToStream(gexf, out, "UTF-8");
-            System.out.println(f.getAbsolutePath());
+            logger.info("saved graph to " + f.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }

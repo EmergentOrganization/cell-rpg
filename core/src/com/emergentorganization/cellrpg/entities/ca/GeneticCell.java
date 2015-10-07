@@ -109,6 +109,14 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         builder.buildNetwork(dgrn);
     }
 
+    public GeneticCell incubate(){
+        // used to grow the cells a bit before releasing into environment
+        dgrn.tick();
+        dgrn.tick();
+        dgrn.tick();
+        return this;
+    }
+
     public void initDGRN(){
         dgrn = new DGRN(
                 "Planiverse Bridge v" + CellRpg.VERSION,

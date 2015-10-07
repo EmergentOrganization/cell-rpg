@@ -3,9 +3,7 @@ package com.emergentorganization.cellrpg.entities.ca;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.entities.ZIndex;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.AgeLightener;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.CellAlpha;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.GeneticNetworkBuilderInterface;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.*;
 
 import java.util.ArrayList;
 
@@ -17,8 +15,11 @@ public class GeneticCAGrid extends CAGridBase{
     private int selectedBuilder = 0;
     // list of cells used to seed when stamps are placed:
     private GeneticNetworkBuilderInterface[] builders = new GeneticNetworkBuilderInterface[]{
-            new CellAlpha(),
-            new AgeLightener()
+            //new CellAlpha(),
+            new AgeDarkener(),
+            new MrBlue(),
+            new MrGreen(),
+            new MrRed()
     };
     public GeneticCAGrid(int sizeOfCells, ZIndex z_index) {
         /*
@@ -71,8 +72,6 @@ public class GeneticCAGrid extends CAGridBase{
             for (int j = 0; j < states[0].length; j++) {
                 GeneticCell cell = (GeneticCell) states[i][j];
                 cell.dgrn.tick();
-                cell.dgrn.tick();
-                cell.dgrn.tick();
                 CellAction act = ca_rule(cell.neighborCount);
 //                if (cell.state > 0) {
 //                    System.out.println(cell.neighborCount + "->" + act.toString());
@@ -80,7 +79,12 @@ public class GeneticCAGrid extends CAGridBase{
                 switch(act){
                     case SPAWN:
                         if (cell.state == 0 ){
-                            states[i][j] = new GeneticCell(1, getLiveParentsOf(i, j, 3));
+                            try {
+                                states[i][j] = new GeneticCell(1, getLiveParentsOf(i, j, 3)).incubate();
+                            } catch (IllegalStateException ex){
+                                // not enough parents
+                                states[i][j] = newCell(1);
+                            }
                         }
                         break;
                     case DIE:
@@ -140,7 +144,7 @@ public class GeneticCAGrid extends CAGridBase{
 
     @Override
     protected BaseCell newCell(int init_state){
-        return new GeneticCell(init_state, getBuilder());
+        return new GeneticCell(init_state, getBuilder()).incubate();
     }
 
     @Override

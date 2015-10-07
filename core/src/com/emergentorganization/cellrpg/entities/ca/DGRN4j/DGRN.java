@@ -125,16 +125,21 @@ public class DGRN {
         // returns true if the given node has a signal that should be passed along the given edge
         // assuming single-step weight-threshold-gate drain
         // check if src node has enough potential to traverse edge
-        int edgeMagnitude = Math.abs((int) edge.getWeight());
-        // potential must be positive to traverse edge, even if edge weight is negative
-        //    thus, no abs() on the src potential
-        int srcPotential = Integer.parseInt(getNodeAttributeValue(edge.getSource(), ACTIVATION_VALUE_ID));
-        // traversing negative weights requires positive potential...
-        logger.trace("(" + srcPotential + ")-" + edgeMagnitude + "->?");
-        if (srcPotential >= edgeMagnitude){
-            return true;
-        } else {
-            return false;
+        try {
+            int edgeMagnitude = Math.abs((int) edge.getWeight());
+            // potential must be positive to traverse edge, even if edge weight is negative
+            //    thus, no abs() on the src potential
+            int srcPotential = Integer.parseInt(getNodeAttributeValue(edge.getSource(), ACTIVATION_VALUE_ID));
+            // traversing negative weights requires positive potential...
+            logger.trace("(" + srcPotential + ")-" + edgeMagnitude + "->?");
+            if (srcPotential >= edgeMagnitude){
+                return true;
+            } else {
+                return false;
+            }
+        } catch(IllegalStateException ex){
+            logger.error(edge.getSource().getId() +"->"+ edge.getTarget().getId() + " has no weight? : " +ex.getMessage());
+            return false; //throw ex;
         }
     }
 

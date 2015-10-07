@@ -35,7 +35,7 @@ public class CAScene extends PausableScene {
             @Override
             public void onAdd() {
                 ca_layers.put(CALayer.VYROIDS, new GeneticCAGrid(
-                        /*1, 3,*/11/*35*/, ZIndex.VYROIDS
+                        /*1, 3,11*/35/**/, ZIndex.VYROIDS
                 ));
                 ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(
                         35, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}

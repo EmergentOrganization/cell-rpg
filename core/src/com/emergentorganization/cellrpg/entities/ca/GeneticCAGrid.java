@@ -3,6 +3,9 @@ package com.emergentorganization.cellrpg.entities.ca;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.entities.ZIndex;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.AgeLightener;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.CellAlpha;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.GeneticNetworkBuilderInterface;
 
 import java.util.ArrayList;
 
@@ -10,6 +13,13 @@ import java.util.ArrayList;
  * Created by 7yl4r on 9/18/2015.
  */
 public class GeneticCAGrid extends CAGridBase{
+    private int lastBuilderStamp = 0;
+    private int selectedBuilder = 0;
+    // list of cells used to seed when stamps are placed:
+    private GeneticNetworkBuilderInterface[] builders = new GeneticNetworkBuilderInterface[]{
+            new CellAlpha(),
+            new AgeLightener()
+    };
     public GeneticCAGrid(int sizeOfCells, ZIndex z_index) {
         /*
         @sizeOfCells     : display size of an individual cell
@@ -116,9 +126,21 @@ public class GeneticCAGrid extends CAGridBase{
         super.setState(row, col, newState);
     }
 
+    private GeneticNetworkBuilderInterface getBuilder(){
+        // returns most appropriate cell builder
+        if (stampCount != lastBuilderStamp){
+            lastBuilderStamp = stampCount;
+            selectedBuilder++;
+            if (selectedBuilder >= builders.length){
+                selectedBuilder = 0;
+            }
+        }  // else return previously selected builder
+        return builders[selectedBuilder];
+    }
+
     @Override
     protected BaseCell newCell(int init_state){
-        return new GeneticCell(init_state);
+        return new GeneticCell(init_state, getBuilder());
     }
 
     @Override

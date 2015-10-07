@@ -24,6 +24,7 @@ public abstract class CAGridBase extends Entity {
     protected long lastFollowCheckTime = 0;
 
     public long generation = 0;
+    protected int stampCount = 0;
 
     protected final Logger logger = LogManager.getLogger(getClass());
     // size of grid in pixels
@@ -407,9 +408,8 @@ public abstract class CAGridBase extends Entity {
 
             // TODO: add pattern, row, col to queue which will be handled, call _stampState during next generation
             _stampState(pattern, row, col);
-
+            stampCount++;
             return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
-
         } else {
             //logger.warn("attempt to stamp pattern out of bounds (" + row + "," + col +"); error suppressed.");
             return -1;  // -1 indicates pattern not drawn, out-of-CAGrid bounds

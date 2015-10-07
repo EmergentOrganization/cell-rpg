@@ -239,7 +239,7 @@ public class DGRN {
                                     .addValue(attr_ActivationValue, "0")
                                     .addValue(attr_AlleleCount, "1");
                             // copy connections
-                            List<Edge> edgesList = getAllEdgesOf(node);
+                            List<Edge> edgesList = parent.getAllEdgesOf(node);
                             logger.trace("      found " +edgesList.size()+ " edges.");  // TODO: this should != 0
                             for (Edge edge : edgesList) {
                                 if (edge.getSource().equals(node)) {
@@ -254,6 +254,7 @@ public class DGRN {
                                     otherNode.connectTo(newNode);
                                 } else {
                                     throw new IllegalStateException("node is not src or tgt of edge?!?");
+                                    // TODO: or maybe otherNode is not yet in grid!
                                 }
                             }
                         }

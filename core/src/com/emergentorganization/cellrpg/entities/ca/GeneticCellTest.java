@@ -3,6 +3,9 @@ package com.emergentorganization.cellrpg.entities.ca;
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.GraphInitializer;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.MockBuilder;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.TestCell1;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.TestCell2;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import junit.framework.Assert;
 import org.apache.logging.log4j.LogManager;
@@ -17,40 +20,11 @@ import javax.xml.crypto.KeySelectorException;
 public class GeneticCellTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    private final String TEST_INNER_NODE_ID_1 = "test inner node 1";
-    private GeneticCell getMockGeneticCell_1() throws Exception{
-        // returns genetic cell with following structure:
-        //   (on) -a-> (TF1) -b-> (colorAdd)
-        // where weights of a=1 and b=2
-        GeneticCell testCell = new GeneticCell(0);
-        Node testNode = testCell.dgrn.graph.createNode(TEST_INNER_NODE_ID_1);
-        testNode
-                .setLabel(TEST_INNER_NODE_ID_1)
-                .getAttributeValues()
-                .addValue(DGRN.attr_ActivationValue, "0")
-                .addValue(DGRN.attr_AlleleCount, "1");
-        testCell.dgrn.connect(GeneticCell.inflowNodes.ALWAYS_ON, TEST_INNER_NODE_ID_1, 1);
-        testCell.dgrn.connect(TEST_INNER_NODE_ID_1, GeneticCell.outflowNodes.COLOR_LIGHTEN, 2);
-        return testCell;
-    }
-
-    private GeneticCell getMockGeneticCell_2() throws Exception{
-        // same as mockCell 1, but with state=1
-        GeneticCell testCell = new GeneticCell(1);
-        Node testNode = testCell.dgrn.graph.createNode(TEST_INNER_NODE_ID_1);
-        testNode
-                .setLabel(TEST_INNER_NODE_ID_1)
-                .getAttributeValues()
-                .addValue(DGRN.attr_ActivationValue, "0")
-                .addValue(DGRN.attr_AlleleCount, "1");
-        testCell.dgrn.connect(GeneticCell.inflowNodes.ALWAYS_ON, TEST_INNER_NODE_ID_1, 1);
-        testCell.dgrn.connect(TEST_INNER_NODE_ID_1, GeneticCell.outflowNodes.COLOR_LIGHTEN, 2);
-        return testCell;
-    }
+    public static final String TEST_INNER_NODE_ID_1 = "test inner node 1";
 
     @Test
     public void testActivationPropagation() throws Exception{
-        GeneticCell testCell = getMockGeneticCell_2();
+        GeneticCell testCell = new GeneticCell(1, new TestCell2());
         // t=0, states: 1 -> 0 -> 0
         int TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
@@ -113,19 +87,19 @@ public class GeneticCellTest {
     @Test
     public void testCellStateIsSetByConstructor() {
         int INIT_STATE = 0;
-        GeneticCell testCell = new GeneticCell(INIT_STATE);
+        GeneticCell testCell = new GeneticCell(INIT_STATE, new MockBuilder());
         Assert.assertEquals("initial state should be set to " + INIT_STATE, INIT_STATE, testCell.getState());
     }
 
     @Test
     public void testDefaultGraphHasAlwaysOnNode() throws KeySelectorException {
-        GeneticCell testCell = new GeneticCell(0);
+        GeneticCell testCell = new GeneticCell(0, new MockBuilder());
         testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON);
     }
 
     @Test
     public void testDefaultGraphAlwaysOnNodeIsActive() throws Exception {
-        GeneticCell testCell = new GeneticCell(0);
+        GeneticCell testCell = new GeneticCell(0, new MockBuilder());
         GraphInitializer.buildLightenCellTestGraph(testCell.dgrn);
         int TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
@@ -138,8 +112,7 @@ public class GeneticCellTest {
 
     @Test
     public void testAlwaysOnStaysActive() throws Exception{
-        GeneticCell testCell = new GeneticCell(1);
-        GeneticCell.buildMockNetwork(testCell.dgrn);
+        GeneticCell testCell = new GeneticCell(1, new TestCell1());
         // check activation value
         int TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
@@ -176,7 +149,7 @@ public class GeneticCellTest {
 
     @Test
     public void testColorizeAfterEnoughTicks() throws Exception{
-        GeneticCell testCell = getMockGeneticCell_1();
+        GeneticCell testCell = new GeneticCell(0, new TestCell1());
         // colorAdd should achieve activation level of 2 after a few ticks
         //       and color should therefore be lighter
         Color color_0 = new Color(testCell.getColor());
@@ -216,7 +189,7 @@ public class GeneticCellTest {
 //    @Test
 //    public void testAddBlueInMockNet(){
 //        GeneticCell testCell = new GeneticCell(1);
-//        GeneticCell.buildMockNetwork(testCell.dgrn);
+//        GeneticCell.buildSeedNetwork(testCell.dgrn);
 //        Color color_0 = new Color(testCell.getColor());
 //        testCell.dgrn.tick();
 //        testCell.dgrn.tick();

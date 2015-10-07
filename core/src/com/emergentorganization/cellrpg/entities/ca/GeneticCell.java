@@ -5,6 +5,7 @@ import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.InflowNodeHandler;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.OutflowNodeHandler;
+import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.GeneticNetworkBuilderInterface;
 import com.emergentorganization.cellrpg.scenes.CAScene;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
@@ -25,6 +26,8 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
     protected DGRN dgrn;
     public int neighborCount = 0;
+    private GeneticNetworkBuilderInterface builder;
+
     public static class inflowNodes{
         public static final String ALWAYS_ON = "alwaysOn";
         public static final String NEIGHBOR_COUNT = "# of neighbors";
@@ -53,9 +56,11 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
             };
         }
     }
+
     public static class nodeAttribute{
         public static final String ACTIVATION_VALUE = "activation level";
     }
+
     static final Color DEFAULT_COLOR = new Color(.4f,.4f,.4f,.9f);
     private Color color = new Color(DEFAULT_COLOR);
     private static AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
@@ -69,65 +74,19 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
 
     public GeneticCell(int _state, ArrayList<GeneticCell> parents, int mutateLevel){
         // builds cell network inherting from parent(s), mutated based on given level
-        this(_state);
+        super(_state);
         initDGRN();
         // TODO: inherit + mutation
     }
 
-    public static void buildMockNetwork(DGRN dgrn){
-        // build network of structure:
-        // (on) -1-> (all-light) -1-> (lighten)
-        //                 ^
-        //                 |
-        //                -2
-        //                 |
-        // (lonely) -1-> (bluer) -1-> (addBlue)
-        // (crowded) -1-> reddener -1-> (redden)
-
-        try {
-            Node lightener = dgrn.graph.createNode("always-lighten-gene");
-            lightener
-                    .setLabel("always-lighten-gene")
-                    .getAttributeValues()
-                    .addValue(attr_ActivationValue, "0")
-                    .addValue(DGRN.attr_AlleleCount, "1");
-            dgrn.connect(inflowNodes.ALWAYS_ON, lightener.getId(), 1);
-            dgrn.connect(lightener.getId(), outflowNodes.COLOR_DARKEN, 1);
-
-//            Node bluer = dgrn.graph.createNode("blue-lonely-gene");
-//            bluer.setLabel("blue-lonely-gene")
-//                    .getAttributeValues()
-//                    .addValue(attr_ActivationValue, "0")
-//                    .addValue(DGRN.attr_AlleleCount, "2");
-//            dgrn.connect(inflowNodes.LONELY, bluer.getId(), 1);
-//            dgrn.connect(bluer.getId(), outflowNodes.COLOR_ADD_B, 1);
-//            bluer.connectTo(lightener).setWeight(-2);
-            dgrn.connect(inflowNodes.LONELY, outflowNodes.COLOR_ADD_B, 1);
-//
-//            Node reddener = dgrn.graph.createNode("redden-crowded-gene");
-//            reddener.setLabel("redden-crowded-gene")
-//                    .getAttributeValues()
-//                    .addValue(attr_ActivationValue, "0")
-//                    .addValue(DGRN.attr_AlleleCount, "2");
-//            dgrn.connect(inflowNodes.CROWDED, reddener.getId(), 1);
-//            dgrn.connect(reddener.getId(), outflowNodes.COLOR_ADD_R, 1);
-            dgrn.connect(inflowNodes.CROWDED, outflowNodes.COLOR_ADD_R, 1);
-
-            // green-ize
-            dgrn.connect(inflowNodes.ALWAYS_ON, outflowNodes.COLOR_ADD_G, 1);
-
-        } catch(KeySelectorException err){
-            logger.error("nodes failed to insert in building mock network: " + err.getMessage());
-        }
-    }
-
     public GeneticCell(int _state, ArrayList<GeneticCell> parents){
         // builds cell network inherting from parent(s) (no mutations)
-        this(_state);
+        super(_state);
         initDGRN();
 
         // inherit network from parents
-        if (false){//parents.size() > 1) {  // TODO: fix inheritance!
+        if (parents.size() > 1) {
+            logger.info("cell inheriting from 2 parents");
             // choose 2 parents at random
             int p1 = CAScene.randomGenerator.nextInt(parents.size());
             int p2 = CAScene.randomGenerator.nextInt(parents.size());
@@ -137,17 +96,17 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
             dgrn.inheritGenes(parents.get(p2).dgrn, 2);
         } else {
             // not enough parents, cells are being manually inserted
-            // temporary connections for testing purposes:
-            buildMockNetwork(dgrn);
-            // TODO: add randomly-generated starter cell instead
+            throw new IllegalStateException("not enough parents to inherit");
         }
     }
 
-    public GeneticCell(int _state){
-        // sets up cell with DGRN that has only inflow & outflow nodes, no connections
+    public GeneticCell(int _state, GeneticNetworkBuilderInterface _builder){
+        // builds preset network using given builder.
         super(_state);
         initDGRN();
-        //buildMockNetwork(dgrn);  // ?
+        builder = _builder;
+        logger.info("building seed cell network");
+        builder.buildNetwork(dgrn);
     }
 
     public void initDGRN(){

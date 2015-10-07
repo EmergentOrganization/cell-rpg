@@ -213,7 +213,7 @@ public class DGRN {
         //      child == parent_1
 
         // for each gene pair
-        logger.info("inheriting from parent " + parent.toString());
+        logger.trace("inheriting from parent " + parent.toString());
         for (Node node : parent.graph.getNodes()){
             if (isInflowNode(node.getId()) || isOutflowNode(node.getId())){
                 continue;  // don't inherit inflow/outflow nodes (these are in all by default)
@@ -251,12 +251,12 @@ public class DGRN {
                                     logger.trace("copying "+node.getId()+"->"+edge.getTarget().getId());
                                     // outgoing
                                     Node otherNode = getNode(edge.getTarget().getId());
-                                    newNode.connectTo(otherNode);
+                                    newNode.connectTo(otherNode).setWeight(edge.getWeight());
                                 } else if (edge.getTarget().equals(node)) {
                                     // incoming
                                     logger.trace("copying "+edge.getSource().getId()+"->"+node.getId());
                                     Node otherNode = getNode(edge.getSource().getId());
-                                    otherNode.connectTo(newNode);
+                                    otherNode.connectTo(newNode).setWeight(edge.getWeight());
                                 } else {
                                     throw new IllegalStateException("node is not src or tgt of edge?!?");
                                     // TODO: or maybe otherNode is not yet in grid!

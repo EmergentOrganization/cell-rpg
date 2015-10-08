@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.emergentorganization.cellrpg.CellRpg;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 
@@ -14,6 +16,7 @@ import java.util.HashMap;
  * Created by OrelBitton on 06/06/2015.
  */
 public class GraphicsComponent extends SpriteComponent{
+    private final Logger logger = LogManager.getLogger(getClass());
     private final TextureAtlas textureAtlas;
     private HashMap<String, Animation> anims = new HashMap<String, Animation>();
     private Animation playing;
@@ -45,12 +48,17 @@ public class GraphicsComponent extends SpriteComponent{
     }
 
     public void setKeyFrame(TextureRegion region) {
-        curFrame = region;
-        Sprite sprite = getSprite();
-        sprite.setRegion(region);
-        sprite.setSize(curFrame.getRegionWidth(), curFrame.getRegionHeight());
-        // NOTE: might also want to do these?:
-        //sprite.setColor(1, 1, 1, 1);
+        try {
+            curFrame = region;
+            Sprite sprite = getSprite();
+            sprite.setRegion(region);
+            sprite.setSize(curFrame.getRegionWidth(), curFrame.getRegionHeight());
+            // NOTE: might also want to do these?:
+            //sprite.setColor(1, 1, 1, 1);
+        } catch(NullPointerException ex){
+            logger.error("Texture is null! Perhaps you forgot to pack it?");
+            throw ex;
+        }
     }
 
     public void checkKeyFrames() {

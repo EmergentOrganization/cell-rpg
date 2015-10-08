@@ -169,7 +169,7 @@ public class Player extends Character {
                 CellRpg.fetch().setScreen(new MainMenu(message));
                 break;
             case VYROID_DAMAGE:
-                getFirstComponentByType(ShieldComponent.class).damage(10);
+                getFirstComponentByType(ShieldComponent.class).damage();
                 break;
         }
     }

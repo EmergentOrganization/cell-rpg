@@ -2,13 +2,9 @@ package com.emergentorganization.cellrpg.scenes;
 
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
-import com.emergentorganization.cellrpg.entities.Entity;
-import com.emergentorganization.cellrpg.entities.FollowingCamera;
-import com.emergentorganization.cellrpg.entities.ScoreHUD;
-import com.emergentorganization.cellrpg.entities.ZIndex;
+import com.emergentorganization.cellrpg.entities.*;
 import com.emergentorganization.cellrpg.entities.buildings.VyroidGenEntity;
 import com.emergentorganization.cellrpg.entities.characters.Player;
-import com.emergentorganization.cellrpg.entities.WeaponPowerup;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import org.apache.logging.log4j.LogManager;
@@ -69,6 +65,13 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		y = (float)Math.random()*40-20;
 		WeaponPowerup wp = new WeaponPowerup();
 		addArcadeEntity(wp, x, y, .01f, .01f);
+
+		// add shield powerup
+		x = (float)Math.random()*40-20;
+		y = (float)Math.random()*40-20;
+		ShieldPowerup sp = new ShieldPowerup();
+		addArcadeEntity(sp, x, y, .01f, .01f);
+
 		return gen;
 	}
 

@@ -12,16 +12,16 @@ import com.emergentorganization.cellrpg.entities.ZIndex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * defines how to interact with a CAGrid.
  * Created by 7yl4r on 9/16/2015.
  */
 public abstract class CAGridBase extends Entity {
+    public static final long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
     protected static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
-    protected static final int TIME_PER_GENERATION = 100;  // ms allocated per generation (approximate, actual is slightly longer)
-    protected static final int TIME_PER_FOLLOW = 1000; // ms between checks between grid movements
-    protected long timeToGenerate = TIME_PER_GENERATION;
-    protected long lastFollowCheckTime = 0;
 
     public long generation = 0;
 
@@ -43,7 +43,6 @@ public abstract class CAGridBase extends Entity {
 
     protected CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
 
-    protected long lastGenerationTime = 0;
     protected BaseCell[][] states;
     protected Color[] stateColorMap;
 
@@ -84,27 +83,40 @@ public abstract class CAGridBase extends Entity {
         generation += 1;
     }
 
-    /* === ENTITY METHODS (PROBABLY) OVERRIDDEN BY IMPLEMENTER === */
+    class GenerateTask extends TimerTask {
+        private CAGridBase grid;
 
+        public GenerateTask(CAGridBase _grid) {
+            grid = _grid;
+        }
 
+        public void run() {
+            try {
+                grid.generate();
+                grid.reposition();
+                // schedule next update
+                // NOTE: since generation computation time may be variable,
+                //        this _could_ be scheduled before completing the above,
+                //        but this also creates possibility of concurrency issues
+                //        if generation time approaches TIME_BTWN_GENERATIONS.
+                Timer time = new Timer();
+                time.schedule(new GenerateTask(grid), TIME_BTWN_GENERATIONS);
+            } catch (Exception ex) {
+                logger.error("error running CA generation thread: " + ex.getMessage());
+            }
+        }
+    }
+
+    private void initGenerationLoop(){
+        // sets up generation timer loop on separate thread
+        Timer time = new Timer(); // Instantiate Timer Object
+        time.schedule(new GenerateTask(this), TIME_BTWN_GENERATIONS);
+    }
 
     @Override
     public void update(float deltaTime){
         // updates the grid. (probably) computes ca generations.
         super.update(deltaTime);
-
-        if (!getScene().isEditor()) {
-            long now = System.currentTimeMillis();
-            if (now - lastGenerationTime > TIME_PER_GENERATION) {
-                lastGenerationTime = now;
-                generate();
-                timeToGenerate = System.currentTimeMillis() - now;
-                //logger.info("new cell generation computed. t=" + timeToGenerate + "ms");
-            } else if (now - lastFollowCheckTime > TIME_PER_FOLLOW){
-                lastFollowCheckTime = now;
-                reposition(); // do this only in non-generation frames to even out computational requirements
-            }
-        }
     }
 
     @Override
@@ -121,6 +133,7 @@ public abstract class CAGridBase extends Entity {
         logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
 
         initStates();
+        initGenerationLoop();
     }
 
     public int getCellSize(){
@@ -410,7 +423,7 @@ public abstract class CAGridBase extends Entity {
             // TODO: add pattern, row, col to queue which will be handled, call _stampState during next generation
             _stampState(pattern, row, col);
 
-            return lastGenerationTime + TIME_PER_GENERATION;  // TODO: estimate should + a few ms; currently this is soonest possible time.
+            return TIME_BTWN_GENERATIONS;  // TODO: estimate should + a few ms; currently this is soonest possible time.
 
         } else {
             //logger.warn("attempt to stamp pattern out of bounds (" + row + "," + col +"); error suppressed.");

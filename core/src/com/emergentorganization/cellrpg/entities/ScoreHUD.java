@@ -1,12 +1,7 @@
 package com.emergentorganization.cellrpg.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
-import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
-import com.emergentorganization.cellrpg.entities.Entity;
-import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.kotcrab.vis.ui.widget.VisLabel;

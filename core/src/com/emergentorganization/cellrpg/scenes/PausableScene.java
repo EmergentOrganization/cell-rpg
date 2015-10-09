@@ -112,7 +112,6 @@ public class PausableScene extends Scene {
     @Override
     public void dispose() {
         super.dispose();
-
         frameBufferTexture.getTexture().dispose();
     }
 }

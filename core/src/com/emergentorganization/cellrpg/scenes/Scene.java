@@ -66,6 +66,7 @@ public abstract class Scene implements Screen {
     private static final double WORLD_HEIGHT = 10000d;
     private InputMultiplexer input;
 
+    private boolean hideCalled = false;
     private boolean isEditor = false;
     private TextureRegion fboRegion;
 
@@ -136,57 +137,67 @@ public abstract class Scene implements Screen {
      */
     @Override
     public void render(float delta) {
-        long now = System.currentTimeMillis();
+        logger.trace("render" + this);
+        if (hideCalled){
+            dispose();
+        } else {
+            long now = System.currentTimeMillis();
 
-        if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
+            if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
 
-        handleQueue();
+            handleQueue();
 
-        for ( GlobalComponent comp : comps){
-            comp.update(delta);
+            for (GlobalComponent comp : comps) {
+                comp.update(delta);
+            }
+
+            for (Entity entity : entities) {
+                entity.update(delta);
+            }
+
+            uiStage.act();
+
+            frameBuffer.begin();
+            Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            batch.setProjectionMatrix(gameCamera.combined);
+            batch.begin();
+            for (Entity entity : entities) {
+                entity.render(batch);
+            }
+            batch.end();
+
+            debugRenderer.setProjectionMatrix(gameCamera.combined);  // this should be uncommented, but doing so breaks cagrid...
+            debugRenderer.begin();
+            //logger.trace("debugRender using " + debugRenderer);
+            for (Entity entity : entities) {
+                entity.debugRender(debugRenderer);
+            }
+            debugRenderer.end();
+            frameBuffer.end();
+
+            for (PostProcessor pp : postProcessors) {
+                pp.render(frameBuffer);
+            }
+
+            // Render final texture to screen
+            outBatch.begin();
+            Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            outBatch.draw(fboRegion, 0, 0);
+            outBatch.end();
+
+            renderTime = System.currentTimeMillis() - now;
         }
-
-        for (Entity entity : entities) {
-            entity.update(delta);
+        if (hideCalled){
+            dispose();
         }
-
-        uiStage.act();
-
-        frameBuffer.begin();
-        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        batch.setProjectionMatrix(gameCamera.combined);
-        batch.begin();
-        for (Entity entity : entities) {
-            entity.render(batch);
-        }
-        batch.end();
-
-        debugRenderer.setProjectionMatrix(gameCamera.combined);  // this should be uncommented, but doing so breaks cagrid...
-        debugRenderer.begin();
-        for (Entity entity : entities) {
-            entity.debugRender(debugRenderer);
-        }
-        debugRenderer.end();
-        frameBuffer.end();
-
-        for (PostProcessor pp : postProcessors) {
-            pp.render(frameBuffer);
-        }
-
-        // Render final texture to screen
-        outBatch.begin();
-        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        outBatch.draw(fboRegion, 0, 0);
-        outBatch.end();
-
-        renderTime = System.currentTimeMillis() - now;
     }
 
     @Override
     public void hide() {
+        hideCalled = true;
         // TODO
     }
 
@@ -202,21 +213,31 @@ public abstract class Scene implements Screen {
 
     @Override
     public void dispose() {
-        logger.info("disposing");
-        for (Entity entity : entities) {
-            entity.dispose();
-        }
-        for (PostProcessor postProcessor : postProcessors) {
-            postProcessor.dispose();
-        }
+        try {
+            logger.info("disposing scene");
+            for (Entity entity : entities) {
+                removeEntity(entity);
+            }
+            handleQueue();  // causes queued entity removals to be handled
+            for (PostProcessor postProcessor : postProcessors) {
+                postProcessor.dispose();
+            }
 
-        uiStage.dispose();
-        physWorld.removeAllBodiesAndJoints();
-        batch.dispose();
-        outBatch.dispose();
-        debugRenderer.dispose();
-        frameBuffer.dispose();
-        fboRegion.getTexture().dispose();
+            physWorld.removeAllBodiesAndJoints();
+            batch.dispose();
+            outBatch.dispose();
+            debugRenderer.dispose();
+            frameBuffer.getColorBufferTexture().dispose();
+            frameBuffer.dispose();
+            fboRegion.getTexture().dispose();
+            uiStage.clear();
+            //uiStage.getBatch().dispose();
+            uiStage.dispose();
+            logger.info("scene disposed.");
+        } catch (Exception ex){
+            logger.error("dispose err: " + ex.getMessage() + '\n' + ex.getStackTrace());
+            dispose();
+        }
     }
 
     public Entity getPlayer(){

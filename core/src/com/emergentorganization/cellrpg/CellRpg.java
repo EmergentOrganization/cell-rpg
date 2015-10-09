@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.Config;
@@ -12,14 +11,11 @@ import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Created by BrianErikson on 6/7/2015.
  */
 public class CellRpg extends Game {
-    public static final String VERSION = "0.3.9";
+    public static final String VERSION = "0.3.10";
     private static final String ATLAS_PATH = "textures/TexturePack.atlas";
 
     // private FPSLogger fps = new FPSLogger();
@@ -75,17 +71,10 @@ public class CellRpg extends Game {
     @Override
     public void setScreen(Screen screen) {
         oldScreen = getScreen();
-        super.setScreen(screen);
-
         if (oldScreen != null) {
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    oldScreen.dispose();
-                }
-            }, 2 * 1000);
+            oldScreen.hide();
         }
+        super.setScreen(screen);
     }
 
     @Override

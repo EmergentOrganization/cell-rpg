@@ -105,6 +105,7 @@ public class GraphicsComponent extends SpriteComponent{
         Animation anim = new Animation(time_per_frame, firstAnimation);
         anim.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         register(name, anim);
+        sheet.dispose();
     }
 
     public void register(String name, Texture texture, int n_columns, int n_rows, float time_per_frame){
@@ -132,6 +133,11 @@ public class GraphicsComponent extends SpriteComponent{
     @Override
     public boolean shouldRender() {
         return true;
+    }
+
+    @Override
+    public void dispose(){
+        super.dispose();
     }
 }
 

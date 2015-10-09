@@ -2,7 +2,6 @@ package com.emergentorganization.cellrpg.scenes.submenus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
 import com.emergentorganization.cellrpg.components.entity.WeaponComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;

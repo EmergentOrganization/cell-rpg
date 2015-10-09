@@ -84,6 +84,13 @@ public abstract class CAGridBase extends Entity {
         generation += 1;
     }
 
+    public void scheduleGeneration(long runtime){
+        // schedules a new generation thread
+        Timer time = new Timer();
+        // add runtime to TIME_BTWN_GENERATIONS to ensure this thread never uses more than 50% CPU time
+        time.schedule(new GenerateTask(this), TIME_BTWN_GENERATIONS + runtime);
+    }
+
     class GenerateTask extends TimerTask {
         private CAGridBase grid;
 
@@ -93,6 +100,7 @@ public abstract class CAGridBase extends Entity {
 
         public void run() {
             try {
+                long runtime = System.currentTimeMillis();
                 grid.generate();
                 grid.reposition();
                 // schedule next update
@@ -100,18 +108,21 @@ public abstract class CAGridBase extends Entity {
                 //        this _could_ be scheduled before completing the above,
                 //        but this also creates possibility of concurrency issues
                 //        if generation time approaches TIME_BTWN_GENERATIONS.
-                Timer time = new Timer();
-                time.schedule(new GenerateTask(grid), TIME_BTWN_GENERATIONS);
+                runtime = System.currentTimeMillis() - runtime;
+                grid.scheduleGeneration(runtime);
+                Thread.currentThread().stop();
+                return;
             } catch (Exception ex) {
                 logger.error("error running CA generation thread: " + ex.getMessage());
+                Thread.currentThread().stop();
+                return;
             }
         }
     }
 
     private void initGenerationLoop(){
         // sets up generation timer loop on separate thread
-        Timer time = new Timer(); // Instantiate Timer Object
-        time.schedule(new GenerateTask(this), TIME_BTWN_GENERATIONS);
+        scheduleGeneration(0);
     }
 
     @Override

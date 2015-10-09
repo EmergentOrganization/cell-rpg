@@ -37,15 +37,14 @@ public class CAScene extends PausableScene {
                 ca_layers.put(CALayer.VYROIDS, new GeneticCAGrid(
                         /*1 3 */11/*,35/**/, ZIndex.VYROIDS
                 ));
-                ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(
-                        11, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}
-                ));
+
                 addEntity(ca_layers.get(CALayer.VYROIDS));
-                addEntity(ca_layers.get(CALayer.ENERGY));
             }
 
             @Override
             public void onRemove() {
+                removeEntity(ca_layers.get(CALayer.VYROIDS_MEGA));
+                removeEntity(ca_layers.get(CALayer.VYROIDS_MINI));
                 removeEntity(ca_layers.get(CALayer.VYROIDS));
                 removeEntity(ca_layers.get(CALayer.ENERGY));
             }

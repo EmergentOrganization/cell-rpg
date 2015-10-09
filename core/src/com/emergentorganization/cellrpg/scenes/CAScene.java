@@ -6,6 +6,7 @@ import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
+import com.emergentorganization.cellrpg.entities.ca.decayCAGrid;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 
@@ -39,8 +40,8 @@ public class CAScene extends PausableScene {
                 ca_layers.put(CALayer.VYROIDS, new BufferedCAGrid(
                         3, ZIndex.VYROIDS, new Color[] {new Color(1f, .87f, .42f, 1f), new Color(1f, .4f, .8f, .8f)}
                 ));
-                ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(
-                        11, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}
+                ca_layers.put(CALayer.ENERGY,  new decayCAGrid(
+                        1, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .8f)}
                 ));
                 addEntity(ca_layers.get(CALayer.VYROIDS_MEGA));
                 addEntity(ca_layers.get(CALayer.VYROIDS_MINI));

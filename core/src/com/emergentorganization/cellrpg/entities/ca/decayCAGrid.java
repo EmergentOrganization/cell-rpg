@@ -41,8 +41,8 @@ public class decayCAGrid extends CAGridBase {
     @Override
     protected void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
                             final float x_origin, final float y_origin){
-        final int min_render = -10;
-        final float delt = .1f;
+        final int min_render = -20;
+        final float delt = .05f;
         if (states[i][j].getState() > 0) {  // state must be > 0 else stateColorMap indexError
             // draw square
             shapeRenderer.setColor(stateColorMap[states[i][j].getState()-1]);

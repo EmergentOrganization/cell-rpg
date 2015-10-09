@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.components.entity;
 
+import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
 import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
@@ -25,6 +26,7 @@ import java.util.HashMap;
  */
 public class CACollisionComponent extends EntityComponent {
     private MovementComponent mc;
+    private Vector2 lastCollisionPosition;  // position @ last locatoin position was checked
     private ArrayList collidingStates = new ArrayList(); // list of states with collision effects
     private int colliderRadius;  // radius of collision object
     private int colliderGridSize;  // when checking the collision area, checks at grid intersections
@@ -77,14 +79,23 @@ public class CACollisionComponent extends EntityComponent {
     @Override
     public void added() {
         mc = getFirstSiblingByType(MovementComponent.class);
+        lastCollisionPosition = mc.getWorldPosition();
     }
 
     @Override
     public void update(float deltaTime) {
         try {
-            if (collide()) {
-                // if bullet has collided
-                return;
+            Vector2 currentPostion = mc.getWorldPosition();
+            float delta = 1f/mc.getVelocity().len();  // this should check every pixel (assuming velocity is in pixels)
+            float thresh = delta;
+            Vector2 diff = new Vector2(lastCollisionPosition);
+            while (diff.sub(currentPostion).len2() > thresh){
+//                System.out.println("lastPos=" + lastCollisionPosition);
+//                System.out.println("lerp("+currentPostion+","+delta+")");
+                lastCollisionPosition.lerp(currentPostion, delta);
+                System.out.println("collide @ " + lastCollisionPosition);
+                collide(lastCollisionPosition);
+                diff.set(lastCollisionPosition);
             }
         } catch(ClassCastException err){
             // non-cascene, can't check for ca collisions
@@ -101,7 +112,7 @@ public class CACollisionComponent extends EntityComponent {
             // impact the CA
             try{
                 int[][] stamp = impacts.get(state);
-                caScene.getLayer(impactLayers.get(state)).stampState(stamp, mc.getWorldPosition());
+                caScene.getLayer(impactLayers.get(state)).stampState(stamp, new Vector2(x,y));
             } catch(NullPointerException err){
                 // maybe event-only interaction
             }
@@ -118,12 +129,12 @@ public class CACollisionComponent extends EntityComponent {
         }
     }
 
-    private boolean collide(){
+    private boolean collide(Vector2 position){
         // checks for collisions
         // returns true if collided, else false
         // this method isn't pretty, but it is most efficient...
-        float x = mc.getWorldPosition().x;
-        float y = mc.getWorldPosition().y;
+        float x = position.x;
+        float y = position.y;
         // check origin
         if (checkCollideAt(x, y)) return true;
 

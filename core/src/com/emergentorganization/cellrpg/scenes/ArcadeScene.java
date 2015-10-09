@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes;
 
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.*;
@@ -55,7 +56,19 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		// adds another vyroid generator
 		float x = 0;
 		float y = 0;
-		VyroidGenEntity gen = new VyroidGenEntity(ZIndex.BUILDING);
+		int chosenLayer = (int)Math.round(Math.random()*2);
+		CALayer layer;
+		switch (chosenLayer){
+			case 0:
+				layer = CALayer.VYROIDS_MINI;
+				break;
+			case 1:
+				layer = CALayer.VYROIDS_MEGA;
+				break;
+			default:
+				layer = CALayer.VYROIDS;
+		}
+		VyroidGenEntity gen = new VyroidGenEntity(ZIndex.BUILDING, layer);
 		addArcadeEntity(gen, x, y, .0000001f, .0000001f);
 		lastGenSpawnTime = System.currentTimeMillis();
 		logger.info("new vyroid gen added!");

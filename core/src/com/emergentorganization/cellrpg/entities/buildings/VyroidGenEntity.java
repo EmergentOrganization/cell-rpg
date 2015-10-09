@@ -22,16 +22,18 @@ public class VyroidGenEntity extends Entity {
             {1,1,1,0,0,0,1,1,1}
     };
     protected float MAX_SPAWN_DIST = 500;  // max distance away from building to spawn
+    private CALayer spawnLayer;  // layer into which generator spawns
 
     /*
     This constructor is needed for MapEditor. Do not remove.
      */
-    public VyroidGenEntity(ZIndex zindex) {
+    public VyroidGenEntity(ZIndex zindex, CALayer _spawnLayer) {
         super(zindex);
+        spawnLayer = _spawnLayer;
     }
 
-    public VyroidGenEntity(ZIndex zindex, Vector2 position) {
-        super(zindex);
+    public VyroidGenEntity(ZIndex zindex, Vector2 position, CALayer _spawnLayer) {
+        this(zindex, _spawnLayer);
         getFirstComponentByType(MovementComponent.class).setWorldPosition(position);
     }
 
@@ -46,7 +48,7 @@ public class VyroidGenEntity extends Entity {
                 MovementComponent mc = getFirstComponentByType(MovementComponent.class);
                 float x = mc.getWorldPosition().x + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
                 float y = mc.getWorldPosition().y + (float) (Math.random() - .5) * MAX_SPAWN_DIST;
-                CAGridBase layr = scen.getLayer(CALayer.VYROIDS);
+                CAGridBase layr = scen.getLayer(spawnLayer);
                 layr.stampState(pattern, x, y);
             } catch(ClassCastException err){
                 // scene is not CSScene

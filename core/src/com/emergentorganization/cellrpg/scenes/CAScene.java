@@ -30,18 +30,28 @@ public class CAScene extends PausableScene {
 
             @Override
             public void onAdd() {
+                ca_layers.put(CALayer.VYROIDS_MINI, new BufferedCAGrid(
+                        1, ZIndex.VYROIDS, new Color[]{new Color(1f, .2f, .2f, 1f), new Color(1f, .4f, .8f, .8f)}
+                ));
+                ca_layers.put(CALayer.VYROIDS_MEGA, new BufferedCAGrid(
+                        11, ZIndex.VYROIDS, new Color[]{new Color(.2f, .2f, 1f, 1f), new Color(1f, .4f, .8f, .8f)}
+                ));
                 ca_layers.put(CALayer.VYROIDS, new BufferedCAGrid(
                         3, ZIndex.VYROIDS, new Color[] {new Color(1f, .87f, .42f, 1f), new Color(1f, .4f, .8f, .8f)}
                 ));
                 ca_layers.put(CALayer.ENERGY,  new NoBufferCAGrid(
-                        35, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}
+                        11, ZIndex.VYROIDS, new Color[] {new Color(1f, 1f, 1f, .05f)}
                 ));
+                addEntity(ca_layers.get(CALayer.VYROIDS_MEGA));
+                addEntity(ca_layers.get(CALayer.VYROIDS_MINI));
                 addEntity(ca_layers.get(CALayer.VYROIDS));
                 addEntity(ca_layers.get(CALayer.ENERGY));
             }
 
             @Override
             public void onRemove() {
+                removeEntity(ca_layers.get(CALayer.VYROIDS_MEGA));
+                removeEntity(ca_layers.get(CALayer.VYROIDS_MINI));
                 removeEntity(ca_layers.get(CALayer.VYROIDS));
                 removeEntity(ca_layers.get(CALayer.ENERGY));
             }

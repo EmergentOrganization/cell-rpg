@@ -58,7 +58,39 @@ public class Bullet extends Entity {
                 collideGrid = 1;
             }
 
-            CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS);
+            CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS_MEGA);
+            // vyroid destruction effect
+            cacc.addCollision(
+                    1,
+                    new int[][] {
+                            {2,2,2},
+                            {2,2,2},
+                            {2,2,2}
+                    },
+                    CALayer.VYROIDS_MEGA,
+                    collideRadius,
+                    collideGrid
+            );
+
+            cacc = new CACollisionComponent(CALayer.VYROIDS_MINI);
+            // vyroid destruction effect
+            cacc.addCollision(
+                    1,
+                    new int[][] {
+                            {2,2,2,2,2,2,2},
+                            {2,2,2,2,2,2,2},
+                            {2,2,2,2,2,2,2},
+                            {2,2,2,2,2,2,2},
+                            {2,2,2,2,2,2,2},
+                            {2,2,2,2,2,2,2},
+                            {2,2,2,2,2,2,2}
+                    },
+                    CALayer.VYROIDS_MINI,
+                    collideRadius,
+                    collideGrid
+            );
+
+            cacc = new CACollisionComponent(CALayer.VYROIDS);
             // bullet trail energy layer effect
             cacc.addCollision(
                     0,

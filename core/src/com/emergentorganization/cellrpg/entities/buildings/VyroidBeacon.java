@@ -23,13 +23,13 @@ public class VyroidBeacon extends VyroidGenEntity {
     /*
     This constructor is needed for MapEditor. Do not remove.
      */
-    public VyroidBeacon() {
-        super(ZIndex.BUILDING);
+    public VyroidBeacon(CALayer _spawnLayer) {
+        super(ZIndex.BUILDING, _spawnLayer);
         init();
     }
 
-    public VyroidBeacon(Vector2 position) {
-        super(ZIndex.BUILDING, position);
+    public VyroidBeacon(Vector2 position, CALayer _spawnLayer) {
+        super(ZIndex.BUILDING, position, _spawnLayer);
         init();
     }
 

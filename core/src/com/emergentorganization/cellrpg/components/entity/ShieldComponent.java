@@ -7,7 +7,11 @@ import com.emergentorganization.cellrpg.entities.EntityEvents;
  * Created by 7yl4r on 2015-07-27
  */
 public class ShieldComponent extends EntityComponent {
+    private final float RECHARGE_RATE_DELTA = .1f;
+    private float rechargeRate = .1f;
+    private float recharge_remainder = 0f;
 
+    private float DAMAGE_AMOUNT = 10f;
     private float health = 100f;
     private float divisor = 1f;  // damage reduction devisor (armor/defense value) (must be > 0)
     private boolean health_changed = true;
@@ -27,16 +31,40 @@ public class ShieldComponent extends EntityComponent {
         return health;
     }
 
-    public void damage(final float amount){
+    public void damage(){
         // deals damage to shield
-        health -= amount/divisor;
+        health -= DAMAGE_AMOUNT/divisor;
         health_changed = true;
         if (health < 0){
             getEntity().fireEvent(EntityEvents.SHIELD_DOWN);
         }
     }
 
-    public void recharge(final float amount){
+    public void increaseRechargeRate(final int numberOfTimes){
+        for (int i = 0; i < numberOfTimes; i++){
+            increaseRechargeRate();
+        }
+    }
+
+    public void decreaseRechargeRate(final int numberOfTimes){
+        for (int i = 0; i < numberOfTimes; i++){
+            decreaseRechargeRate();
+        }
+    }
+
+    public float getRechargeRate(){
+        return rechargeRate;
+    }
+
+    public void decreaseRechargeRate(){
+        rechargeRate -= RECHARGE_RATE_DELTA;
+    }
+
+    public void increaseRechargeRate(){
+        rechargeRate += RECHARGE_RATE_DELTA;
+    }
+
+    public void addEnergy(final float amount){
         health += amount/divisor;
         if (health > 100){
             health = 100;
@@ -44,14 +72,17 @@ public class ShieldComponent extends EntityComponent {
         health_changed = true;
     }
 
-    @Override
-    public void added() {
-        mc = getFirstSiblingByType(MovementComponent.class);
-        getEntity().addComponent(this.graphicsComponent);
+
+    private void recharge(float rechargeTime){
+        // applies recharge over given time
+        recharge_remainder += rechargeTime* rechargeRate;
+        addEnergy((int)recharge_remainder);  // add whole numbers to int
+        recharge_remainder %= 1;  // save remainder for later
     }
 
     @Override
     public void update(float deltaTime) {
+        recharge(deltaTime);
         if (health_changed) {
             // select texture based on health level of shield
             if (health < 25) {
@@ -65,5 +96,11 @@ public class ShieldComponent extends EntityComponent {
             }
             health_changed = false;
         }
+    }
+
+    @Override
+    public void added() {
+        mc = getFirstSiblingByType(MovementComponent.class);
+        getEntity().addComponent(this.graphicsComponent);
     }
 }

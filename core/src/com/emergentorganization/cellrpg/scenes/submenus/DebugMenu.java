@@ -26,7 +26,7 @@ public class DebugMenu extends Submenu{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).damage(26);
+                parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).damage();
             }
         });
 
@@ -36,7 +36,7 @@ public class DebugMenu extends Submenu{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).recharge(26);
+                parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).addEnergy(26);
             }
         });
     }

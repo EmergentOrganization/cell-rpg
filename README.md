@@ -1,14 +1,15 @@
 # cell-rpg
 
-[![Join the chat at https://gitter.im/EmergentOrganization/cell-rpg](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/EmergentOrganization/cell-rpg?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 RPG based in a world where cellular automata have run rampant. 
-Soon to be available on android (and more).
 Developed using libGDX.
 
-![concept art](http://i.imgur.com/e6d5DJc.png)
+* [concept art](http://imgur.com/a/5sx9C)
+* [concept/demo gifs/gfys](http://www.gfycat.com/7yl4r/planiverse_bridge)
+* [demo videos](https://www.youtube.com/playlist?list=PL-nLMUFdPaNRnWnwuSzN5RnzLE7Iey3cB)
+* [game-world wiki](http://planiverse-bridge.wikia.com/wiki/Planiverse_bridge_Wikia)
+* dev chat : [![Join the chat at https://gitter.im/EmergentOrganization/cell-rpg](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/EmergentOrganization/cell-rpg?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-## Getting Started
+## Developer Setup
 This project (and LibGDX) uses Gradle to install dependencies, but you _need_ to ensure your java environment and android sdk are properly set up first. We use primarily intellij IDEA to develop (but you can use others) and will do our best to guide you through the process. In addition to the guide below, you can find more information in [libGDX's dev environment set up guide](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29).
 
 If you're having trouble, check the troubleshooting section at the bottom of this section and contact us on our [Gitter Chatroom](https://gitter.im/EmergentOrganization/cell-rpg); we're more than happy to assist.

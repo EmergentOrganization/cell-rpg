@@ -7,7 +7,7 @@ import com.emergentorganization.cellrpg.scenes.Scene;
 /**
  * Created by OrelBitton on 23/06/2015.
  */
-public class GlobalComponent implements BaseComponent{
+public abstract class GlobalComponent implements BaseComponent{
     //TODO
 
     private boolean enabled = false;

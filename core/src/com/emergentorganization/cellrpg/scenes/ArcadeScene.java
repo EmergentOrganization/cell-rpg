@@ -1,6 +1,5 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.*;
@@ -8,6 +7,7 @@ import com.emergentorganization.cellrpg.entities.buildings.VyroidGenEntity;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
+import com.emergentorganization.cellrpg.story.dialogue.ArcadeStory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.dyn4j.geometry.Vector2;
@@ -105,8 +105,7 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 
 		DialogComponent dc = new DialogComponent();
 		addComponent(dc);
-		//dc.setEnabled(true);
-		//dc.setTypewriterText("This is a test message.", 0.3f);
+		dc.loadDialogueSequence(new ArcadeStory()).init();
 
 		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders

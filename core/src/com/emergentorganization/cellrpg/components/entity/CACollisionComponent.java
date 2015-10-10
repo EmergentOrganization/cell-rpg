@@ -3,7 +3,6 @@ package com.emergentorganization.cellrpg.components.entity;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
-import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
@@ -93,7 +92,7 @@ public class CACollisionComponent extends EntityComponent {
 //                System.out.println("lastPos=" + lastCollisionPosition);
 //                System.out.println("lerp("+currentPostion+","+delta+")");
                 lastCollisionPosition.lerp(currentPostion, delta);
-                System.out.println("collide @ " + lastCollisionPosition);
+//                System.out.println("collide @ " + lastCollisionPosition);
                 collide(lastCollisionPosition);
                 diff.set(lastCollisionPosition);
             }

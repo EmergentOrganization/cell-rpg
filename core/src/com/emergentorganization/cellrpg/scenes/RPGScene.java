@@ -1,6 +1,5 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.CellRpg;

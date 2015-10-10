@@ -42,12 +42,12 @@ public class CellRpg extends Game {
     @Override
     public void create() {
         config.initialize();
-        if (!config.isDevModeEnabled()) {
-            logger.info("Enabling development mode");
-            config.setDevMode(true);
+        if (config.isDevModeEnabled()) {
+            logger.info("Disabling development mode");
+            config.setDevMode(false);
         }
         else
-            logger.info("Development mode enabled");
+            logger.info("Development mode disabled");
 
         logger.info("Loading Assets...");
         assetManager = new AssetManager(new InternalFileHandleResolver());

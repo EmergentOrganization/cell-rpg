@@ -8,6 +8,8 @@ import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
+import com.emergentorganization.cellrpg.scenes.regions.Region;
+import com.emergentorganization.cellrpg.scenes.regions.TheEdge;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
@@ -50,6 +52,10 @@ public class RPGScene extends CAScene {
 		});
 
 		addPostProcessor(new TronShader());
+	}
+
+	public Region getStartingRegion(){
+		return new TheEdge(this);
 	}
 
 	@Override

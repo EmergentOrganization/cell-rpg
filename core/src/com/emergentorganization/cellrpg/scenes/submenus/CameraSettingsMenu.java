@@ -1,15 +1,8 @@
 package com.emergentorganization.cellrpg.scenes.submenus;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
-import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.tools.menus.MenuBuilder;
-import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisSelectBox;
-import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
 
 /**

@@ -2,8 +2,6 @@ package com.emergentorganization.cellrpg.scenes.submenus;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
-import com.emergentorganization.cellrpg.components.entity.ShieldComponent;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;

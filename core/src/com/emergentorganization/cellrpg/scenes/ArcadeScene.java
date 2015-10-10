@@ -7,6 +7,9 @@ import com.emergentorganization.cellrpg.entities.buildings.VyroidGenEntity;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
+import com.emergentorganization.cellrpg.scenes.regions.ArcadeRegion1;
+import com.emergentorganization.cellrpg.scenes.regions.Region;
+import com.emergentorganization.cellrpg.scenes.regions.TheEdge;
 import com.emergentorganization.cellrpg.story.dialogue.ArcadeStory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +23,6 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 	private int score = 0;
 	private float pointBuffer = 0f;
 
-	private final long MIN_TIME_BTWN_GENS = 2000; // min ms between generator spawns
 	private long timeUntilNextGenerator = 10000; // ms until next generator spawns
 	private long lastGenSpawnTime;
 
@@ -97,6 +99,11 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		addArcadeEntity(cameraTarget, 0, 0, .0000001f, .0000001f);
 
 		addEntity(new ScoreHUD());
+	}
+
+
+	public Region getStartingRegion(){
+		return new ArcadeRegion1(this);
 	}
 
 	@Override

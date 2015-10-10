@@ -4,15 +4,20 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
+import com.emergentorganization.cellrpg.tools.menus.AdjustableSetting;
 
 /**
  * Created by tylar on 6/2/15.
  */
 public class FollowingCamera extends Entity {
-    // camera behavior:
-    private static final float EDGE_MARGIN = 10;  // min px between player & screen edge
-    private static final float CLOSE_ENOUGH = 4;  // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
-    private static final float CAMERA_LEAD = 20;  // dist camera should try to lead player movement
+    // min px between player & screen edge:
+    public static AdjustableSetting edgeMargin = new AdjustableSetting("edge margin", 10, 1, 25, 1);
+
+    // dist camera should try to lead player movement:
+    public static AdjustableSetting cameraLead = new AdjustableSetting("camera-lead", 20, 1, 50, 1);
+
+    // min distance between player & cam we care about (to reduce small-dist jitter & performance++):
+    public static AdjustableSetting closeEnough = new AdjustableSetting("camera-player nearness cutoff", 4, 1, 30, 1);
 
     private OrthographicCamera camera;
     private Entity target;
@@ -36,11 +41,16 @@ public class FollowingCamera extends Entity {
     }
 
     private void updateCameraPos(float deltaTime){
-        Camera camera = getScene().getGameCamera();
+        camera = getScene().getGameCamera();
 
         MovementComponent mc = target.getFirstComponentByType(MovementComponent.class);
 
-        float MAX_OFFSET = Math.min(camera.viewportWidth, camera.viewportHeight)/2-EDGE_MARGIN;  // max player-camera dist
+        final float CLOSE_ENOUGH = closeEnough.getValue();
+        final float EDGE_MARGIN = edgeMargin.getValue();
+        final float CAMERA_LEAD = cameraLead.getValue();
+
+        // max player-camera dist:
+        float MAX_OFFSET = Math.min(camera.viewportWidth, camera.viewportHeight)/2-EDGE_MARGIN;
         float PROPORTIONAL_GAIN = deltaTime * mc.getSpeed() / MAX_OFFSET;
 
         // TODO: check target has movement component? or at least throw meaningful error if not...

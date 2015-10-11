@@ -40,7 +40,6 @@ public class WeaponPowerup extends Powerup {
         if (timer != null)
             timer.cancel();
 
-        System.out.println("Disposing of powerup");
         super.dispose();
     }
 }

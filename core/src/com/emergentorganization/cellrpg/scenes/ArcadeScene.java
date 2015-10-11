@@ -165,6 +165,6 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 
 	@Override
 	public void hide() {
-		// TODO
+		super.hide();
 	}
 }

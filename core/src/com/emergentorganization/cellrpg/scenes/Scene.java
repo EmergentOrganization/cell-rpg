@@ -236,7 +236,6 @@ public abstract class Scene implements Screen {
             logger.info("scene disposed.");
         } catch (Exception ex){
             logger.error("dispose err: " + ex.getMessage() + '\n' + ex.getStackTrace());
-            dispose();
         }
     }
 

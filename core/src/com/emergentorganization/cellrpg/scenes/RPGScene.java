@@ -78,6 +78,6 @@ public class RPGScene extends CAScene {
 
 	@Override
 	public void hide() {
-		// TODO
+		super.hide();
 	}
 }

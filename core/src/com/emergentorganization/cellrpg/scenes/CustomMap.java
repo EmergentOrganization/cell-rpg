@@ -58,6 +58,6 @@ public class CustomMap extends PausableScene {
 
     @Override
     public void hide() {
-
+        super.hide();
     }
 }

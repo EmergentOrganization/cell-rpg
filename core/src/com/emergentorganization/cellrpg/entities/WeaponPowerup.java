@@ -15,6 +15,8 @@ import java.util.TimerTask;
  * Created by 7yl4r on 2015-09-27.
  */
 public class WeaponPowerup extends Powerup {
+    private Timer timer;
+
     public WeaponPowerup(){
         super("game/powerup-star");
     }
@@ -24,13 +26,22 @@ public class WeaponPowerup extends Powerup {
         getScene().getPlayer().getFirstComponentByType(WeaponComponent.class).increaseRechargeRate(10);
 
         // then scale back to just a small increase
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 getScene().getPlayer().getFirstComponentByType(WeaponComponent.class).decreaseRechargeRate(9);
             }
         }, 7*1000);  // 7s
+    }
+
+    @Override
+    public void dispose() {
+        if (timer != null)
+            timer.cancel();
+
+        System.out.println("Disposing of powerup");
+        super.dispose();
     }
 }
 

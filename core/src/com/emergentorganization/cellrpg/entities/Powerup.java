@@ -59,13 +59,12 @@ public abstract class Powerup extends Entity {
             ((arcadeScore) getScene()).addPoints(POINTS_FOR_COLLECTING);
         }
         applyPowerupCollection();
-        dispose();
+        getScene().removeEntity(this);
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
         super.dispose();
-        mc.setWorldPosition(-1000, -1000); // TODO: this is temporary hack. why does dispose() not destroy sprite & stop update() calls?
     }
 
     @Override
@@ -92,8 +91,7 @@ public abstract class Powerup extends Entity {
             //);
             //if (graphicsComponent.getSprite().getScaleX() < MIN_SCALE){
             // poof, it's gone!
-            dispose();
-
+            getScene().removeEntity(this);
         }
     }
 

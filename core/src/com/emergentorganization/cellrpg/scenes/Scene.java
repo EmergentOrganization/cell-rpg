@@ -137,67 +137,59 @@ public abstract class Scene implements Screen {
      */
     @Override
     public void render(float delta) {
-        logger.trace("render" + this);
-        if (hideCalled){
-            dispose();
-        } else {
-            long now = System.currentTimeMillis();
+        //logger.trace("render" + this);
+        long now = System.currentTimeMillis();
 
-            if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
+        if (!isEditor) physWorld.update(delta); // variable update rate. change to static if instability occurs
 
-            handleQueue();
+        handleQueue();
 
-            for (GlobalComponent comp : comps) {
-                comp.update(delta);
-            }
-
-            for (Entity entity : entities) {
-                entity.update(delta);
-            }
-
-            uiStage.act();
-
-            frameBuffer.begin();
-            Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-            batch.setProjectionMatrix(gameCamera.combined);
-            batch.begin();
-            for (Entity entity : entities) {
-                entity.render(batch);
-            }
-            batch.end();
-
-            debugRenderer.setProjectionMatrix(gameCamera.combined);  // this should be uncommented, but doing so breaks cagrid...
-            debugRenderer.begin();
-            //logger.trace("debugRender using " + debugRenderer);
-            for (Entity entity : entities) {
-                entity.debugRender(debugRenderer);
-            }
-            debugRenderer.end();
-            frameBuffer.end();
-
-            for (PostProcessor pp : postProcessors) {
-                pp.render(frameBuffer);
-            }
-
-            // Render final texture to screen
-            outBatch.begin();
-            Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            outBatch.draw(fboRegion, 0, 0);
-            outBatch.end();
-
-            renderTime = System.currentTimeMillis() - now;
+        for (GlobalComponent comp : comps) {
+            comp.update(delta);
         }
-        if (hideCalled){
-            dispose();
+
+        for (Entity entity : entities) {
+            entity.update(delta);
         }
+
+        uiStage.act();
+
+        frameBuffer.begin();
+        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        batch.setProjectionMatrix(gameCamera.combined);
+        batch.begin();
+        for (Entity entity : entities) {
+            entity.render(batch);
+        }
+        batch.end();
+
+        debugRenderer.setProjectionMatrix(gameCamera.combined);  // this should be uncommented, but doing so breaks cagrid...
+        debugRenderer.begin();
+        //logger.trace("debugRender using " + debugRenderer);
+        for (Entity entity : entities) {
+            entity.debugRender(debugRenderer);
+        }
+        debugRenderer.end();
+        frameBuffer.end();
+
+        for (PostProcessor pp : postProcessors) {
+            pp.render(frameBuffer);
+        }
+
+        // Render final texture to screen
+        outBatch.begin();
+        Gdx.gl.glClearColor(clearColor.x, clearColor.y, clearColor.z, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        outBatch.draw(fboRegion, 0, 0);
+        outBatch.end();
+
+        renderTime = System.currentTimeMillis() - now;
     }
 
     @Override
     public void hide() {
-        hideCalled = true;
         // TODO
     }
 

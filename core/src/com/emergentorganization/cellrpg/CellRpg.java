@@ -26,7 +26,7 @@ public class CellRpg extends Game {
     private TextureAtlas textureAtlas;
     private Config config;
 
-    private Screen oldScreen;
+    private Screen curScreen;
 
     public CellRpg() {
         singleton = this;
@@ -58,23 +58,25 @@ public class CellRpg extends Game {
         logger.info("Loading VisUI...");
         VisUI.load();
 
-        setScreen(new MainMenu("ready to connect"));
+        super.setScreen(new MainMenu("ready to connect"));
+        curScreen = getScreen();
     }
 
     @Override
     public void render() {
         super.render();
 
+        if (curScreen != screen) {
+            screen.dispose();
+            super.setScreen(curScreen);
+        }
         // fps.log();
     }
 
     @Override
     public void setScreen(Screen screen) {
-        oldScreen = getScreen();
-        if (oldScreen != null) {
-            oldScreen.hide();
-        }
-        super.setScreen(screen);
+        //super.setScreen(screen);  // super method called in render for proper disposal
+        curScreen = screen;
     }
 
     @Override

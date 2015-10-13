@@ -1,6 +1,8 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.emergentorganization.cellrpg.CellRpg;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.*;
@@ -8,9 +10,11 @@ import com.emergentorganization.cellrpg.entities.buildings.VyroidGenEntity;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
+import com.emergentorganization.cellrpg.scenes.regions.ArcadeRegion1;
+import com.emergentorganization.cellrpg.scenes.regions.Region;
+import com.emergentorganization.cellrpg.story.dialogue.ArcadeStory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dyn4j.geometry.Vector2;
 
 public class ArcadeScene extends CAScene implements arcadeScore {
 	private final Logger logger = LogManager.getLogger(getClass());
@@ -20,9 +24,9 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 	private int score = 0;
 	private float pointBuffer = 0f;
 
-	private final long MIN_TIME_BTWN_GENS = 2000; // min ms between generator spawns
 	private long timeUntilNextGenerator = 10000; // ms until next generator spawns
 	private long lastGenSpawnTime;
+	private MovementComponent playerMoveComponent;
 
 	public int getScore(){
 		return score;
@@ -79,7 +83,9 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 
 	private void setupArcadeScene(){
 		// add player
-		addArcadeEntity(new Player());
+		Player player = new Player();
+		playerMoveComponent = player.getFirstComponentByType(MovementComponent.class);
+		addArcadeEntity(player);
 
 		// add 1st generator
 		cameraTarget = addGenerator();
@@ -88,16 +94,20 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		addEntity(new ScoreHUD());
 	}
 
+
+	public Region getStartingRegion(){
+		return new ArcadeRegion1(this);
+	}
+
 	@Override
 	public void create() {
 		super.create();
 
 		DialogComponent dc = new DialogComponent();
 		addComponent(dc);
-		//dc.setEnabled(true);
-		//dc.setTypewriterText("This is a test message.", 0.3f);
+		dc.loadDialogueSequence(new ArcadeStory()).init();
 
-		getWorld().setGravity(new Vector2(0, 0)); // defaults to -9.8 m/s
+		getWorld().setGravity(new org.dyn4j.geometry.Vector2(0, 0)); // defaults to -9.8 m/s
 		getWorld().addListener(new PlayerCollisionListener()); // stops player from clipping through colliders
 
 		setupArcadeScene();
@@ -119,6 +129,25 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		});
 	}
 
+	public void enforcePlayerBounds() {
+		Vector3 camPos = getGameCamera().position;
+		Vector2 pos = playerMoveComponent.getWorldPosition();
+		float halfWidth = ((float)Gdx.graphics.getWidth() * Scene.scale) / 2f;
+		float halfHeight = ((float)Gdx.graphics.getHeight() * Scene.scale) / 2f;
+
+		if (pos.x < -halfWidth + camPos.x)
+			pos.set(-halfWidth + camPos.x, pos.y);
+		else if (pos.x > halfWidth + camPos.x)
+			pos.set(halfWidth + camPos.x, pos.y);
+
+		if (pos.y < -halfHeight + camPos.y)
+			pos.set(pos.x, -halfHeight + camPos.y);
+		else if (pos.y > halfHeight + camPos.y)
+			pos.set(pos.x, halfHeight + camPos.y);
+
+		playerMoveComponent.setWorldPosition(pos);
+	}
+
 	@Override
 	public void show () {
 		super.show();
@@ -132,6 +161,8 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 	@Override
 	public void render(float delta) {
 		super.render(delta);
+
+		enforcePlayerBounds();
 		pointBuffer += delta*POINTS_PER_SEC;  // get points for each render you survive
 		addPoints((int) pointBuffer);  // whole points added to score
 		pointBuffer%=1f;  // then chop off whole points and save only decimal parts
@@ -148,6 +179,6 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 
 	@Override
 	public void hide() {
-		// TODO
+		super.hide();
 	}
 }

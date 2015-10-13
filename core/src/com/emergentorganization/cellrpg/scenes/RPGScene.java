@@ -1,6 +1,5 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.emergentorganization.cellrpg.CellRpg;
@@ -9,6 +8,8 @@ import com.emergentorganization.cellrpg.entities.FollowingCamera;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
+import com.emergentorganization.cellrpg.scenes.regions.Region;
+import com.emergentorganization.cellrpg.scenes.regions.TheEdge;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
@@ -53,6 +54,10 @@ public class RPGScene extends CAScene {
 		addPostProcessor(new TronShader());
 	}
 
+	public Region getStartingRegion(){
+		return new TheEdge(this);
+	}
+
 	@Override
 	public void show () {
 		super.show();
@@ -73,6 +78,6 @@ public class RPGScene extends CAScene {
 
 	@Override
 	public void hide() {
-		// TODO
+		super.hide();
 	}
 }

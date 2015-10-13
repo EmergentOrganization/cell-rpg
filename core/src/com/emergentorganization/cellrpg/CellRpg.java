@@ -11,14 +11,11 @@ import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 /**
  * Created by BrianErikson on 6/7/2015.
  */
 public class CellRpg extends Game {
-    public static final String VERSION = "0.3.9";
+    public static final String VERSION = "0.3.15    ";
     private static final String ATLAS_PATH = "textures/TexturePack.atlas";
 
     // private FPSLogger fps = new FPSLogger();
@@ -29,7 +26,7 @@ public class CellRpg extends Game {
     private TextureAtlas textureAtlas;
     private Config config;
 
-    private Screen oldScreen;
+    private Screen curScreen;
 
     public CellRpg() {
         singleton = this;
@@ -61,30 +58,25 @@ public class CellRpg extends Game {
         logger.info("Loading VisUI...");
         VisUI.load();
 
-        setScreen(new MainMenu("ready to connect"));
+        super.setScreen(new MainMenu("ready to connect"));
+        curScreen = getScreen();
     }
 
     @Override
     public void render() {
         super.render();
 
+        if (curScreen != screen) {
+            screen.dispose();
+            super.setScreen(curScreen);
+        }
         // fps.log();
     }
 
     @Override
     public void setScreen(Screen screen) {
-        oldScreen = getScreen();
-        super.setScreen(screen);
-
-        if (oldScreen != null) {
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    oldScreen.dispose();
-                }
-            }, 2 * 1000);
-        }
+        //super.setScreen(screen);  // super method called in render for proper disposal
+        curScreen = screen;
     }
 
     @Override

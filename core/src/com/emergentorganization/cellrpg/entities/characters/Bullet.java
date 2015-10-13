@@ -50,7 +50,7 @@ public class Bullet extends Entity {
         if (scene instanceof CAScene){
             // NOTE: this uses only x-dimension; assumes width ~= height
             // TODO: adjusting these values seems to have no effect. why?
-            int collideRadius = 1000;//(int)(graphicsComponent.getSize().x*getScene().scale);
+            int collideRadius = 0;//(int)(graphicsComponent.getSize().x*getScene().scale);
             int collideGrid;
             try {
                 collideGrid = 1;//scene.getLayer(CALayer.VYROIDS).getCellSize();
@@ -71,6 +71,8 @@ public class Bullet extends Entity {
                     collideRadius,
                     collideGrid
             );
+            cacc.addCollision(1, EntityEvents.DESTROYED, collideRadius, collideGrid);
+            addComponent(cacc);
 
             cacc = new CACollisionComponent(CALayer.VYROIDS_MINI);
             // vyroid destruction effect
@@ -89,6 +91,8 @@ public class Bullet extends Entity {
                     collideRadius,
                     collideGrid
             );
+            cacc.addCollision(1, EntityEvents.DESTROYED, collideRadius, collideGrid);
+            addComponent(cacc);
 
             cacc = new CACollisionComponent(CALayer.VYROIDS);
             // bullet trail energy layer effect

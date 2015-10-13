@@ -71,19 +71,7 @@ public class Player extends Character {
     }
 
     private void initCAGrid(){
-        int[][] pattern = {
-                {1,0,1,0,1},
-                {0,0,0,0,0},
-                {1,0,0,0,1},
-                {0,0,0,0,0},
-                {1,0,1,0,1}
-        };
-        addComponent(new GridSeedComponent(
-                pattern,
-                1,
-                new Vector2(0,0),  // TODO: place this in center of img
-                CALayer.ENERGY
-        ));
+        return;
     }
 
     @Override
@@ -123,8 +111,8 @@ public class Player extends Character {
             }
             initCAGrid();
 
+            // normal size vyroids
             CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS);
-            // bullet trail energy layer effect
             cacc.addCollision(
                     1,
                     EntityEvents.VYROID_DAMAGE,
@@ -139,6 +127,48 @@ public class Player extends Character {
                             {0, 0, 0}
                     },
                     CALayer.VYROIDS,
+                    collideRadius,
+                    collideGrid
+            );
+            addComponent(cacc);
+
+            // mini vyroids
+            cacc = new CACollisionComponent(CALayer.VYROIDS_MINI);
+            cacc.addCollision(
+                    1,
+                    EntityEvents.VYROID_DAMAGE,
+                    collideRadius,
+                    collideGrid
+            );
+            cacc.addCollision(
+                    1,
+                    new int[][]{
+                            {0, 0, 0},
+                            {0, 0, 0},
+                            {0, 0, 0}
+                    },
+                    CALayer.VYROIDS_MINI,
+                    collideRadius,
+                    collideGrid
+            );
+            addComponent(cacc);
+
+            // mega vyroids
+            cacc = new CACollisionComponent(CALayer.VYROIDS_MEGA);
+            cacc.addCollision(
+                    1,
+                    EntityEvents.VYROID_DAMAGE,
+                    collideRadius,
+                    collideGrid
+            );
+            cacc.addCollision(
+                    1,
+                    new int[][]{
+                            {0, 0, 0},
+                            {0, 0, 0},
+                            {0, 0, 0}
+                    },
+                    CALayer.VYROIDS_MEGA,
                     collideRadius,
                     collideGrid
             );

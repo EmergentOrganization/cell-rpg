@@ -182,6 +182,11 @@ public abstract class CAGridBase extends Entity {
     }
 
     @Override
+    public void dispose(){
+        super.dispose();
+    }
+
+    @Override
     public void debugRender(ShapeRenderer shapeRenderer) {
         super.debugRender(shapeRenderer);
 

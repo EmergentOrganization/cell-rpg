@@ -105,7 +105,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         super(_state);
         initDGRN();
         builder = _builder;
-        logger.info("building seed cell network");
+        logger.trace("building seed cell network");
         builder.buildNetwork(dgrn);
     }
 

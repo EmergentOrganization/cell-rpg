@@ -55,7 +55,6 @@ public class TronShader implements PostProcessor {
 
     @Override
     public void render(FrameBuffer frameBuffer) {
-
         Texture cb = frameBuffer.getColorBufferTexture();
         TextureRegion fboRegion = new TextureRegion(cb, 0, 0, cb.getWidth(), cb.getHeight());
         fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
@@ -129,5 +128,8 @@ public class TronShader implements PostProcessor {
         maskRegion.getTexture().dispose();
         colorMaskProgram.dispose();
         blurProgram.dispose();
+        maskBuffer.getColorBufferTexture().dispose();
+        maskBuffer.dispose();
+        batch.dispose();
     }
 }

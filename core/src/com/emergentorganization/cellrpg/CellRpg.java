@@ -95,14 +95,17 @@ public class CellRpg extends Game {
         Properties props = new Properties();
         File propsFile = new File("property.settings");
         try {
-            props.load(new FileReader(propsFile));
+            FileReader reader = new FileReader(propsFile);
+            props.load(reader);
             String major = props.getProperty("majorVersion");
             String minor = props.getProperty("minorVersion");
             String revision = props.getProperty("revision");
+            reader.close();
             return major + "." + minor + "." + revision;
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 

@@ -49,6 +49,14 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
+    test {
+        useJUnit();
+        include '*/AllTestSuite.class'
+        testLogging {
+            events 'passed', 'failed'
+        }
+    }
+
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"

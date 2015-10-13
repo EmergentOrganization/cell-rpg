@@ -1,5 +1,6 @@
-package com.emergentorganization.cellrpg.desktop;
+package tests;
 
+import com.emergentorganization.cellrpg.desktop.TesterTest;
 import com.emergentorganization.cellrpg.entities.ca.CATestSuite;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;

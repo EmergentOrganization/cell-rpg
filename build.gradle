@@ -1,13 +1,13 @@
-
 //TODO: Move version incrementer from root?
 Properties props = new Properties();
 File propsFile = new File(project.projectDir.absolutePath + "/android/assets/property.settings");
-System.out.println(propsFile.absolutePath);
 propsFile.withInputStream {
     props.load(it);
 }
 
-props.setProperty('incrementalVersion', (Integer.parseInt((String)props.incrementalVersion) + 1).toString());
+def git = org.ajoberstar.grgit.Grgit.open(project.file("."));
+props.setProperty('revision', git.head().getAbbreviatedId());
+
 props.store(propsFile.newWriter(), null);
 // END VERSION INCREMENTER
 
@@ -21,6 +21,7 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'org.robovm:robovm-gradle-plugin:1.6.0'
+        classpath 'org.ajoberstar:grgit:1.1.0'
     }
 }
 
@@ -30,7 +31,7 @@ allprojects {
 
     ext {
         appName = 'Cell-RPG'
-        appVersion = props.majorVersion + "." + props.minorVersion + "." + props.incrementalVersion
+        appVersion = props.majorVersion + "." + props.minorVersion + "." + props.revision
         gdxVersion = '1.6.1'
         roboVMVersion = '1.2.0'
         box2DLightsVersion = '1.3'

@@ -98,8 +98,8 @@ public class CellRpg extends Game {
             props.load(new FileReader(propsFile));
             String major = props.getProperty("majorVersion");
             String minor = props.getProperty("minorVersion");
-            String incremental = props.getProperty("incrementalVersion");
-            return major + "." + minor + "." + incremental;
+            String revision = props.getProperty("revision");
+            return major + "." + minor + "." + revision;
         } catch (IOException e) {
             e.printStackTrace();
         }

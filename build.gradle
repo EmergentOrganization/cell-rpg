@@ -130,26 +130,6 @@ project(":core") {
         compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:0.4.4-BETA'
         testCompile 'junit:junit:4.12'
     }
-
-//        sourceSets {
-//        test {
-//            java {
-//                srcDirs = ["desktop/src/com/emergentorganization/cellrpg/desktop/AllTestSuite"]
-//            }
-//        }
-//    }
-//
-//    test {
-//        useJUnit();  // this is the default, you don't really need it
-//        include '**/AllTestSuite.class'
-//        //reports.junitXml.destination = "$buildDir/test-results/SuiteOne")
-//        //  reports.html.destination = "$buildDir/test-results/SuiteOne")
-//    }
-//
-//    task integrationTest(type: Test){
-//        useJUnit();  // this is the default, you don't really need it
-//        include '**/AllTestSuite.class'
-//    }
 }
 
 tasks.eclipse.doLast {

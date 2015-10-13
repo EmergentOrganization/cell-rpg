@@ -10,6 +10,6 @@ public class TesterTest {
     @Test
     public void testPrintMessage() {
         System.out.println("checking testing framework...");
-        Assert.assertEquals("test", "test");
+        Assert.assertEquals("test", "tes");
     }
 }

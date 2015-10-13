@@ -1,3 +1,16 @@
+
+//TODO: Move version incrementer from root?
+Properties props = new Properties();
+File propsFile = new File(project.projectDir.absolutePath + "/android/assets/property.settings");
+System.out.println(propsFile.absolutePath);
+propsFile.withInputStream {
+    props.load(it);
+}
+
+props.setProperty('incrementalVersion', (Integer.parseInt((String)props.incrementalVersion) + 1).toString());
+props.store(propsFile.newWriter(), null);
+// END VERSION INCREMENTER
+
 buildscript {
     repositories {
         mavenCentral()
@@ -15,9 +28,9 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.0'
     ext {
         appName = 'Cell-RPG'
+        appVersion = props.majorVersion + "." + props.minorVersion + "." + props.incrementalVersion
         gdxVersion = '1.6.1'
         roboVMVersion = '1.2.0'
         box2DLightsVersion = '1.3'

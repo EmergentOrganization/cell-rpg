@@ -11,11 +11,16 @@ import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * Created by BrianErikson on 6/7/2015.
  */
 public class CellRpg extends Game {
-    public static final String VERSION = "0.3.15    ";
+    public static final String VERSION = loadVersion();
     private static final String ATLAS_PATH = "textures/TexturePack.atlas";
 
     // private FPSLogger fps = new FPSLogger();
@@ -84,6 +89,21 @@ public class CellRpg extends Game {
         super.dispose();
 
         assetManager.dispose();
+    }
+
+    public static String loadVersion() {
+        Properties props = new Properties();
+        File propsFile = new File("property.settings");
+        try {
+            props.load(new FileReader(propsFile));
+            String major = props.getProperty("majorVersion");
+            String minor = props.getProperty("minorVersion");
+            String incremental = props.getProperty("incrementalVersion");
+            return major + "." + minor + "." + incremental;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Config getConfiguration() {

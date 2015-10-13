@@ -2,10 +2,7 @@ package com.emergentorganization.cellrpg.scenes.regions;
 
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.entities.ZIndex;
-import com.emergentorganization.cellrpg.entities.ca.BufferedCAGrid;
-import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
-import com.emergentorganization.cellrpg.entities.ca.NoBufferCAGrid;
-import com.emergentorganization.cellrpg.entities.ca.decayCAGrid;
+import com.emergentorganization.cellrpg.entities.ca.*;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.Scene;
 
@@ -37,6 +34,10 @@ public class RegionBuildTool {
 
             case VYROIDS:
                 return new BufferedCAGrid(size, ZIndex.VYROIDS, colorMap);
+
+            case VYROIDS_GENETIC:
+                size = 11;
+                return new GeneticCAGrid(size, ZIndex.VYROIDS);
 
             case ENERGY:
                 size = 1;

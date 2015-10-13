@@ -51,7 +51,7 @@ public class VyroidGenEntity extends Entity {
                 CAGridBase layr = scen.getLayer(spawnLayer);
                 layr.stampState(pattern, x, y);
             } catch(ClassCastException err){
-                // scene is not CSScene
+                // scene is not CAScene
                 return;
             }
             genSinceLastSpawn = 0;

@@ -101,78 +101,18 @@ public class Player extends Character {
 
         CAScene scene =  (CAScene) getScene();
         if (scene instanceof CAScene) {
-            // NOTE: this uses only x-dimension; assumes width ~= height
-            int collideRadius = 0; //TODO: (int) (getGraphicsComponent().getSize().x*scale);
-            int collideGrid;
-            try {
-                collideGrid = scene.getLayer(CALayer.VYROIDS).getCellSize();
-            } catch(NullPointerException err){
-                collideGrid = 1;
-            }
             initCAGrid();
-
-            // normal size vyroids
-            CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS);
-            cacc.addCollision(
+            logger.info("adding player-vyroid collisions...");
+            CACollisionBuilder.collideWithAllVyroids(
+                    this,
                     1,
                     EntityEvents.VYROID_DAMAGE,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(
-                    1,
                     new int[][]{
-                            {0, 0, 0},
-                            {0, 0, 0},
-                            {0, 0, 0}
-                    },
-                    CALayer.VYROIDS,
-                    collideRadius,
-                    collideGrid
+                        {0, 0, 0},
+                        {0, 0, 0},
+                        {0, 0, 0}
+                    }
             );
-            addComponent(cacc);
-
-            // mini vyroids
-            cacc = new CACollisionComponent(CALayer.VYROIDS_MINI);
-            cacc.addCollision(
-                    1,
-                    EntityEvents.VYROID_DAMAGE,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(
-                    1,
-                    new int[][]{
-                            {0, 0, 0},
-                            {0, 0, 0},
-                            {0, 0, 0}
-                    },
-                    CALayer.VYROIDS_MINI,
-                    collideRadius,
-                    collideGrid
-            );
-            addComponent(cacc);
-
-            // mega vyroids
-            cacc = new CACollisionComponent(CALayer.VYROIDS_MEGA);
-            cacc.addCollision(
-                    1,
-                    EntityEvents.VYROID_DAMAGE,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(
-                    1,
-                    new int[][]{
-                            {0, 0, 0},
-                            {0, 0, 0},
-                            {0, 0, 0}
-                    },
-                    CALayer.VYROIDS_MEGA,
-                    collideRadius,
-                    collideGrid
-            );
-            addComponent(cacc);
         }
     }
 
@@ -199,6 +139,7 @@ public class Player extends Character {
                 CellRpg.fetch().setScreen(new MainMenu(message));
                 break;
             case VYROID_DAMAGE:
+                logger.info("player damaged by vyroid contact");
                 getFirstComponentByType(ShieldComponent.class).damage();
                 break;
         }

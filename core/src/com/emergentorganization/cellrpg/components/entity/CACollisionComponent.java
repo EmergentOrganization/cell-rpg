@@ -6,6 +6,8 @@ import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,6 +26,9 @@ import java.util.HashMap;
  * Created by 7yl4r on 9/1/2015.
  */
 public class CACollisionComponent extends EntityComponent {
+    private final Logger logger = LogManager.getLogger(getClass());
+
+    private CAScene parentScene;
     private MovementComponent mc;
     private Vector2 lastCollisionPosition;  // position @ last locatoin position was checked
     private ArrayList collidingStates = new ArrayList(); // list of states with collision effects
@@ -34,8 +39,15 @@ public class CACollisionComponent extends EntityComponent {
     HashMap<Integer, EntityEvents> events = new HashMap<Integer, EntityEvents>(); // events triggered by collisions
     CALayer collidingLayer;
 
-    public CACollisionComponent(CALayer colliding_layer){
-        collidingLayer = colliding_layer;
+    public CACollisionComponent(CAScene scene, CALayer colliding_layer){
+        // NOTE: scene is passed in only b/c we can't do getEntity() until after being added, and we want to throw
+        //        the no-layer exception now instead.
+        if (scene.getLayer(colliding_layer) == null){  // if layer not in this region
+            throw new IllegalArgumentException("ca layer '" + colliding_layer + "' not in this scene");
+        } else {
+            parentScene = scene;
+            collidingLayer = colliding_layer;
+        }
     }
 
     public void addCollision(int state, EntityEvents triggeredEvent) {
@@ -60,13 +72,17 @@ public class CACollisionComponent extends EntityComponent {
         // adds collision between entity and given layer
         // collisionImpact: gridSeedStamp to apply to layer at pt of collision
         // state: ca state value collided with
-        Integer stat = new Integer(state);
-        if (!collidingStates.contains(stat)){
-            collidingStates.add(new Integer(state));
+        if (parentScene.getLayer(impacted_layer) == null){  // if layer not in this region
+            logger.info("ca collision not added: impact layer '" + collisionImpact + "' not in this scene");
+        } else {
+            Integer stat = new Integer(state);
+            if (!collidingStates.contains(stat)) {
+                collidingStates.add(new Integer(state));
+            }
+            impacts.put(stat, collisionImpact);
+            impactLayers.put(stat, impacted_layer);
+            setCollisionSize(radius, gridSize);
         }
-        impacts.put(stat, collisionImpact);
-        impactLayers.put(stat, impacted_layer);
-        setCollisionSize(radius, gridSize);
     }
 
     private void setCollisionSize(final int radius, final int gridSize){

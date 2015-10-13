@@ -19,12 +19,12 @@ public abstract class CAScene extends PausableScene {
     public void create() {
         super.create();
         currentRegion = getStartingRegion();
+        currentRegion.addCALayers();
 
         addEntityListener(new EntityActionListener(Player.class) {
 
             @Override
             public void onAdd() {
-                currentRegion.addCALayers();
             }
 
             @Override

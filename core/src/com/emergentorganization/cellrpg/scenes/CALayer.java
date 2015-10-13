@@ -10,5 +10,15 @@ public enum CALayer {
     VYROIDS_GENETIC,
     SCENERY_COLLIDABLE,
     SCENERY_NONCOLLIDABLE,
-    ENERGY
+    ENERGY;
+
+    public static CALayer[] vyroid_values(){
+        // returns array of values only including those which are vyroids
+        return new CALayer[]{
+                VYROIDS_MINI,
+                VYROIDS,
+                VYROIDS_GENETIC,
+                VYROIDS_MEGA
+        };
+    }
 }

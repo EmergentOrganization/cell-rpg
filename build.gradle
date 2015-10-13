@@ -48,10 +48,8 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "java"
-	
-	if (org.gradle.internal.os.OperatingSystem.current().isWindows()) {
-		sourceSets.test.java.srcDirs = [ "src/" ]
-	}
+
+    sourceSets.test.java.srcDirs = [ "src/" ]
 
     test {
         useJUnit();

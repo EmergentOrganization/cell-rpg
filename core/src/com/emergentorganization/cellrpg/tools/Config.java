@@ -9,6 +9,7 @@ import com.badlogic.gdx.Preferences;
 public class Config {
     private static String PREFS_FILE = "com.emergentorganization.cellrpg.configuration";
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
+    public static String KEY_INPUT_METHOD = "InputMethod";
     private boolean initialized = false;
     private boolean devModeEnabled = false;
     private Preferences prefs;
@@ -36,5 +37,9 @@ public class Config {
         if (!initialized)
             throw new RuntimeException("Initialize Config before use");
         return devModeEnabled;
+    }
+
+    public Preferences getPreferences() {
+        return prefs;
     }
 }

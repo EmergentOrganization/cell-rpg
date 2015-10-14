@@ -1,10 +1,13 @@
 package com.emergentorganization.cellrpg.components.entity.input;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.*;
+import com.emergentorganization.cellrpg.tools.Config;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import org.apache.logging.log4j.LogManager;
@@ -33,6 +36,14 @@ public class PlayerInputComponent extends InputComponent {
         };
     }
 
+    @Override
+    public void added() {
+        super.added();
+
+        Preferences prefs = CellRpg.fetch().getConfiguration().getPreferences();
+        currentInputMethodIndex = prefs.getInteger(Config.KEY_INPUT_METHOD, 0);
+    }
+
     public void addInputConfigButtons(VisTable menuTable, VisWindow menuWindow){
         getCurrentInputMethod().addInputConfigButtons(menuTable, menuWindow);
     }
@@ -41,6 +52,10 @@ public class PlayerInputComponent extends InputComponent {
         // sets base input using index (indicies should be same as listed by getInputTypeChoices
         currentInputMethodIndex = newMethodIndex;
         logger.info("input method set to " + inputChoices[newMethodIndex].getName());
+
+        Preferences prefs = CellRpg.fetch().getConfiguration().getPreferences();
+        prefs.putInteger(Config.KEY_INPUT_METHOD, newMethodIndex);
+        prefs.flush();
     }
 
     public BaseInputMethod getCurrentInputMethod(){

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools;
+package com.emergentorganization.cellrpg.tools.mixpanel;
 
 import com.badlogic.gdx.Gdx;
 import org.apache.logging.log4j.LogManager;

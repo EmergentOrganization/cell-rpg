@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.scenes.*;
-import com.emergentorganization.cellrpg.tools.Mixpanel;
+import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.widget.*;
@@ -142,8 +142,9 @@ public class MainMenu extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                Mixpanel.newGameEvent();
-                CellRpg.fetch().setScreen(new ArcadeScene());
+                CellRpg cellRpg = CellRpg.fetch();
+                cellRpg.getMixpanel().newGameEvent();
+                cellRpg.setScreen(new ArcadeScene());
             }
         });
 
@@ -154,8 +155,9 @@ public class MainMenu extends Scene {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    Mixpanel.newGameEvent();
-                    CellRpg.fetch().setScreen(new RPGScene());
+                    CellRpg cellRpg = CellRpg.fetch();
+                    cellRpg.getMixpanel().newGameEvent();
+                    cellRpg.setScreen(new RPGScene());
                 }
             });
 

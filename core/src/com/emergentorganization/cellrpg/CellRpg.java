@@ -5,8 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.emergentorganization.cellrpg.tools.Mixpanel;
-import com.emergentorganization.cellrpg.tools.Secrets;
+import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
+import com.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.Config;
 import com.kotcrab.vis.ui.VisUI;
@@ -32,6 +32,7 @@ public class CellRpg extends Game {
     private AssetManager assetManager;
     private TextureAtlas textureAtlas;
     private Config config;
+    private Mixpanel mixpanel;
 
     private Screen curScreen;
 
@@ -40,6 +41,7 @@ public class CellRpg extends Game {
         System.setProperty("log4j.configurationFile", "log4j2.xml");
         logger = LogManager.getLogger(getClass());
         config = new Config();
+        mixpanel = new Mixpanel();
     }
 
     public static CellRpg fetch() {
@@ -50,9 +52,9 @@ public class CellRpg extends Game {
     public void create() {
         config.initialize();  // must come before Mixpanel.init
         Secrets.initialize();
-        Mixpanel.initialize();
+        mixpanel.initialize();
 
-        Mixpanel.startupEvent();
+        mixpanel.startupEvent();
         if (!config.isDevModeEnabled()) {
             logger.info("Enabling development mode");
             config.setDevMode(true);
@@ -95,6 +97,7 @@ public class CellRpg extends Game {
         super.dispose();
 
         assetManager.dispose();
+        mixpanel.dispose();
     }
 
     public static String loadVersion() {
@@ -125,5 +128,9 @@ public class CellRpg extends Game {
 
     public TextureAtlas getTextureAtlas() {
         return textureAtlas;
+    }
+
+    public Mixpanel getMixpanel() {
+        return mixpanel;
     }
 }

@@ -1,6 +1,7 @@
-package com.emergentorganization.cellrpg.tools;
+package com.emergentorganization.cellrpg.tools.mixpanel;
 import com.badlogic.gdx.Preferences;
 import com.emergentorganization.cellrpg.CellRpg;
+import com.emergentorganization.cellrpg.tools.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

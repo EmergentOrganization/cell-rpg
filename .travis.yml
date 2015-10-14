@@ -26,3 +26,15 @@ cache:
 
 script:
   gradle desktop:test --rerun-tasks
+
+after_success:
+  # TODO: increment version & push to github
+#  - git commit -a -m "Committed by Travis-CI build number: $((TRAVIS_JOB_ID - 1))"
+
+  # TODO: build & publish javadocs to gh-pages:
+  # http://benlimmer.com/2013/12/26/automatically-publish-javadoc-to-gh-pages-with-travis-ci/
+
+notifications:
+  email:
+    on_success: change # default: change
+    on_failure: change # default: always

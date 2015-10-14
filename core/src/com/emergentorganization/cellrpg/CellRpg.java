@@ -9,7 +9,6 @@ import com.emergentorganization.cellrpg.tools.Mixpanel;
 import com.emergentorganization.cellrpg.tools.Secrets;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.Config;
-import com.emergentorganization.cellrpg.tools.UserIdentifier;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

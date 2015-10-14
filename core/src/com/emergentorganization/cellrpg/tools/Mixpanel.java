@@ -25,7 +25,7 @@ public class Mixpanel {
         messageBuilder = new MessageBuilder(Secrets.MIXPANEL_TOKEN);
     }
 
-    public static void updateUserProfile(){
+    public static synchronized void updateUserProfile(){
         // This creates a profile for user if one does not already exist or updates it.
         try {
             JSONObject props = new JSONObject();
@@ -47,16 +47,16 @@ public class Mixpanel {
         }
     }
 
-    public static void newGameEvent(){
+    public static synchronized void newGameEvent(){
         defaultEvent("newgame");
     }
 
-    public static void startupEvent(){
+    public static synchronized void startupEvent(){
         updateUserProfile();  // NOTE: only _need_ to do this if it has changed
         defaultEvent("startup");
     }
 
-    private static void defaultEvent(final String EVENT_ID) {
+    private static synchronized void defaultEvent(final String EVENT_ID) {
         Thread messageThread = new Thread() {
             public void run() {
                 try {

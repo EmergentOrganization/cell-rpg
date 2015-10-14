@@ -13,7 +13,7 @@ public class Config {
     public static String KEY_CAM_EDGE_MARGIN = "Cam_EdgeMargin";
     public static String KEY_CAM_LEAD = "Cam_Lead";
     public static String KEY_CAM_NEARNESS_CUTOFF = "Cam_NearnessCutoff";
-    public static String USER_ID = null;
+    public static String USER_ID = "user_id";
     private boolean initialized = false;
     private boolean devModeEnabled = false;
     private Preferences prefs;

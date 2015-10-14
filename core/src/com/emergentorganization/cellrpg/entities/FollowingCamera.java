@@ -1,9 +1,12 @@
 package com.emergentorganization.cellrpg.entities;
 
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
+import com.emergentorganization.cellrpg.tools.Config;
 import com.emergentorganization.cellrpg.tools.menus.AdjustableSetting;
 
 /**
@@ -26,6 +29,16 @@ public class FollowingCamera extends Entity {
         super();
 
         setNewTarget(targetEntity);
+    }
+
+    @Override
+    public void added() {
+        super.added();
+
+        Preferences prefs = CellRpg.fetch().getConfiguration().getPreferences();
+        edgeMargin.setValue(prefs.getFloat(Config.KEY_CAM_EDGE_MARGIN, 10.0f));
+        cameraLead.setValue(prefs.getFloat(Config.KEY_CAM_LEAD, 20.0f));
+        closeEnough.setValue(prefs.getFloat(Config.KEY_CAM_NEARNESS_CUTOFF, 4.0f));
     }
 
     public void setNewTarget(Entity newTarget){

@@ -1,5 +1,6 @@
-## Java
+secrets.json
 
+## Java
 *.class
 *.war
 *.ear

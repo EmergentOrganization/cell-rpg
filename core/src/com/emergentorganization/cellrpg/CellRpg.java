@@ -9,6 +9,7 @@ import com.emergentorganization.cellrpg.tools.Mixpanel;
 import com.emergentorganization.cellrpg.tools.Secrets;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.Config;
+import com.emergentorganization.cellrpg.tools.UserIdentifier;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -48,10 +49,11 @@ public class CellRpg extends Game {
 
     @Override
     public void create() {
+        config.initialize();  // must come before Mixpanel.init
         Secrets.initialize();
         Mixpanel.initialize();
+
         Mixpanel.startupEvent();
-        config.initialize();
         if (!config.isDevModeEnabled()) {
             logger.info("Enabling development mode");
             config.setDevMode(true);

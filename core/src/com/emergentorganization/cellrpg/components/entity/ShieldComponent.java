@@ -1,5 +1,8 @@
 package com.emergentorganization.cellrpg.components.entity;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 
@@ -8,6 +11,8 @@ import com.emergentorganization.cellrpg.entities.EntityEvents;
  */
 public class ShieldComponent extends EntityComponent {
     private final float RECHARGE_RATE_DELTA = .1f;
+    private final Sound hurt;
+    private final Sound shieldDown;
     private float rechargeRate = .1f;
     private float recharge_remainder = 0f;
 
@@ -25,6 +30,10 @@ public class ShieldComponent extends EntityComponent {
         graphicsComponent.register("50percent", "game/shield/50p");
         graphicsComponent.register("25percent", "game/shield/25p");
         graphicsComponent.play("100percent");
+
+        AssetManager assets = CellRpg.fetch().getAssetManager();
+        hurt = assets.get("sounds/PlayerHurt.wav", Sound.class);
+        shieldDown = assets.get("sounds/ShieldDown.wav", Sound.class);
     }
 
     public float getHealth(){
@@ -36,8 +45,10 @@ public class ShieldComponent extends EntityComponent {
         health -= DAMAGE_AMOUNT/divisor;
         health_changed = true;
         if (health < 0){
+            shieldDown.play();
             getEntity().fireEvent(EntityEvents.SHIELD_DOWN);
         }
+        hurt.play();
     }
 
     public void increaseRechargeRate(final int numberOfTimes){

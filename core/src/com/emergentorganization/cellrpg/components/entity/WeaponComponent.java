@@ -1,7 +1,9 @@
 package com.emergentorganization.cellrpg.components.entity;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.characters.Bullet;
 
@@ -10,6 +12,8 @@ import com.emergentorganization.cellrpg.entities.characters.Bullet;
  */
 public class WeaponComponent extends EntityComponent {
 
+    private final Sound shoot;
+    private final Sound blankShot;
     private MovementComponent mc;
 
     // TODO: weapon class
@@ -36,6 +40,8 @@ public class WeaponComponent extends EntityComponent {
         graphicsComponent.register("50percent", "game/player-ammo/50p");
         graphicsComponent.register("25percent", "game/player-ammo/25p");
         graphicsComponent.play("100percent");
+        shoot = CellRpg.fetch().getAssetManager().get("sounds/Shoot.wav", Sound.class);
+        blankShot = CellRpg.fetch().getAssetManager().get("sounds/ShootBlank.wav", Sound.class);
     }
 
     public void increaseRechargeRate(final int numberOfTimes){
@@ -91,7 +97,11 @@ public class WeaponComponent extends EntityComponent {
                 vel.set(x, y).sub(pos).nor().scl(speed);
 
                 addEntityToScene(new Bullet(pos, vel, maxDist));
+                shoot.play();
             } // else not enough charge to shoot
+            else {
+                blankShot.play();
+            }
         } // else trying to shoot too quickly
     }
 

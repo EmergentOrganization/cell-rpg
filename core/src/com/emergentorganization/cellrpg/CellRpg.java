@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import com.emergentorganization.cellrpg.tools.mixpanel.Secrets;
@@ -65,6 +66,7 @@ public class CellRpg extends Game {
         logger.info("Loading Assets...");
         assetManager = new AssetManager(new InternalFileHandleResolver());
         assetManager.load(ATLAS_PATH, TextureAtlas.class);
+        loadSounds();
         assetManager.finishLoading();
         textureAtlas = assetManager.get(ATLAS_PATH, TextureAtlas.class);
 
@@ -73,6 +75,24 @@ public class CellRpg extends Game {
 
         super.setScreen(new MainMenu("ready to connect"));
         curScreen = getScreen();
+    }
+
+    private void loadSounds() {
+        String prefix = "sounds/";
+        String ext = ".wav";
+        String[] sounds = {
+                "Hit",
+                "PlayerHurt",
+                "Select",
+                "ShieldDown",
+                "Shoot",
+                "ShootBlank"
+        };
+
+        for (String sound : sounds) {
+            assetManager.load(prefix + sound + ext, Sound.class);
+        }
+
     }
 
     @Override

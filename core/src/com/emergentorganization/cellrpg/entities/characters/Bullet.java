@@ -1,5 +1,7 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
+import com.badlogic.gdx.audio.Sound;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.BulletComponent;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.CACollisionBuilder;
@@ -19,6 +21,7 @@ public class Bullet extends Entity {
 
     static final int POINTS_FOR_VYROID_HIT = 100;
     private final GraphicsComponent graphicsComponent;
+    private final Sound hit;
     private BulletComponent bc;
 
     public Bullet(Vector2 shootingPos, Vector2 velocity, float maxDist){
@@ -30,6 +33,8 @@ public class Bullet extends Entity {
 
         bc = new BulletComponent(shootingPos, velocity, maxDist);
         addComponent(bc);
+
+        hit = CellRpg.fetch().getAssetManager().get("sounds/Hit.wav", Sound.class);
     }
 
     @Override
@@ -37,6 +42,7 @@ public class Bullet extends Entity {
         super.fireEvent(event);
         switch (event){
             case DESTROYED:
+                hit.play();
                 if(getScene() instanceof arcadeScore){
                     ((arcadeScore) getScene()).addPoints(POINTS_FOR_VYROID_HIT);
                 }

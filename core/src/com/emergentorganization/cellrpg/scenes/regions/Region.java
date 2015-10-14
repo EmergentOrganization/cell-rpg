@@ -3,7 +3,6 @@ package com.emergentorganization.cellrpg.scenes.regions;
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
-import com.emergentorganization.cellrpg.entities.ca.decayCAGrid;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.Scene;
 

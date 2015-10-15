@@ -9,7 +9,6 @@ import com.emergentorganization.cellrpg.components.entity.input.PlayerInputCompo
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
@@ -136,6 +135,10 @@ public class Player extends Character {
                     String hash = Long.toHexString(Double.doubleToLongBits(Math.random())).toUpperCase().substring(0, 6);
                     message = "bridge to planiverse collapsed. \nSpatiotemporal hash: " + hash;
                 }
+                // log game over
+
+                CellRpg.fetch().getMixpanel().gameOverEvent(getScene());
+                // return to main menu
                 CellRpg.fetch().setScreen(new MainMenu(message));
                 break;
             case VYROID_DAMAGE:

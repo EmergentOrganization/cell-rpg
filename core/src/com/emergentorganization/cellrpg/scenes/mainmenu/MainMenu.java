@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.scenes.*;
-import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.widget.*;
@@ -167,14 +166,9 @@ public class MainMenu extends Scene {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    // TODO: Mixpanel.newGameEvent(); ?
                     CellRpg.fetch().setScreen(new GeneticArcade());
                 }
             });
-        }
-        else {
-            VisTextButton storyMode = new VisTextButton("Bridge to Stable Planiverse (Coming Soon)");
-            table.add(storyMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         }
 
         VisTextButton custom = new VisTextButton("Bridge to Custom Map");
@@ -183,7 +177,6 @@ public class MainMenu extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 _this.setLoadWindowVisible(true);
             }
         });

@@ -3,6 +3,8 @@ package com.emergentorganization.cellrpg.tools.mixpanel;
 import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.input.InputComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
+import com.emergentorganization.cellrpg.scenes.CALayer;
+import com.emergentorganization.cellrpg.scenes.CAScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.mixpanel.mixpanelapi.ClientDelivery;
@@ -78,14 +80,33 @@ public class Mixpanel {
     public void gameOverEvent(final Scene scene) {
         try{
             JSONObject props = new JSONObject();
+
+            // report score:
             int score = -1;  // score = -1 for non-scoring scenes
             if (scene instanceof arcadeScore){
                 score = ((arcadeScore)scene).getScore();
             }
             props.put("score", score);
+
+            // report input method @ game end
             props.put("input_method",
                 scene.getPlayer().getFirstComponentByType(PlayerInputComponent.class).getCurrentInputMethod().getName()
             );
+
+            // report CA generation lengths
+            try {
+                if (scene instanceof CAScene) {
+                    props.put("min_gen_time",
+                            ((CAScene) scene).getLayer(CALayer.VYROIDS_MEGA).minGenTime  // mega should be fastest (least cells)
+                    );
+                    props.put("max_gen_time",
+                            ((CAScene) scene).getLayer(CALayer.VYROIDS_MINI).maxGenTime  // mini should be slowest (most cells)
+                    );
+                }
+            } catch (NullPointerException ex){  // scene doesn't have requested CALayer
+                // nvm it
+            }
+
             defaultEvent("game_over", props);
         } catch (JSONException ex) {
             logger.error("analytics JSON err: " + ex.getMessage());

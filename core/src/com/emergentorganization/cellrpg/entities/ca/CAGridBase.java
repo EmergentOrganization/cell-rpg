@@ -23,6 +23,9 @@ public abstract class CAGridBase extends Entity {
     public static final long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
     protected static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
 
+    public long minGenTime = 999999;
+    public long maxGenTime = 0;
+
     public long generation = 0;
     protected int stampCount = 0;
 
@@ -88,7 +91,13 @@ public abstract class CAGridBase extends Entity {
         // schedules a new generation thread
         Timer time = new Timer();
         // add runtime to TIME_BTWN_GENERATIONS to ensure this thread never uses more than 50% CPU time
-        time.schedule(new GenerateTask(this), TIME_BTWN_GENERATIONS + runtime);
+        long genTime = TIME_BTWN_GENERATIONS + runtime;
+        if( genTime > maxGenTime){
+            maxGenTime = genTime;
+        } else if (genTime < minGenTime){
+            minGenTime = genTime;
+        }
+        time.schedule(new GenerateTask(this), genTime);
     }
 
     class GenerateTask extends TimerTask {

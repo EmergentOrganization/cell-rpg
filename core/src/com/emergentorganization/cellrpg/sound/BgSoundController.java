@@ -75,6 +75,10 @@ public class BgSoundController {
     }
 
     public void next() {
+        if (currentLoop != null) {
+            currentLoop.stop();
+            currentLoop.dispose();
+        }
         currentLoop = getRandomMusic();
         currentLoop.play();
         fadeIn(FADE_TIME);

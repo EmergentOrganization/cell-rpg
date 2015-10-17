@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.*;
@@ -140,6 +141,7 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 				removeEntity(followingCamera);
 			}
 		});
+		CellRpg.bgSoundController.start();
 	}
 
 	public void enforcePlayerBounds() {
@@ -193,5 +195,12 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 	@Override
 	public void hide() {
 		super.hide();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		CellRpg.bgSoundController.stop();
 	}
 }

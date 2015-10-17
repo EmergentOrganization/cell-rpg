@@ -1,11 +1,13 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.emergentorganization.cellrpg.sound.BgSoundController;
 import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import com.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
@@ -25,6 +27,8 @@ import java.util.Properties;
 public class CellRpg extends Game {
     public static final String VERSION = loadVersion();
     private static final String ATLAS_PATH = "textures/TexturePack.atlas";
+
+    public static final BgSoundController bgSoundController = BgSoundController.fetch();
 
     // private FPSLogger fps = new FPSLogger();
     private static CellRpg singleton;
@@ -52,6 +56,7 @@ public class CellRpg extends Game {
     @Override
     public void create() {
         config.initialize();  // must come before Mixpanel.init
+        bgSoundController.initialize();
         Secrets.initialize();
         mixpanel.initialize();
 
@@ -99,6 +104,8 @@ public class CellRpg extends Game {
     public void render() {
         super.render();
 
+        bgSoundController.step(Gdx.graphics.getDeltaTime());
+
         if (curScreen != screen) {
             screen.dispose();
             super.setScreen(curScreen);
@@ -116,6 +123,7 @@ public class CellRpg extends Game {
     public void dispose() {
         super.dispose();
 
+        bgSoundController.dispose();
         assetManager.dispose();
         mixpanel.dispose();
     }

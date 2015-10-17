@@ -4,6 +4,8 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by BrianErikson on 10/17/15.
@@ -13,6 +15,7 @@ public class BgSoundController {
     public static float FADE_TIME = 2f; // in seconds
     public static float START_FADE = LOOP_DURATION - FADE_TIME;
     public static float FADE_OUT_CUTOFF = 0.01f;
+    private Logger logger;
     private FileHandle[] loops;
     private FileHandle lastLoopHandle;
     private Music currentLoop;
@@ -29,6 +32,7 @@ public class BgSoundController {
     }
 
     public void initialize() {
+        logger = LogManager.getLogger(getClass());
         FileHandle dir = Gdx.files.getFileHandle("sounds/arcade_30s_loops", Files.FileType.Internal);
         loops = dir.list();
     }
@@ -103,6 +107,7 @@ public class BgSoundController {
         else
             lastLoopHandle = loops[index];
 
+        logger.info("Now playing: " + lastLoopHandle.name());
         return Gdx.audio.newMusic(loops[index]);
     }
 

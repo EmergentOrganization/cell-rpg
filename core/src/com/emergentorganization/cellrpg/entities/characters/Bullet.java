@@ -1,7 +1,10 @@
 package com.emergentorganization.cellrpg.entities.characters;
 
+import com.badlogic.gdx.audio.Sound;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.BulletComponent;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.entity.CACollisionBuilder;
 import com.emergentorganization.cellrpg.components.entity.CACollisionComponent;
 import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
@@ -18,6 +21,7 @@ public class Bullet extends Entity {
 
     static final int POINTS_FOR_VYROID_HIT = 100;
     private final GraphicsComponent graphicsComponent;
+    private final Sound hit;
     private BulletComponent bc;
 
     public Bullet(Vector2 shootingPos, Vector2 velocity, float maxDist){
@@ -29,6 +33,8 @@ public class Bullet extends Entity {
 
         bc = new BulletComponent(shootingPos, velocity, maxDist);
         addComponent(bc);
+
+        hit = CellRpg.fetch().getAssetManager().get("sounds/Hit.wav", Sound.class);
     }
 
     @Override
@@ -36,6 +42,7 @@ public class Bullet extends Entity {
         super.fireEvent(event);
         switch (event){
             case DESTROYED:
+                hit.play();
                 if(getScene() instanceof arcadeScore){
                     ((arcadeScore) getScene()).addPoints(POINTS_FOR_VYROID_HIT);
                 }
@@ -48,77 +55,44 @@ public class Bullet extends Entity {
         super.added();
         CAScene scene =  (CAScene) getScene();
         if (scene instanceof CAScene){
-            // NOTE: this uses only x-dimension; assumes width ~= height
-            // TODO: adjusting these values seems to have no effect. why?
-            int collideRadius = 0;//(int)(graphicsComponent.getSize().x*getScene().scale);
-            int collideGrid;
-            try {
-                collideGrid = 1;//scene.getLayer(CALayer.VYROIDS).getCellSize();
-            } catch(NullPointerException err){
-                collideGrid = 1;
-            }
-
-            CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS_MEGA);
-            // vyroid destruction effect
-            cacc.addCollision(
+            CACollisionBuilder.collideWithAllVyroids(
+                    this,
                     1,
-                    new int[][] {
-                            {2,2,2},
-                            {2,2,2},
-                            {2,2,2}
+                    EntityEvents.DESTROYED,
+                    new int[][]{
+                            {2, 2, 2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2, 2, 2}
                     },
-                    CALayer.VYROIDS_MEGA,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(1, EntityEvents.DESTROYED, collideRadius, collideGrid);
-            addComponent(cacc);
-
-            cacc = new CACollisionComponent(CALayer.VYROIDS_MINI);
-            // vyroid destruction effect
-            cacc.addCollision(
-                    1,
-                    new int[][] {
-                            {2,2,2,2,2,2,2},
-                            {2,2,2,2,2,2,2},
-                            {2,2,2,2,2,2,2},
-                            {2,2,2,2,2,2,2},
-                            {2,2,2,2,2,2,2},
-                            {2,2,2,2,2,2,2},
-                            {2,2,2,2,2,2,2}
+                    new int[][]{
+                            {2, 2, 2},
+                            {2, 2, 2},
+                            {2, 2, 2}
                     },
-                    CALayer.VYROIDS_MINI,
-                    collideRadius,
-                    collideGrid
+                    new int[][] {
+                            {2,2,2,2,2},
+                            {2,2,2,2,2},
+                            {2,2,2,2,2},
+                            {2, 2, 2, 2, 2},
+                            {2, 2, 2, 2, 2}
+                    }
             );
-            cacc.addCollision(1, EntityEvents.DESTROYED, collideRadius, collideGrid);
-            addComponent(cacc);
 
-            cacc = new CACollisionComponent(CALayer.VYROIDS);
+            CACollisionComponent cacc=new CACollisionComponent(scene, CACollisionBuilder.getAvailableVyroidLayer(scene));
             // bullet trail energy layer effect
             cacc.addCollision(
                     0,
                     new int[][] {
-                            {1,1},
-                            {1,1}
+                            {1,1,1},
+                            {1,1,1},
+                            {1,1,1}
                     },
                     CALayer.ENERGY
             );
-            // vyroid destruction effect
-            cacc.addCollision(
-                    1,
-                    new int[][] {
-                            {2,2,2,2,2},
-                            {2,2,2,2,2},
-                            {2,2,2,2,2},
-                            {2,2,2,2,2},
-                            {2,2,2,2,2}
-                    },
-                    CALayer.VYROIDS,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(1, EntityEvents.DESTROYED, collideRadius, collideGrid);
             addComponent(cacc);
         }
     }

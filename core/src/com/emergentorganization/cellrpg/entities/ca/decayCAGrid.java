@@ -8,6 +8,9 @@ import com.emergentorganization.cellrpg.entities.ZIndex;
  * Created by tylar on 2015-07-06.
  */
 public class decayCAGrid extends CAGridBase {
+    private final int MIN_RENDER = -3;
+    private final float DELT = 1f/(float) MIN_RENDER;
+
     public decayCAGrid(int sizeOfCells, ZIndex z_index, Color[] state_color_map) {
         /*
         @sizeOfCells     : display size of an individual cell
@@ -41,17 +44,17 @@ public class decayCAGrid extends CAGridBase {
     @Override
     protected void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
                             final float x_origin, final float y_origin){
-        final int min_render = -20;
-        final float delt = .05f;
         if (states[i][j].getState() > 0) {  // state must be > 0 else stateColorMap indexError
             // draw square
             shapeRenderer.setColor(stateColorMap[states[i][j].getState()-1]);
             drawSquare(i, j, shapeRenderer, x_origin, y_origin);
-        } else if (states[i][j].getState() > min_render){
-            Color c = new Color(stateColorMap[0]);
-            float dc = delt * (float)Math.abs(states[i][j].getState());
-            c = c.sub(0, 0, 0, dc);
-            shapeRenderer.setColor(c);
+        } else if (states[i][j].getState() > MIN_RENDER){
+            shapeRenderer.setColor(new Color(
+                    stateColorMap[0].r,
+                    stateColorMap[0].g,
+                    stateColorMap[0].b,
+                    stateColorMap[0].a - DELT * (float)states[i][j].getState()
+            ));
             drawSquare(i, j, shapeRenderer, x_origin, y_origin);
         }  // else don't bother
     }

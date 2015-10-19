@@ -1,22 +1,34 @@
 package com.emergentorganization.cellrpg;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.emergentorganization.cellrpg.sound.BgSoundController;
+import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
+import com.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
 import com.emergentorganization.cellrpg.tools.Config;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * Created by BrianErikson on 6/7/2015.
  */
 public class CellRpg extends Game {
-    public static final String VERSION = "0.3.15    ";
+    public static final String VERSION = loadVersion();
     private static final String ATLAS_PATH = "textures/TexturePack.atlas";
+
+    public static final BgSoundController bgSoundController = BgSoundController.fetch();
 
     // private FPSLogger fps = new FPSLogger();
     private static CellRpg singleton;
@@ -25,6 +37,7 @@ public class CellRpg extends Game {
     private AssetManager assetManager;
     private TextureAtlas textureAtlas;
     private Config config;
+    private Mixpanel mixpanel;
 
     private Screen curScreen;
 
@@ -33,6 +46,7 @@ public class CellRpg extends Game {
         System.setProperty("log4j.configurationFile", "log4j2.xml");
         logger = LogManager.getLogger(getClass());
         config = new Config();
+        mixpanel = new Mixpanel();
     }
 
     public static CellRpg fetch() {
@@ -41,7 +55,12 @@ public class CellRpg extends Game {
 
     @Override
     public void create() {
-        config.initialize();
+        config.initialize();  // must come before Mixpanel.init
+        bgSoundController.initialize();
+        Secrets.initialize();
+        mixpanel.initialize();
+
+        mixpanel.startupEvent();
         if (!config.isDevModeEnabled()) {
             logger.info("Enabling development mode");
             config.setDevMode(true);
@@ -52,6 +71,7 @@ public class CellRpg extends Game {
         logger.info("Loading Assets...");
         assetManager = new AssetManager(new InternalFileHandleResolver());
         assetManager.load(ATLAS_PATH, TextureAtlas.class);
+        loadSounds();
         assetManager.finishLoading();
         textureAtlas = assetManager.get(ATLAS_PATH, TextureAtlas.class);
 
@@ -62,9 +82,29 @@ public class CellRpg extends Game {
         curScreen = getScreen();
     }
 
+    private void loadSounds() {
+        String prefix = "sounds/";
+        String ext = ".wav";
+        String[] sounds = {
+                "Hit",
+                "PlayerHurt",
+                "Select",
+                "ShieldDown",
+                "Shoot",
+                "ShootBlank"
+        };
+
+        for (String sound : sounds) {
+            assetManager.load(prefix + sound + ext, Sound.class);
+        }
+
+    }
+
     @Override
     public void render() {
         super.render();
+
+        bgSoundController.step(Gdx.graphics.getDeltaTime());
 
         if (curScreen != screen) {
             screen.dispose();
@@ -83,7 +123,27 @@ public class CellRpg extends Game {
     public void dispose() {
         super.dispose();
 
+        bgSoundController.dispose();
         assetManager.dispose();
+        mixpanel.dispose();
+    }
+
+    public static String loadVersion() {
+        Properties props = new Properties();
+        File propsFile = new File("property.settings");
+        try {
+            FileReader reader = new FileReader(propsFile);
+            props.load(reader);
+            String major = props.getProperty("majorVersion");
+            String minor = props.getProperty("minorVersion");
+            String revision = props.getProperty("revision");
+            reader.close();
+            return major + "." + minor + "." + revision;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public Config getConfiguration() {
@@ -96,5 +156,9 @@ public class CellRpg extends Game {
 
     public TextureAtlas getTextureAtlas() {
         return textureAtlas;
+    }
+
+    public Mixpanel getMixpanel() {
+        return mixpanel;
     }
 }

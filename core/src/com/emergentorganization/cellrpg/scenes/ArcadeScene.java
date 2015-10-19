@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
 import com.emergentorganization.cellrpg.entities.*;
@@ -56,23 +57,25 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		addArcadeEntity(ent, 0, 0);
 	}
 
+	protected CALayer getGenInsertLayer(){
+		// returns CALayer into which next new generator should spawn vyroids
+		int chosenLayer = (int)Math.round(Math.random()*2);
+		switch (chosenLayer){
+			case 0:
+				return CALayer.VYROIDS_MINI;
+			case 1:
+				return CALayer.VYROIDS_MEGA;
+			default:
+				return CALayer.VYROIDS;
+		}
+	}
+
 	private VyroidGenEntity addGenerator(){
 		// adds another vyroid generator
 		float x = 0;
 		float y = 0;
-		int chosenLayer = (int)Math.round(Math.random()*2);
-		CALayer layer;
-		switch (chosenLayer){
-			case 0:
-				layer = CALayer.VYROIDS_MINI;
-				break;
-			case 1:
-				layer = CALayer.VYROIDS_MEGA;
-				break;
-			default:
-				layer = CALayer.VYROIDS;
-		}
-		VyroidGenEntity gen = new VyroidGenEntity(ZIndex.BUILDING, layer);
+
+		VyroidGenEntity gen = new VyroidGenEntity(ZIndex.BUILDING, getGenInsertLayer());
 		addArcadeEntity(gen, x, y, .0000001f, .0000001f);
 		lastGenSpawnTime = System.currentTimeMillis();
 		logger.info("new vyroid gen added!");
@@ -138,6 +141,7 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 				removeEntity(followingCamera);
 			}
 		});
+		CellRpg.bgSoundController.start();
 	}
 
 	public void enforcePlayerBounds() {
@@ -191,5 +195,12 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 	@Override
 	public void hide() {
 		super.hide();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+
+		CellRpg.bgSoundController.stop();
 	}
 }

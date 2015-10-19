@@ -9,7 +9,6 @@ import com.emergentorganization.cellrpg.components.entity.input.PlayerInputCompo
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.physics.PlayerUserData;
 import com.emergentorganization.cellrpg.physics.Tag;
-import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
@@ -101,78 +100,18 @@ public class Player extends Character {
 
         CAScene scene =  (CAScene) getScene();
         if (scene instanceof CAScene) {
-            // NOTE: this uses only x-dimension; assumes width ~= height
-            int collideRadius = 0; //TODO: (int) (getGraphicsComponent().getSize().x*scale);
-            int collideGrid;
-            try {
-                collideGrid = scene.getLayer(CALayer.VYROIDS).getCellSize();
-            } catch(NullPointerException err){
-                collideGrid = 1;
-            }
             initCAGrid();
-
-            // normal size vyroids
-            CACollisionComponent cacc = new CACollisionComponent(CALayer.VYROIDS);
-            cacc.addCollision(
+            logger.info("adding player-vyroid collisions...");
+            CACollisionBuilder.collideWithAllVyroids(
+                    this,
                     1,
                     EntityEvents.VYROID_DAMAGE,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(
-                    1,
                     new int[][]{
-                            {0, 0, 0},
-                            {0, 0, 0},
-                            {0, 0, 0}
-                    },
-                    CALayer.VYROIDS,
-                    collideRadius,
-                    collideGrid
+                        {0, 0, 0},
+                        {0, 0, 0},
+                        {0, 0, 0}
+                    }
             );
-            addComponent(cacc);
-
-            // mini vyroids
-            cacc = new CACollisionComponent(CALayer.VYROIDS_MINI);
-            cacc.addCollision(
-                    1,
-                    EntityEvents.VYROID_DAMAGE,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(
-                    1,
-                    new int[][]{
-                            {0, 0, 0},
-                            {0, 0, 0},
-                            {0, 0, 0}
-                    },
-                    CALayer.VYROIDS_MINI,
-                    collideRadius,
-                    collideGrid
-            );
-            addComponent(cacc);
-
-            // mega vyroids
-            cacc = new CACollisionComponent(CALayer.VYROIDS_MEGA);
-            cacc.addCollision(
-                    1,
-                    EntityEvents.VYROID_DAMAGE,
-                    collideRadius,
-                    collideGrid
-            );
-            cacc.addCollision(
-                    1,
-                    new int[][]{
-                            {0, 0, 0},
-                            {0, 0, 0},
-                            {0, 0, 0}
-                    },
-                    CALayer.VYROIDS_MEGA,
-                    collideRadius,
-                    collideGrid
-            );
-            addComponent(cacc);
         }
     }
 
@@ -196,9 +135,14 @@ public class Player extends Character {
                     String hash = Long.toHexString(Double.doubleToLongBits(Math.random())).toUpperCase().substring(0, 6);
                     message = "bridge to planiverse collapsed. \nSpatiotemporal hash: " + hash;
                 }
+                // log game over
+
+                CellRpg.fetch().getMixpanel().gameOverEvent(getScene());
+                // return to main menu
                 CellRpg.fetch().setScreen(new MainMenu(message));
                 break;
             case VYROID_DAMAGE:
+                logger.info("player damaged by vyroid contact");
                 getFirstComponentByType(ShieldComponent.class).damage();
                 break;
         }

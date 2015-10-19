@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.CellRpg;
-import com.emergentorganization.cellrpg.scenes.ArcadeScene;
-import com.emergentorganization.cellrpg.scenes.CustomMap;
-import com.emergentorganization.cellrpg.scenes.RPGScene;
-import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.*;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.widget.*;
@@ -144,8 +141,9 @@ public class MainMenu extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
-                CellRpg.fetch().setScreen(new ArcadeScene());
+                CellRpg cellRpg = CellRpg.fetch();
+                cellRpg.getMixpanel().newGameEvent();
+                cellRpg.setScreen(new ArcadeScene());
             }
         });
 
@@ -156,14 +154,21 @@ public class MainMenu extends Scene {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-
-                    CellRpg.fetch().setScreen(new RPGScene());
+                    CellRpg cellRpg = CellRpg.fetch();
+                    cellRpg.getMixpanel().newGameEvent();
+                    cellRpg.setScreen(new RPGScene());
                 }
             });
-        }
-        else {
-            VisTextButton storyMode = new VisTextButton("Bridge to Stable Planiverse (Coming Soon)");
-            table.add(storyMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+
+            VisTextButton geneticMode = new VisTextButton("Bridge to LifeGene Lab (experimental)");
+            table.add(geneticMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+            geneticMode.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    CellRpg.fetch().setScreen(new GeneticArcade());
+                }
+            });
         }
 
         VisTextButton custom = new VisTextButton("Bridge to Custom Map");
@@ -172,7 +177,6 @@ public class MainMenu extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 _this.setLoadWindowVisible(true);
             }
         });

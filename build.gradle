@@ -1,3 +1,16 @@
+//TODO: Move version incrementer from root?
+Properties props = new Properties();
+File propsFile = new File(project.projectDir.absolutePath + "/android/assets/property.settings");
+propsFile.withInputStream {
+    props.load(it);
+}
+
+def git = org.ajoberstar.grgit.Grgit.open(project.file("."));
+props.setProperty('revision', git.head().getAbbreviatedId());
+
+props.store(propsFile.newWriter(), null);
+// END VERSION INCREMENTER
+
 buildscript {
     repositories {
         mavenCentral()
@@ -8,6 +21,7 @@ buildscript {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:1.2.3'
         classpath 'org.robovm:robovm-gradle-plugin:1.6.0'
+        classpath 'org.ajoberstar:grgit:1.1.0'
     }
 }
 
@@ -15,9 +29,9 @@ allprojects {
     apply plugin: "eclipse"
     apply plugin: "idea"
 
-    version = '1.0'
     ext {
         appName = 'Cell-RPG'
+        appVersion = props.majorVersion + "." + props.minorVersion + "." + props.revision
         gdxVersion = '1.6.1'
         roboVMVersion = '1.2.0'
         box2DLightsVersion = '1.3'
@@ -35,6 +49,15 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
+    sourceSets.test.java.srcDirs = [ "src/" ]
+
+    test {
+        useJUnit();
+        include '*/AllTestSuite.class'
+        testLogging {
+            events 'passed', 'failed'
+        }
+    }
 
     dependencies {
         compile project(":core")
@@ -96,8 +119,6 @@ project(":html") {
 
 project(":core") {
     apply plugin: "java"
-
-
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
@@ -107,6 +128,8 @@ project(":core") {
         compile "com.googlecode.json-simple:json-simple:1.1.1"
         compile "org.apache.logging.log4j:log4j-api:2.3"
         compile "org.apache.logging.log4j:log4j-core:2.3"
+        compile 'it.uniroma1.dis.wsngroup.gexf4j:gexf4j:0.4.4-BETA'
+        compile 'com.mixpanel:mixpanel-java:1.4.3'
         testCompile 'junit:junit:4.12'
     }
 }

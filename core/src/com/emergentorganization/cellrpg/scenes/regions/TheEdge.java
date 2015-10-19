@@ -19,4 +19,11 @@ public class TheEdge extends Region {
         RegionBuildTool.addVyroidLayer(scene, ca_layers, CALayer.VYROIDS_MINI);
         RegionBuildTool.addVyroidLayer(scene, ca_layers, CALayer.VYROIDS_MEGA);
     }
+
+    @Override
+    public boolean regionFinished(){
+        return false;
+        // TODO: for story mode, region should return true when player is nearing edge of the
+        //          region and the next region chunk needs to be loaded.
+    }
 }

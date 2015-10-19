@@ -5,6 +5,8 @@ import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.entities.ca.*;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
@@ -12,9 +14,11 @@ import java.util.Map;
  * Created by 7yl4r on 10/10/2015.
  */
 public class RegionBuildTool {
+    private static final Logger logger = LogManager.getLogger(RegionBuildTool.class);
 
     public static void addVyroidLayer(Scene scene, Map<CALayer, CAGridBase> ca_layers, CALayer layerToAdd){
         ca_layers.put(layerToAdd, getDefaultCAGrid(layerToAdd));
+        logger.info("addVyroidLayer(s="+scene+", ca_layers="+ca_layers+ " )");
         scene.addEntity(ca_layers.get(layerToAdd));
     }
 

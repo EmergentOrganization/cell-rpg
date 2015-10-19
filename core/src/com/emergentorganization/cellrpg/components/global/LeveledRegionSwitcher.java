@@ -7,12 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.regions.Region;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.List;
 
 /**
  * Leveled region switcher can be used at the Scene level to control switching of regions.
@@ -33,15 +32,19 @@ public class LeveledRegionSwitcher extends GlobalComponent{
     private Label label;
     private Dialog dialog;
 
-    private List<Class> regions;
+    private Class[] regions;
     private int currentRegionIndex = 0;
     private Region currentRegion;
     private Region nextRegion;
 
-    public LeveledRegionSwitcher(List<Class> _regions){
+    public LeveledRegionSwitcher(Class[] _regions){
         regions = _regions;
         loadRegion(0);
         nextRegion();
+    }
+
+    public Region getRegion(){
+        return currentRegion;
     }
 
     public boolean nextRegion(){
@@ -59,7 +62,7 @@ public class LeveledRegionSwitcher extends GlobalComponent{
 
     public int getRemainingRegions(){
         // returns the number of regions remaining, excluding current region
-        return regions.size() - (currentRegionIndex + 1);
+        return regions.length - (currentRegionIndex + 1);
     }
 
     public boolean noMoreRegions(){
@@ -69,17 +72,28 @@ public class LeveledRegionSwitcher extends GlobalComponent{
 
     private void loadRegion(int index){
         // loads given region into nextRegion
-        if (noMoreRegions()) {
+        if (! noMoreRegions()) {
             try {
-                nextRegion = (Region) regions.get(index).newInstance();
-            } catch (IllegalAccessException | InstantiationException ex) {
+                //nextRegion = (Region) regions[index].newInstance();
+                Scene scene = getScene();
+                logger.info("loadRegion scene =" + scene);
+                nextRegion = (Region) regions[index].getDeclaredConstructor(Scene.class).newInstance(scene);
+            } catch (Exception ex) {
                 logger.error("region-list badness in regionList:" + regions + "\n\nERR: " + ex.getMessage());
                 // TODO: return to main menu or something?
             }
+            logger.info("loaded region " + index + ": " + nextRegion.getClass());
         } else {
             logger.warn("cannot load next region; current region is last");
         }
     }
+
+    public void updateRegion() {
+        if (currentRegion.regionFinished()) {
+            nextRegion();
+        }
+    }
+
 
     private void enterNextRegion(){
         // makes nextRegion currentRegion and disposes of old region

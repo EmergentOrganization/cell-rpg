@@ -11,7 +11,7 @@ import java.util.Map;
  * Useful to allow switching between "region" units without breaking continuity of the scene,
  * such as moving to next arcade level or loading next area chunk while traveling.
  *
- * Created by 7yl4r on 10/10/2015.
+ * Created by 7yl4r on 2015-10-10.
  */
 public abstract class Region {
     protected Map<CALayer, CAGridBase> ca_layers = new EnumMap<CALayer, CAGridBase>(CALayer.class);
@@ -34,4 +34,8 @@ public abstract class Region {
     public CAGridBase getLayer(CALayer layer){
         return ca_layers.get(layer);
     }
+
+    public abstract boolean regionFinished();
+    // returns true when region win condition is satisfied or player is leaving region.
+    // use this to signal to the parent scene that it should prepare the next region.
 }

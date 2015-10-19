@@ -6,12 +6,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.components.global.DialogComponent;
+import com.emergentorganization.cellrpg.components.global.LeveledRegionSwitcher;
 import com.emergentorganization.cellrpg.entities.*;
 import com.emergentorganization.cellrpg.entities.buildings.VyroidGenEntity;
 import com.emergentorganization.cellrpg.entities.characters.Player;
 import com.emergentorganization.cellrpg.physics.listeners.PlayerCollisionListener;
 import com.emergentorganization.cellrpg.scenes.listeners.EntityActionListener;
 import com.emergentorganization.cellrpg.scenes.regions.ArcadeRegion1;
+import com.emergentorganization.cellrpg.scenes.regions.GeneticRegion;
 import com.emergentorganization.cellrpg.scenes.regions.Region;
 import com.emergentorganization.cellrpg.story.dialogue.ArcadeStory;
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +22,13 @@ import org.apache.logging.log4j.Logger;
 public class ArcadeScene extends CAScene implements arcadeScore {
 	private final Logger logger = LogManager.getLogger(getClass());
 
+	private static final Class[] REGIONS = {
+			ArcadeRegion1.class,
+			ArcadeRegion1.class,
+			ArcadeRegion1.class,
+			ArcadeRegion1.class,
+			GeneticRegion.class
+	};
 	static final float POINTS_PER_SEC = 100f;  // # of points per second survived
 	Entity cameraTarget;
 	private int score = 0;
@@ -28,6 +37,13 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 	private long timeUntilNextGenerator = 10000; // ms until next generator spawns
 	private long lastGenSpawnTime;
 	private MovementComponent playerMoveComponent;
+	private LeveledRegionSwitcher regionSwitcher;
+
+	public ArcadeScene(){
+		super();
+		regionSwitcher = new LeveledRegionSwitcher(REGIONS);
+		regionSwitcher.setScene(this);
+	}
 
 	public int getScore(){
 		return score;
@@ -110,12 +126,14 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 
 
 	public Region getStartingRegion(){
-		return new ArcadeRegion1(this);
+		return regionSwitcher.getRegion();
 	}
 
 	@Override
 	public void create() {
 		super.create();
+
+		addComponent(regionSwitcher);
 
 		DialogComponent dc = new DialogComponent();
 		addComponent(dc);
@@ -178,6 +196,8 @@ public class ArcadeScene extends CAScene implements arcadeScore {
 		super.render(delta);
 
 		enforcePlayerBounds();
+
+		// add points
 		pointBuffer += delta*POINTS_PER_SEC;  // get points for each render you survive
 		addPoints((int) pointBuffer);  // whole points added to score
 		pointBuffer%=1f;  // then chop off whole points and save only decimal parts

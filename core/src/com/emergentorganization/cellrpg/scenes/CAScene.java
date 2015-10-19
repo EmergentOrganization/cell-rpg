@@ -18,6 +18,7 @@ public abstract class CAScene extends PausableScene {
     @Override
     public void create() {
         super.create();
+
         currentRegion = getStartingRegion();
         currentRegion.addCALayers();
 

@@ -16,4 +16,9 @@ public class GeneticRegion extends Region {
         super.addCALayers();
         RegionBuildTool.addVyroidLayer(scene, ca_layers, CALayer.VYROIDS_GENETIC);
     }
+
+    @Override
+    public boolean regionFinished(){
+        return false;  // this region never ends! Muahahaha!
+    }
 }

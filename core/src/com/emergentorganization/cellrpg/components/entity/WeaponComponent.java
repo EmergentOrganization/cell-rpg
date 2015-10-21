@@ -6,6 +6,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.characters.Bullet;
+import com.emergentorganization.cellrpg.tools.FileStructure;
+
+import java.io.File;
 
 /**
  * Created by OrelBitton on 06/06/2015.
@@ -40,8 +43,8 @@ public class WeaponComponent extends EntityComponent {
         graphicsComponent.register("50percent", "game/player-ammo/50p");
         graphicsComponent.register("25percent", "game/player-ammo/25p");
         graphicsComponent.play("100percent");
-        shoot = CellRpg.fetch().getAssetManager().get("sounds/Shoot.wav", Sound.class);
-        blankShot = CellRpg.fetch().getAssetManager().get("sounds/ShootBlank.wav", Sound.class);
+        shoot = CellRpg.fetch().getAssetManager().get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "Shoot.wav", Sound.class);
+        blankShot = CellRpg.fetch().getAssetManager().get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "ShootBlank.wav", Sound.class);
     }
 
     public void increaseRechargeRate(final int numberOfTimes){

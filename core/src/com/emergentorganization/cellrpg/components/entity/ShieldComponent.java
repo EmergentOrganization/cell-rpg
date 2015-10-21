@@ -5,6 +5,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
+import com.emergentorganization.cellrpg.tools.FileStructure;
+
+import java.io.File;
 
 /**
  * Created by 7yl4r on 2015-07-27
@@ -32,8 +35,8 @@ public class ShieldComponent extends EntityComponent {
         graphicsComponent.play("100percent");
 
         AssetManager assets = CellRpg.fetch().getAssetManager();
-        hurt = assets.get("sounds/PlayerHurt.wav", Sound.class);
-        shieldDown = assets.get("sounds/ShieldDown.wav", Sound.class);
+        hurt = assets.get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "PlayerHurt.wav", Sound.class);
+        shieldDown = assets.get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "ShieldDown.wav", Sound.class);
     }
 
     public float getHealth(){

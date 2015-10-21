@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.emergentorganization.cellrpg.sound.BgSoundController;
+import com.emergentorganization.cellrpg.tools.FileStructure;
 import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import com.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
@@ -25,8 +26,8 @@ import java.util.Properties;
  * Created by BrianErikson on 6/7/2015.
  */
 public class CellRpg extends Game {
-    public static final String VERSION = loadVersion();
-    private static final String ATLAS_PATH = "textures/TexturePack.atlas";
+    private String version;
+    private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures" + File.separator + "TexturePack.atlas";
 
     public static final BgSoundController bgSoundController = BgSoundController.fetch();
 
@@ -43,7 +44,7 @@ public class CellRpg extends Game {
 
     public CellRpg() {
         singleton = this;
-        System.setProperty("log4j.configurationFile", "log4j2.xml");
+        System.setProperty("log4j.configurationFile", FileStructure.RESOURCE_DIR + "log4j2.xml");
         logger = LogManager.getLogger(getClass());
         config = new Config();
         mixpanel = new Mixpanel();
@@ -55,6 +56,8 @@ public class CellRpg extends Game {
 
     @Override
     public void create() {
+        FileStructure.fetch().initialize();
+        version = loadVersion();
         config.initialize();  // must come before Mixpanel.init
         bgSoundController.initialize();
         Secrets.initialize();
@@ -83,7 +86,7 @@ public class CellRpg extends Game {
     }
 
     private void loadSounds() {
-        String prefix = "sounds/";
+        String prefix = FileStructure.RESOURCE_DIR + "sounds" + File.separator;
         String ext = ".wav";
         String[] sounds = {
                 "Hit",
@@ -128,9 +131,9 @@ public class CellRpg extends Game {
         mixpanel.dispose();
     }
 
-    public static String loadVersion() {
+    public String loadVersion() {
         Properties props = new Properties();
-        File propsFile = new File("property.settings");
+        File propsFile = Gdx.files.internal(FileStructure.RESOURCE_DIR + "property.settings").file();
         try {
             FileReader reader = new FileReader(propsFile);
             props.load(reader);
@@ -160,5 +163,9 @@ public class CellRpg extends Game {
 
     public Mixpanel getMixpanel() {
         return mixpanel;
+    }
+
+    public String getVersion() {
+        return version;
     }
 }

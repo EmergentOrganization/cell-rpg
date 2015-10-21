@@ -7,7 +7,6 @@ import com.emergentorganization.cellrpg.entities.ca.DGRN4j.InflowNodeHandler;
 import com.emergentorganization.cellrpg.entities.ca.DGRN4j.OutflowNodeHandler;
 import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.GeneticNetworkBuilderInterface;
 import com.emergentorganization.cellrpg.scenes.CAScene;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.data.AttributeListImpl;
 import org.apache.logging.log4j.LogManager;
@@ -119,7 +118,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
 
     public void initDGRN(){
         dgrn = new DGRN(
-                "Planiverse Bridge v" + CellRpg.VERSION,
+                "Planiverse Bridge v" + CellRpg.fetch().getVersion(),
                 "Digital Gene Regulatory Network",
                 attrList,
                 attr_ActivationValue,

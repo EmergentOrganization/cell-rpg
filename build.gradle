@@ -1,6 +1,6 @@
 //TODO: Move version incrementer from root?
 Properties props = new Properties();
-File propsFile = new File(project.projectDir.absolutePath + "/android/assets/property.settings");
+File propsFile = new File(project.projectDir.absolutePath + "/android/assets/resources/property.settings");
 propsFile.withInputStream {
     props.load(it);
 }

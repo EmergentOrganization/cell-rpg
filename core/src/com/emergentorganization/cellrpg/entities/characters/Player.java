@@ -98,8 +98,8 @@ public class Player extends Character {
 
         //addComponent(new DialogComponent());
 
-        CAScene scene =  (CAScene) getScene();
-        if (scene instanceof CAScene) {
+        if (getScene() instanceof CAScene) {
+            CAScene scene = (CAScene) getScene();
             initCAGrid();
             logger.info("adding player-vyroid collisions...");
             CACollisionBuilder.collideWithAllVyroids(

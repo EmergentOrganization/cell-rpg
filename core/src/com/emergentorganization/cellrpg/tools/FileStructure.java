@@ -9,7 +9,6 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Enumeration;
-import java.util.concurrent.TimeUnit;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -33,11 +32,14 @@ public class FileStructure {
         if (!Gdx.files.internal(RESOURCE_DIR + "property.settings").file().exists()) { // Must be in a JAR
             logger.info("JAR detected; unpacking assets");
             isJar = true;
-            unpackJar();
+            unpackAssets();
         }
     }
 
-    private void unpackJar() {
+    /**
+     * Unpacks assets into root directory. Does not overwrite files if they are already there.
+     */
+    private void unpackAssets() {
         URL url = CellRpg.class.getProtectionDomain().getCodeSource().getLocation();
         try {
             String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
@@ -52,9 +54,7 @@ public class FileStructure {
                 if (file.getAbsolutePath().contains(rootDir + RESOURCE_DIR.substring(0, RESOURCE_DIR.length() - 1)) &&
                         !file.getAbsolutePath().contains("unpacked")) {
                     if (file.exists()) {
-                        if (file.lastModified() >= entry.getLastModifiedTime().to(TimeUnit.MILLISECONDS))
-                            continue;
-                        file.delete();
+                        continue;
                     }
 
                     if (entry.isDirectory()) {

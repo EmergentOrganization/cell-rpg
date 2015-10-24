@@ -9,15 +9,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
+import com.emergentorganization.cellrpg.tools.FileStructure;
 
 /**
  * Created by BrianErikson on 9/3/15.
  */
 public class TronShader implements PostProcessor {
-    public static final String blurVertexShader = Gdx.files.internal("shaders/tron/Tron_Vert_Blur.glsl").readString();
-    public static final String blurFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_Blur.glsl").readString();
-    public static final String colorMaskVertexShader = Gdx.files.internal("shaders/Vert_Passthrough.glsl").readString();
-    public static final String colorMaskFragShader = Gdx.files.internal("shaders/tron/Tron_Frag_ColorMask.glsl").readString();
+    public static final String blurVertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Vert_Blur.glsl").readString();
+    public static final String blurFragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Frag_Blur.glsl").readString();
+    public static final String colorMaskVertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/Vert_Passthrough.glsl").readString();
+    public static final String colorMaskFragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Frag_ColorMask.glsl").readString();
     private final TextureRegion maskRegion;
     private ShaderProgram colorMaskProgram = new ShaderProgram(colorMaskVertexShader, colorMaskFragShader);
     private ShaderProgram blurProgram = new ShaderProgram(blurVertexShader, blurFragShader);

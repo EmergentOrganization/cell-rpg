@@ -124,7 +124,7 @@ public class MainMenu extends Scene {
         final MainMenu _this = this;
 
         VisTable table = new VisTable();
-        VisWindow window = new VisWindow("Planiverse Bridge v" + CellRpg.VERSION, false);
+        VisWindow window = new VisWindow("Planiverse Bridge v" +CellRpg.fetch().getVersion(), false);
         window.setFillParent(true);
         window.add(table);
         window.clearListeners();

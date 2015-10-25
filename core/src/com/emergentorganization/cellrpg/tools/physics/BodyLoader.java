@@ -3,11 +3,13 @@ package com.emergentorganization.cellrpg.tools.physics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.tools.FileStructure;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Polygon;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public class BodyLoader extends BodyEditorLoader {
 
     public static BodyLoader fetch() {
         if (singleton == null) {
-            singleton = new BodyLoader(Gdx.files.internal("data/colliderProject"));
+            singleton = new BodyLoader(Gdx.files.internal(FileStructure.RESOURCE_DIR + File.separator + "data" + File.separator + "colliderProject"));
         }
         return singleton;
     }

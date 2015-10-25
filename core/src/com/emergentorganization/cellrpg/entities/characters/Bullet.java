@@ -13,6 +13,9 @@ import com.emergentorganization.cellrpg.entities.ZIndex;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
+import com.emergentorganization.cellrpg.tools.FileStructure;
+
+import java.io.File;
 
 /**
  * Created by OrelBitton on 06/06/2015.
@@ -34,7 +37,7 @@ public class Bullet extends Entity {
         bc = new BulletComponent(shootingPos, velocity, maxDist);
         addComponent(bc);
 
-        hit = CellRpg.fetch().getAssetManager().get("sounds/Hit.wav", Sound.class);
+        hit = CellRpg.fetch().getAssetManager().get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "Hit.wav", Sound.class);
     }
 
     @Override

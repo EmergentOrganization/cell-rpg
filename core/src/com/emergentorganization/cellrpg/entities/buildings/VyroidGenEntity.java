@@ -27,6 +27,10 @@ public class VyroidGenEntity extends Entity {
     /*
     This constructor is needed for MapEditor. Do not remove.
      */
+    public VyroidGenEntity() {
+        super(ZIndex.BUILDING);
+    }
+
     public VyroidGenEntity(ZIndex zindex, CALayer _spawnLayer) {
         super(zindex);
         spawnLayer = _spawnLayer;

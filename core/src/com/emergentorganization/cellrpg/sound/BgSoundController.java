@@ -4,8 +4,11 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.emergentorganization.cellrpg.tools.FileStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
 
 /**
  * Created by BrianErikson on 10/17/15.
@@ -33,7 +36,7 @@ public class BgSoundController {
 
     public void initialize() {
         logger = LogManager.getLogger(getClass());
-        FileHandle dir = Gdx.files.getFileHandle("sounds/arcade_30s_loops", Files.FileType.Internal);
+        FileHandle dir = Gdx.files.getFileHandle(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "arcade_30s_loops", Files.FileType.Internal);
         loops = dir.list();
     }
 

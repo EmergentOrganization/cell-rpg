@@ -1,20 +1,17 @@
 package com.emergentorganization.cellrpg.tools.mixpanel;
 
 import com.emergentorganization.cellrpg.CellRpg;
-import com.emergentorganization.cellrpg.components.entity.input.InputComponent;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputComponent;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.arcadeScore;
-import com.mixpanel.mixpanelapi.ClientDelivery;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,7 +36,7 @@ public class Mixpanel {
         // This creates a profile for user if one does not already exist or updates it.
         try {
             JSONObject props = new JSONObject();
-            props.put("version", CellRpg.VERSION);
+            props.put("version", CellRpg.fetch().getVersion());
             props.put("OS", System.getProperty("os.name") + "v" + System.getProperty("os.version"));
             props.put("JRE", System.getProperty("java.version"));
             props.put("time zone", Calendar.getInstance().getTimeZone().getID());

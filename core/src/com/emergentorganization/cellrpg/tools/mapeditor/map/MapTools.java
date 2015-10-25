@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.entity.MovementComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.tools.FileStructure;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,7 +19,7 @@ import java.util.LinkedHashMap;
  * Created by BrianErikson on 6/19/2015.
  */
 public class MapTools {
-    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + "maps/";
+    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + File.separator + FileStructure.RESOURCE_DIR + "maps" + File.separator;
     public static String EXTENSION = ".json";
 
     public static Map importMap(String fileName) {

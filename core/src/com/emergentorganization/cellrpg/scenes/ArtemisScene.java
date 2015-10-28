@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.AnimationSystem;
 import com.emergentorganization.cellrpg.systems.InputSystem;
 import com.emergentorganization.cellrpg.systems.MovementSystem;
@@ -25,6 +26,8 @@ public class ArtemisScene extends ScreenAdapter {
     private void initArtemis(){
         WorldConfiguration wc = new WorldConfiguration();
         SpriteBatch batch = new SpriteBatch();
+
+        wc.setSystem(new AssetManager());
 
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem());

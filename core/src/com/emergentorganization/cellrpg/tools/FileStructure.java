@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.Gdx;
-import com.emergentorganization.cellrpg.CellRpg;
+import com.emergentorganization.cellrpg.PixelonTransmission;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +40,7 @@ public class FileStructure {
      * Unpacks assets into root directory. Does not overwrite files if they are already there.
      */
     private void unpackAssets() {
-        URL url = CellRpg.class.getProtectionDomain().getCodeSource().getLocation();
+        URL url = PixelonTransmission.class.getProtectionDomain().getCodeSource().getLocation();
         try {
             String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
             JarFile jar = new JarFile(jarPath);

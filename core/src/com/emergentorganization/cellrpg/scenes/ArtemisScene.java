@@ -3,14 +3,13 @@ package com.emergentorganization.cellrpg.scenes;
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.emergentorganization.cellrpg.artemis.systems.AnimationSystem;
-import com.emergentorganization.cellrpg.artemis.systems.InputSystem;
-import com.emergentorganization.cellrpg.artemis.systems.MovementSystem;
-import com.emergentorganization.cellrpg.artemis.systems.RenderSystem;
+import com.emergentorganization.cellrpg.systems.AnimationSystem;
+import com.emergentorganization.cellrpg.systems.InputSystem;
+import com.emergentorganization.cellrpg.systems.MovementSystem;
+import com.emergentorganization.cellrpg.systems.RenderSystem;
 
 /**
  * Created by orelb on 10/28/2015.

@@ -3,7 +3,6 @@ package com.emergentorganization.cellrpg.android;
 import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.emergentorganization.cellrpg.CellRpg;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

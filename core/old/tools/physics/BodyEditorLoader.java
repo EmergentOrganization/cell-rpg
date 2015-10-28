@@ -60,7 +60,7 @@ public class BodyEditorLoader {
      * place this reference point carefully to let you place your body in your
      * world easily with its BodyDef.position point. Note that to draw an image
      * at the position of your body, you will need to know this reference point
-     * (see {@link #getOrigin(String, float)}.
+     * (see {@link #getOrigin(java.lang.String, float)}.
      * <br/><br/>
      *
      * Also, saved shapes are normalized. As shown in the tool, the width of

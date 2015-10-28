@@ -3,6 +3,8 @@ package com.emergentorganization.cellrpg.artemis.core;
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
@@ -10,8 +12,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.emergentorganization.cellrpg.CellRpg;
 import com.emergentorganization.cellrpg.artemis.components.*;
+import com.emergentorganization.cellrpg.artemis.components.Animation;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
+import javafx.scene.control.Cell;
 
 /**
  * Created by brian on 10/28/15.
@@ -25,6 +31,7 @@ public class EntityFactory {
     public Archetype object;
     public Archetype collidable;
     public Archetype physical;
+    public Archetype character;
 
     public EntityFactory(com.artemis.World world, BodyEditorLoader bodyEditorLoader) {
         this.world = world;
@@ -33,13 +40,44 @@ public class EntityFactory {
         object = new ArchetypeBuilder(base).add(Texture.class).add(Rotation.class).build(world);
         collidable = new ArchetypeBuilder(object).add(Collider.class).build(world);
         physical = new ArchetypeBuilder(collidable).add(Velocity.class).build(world);
+        character = new ArchetypeBuilder(physical).add(Animation.class).build(world);
     }
 
     public Entity createPlayer(World physWorld, float x, float y) {
-        final Entity player = world.createEntity(physical);
-        player.getComponent(Position.class).position = new Vector2(x, y);
+        final String ID = "char-player";
+        final float TPF = 0.2f;  // time per frame of animation
+        final String[] assets = new String[] {
+                "game/char-player/0",
+                "game/char-player/1",
+                "game/char-player/2",
+                "game/char-player/3",
+                "game/char-player/4",
+                "game/char-player/5",
+                "game/char-player/6",
+                "game/char-player/7",
+                "game/char-player/8",
+                "game/char-player/9"
+        };
 
-        //player.getComponent(Texture.class).textureRegion = // TODO
+        final Entity player = world.createEntity(physical);
+        player.getComponent(Position.class).position.set(x, y);
+
+        TextureAtlas atlas = CellRpg.fetch().getTextureAtlas();
+        player.getComponent(Texture.class).textureRegion = atlas.findRegion(assets[0]);
+        Array<TextureRegion> regions = new Array<TextureRegion>();
+        for (String asset : assets) {
+            regions.add(atlas.findRegion(asset));
+        }
+
+        com.badlogic.gdx.graphics.g2d.Animation animation = new com.badlogic.gdx.graphics.g2d.Animation(
+                TPF,
+                regions,
+                com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP_PINGPONG
+        );
+        player.getComponent(Animation.class).animation = animation;
+
+        final float scale = animation.getKeyFrames()[0].getRegionWidth() * SCALE_WORLD_TO_BOX;
+        player.getComponent(Scale.class).scale = scale;
 
         BodyDef bDef = new BodyDef();
         bDef.allowSleep = false;
@@ -51,8 +89,10 @@ public class EntityFactory {
         fDef.density = 1.0f;
         fDef.friction = 0.3f;
         fDef.restitution = 0.1f;
-        //bodyEditorLoader.attachFixture(body, "char-player", fDef, /*Player tex * world_to_box*/);
+        bodyEditorLoader.attachFixture(body, ID, fDef, scale);
         player.getComponent(Collider.class).body = body;
+
+
 
         return player;
     }

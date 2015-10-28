@@ -11,7 +11,7 @@ import com.emergentorganization.cellrpg.scenes.CAScene;
 /**
  * sub-entity which includes random warp-in (generator) of vyroids seeded into the area around its location.
  * Extend this rather than entity if you want your building to spawn vyroids randomly in the area around it.
- * No graphics or physics included with this "invisible building"
+ * No graphics or physical included with this "invisible building"
  * Created by 7yl4r on 2015-09-27.
  */
 public class VyroidGenEntity extends Entity {

@@ -2,9 +2,12 @@ package com.emergentorganization.cellrpg.tools.physics;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +19,6 @@ import java.util.Map;
  * name, and it will attach these fixtures to your body.
  *
  * @author Aurelien Ribon | http://www.aurelienribon.com
- * @author Converted to LibGDX v1.6.1 without Box2D by BrianErikson on 6/5/2015
  */
 public class BodyEditorLoader {
 
@@ -25,6 +27,8 @@ public class BodyEditorLoader {
 
     // Reusable stuff
     private final List<Vector2> vectorPool = new ArrayList<Vector2>();
+    private final PolygonShape polygonShape = new PolygonShape();
+    private final CircleShape circleShape = new CircleShape();
     private final Vector2 vec = new Vector2();
 
     // -------------------------------------------------------------------------
@@ -44,6 +48,68 @@ public class BodyEditorLoader {
     // -------------------------------------------------------------------------
     // Public API
     // -------------------------------------------------------------------------
+
+    /**
+     * Creates and applies the fixtures defined in the editor. The name
+     * parameter is used to retrieve the right fixture from the loaded file.
+     * <br/><br/>
+     *
+     * The body reference point (the red cross in the tool) is by default
+     * located at the bottom left corner of the image. This reference point
+     * will be put right over the BodyDef position point. Therefore, you should
+     * place this reference point carefully to let you place your body in your
+     * world easily with its BodyDef.position point. Note that to draw an image
+     * at the position of your body, you will need to know this reference point
+     * (see {@link #getOrigin(java.lang.String, float)}.
+     * <br/><br/>
+     *
+     * Also, saved shapes are normalized. As shown in the tool, the width of
+     * the image is considered to be always 1 meter. Thus, you need to provide
+     * a scale factor so the polygons get resized according to your needs (not
+     * every body is 1 meter large in your game, I guess).
+     *
+     * @param body The Box2d body you want to attach the fixture to.
+     * @param name The name of the fixture you want to load.
+     * @param fd The fixture parameters to apply to the created body fixture.
+     * @param scale The desired scale of the body. The default width is 1.
+     */
+    public void attachFixture(Body body, String name, FixtureDef fd, float scale) {
+        RigidBodyModel rbModel = model.rigidBodies.get(name);
+        if (rbModel == null) throw new RuntimeException("Name '" + name + "' was not found.");
+
+        Vector2 origin = vec.set(rbModel.origin).scl(scale);
+
+        for (int i=0, n=rbModel.polygons.size(); i<n; i++) {
+            PolygonModel polygon = rbModel.polygons.get(i);
+            Vector2[] vertices = polygon.buffer;
+
+            for (int ii=0, nn=vertices.length; ii<nn; ii++) {
+                vertices[ii] = newVec().set(polygon.vertices.get(ii)).scl(scale);
+                vertices[ii].sub(origin);
+            }
+
+            polygonShape.set(vertices);
+            fd.shape = polygonShape;
+            body.createFixture(fd);
+
+            for (int ii=0, nn=vertices.length; ii<nn; ii++) {
+                free(vertices[ii]);
+            }
+        }
+
+        for (int i=0, n=rbModel.circles.size(); i<n; i++) {
+            CircleModel circle = rbModel.circles.get(i);
+            Vector2 center = newVec().set(circle.center).scl(scale);
+            float radius = circle.radius * scale;
+
+            circleShape.setPosition(center);
+            circleShape.setRadius(radius);
+            fd.shape = circleShape;
+            body.createFixture(fd);
+
+            free(center);
+        }
+    }
 
     /**
      * Gets the image path attached to the given name.
@@ -107,14 +173,13 @@ public class BodyEditorLoader {
     // Json reading process
     // -------------------------------------------------------------------------
 
-    protected Model readJson(String str) {
+    private Model readJson(String str) {
         Model m = new Model();
-        JsonValue rootElem = new JsonReader().parse(str);
 
-        JsonValue bodiesElems = rootElem.get("rigidBodies");
+        JsonValue map = new JsonReader().parse(str);
 
-        for (int i=0; i<bodiesElems.size; i++) {
-            JsonValue bodyElem = bodiesElems.get(i);
+        JsonValue bodyElem = map.getChild("rigidBodies");
+        for (; bodyElem != null; bodyElem = bodyElem.next()) {
             RigidBodyModel rbModel = readRigidBody(bodyElem);
             m.rigidBodies.put(rbModel.name, rbModel);
         }
@@ -132,33 +197,30 @@ public class BodyEditorLoader {
         rbModel.origin.y = originElem.getFloat("y");
 
         // polygons
+        JsonValue polygonsElem = bodyElem.getChild("polygons");
+        for (; polygonsElem != null ;polygonsElem = polygonsElem.next()){
 
-        JsonValue polygonsElem = bodyElem.get("polygons");
-
-        for (int i=0; i<polygonsElem.size; i++) {
             PolygonModel polygon = new PolygonModel();
             rbModel.polygons.add(polygon);
 
-            JsonValue verticesElem = polygonsElem.get(i);
-            for (int ii=0; ii<verticesElem.size; ii++) {
-                JsonValue vertexElem = verticesElem.get(ii);
+            JsonValue vertexElem = polygonsElem.child();
+            for (; vertexElem != null; vertexElem = vertexElem.next()) {
                 float x = vertexElem.getFloat("x");
                 float y = vertexElem.getFloat("y");
                 polygon.vertices.add(new Vector2(x, y));
             }
 
             polygon.buffer = new Vector2[polygon.vertices.size()];
+
         }
 
         // circles
+        JsonValue circleElem = bodyElem.getChild("circles");
 
-        JsonValue circlesElem = bodyElem.get("circles");
-
-        for (int i=0; i<circlesElem.size; i++) {
+        for (; circleElem != null; circleElem = circleElem.next()) {
             CircleModel circle = new CircleModel();
             rbModel.circles.add(circle);
 
-            JsonValue circleElem = circlesElem.get(i);
             circle.center.x = circleElem.getFloat("cx");
             circle.center.y = circleElem.getFloat("cy");
             circle.radius = circleElem.getFloat("r");

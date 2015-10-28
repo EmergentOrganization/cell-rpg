@@ -34,7 +34,7 @@ public class BodyLoader extends BodyEditorLoader {
     }
 
     /**
-     * Generates a dyn4j physics body to add to the world
+     * Generates a dyn4j physical body to add to the world
      * @param bodyName the body name that was configured in the collider generator
      * @return the body to add to the world
      */

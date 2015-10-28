@@ -4,6 +4,8 @@ package com.emergentorganization.cellrpg.scenes;
  * Created by BrianErikson on 6/2/2015.
  */
 
+import com.artemis.WorldConfiguration;
+import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.CellRpg;
+import com.emergentorganization.cellrpg.artemis.systems.RenderSystem;
 import com.emergentorganization.cellrpg.components.GlobalComponent;
 import com.emergentorganization.cellrpg.entities.Entity;
 import com.emergentorganization.cellrpg.entities.EntitySort;
@@ -72,6 +75,9 @@ public abstract class Scene implements Screen {
 
 
     public void create() {
+        WorldConfiguration config = new WorldConfigurationBuilder()
+                .with(new RenderSystem())
+
         logger.info("Creating scene");
         entities = new ArrayList<Entity>();
         comps = new ArrayList<GlobalComponent>();

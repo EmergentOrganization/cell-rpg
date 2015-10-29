@@ -86,6 +86,10 @@ public class EntityFactory {
         fDef.restitution = 0.1f;
         world.getSystem(BodyManager.class).createBody(player.getId(), ID, bDef, fDef);
 
+        Input ic = player.getComponent(Input.class);
+        ic.maxSpeed = 2f; // 2 meters per sec
+        ic.accelForce = 1f; // in kg/m^2
+
         return player.getId();
     }
 }

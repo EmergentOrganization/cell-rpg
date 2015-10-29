@@ -48,7 +48,7 @@ public class PixelonTransmission extends Game {
         assetManager.finishLoading();
         textureAtlas = assetManager.get(ATLAS_PATH, TextureAtlas.class);
 
-        setScreen(new ArtemisScene());
+        setScreen(new ArtemisScene(this));
     }
 
     public String loadVersion() {
@@ -66,7 +66,7 @@ public class PixelonTransmission extends Game {
             e.printStackTrace();
         }
 
-        return null;
+        return null;    
     }
 
     public AssetManager getAssetManager() {

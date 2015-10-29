@@ -31,13 +31,13 @@ public class EntityFactory {
         this.world = world;
         this.bodyEditorLoader = bodyEditorLoader;
         base = new ArchetypeBuilder().add(Position.class).build(world);
-        object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).build(world);
+        object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).build(world);
         collidable = new ArchetypeBuilder(object).add(Collider.class).build(world);
         physical = new ArchetypeBuilder(collidable).add(Velocity.class).build(world);
         character = new ArchetypeBuilder(physical).build(world);
     }
 
-    public Entity createPlayer(World physWorld, float x, float y) {
+    public int createPlayer(World physWorld, float x, float y) {
         final String ID = "char-player";
         final float TPF = 0.2f;  // time per frame of animation
         final String[] assets = new String[] {
@@ -54,10 +54,11 @@ public class EntityFactory {
         };
 
         final Entity player = world.createEntity(physical);
+        player.getComponent(Visual.class).id = assets[0];
         player.getComponent(Position.class).position.set(x, y);
 
+        /*
         TextureAtlas atlas = PixelonTransmission.fetch().getTextureAtlas();
-        player.getComponent(Visual.class).id = "player:player-walk";
         Array<TextureRegion> regions = new Array<TextureRegion>();
         for (String asset : assets) {
             regions.add(atlas.findRegion(asset));
@@ -84,7 +85,8 @@ public class EntityFactory {
         fDef.restitution = 0.1f;
         bodyEditorLoader.attachFixture(body, ID, fDef, scale);
         player.getComponent(Collider.class).body = body;
+        */
 
-        return player;
+        return player.getId();
     }
 }

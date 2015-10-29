@@ -21,7 +21,7 @@ public class PlayerMovement extends InputProcessor{
     public void process(int playerId) {
         com.emergentorganization.cellrpg.components.Input input = im.get(playerId);
         if (input != null) {
-            Vector2 dir = new Vector2();
+            Vector2 dir = input.direction.setZero();
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 dir.add(0, 1f);
             }

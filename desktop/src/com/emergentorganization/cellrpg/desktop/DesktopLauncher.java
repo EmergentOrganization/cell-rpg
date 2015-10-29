@@ -9,6 +9,6 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1024;
 		config.height = 768;
-		new LwjglApplication(new PixelonTransmission(), config);
+		new LwjglApplication(PixelonTransmission.fetch(), config);
 	}
 }

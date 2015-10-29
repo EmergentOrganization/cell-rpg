@@ -8,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.SharedLibraryLoader;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +23,9 @@ import java.util.Map;
  * @author Aurelien Ribon | http://www.aurelienribon.com
  */
 public class BodyEditorLoader {
+    static {
+        new SharedLibraryLoader().load("gdx-box2d");
+    }
 
     // Model
     private final Model model;

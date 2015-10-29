@@ -32,7 +32,7 @@ allprojects {
     ext {
         appName = 'Cell-RPG'
         appVersion = props.majorVersion + "." + props.minorVersion + "." + props.revision
-        gdxVersion = '1.6.1'
+        gdxVersion = '1.7.0'
         roboVMVersion = '1.2.0'
         box2DLightsVersion = '1.3'
         ashleyVersion = '1.4.0'
@@ -66,6 +66,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     }
 }
 
@@ -82,6 +83,10 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
     }
 }
 
@@ -89,6 +94,7 @@ project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
 
+    configurations { natives }
 
     dependencies {
         compile project(":core")
@@ -96,6 +102,8 @@ project(":ios") {
         compile "org.robovm:robovm-cocoatouch:$roboVMVersion"
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
     }
 }
 
@@ -114,6 +122,8 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-controllers-gwt:$gdxVersion:sources"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.10.0:sources"
         compile "com.kotcrab.vis:vis-ui:0.7.7:sources"
+        compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
     }
 }
 
@@ -124,7 +134,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.10.0"
         compile "com.kotcrab.vis:vis-ui:0.7.7"
-        compile 'com.badlogicgames.gdx:gdx-box2d:1.7.0'
+        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.googlecode.json-simple:json-simple:1.1.1"
         compile "org.apache.logging.log4j:log4j-api:2.3"
         compile "org.apache.logging.log4j:log4j-core:2.3"

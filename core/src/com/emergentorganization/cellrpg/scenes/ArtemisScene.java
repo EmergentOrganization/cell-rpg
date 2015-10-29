@@ -2,6 +2,7 @@ package com.emergentorganization.cellrpg.scenes;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -31,6 +32,7 @@ public class ArtemisScene extends ScreenAdapter {
         WorldConfiguration wc = new WorldConfiguration();
         SpriteBatch batch = new SpriteBatch();
 
+        wc.setSystem(new TagManager()); // useful for tagging unique entities
         wc.setSystem(new AssetManager(pt.getAssetManager()));
 
         wc.setSystem(new InputSystem());
@@ -43,7 +45,7 @@ public class ArtemisScene extends ScreenAdapter {
         EntityFactory entityFactory = new EntityFactory(world, null);
 
         int player = entityFactory.createPlayer(null, 100, 100);
-
+        world.getSystem(TagManager.class).register("player", player);
     }
 
     @Override

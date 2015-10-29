@@ -66,7 +66,7 @@ public class PixelonTransmission extends Game {
             e.printStackTrace();
         }
 
-        return null;    
+        return null;
     }
 
     public AssetManager getAssetManager() {

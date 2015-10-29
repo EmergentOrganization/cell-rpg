@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Input extends Component {
     public int controlScheme; // TODO placeholder
-    public Vector2 direction = new Vector2();
+    public final Vector2 direction = new Vector2();
     public float maxSpeed; // in m/s
-    public float accelForce; // in kg/m^2
+    public float accelForce; // in kg/m^2 -- how long it takes to get to (maxSpeed * direction magnitude)
 }

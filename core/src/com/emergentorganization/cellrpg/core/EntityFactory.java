@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.core;
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -87,6 +88,7 @@ public class EntityFactory {
         world.getSystem(BodyManager.class).createBody(player.getId(), ID, bDef, fDef);
 
         Input ic = player.getComponent(Input.class);
+        ic.direction.set(0, 0.5f); // move in the up direction, slowly
         ic.maxSpeed = 2f; // 2 meters per sec
         ic.accelForce = 1f; // in kg/m^2
 

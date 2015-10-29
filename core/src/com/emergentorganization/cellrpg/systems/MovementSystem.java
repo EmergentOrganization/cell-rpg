@@ -55,17 +55,19 @@ public class MovementSystem extends IteratingSystem {
 
         // accelerate
         Vector2 force = ic.direction.scl(ic.accelForce);
-        body.applyForceToCenter(force, true);
+        if (java.lang.Math.ulp(force.len()) != Float.MIN_VALUE) {
+            body.applyLinearImpulse(force, body.getWorldCenter(), true);
 
-        // enforce max speed
-        Vector2 bodyVel = body.getLinearVelocity();
-        float bodySpeed = (float)Math.sqrt(Math.pow(bodyVel.x, 2) + Math.pow(bodyVel.y, 2));
-        if (bodySpeed > ic.maxSpeed) { // undo
-            body.applyForceToCenter(force.cpy().scl(-1f), true);
+            // enforce top analog speed
+            Vector2 bodyVel = body.getLinearVelocity();
+            float bodySpeed = (float)Math.sqrt(Math.pow(bodyVel.x, 2) + Math.pow(bodyVel.y, 2));
+            if (bodySpeed > ic.maxSpeed * ic.direction.len()) { // undo
+                body.applyLinearImpulse(force.cpy().scl(-1f), body.getWorldCenter(), true);
+            }
+
+            // update entity
+            pc.position.set(body.getPosition());
+            vc.velocity.set(body.getLinearVelocity());
         }
-
-        // update entity
-        pc.position.set(body.getPosition());
-        vc.velocity.set(body.getLinearVelocity());
     }
 }

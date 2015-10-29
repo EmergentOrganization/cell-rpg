@@ -16,14 +16,16 @@ import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
  * Created by brian on 10/28/15.
  */
 public class EntityFactory {
-    public static float SCALE_BOX_TO_WORLD = 32f;
-    public static float SCALE_WORLD_TO_BOX = 0.03125f;
+    public static float SCALE_BOX_TO_WORLD = 40f;
+    public static float SCALE_WORLD_TO_BOX = 0.025f;
     private final com.artemis.World world;
+
     public Archetype base;
     public Archetype object;
     public Archetype collidable;
     public Archetype physical;
     public Archetype character;
+    private Archetype player;
 
     public EntityFactory(com.artemis.World world) {
         this.world = world;
@@ -31,7 +33,8 @@ public class EntityFactory {
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
         physical = new ArchetypeBuilder(collidable).add(Velocity.class).build(world);
-        character = new ArchetypeBuilder(physical).build(world);
+        character = new ArchetypeBuilder(physical).add(Health.class).build(world);
+        player = new ArchetypeBuilder(character).add(Input.class).build(world);
     }
 
     public int createPlayer(float x, float y) {
@@ -50,7 +53,7 @@ public class EntityFactory {
                 "game/char-player/9"
         };
 
-        final Entity player = world.createEntity(physical);
+        final Entity player = world.createEntity(this.player);
         player.getComponent(Visual.class).id = assets[0];
         player.getComponent(Position.class).position.set(x, y);
 
@@ -70,12 +73,10 @@ public class EntityFactory {
 
         final float scale = animation.getKeyFrames()[0].getRegionWidth() * SCALE_WORLD_TO_BOX;
         */
-        final float scale = world.getSystem(AssetManager.class).
-                            getRegion(assets[0]).getRegionWidth() * SCALE_WORLD_TO_BOX;
-        player.getComponent(Scale.class).scale = scale;
+        player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
 
         BodyDef bDef = new BodyDef();
-        bDef.allowSleep = false;
+        bDef.allowSleep = true;
         bDef.type = BodyDef.BodyType.DynamicBody;
         bDef.fixedRotation = true;
         bDef.position.set(x, y);

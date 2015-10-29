@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Visual;
+import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 
 /**
@@ -29,6 +30,9 @@ public class CameraSystem extends BaseSystem {
 
     public CameraSystem() {
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cam.zoom = EntityFactory.SCALE_WORLD_TO_BOX;
+        cam.lookAt(0, 0, 0);
+        cam.update();
     }
 
     public Camera getCam(){

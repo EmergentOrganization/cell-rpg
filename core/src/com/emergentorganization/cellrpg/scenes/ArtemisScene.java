@@ -11,6 +11,7 @@ import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.AnimationSystem;
+import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.systems.InputSystem;
 import com.emergentorganization.cellrpg.systems.MovementSystem;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
@@ -38,6 +39,8 @@ public class ArtemisScene extends ScreenAdapter {
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem());
         wc.setSystem(new AnimationSystem());
+
+        wc.setSystem(new CameraSystem());
         wc.setSystem(new RenderSystem(batch));
 
         world = new World(wc);

@@ -24,6 +24,8 @@ public class RenderSystem extends IteratingSystem {
     private ComponentMapper<Scale> sm;
     private ComponentMapper<Rotation> rm;
 
+    private CameraSystem cameraSystem;
+
     private AssetManager assetManager; // being a registered system, it is injected on runtime
 
     private SpriteBatch batch;
@@ -36,6 +38,7 @@ public class RenderSystem extends IteratingSystem {
 
     @Override
     protected void begin() {
+        batch.setProjectionMatrix(cameraSystem.getCam().combined);
         batch.begin();
     }
 

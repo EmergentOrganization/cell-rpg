@@ -34,6 +34,7 @@ public class PixelonTransmission extends Game {
     private String version;
     private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
     private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
+    public static final float PHYSICS_TIMESTEP = 1/45f;
 
     private final Logger logger;
     private AssetManager assetManager;

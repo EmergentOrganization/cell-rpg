@@ -1,6 +1,8 @@
 package com.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
+import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.utils.Array;
 import com.emergentorganization.cellrpg.components.Input;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by brian on 10/28/15.
  */
+@Wire
 public class InputSystem extends IteratingSystem {
 
     public InputSystem() {
@@ -20,6 +23,7 @@ public class InputSystem extends IteratingSystem {
     }
 
     private ArrayList<InputProcessor> processors;
+    private ComponentMapper<Input> im;
 
     @Override
     protected void initialize() {
@@ -27,7 +31,7 @@ public class InputSystem extends IteratingSystem {
 
         processors = new ArrayList<InputProcessor>();
 
-        processors.add(new PlayerInputProcessor(world));
+        processors.add(new PlayerInputProcessor(world, im));
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.emergentorganization.cellrpg.input.player;
 
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.emergentorganization.cellrpg.components.Input;
 import com.emergentorganization.cellrpg.input.InputProcessor;
 
 /**
@@ -16,12 +18,12 @@ public class PlayerInputProcessor extends InputProcessor{
     // PlayerShoot shoot; ...
     // PlayerAbilities abilites; ...
 
-    public PlayerInputProcessor(World world) {
-        super(world);
+    public PlayerInputProcessor(World world, ComponentMapper<Input> im) {
+        super(world, im);
 
         tagManager = world.getSystem(TagManager.class);
 
-        movement = new PlayerMovement(world);
+        movement = new PlayerMovement(world, im);
     }
 
     private boolean isPlayer(int entityId){

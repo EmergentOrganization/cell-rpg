@@ -62,6 +62,6 @@ public class ArtemisScene extends ScreenAdapter {
         world.setDelta(delta);
         world.process();
 
-        physWorld.step(1/45f, 6, 2);
+        physWorld.step(PixelonTransmission.PHYSICS_TIMESTEP, 6, 2);
     }
 }

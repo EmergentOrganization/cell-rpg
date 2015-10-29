@@ -88,9 +88,7 @@ public class EntityFactory {
         world.getSystem(BodyManager.class).createBody(player.getId(), ID, bDef, fDef);
 
         Input ic = player.getComponent(Input.class);
-        ic.direction.set(0, 0.5f); // move in the up direction, slowly
-        ic.maxSpeed = 2f; // 2 meters per sec
-        ic.accelForce = 1f; // in kg/m^2
+        ic.speed = 2f; // 2 meters per sec
 
         return player.getId();
     }

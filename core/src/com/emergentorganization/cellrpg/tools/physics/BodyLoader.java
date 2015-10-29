@@ -28,7 +28,7 @@ public class BodyLoader extends BodyEditorLoader {
 
     public static BodyLoader fetch() {
         if (singleton == null) {
-            singleton = new BodyLoader(Gdx.files.internal(FileStructure.RESOURCE_DIR + File.separator + "data" + File.separator + "colliderProject"));
+            singleton = new BodyLoader(Gdx.files.internal(FileStructure.RESOURCE_DIR + "/" + "data" + "/" + "colliderProject"));
         }
         return singleton;
     }

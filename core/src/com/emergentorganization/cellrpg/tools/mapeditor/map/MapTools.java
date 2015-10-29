@@ -19,7 +19,7 @@ import java.util.LinkedHashMap;
  * Created by BrianErikson on 6/19/2015.
  */
 public class MapTools {
-    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + File.separator + FileStructure.RESOURCE_DIR + "maps" + File.separator;
+    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + "/" + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
 
     public static Map importMap(String fileName) {

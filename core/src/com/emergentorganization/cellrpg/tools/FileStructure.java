@@ -18,7 +18,7 @@ import java.util.jar.JarFile;
 public class FileStructure {
     private final Logger logger = LogManager.getLogger(getClass());
     private boolean isJar = false;
-    public static final String RESOURCE_DIR = "resources" + File.separator;
+    public static final String RESOURCE_DIR = "resources/";
 
     private static class FileStructureHolder {
         private static final FileStructure INSTANCE = new FileStructure();

@@ -28,7 +28,6 @@ public class PlayerMovement extends InputProcessor{
             else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 dir.add(0, -1f);
             }
-
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 dir.add(-1f, 0);
             }

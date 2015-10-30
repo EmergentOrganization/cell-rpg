@@ -18,6 +18,8 @@ public class Visual extends Component {
     {
         this.id = id;
         isAnimation = true;
+
+        stateTime = 0; // reset animation
     }
 
     public void setTexture(String id)

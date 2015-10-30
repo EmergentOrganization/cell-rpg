@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes;
+package com.emergentorganization.cellrpg.scenes.game;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
@@ -13,23 +13,26 @@ import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 
 /**
  * Created by orelb on 10/28/2015.
  */
-public class ArtemisScene extends ScreenAdapter {
+public class ArtemisScene extends BaseScene {
 
     private final com.badlogic.gdx.physics.box2d.World physWorld;
     private World world;
-    private PixelonTransmission pt;
 
     private SpriteBatch batch;
 
-    public ArtemisScene(PixelonTransmission pt) {
-        this.pt = pt;
+    public ArtemisScene() {
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
+    }
+
+    @Override
+    public void show() {
         initArtemis(physWorld);
     }
 

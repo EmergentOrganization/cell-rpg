@@ -6,7 +6,9 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.GdxNativesLoader;
-import com.emergentorganization.cellrpg.scenes.ArtemisScene;
+import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.SceneManager;
+import com.emergentorganization.cellrpg.scenes.game.ArtemisScene;
 import com.emergentorganization.cellrpg.tools.FileStructure;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 import com.kotcrab.vis.ui.VisUI;
@@ -38,6 +40,7 @@ public class PixelonTransmission extends Game {
 
     private final Logger logger;
     private AssetManager assetManager;
+    private SceneManager sceneManager;
     private TextureAtlas textureAtlas;
     private BodyEditorLoader bodyLoader;
 
@@ -59,7 +62,8 @@ public class PixelonTransmission extends Game {
 
         bodyLoader = new BodyEditorLoader(Gdx.files.internal(COLLIDER_PATH));
 
-        setScreen(new ArtemisScene(this));
+        sceneManager = new SceneManager(this);
+        sceneManager.setScene(Scene.Game);
     }
 
     public String loadVersion() {
@@ -88,6 +92,8 @@ public class PixelonTransmission extends Game {
     public AssetManager getAssetManager() {
         return assetManager;
     }
+
+    public SceneManager getSceneManager() { return sceneManager; }
 
     public TextureAtlas getTextureAtlas() {
         return textureAtlas;

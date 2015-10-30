@@ -83,6 +83,7 @@ public class MapEditor extends BaseScene {
     public void dispose() {
         world.dispose();
         batch.dispose();
+        physWorld.dispose();
     }
 }
 

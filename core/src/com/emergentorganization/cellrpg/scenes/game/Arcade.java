@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.managers.AssetManager;
@@ -35,6 +37,7 @@ public class Arcade extends BaseScene {
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         WorldConfiguration wc = new WorldConfiguration();
         batch = new SpriteBatch();
+        Stage stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         wc.setSystem(new TagManager()); // useful for tagging unique entities
         wc.setSystem(new AssetManager(pt.getGdxAssetManager()));
@@ -47,6 +50,7 @@ public class Arcade extends BaseScene {
 
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering
+        wc.setSystem(new WindowSystem(stage)); // render windows after everything else
 
         world = new World(wc);
 
@@ -83,5 +87,6 @@ public class Arcade extends BaseScene {
     public void dispose() {
         world.dispose();
         batch.dispose();
+        physWorld.dispose();
     }
 }

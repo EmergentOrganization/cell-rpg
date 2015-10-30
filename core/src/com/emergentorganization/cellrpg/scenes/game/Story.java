@@ -84,5 +84,6 @@ public class Story extends BaseScene {
     public void dispose() {
         world.dispose();
         batch.dispose();
+        physWorld.dispose();
     }
 }

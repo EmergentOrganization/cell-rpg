@@ -38,6 +38,4 @@ public class BaseScene extends ScreenAdapter {
         stage.act(delta);
         stage.draw();
     }
-
-
 }

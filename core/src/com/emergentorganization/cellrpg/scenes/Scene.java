@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes;
 
+import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.scenes.game.ArtemisScene;
 import com.emergentorganization.cellrpg.scenes.menu.MainMenu;
 
@@ -8,18 +9,18 @@ import com.emergentorganization.cellrpg.scenes.menu.MainMenu;
  */
 public enum Scene {
 
-    Main_Menu {
+    MAIN_MENU {
         @Override
-        public BaseScene getScene() {
-            return new MainMenu();
+        public BaseScene getScene(PixelonTransmission pt) {
+            return new MainMenu(pt);
         }
     },
-    Game {
+    GAME {
         @Override
-        public BaseScene getScene() {
-            return new ArtemisScene();
+        public BaseScene getScene(PixelonTransmission pt) {
+            return new ArtemisScene(pt);
         }
     };
 
-    public abstract BaseScene getScene();
+    public abstract BaseScene getScene(PixelonTransmission pt);
 }

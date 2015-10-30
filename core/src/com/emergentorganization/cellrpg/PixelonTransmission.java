@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.SceneManager;
@@ -42,6 +43,7 @@ public class PixelonTransmission extends Game {
     private AssetManager assetManager;
     private SceneManager sceneManager;
     private TextureAtlas textureAtlas;
+    private Skin skin;
     private BodyEditorLoader bodyLoader;
 
     public PixelonTransmission() {
@@ -62,8 +64,10 @@ public class PixelonTransmission extends Game {
 
         bodyLoader = new BodyEditorLoader(Gdx.files.internal(COLLIDER_PATH));
 
+        skin = new Skin(Gdx.files.internal("resources/uiskin/skin.json"), new TextureAtlas());
+
         sceneManager = new SceneManager(this);
-        sceneManager.setScene(Scene.Game);
+        sceneManager.setScene(Scene.MAIN_MENU);
     }
 
     public String loadVersion() {
@@ -87,6 +91,11 @@ public class PixelonTransmission extends Game {
     @Override
     public void dispose() {
         assetManager.dispose();
+        sceneManager.dispose();
+    }
+
+    public String getVersion(){
+        return version;
     }
 
     public AssetManager getAssetManager() {
@@ -97,6 +106,10 @@ public class PixelonTransmission extends Game {
 
     public TextureAtlas getTextureAtlas() {
         return textureAtlas;
+    }
+
+    public Skin getUISkin(){
+        return skin;
     }
 
     public BodyEditorLoader getBodyLoader() {

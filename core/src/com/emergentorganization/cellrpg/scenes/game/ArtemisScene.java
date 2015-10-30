@@ -27,13 +27,11 @@ public class ArtemisScene extends BaseScene {
 
     private SpriteBatch batch;
 
-    public ArtemisScene() {
+    public ArtemisScene(PixelonTransmission pt) {
+        super(pt);
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
-    }
-
-    @Override
-    public void show() {
         initArtemis(physWorld);
+
     }
 
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {

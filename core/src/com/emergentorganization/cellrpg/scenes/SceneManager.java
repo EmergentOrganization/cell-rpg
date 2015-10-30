@@ -22,8 +22,7 @@ public class SceneManager {
         if (scenes.containsKey(s.ordinal())) {
             pt.setScreen(scenes.get(s.ordinal()));
         } else {
-            BaseScene newScene = s.getScene();
-            newScene.setPt(pt);
+            BaseScene newScene = s.getScene(pt);
 
             scenes.put(s.ordinal(), newScene);
             pt.setScreen(newScene);

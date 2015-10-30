@@ -65,7 +65,7 @@ public class MainMenu extends BaseScene{
             story.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.STORY);
+                    //pt.getSceneManager().setScene(Scene.STORY);
                 }
             });
 
@@ -79,7 +79,7 @@ public class MainMenu extends BaseScene{
             lab.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.LAB);
+                    //pt.getSceneManager().setScene(Scene.LAB);
                 }
             });
 
@@ -93,7 +93,7 @@ public class MainMenu extends BaseScene{
             editor.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.EDITOR);
+                    //pt.getSceneManager().setScene(Scene.EDITOR);
                 }
             });
 

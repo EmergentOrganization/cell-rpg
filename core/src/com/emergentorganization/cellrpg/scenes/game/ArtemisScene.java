@@ -4,7 +4,6 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +14,6 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.*;
-import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 
 /**
  * Created by orelb on 10/28/2015.
@@ -39,9 +37,9 @@ public class ArtemisScene extends BaseScene {
         batch = new SpriteBatch();
 
         wc.setSystem(new TagManager()); // useful for tagging unique entities
-        wc.setSystem(new AssetManager(pt.getAssetManager()));
+        wc.setSystem(new AssetManager(pt.getGdxAssetManager()));
 
-        wc.setSystem(new BodyManager(physWorld));
+        wc.setSystem(new BodyManager(physWorld, pt.getBodyLoader()));
 
         wc.setSystem(new CameraSystem());
         wc.setSystem(new RenderSystem(batch));

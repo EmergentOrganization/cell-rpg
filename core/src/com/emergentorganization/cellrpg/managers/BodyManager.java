@@ -30,9 +30,9 @@ public class BodyManager extends BaseSystem {
     private final World physWorld;
     private HashMap<Integer, Body> bodies;
 
-    public BodyManager(World world) {
+    public BodyManager(World world, BodyEditorLoader bodyLoader) {
         this.physWorld = world;
-        this.bodyLoader = PixelonTransmission.fetch().getBodyLoader();
+        this.bodyLoader = bodyLoader;
         bodies = new HashMap<Integer, Body>();
     }
 

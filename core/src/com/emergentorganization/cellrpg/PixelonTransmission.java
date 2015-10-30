@@ -29,11 +29,6 @@ public class PixelonTransmission extends Game {
         GdxNativesLoader.load();
     }
 
-    private static class PixelonTransmissionHolder {private static final PixelonTransmission INSTANCE = new PixelonTransmission();}
-    public static PixelonTransmission fetch() {
-        return PixelonTransmissionHolder.INSTANCE;
-    }
-
     private String version;
     private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
     private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
@@ -43,6 +38,7 @@ public class PixelonTransmission extends Game {
     private AssetManager assetManager;
     private SceneManager sceneManager;
     private TextureAtlas textureAtlas;
+    private FileStructure fileStructure;
     private Skin skin;
     private BodyEditorLoader bodyLoader;
 
@@ -53,7 +49,10 @@ public class PixelonTransmission extends Game {
 
     @Override
     public void create() {
-        FileStructure.fetch().initialize();
+        this.fileStructure = new FileStructure();
+        if (fileStructure.isJar()) {
+            fileStructure.unpackAssets();
+        }
         version = loadVersion();
         VisUI.load();
 
@@ -98,7 +97,7 @@ public class PixelonTransmission extends Game {
         return version;
     }
 
-    public AssetManager getAssetManager() {
+    public AssetManager getGdxAssetManager() {
         return assetManager;
     }
 
@@ -114,5 +113,9 @@ public class PixelonTransmission extends Game {
 
     public BodyEditorLoader getBodyLoader() {
         return bodyLoader;
+    }
+
+    public FileStructure getFileStructure() {
+        return fileStructure;
     }
 }

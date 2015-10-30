@@ -51,7 +51,8 @@ public class ArtemisScene extends ScreenAdapter {
 
         world = new World(wc);
 
-        world.getSystem(AssetManager.class).defineAnimation("player", 0.2f,
+        // we need a dedicated class to define assets
+        world.getSystem(AssetManager.class).defineAnimation("char-player", 0.2f,
                 new String[]{"game/char-player/0",
                         "game/char-player/1",
                         "game/char-player/2",

@@ -3,15 +3,18 @@ package com.emergentorganization.cellrpg.core;
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
-import com.emergentorganization.cellrpg.components.*;
-import com.emergentorganization.cellrpg.managers.AssetManager;
+import com.emergentorganization.cellrpg.components.Bounds;
+import com.emergentorganization.cellrpg.components.Health;
+import com.emergentorganization.cellrpg.components.Input;
+import com.emergentorganization.cellrpg.components.PhysicsBody;
+import com.emergentorganization.cellrpg.components.Position;
+import com.emergentorganization.cellrpg.components.Rotation;
+import com.emergentorganization.cellrpg.components.Scale;
+import com.emergentorganization.cellrpg.components.Velocity;
+import com.emergentorganization.cellrpg.components.Visual;
 import com.emergentorganization.cellrpg.managers.BodyManager;
-import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 
 /**
  * Created by brian on 10/28/15.
@@ -31,7 +34,7 @@ public class EntityFactory {
     public EntityFactory(com.artemis.World world) {
         this.world = world;
         base = new ArchetypeBuilder().add(Position.class).build(world);
-        object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).build(world);
+        object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).add(Bounds.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
         physical = new ArchetypeBuilder(collidable).add(Velocity.class).build(world);
         character = new ArchetypeBuilder(physical).add(Health.class).build(world);
@@ -39,24 +42,14 @@ public class EntityFactory {
     }
 
     public int createPlayer(float x, float y) {
-        final String ID = "char-player";
-        final float TPF = 0.2f;  // time per frame of animation
-        final String[] assets = new String[] {
-                "game/char-player/0",
-                "game/char-player/1",
-                "game/char-player/2",
-                "game/char-player/3",
-                "game/char-player/4",
-                "game/char-player/5",
-                "game/char-player/6",
-                "game/char-player/7",
-                "game/char-player/8",
-                "game/char-player/9"
-        };
-
         final Entity player = world.createEntity(this.player);
 
-        player.getComponent(Visual.class).setAnimation("player");
+        player.getComponent(Visual.class).setAnimation("char-player");
+
+        Bounds b = player.getComponent(Bounds.class);
+        b.width = 40;
+        b.height = 36;
+
         player.getComponent(Position.class).position.set(x, y);
         player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
 
@@ -69,7 +62,7 @@ public class EntityFactory {
         fDef.density = 1.0f;
         fDef.friction = 0.3f;
         fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(player.getId(), ID, bDef, fDef);
+        world.getSystem(BodyManager.class).createBody(player.getId(), "char-player", bDef, fDef);
 
         Input ic = player.getComponent(Input.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?

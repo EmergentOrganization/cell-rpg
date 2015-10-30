@@ -1,7 +1,10 @@
 package com.emergentorganization.cellrpg.scenes;
 
 import com.emergentorganization.cellrpg.PixelonTransmission;
-import com.emergentorganization.cellrpg.scenes.game.ArtemisScene;
+import com.emergentorganization.cellrpg.scenes.game.Arcade;
+import com.emergentorganization.cellrpg.scenes.game.LifeGeneLab;
+import com.emergentorganization.cellrpg.scenes.game.MapEditor;
+import com.emergentorganization.cellrpg.scenes.game.Story;
 import com.emergentorganization.cellrpg.scenes.menu.MainMenu;
 
 /**
@@ -15,10 +18,28 @@ public enum Scene {
             return new MainMenu(pt);
         }
     },
-    GAME {
+    ARCADE {
         @Override
         public BaseScene getScene(PixelonTransmission pt) {
-            return new ArtemisScene(pt);
+            return new Arcade(pt);
+        }
+    },
+    LAB {
+        @Override
+        public BaseScene getScene(PixelonTransmission pt) {
+            return new LifeGeneLab(pt);
+        }
+    },
+    EDITOR {
+        @Override
+        public BaseScene getScene(PixelonTransmission pt) {
+            return new MapEditor(pt);
+        }
+    },
+    STORY {
+        @Override
+        public BaseScene getScene(PixelonTransmission pt) {
+            return new Story(pt);
         }
     };
 

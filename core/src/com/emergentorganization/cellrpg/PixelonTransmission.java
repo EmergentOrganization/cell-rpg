@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.SceneManager;
-import com.emergentorganization.cellrpg.scenes.game.ArtemisScene;
 import com.emergentorganization.cellrpg.tools.FileStructure;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 import com.kotcrab.vis.ui.VisUI;

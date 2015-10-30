@@ -16,16 +16,16 @@ import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.*;
 
 /**
- * Created by orelb on 10/28/2015.
+ * Created by brian on 10/30/15.
  */
-public class ArtemisScene extends BaseScene {
+public class MapEditor extends BaseScene {
 
     private final com.badlogic.gdx.physics.box2d.World physWorld;
     private World world;
 
     private SpriteBatch batch;
 
-    public ArtemisScene(PixelonTransmission pt) {
+    public MapEditor(PixelonTransmission pt) {
         super(pt);
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
         initArtemis(physWorld);
@@ -85,3 +85,4 @@ public class ArtemisScene extends BaseScene {
         batch.dispose();
     }
 }
+

@@ -4,6 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +13,8 @@ import com.emergentorganization.cellrpg.components.Rotation;
 import com.emergentorganization.cellrpg.components.Scale;
 import com.emergentorganization.cellrpg.components.Visual;
 import com.emergentorganization.cellrpg.managers.AssetManager;
+
+import javax.xml.soap.Text;
 
 /**
  * Created by brian on 10/28/15.
@@ -54,9 +57,12 @@ public class RenderSystem extends IteratingSystem {
         Scale s = sm.get(entityId);
         Rotation r = rm.get(entityId);
 
-        TextureRegion t = assetManager.getRegion(v.id);
-        if(t != null)
-        {
+        TextureRegion t = assetManager.getCurrentRegion(v);
+        if (t != null) {
+            if(v.isAnimation)
+            {
+                v.stateTime += world.getDelta();
+            }
             batch.draw(t, p.position.x, p.position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
         }
     }

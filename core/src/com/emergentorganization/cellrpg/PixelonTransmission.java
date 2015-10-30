@@ -80,6 +80,11 @@ public class PixelonTransmission extends Game {
         return null;
     }
 
+    @Override
+    public void dispose() {
+        assetManager.dispose();
+    }
+
     public AssetManager getAssetManager() {
         return assetManager;
     }

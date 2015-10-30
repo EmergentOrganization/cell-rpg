@@ -55,25 +55,9 @@ public class EntityFactory {
         };
 
         final Entity player = world.createEntity(this.player);
-        player.getComponent(Visual.class).id = assets[0];
+
+        player.getComponent(Visual.class).setAnimation("player");
         player.getComponent(Position.class).position.set(x, y);
-
-        /*
-        TextureAtlas atlas = PixelonTransmission.fetch().getTextureAtlas();
-        Array<TextureRegion> regions = new Array<TextureRegion>();
-        for (String asset : assets) {
-            regions.add(atlas.findRegion(asset));
-        }
-
-
-        com.badlogic.gdx.graphics.g2d.Animation animation = new com.badlogic.gdx.graphics.g2d.Animation(
-                TPF,
-                regions,
-                com.badlogic.gdx.graphics.g2d.Animation.PlayMode.LOOP_PINGPONG
-        );
-
-        final float scale = animation.getKeyFrames()[0].getRegionWidth() * SCALE_WORLD_TO_BOX;
-        */
         player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
 
         BodyDef bDef = new BodyDef();
@@ -88,7 +72,7 @@ public class EntityFactory {
         world.getSystem(BodyManager.class).createBody(player.getId(), ID, bDef, fDef);
 
         Input ic = player.getComponent(Input.class);
-        ic.speed = 2f; // 2 meters per sec
+        ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         return player.getId();
     }

@@ -49,8 +49,6 @@ public class MovementSystem extends IteratingSystem {
         }
     }
 
-
-
     private void processPhysicsMovement(int entityId, Input ic, Position pc, Velocity vc) {
         Body body = world.getSystem(BodyManager.class).getBody(entityId);
         body.setLinearVelocity(0, 0);

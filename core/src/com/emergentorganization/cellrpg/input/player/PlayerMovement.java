@@ -35,7 +35,6 @@ public class PlayerMovement extends InputProcessor{
             else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 dir.add(1f, 0);
             }
-            System.out.println(dir);
             input.direction.set(dir);
         }
     }

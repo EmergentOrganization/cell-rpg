@@ -37,8 +37,8 @@ public class BodyManager extends BaseSystem {
     public void createBody(int entityId, String colliderId, BodyDef bd, FixtureDef fd) {
         Body body = physWorld.createBody(bd);
         TextureRegion region = assetManager.getRegion(vm.get(entityId).id);
-        bodyLoader.attachFixture(body, colliderId, fd,
-                (Math.max(region.getRegionWidth(), region.getRegionHeight()) * EntityFactory.SCALE_WORLD_TO_BOX) * 10
+        bodyLoader.attachFixture(body, colliderId, fd, // I set some values just for now, we need a Bounds component.
+                (Math.max(/*region.getRegionWidth()*/ 35, /*region.getRegionHeight()*/ 35) * EntityFactory.SCALE_WORLD_TO_BOX) * 10
         );
         bodies.put(entityId, body);
     }

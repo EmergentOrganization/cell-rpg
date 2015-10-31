@@ -36,7 +36,7 @@ public class BodyManager extends BaseSystem {
         Body body = physWorld.createBody(bd);
         Bounds b = bm.get(entityId);
         bodyLoader.attachFixture(body, colliderId, fd,
-                (Math.max(b.width, b.height) * EntityFactory.SCALE_WORLD_TO_BOX) * 10
+               Math.max(b.width, b.height) * 10
         );
         bodies.put(entityId, body);
     }

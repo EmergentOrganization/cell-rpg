@@ -36,11 +36,7 @@ public class EntityFactory {
         final Entity player = world.createEntity(this.player);
 
         player.getComponent(Visual.class).setAnimation("char-player");
-
-        Bounds b = player.getComponent(Bounds.class);
-        b.width = 40; // TODO remove static values
-        b.height = 36;
-
+        player.getComponent(Bounds.class).set(40, 36);
         player.getComponent(Position.class).position.set(x, y);
         player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
 

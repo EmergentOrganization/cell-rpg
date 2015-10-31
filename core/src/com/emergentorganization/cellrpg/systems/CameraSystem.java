@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.CameraFollow;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Visual;
@@ -23,7 +24,7 @@ public class CameraSystem extends IteratingSystem {
     private OrthographicCamera cam;
 
     private ComponentMapper<Position> pm;
-    private ComponentMapper<Visual> vm;
+    private ComponentMapper<Bounds> bm;
 
     private AssetManager assetManager;
 
@@ -42,12 +43,9 @@ public class CameraSystem extends IteratingSystem {
     private void camFollow(int followEntity) {
         // TODO: Need to replace this with 7yl4rs version
         Position pc = pm.get(followEntity);
-        Visual v = vm.get(followEntity);
-        TextureRegion r = assetManager.getRegion(v.id);
-        if (r != null) {
-            cam.position.set(pc.position.x + (r.getRegionWidth() / 2f), pc.position.y + (r.getRegionHeight() / 2f), 0);
-        } else
-            cam.position.set(pc.position, 0f);
+        Bounds b = bm.get(followEntity);
+
+        cam.position.set(pc.position.x + (b.width / 2f), pc.position.y + (b.height / 2f), 0);
     }
 
     @Override

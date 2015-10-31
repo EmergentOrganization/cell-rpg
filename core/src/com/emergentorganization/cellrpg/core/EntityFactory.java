@@ -6,6 +6,7 @@ import com.artemis.Entity;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 
 /**
@@ -34,9 +35,10 @@ public class EntityFactory {
 
     public int createPlayer(float x, float y) {
         final Entity player = world.createEntity(this.player);
+        final String playerID = "char-player";
 
-        player.getComponent(Visual.class).setAnimation("char-player");
-        player.getComponent(Bounds.class).set(40, 36);
+        player.getComponent(Visual.class).setAnimation(playerID);
+        player.getComponent(Bounds.class).setFromRegion(world.getSystem(AssetManager.class).getAnimation(playerID).getKeyFrames()[0]);
         player.getComponent(Position.class).position.set(x, y);
         player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
 
@@ -49,7 +51,7 @@ public class EntityFactory {
         fDef.density = 1.0f;
         fDef.friction = 0.3f;
         fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(player.getId(), "char-player", bDef, fDef);
+        world.getSystem(BodyManager.class).createBody(player.getId(), playerID, bDef, fDef);
 
         Input ic = player.getComponent(Input.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 
@@ -16,7 +15,7 @@ public class BaseScene extends ScreenAdapter {
     protected final PixelonTransmission pt;
     protected final Stage stage;
 
-    public BaseScene(PixelonTransmission pt){
+    public BaseScene(PixelonTransmission pt) {
         this.pt = pt;
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
     }

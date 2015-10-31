@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.SceneManager;
 import com.emergentorganization.cellrpg.tools.FileStructure;
-import com.emergentorganization.cellrpg.tools.GameSettings;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
@@ -25,16 +24,16 @@ import java.util.Properties;
  * Created by brian on 10/28/15.
  */
 public class PixelonTransmission extends Game {
+    public static final float PHYSICS_TIMESTEP = 1 / 45f;
+    private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
+    private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
+
     static {
         GdxNativesLoader.load();
     }
 
-    private String version;
-    private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
-    private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
-    public static final float PHYSICS_TIMESTEP = 1/45f;
-
     private final Logger logger;
+    private String version;
     private AssetManager assetManager;
     private SceneManager sceneManager;
     private TextureAtlas textureAtlas;
@@ -94,7 +93,7 @@ public class PixelonTransmission extends Game {
         sceneManager.dispose();
     }
 
-    public String getVersion(){
+    public String getVersion() {
         return version;
     }
 
@@ -102,13 +101,15 @@ public class PixelonTransmission extends Game {
         return assetManager;
     }
 
-    public SceneManager getSceneManager() { return sceneManager; }
+    public SceneManager getSceneManager() {
+        return sceneManager;
+    }
 
     public TextureAtlas getTextureAtlas() {
         return textureAtlas;
     }
 
-    public Skin getUISkin(){
+    public Skin getUISkin() {
         return skin;
     }
 

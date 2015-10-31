@@ -63,7 +63,7 @@ public class WindowSystem extends BaseSystem {
         this.framebufferTexture = ScreenUtils.getFrameBufferTexture(); // cache frame to prevent double-buffer flickering
         enableSystems(false);
         pauseWindow.setPosition((stage.getWidth() / 2f) - (pauseWindow.getWidth() / 2f),
-                                (stage.getHeight() / 2f) - (pauseWindow.getHeight() / 2f));
+                (stage.getHeight() / 2f) - (pauseWindow.getHeight() / 2f));
         stage.addActor(pauseWindow.fadeIn());
     }
 

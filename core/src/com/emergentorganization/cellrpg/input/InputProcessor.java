@@ -13,7 +13,7 @@ public abstract class InputProcessor {
 
     protected ComponentMapper<Input> im;
 
-    public InputProcessor(World world, ComponentMapper<Input> im){
+    public InputProcessor(World world, ComponentMapper<Input> im) {
         this.world = world;
         this.im = im;
     }

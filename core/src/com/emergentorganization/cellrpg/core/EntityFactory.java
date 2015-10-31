@@ -27,9 +27,8 @@ public class EntityFactory {
         this.world = world;
         base = new ArchetypeBuilder().add(Position.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).add(Bounds.class).build(world);
-        collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
-        physical = new ArchetypeBuilder(collidable).add(Velocity.class).build(world);
-        character = new ArchetypeBuilder(physical).add(Health.class).build(world);
+        collidable = new ArchetypeBuilder(object).add(Velocity.class).add(PhysicsBody.class).build(world);
+        character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).build(world);
     }
 

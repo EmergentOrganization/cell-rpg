@@ -44,7 +44,6 @@ public class PauseWindow extends VisWindow {
         exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("EXIT!");
                 sceneManager.setScene(Scene.MAIN_MENU);
             }
         });

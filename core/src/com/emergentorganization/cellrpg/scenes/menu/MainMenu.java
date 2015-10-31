@@ -15,12 +15,12 @@ import com.emergentorganization.cellrpg.scenes.Scene;
 /**
  * Created by orelb on 10/30/2015.
  */
-public class MainMenu extends BaseScene{
+public class MainMenu extends BaseScene {
 
     private final float tableMargin;
     private Table table;
 
-    public MainMenu(PixelonTransmission pt){
+    public MainMenu(PixelonTransmission pt) {
         super(pt);
 
         this.tableMargin = stage.getWidth() * 0.015f;
@@ -32,7 +32,7 @@ public class MainMenu extends BaseScene{
         initUI();
     }
 
-    private void initUI(){
+    private void initUI() {
         Skin s = pt.getUISkin();
 
         table = new Table(s);

@@ -1,6 +1,5 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.IntMap;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 

@@ -4,7 +4,7 @@ import com.artemis.Component;
 
 /**
  * This is used for both animation and static images.
- *
+ * <p/>
  * Created by orelb on 10/28/2015.
  */
 public class Visual extends Component {
@@ -14,16 +14,14 @@ public class Visual extends Component {
 
     public float stateTime; // animation timestep
 
-    public void setAnimation(String id)
-    {
+    public void setAnimation(String id) {
         this.id = id;
         isAnimation = true;
 
         stateTime = 0; // reset animation
     }
 
-    public void setTexture(String id)
-    {
+    public void setTexture(String id) {
         this.id = id;
         isAnimation = false;
     }

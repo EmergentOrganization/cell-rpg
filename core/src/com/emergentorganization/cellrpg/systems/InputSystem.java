@@ -4,7 +4,6 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
-import com.badlogic.gdx.utils.Array;
 import com.emergentorganization.cellrpg.components.Input;
 import com.emergentorganization.cellrpg.components.Velocity;
 import com.emergentorganization.cellrpg.input.InputProcessor;
@@ -18,12 +17,11 @@ import java.util.ArrayList;
 @Wire
 public class InputSystem extends IteratingSystem {
 
+    private ArrayList<InputProcessor> processors;
+    private ComponentMapper<Input> im;
     public InputSystem() {
         super(Aspect.all(Input.class, Velocity.class));
     }
-
-    private ArrayList<InputProcessor> processors;
-    private ComponentMapper<Input> im;
 
     @Override
     protected void initialize() {
@@ -36,8 +34,7 @@ public class InputSystem extends IteratingSystem {
 
     @Override
     protected void process(int entityId) {
-        for(InputProcessor p : processors)
-        {
+        for (InputProcessor p : processors) {
             p.process(entityId);
         }
     }

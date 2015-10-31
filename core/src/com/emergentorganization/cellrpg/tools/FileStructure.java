@@ -16,9 +16,9 @@ import java.util.jar.JarFile;
  * Created by BrianErikson on 10/21/15.
  */
 public class FileStructure {
+    public static final String RESOURCE_DIR = "resources/";
     private final Logger logger = LogManager.getLogger(getClass());
     private boolean isJar = false;
-    public static final String RESOURCE_DIR = "resources/";
 
     public FileStructure() {
         if (!Gdx.files.internal(RESOURCE_DIR + "property.settings").file().exists()) { // Must be in a JAR

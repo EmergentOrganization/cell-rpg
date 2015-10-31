@@ -10,7 +10,7 @@ import com.emergentorganization.cellrpg.input.InputProcessor;
 /**
  * Created by orelb on 10/29/2015.
  */
-public class PlayerInputProcessor extends InputProcessor{
+public class PlayerInputProcessor extends InputProcessor {
 
     private TagManager tagManager;
 
@@ -26,10 +26,10 @@ public class PlayerInputProcessor extends InputProcessor{
         movement = new PlayerMovement(world, im);
     }
 
-    private boolean isPlayer(int entityId){
+    private boolean isPlayer(int entityId) {
         Entity player = tagManager.getEntity("player");
 
-        if(player.getId() == entityId)
+        if (player.getId() == entityId)
             return true;
 
         return false;
@@ -37,7 +37,7 @@ public class PlayerInputProcessor extends InputProcessor{
 
     @Override
     public void process(int entityId) {
-        if(!isPlayer(entityId))
+        if (!isPlayer(entityId))
             return;
 
         movement.process(entityId);

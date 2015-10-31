@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
-import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.CameraFollow;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Visual;
@@ -37,18 +35,18 @@ public class CameraSystem extends IteratingSystem {
         cam.update();
     }
 
-    public Camera getCam(){
+    public Camera getCam() {
         return cam;
     }
 
     private void camFollow(int followEntity) {
+        // TODO: Need to replace this with 7yl4rs version
         Position pc = pm.get(followEntity);
         Visual v = vm.get(followEntity);
         TextureRegion r = assetManager.getRegion(v.id);
         if (r != null) {
             cam.position.set(pc.position.x + (r.getRegionWidth() / 2f), pc.position.y + (r.getRegionHeight() / 2f), 0);
-        }
-        else
+        } else
             cam.position.set(pc.position, 0f);
     }
 

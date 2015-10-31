@@ -1,13 +1,13 @@
 package com.emergentorganization.cellrpg.scenes.game.menu.pause;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.kotcrab.vis.ui.widget.*;
+import com.kotcrab.vis.ui.widget.VisTable;
 
 /**
  * Created by 7yl4r on 9/1/2015.
  */
-public class MovementSettingsMenu extends Submenu{
-    public MovementSettingsMenu(VisTable table, Stage stage, String buttonText){
+public class MovementSettingsMenu extends Submenu {
+    public MovementSettingsMenu(VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
     }
 

@@ -10,7 +10,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 /**
  * Created by 7yl4r on 9/1/2015.
  */
-public class CameraSettingsMenu extends Submenu{
+public class CameraSettingsMenu extends Submenu {
     // min px between player & screen edge:
     public static AdjustableSetting edgeMargin = new AdjustableSetting("edge margin", 10, 1, 25, 1);
 
@@ -21,11 +21,11 @@ public class CameraSettingsMenu extends Submenu{
     public static AdjustableSetting closeEnough = new AdjustableSetting("camera-player nearness cutoff", 4, 1, 30, 1);
     private Preferences preferences;
 
-    public CameraSettingsMenu(VisTable table, Stage stage, String buttonText){
+    public CameraSettingsMenu(VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
     }
 
-    public void addMenuTableButtons(){
+    public void addMenuTableButtons() {
         // set up menu buttons:
         preferences = GameSettings.getPreferences();
         edgeMargin.setValue(preferences.getFloat(GameSettings.KEY_CAM_EDGE_MARGIN, 10));

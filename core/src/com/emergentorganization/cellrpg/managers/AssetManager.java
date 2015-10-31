@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.managers;
 
 import com.artemis.BaseSystem;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -57,7 +56,6 @@ public class AssetManager extends BaseSystem {
     }
 
     /**
-     *
      * @param v
      * @return current frame in animation, or the only frame if a static region
      */

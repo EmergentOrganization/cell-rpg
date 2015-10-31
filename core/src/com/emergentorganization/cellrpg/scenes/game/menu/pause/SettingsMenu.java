@@ -3,7 +3,6 @@ package com.emergentorganization.cellrpg.scenes.game.menu.pause;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.emergentorganization.cellrpg.scenes.Scene;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
@@ -15,7 +14,7 @@ public class SettingsMenu extends Submenu {
     private CameraSettingsMenu cameraMenu;
     private MovementSettingsMenu moveMenu;
 
-    public SettingsMenu(VisTable table, Stage stage, String buttonText){
+    public SettingsMenu(VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
     }
 
@@ -39,12 +38,12 @@ public class SettingsMenu extends Submenu {
     }
 
     @Override
-    public void closeSubmenu(){
+    public void closeSubmenu() {
         super.closeSubmenu();
-        if (moveMenu != null){
+        if (moveMenu != null) {
             moveMenu.closeSubmenu();
         }
-        if (cameraMenu != null){
+        if (cameraMenu != null) {
             cameraMenu.closeSubmenu();
         }
     }

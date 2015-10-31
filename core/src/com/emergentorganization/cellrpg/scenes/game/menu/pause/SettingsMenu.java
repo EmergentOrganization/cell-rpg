@@ -12,6 +12,9 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
  */
 public class SettingsMenu extends Submenu {
 
+    private CameraSettingsMenu cameraMenu;
+    private MovementSettingsMenu moveMenu;
+
     public SettingsMenu(VisTable table, Stage stage, String buttonText){
         super(table, stage, buttonText);
     }
@@ -20,7 +23,9 @@ public class SettingsMenu extends Submenu {
     public void launchSubmenu() {
         super.launchSubmenu();
 
-        // TODO set up menu buttons:
+        // set up menu buttons:
+        moveMenu = new MovementSettingsMenu(menuTable, stage, "controls");
+        cameraMenu = new CameraSettingsMenu(menuTable, stage, "camera");
 
         // TODO:
         VisTextButton audio = new VisTextButton("audio(disabled)");
@@ -36,5 +41,11 @@ public class SettingsMenu extends Submenu {
     @Override
     public void closeSubmenu(){
         super.closeSubmenu();
+        if (moveMenu != null){
+            moveMenu.closeSubmenu();
+        }
+        if (cameraMenu != null){
+            cameraMenu.closeSubmenu();
+        }
     }
 }

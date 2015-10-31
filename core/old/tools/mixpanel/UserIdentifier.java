@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.tools.mixpanel;
 import com.badlogic.gdx.Preferences;
-import com.emergentorganization.cellrpg.tools.Config;
+import com.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +17,7 @@ public class UserIdentifier {
 
     private static void loadFromConfig(){
         Preferences prefs = CellRpg.fetch().getConfiguration().getPreferences();
-        ID = prefs.getString(Config.USER_ID);
+        ID = prefs.getString(GameSettings.USER_ID);
         configLoaded = true;
     }
 
@@ -29,7 +29,7 @@ public class UserIdentifier {
             ID = UUID.randomUUID().toString();
             // and save it for later
             Preferences prefs = CellRpg.fetch().getConfiguration().getPreferences();
-            prefs.putString(Config.USER_ID, ID);
+            prefs.putString(GameSettings.USER_ID, ID);
             prefs.flush();
         }
         logger.info("UID:"+ID);

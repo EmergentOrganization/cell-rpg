@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.SceneManager;
 import com.emergentorganization.cellrpg.tools.FileStructure;
+import com.emergentorganization.cellrpg.tools.GameSettings;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
@@ -52,6 +53,7 @@ public class PixelonTransmission extends Game {
         if (fileStructure.isJar()) {
             fileStructure.unpackAssets();
         }
+
         version = loadVersion();
         VisUI.load();
 

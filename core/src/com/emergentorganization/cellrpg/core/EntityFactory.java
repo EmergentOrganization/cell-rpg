@@ -5,15 +5,7 @@ import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.Health;
-import com.emergentorganization.cellrpg.components.Input;
-import com.emergentorganization.cellrpg.components.PhysicsBody;
-import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.components.Rotation;
-import com.emergentorganization.cellrpg.components.Scale;
-import com.emergentorganization.cellrpg.components.Velocity;
-import com.emergentorganization.cellrpg.components.Visual;
+import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 
 /**
@@ -38,7 +30,7 @@ public class EntityFactory {
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
         physical = new ArchetypeBuilder(collidable).add(Velocity.class).build(world);
         character = new ArchetypeBuilder(physical).add(Health.class).build(world);
-        player = new ArchetypeBuilder(character).add(Input.class).build(world);
+        player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).build(world);
     }
 
     public int createPlayer(float x, float y) {
@@ -47,7 +39,7 @@ public class EntityFactory {
         player.getComponent(Visual.class).setAnimation("char-player");
 
         Bounds b = player.getComponent(Bounds.class);
-        b.width = 40;
+        b.width = 40; // TODO remove static values
         b.height = 36;
 
         player.getComponent(Position.class).position.set(x, y);

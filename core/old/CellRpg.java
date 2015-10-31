@@ -12,7 +12,7 @@ import com.emergentorganization.cellrpg.tools.FileStructure;
 import com.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import com.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
-import com.emergentorganization.cellrpg.tools.Config;
+import com.emergentorganization.cellrpg.tools.GameSettings;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -37,7 +37,7 @@ public class CellRpg extends Game {
 
     private AssetManager assetManager;
     private TextureAtlas textureAtlas;
-    private Config config;
+    private GameSettings config;
     private Mixpanel mixpanel;
 
     private Screen curScreen;
@@ -46,7 +46,7 @@ public class CellRpg extends Game {
         singleton = this;
         System.setProperty("log4j.configurationFile", FileStructure.RESOURCE_DIR + "log4j2.xml");
         logger = LogManager.getLogger(getClass());
-        config = new Config();
+        config = new GameSettings();
         mixpanel = new Mixpanel();
     }
 
@@ -149,7 +149,7 @@ public class CellRpg extends Game {
         return null;
     }
 
-    public Config getConfiguration() {
+    public GameSettings getConfiguration() {
         return config;
     }
 

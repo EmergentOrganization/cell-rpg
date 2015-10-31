@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.entity.input.PlayerInputMethods.*;
-import com.emergentorganization.cellrpg.tools.Config;
+import com.emergentorganization.cellrpg.tools.GameSettings;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import org.apache.logging.log4j.LogManager;
@@ -40,7 +40,7 @@ public class PlayerInputComponent extends InputComponent {
         super.added();
 
         Preferences prefs = CellRpg.fetch().getConfiguration().getPreferences();
-        currentInputMethodIndex = prefs.getInteger(Config.KEY_INPUT_METHOD, 0);
+        currentInputMethodIndex = prefs.getInteger(GameSettings.KEY_INPUT_METHOD, 0);
     }
 
     public void addInputConfigButtons(VisTable menuTable, VisWindow menuWindow){
@@ -53,7 +53,7 @@ public class PlayerInputComponent extends InputComponent {
         logger.info("input method set to " + inputChoices[newMethodIndex].getName());
 
         Preferences prefs = CellRpg.fetch().getConfiguration().getPreferences();
-        prefs.putInteger(Config.KEY_INPUT_METHOD, newMethodIndex);
+        prefs.putInteger(GameSettings.KEY_INPUT_METHOD, newMethodIndex);
         prefs.flush();
     }
 

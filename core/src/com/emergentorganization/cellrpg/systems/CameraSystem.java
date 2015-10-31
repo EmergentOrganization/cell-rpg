@@ -1,12 +1,16 @@
 package com.emergentorganization.cellrpg.systems;
 
+import com.artemis.Aspect;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
+import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.CameraFollow;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Visual;
 import com.emergentorganization.cellrpg.core.EntityFactory;
@@ -16,7 +20,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
  * Created by orelb on 10/29/2015.
  */
 @Wire
-public class CameraSystem extends BaseSystem {
+public class CameraSystem extends IteratingSystem {
 
     private OrthographicCamera cam;
 
@@ -25,10 +29,8 @@ public class CameraSystem extends BaseSystem {
 
     private AssetManager assetManager;
 
-    private int followEntity = -1;
-    private Position followEntityPos;
-
     public CameraSystem() {
+        super(Aspect.all(CameraFollow.class, Position.class));
         cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cam.zoom = EntityFactory.SCALE_WORLD_TO_BOX;
         cam.lookAt(0, 0, 0);
@@ -39,30 +41,24 @@ public class CameraSystem extends BaseSystem {
         return cam;
     }
 
-    public void setFollowEntity(int entityId) {
-        this.followEntity = entityId;
-
-        followEntityPos = null;
-    }
-
-    private void camFollow() {
-        if (followEntity == -1)
-            return;
-
-        if (followEntityPos == null) {
-            followEntityPos = pm.get(followEntity);
-        }
-
+    private void camFollow(int followEntity) {
+        Position pc = pm.get(followEntity);
         Visual v = vm.get(followEntity);
         TextureRegion r = assetManager.getRegion(v.id);
-
-        cam.position.set(followEntityPos.position.x + (r.getRegionWidth() / 2), followEntityPos.position.y + (r.getRegionHeight() / 2), 0);
+        if (r != null) {
+            cam.position.set(pc.position.x + (r.getRegionWidth() / 2f), pc.position.y + (r.getRegionHeight() / 2f), 0);
+        }
+        else
+            cam.position.set(pc.position, 0f);
     }
 
     @Override
-    protected void processSystem() {
-        camFollow();
+    protected void process(int entityId) {
+        camFollow(entityId);
+    }
 
+    @Override
+    protected void end() {
         cam.update();
     }
 }

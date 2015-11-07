@@ -26,7 +26,7 @@ public class PhysicsRenderSystem extends BaseSystem {
     @Override
     protected void processSystem() {
         batch.begin();
-        renderer.render(physWorld, cs.getCam().combined);
+        renderer.render(physWorld, cs.getGameCamera().combined);
         batch.end();
     }
 }

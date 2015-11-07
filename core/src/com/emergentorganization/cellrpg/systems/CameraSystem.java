@@ -7,11 +7,9 @@ import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.CameraFollow;
 import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.components.Visual;
 import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 
@@ -21,7 +19,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 @Wire
 public class CameraSystem extends IteratingSystem {
 
-    private OrthographicCamera cam;
+    private OrthographicCamera gameCamera;
 
     private ComponentMapper<Position> pm;
     private ComponentMapper<Bounds> bm;
@@ -30,14 +28,14 @@ public class CameraSystem extends IteratingSystem {
 
     public CameraSystem() {
         super(Aspect.all(CameraFollow.class, Position.class));
-        cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.zoom = EntityFactory.SCALE_WORLD_TO_BOX;
-        cam.lookAt(0, 0, 0);
-        cam.update();
+        gameCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        gameCamera.zoom = EntityFactory.SCALE_WORLD_TO_BOX;
+        gameCamera.lookAt(0, 0, 0);
+        gameCamera.update();
     }
 
-    public Camera getCam() {
-        return cam;
+    public Camera getGameCamera() {
+        return gameCamera;
     }
 
     private void camFollow(int followEntity) {
@@ -45,7 +43,7 @@ public class CameraSystem extends IteratingSystem {
         Position pc = pm.get(followEntity);
         Bounds b = bm.get(followEntity);
 
-        cam.position.set(pc.position.x + (b.width / 2f), pc.position.y + (b.height / 2f), 0);
+        gameCamera.position.set(pc.position.x + (b.width / 2f), pc.position.y + (b.height / 2f), 0);
     }
 
     @Override
@@ -55,6 +53,6 @@ public class CameraSystem extends IteratingSystem {
 
     @Override
     protected void end() {
-        cam.update();
+        gameCamera.update();
     }
 }

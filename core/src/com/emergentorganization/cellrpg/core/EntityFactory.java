@@ -3,6 +3,8 @@ package com.emergentorganization.cellrpg.core;
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
+import com.artemis.World;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
@@ -15,7 +17,7 @@ import com.emergentorganization.cellrpg.managers.BodyManager;
 public class EntityFactory {
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
-    private final com.artemis.World world;
+    private World world;
 
     public Archetype base;
     public Archetype object;
@@ -24,11 +26,11 @@ public class EntityFactory {
     public Archetype character;
     private Archetype player;
 
-    public EntityFactory(com.artemis.World world) {
+    public void initialize(World world) {
         this.world = world;
         base = new ArchetypeBuilder().add(Position.class).build(world);
-        object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).add(Bounds.class).build(world);
-        collidable = new ArchetypeBuilder(object).add(Velocity.class).add(PhysicsBody.class).build(world);
+        object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).add(Bounds.class).add(Velocity.class).build(world);
+        collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).build(world);
     }
@@ -57,5 +59,22 @@ public class EntityFactory {
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         return player.getId();
+    }
+
+    public int createBullet(Vector2 pos, Vector2 dir) {
+        Entity bullet = world.createEntity(object);
+        final String bulletID = "game/bullet";
+        final float speed = 10f;
+
+        bullet.getComponent(Visual.class).setTexture(bulletID);
+        bullet.getComponent(Bounds.class).setFromRegion(world.getSystem(AssetManager.class).getRegion(bulletID));
+        Vector2 position = bullet.getComponent(Position.class).position;
+        position.set(pos);
+        bullet.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
+        Vector2 velocity = bullet.getComponent(Velocity.class).velocity;
+        velocity.set(dir).scl(speed);
+        System.out.println(position + " " + velocity);
+
+        return bullet.getId();
     }
 }

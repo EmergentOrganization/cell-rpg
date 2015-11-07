@@ -5,6 +5,8 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.Input;
+import com.emergentorganization.cellrpg.components.Position;
+import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.input.InputProcessor;
 
 /**
@@ -15,15 +17,16 @@ public class PlayerInputProcessor extends InputProcessor {
     private TagManager tagManager;
 
     private PlayerMovement movement;
-    // PlayerShoot shoot; ...
+    private PlayerWeapon weapon;
     // PlayerAbilities abilites; ...
 
-    public PlayerInputProcessor(World world, ComponentMapper<Input> im) {
+    public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<Input> im, ComponentMapper<Position> pm) {
         super(world, im);
 
         tagManager = world.getSystem(TagManager.class);
 
         movement = new PlayerMovement(world, im);
+        weapon = new PlayerWeapon(world, ef, im, pm);
     }
 
     private boolean isPlayer(int entityId) {
@@ -41,8 +44,7 @@ public class PlayerInputProcessor extends InputProcessor {
             return;
 
         movement.process(entityId);
-
-        // shoot.process(entityId);
+        weapon.process(entityId);
         // abilites.process(entityId);
     }
 }

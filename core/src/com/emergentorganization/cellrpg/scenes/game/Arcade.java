@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.SceneFactory;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
@@ -33,23 +34,10 @@ public class Arcade extends BaseScene {
     }
 
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
-        WorldConfiguration wc = new WorldConfiguration();
         batch = new SpriteBatch();
-
-        wc.setSystem(new TagManager()); // useful for tagging unique entities
-        wc.setSystem(new AssetManager(pt.getGdxAssetManager()));
-
-        wc.setSystem(new BodyManager(physWorld, pt.getBodyLoader()));
-
-        wc.setSystem(new CameraSystem());
-        wc.setSystem(new RenderSystem(batch));
-        wc.setSystem(new PhysicsRenderSystem(batch, physWorld));
-
-        wc.setSystem(new InputSystem());
-        wc.setSystem(new MovementSystem()); // move after rendering
-        wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
-
-        world = new World(wc);
+        EntityFactory entityFactory = new EntityFactory();
+        world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
+        entityFactory.initialize(world);
 
         // we need a dedicated class to define assets
         world.getSystem(AssetManager.class).defineAnimation("char-player", 0.2f,
@@ -63,8 +51,6 @@ public class Arcade extends BaseScene {
                         "game/char-player/7",
                         "game/char-player/8",
                         "game/char-player/9"}, Animation.PlayMode.LOOP);
-
-        EntityFactory entityFactory = new EntityFactory(world);
 
         int player = entityFactory.createPlayer(0, 0);
         world.getSystem(TagManager.class).register("player", player);

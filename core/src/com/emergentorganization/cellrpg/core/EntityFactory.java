@@ -17,6 +17,9 @@ import com.emergentorganization.cellrpg.managers.BodyManager;
 public class EntityFactory {
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
+
+    public static float BULLET_MAX_DIST = 20f;
+
     private World world;
 
     public Archetype base;
@@ -63,11 +66,10 @@ public class EntityFactory {
 
     public int createBullet(Vector2 pos, Vector2 dir) {
         Entity bullet = world.createEntity(object);
-        final String bulletID = "game/bullet";
         final float speed = 10f;
 
-        bullet.getComponent(Visual.class).setTexture(bulletID);
-        bullet.getComponent(Bounds.class).setFromRegion(world.getSystem(AssetManager.class).getRegion(bulletID));
+        bullet.getComponent(Visual.class).setTexture(EntityIDs.BULLET);
+        bullet.getComponent(Bounds.class).setFromRegion(world.getSystem(AssetManager.class).getRegion(EntityIDs.BULLET));
         Vector2 position = bullet.getComponent(Position.class).position;
         position.set(pos);
         bullet.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;

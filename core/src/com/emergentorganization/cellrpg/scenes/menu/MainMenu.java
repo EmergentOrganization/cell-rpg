@@ -65,7 +65,7 @@ public class MainMenu extends BaseScene {
             story.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    //pt.getSceneManager().setScene(Scene.STORY);
+                    pt.getSceneManager().setScene(Scene.STORY);
                 }
             });
 

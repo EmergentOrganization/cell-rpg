@@ -4,6 +4,7 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -40,10 +41,11 @@ public class EntityFactory {
 
     public int createPlayer(float x, float y) {
         final Entity player = world.createEntity(this.player);
-        final String playerID = "char-player";
 
-        player.getComponent(Visual.class).setAnimation(playerID);
-        player.getComponent(Bounds.class).setFromRegion(world.getSystem(AssetManager.class).getAnimation(playerID).getKeyFrames()[0]);
+        player.getComponent(Visual.class).setAnimation(EntityIDs.PLAYER);
+        player.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getAnimation(EntityIDs.PLAYER).getKeyFrames()[0]
+        );
         player.getComponent(Position.class).position.set(x, y);
         player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
 
@@ -56,7 +58,7 @@ public class EntityFactory {
         fDef.density = 1.0f;
         fDef.friction = 0.3f;
         fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(player.getId(), playerID, bDef, fDef);
+        world.getSystem(BodyManager.class).createBody(player.getId(), EntityIDs.PLAYER, bDef, fDef);
 
         Input ic = player.getComponent(Input.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
@@ -78,5 +80,31 @@ public class EntityFactory {
         System.out.println(position + " " + velocity);
 
         return bullet.getId();
+    }
+
+    public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
+        final String texPrefix = "game/buildings/";
+        Entity bldg = world.createEntity(collidable);
+        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.BUILDING_LARGE_ONE);
+        bldg.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.BUILDING_LARGE_ONE)
+        );
+        bldg.getComponent(Position.class).position.set(pos);
+        bldg.getComponent(Rotation.class).angle = angleDeg;
+        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
+
+        BodyDef bDef = new BodyDef();
+        bDef.allowSleep = true;
+        bDef.type = BodyDef.BodyType.DynamicBody;
+        bDef.fixedRotation = true;
+        bDef.position.set(pos);
+        bDef.angle = MathUtils.degreesToRadians * angleDeg;
+        FixtureDef fDef = new FixtureDef();
+        fDef.density = 1.0f;
+        fDef.friction = 0.3f;
+        fDef.restitution = 0.1f;
+        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.BUILDING_LARGE_ONE, bDef, fDef);
+
+        return bldg.getId();
     }
 }

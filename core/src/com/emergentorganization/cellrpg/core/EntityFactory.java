@@ -91,17 +91,17 @@ public class EntityFactory {
         );
         bldg.getComponent(Position.class).position.set(pos);
         bldg.getComponent(Rotation.class).angle = angleDeg;
-        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
+        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
         BodyDef bDef = new BodyDef();
         bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.DynamicBody;
+        bDef.type = BodyDef.BodyType.StaticBody;
         bDef.fixedRotation = true;
         bDef.position.set(pos);
         bDef.angle = MathUtils.degreesToRadians * angleDeg;
         FixtureDef fDef = new FixtureDef();
         fDef.density = 1.0f;
-        fDef.friction = 0.3f;
+        fDef.friction = 0.7f;
         fDef.restitution = 0.1f;
         world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.BUILDING_LARGE_ONE, bDef, fDef);
 

@@ -274,4 +274,28 @@ public class EntityFactory {
 
         return bg.getId();
     }
+
+    public int createEntityByID(String id, Vector2 pos, float angleDeg) {
+        if (id.equals(EntityIDs.BUILDING_LARGE_ONE)) {
+            return createBuildingLargeOne(pos, angleDeg);
+        } else if (id.equals(EntityIDs.BUILDING_ROUND_ONE)) {
+            return createBuildingRoundOne(pos, angleDeg);
+        } else if (id.equals(EntityIDs.BULLET)) {
+            return createBullet(pos, new Vector2().rotate(angleDeg));
+        } else if (id.equals(EntityIDs.CIV_ONE_BLINKER)) {
+            return createCivOneBlinker(pos.x, pos.y);
+        } else if (id.equals(EntityIDs.PLAYER)) {
+            return createPlayer(pos.x, pos.y);
+        } else if (id.equals(EntityIDs.RIFT_ONE)) {
+            return createRiftOne(pos, angleDeg);
+        } else if (id.equals(EntityIDs.RIFT_TWO)) {
+            return createRiftTwo(pos, angleDeg);
+        } else if (id.equals(EntityIDs.THE_EDGE)) {
+            return createBackgroundTheEdge(pos);
+        } else if (id.equals(EntityIDs.VYROID_BEACON)) {
+            return createVyroidBeacon(pos, angleDeg);
+        } else {
+            throw new RuntimeException("Error: Could not find entity by ID '" + id + "'");
+        }
+    }
 }

@@ -40,6 +40,9 @@ public class MovementSystem extends IteratingSystem {
                 // TODO: Account for movement by player for controlling things without a physics body
                 throw new UnsupportedOperationException("Cannot control an entity without a physics body");
             }
+        } else if (cm.has(entityId)) {
+
+
         } else {
             float d = world.getDelta();
             p.position.add(v.velocity.x * d, v.velocity.y * d);

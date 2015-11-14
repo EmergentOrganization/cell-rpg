@@ -57,6 +57,7 @@ public class Story extends BaseScene {
         world.getSystem(TagManager.class).register("player", player);
 
         entityFactory.createBuildingLargeOne(new Vector2(0.0f, 0.0f), 180f);
+        entityFactory.createBuildingLargeOne(new Vector2(7.0f, 0.0f), 180f);
     }
 
     @Override

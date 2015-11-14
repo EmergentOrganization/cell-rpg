@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes.mainmenu;
+package com.emergentorganization.cellrpg.tools;
 
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 

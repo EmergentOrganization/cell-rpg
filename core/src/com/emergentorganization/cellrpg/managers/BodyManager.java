@@ -34,6 +34,7 @@ public class BodyManager extends BaseSystem {
 
     public void createBody(int entityId, String colliderId, BodyDef bd, FixtureDef fd) {
         Body body = physWorld.createBody(bd);
+        body.setUserData(entityId);
         Bounds b = bm.get(entityId);
         bodyLoader.attachFixture(body, colliderId, fd, Math.min(b.width, b.height));
         bodies.put(entityId, body);
@@ -46,5 +47,15 @@ public class BodyManager extends BaseSystem {
     @Override
     protected void processSystem() {
 
+    }
+
+    public void removeBody(int entityId) {
+        Body body = getBody(entityId);
+        bodies.remove(entityId);
+        physWorld.destroyBody(body);
+    }
+
+    public HashMap<Integer, Body> getBodies() {
+        return bodies;
     }
 }

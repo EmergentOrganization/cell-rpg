@@ -98,4 +98,8 @@ public class RenderSystem extends BaseEntitySystem {
             }
         });
     }
+
+    public ArrayList<Integer> getSortedEntityIds() {
+        return sortedEntityIds;
+    }
 }

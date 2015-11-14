@@ -1,10 +1,14 @@
 package com.emergentorganization.cellrpg.tools.mapeditor.map;
 
+import com.artemis.Entity;
+import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.entity.MovementComponent;
-import com.emergentorganization.cellrpg.entities.Entity;
-import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.components.Position;
+import com.emergentorganization.cellrpg.components.Rotation;
+import com.emergentorganization.cellrpg.components.Scale;
+import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileStructure;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,7 +26,7 @@ public class MapTools {
     public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + File.separator + FileStructure.RESOURCE_DIR + "maps" + File.separator;
     public static String EXTENSION = ".json";
 
-    public static Map importMap(String fileName) {
+    public static void importMap(String fileName, EntityFactory entityFactory) {
         JSONParser parser = new JSONParser();
         Map map = new Map();
 
@@ -42,33 +46,15 @@ public class MapTools {
                 float rot = getFloat(jsonEntity.get(JSONKey.ROTATION));
                 float scaleX = getFloat(jsonEntity.get(JSONKey.SCALE_X));
                 float scaleY = getFloat(jsonEntity.get(JSONKey.SCALE_Y));
-                Class cls = Class.forName(type);
 
-                Entity instance = (Entity) cls.newInstance();
-
-                MovementComponent move = instance.getFirstComponentByType(MovementComponent.class);
-                move.setScale(new Vector2(scaleX, scaleY));
-                move.setRotation(rot);
-                move.setWorldPosition(new Vector2(x, y));
-
-                map.addEntity(instance);
+                entityFactory.createEntityByID(type, new Vector2(x, y), rot);
             }
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
         }
-
-        return map;
     }
 
     private static float getFloat(Object obj) {
@@ -76,13 +62,15 @@ public class MapTools {
     }
 
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    public static void exportMap(Scene scene, String fileName) {
+    public static void exportMap(World world, String fileName) {
         LinkedHashMap map = new LinkedHashMap();
 
         ArrayList<LinkedHashMap> entityList = new ArrayList<LinkedHashMap>();
-        for (Entity entity : scene.getEntities()) {
-            entityList.add(exportEntity(entity));
+
+        for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
+            entityList.add(exportEntity(world.getEntity(id)));
         }
+
         map.put(JSONKey.ENTITIES, entityList);
 
         JSONObject obj = new JSONObject(map);
@@ -108,14 +96,16 @@ public class MapTools {
     private static LinkedHashMap exportEntity(Entity entity) {
         LinkedHashMap map = new LinkedHashMap();
 
-        MovementComponent mc = entity.getFirstComponentByType(MovementComponent.class);
+        Vector2 pos = entity.getComponent(Position.class).position;
+        float rot = entity.getComponent(Rotation.class).angle;
+        float scale = entity.getComponent(Scale.class).scale;
 
         map.put(JSONKey.TYPE, entity.getClass().getName());
-        map.put(JSONKey.POSITION_X, mc.getWorldPosition().x);
-        map.put(JSONKey.POSITION_Y, mc.getWorldPosition().y);
-        map.put(JSONKey.ROTATION, mc.getRotation());
-        map.put(JSONKey.SCALE_X, mc.getScale().x);
-        map.put(JSONKey.SCALE_Y, mc.getScale().y);
+        map.put(JSONKey.POSITION_X, pos.x);
+        map.put(JSONKey.POSITION_Y, pos.y);
+        map.put(JSONKey.ROTATION, rot);
+        map.put(JSONKey.SCALE_X, scale);
+        map.put(JSONKey.SCALE_Y, scale);
 
         return map;
     }

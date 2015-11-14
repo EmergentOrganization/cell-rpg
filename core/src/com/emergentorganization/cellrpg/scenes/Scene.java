@@ -3,9 +3,9 @@ package com.emergentorganization.cellrpg.scenes;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.scenes.game.Arcade;
 import com.emergentorganization.cellrpg.scenes.game.LifeGeneLab;
-import com.emergentorganization.cellrpg.scenes.game.MapEditor;
 import com.emergentorganization.cellrpg.scenes.game.Story;
 import com.emergentorganization.cellrpg.scenes.menu.MainMenu;
+import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 
 /**
  * Created by orelb on 10/30/2015.

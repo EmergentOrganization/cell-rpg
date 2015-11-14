@@ -26,7 +26,6 @@ public class EntityFactory {
     public Archetype base;
     public Archetype object;
     public Archetype collidable;
-    public Archetype physical;
     public Archetype character;
     private Archetype player;
 
@@ -239,5 +238,16 @@ public class EntityFactory {
         return bldg.getId();
     }
 
+    public int createBackgroundTheEdge(Vector2 pos) {
+        final String texPrefix = "game/environment/";
+        Entity bldg = world.createEntity(object);
+        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.THE_EDGE);
+        bldg.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.THE_EDGE)
+        );
+        bldg.getComponent(Position.class).position.set(pos);
+        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
+        return bldg.getId();
+    }
 }

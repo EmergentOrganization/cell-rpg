@@ -12,4 +12,5 @@ public class EntityIDs {
     public static final String RIFT_TWO = "rift2";
     public static final String VYROID_BEACON = "vyroid-generator";
     public static final String CIV_ONE_BLINKER = "char-civ1-blinker";
+    public static final String THE_EDGE = "the_edge";
 }

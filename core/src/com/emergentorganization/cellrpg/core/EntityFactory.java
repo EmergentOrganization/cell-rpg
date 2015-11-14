@@ -77,7 +77,6 @@ public class EntityFactory {
         bullet.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
         Vector2 velocity = bullet.getComponent(Velocity.class).velocity;
         velocity.set(dir).scl(speed);
-        System.out.println(position + " " + velocity);
 
         return bullet.getId();
     }

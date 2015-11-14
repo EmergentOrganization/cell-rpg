@@ -35,7 +35,6 @@ public class BodyManager extends BaseSystem {
     public void createBody(int entityId, String colliderId, BodyDef bd, FixtureDef fd) {
         Body body = physWorld.createBody(bd);
         Bounds b = bm.get(entityId);
-        System.out.println(colliderId + " Width: " + b.width + " Height: " + b.height);
         bodyLoader.attachFixture(body, colliderId, fd, Math.min(b.width, b.height));
         bodies.put(entityId, body);
     }

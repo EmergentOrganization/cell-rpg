@@ -15,7 +15,6 @@ public class Bounds extends Component {
     public float width, height;
 
     public void setFromRegion(TextureRegion region) {
-        System.out.println("region width: " + region.getRegionWidth());
         this.width = EntityFactory.SCALE_WORLD_TO_BOX * region.getRegionWidth();
         this.height = EntityFactory.SCALE_WORLD_TO_BOX * region.getRegionHeight();
     }

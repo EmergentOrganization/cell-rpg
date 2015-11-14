@@ -82,6 +82,33 @@ public class EntityFactory {
         return bullet.getId();
     }
 
+    public int createCivOneBlinker(float x, float y) {
+        final Entity player = world.createEntity(character);
+
+        player.getComponent(Visual.class).setAnimation(EntityIDs.CIV_ONE_BLINKER);
+        player.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getAnimation(EntityIDs.CIV_ONE_BLINKER).getKeyFrames()[0]
+        );
+        player.getComponent(Position.class).position.set(x, y);
+        player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
+
+        BodyDef bDef = new BodyDef();
+        bDef.allowSleep = true;
+        bDef.type = BodyDef.BodyType.KinematicBody;
+        bDef.fixedRotation = true;
+        bDef.position.set(x, y);
+        FixtureDef fDef = new FixtureDef();
+        fDef.density = 1.0f;
+        fDef.friction = 0.3f;
+        fDef.restitution = 0.1f;
+        world.getSystem(BodyManager.class).createBody(player.getId(), EntityIDs.CIV_ONE_BLINKER, bDef, fDef);
+
+        Input ic = player.getComponent(Input.class);
+        ic.speed = 2f; // 2 meters per sec // a dedicated component?
+
+        return player.getId();
+    }
+
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
@@ -212,4 +239,6 @@ public class EntityFactory {
 
         return bldg.getId();
     }
+
+
 }

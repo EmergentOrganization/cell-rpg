@@ -41,7 +41,9 @@ public class EntityFactory {
     public int createPlayer(float x, float y) {
         final Entity player = world.createEntity(this.player);
 
-        player.getComponent(Visual.class).setAnimation(EntityIDs.PLAYER);
+        Visual v = player.getComponent(Visual.class);
+        v.setAnimation(EntityIDs.PLAYER);
+        v.index = RenderIndex.PLAYER;
         player.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getAnimation(EntityIDs.PLAYER).getKeyFrames()[0]
         );
@@ -69,7 +71,9 @@ public class EntityFactory {
         Entity bullet = world.createEntity(object);
         final float speed = 10f;
 
-        bullet.getComponent(Visual.class).setTexture(EntityIDs.BULLET);
+        Visual v = bullet.getComponent(Visual.class);
+        v.index = RenderIndex.BULLET;
+        v.setTexture(EntityIDs.BULLET);
         bullet.getComponent(Bounds.class).setFromRegion(world.getSystem(AssetManager.class).getRegion(EntityIDs.BULLET));
         Vector2 position = bullet.getComponent(Position.class).position;
         position.set(pos);
@@ -81,14 +85,16 @@ public class EntityFactory {
     }
 
     public int createCivOneBlinker(float x, float y) {
-        final Entity player = world.createEntity(character);
+        final Entity civ = world.createEntity(character);
 
-        player.getComponent(Visual.class).setAnimation(EntityIDs.CIV_ONE_BLINKER);
-        player.getComponent(Bounds.class).setFromRegion(
+        Visual v = civ.getComponent(Visual.class);
+        v.index = RenderIndex.NPC;
+        v.setAnimation(EntityIDs.CIV_ONE_BLINKER);
+        civ.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getAnimation(EntityIDs.CIV_ONE_BLINKER).getKeyFrames()[0]
         );
-        player.getComponent(Position.class).position.set(x, y);
-        player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
+        civ.getComponent(Position.class).position.set(x, y);
+        civ.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // civ ends up being 1 meter in size
 
         BodyDef bDef = new BodyDef();
         bDef.allowSleep = true;
@@ -99,18 +105,21 @@ public class EntityFactory {
         fDef.density = 1.0f;
         fDef.friction = 0.3f;
         fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(player.getId(), EntityIDs.CIV_ONE_BLINKER, bDef, fDef);
+        world.getSystem(BodyManager.class).createBody(civ.getId(), EntityIDs.CIV_ONE_BLINKER, bDef, fDef);
 
-        Input ic = player.getComponent(Input.class);
+        Input ic = civ.getComponent(Input.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
-        return player.getId();
+        return civ.getId();
     }
 
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
-        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.BUILDING_LARGE_ONE);
+
+        Visual v = bldg.getComponent(Visual.class);
+        v.index = RenderIndex.BUILDING;
+        v.setTexture(texPrefix + EntityIDs.BUILDING_LARGE_ONE);
         bldg.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.BUILDING_LARGE_ONE)
         );
@@ -137,7 +146,10 @@ public class EntityFactory {
         // TODO: Tie GridSeed component to this somehow
         final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
-        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.BUILDING_ROUND_ONE);
+
+        Visual v = bldg.getComponent(Visual.class);
+        v.index = RenderIndex.BUILDING;
+        v.setTexture(texPrefix + EntityIDs.BUILDING_ROUND_ONE);
         bldg.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.BUILDING_ROUND_ONE)
         );
@@ -163,7 +175,10 @@ public class EntityFactory {
     public int createRiftOne(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/environment/";
         Entity bldg = world.createEntity(collidable);
-        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.RIFT_ONE);
+
+        Visual v = bldg.getComponent(Visual.class);
+        v.index = RenderIndex.BUILDING;
+        v.setTexture(texPrefix + EntityIDs.RIFT_ONE);
         bldg.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.RIFT_ONE)
         );
@@ -189,7 +204,10 @@ public class EntityFactory {
     public int createRiftTwo(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/environment/";
         Entity bldg = world.createEntity(collidable);
-        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.RIFT_TWO);
+
+        Visual v = bldg.getComponent(Visual.class);
+        v.index = RenderIndex.BUILDING;
+        v.setTexture(texPrefix + EntityIDs.RIFT_TWO);
         bldg.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.RIFT_TWO)
         );
@@ -215,7 +233,10 @@ public class EntityFactory {
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
-        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.VYROID_BEACON);
+
+        Visual v = bldg.getComponent(Visual.class);
+        v.index = RenderIndex.BUILDING;
+        v.setTexture(texPrefix + EntityIDs.VYROID_BEACON);
         bldg.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.VYROID_BEACON)
         );
@@ -240,14 +261,17 @@ public class EntityFactory {
 
     public int createBackgroundTheEdge(Vector2 pos) {
         final String texPrefix = "game/environment/";
-        Entity bldg = world.createEntity(object);
-        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.THE_EDGE);
-        bldg.getComponent(Bounds.class).setFromRegion(
+        Entity bg = world.createEntity(object);
+
+        Visual v = bg.getComponent(Visual.class);
+        v.index = RenderIndex.BACKGROUND;
+        bg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.THE_EDGE);
+        bg.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.THE_EDGE)
         );
-        bldg.getComponent(Position.class).position.set(pos);
-        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
+        bg.getComponent(Position.class).position.set(pos);
+        bg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        return bldg.getId();
+        return bg.getId();
     }
 }

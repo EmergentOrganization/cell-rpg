@@ -107,4 +107,109 @@ public class EntityFactory {
 
         return bldg.getId();
     }
+
+    public int createBuildingRoundOne(Vector2 pos, float angleDeg) {
+        // TODO: Tie GridSeed component to this somehow
+        final String texPrefix = "game/buildings/";
+        Entity bldg = world.createEntity(collidable);
+        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.BUILDING_ROUND_ONE);
+        bldg.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.BUILDING_ROUND_ONE)
+        );
+        bldg.getComponent(Position.class).position.set(pos);
+        bldg.getComponent(Rotation.class).angle = angleDeg;
+        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
+
+        BodyDef bDef = new BodyDef();
+        bDef.allowSleep = true;
+        bDef.type = BodyDef.BodyType.StaticBody;
+        bDef.fixedRotation = true;
+        bDef.position.set(pos);
+        bDef.angle = MathUtils.degreesToRadians * angleDeg;
+        FixtureDef fDef = new FixtureDef();
+        fDef.density = 1.0f;
+        fDef.friction = 0.7f;
+        fDef.restitution = 0.1f;
+        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.BUILDING_ROUND_ONE, bDef, fDef);
+
+        return bldg.getId();
+    }
+
+    public int createRiftOne(Vector2 pos, float angleDeg) {
+        final String texPrefix = "game/environment/";
+        Entity bldg = world.createEntity(collidable);
+        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.RIFT_ONE);
+        bldg.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.RIFT_ONE)
+        );
+        bldg.getComponent(Position.class).position.set(pos);
+        bldg.getComponent(Rotation.class).angle = angleDeg;
+        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
+
+        BodyDef bDef = new BodyDef();
+        bDef.allowSleep = true;
+        bDef.type = BodyDef.BodyType.StaticBody;
+        bDef.fixedRotation = true;
+        bDef.position.set(pos);
+        bDef.angle = MathUtils.degreesToRadians * angleDeg;
+        FixtureDef fDef = new FixtureDef();
+        fDef.density = 1.0f;
+        fDef.friction = 0.7f;
+        fDef.restitution = 0.1f;
+        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.RIFT_ONE, bDef, fDef);
+
+        return bldg.getId();
+    }
+
+    public int createRiftTwo(Vector2 pos, float angleDeg) {
+        final String texPrefix = "game/environment/";
+        Entity bldg = world.createEntity(collidable);
+        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.RIFT_TWO);
+        bldg.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.RIFT_TWO)
+        );
+        bldg.getComponent(Position.class).position.set(pos);
+        bldg.getComponent(Rotation.class).angle = angleDeg;
+        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
+
+        BodyDef bDef = new BodyDef();
+        bDef.allowSleep = true;
+        bDef.type = BodyDef.BodyType.StaticBody;
+        bDef.fixedRotation = true;
+        bDef.position.set(pos);
+        bDef.angle = MathUtils.degreesToRadians * angleDeg;
+        FixtureDef fDef = new FixtureDef();
+        fDef.density = 1.0f;
+        fDef.friction = 0.7f;
+        fDef.restitution = 0.1f;
+        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.RIFT_TWO, bDef, fDef);
+
+        return bldg.getId();
+    }
+
+    public int createVyroidBeacon(Vector2 pos, float angleDeg) {
+        final String texPrefix = "game/buildings/";
+        Entity bldg = world.createEntity(collidable);
+        bldg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.VYROID_BEACON);
+        bldg.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.VYROID_BEACON)
+        );
+        bldg.getComponent(Position.class).position.set(pos);
+        bldg.getComponent(Rotation.class).angle = angleDeg;
+        bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
+
+        BodyDef bDef = new BodyDef();
+        bDef.allowSleep = true;
+        bDef.type = BodyDef.BodyType.StaticBody;
+        bDef.fixedRotation = true;
+        bDef.position.set(pos);
+        bDef.angle = MathUtils.degreesToRadians * angleDeg;
+        FixtureDef fDef = new FixtureDef();
+        fDef.density = 1.0f;
+        fDef.friction = 0.7f;
+        fDef.restitution = 0.1f;
+        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.VYROID_BEACON, bDef, fDef);
+
+        return bldg.getId();
+    }
 }

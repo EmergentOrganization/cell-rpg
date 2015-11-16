@@ -4,7 +4,6 @@ import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.artemis.utils.IntBag;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.emergentorganization.cellrpg.components.Position;
@@ -13,10 +12,7 @@ import com.emergentorganization.cellrpg.components.Scale;
 import com.emergentorganization.cellrpg.components.Visual;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.function.Predicate;
+import java.util.*;
 
 /**
  * Created by brian on 10/28/15.
@@ -33,30 +29,30 @@ public class RenderSystem extends BaseEntitySystem {
 
     private AssetManager assetManager; // being a registered system, it is injected on runtime
 
-    private SpriteBatch batch;
-    private ArrayList<Integer> sortedEntityIds;
+    private final SpriteBatch batch;
+    private final LinkedList<Integer> sortedEntityIds;
 
     public RenderSystem(SpriteBatch batch) {
         super(Aspect.all(Position.class, Rotation.class, Scale.class, Visual.class));
 
         this.batch = batch;
-        sortedEntityIds = new ArrayList<Integer>();
+        sortedEntityIds = new LinkedList<Integer>();
     }
 
     @Override
-    protected void begin() {
+    protected  void begin() {
         batch.setProjectionMatrix(cameraSystem.getGameCamera().combined);
         batch.begin();
     }
 
     @Override
-    protected void processSystem() {
+    protected  void processSystem() {
         for (Integer id : sortedEntityIds) {
             process(id);
         }
     }
 
-    protected void process(int entityId) {
+    protected  void process(int entityId) {
         Visual v = vm.get(entityId);
         Position p = pm.get(entityId);
         Scale s = sm.get(entityId);
@@ -72,12 +68,12 @@ public class RenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected void end() {
+    protected  void end() {
         batch.end();
     }
 
     @Override
-    protected void inserted(int entityId) {
+    protected  void inserted(int entityId) {
         sortedEntityIds.add(entityId);
         Collections.sort(sortedEntityIds, new Comparator<Integer>() {
             @Override
@@ -90,16 +86,18 @@ public class RenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected void removed(final int entityId) {
-        sortedEntityIds.removeIf(new Predicate<Integer>() {
-            @Override
-            public boolean test(Integer integer) {
-                return integer - entityId == 0;
+    protected void removed(int entityId) {
+        ListIterator<Integer> iter = sortedEntityIds.listIterator();
+
+        while (iter.hasNext()) {
+            Integer id = iter.next();
+            if (id - entityId == 0) {
+                iter.remove();
             }
-        });
+        }
     }
 
-    public ArrayList<Integer> getSortedEntityIds() {
-        return sortedEntityIds;
+    public List<Integer> getSortedEntityIds() {
+        return Collections.unmodifiableList(sortedEntityIds);
     }
 }

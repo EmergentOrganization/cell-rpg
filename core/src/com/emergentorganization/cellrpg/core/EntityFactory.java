@@ -48,7 +48,7 @@ public class EntityFactory {
         v.setAnimation(EntityIDs.PLAYER);
         v.index = RenderIndex.PLAYER;
 
-        Animation animation = world.getSystem(AssetManager.class).defineAnimation("char-player", 0.2f,
+        Animation animation = world.getSystem(AssetManager.class).defineAnimation(EntityIDs.PLAYER, 0.2f,
                 new String[]{"game/char-player/0",
                         "game/char-player/1",
                         "game/char-player/2",
@@ -108,6 +108,13 @@ public class EntityFactory {
         Visual v = civ.getComponent(Visual.class);
         v.index = RenderIndex.NPC;
         v.setAnimation(EntityIDs.CIV_ONE_BLINKER);
+
+        Animation animation = world.getSystem(AssetManager.class).defineAnimation(EntityIDs.CIV_ONE_BLINKER, 0.2f,
+                new String[]{
+                        "game/char-civ1-blinker/0",
+                        "game/char-civ1-blinker/1"
+                }, Animation.PlayMode.LOOP);
+
         civ.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getAnimation(EntityIDs.CIV_ONE_BLINKER).getKeyFrames()[0]
         );
@@ -116,7 +123,7 @@ public class EntityFactory {
 
         BodyDef bDef = new BodyDef();
         bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.KinematicBody;
+        bDef.type = BodyDef.BodyType.DynamicBody;
         bDef.fixedRotation = true;
         bDef.position.set(x, y);
         FixtureDef fDef = new FixtureDef();
@@ -124,9 +131,6 @@ public class EntityFactory {
         fDef.friction = 0.3f;
         fDef.restitution = 0.1f;
         world.getSystem(BodyManager.class).createBody(civ.getId(), EntityIDs.CIV_ONE_BLINKER, bDef, fDef);
-
-        Input ic = civ.getComponent(Input.class);
-        ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         return civ.getId();
     }

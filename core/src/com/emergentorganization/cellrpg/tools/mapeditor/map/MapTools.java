@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.Name;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Rotation;
 import com.emergentorganization.cellrpg.components.Scale;
@@ -23,12 +24,11 @@ import java.util.LinkedHashMap;
  * Created by BrianErikson on 6/19/2015.
  */
 public class MapTools {
-    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + File.separator + FileStructure.RESOURCE_DIR + "maps" + File.separator;
+    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
 
     public static void importMap(String fileName, EntityFactory entityFactory) {
         JSONParser parser = new JSONParser();
-        Map map = new Map();
 
         try {
             String path = FOLDER_ROOT + fileName + EXTENSION;
@@ -100,7 +100,7 @@ public class MapTools {
         float rot = entity.getComponent(Rotation.class).angle;
         float scale = entity.getComponent(Scale.class).scale;
 
-        map.put(JSONKey.TYPE, entity.getClass().getName());
+        map.put(JSONKey.TYPE, entity.getComponent(Name.class).internalID);
         map.put(JSONKey.POSITION_X, pos.x);
         map.put(JSONKey.POSITION_Y, pos.y);
         map.put(JSONKey.ROTATION, rot);

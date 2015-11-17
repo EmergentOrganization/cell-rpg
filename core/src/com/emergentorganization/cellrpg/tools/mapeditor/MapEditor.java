@@ -46,7 +46,6 @@ public class MapEditor extends BaseScene {
     private final OrthographicCamera gameCamera;
     private final InputMultiplexer multiplexer;
     private String selectedItem;
-    public String selectedMapName = "";
 
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;
@@ -79,6 +78,7 @@ public class MapEditor extends BaseScene {
     private World world;
     private EntityFactory entityFactory;
     private BodyManager bodyManager;
+    private VisList<FileListNode> importList;
 
     public MapEditor(PixelonTransmission pt) {
         super(pt);
@@ -172,22 +172,14 @@ public class MapEditor extends BaseScene {
         loadWindow.setHeight(SAVE_WINDOW_HEIGHT);
         loadWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
 
-        final VisList<FileListNode> list = new VisList<FileListNode>();
+        importList = new VisList<FileListNode>();
 
         FileListNode[] maps = getMaps();
-        if (getMaps() != null) {
-            list.setItems(getMaps());
-            selectedMapName = list.getSelected().file.getName();
+        if (maps != null) {
+            importList.setItems(getMaps());
         }
 
-        list.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                selectedMapName = list.getSelected().file.getName();
-            }
-        });
-
-        VisScrollPane scrollPane = new VisScrollPane(list);
+        final VisScrollPane scrollPane = new VisScrollPane(importList);
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setupFadeScrollBars(1f, 0.3f);
         scrollPane.setupOverscroll(20f, 30f, 200f);
@@ -208,12 +200,15 @@ public class MapEditor extends BaseScene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                String fileName = list.getSelected().file.getName();
-                String mapName = fileName.substring(0, fileName.length() - MapTools.EXTENSION.length());
+                FileListNode selected = importList.getSelected();
+                if (selected != null) {
+                    String fileName = selected.file.getName();
+                    String mapName = fileName.substring(0, fileName.length() - MapTools.EXTENSION.length());
 
-                clearMap();
-                MapTools.importMap(mapName, entityFactory);
-                setLoadWindowVisible(false);
+                    clearMap();
+                    MapTools.importMap(mapName, entityFactory);
+                    setLoadWindowVisible(false);
+                }
             }
         });
 
@@ -609,12 +604,19 @@ public class MapEditor extends BaseScene {
     public void setLoadWindowVisible(boolean show) {
         if (show) {
             stage.addActor(loadWindow);
+            refreshMapList();
             loadWindow.fadeIn();
         }
         else
             loadWindow.fadeOut();
 
         enableMapInput(!show);
+    }
+
+    private void refreshMapList() {
+        FileListNode[] maps = getMaps();
+        if (maps != null)
+            importList.setItems(maps);
     }
 
     public Stage getUiStage() {

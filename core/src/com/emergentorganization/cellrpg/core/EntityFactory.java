@@ -33,7 +33,7 @@ public class EntityFactory {
 
     public void initialize(World world) {
         this.world = world;
-        base = new ArchetypeBuilder().add(Position.class).build(world);
+        base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class).add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
@@ -42,6 +42,9 @@ public class EntityFactory {
 
     public int createPlayer(float x, float y) {
         final Entity player = world.createEntity(this.player);
+        Name name = player.getComponent(Name.class);
+        name.friendlyName = "Player";
+        name.internalID = EntityIDs.PLAYER;
         world.getSystem(TagManager.class).register("player", player);
 
         Visual v = player.getComponent(Visual.class);
@@ -85,6 +88,9 @@ public class EntityFactory {
 
     public int createBullet(Vector2 pos, Vector2 dir) {
         Entity bullet = world.createEntity(object);
+        Name name = bullet.getComponent(Name.class);
+        name.friendlyName = "Bullet";
+        name.internalID = EntityIDs.BULLET;
         final float speed = 10f;
 
         Visual v = bullet.getComponent(Visual.class);
@@ -104,6 +110,9 @@ public class EntityFactory {
 
     public int createCivOneBlinker(float x, float y) {
         final Entity civ = world.createEntity(character);
+        Name name = civ.getComponent(Name.class);
+        name.friendlyName = "Civilian";
+        name.internalID = EntityIDs.CIV_ONE_BLINKER;
 
         Visual v = civ.getComponent(Visual.class);
         v.index = RenderIndex.NPC;
@@ -138,6 +147,9 @@ public class EntityFactory {
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
+        Name name = bldg.getComponent(Name.class);
+        name.friendlyName = "Large Building";
+        name.internalID = EntityIDs.BUILDING_LARGE_ONE;
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -168,6 +180,9 @@ public class EntityFactory {
         // TODO: Tie GridSeed component to this somehow
         final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
+        Name name = bldg.getComponent(Name.class);
+        name.friendlyName = "Round Building";
+        name.internalID = EntityIDs.BUILDING_ROUND_ONE;
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -197,6 +212,9 @@ public class EntityFactory {
     public int createRiftOne(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/environment/";
         Entity bldg = world.createEntity(collidable);
+        Name name = bldg.getComponent(Name.class);
+        name.friendlyName = "Rift1"; // TODO: Come up with a more ui-friendly name
+        name.internalID = EntityIDs.RIFT_ONE;
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -226,6 +244,9 @@ public class EntityFactory {
     public int createRiftTwo(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/environment/";
         Entity bldg = world.createEntity(collidable);
+        Name name = bldg.getComponent(Name.class);
+        name.friendlyName = "Rift2"; // TODO: Come up with a more ui-friendly name
+        name.internalID = EntityIDs.RIFT_TWO;
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -255,6 +276,9 @@ public class EntityFactory {
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
         final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
+        Name name = bldg.getComponent(Name.class);
+        name.friendlyName = "Vyroid Beacon";
+        name.internalID = EntityIDs.VYROID_BEACON;
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -284,6 +308,9 @@ public class EntityFactory {
     public int createBackgroundTheEdge(Vector2 pos) {
         final String texPrefix = "game/environment/";
         Entity bg = world.createEntity(object);
+        Name name = bg.getComponent(Name.class);
+        name.friendlyName = "The Edge Background";
+        name.internalID = EntityIDs.THE_EDGE;
 
         Visual v = bg.getComponent(Visual.class);
         v.index = RenderIndex.BACKGROUND;

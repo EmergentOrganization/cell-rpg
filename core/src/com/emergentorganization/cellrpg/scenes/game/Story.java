@@ -16,6 +16,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.*;
+import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 
 /**
  * Created by brian on 10/30/15.
@@ -26,24 +27,20 @@ public class Story extends BaseScene {
     private World world;
 
     private SpriteBatch batch;
+    private EntityFactory entityFactory;
 
     public Story(PixelonTransmission pt) {
         super(pt);
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
         initArtemis(physWorld);
-
+        MapTools.importMap("OneEachTestMap", entityFactory);
     }
 
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
-        EntityFactory entityFactory = new EntityFactory();
+        entityFactory = new EntityFactory();
         world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
         entityFactory.initialize(world);
-
-        int player = entityFactory.createPlayer(0, 0);
-
-        entityFactory.createBuildingLargeOne(new Vector2(0.0f, 0.0f), 180f);
-        entityFactory.createBuildingLargeOne(new Vector2(7.0f, 0.0f), 180f);
     }
 
     @Override

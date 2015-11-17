@@ -141,7 +141,6 @@ public class EditorInputProcessor implements InputProcessor {
     public boolean scrolled(int amount) {
         if (editor.isMapInputEnabled()) {
             OrthographicCamera camera = editor.getGameCamera();
-            System.out.println(amount * ZOOM_FACTOR);
             camera.zoom += amount * ZOOM_FACTOR;
             if (camera.zoom <= 0) camera.zoom = MapEditor.MIN_ZOOM;
             camera.update();

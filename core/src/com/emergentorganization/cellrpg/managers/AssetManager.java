@@ -36,13 +36,17 @@ public class AssetManager extends BaseSystem {
     }
 
     public Animation defineAnimation(String id, float frameDuration, String[] frames, Animation.PlayMode playMode) {
+        Animation a = animations.get(id);
+        if (a != null)
+            return a;
+
         Array<TextureRegion> frameList = new Array<TextureRegion>();
         for (String frame : frames) {
             frameList.add(getRegion(frame));
             regions.remove(frame); // better remove these frames from the regions map, they are not going to be retrieved directly anyway.
         }
 
-        Animation a = new Animation(frameDuration, frameList, playMode);
+        a = new Animation(frameDuration, frameList, playMode);
         animations.put(id, a);
         return a;
     }

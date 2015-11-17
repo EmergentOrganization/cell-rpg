@@ -4,15 +4,11 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -23,23 +19,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.SceneFactory;
-import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.scenes.SceneManager;
-import com.emergentorganization.cellrpg.scenes.menu.MainMenu;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.systems.InputSystem;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileListNode;
-import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 import com.kotcrab.vis.ui.VisUI;
@@ -293,7 +284,6 @@ public class MapEditor extends BaseScene {
         table.add(scaleField).width(MENU_BAR_WIDTH / 8f);
         table.addSeparator(true);
 
-        final MapEditor _this = this;
         clear.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -534,7 +524,6 @@ public class MapEditor extends BaseScene {
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL) && target != null) {
                 target.deleteFromWorld();
-                bodyManager.removeBody(target.getId());
                 setMapTarget(null);
             }
         }

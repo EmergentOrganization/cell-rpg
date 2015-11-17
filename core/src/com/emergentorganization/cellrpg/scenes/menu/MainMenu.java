@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.scenes.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -24,6 +25,12 @@ public class MainMenu extends BaseScene {
         super(pt);
 
         this.tableMargin = stage.getWidth() * 0.015f;
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        super.render(delta);
     }
 
     @Override
@@ -93,7 +100,7 @@ public class MainMenu extends BaseScene {
             editor.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    //pt.getSceneManager().setScene(Scene.EDITOR);
+                    pt.getSceneManager().setScene(Scene.EDITOR);
                 }
             });
 

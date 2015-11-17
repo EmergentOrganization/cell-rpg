@@ -30,10 +30,11 @@ public class BaseScene extends ScreenAdapter {
         Gdx.input.setInputProcessor(stage);
     }
 
+    /**
+     * Must call Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT) in subclasses before calling super.render()
+     */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         stage.act(delta);
         stage.draw();
     }

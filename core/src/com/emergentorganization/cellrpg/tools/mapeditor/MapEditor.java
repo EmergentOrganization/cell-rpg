@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
@@ -27,13 +28,16 @@ import com.badlogic.gdx.utils.Array;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.SceneFactory;
+import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.scenes.SceneManager;
 import com.emergentorganization.cellrpg.scenes.menu.MainMenu;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
+import com.emergentorganization.cellrpg.systems.InputSystem;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileListNode;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
@@ -50,7 +54,7 @@ import java.io.File;
 public class MapEditor extends BaseScene {
     private final com.badlogic.gdx.physics.box2d.World physWorld;
     private final OrthographicCamera gameCamera;
-    private VisList<String> entityList;
+    private final InputMultiplexer multiplexer;
     private String selectedItem;
     public String selectedMapName = "";
 
@@ -64,7 +68,7 @@ public class MapEditor extends BaseScene {
     public static float MIN_ZOOM = 0.1f;
     public static float ZOOM_AMT = 0.1f; // amount of zoom per keypress
 
-    public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
+    public static float BB_THICKNESS = 0.1f; // Bounding box thickness of lines
 
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
@@ -104,11 +108,17 @@ public class MapEditor extends BaseScene {
 
         gameCamera = (OrthographicCamera) world.getSystem(CameraSystem.class).getGameCamera();
 
-        InputMultiplexer multiplexer = new InputMultiplexer(
+        multiplexer = new InputMultiplexer(
                 stage,
                 new EditorInputProcessor(this),
                 new GestureDetector(new EditorGestureListener(gameCamera))
         );
+        Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    @Override
+    public void show() {
+        super.show();
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -118,6 +128,9 @@ public class MapEditor extends BaseScene {
         world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
         entityFactory.initialize(world);
         bodyManager = world.getSystem(BodyManager.class);
+        entityFactory.createPlayer(0, 0);
+        world.getSystem(InputSystem.class).setEnabled(false);
+        world.getSystem(CameraSystem.class).setCamFollow(false);
     }
 
     private void initSaveWindow() {
@@ -387,10 +400,10 @@ public class MapEditor extends BaseScene {
     }
 
     private void initLeftPane() {
-        entityList = new VisList<String>();
+        VisList<String> entityList = new VisList<String>();
         entityList.setVisible(true);
 
-        entityList.setItems(EntityList.get());
+        entityList.setItems(EntityIDs.getIDs());
         selectedItem = entityList.getItems().get(entityList.getSelectedIndex());
         final VisList<String> listRef = entityList;
         entityList.addListener(new ChangeListener() {
@@ -441,7 +454,14 @@ public class MapEditor extends BaseScene {
 
     @Override
     public void render(float delta) {
-        super.render(delta);
+        handleInput();
+
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        world.setDelta(delta);
+        world.process();
+
+        physWorld.step(PixelonTransmission.PHYSICS_TIMESTEP, 6, 2);
 
         Vector3 rayA = gameCamera.project(new Vector3(rayStart.x, rayStart.y, 0f));
         Vector3 rayB = gameCamera.project(new Vector3(rayEnd.x, rayEnd.y, 0f));
@@ -450,8 +470,8 @@ public class MapEditor extends BaseScene {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // x / y axis
-        shapeRenderer.rect(0f, 0f, 10000f, 0.1f * gameCamera.zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
-        shapeRenderer.rect(0f, 0f, 0.1f * gameCamera.zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0f, 0f, 10000f, 0.2f * gameCamera.zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0f, 0f, 0.2f * gameCamera.zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
 
         // selected object bounds
         if (target != null) {
@@ -463,7 +483,7 @@ public class MapEditor extends BaseScene {
 
         shapeRenderer.end();
 
-        handleInput();
+        super.render(delta);
     }
 
     private void clearMap() {

@@ -25,6 +25,7 @@ public class CameraSystem extends IteratingSystem {
     private ComponentMapper<Bounds> bm;
 
     private AssetManager assetManager;
+    private boolean shouldFollow = true;
 
     public CameraSystem() {
         super(Aspect.all(CameraFollow.class, Position.class));
@@ -38,12 +39,18 @@ public class CameraSystem extends IteratingSystem {
         return gameCamera;
     }
 
-    private void camFollow(int followEntity) {
-        // TODO: Need to replace this with 7yl4rs version
-        Position pc = pm.get(followEntity);
-        Bounds b = bm.get(followEntity);
+    public void setCamFollow(boolean enabled) {
+        shouldFollow = enabled;
+    }
 
-        gameCamera.position.set(pc.position.x + (b.width / 2f), pc.position.y + (b.height / 2f), 0);
+    private void camFollow(int followEntity) {
+        if (shouldFollow) {
+            // TODO: Need to replace this with 7yl4rs version
+            Position pc = pm.get(followEntity);
+            Bounds b = bm.get(followEntity);
+
+            gameCamera.position.set(pc.position.x + (b.width / 2f), pc.position.y + (b.height / 2f), 0);
+        }
     }
 
     @Override

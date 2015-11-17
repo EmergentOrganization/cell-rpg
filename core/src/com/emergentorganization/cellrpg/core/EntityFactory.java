@@ -4,6 +4,8 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.managers.TagManager;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -40,12 +42,26 @@ public class EntityFactory {
 
     public int createPlayer(float x, float y) {
         final Entity player = world.createEntity(this.player);
+        world.getSystem(TagManager.class).register("player", player);
 
         Visual v = player.getComponent(Visual.class);
         v.setAnimation(EntityIDs.PLAYER);
         v.index = RenderIndex.PLAYER;
+
+        Animation animation = world.getSystem(AssetManager.class).defineAnimation("char-player", 0.2f,
+                new String[]{"game/char-player/0",
+                        "game/char-player/1",
+                        "game/char-player/2",
+                        "game/char-player/3",
+                        "game/char-player/4",
+                        "game/char-player/5",
+                        "game/char-player/6",
+                        "game/char-player/7",
+                        "game/char-player/8",
+                        "game/char-player/9"}, Animation.PlayMode.LOOP);
+
         player.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getAnimation(EntityIDs.PLAYER).getKeyFrames()[0]
+                animation.getKeyFrames()[0]
         );
         player.getComponent(Position.class).position.set(x, y);
         player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
@@ -73,8 +89,10 @@ public class EntityFactory {
 
         Visual v = bullet.getComponent(Visual.class);
         v.index = RenderIndex.BULLET;
-        v.setTexture(EntityIDs.BULLET);
-        bullet.getComponent(Bounds.class).setFromRegion(world.getSystem(AssetManager.class).getRegion(EntityIDs.BULLET));
+        v.setTexture("game/" + EntityIDs.BULLET);
+        bullet.getComponent(Bounds.class).setFromRegion(
+                world.getSystem(AssetManager.class).getRegion("game/" + EntityIDs.BULLET)
+        );
         Vector2 position = bullet.getComponent(Position.class).position;
         position.set(pos);
         bullet.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;

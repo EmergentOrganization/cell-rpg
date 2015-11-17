@@ -40,21 +40,7 @@ public class Story extends BaseScene {
         world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
         entityFactory.initialize(world);
 
-        // we need a dedicated class to define assets
-        world.getSystem(AssetManager.class).defineAnimation("char-player", 0.2f,
-                new String[]{"game/char-player/0",
-                        "game/char-player/1",
-                        "game/char-player/2",
-                        "game/char-player/3",
-                        "game/char-player/4",
-                        "game/char-player/5",
-                        "game/char-player/6",
-                        "game/char-player/7",
-                        "game/char-player/8",
-                        "game/char-player/9"}, Animation.PlayMode.LOOP);
-
         int player = entityFactory.createPlayer(0, 0);
-        world.getSystem(TagManager.class).register("player", player);
 
         entityFactory.createBuildingLargeOne(new Vector2(0.0f, 0.0f), 180f);
         entityFactory.createBuildingLargeOne(new Vector2(7.0f, 0.0f), 180f);

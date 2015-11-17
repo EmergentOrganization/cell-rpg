@@ -21,6 +21,7 @@ import java.util.HashMap;
  * Created by BrianErikson on 6/15/2015.
  */
 public class EditorInputProcessor implements InputProcessor {
+    private static final float ZOOM_FACTOR = 0.001f;
     private MapEditor editor;
     public static float HIT_ACCURACY = 5f; // lower the value, the more accurate the hit detection
     private Vector2 dragOffset = new Vector2();
@@ -140,11 +141,9 @@ public class EditorInputProcessor implements InputProcessor {
     public boolean scrolled(int amount) {
         if (editor.isMapInputEnabled()) {
             OrthographicCamera camera = editor.getGameCamera();
-            camera.zoom += amount;
+            System.out.println(amount * ZOOM_FACTOR);
+            camera.zoom += amount * ZOOM_FACTOR;
             if (camera.zoom <= 0) camera.zoom = MapEditor.MIN_ZOOM;
-            else {
-                camera.zoom = (float) Math.floor(camera.zoom);
-            }
             camera.update();
         }
         return false;

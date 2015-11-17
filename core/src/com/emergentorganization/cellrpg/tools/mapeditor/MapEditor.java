@@ -2,9 +2,8 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -64,10 +63,11 @@ public class MapEditor extends BaseScene {
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
     public static float SAVE_WINDOW_WIDTH = Gdx.graphics.getWidth() / 6f;
     public static float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
-    public static float MOVE_SPEED = 20f;
-    public static float MIN_ZOOM = 0.1f;
-    public static float ZOOM_AMT = 0.1f; // amount of zoom per keypress
+    public static float MOVE_SPEED = 300f;
+    public static float MIN_ZOOM = 0.001f;
+    public static float ZOOM_AMT = 0.001f; // amount of zoom per keypress
 
+    private static final float AXIS_POLE_SIZE = 1.0f; // size of the axis poles denoting 0,0
     public static float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
 
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
@@ -106,11 +106,7 @@ public class MapEditor extends BaseScene {
 
         gameCamera = (OrthographicCamera) world.getSystem(CameraSystem.class).getGameCamera();
 
-        multiplexer = new InputMultiplexer(
-                stage,
-                new EditorInputProcessor(this),
-                new GestureDetector(new EditorGestureListener(gameCamera))
-        );
+        multiplexer = new InputMultiplexer(stage, new EditorInputProcessor(this));
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -465,8 +461,8 @@ public class MapEditor extends BaseScene {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // x / y axis
-        shapeRenderer.rect(0f, 0f, 10000f, 0.2f * gameCamera.zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
-        shapeRenderer.rect(0f, 0f, 0.2f * gameCamera.zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0f, 0f, 10000f, AXIS_POLE_SIZE * gameCamera.zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0f, 0f, AXIS_POLE_SIZE * gameCamera.zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
 
         // selected object bounds
         if (target != null) {

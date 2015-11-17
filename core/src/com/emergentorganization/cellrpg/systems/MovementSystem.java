@@ -32,25 +32,20 @@ public class MovementSystem extends IteratingSystem {
         Position p = pm.get(entityId);
         Velocity v = vm.get(entityId);
 
-        if (im.has(entityId)) {
-            Input input = im.get(entityId);
-            if (cm.has(entityId)) {
-                processPhysicsMovement(entityId, input, p, v);
-            } else {
-                // TODO: Account for movement by player for controlling things without a physics body
-                throw new UnsupportedOperationException("Cannot control an entity without a physics body");
+        if (cm.has(entityId)) {
+            Body body = world.getSystem(BodyManager.class).getBody(entityId);
+            if (im.has(entityId)) { // control physics body by input
+                processPhysicsMovement(body, im.get(entityId), p, v);
+            } else { // keep image with body for when physics is acting upon it
+                p.position.set(body.getPosition());
             }
-        } else if (cm.has(entityId)) {
-
-
-        } else {
+        } else { // move image directly since there is no physics body
             float d = world.getDelta();
             p.position.add(v.velocity.x * d, v.velocity.y * d);
         }
     }
 
-    private void processPhysicsMovement(int entityId, Input ic, Position pc, Velocity vc) {
-        Body body = world.getSystem(BodyManager.class).getBody(entityId);
+    private void processPhysicsMovement(Body body, Input ic, Position pc, Velocity vc) {
         body.setLinearVelocity(0, 0);
 
         // accelerate

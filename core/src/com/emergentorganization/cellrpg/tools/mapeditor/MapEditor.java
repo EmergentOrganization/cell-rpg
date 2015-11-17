@@ -68,12 +68,10 @@ public class MapEditor extends BaseScene {
     public static float MIN_ZOOM = 0.1f;
     public static float ZOOM_AMT = 0.1f; // amount of zoom per keypress
 
-    public static float BB_THICKNESS = 0.1f; // Bounding box thickness of lines
+    public static float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
 
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
-    public final Vector2 rayStart = new Vector2(); // in game space
-    public final Vector2 rayEnd = new Vector2(); // in game space
     private PopupMenu contextMenu;
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -463,9 +461,6 @@ public class MapEditor extends BaseScene {
 
         physWorld.step(PixelonTransmission.PHYSICS_TIMESTEP, 6, 2);
 
-        Vector3 rayA = gameCamera.project(new Vector3(rayStart.x, rayStart.y, 0f));
-        Vector3 rayB = gameCamera.project(new Vector3(rayEnd.x, rayEnd.y, 0f));
-
         shapeRenderer.setProjectionMatrix(gameCamera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -477,7 +472,7 @@ public class MapEditor extends BaseScene {
         if (target != null) {
             Bounds bounds = target.getComponent(Bounds.class);
             Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
-            Vector2 pos = target.getComponent(Position.class).position;
+            Vector2 pos = target.getComponent(Position.class).position.cpy().add(size.cpy().scl(0.5f));
             drawBoundingBox(size, new Vector2(pos.x, pos.y));
         }
 

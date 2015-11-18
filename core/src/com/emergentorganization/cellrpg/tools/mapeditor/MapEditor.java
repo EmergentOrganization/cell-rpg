@@ -315,11 +315,13 @@ public class MapEditor extends BaseScene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    Body body = bodyManager.getBody(target.getId());
-                    if (body != null)
-                        body.setTransform(v, body.getPosition().y, body.getAngle());
-                    else
-                        target.getComponent(Position.class).position.x = v;
+                    if (target != null) {
+                        Body body = bodyManager.getBody(target.getId());
+                        if (body != null)
+                            body.setTransform(v, body.getPosition().y, body.getAngle());
+                        else
+                            target.getComponent(Position.class).position.x = v;
+                    }
                 }
                 catch (NumberFormatException e) {
                     // meh
@@ -332,11 +334,13 @@ public class MapEditor extends BaseScene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    Body body = bodyManager.getBody(target.getId());
-                    if (body != null)
-                        body.setTransform(body.getPosition().x, v, body.getAngle());
-                    else
-                        target.getComponent(Position.class).position.y = v;
+                    if (target != null) {
+                        Body body = bodyManager.getBody(target.getId());
+                        if (body != null)
+                            body.setTransform(body.getPosition().x, v, body.getAngle());
+                        else
+                            target.getComponent(Position.class).position.y = v;
+                    }
                 } catch (NumberFormatException e) {
                     // meh
                 }
@@ -348,12 +352,13 @@ public class MapEditor extends BaseScene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    Entity target = getMapTarget();
-                    Body body = bodyManager.getBody(target.getId());
-                    if (body != null)
-                        body.setTransform(body.getPosition().x, body.getPosition().y, MathUtils.degreesToRadians * v);
-                    else
-                        target.getComponent(Rotation.class).angle = v;
+                    if (target != null) {
+                        Body body = bodyManager.getBody(target.getId());
+                        if (body != null)
+                            body.setTransform(body.getPosition().x, body.getPosition().y, MathUtils.degreesToRadians * v);
+                        else
+                            target.getComponent(Rotation.class).angle = v;
+                    }
                 } catch (NumberFormatException e) {
                     // meh
                 }
@@ -365,7 +370,8 @@ public class MapEditor extends BaseScene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    target.getComponent(Scale.class).scale = v; // TODO: rebuild colliders on resize
+                    if (target != null)
+                        target.getComponent(Scale.class).scale = v; // TODO: rebuild colliders on resize
                 } catch (NumberFormatException e) {
                     // meh
                 }

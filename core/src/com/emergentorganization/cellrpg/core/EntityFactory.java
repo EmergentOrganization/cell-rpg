@@ -132,7 +132,7 @@ public class EntityFactory {
 
         BodyDef bDef = new BodyDef();
         bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.DynamicBody;
+        bDef.type = BodyDef.BodyType.KinematicBody;
         bDef.fixedRotation = true;
         bDef.position.set(x, y);
         FixtureDef fDef = new FixtureDef();

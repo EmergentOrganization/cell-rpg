@@ -1,15 +1,20 @@
 package com.emergentorganization.cellrpg.tools.mapeditor.ui;
 
-import com.artemis.Entity;
+import com.artemis.*;
+import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.emergentorganization.cellrpg.components.Bounds;
+import com.emergentorganization.cellrpg.components.PhysicsBody;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
@@ -23,7 +28,7 @@ import java.util.HashMap;
 public class EditorInputProcessor implements InputProcessor {
     private static final float ZOOM_FACTOR = 0.001f;
     private MapEditor editor;
-    public static float HIT_ACCURACY = 5f; // lower the value, the more accurate the hit detection
+    public static float HIT_ACCURACY = 0.05f; // lower the value, the more accurate the hit detection
     private Vector2 dragOffset = new Vector2();
 
     public EditorInputProcessor(MapEditor editor) {
@@ -67,8 +72,7 @@ public class EditorInputProcessor implements InputProcessor {
             editor.setLastLMBClick(click);
 
             Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
-            Vector3 bl = gameVec.cpy().sub(HIT_ACCURACY, HIT_ACCURACY, 0f);
-            Vector3 tr = gameVec.cpy().add(HIT_ACCURACY, HIT_ACCURACY, 0f);
+            Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
             final ArrayList<Integer> entities = new ArrayList<Integer>();
             editor.getPhysWorld().QueryAABB(new QueryCallback() {
                 @Override
@@ -78,14 +82,32 @@ public class EditorInputProcessor implements InputProcessor {
 
                     return false;
                 }
-            }, bl.x, bl.y, tr.x, tr.y);
+            }, hitBox.x, hitBox.y, hitBox.x + hitBox.getWidth(), hitBox.y + hitBox.getHeight());
 
             editor.setMapTarget(null);
 
+            boolean foundTarget = false;
             for (Integer entityId : entities) {
+                foundTarget = true;
                 Entity entity = editor.getWorld().getEntity(entityId);
                 editor.setMapTarget(entity);
                 setDragOffset(screenCoords);
+            }
+
+            if (!foundTarget) {
+                ComponentMapper<Bounds> bm = editor.getWorld().getMapper(Bounds.class);
+                ComponentMapper<Position> pm = editor.getWorld().getMapper(Position.class);
+                IntBag bag = editor.getWorld().getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
+                for (int i = 0; i < bag.size(); i++) {
+                    int id = bag.get(i);
+                    Bounds bounds = bm.get(id);
+                    Vector2 pos = pm.get(id).position;
+                    Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
+                    if (rect.contains(hitBox)) {
+                        editor.setMapTarget(editor.getWorld().getEntity(id));
+                        setDragOffset(screenCoords);
+                    }
+                }
             }
         }
     }
@@ -125,7 +147,10 @@ public class EditorInputProcessor implements InputProcessor {
             if (mapTarget != null) {
                 HashMap<Integer, Body> map = editor.getWorld().getSystem(BodyManager.class).getBodies();
                 Body body = map.get(mapTarget.getId());
-                body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
+                if (body != null)
+                    body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
+                else
+                    mapTarget.getComponent(Position.class).position.set(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
                 editor.updateTargetTransform();
             }
         }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.core.SceneFactory;
@@ -17,6 +18,7 @@ import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 
 /**
  * Created by brian on 10/30/15.
@@ -33,6 +35,9 @@ public class Story extends BaseScene {
         super(pt);
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
         initArtemis(physWorld);
+        world.getSystem(RenderSystem.class).setTronShader(
+                new TronShader(new Vector3(1,1,1))
+        );
         MapTools.importMap("OneEachTestMap", entityFactory);
     }
 

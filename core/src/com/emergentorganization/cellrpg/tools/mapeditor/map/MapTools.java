@@ -27,6 +27,11 @@ public class MapTools {
     public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
 
+    /**
+     * Imports external JSON maps into the world
+     * @param fileName Name of the map file, without the extension
+     * @param entityFactory Fully-initialized entityFactory for a defined world
+     */
     public static void importMap(String fileName, EntityFactory entityFactory) {
         JSONParser parser = new JSONParser();
 

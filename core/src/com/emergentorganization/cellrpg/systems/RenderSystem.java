@@ -4,13 +4,21 @@ import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Rotation;
 import com.emergentorganization.cellrpg.components.Scale;
 import com.emergentorganization.cellrpg.components.Visual;
 import com.emergentorganization.cellrpg.managers.AssetManager;
+import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 
 import java.util.*;
 
@@ -20,6 +28,9 @@ import java.util.*;
 @Wire
 public class RenderSystem extends BaseEntitySystem {
 
+    private final TextureRegion fboRegion;
+    private TronShader tronShader;
+    private final FrameBuffer frameBuffer;
     private ComponentMapper<Visual> vm;
     private ComponentMapper<Position> pm;
     private ComponentMapper<Scale> sm;
@@ -31,16 +42,25 @@ public class RenderSystem extends BaseEntitySystem {
 
     private final SpriteBatch batch;
     private final LinkedList<Integer> sortedEntityIds;
+    private boolean tronShaderEnabled = false;
+    private Batch outBatch;
 
     public RenderSystem(SpriteBatch batch) {
         super(Aspect.all(Position.class, Rotation.class, Scale.class, Visual.class));
 
         this.batch = batch;
+        this.outBatch = new SpriteBatch();
         sortedEntityIds = new LinkedList<Integer>();
+        frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+        Texture cb = frameBuffer.getColorBufferTexture();
+        fboRegion = new TextureRegion(cb, 0, 0, cb.getWidth(), cb.getHeight());
+        fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
     }
 
     @Override
     protected  void begin() {
+        frameBuffer.begin();
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(cameraSystem.getGameCamera().combined);
         batch.begin();
     }
@@ -68,8 +88,20 @@ public class RenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void end() {
+    protected void end() {
         batch.end();
+        frameBuffer.end();
+
+        if (tronShaderEnabled) {
+            tronShader.render(frameBuffer);
+        }
+
+        // Render final texture to screen
+        outBatch.begin();
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        outBatch.draw(fboRegion, 0, 0);
+        outBatch.end();
     }
 
     @Override
@@ -99,5 +131,15 @@ public class RenderSystem extends BaseEntitySystem {
 
     public List<Integer> getSortedEntityIds() {
         return Collections.unmodifiableList(sortedEntityIds);
+    }
+
+    /**
+     * Enables the Tron glow shader
+     * @return The RenderSystem for shader chaining
+     */
+    public RenderSystem setTronShader(TronShader tronShader) {
+        this.tronShader = tronShader;
+        this.tronShaderEnabled = this.tronShader != null;
+        return this;
     }
 }

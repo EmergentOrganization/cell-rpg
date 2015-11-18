@@ -10,7 +10,7 @@ import com.emergentorganization.cellrpg.PixelonTransmission;
 /**
  * Created by orelb on 10/30/2015.
  */
-public class BaseScene extends ScreenAdapter {
+public abstract class BaseScene extends ScreenAdapter {
 
     protected final PixelonTransmission pt;
     protected final Stage stage;
@@ -38,4 +38,14 @@ public class BaseScene extends ScreenAdapter {
         stage.act(delta);
         stage.draw();
     }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+    /**
+     * Should the SceneManager stash this scene when navigating to a different scene?
+     */
+    protected abstract boolean shouldStash();
 }

@@ -18,14 +18,19 @@ public class SceneManager {
     }
 
     public void setScene(Scene s) {
+        BaseScene old = (BaseScene) pt.getScreen();
+
         if (scenes.containsKey(s.ordinal())) {
             pt.setScreen(scenes.get(s.ordinal()));
         } else {
             BaseScene newScene = s.getScene(pt);
-
-            scenes.put(s.ordinal(), newScene);
+            if (newScene.shouldStash())
+                scenes.put(s.ordinal(), newScene);
             pt.setScreen(newScene);
         }
+
+        if (old != null && !old.shouldStash())
+            old.dispose();
     }
 
     public void dispose(Scene s) {
@@ -42,6 +47,4 @@ public class SceneManager {
             scenes.remove(s.key);
         }
     }
-
-
 }

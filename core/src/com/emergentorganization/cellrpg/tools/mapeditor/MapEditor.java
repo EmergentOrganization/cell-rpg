@@ -465,6 +465,11 @@ public class MapEditor extends BaseScene {
         super.render(delta);
     }
 
+    @Override
+    protected boolean shouldStash() {
+        return false;
+    }
+
     private void clearMap() {
         for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
             world.delete(id);

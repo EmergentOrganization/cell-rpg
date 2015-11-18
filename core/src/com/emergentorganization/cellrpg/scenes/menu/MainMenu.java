@@ -34,6 +34,11 @@ public class MainMenu extends BaseScene {
     }
 
     @Override
+    protected boolean shouldStash() {
+        return true;
+    }
+
+    @Override
     public void show() {
         super.show();
         initUI();

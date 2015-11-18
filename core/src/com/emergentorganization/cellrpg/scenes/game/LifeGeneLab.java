@@ -69,4 +69,9 @@ public class LifeGeneLab extends BaseScene {
         batch.dispose();
         physWorld.dispose();
     }
+
+    @Override
+    protected boolean shouldStash() {
+        return false;
+    }
 }

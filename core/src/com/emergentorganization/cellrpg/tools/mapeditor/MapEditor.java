@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -350,13 +351,9 @@ public class MapEditor extends BaseScene {
                     Entity target = getMapTarget();
                     Body body = bodyManager.getBody(target.getId());
                     if (body != null)
-                        body.getTransform().setRotation(v);
+                        body.setTransform(body.getPosition().x, body.getPosition().y, MathUtils.degreesToRadians * v);
                     else
                         target.getComponent(Rotation.class).angle = v;
-
-                    /*PhysicsComponent physComp = (PhysicsComponent) target.target.getFirstComponentByType(PhysicsComponent.class);
-                    if (physComp != null)
-                        physComp.getBody().rotate(v);*/ // TODO
                 } catch (NumberFormatException e) {
                     // meh
                 }

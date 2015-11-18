@@ -5,6 +5,7 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -43,7 +44,12 @@ public class BodyManager extends BaseEntitySystem {
         Body body = physWorld.createBody(bd);
         body.setUserData(entityId);
         Bounds b = bm.get(entityId);
-        bodyLoader.attachFixture(body, colliderId, fd, Math.min(b.width, b.height));
+        float scale;
+        if (b.height < b.width)
+            scale = (Math.max(b.width, b.height) / Math.min(b.width, b.height)) * Math.min(b.width, b.height);
+        else
+            scale = Math.min(b.width, b.height);
+        bodyLoader.attachFixture(body, colliderId, fd, scale);
         bodies.put(entityId, body);
     }
 

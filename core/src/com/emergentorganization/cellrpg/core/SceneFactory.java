@@ -28,6 +28,8 @@ public class SceneFactory {
         wc.setSystem(new RenderSystem(batch));
         wc.setSystem(new PhysicsRenderSystem(batch, physWorld));
 
+        wc.setSystem(new CARenderSystem(batch));
+
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering
         wc.setSystem(new EntityLifecycleSystem());

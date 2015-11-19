@@ -22,10 +22,10 @@ import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 import java.util.*;
 
 /**
- * Created by brian on 10/28/15.
+ * Created by 7yl4r on 2015-11-18.
  */
 @Wire
-public class RenderSystem extends BaseEntitySystem {
+public class CARenderSystem extends BaseEntitySystem {
 
     private final TextureRegion fboRegion;
     private TronShader tronShader;
@@ -35,17 +35,17 @@ public class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Scale> sm;
     private ComponentMapper<Rotation> rm;
 
+    // variables injected (by SceneFactory?) @ runtime:
     private CameraSystem cameraSystem;
+    private AssetManager assetManager;
 
-    private AssetManager assetManager; // being a registered system, it is injected on runtime
-
-    private final SpriteBatch batch;
+    private final SpriteBatch batch;  // TODO: change to ShapeRenderer?
     private final LinkedList<Integer> sortedEntityIds;
     private boolean tronShaderEnabled = false;
     private Batch outBatch;
 
-    public RenderSystem(SpriteBatch batch) {
-        super(Aspect.all(Position.class, Rotation.class, Scale.class, Visual.class));
+    public CARenderSystem(SpriteBatch batch) {
+        super(Aspect.all(Position.class, Rotation.class, Scale.class, Visual.class));  // TODO: select only entities w/ CAComponents?
 
         this.batch = batch;
         this.outBatch = new SpriteBatch();
@@ -59,7 +59,7 @@ public class RenderSystem extends BaseEntitySystem {
     @Override
     protected  void begin() {
         frameBuffer.begin();
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);  // clears the screen
         batch.setProjectionMatrix(cameraSystem.getGameCamera().combined);
         batch.begin();
     }
@@ -82,7 +82,7 @@ public class RenderSystem extends BaseEntitySystem {
             if (v.isAnimation) {
                 v.stateTime += world.getDelta();
             }
-            batch.draw(t, p.position.x, p.position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
+            batch.draw(t, cameraSystem.getGameCamera().position.x, cameraSystem.getGameCamera().position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
         }
     }
 
@@ -136,7 +136,7 @@ public class RenderSystem extends BaseEntitySystem {
      * Enables the Tron glow shader
      * @return The RenderSystem for shader chaining
      */
-    public RenderSystem setTronShader(TronShader tronShader) {
+    public CARenderSystem setTronShader(TronShader tronShader) {
         this.tronShader = tronShader;
         this.tronShaderEnabled = this.tronShader != null;
         return this;

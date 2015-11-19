@@ -21,7 +21,6 @@ import java.util.TimerTask;
  */
 public abstract class CAGridBase extends Entity {
     public static final long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
-    protected static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
 
     public long minGenTime = 999999;
     public long maxGenTime = 0;
@@ -29,25 +28,9 @@ public abstract class CAGridBase extends Entity {
     public long generation = 0;
     protected int stampCount = 0;
 
-    protected final Logger logger = LogManager.getLogger(getClass());
-    // size of grid in pixels
-    protected int sx;
-    protected int sy;
-
-    // size of grid in cells
-    protected int w;
-    protected int h;
-
-    // size of each cell
-    protected int cellSize;
-
-    // location of grid center
-    protected float gridOriginX = 0;
-    protected float gridOriginY = 0;
 
     protected CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
 
-    protected BaseCell[][] states;
     protected Color[] stateColorMap;
 
     public CAGridBase(int sizeOfCells, ZIndex z_index, Color[] state_color_map){
@@ -57,10 +40,7 @@ public abstract class CAGridBase extends Entity {
         @state_color_map : list of colors which correspond to ca states  TODO: use a CAColorDefinition class instead
          */
         super(z_index);
-        checkCellSize(sizeOfCells);
-        stateColorMap = state_color_map;
 
-        cellSize = sizeOfCells;
     }
 
     public long getGenerationNumber(){
@@ -140,130 +120,25 @@ public abstract class CAGridBase extends Entity {
         super.update(deltaTime);
     }
 
-    @Override
-    public void added() {
-        super.added();
-        Camera camera = getScene().getGameCamera();
-        float scale = getScene().scale;
-        sx = (int) (camera.viewportWidth / scale) + 2*OFF_SCREEN_PIXELS;
-        sy = (int) (camera.viewportHeight / scale) + 2*OFF_SCREEN_PIXELS;
-
-        w = sx / (cellSize + 1);  // +1 for border pixel between cells
-        h = sy / (cellSize + 1);
-
-        logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
-
-        initStates();
-        initGenerationLoop();
-    }
 
     public int getCellSize(){
         return cellSize;
     }
 
-    protected void initStates(){
-        states = new BaseCell[w][h];
-        // init states. ?required?
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                states[i][j] = newCell(0);
-            }
-        }
-        // init states for testing
-        //randomizeState();
-    }
 
-    private float getXOrigin(Camera camera, float scale){
-        return -OFF_SCREEN_PIXELS + gridOriginX - camera.position.x/scale;
-    }
-    private float getXOrigin(){
-        Camera camera = getScene().getGameCamera();
-        float scale = getScene().scale;
-        return getXOrigin(camera, scale);
-    }
-    private float getYOrigin(){
-        Camera camera = getScene().getGameCamera();
-        float scale = getScene().scale;
-        return getYOrigin(camera, scale);
-    }
-    private float getYOrigin(Camera camera, float scale){
-        return -OFF_SCREEN_PIXELS + gridOriginY - camera.position.y/scale;
-    }
+
 
     @Override
     public void dispose(){
         super.dispose();
     }
 
-    @Override
-    public void debugRender(ShapeRenderer shapeRenderer) {
-        super.debugRender(shapeRenderer);
-
-        //NOTE: this is getting called... so maybe it's drawing in wrong location/scale?
-        //shapeRenderer.setProjectionMatrix(new Matrix4());
-
-        Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
-        Matrix4 oldMatrix = shapeRenderer.getProjectionMatrix();
-        shapeRenderer.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
-        //long before = System.currentTimeMillis();
-        Camera camera = getScene().getGameCamera();
-        float scale = getScene().scale;
-        ShapeRenderer.ShapeType oldType = shapeRenderer.getCurrentType();
-        shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-
-        // for setting origin (computed outside loop for efficiency++)
-        float x_origin = getXOrigin(camera, scale);
-        float y_origin = getYOrigin(camera, scale);
-
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                renderCell(i, j, shapeRenderer, x_origin, y_origin);
-            }
-        }
-        shapeRenderer.set(oldType);
-        shapeRenderer.setProjectionMatrix(oldMatrix);
-        Gdx.gl.glDisable(GL20.GL_BLEND);
-        //logger.info("renderTime=" + (System.currentTimeMillis()-before));
-    }
-
-    protected abstract void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
-                                       final float x_origin, final float y_origin);
 
     private void checkSize(int size) {
         if (size % 2 < 1) {
             throw new UnsupportedOperationException("size must be odd!");
         } else {
             return;
-        }
-    }
-
-    private void checkCellSize(int size) {
-        // checks that given size is acceptable, else throws error
-        if (size == 1) {
-            return;
-        } else {
-            int acceptableSize = 3;
-            while (acceptableSize <= size) {
-                if (size == acceptableSize) {
-                    return;
-                } else {
-                    acceptableSize = getNextSizeUp(acceptableSize);
-                }
-            } // else size not acceptable
-            throw new UnsupportedOperationException("size must be in 1, 3, 11, 35...");
-        }
-    }
-
-    private int getNextSizeUp(int lastSize) {
-        /*
-         * available sizes assuming 1px border between cells given by
-         * s(n) = 3(s(n-1))+2 for n > 1 (i.e. starting at s(2)=11)
-         */
-        if (lastSize < 3) {
-            throw new UnsupportedOperationException("previous cell size must be >= 3");
-        } else {
-            return 3 * lastSize + 2;
         }
     }
 
@@ -502,9 +377,6 @@ public abstract class CAGridBase extends Entity {
         }
     }
 
-    protected BaseCell newCell(int init_state){
-        return new BaseCell(init_state);
-    }
 
     private BaseCell getEdgeState(int x){
         // returns cell state in position x on a newly added edge
@@ -585,13 +457,5 @@ public abstract class CAGridBase extends Entity {
             }
         }
         gridOriginY += cellSize+1;
-    }
-
-    private void randomizeState() {
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                states[i][j].setState(Math.round(Math.round(Math.random())));// round twice? one is just a cast (I think)
-            }
-        }
     }
 }

@@ -35,6 +35,7 @@ public class Arcade extends BaseScene {
 
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
+
         EntityFactory entityFactory = new EntityFactory();
         world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
         entityFactory.initialize(world);

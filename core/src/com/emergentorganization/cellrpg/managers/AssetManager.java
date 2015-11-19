@@ -1,13 +1,19 @@
 package com.emergentorganization.cellrpg.managers;
 
 import com.artemis.BaseSystem;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.emergentorganization.cellrpg.components.Visual;
+import com.emergentorganization.cellrpg.core.SoundEffect;
+import com.emergentorganization.cellrpg.tools.Resources;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by orelb on 10/28/2015.
@@ -16,6 +22,7 @@ public class AssetManager extends BaseSystem {
 
     private HashMap<String, TextureRegion> regions;
     private HashMap<String, Animation> animations;
+    private HashMap<SoundEffect, Sound> soundEffects;
 
     public AssetManager(com.badlogic.gdx.assets.AssetManager assets) {
         setEnabled(false);
@@ -32,6 +39,11 @@ public class AssetManager extends BaseSystem {
             for (TextureAtlas.AtlasRegion r : regions) {
                 this.regions.put(r.name, r);
             }
+        }
+
+        soundEffects = new HashMap<SoundEffect, Sound>();
+        for (Map.Entry<SoundEffect, String> effectPathSet : Resources.getSfxFileNameMap().entrySet()) {
+            soundEffects.put(effectPathSet.getKey(), assets.get(effectPathSet.getValue(), Sound.class));
         }
     }
 
@@ -76,6 +88,14 @@ public class AssetManager extends BaseSystem {
         }
 
         return r;
+    }
+
+    public Sound getSoundEffect(SoundEffect effect) {
+        return soundEffects.get(effect);
+    }
+
+    public HashMap<SoundEffect, Sound> getSoundEffects() {
+        return soundEffects;
     }
 
     @Override

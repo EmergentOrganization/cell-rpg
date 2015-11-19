@@ -30,6 +30,7 @@ public class SceneFactory {
 
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering
+        wc.setSystem(new SoundSystem());
         wc.setSystem(new EntityLifecycleSystem());
         wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
 

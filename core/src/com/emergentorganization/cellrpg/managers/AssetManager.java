@@ -42,7 +42,7 @@ public class AssetManager extends BaseSystem {
         }
 
         soundEffects = new HashMap<SoundEffect, Sound>();
-        for (Map.Entry<SoundEffect, String> effectPathSet : Resources.getSfxFileNameMap().entrySet()) {
+        for (Map.Entry<SoundEffect, String> effectPathSet : Resources.SFX_FILENAME_MAP.entrySet()) {
             soundEffects.put(effectPathSet.getKey(), assets.get(effectPathSet.getValue(), Sound.class));
         }
     }

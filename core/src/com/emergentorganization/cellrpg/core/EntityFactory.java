@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.tools.Resources;
 
 /**
  * Created by brian on 10/28/15.
@@ -53,16 +54,7 @@ public class EntityFactory {
         v.index = RenderIndex.PLAYER;
 
         Animation animation = world.getSystem(AssetManager.class).defineAnimation(EntityIDs.PLAYER, 0.2f,
-                new String[]{"game/char-player/0",
-                        "game/char-player/1",
-                        "game/char-player/2",
-                        "game/char-player/3",
-                        "game/char-player/4",
-                        "game/char-player/5",
-                        "game/char-player/6",
-                        "game/char-player/7",
-                        "game/char-player/8",
-                        "game/char-player/9"}, Animation.PlayMode.LOOP);
+                Resources.ANIM_PLAYER.toArray(new String[Resources.ANIM_PLAYER.size()]), Animation.PlayMode.LOOP);
 
         player.getComponent(Bounds.class).setFromRegion(
                 animation.getKeyFrames()[0]
@@ -96,9 +88,9 @@ public class EntityFactory {
 
         Visual v = bullet.getComponent(Visual.class);
         v.index = RenderIndex.BULLET;
-        v.setTexture("game/" + EntityIDs.BULLET);
+        v.setTexture(Resources.TEX_BULLET);
         bullet.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getRegion("game/" + EntityIDs.BULLET)
+                world.getSystem(AssetManager.class).getRegion(Resources.TEX_BULLET)
         );
         Vector2 position = bullet.getComponent(Position.class).position;
         position.set(pos);
@@ -120,10 +112,7 @@ public class EntityFactory {
         v.setAnimation(EntityIDs.CIV_ONE_BLINKER);
 
         Animation animation = world.getSystem(AssetManager.class).defineAnimation(EntityIDs.CIV_ONE_BLINKER, 0.2f,
-                new String[]{
-                        "game/char-civ1-blinker/0",
-                        "game/char-civ1-blinker/1"
-                }, Animation.PlayMode.LOOP);
+                Resources.ANIM_CIV1_BLINKER.toArray(new String[Resources.ANIM_CIV1_BLINKER.size()]), Animation.PlayMode.LOOP);
 
         civ.getComponent(Bounds.class).setFromRegion(
                 world.getSystem(AssetManager.class).getAnimation(EntityIDs.CIV_ONE_BLINKER).getKeyFrames()[0]
@@ -146,7 +135,6 @@ public class EntityFactory {
     }
 
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
-        final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
         Name name = bldg.getComponent(Name.class);
         name.friendlyName = "Large Building";
@@ -154,9 +142,9 @@ public class EntityFactory {
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
-        v.setTexture(texPrefix + EntityIDs.BUILDING_LARGE_ONE);
+        v.setTexture(Resources.TEX_BLDG_LRG_ONE);
         bldg.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.BUILDING_LARGE_ONE)
+                world.getSystem(AssetManager.class).getRegion(Resources.TEX_BLDG_LRG_ONE)
         );
         bldg.getComponent(Position.class).position.set(pos);
         bldg.getComponent(Rotation.class).angle = angleDeg;
@@ -179,7 +167,6 @@ public class EntityFactory {
 
     public int createBuildingRoundOne(Vector2 pos, float angleDeg) {
         // TODO: Tie GridSeed component to this somehow
-        final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
         Name name = bldg.getComponent(Name.class);
         name.friendlyName = "Round Building";
@@ -187,9 +174,9 @@ public class EntityFactory {
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
-        v.setTexture(texPrefix + EntityIDs.BUILDING_ROUND_ONE);
+        v.setTexture(Resources.TEX_BLDG_ROUND_ONE);
         bldg.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.BUILDING_ROUND_ONE)
+                world.getSystem(AssetManager.class).getRegion(Resources.TEX_BLDG_ROUND_ONE)
         );
         bldg.getComponent(Position.class).position.set(pos);
         bldg.getComponent(Rotation.class).angle = angleDeg;
@@ -211,7 +198,6 @@ public class EntityFactory {
     }
 
     public int createRiftOne(Vector2 pos, float angleDeg) {
-        final String texPrefix = "game/environment/";
         Entity bldg = world.createEntity(collidable);
         Name name = bldg.getComponent(Name.class);
         name.friendlyName = "Rift1"; // TODO: Come up with a more ui-friendly name
@@ -219,9 +205,9 @@ public class EntityFactory {
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
-        v.setTexture(texPrefix + EntityIDs.RIFT_ONE);
+        v.setTexture(Resources.TEX_RIFT_ONE);
         bldg.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.RIFT_ONE)
+                world.getSystem(AssetManager.class).getRegion(Resources.TEX_RIFT_ONE)
         );
         bldg.getComponent(Position.class).position.set(pos);
         bldg.getComponent(Rotation.class).angle = angleDeg;
@@ -243,7 +229,6 @@ public class EntityFactory {
     }
 
     public int createRiftTwo(Vector2 pos, float angleDeg) {
-        final String texPrefix = "game/environment/";
         Entity bldg = world.createEntity(collidable);
         Name name = bldg.getComponent(Name.class);
         name.friendlyName = "Rift2"; // TODO: Come up with a more ui-friendly name
@@ -251,9 +236,9 @@ public class EntityFactory {
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
-        v.setTexture(texPrefix + EntityIDs.RIFT_TWO);
+        v.setTexture(Resources.TEX_RIFT_TWO);
         bldg.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.RIFT_TWO)
+                world.getSystem(AssetManager.class).getRegion(Resources.TEX_RIFT_TWO)
         );
         bldg.getComponent(Position.class).position.set(pos);
         bldg.getComponent(Rotation.class).angle = angleDeg;
@@ -275,7 +260,6 @@ public class EntityFactory {
     }
 
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
-        final String texPrefix = "game/buildings/";
         Entity bldg = world.createEntity(collidable);
         Name name = bldg.getComponent(Name.class);
         name.friendlyName = "Vyroid Beacon";
@@ -283,9 +267,9 @@ public class EntityFactory {
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
-        v.setTexture(texPrefix + EntityIDs.VYROID_BEACON);
+        v.setTexture(Resources.TEX_VYROID_BEACON);
         bldg.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.VYROID_BEACON)
+                world.getSystem(AssetManager.class).getRegion(Resources.TEX_VYROID_BEACON)
         );
         bldg.getComponent(Position.class).position.set(pos);
         bldg.getComponent(Rotation.class).angle = angleDeg;
@@ -307,7 +291,6 @@ public class EntityFactory {
     }
 
     public int createBackgroundTheEdge(Vector2 pos) {
-        final String texPrefix = "game/environment/";
         Entity bg = world.createEntity(object);
         Name name = bg.getComponent(Name.class);
         name.friendlyName = "The Edge Background";
@@ -315,9 +298,9 @@ public class EntityFactory {
 
         Visual v = bg.getComponent(Visual.class);
         v.index = RenderIndex.BACKGROUND;
-        bg.getComponent(Visual.class).setTexture(texPrefix + EntityIDs.THE_EDGE);
+        bg.getComponent(Visual.class).setTexture(Resources.TEX_THE_EDGE);
         bg.getComponent(Bounds.class).setFromRegion(
-                world.getSystem(AssetManager.class).getRegion(texPrefix + EntityIDs.THE_EDGE)
+                world.getSystem(AssetManager.class).getRegion(Resources.TEX_THE_EDGE)
         );
         bg.getComponent(Position.class).position.set(pos);
         bg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;

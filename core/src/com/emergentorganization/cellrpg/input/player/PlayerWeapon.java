@@ -42,9 +42,9 @@ public class PlayerWeapon extends InputProcessor {
         Bounds bounds = bm.get(entityId);
         Vector2 offset = new Vector2(bounds.width, bounds.height).scl(0.5f);
         Vector2 playerPos = pm.get(entityId).position;
-        Vector2 center = playerPos.cpy().add(offset);
+        Vector2 center = playerPos.cpy().add(offset); // TODO: A bit off for some reason
         Vector2 arm = new Vector2(0, Math.max(bounds.width, bounds.height));
-        
+
         int x = Gdx.input.getX();
         int y = Gdx.input.getY();
         Vector3 unproject = camera.unproject(new Vector3(x, y, 0));

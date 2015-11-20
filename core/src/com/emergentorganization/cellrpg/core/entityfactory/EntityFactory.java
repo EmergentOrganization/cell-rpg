@@ -172,7 +172,7 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.RIFT_ONE)
                 .bodyType(BodyDef.BodyType.StaticBody)
                 .setAngle(angleDeg)
                 .build();
@@ -193,7 +193,7 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.RIFT_TWO)
                 .bodyType(BodyDef.BodyType.StaticBody)
                 .setAngle(angleDeg)
                 .build();
@@ -214,7 +214,7 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.VYROID_BEACON)
                 .bodyType(BodyDef.BodyType.StaticBody)
                 .setAngle(angleDeg)
                 .build();

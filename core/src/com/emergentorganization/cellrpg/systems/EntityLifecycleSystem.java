@@ -8,7 +8,7 @@ import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Visual;
-import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.Tags;
 

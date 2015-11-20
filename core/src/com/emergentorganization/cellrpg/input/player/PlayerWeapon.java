@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.Input;
 import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.InputProcessor;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 

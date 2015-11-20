@@ -2,10 +2,8 @@ package com.emergentorganization.cellrpg.managers;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
-import com.artemis.BaseSystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -13,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.PhysicsBody;
 import com.emergentorganization.cellrpg.components.Visual;
-import com.emergentorganization.cellrpg.core.EntityFactory;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 
 import java.util.HashMap;

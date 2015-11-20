@@ -1,20 +1,14 @@
 package com.emergentorganization.cellrpg.scenes.game;
 
 import com.artemis.World;
-import com.artemis.WorldConfiguration;
-import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.PixelonTransmission;
-import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.SceneFactory;
-import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
-import com.emergentorganization.cellrpg.systems.*;
 
 /**
  * Created by orelb on 10/28/2015.

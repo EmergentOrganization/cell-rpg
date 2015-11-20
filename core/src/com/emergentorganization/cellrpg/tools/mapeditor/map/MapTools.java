@@ -8,7 +8,7 @@ import com.emergentorganization.cellrpg.components.Name;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Rotation;
 import com.emergentorganization.cellrpg.components.Scale;
-import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileStructure;
 import org.json.simple.JSONArray;

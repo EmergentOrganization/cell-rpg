@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.core;
+package com.emergentorganization.cellrpg.core.entityfactory;
 
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.core.EntityIDs;
+import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.tools.Resources;
@@ -43,10 +45,7 @@ public class EntityFactory {
     }
 
     public int createPlayer(float x, float y) {
-        final Entity player = world.createEntity(this.player);
-        Name name = player.getComponent(Name.class);
-        name.friendlyName = "Player";
-        name.internalID = EntityIDs.PLAYER;
+        final Entity player = createEntity(this.player, "Player", EntityIDs.PLAYER);
         world.getSystem(TagManager.class).register("player", player);
 
         Visual v = player.getComponent(Visual.class);
@@ -62,16 +61,10 @@ public class EntityFactory {
         player.getComponent(Position.class).position.set(x, y);
         player.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // player ends up being 1 meter in size
 
-        BodyDef bDef = new BodyDef();
-        bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.DynamicBody;
-        bDef.fixedRotation = true;
-        bDef.position.set(x, y);
-        FixtureDef fDef = new FixtureDef();
-        fDef.density = 1.0f;
-        fDef.friction = 0.3f;
-        fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(player.getId(), EntityIDs.PLAYER, bDef, fDef);
+        new PhysicsBuilder(world, player, new Vector2(x, y), EntityIDs.PLAYER)
+                .setFixedRotation(true)
+                .bodyFriction(0.3f)
+                .build();
 
         Input ic = player.getComponent(Input.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
@@ -80,10 +73,7 @@ public class EntityFactory {
     }
 
     public int createBullet(Vector2 pos, Vector2 dir) {
-        Entity bullet = world.createEntity(object);
-        Name name = bullet.getComponent(Name.class);
-        name.friendlyName = "Bullet";
-        name.internalID = EntityIDs.BULLET;
+        Entity bullet = createEntity(object, "Bullet", EntityIDs.BULLET);
         final float speed = 10f;
 
         Visual v = bullet.getComponent(Visual.class);
@@ -102,10 +92,7 @@ public class EntityFactory {
     }
 
     public int createCivOneBlinker(float x, float y) {
-        final Entity civ = world.createEntity(character);
-        Name name = civ.getComponent(Name.class);
-        name.friendlyName = "Civilian";
-        name.internalID = EntityIDs.CIV_ONE_BLINKER;
+        Entity civ = createEntity(character, "Civilian", EntityIDs.CIV_ONE_BLINKER);
 
         Visual v = civ.getComponent(Visual.class);
         v.index = RenderIndex.NPC;
@@ -120,25 +107,17 @@ public class EntityFactory {
         civ.getComponent(Position.class).position.set(x, y);
         civ.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX; // civ ends up being 1 meter in size
 
-        BodyDef bDef = new BodyDef();
-        bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.KinematicBody;
-        bDef.fixedRotation = true;
-        bDef.position.set(x, y);
-        FixtureDef fDef = new FixtureDef();
-        fDef.density = 1.0f;
-        fDef.friction = 0.3f;
-        fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(civ.getId(), EntityIDs.CIV_ONE_BLINKER, bDef, fDef);
+        new PhysicsBuilder(world, civ, new Vector2(x, y), EntityIDs.CIV_ONE_BLINKER)
+                .bodyType(BodyDef.BodyType.KinematicBody)
+                .setFixedRotation(true)
+                .bodyFriction(0.3f)
+                .build();
 
         return civ.getId();
     }
 
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
-        Entity bldg = world.createEntity(collidable);
-        Name name = bldg.getComponent(Name.class);
-        name.friendlyName = "Large Building";
-        name.internalID = EntityIDs.BUILDING_LARGE_ONE;
+        Entity bldg = createEntity(collidable, "Large Building", EntityIDs.BUILDING_LARGE_ONE);
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -150,27 +129,17 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        BodyDef bDef = new BodyDef();
-        bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.StaticBody;
-        bDef.fixedRotation = true;
-        bDef.position.set(pos);
-        bDef.angle = MathUtils.degreesToRadians * angleDeg;
-        FixtureDef fDef = new FixtureDef();
-        fDef.density = 1.0f;
-        fDef.friction = 0.7f;
-        fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.BUILDING_LARGE_ONE, bDef, fDef);
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_LARGE_ONE)
+                .bodyType(BodyDef.BodyType.StaticBody)
+                .setAngle(angleDeg)
+                .build();
 
         return bldg.getId();
     }
 
     public int createBuildingRoundOne(Vector2 pos, float angleDeg) {
         // TODO: Tie GridSeed component to this somehow
-        Entity bldg = world.createEntity(collidable);
-        Name name = bldg.getComponent(Name.class);
-        name.friendlyName = "Round Building";
-        name.internalID = EntityIDs.BUILDING_ROUND_ONE;
+        Entity bldg = createEntity(collidable, "Round Building", EntityIDs.BUILDING_ROUND_ONE);
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -182,26 +151,16 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        BodyDef bDef = new BodyDef();
-        bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.StaticBody;
-        bDef.fixedRotation = true;
-        bDef.position.set(pos);
-        bDef.angle = MathUtils.degreesToRadians * angleDeg;
-        FixtureDef fDef = new FixtureDef();
-        fDef.density = 1.0f;
-        fDef.friction = 0.7f;
-        fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.BUILDING_ROUND_ONE, bDef, fDef);
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
+                .bodyType(BodyDef.BodyType.StaticBody)
+                .setAngle(angleDeg)
+                .build();
 
         return bldg.getId();
     }
 
     public int createRiftOne(Vector2 pos, float angleDeg) {
-        Entity bldg = world.createEntity(collidable);
-        Name name = bldg.getComponent(Name.class);
-        name.friendlyName = "Rift1"; // TODO: Come up with a more ui-friendly name
-        name.internalID = EntityIDs.RIFT_ONE;
+        Entity bldg = createEntity(collidable, "Rift1", EntityIDs.RIFT_ONE); // TODO: Come up with a more ui-friendly name
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -213,26 +172,16 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        BodyDef bDef = new BodyDef();
-        bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.StaticBody;
-        bDef.fixedRotation = true;
-        bDef.position.set(pos);
-        bDef.angle = MathUtils.degreesToRadians * angleDeg;
-        FixtureDef fDef = new FixtureDef();
-        fDef.density = 1.0f;
-        fDef.friction = 0.7f;
-        fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.RIFT_ONE, bDef, fDef);
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
+                .bodyType(BodyDef.BodyType.StaticBody)
+                .setAngle(angleDeg)
+                .build();
 
         return bldg.getId();
     }
 
     public int createRiftTwo(Vector2 pos, float angleDeg) {
-        Entity bldg = world.createEntity(collidable);
-        Name name = bldg.getComponent(Name.class);
-        name.friendlyName = "Rift2"; // TODO: Come up with a more ui-friendly name
-        name.internalID = EntityIDs.RIFT_TWO;
+        Entity bldg = createEntity(collidable, "Rift2", EntityIDs.RIFT_TWO); // TODO: Come up with a more ui-friendly name
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -244,26 +193,16 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        BodyDef bDef = new BodyDef();
-        bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.StaticBody;
-        bDef.fixedRotation = true;
-        bDef.position.set(pos);
-        bDef.angle = MathUtils.degreesToRadians * angleDeg;
-        FixtureDef fDef = new FixtureDef();
-        fDef.density = 1.0f;
-        fDef.friction = 0.7f;
-        fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.RIFT_TWO, bDef, fDef);
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
+                .bodyType(BodyDef.BodyType.StaticBody)
+                .setAngle(angleDeg)
+                .build();
 
         return bldg.getId();
     }
 
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
-        Entity bldg = world.createEntity(collidable);
-        Name name = bldg.getComponent(Name.class);
-        name.friendlyName = "Vyroid Beacon";
-        name.internalID = EntityIDs.VYROID_BEACON;
+        Entity bldg = createEntity(collidable, "Vyroid Beacon", EntityIDs.VYROID_BEACON);
 
         Visual v = bldg.getComponent(Visual.class);
         v.index = RenderIndex.BUILDING;
@@ -275,26 +214,16 @@ public class EntityFactory {
         bldg.getComponent(Rotation.class).angle = angleDeg;
         bldg.getComponent(Scale.class).scale = SCALE_WORLD_TO_BOX;
 
-        BodyDef bDef = new BodyDef();
-        bDef.allowSleep = true;
-        bDef.type = BodyDef.BodyType.StaticBody;
-        bDef.fixedRotation = true;
-        bDef.position.set(pos);
-        bDef.angle = MathUtils.degreesToRadians * angleDeg;
-        FixtureDef fDef = new FixtureDef();
-        fDef.density = 1.0f;
-        fDef.friction = 0.7f;
-        fDef.restitution = 0.1f;
-        world.getSystem(BodyManager.class).createBody(bldg.getId(), EntityIDs.VYROID_BEACON, bDef, fDef);
+        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
+                .bodyType(BodyDef.BodyType.StaticBody)
+                .setAngle(angleDeg)
+                .build();
 
         return bldg.getId();
     }
 
     public int createBackgroundTheEdge(Vector2 pos) {
-        Entity bg = world.createEntity(object);
-        Name name = bg.getComponent(Name.class);
-        name.friendlyName = "The Edge Background";
-        name.internalID = EntityIDs.THE_EDGE;
+        Entity bg = createEntity(object, "The Edge Background", EntityIDs.THE_EDGE);
 
         Visual v = bg.getComponent(Visual.class);
         v.index = RenderIndex.BACKGROUND;
@@ -330,5 +259,13 @@ public class EntityFactory {
         } else {
             throw new RuntimeException("Error: Could not find entity by ID '" + id + "'");
         }
+    }
+
+    private Entity createEntity(Archetype archetype, String friendlyName, String internalId) {
+        Entity entity = world.createEntity(archetype);
+        Name name = entity.getComponent(Name.class);
+        name.friendlyName = friendlyName;
+        name.internalID = internalId;
+        return entity;
     }
 }

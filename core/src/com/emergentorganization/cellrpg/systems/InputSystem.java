@@ -4,6 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
+import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.Input;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Velocity;
@@ -22,6 +23,7 @@ public class InputSystem extends IteratingSystem {
     private ArrayList<InputProcessor> processors;
     private ComponentMapper<Input> im;
     private ComponentMapper<Position> pm;
+    private ComponentMapper<Bounds> bm;
     @Wire private EntityFactory ef;
 
     public InputSystem() {
@@ -34,7 +36,7 @@ public class InputSystem extends IteratingSystem {
 
         processors = new ArrayList<InputProcessor>();
 
-        processors.add(new PlayerInputProcessor(world, ef, im, pm));
+        processors.add(new PlayerInputProcessor(world, ef, im, pm, bm));
     }
 
     @Override

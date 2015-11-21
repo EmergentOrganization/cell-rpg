@@ -36,11 +36,12 @@ public class EntityFactory {
                 .add(Rotation.class).add(Scale.class).add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
-        player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).build(world);
+        player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).add(Equipment.class).build(world);
     }
 
     public int createPlayer(float x, float y) {
-        Entity player = new EntityBuilder(world, this.player, "Player", EntityIDs.PLAYER, new Vector2(x, y))
+        Vector2 pos = new Vector2(x, y);
+        Entity player = new EntityBuilder(world, this.player, "Player", EntityIDs.PLAYER, pos)
                 .tag("player")
                 .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 .renderIndex(RenderIndex.PLAYER)
@@ -50,6 +51,16 @@ public class EntityFactory {
 
         Input ic = player.getComponent(Input.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
+
+        // Shield
+        Entity shield = new EntityBuilder(world, object, "Energy Shield", EntityIDs.PLAYER_SHIELD, pos)
+                .tag("shield")
+                .texture(Resources.ANIM_PLAYER_SHIELD.get(0))
+                .renderIndex(RenderIndex.PLAYER_SHIELD)
+                .build();
+
+        Equipment ec = player.getComponent(Equipment.class);
+        ec.shieldEntity = shield.getId();
 
         return player.getId();
     }

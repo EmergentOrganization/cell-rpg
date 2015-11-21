@@ -20,6 +20,7 @@ public class Resources {
 
     // ANIM
     public static final List<String> ANIM_PLAYER;
+    public static final List<String> ANIM_PLAYER_SHIELD;
     public static final List<String> ANIM_CIV1_BLINKER;
 
     // GAME
@@ -54,7 +55,7 @@ public class Resources {
         SFX_FILENAME_MAP = Collections.unmodifiableMap(hashMap);
 
         // ANIM_PLAYER
-        String prefix = DIR_IMG_GAME + "char-player/";
+        String prefix = DIR_IMG_GAME + EntityIDs.PLAYER + "/";
         ArrayList<String> playerAnim = new ArrayList<String>();
         playerAnim.add(prefix + "0");
         playerAnim.add(prefix + "1");
@@ -68,8 +69,17 @@ public class Resources {
         playerAnim.add(prefix + "9");
         ANIM_PLAYER = Collections.unmodifiableList(playerAnim);
 
+        // ANIM_PLAYER_SHIELD
+        prefix = DIR_IMG_GAME + EntityIDs.PLAYER_SHIELD + "/";
+        ArrayList<String> playerShieldAnim = new ArrayList<String>();
+        playerShieldAnim.add(prefix + "100p");
+        playerShieldAnim.add(prefix + "75p");
+        playerShieldAnim.add(prefix + "50p");
+        playerShieldAnim.add(prefix + "25p");
+        ANIM_PLAYER_SHIELD = Collections.unmodifiableList(playerShieldAnim);
+
         // ANIM_CIV1_BLINKER
-        prefix = DIR_IMG_GAME + "char-civ1-blinker/";
+        prefix = DIR_IMG_GAME + EntityIDs.CIV_ONE_BLINKER + "/";
         ArrayList<String> civ1BlinkerAnim = new ArrayList<String>();
         civ1BlinkerAnim.add(prefix + "0");
         civ1BlinkerAnim.add(prefix + "1");

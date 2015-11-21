@@ -1,10 +1,10 @@
 package com.emergentorganization.cellrpg.core.entityfactory;
 
+import com.artemis.Archetype;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -18,12 +18,13 @@ import java.util.List;
 /**
  * Created by brian on 11/21/15.
  */
-public class ComponentBuilder {
+public class EntityBuilder {
     // REQUIRED
     private final World world;
-    private final Entity entity;
     private final Vector2 position;
     private final String entityId;
+    private final Archetype archetype;
+    private final String friendlyName;
 
     // PHYSICS
     private boolean allowSleep = true;
@@ -32,7 +33,7 @@ public class ComponentBuilder {
     private float angleRad = 0f;
     private float density = 1.0f;
     private float friction = 0.0f;
-    private float resitution = 0.1f;
+    private float restitution = 0.1f;
 
     // MISC
     private String tag = null;
@@ -47,19 +48,20 @@ public class ComponentBuilder {
     private Vector2 velocity = new Vector2();
 
 
-    public ComponentBuilder(World world, Entity entity, String entityId, Vector2 position) {
+    public EntityBuilder(World world, Archetype archetype, String friendlyName, String entityId, Vector2 position) {
         this.world = world;
-        this.entity = entity;
+        this.archetype = archetype;
         this.position = position;
         this.entityId = entityId;
+        this.friendlyName = friendlyName;
     }
 
-    public ComponentBuilder tag(String tag) {
+    public EntityBuilder tag(String tag) {
         this.tag = tag;
         return this;
     }
 
-    public ComponentBuilder animation(List<String> frames, Animation.PlayMode playMode, float frameDuration) {
+    public EntityBuilder animation(List<String> frames, Animation.PlayMode playMode, float frameDuration) {
         if (texturePath != null)
             throw new RuntimeException("ERROR: Cannot define both an animation and a texture");
         this.isAnimation = true;
@@ -72,17 +74,17 @@ public class ComponentBuilder {
     /**
      * Defaults to SCALE_WORLD_TO_BOX
      */
-    public ComponentBuilder scale(float scale) {
+    public EntityBuilder scale(float scale) {
         this.scale = scale;
         return this;
     }
 
-    public ComponentBuilder angle(float angleDeg) {
+    public EntityBuilder angle(float angleDeg) {
         this.angleDeg = angleDeg;
         return this;
     }
 
-    public ComponentBuilder texture(String texturePath) {
+    public EntityBuilder texture(String texturePath) {
         if (frames != null)
             throw new RuntimeException("ERROR: Cannot define both a texture and an animation");
         this.texturePath = texturePath;
@@ -92,17 +94,17 @@ public class ComponentBuilder {
     /**
      * Defaults to RenderIndex.BUILDING
      */
-    public ComponentBuilder renderIndex(RenderIndex renderIndex) {
+    public EntityBuilder renderIndex(RenderIndex renderIndex) {
         this.renderIndex = renderIndex;
         return this;
     }
 
-    public ComponentBuilder velocity(Vector2 vel) {
+    public EntityBuilder velocity(Vector2 vel) {
         this.velocity.set(vel);
         return this;
     }
 
-    public ComponentBuilder velocity(float speed, Vector2 dir) {
+    public EntityBuilder velocity(float speed, Vector2 dir) {
         this.velocity.set(dir).scl(speed);
         return this;
     }
@@ -110,7 +112,7 @@ public class ComponentBuilder {
     /**
      * Default is to allow sleeping
      */
-    public ComponentBuilder denySleep() {
+    public EntityBuilder denySleep() {
         allowSleep = false;
         return this;
     }
@@ -118,7 +120,7 @@ public class ComponentBuilder {
     /**
      * Default BodyType is Dynamic
      */
-    public ComponentBuilder bodyType(BodyDef.BodyType bodyType) {
+    public EntityBuilder bodyType(BodyDef.BodyType bodyType) {
         this.bodyType = bodyType;
         return this;
     }
@@ -126,7 +128,7 @@ public class ComponentBuilder {
     /**
      * Default allows full 2D rotation
      */
-    public ComponentBuilder setFixedRotation(boolean fixed) {
+    public EntityBuilder setFixedRotation(boolean fixed) {
         fixedRotation = fixed;
         return this;
     }
@@ -134,7 +136,7 @@ public class ComponentBuilder {
     /**
      * Default angle is zero
      */
-    public ComponentBuilder setAngleRad(float angleRad) {
+    public EntityBuilder setAngleRad(float angleRad) {
         this.angleRad = angleRad;
         return this;
     }
@@ -142,7 +144,7 @@ public class ComponentBuilder {
     /**
      * Default body density is 1 kg/m^2 (1.0f)
      */
-    public ComponentBuilder bodyDensity(float density) {
+    public EntityBuilder bodyDensity(float density) {
         this.density = density;
         return this;
     }
@@ -150,7 +152,7 @@ public class ComponentBuilder {
     /**
      * Default is to have no friction
      */
-    public ComponentBuilder bodyFriction(float friction) {
+    public EntityBuilder bodyFriction(float friction) {
         this.friction = friction;
         return this;
     }
@@ -158,12 +160,17 @@ public class ComponentBuilder {
     /**
      * Default is 0.1f (low elasticity)
      */
-    public ComponentBuilder bodyResitution(float resitution) {
-        this.resitution = resitution;
+    public EntityBuilder bodyRestitution(float restitution) {
+        this.restitution = restitution;
         return this;
     }
 
-    public void build() {
+    public Entity build() {
+        Entity entity = world.createEntity(archetype);
+        Name name = entity.getComponent(Name.class);
+        name.friendlyName = friendlyName;
+        name.internalID = entityId;
+
         if (tag != null) {
             world.getSystem(TagManager.class).register(tag, entity);
         }
@@ -219,8 +226,10 @@ public class ComponentBuilder {
             FixtureDef fDef = new FixtureDef();
             fDef.density = density;
             fDef.friction = friction;
-            fDef.restitution = resitution;
+            fDef.restitution = restitution;
             world.getSystem(BodyManager.class).createBody(entity.getId(), entityId, bDef, fDef);
         }
+
+        return entity;
     }
 }

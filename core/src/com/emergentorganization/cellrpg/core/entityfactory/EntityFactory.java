@@ -4,14 +4,12 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.RenderIndex;
-import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.tools.Resources;
 
 /**
@@ -42,10 +40,7 @@ public class EntityFactory {
     }
 
     public int createPlayer(float x, float y) {
-        final Entity player = createEntity(this.player, "Player", EntityIDs.PLAYER);
-        Vector2 pos = new Vector2(x, y);
-
-        new ComponentBuilder(world, player, EntityIDs.PLAYER, pos)
+        Entity player = new EntityBuilder(world, this.player, "Player", EntityIDs.PLAYER, new Vector2(x, y))
                 .tag("player")
                 .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 .renderIndex(RenderIndex.PLAYER)
@@ -61,9 +56,7 @@ public class EntityFactory {
 
     public int createBullet(Vector2 pos, Vector2 dir) {
         final float speed = 10f;
-        Entity bullet = createEntity(object, "Bullet", EntityIDs.BULLET);
-
-        new ComponentBuilder(world, bullet, EntityIDs.BULLET, pos)
+        Entity bullet = new EntityBuilder(world, object, "Bullet", EntityIDs.BULLET, pos)
                 .texture(Resources.TEX_BULLET)
                 .renderIndex(RenderIndex.BULLET)
                 .velocity(speed, dir)
@@ -73,10 +66,8 @@ public class EntityFactory {
     }
 
     public int createCivOneBlinker(float x, float y) {
-        Entity civ = createEntity(character, "Civilian", EntityIDs.CIV_ONE_BLINKER);
         Vector2 pos = new Vector2(x, y);
-
-        new ComponentBuilder(world, civ, EntityIDs.CIV_ONE_BLINKER, pos)
+        Entity civ = new EntityBuilder(world, character, "Civilian", EntityIDs.CIV_ONE_BLINKER, pos)
                 .renderIndex(RenderIndex.NPC)
                 .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 .bodyType(BodyDef.BodyType.KinematicBody)
@@ -88,9 +79,7 @@ public class EntityFactory {
     }
 
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
-        Entity bldg = createEntity(collidable, "Large Building", EntityIDs.BUILDING_LARGE_ONE);
-
-        new ComponentBuilder(world, bldg, EntityIDs.BUILDING_LARGE_ONE, pos)
+        Entity bldg = new EntityBuilder(world, collidable, "Large Building", EntityIDs.BUILDING_LARGE_ONE, pos)
                 .texture(Resources.TEX_BLDG_LRG_ONE)
                 .bodyType(BodyDef.BodyType.StaticBody)
                 .angle(angleDeg)
@@ -101,9 +90,7 @@ public class EntityFactory {
 
     public int createBuildingRoundOne(Vector2 pos, float angleDeg) {
         // TODO: Tie GridSeed component to this somehow
-        Entity bldg = createEntity(collidable, "Round Building", EntityIDs.BUILDING_ROUND_ONE);
-
-        new ComponentBuilder(world, bldg, EntityIDs.BUILDING_ROUND_ONE, pos)
+        Entity bldg = new EntityBuilder(world, collidable, "Round Building", EntityIDs.BUILDING_ROUND_ONE, pos)
                 .texture(Resources.TEX_BLDG_ROUND_ONE)
                 .angle(angleDeg)
                 .bodyType(BodyDef.BodyType.StaticBody)
@@ -113,9 +100,7 @@ public class EntityFactory {
     }
 
     public int createRiftOne(Vector2 pos, float angleDeg) {
-        Entity bldg = createEntity(collidable, "Rift1", EntityIDs.RIFT_ONE); // TODO: Come up with a more ui-friendly name
-
-        new ComponentBuilder(world, bldg, EntityIDs.RIFT_ONE, pos)
+        Entity bldg = new EntityBuilder(world, collidable, "Rift1", EntityIDs.RIFT_ONE, pos) // TODO: Come up with a more ui-friendly name
                 .texture(Resources.TEX_RIFT_ONE)
                 .angle(angleDeg)
                 .bodyType(BodyDef.BodyType.StaticBody)
@@ -125,9 +110,7 @@ public class EntityFactory {
     }
 
     public int createRiftTwo(Vector2 pos, float angleDeg) {
-        Entity bldg = createEntity(collidable, "Rift2", EntityIDs.RIFT_TWO); // TODO: Come up with a more ui-friendly name
-
-        new ComponentBuilder(world, bldg, EntityIDs.RIFT_TWO, pos)
+        Entity bldg = new EntityBuilder(world, collidable, "Rift2", EntityIDs.RIFT_TWO, pos) // TODO: Come up with a more ui-friendly name
                 .texture(Resources.TEX_RIFT_TWO)
                 .angle(angleDeg)
                 .bodyType(BodyDef.BodyType.StaticBody)
@@ -137,9 +120,7 @@ public class EntityFactory {
     }
 
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
-        Entity bldg = createEntity(collidable, "Vyroid Beacon", EntityIDs.VYROID_BEACON);
-
-        new ComponentBuilder(world, bldg, EntityIDs.VYROID_BEACON, pos)
+        Entity bldg = new EntityBuilder(world, collidable, "Vyroid Beacon", EntityIDs.VYROID_BEACON, pos)
                 .texture(Resources.TEX_VYROID_BEACON)
                 .angle(angleDeg)
                 .bodyType(BodyDef.BodyType.StaticBody)
@@ -149,9 +130,7 @@ public class EntityFactory {
     }
 
     public int createBackgroundTheEdge(Vector2 pos) {
-        Entity bg = createEntity(object, "The Edge Background", EntityIDs.THE_EDGE);
-
-        new ComponentBuilder(world, bg, EntityIDs.THE_EDGE, pos)
+        Entity bg = new EntityBuilder(world, object, "The Edge Background", EntityIDs.THE_EDGE, pos)
                 .texture(Resources.TEX_THE_EDGE)
                 .renderIndex(RenderIndex.BACKGROUND)
                 .build();
@@ -181,13 +160,5 @@ public class EntityFactory {
         } else {
             throw new RuntimeException("Error: Could not find entity by ID '" + id + "'");
         }
-    }
-
-    private Entity createEntity(Archetype archetype, String friendlyName, String internalId) {
-        Entity entity = world.createEntity(archetype);
-        Name name = entity.getComponent(Name.class);
-        name.friendlyName = friendlyName;
-        name.internalID = internalId;
-        return entity;
     }
 }

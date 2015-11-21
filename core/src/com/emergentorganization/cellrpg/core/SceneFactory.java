@@ -27,7 +27,9 @@ public class SceneFactory {
 
         wc.setSystem(new CameraSystem());
         wc.setSystem(new RenderSystem(batch));
-        wc.setSystem(new PhysicsRenderSystem(batch, physWorld));
+        PhysicsRenderSystem phs = new PhysicsRenderSystem(batch, physWorld);
+        phs.setEnabled(false);
+        wc.setSystem(phs);
 
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering

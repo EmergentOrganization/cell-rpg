@@ -67,10 +67,12 @@ public class EntityFactory {
 
     public int createBullet(Vector2 pos, Vector2 dir) {
         final float speed = 10f;
-        Entity bullet = new EntityBuilder(world, object, "Bullet", EntityIDs.BULLET, pos)
+        Entity bullet = new EntityBuilder(world, collidable, "Bullet", EntityIDs.BULLET, pos)
                 .texture(Resources.TEX_BULLET)
                 .renderIndex(RenderIndex.BULLET)
                 .velocity(speed, dir)
+                .bodyFriction(0.0001f)
+                .bodyRestitution(1.0f)
                 .build();
 
         return bullet.getId();

@@ -35,7 +35,7 @@ public class BodyManager extends BaseEntitySystem {
         bodies = new HashMap<Integer, Body>();
     }
 
-    public void createBody(int entityId, String colliderId, BodyDef bd, FixtureDef fd) {
+    public Body createBody(int entityId, String colliderId, BodyDef bd, FixtureDef fd) {
         if (!pm.has(entityId))
             throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
         Body body = physWorld.createBody(bd);
@@ -48,6 +48,7 @@ public class BodyManager extends BaseEntitySystem {
             scale = Math.min(b.width, b.height);
         bodyLoader.attachFixture(body, colliderId, fd, scale);
         bodies.put(entityId, body);
+        return body;
     }
 
     public Body getBody(int entityId) {

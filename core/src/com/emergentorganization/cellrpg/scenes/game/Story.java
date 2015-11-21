@@ -40,7 +40,7 @@ public class Story extends BaseScene {
         world.getSystem(EventManager.class).addListener(new EventListener() {
             @Override
             public void notify(GameEvent event) {
-                if(event == GameEvent.PLAYER_SHOOTING)
+                if(event == GameEvent.PLAYER_SHOOT)
                 {
                     System.out.println("player is shooting");
                 }

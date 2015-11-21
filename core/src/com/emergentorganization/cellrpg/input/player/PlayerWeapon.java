@@ -39,7 +39,7 @@ public class PlayerWeapon extends InputProcessor {
     public void process(int entityId) {
         if (Gdx.input.justTouched()) { // LMB or RMB?
             shootBullet(entityId);
-            eventManager.pushEvent(GameEvent.PLAYER_SHOOTING);
+            eventManager.pushEvent(GameEvent.PLAYER_SHOOT);
         }
     }
 

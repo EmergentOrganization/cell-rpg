@@ -11,6 +11,7 @@ import com.emergentorganization.cellrpg.components.Visual;
 import com.emergentorganization.cellrpg.core.SoundEffect;
 import com.emergentorganization.cellrpg.tools.Resources;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class AssetManager extends BaseSystem {
 
     private HashMap<String, TextureRegion> regions;
     private HashMap<String, Animation> animations;
-    private HashMap<SoundEffect, Sound> soundEffects;
+    private Map<SoundEffect, Sound> soundEffects;
 
     public AssetManager(com.badlogic.gdx.assets.AssetManager assets) {
         setEnabled(false);
@@ -41,10 +42,12 @@ public class AssetManager extends BaseSystem {
             }
         }
 
-        soundEffects = new HashMap<SoundEffect, Sound>();
+        HashMap<SoundEffect, Sound> effects = new HashMap<SoundEffect, Sound>();
         for (Map.Entry<SoundEffect, String> effectPathSet : Resources.SFX_FILENAME_MAP.entrySet()) {
-            soundEffects.put(effectPathSet.getKey(), assets.get(effectPathSet.getValue(), Sound.class));
+            effects.put(effectPathSet.getKey(), assets.get(effectPathSet.getValue(), Sound.class));
         }
+
+        soundEffects = Collections.unmodifiableMap(effects);
     }
 
     public Animation defineAnimation(String id, float frameDuration, String[] frames, Animation.PlayMode playMode) {
@@ -94,7 +97,7 @@ public class AssetManager extends BaseSystem {
         return soundEffects.get(effect);
     }
 
-    public HashMap<SoundEffect, Sound> getSoundEffects() {
+    public Map<SoundEffect, Sound> getSoundEffects() {
         return soundEffects;
     }
 

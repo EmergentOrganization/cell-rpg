@@ -4,10 +4,14 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.managers.AssetManager;
+import com.emergentorganization.cellrpg.managers.BodyManager;
 
 import java.util.List;
 
@@ -15,11 +19,22 @@ import java.util.List;
  * Created by brian on 11/21/15.
  */
 public class ComponentBuilder {
+    // REQUIRED
     private final World world;
     private final Entity entity;
     private final Vector2 position;
     private final String entityId;
 
+    // PHYSICS
+    private boolean allowSleep = true;
+    private BodyDef.BodyType bodyType = BodyDef.BodyType.DynamicBody;
+    private boolean fixedRotation = false;
+    private float angleRad = 0f;
+    private float density = 1.0f;
+    private float friction = 0.0f;
+    private float resitution = 0.1f;
+
+    // MISC
     private String tag = null;
     private boolean isAnimation = false;
     private float frameDuration;
@@ -54,6 +69,9 @@ public class ComponentBuilder {
         return this;
     }
 
+    /**
+     * Defaults to SCALE_WORLD_TO_BOX
+     */
     public ComponentBuilder scale(float scale) {
         this.scale = scale;
         return this;
@@ -71,6 +89,9 @@ public class ComponentBuilder {
         return this;
     }
 
+    /**
+     * Defaults to RenderIndex.BUILDING
+     */
     public ComponentBuilder renderIndex(RenderIndex renderIndex) {
         this.renderIndex = renderIndex;
         return this;
@@ -83,6 +104,62 @@ public class ComponentBuilder {
 
     public ComponentBuilder velocity(float speed, Vector2 dir) {
         this.velocity.set(dir).scl(speed);
+        return this;
+    }
+
+    /**
+     * Default is to allow sleeping
+     */
+    public ComponentBuilder denySleep() {
+        allowSleep = false;
+        return this;
+    }
+
+    /**
+     * Default BodyType is Dynamic
+     */
+    public ComponentBuilder bodyType(BodyDef.BodyType bodyType) {
+        this.bodyType = bodyType;
+        return this;
+    }
+
+    /**
+     * Default allows full 2D rotation
+     */
+    public ComponentBuilder setFixedRotation(boolean fixed) {
+        fixedRotation = fixed;
+        return this;
+    }
+
+    /**
+     * Default angle is zero
+     */
+    public ComponentBuilder setAngleRad(float angleRad) {
+        this.angleRad = angleRad;
+        return this;
+    }
+
+    /**
+     * Default body density is 1 kg/m^2 (1.0f)
+     */
+    public ComponentBuilder bodyDensity(float density) {
+        this.density = density;
+        return this;
+    }
+
+    /**
+     * Default is to have no friction
+     */
+    public ComponentBuilder bodyFriction(float friction) {
+        this.friction = friction;
+        return this;
+    }
+
+    /**
+     * Default is 0.1f (low elasticity)
+     */
+    public ComponentBuilder bodyResitution(float resitution) {
+        this.resitution = resitution;
         return this;
     }
 
@@ -128,6 +205,22 @@ public class ComponentBuilder {
         Velocity vc = entity.getComponent(Velocity.class);
         if (vc != null) {
             vc.velocity.set(velocity);
+        }
+        
+        // Physics
+        PhysicsBody pb = entity.getComponent(PhysicsBody.class);
+        if (pb != null) {
+            BodyDef bDef = new BodyDef();
+            bDef.allowSleep = allowSleep;
+            bDef.type = bodyType;
+            bDef.fixedRotation = fixedRotation;
+            bDef.position.set(position);
+            bDef.angle = angleRad;
+            FixtureDef fDef = new FixtureDef();
+            fDef.density = density;
+            fDef.friction = friction;
+            fDef.restitution = resitution;
+            world.getSystem(BodyManager.class).createBody(entity.getId(), entityId, bDef, fDef);
         }
     }
 }

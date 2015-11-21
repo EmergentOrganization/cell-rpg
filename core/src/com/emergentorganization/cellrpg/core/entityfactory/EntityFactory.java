@@ -49,9 +49,6 @@ public class EntityFactory {
                 .tag("player")
                 .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 .renderIndex(RenderIndex.PLAYER)
-                .build();
-
-        new PhysicsBuilder(world, player, pos, EntityIDs.PLAYER)
                 .setFixedRotation(true)
                 .bodyFriction(0.3f)
                 .build();
@@ -82,9 +79,6 @@ public class EntityFactory {
         new ComponentBuilder(world, civ, EntityIDs.CIV_ONE_BLINKER, pos)
                 .renderIndex(RenderIndex.NPC)
                 .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
-                .build();
-
-        new PhysicsBuilder(world, civ, new Vector2(x, y), EntityIDs.CIV_ONE_BLINKER)
                 .bodyType(BodyDef.BodyType.KinematicBody)
                 .setFixedRotation(true)
                 .bodyFriction(0.3f)
@@ -98,12 +92,8 @@ public class EntityFactory {
 
         new ComponentBuilder(world, bldg, EntityIDs.BUILDING_LARGE_ONE, pos)
                 .texture(Resources.TEX_BLDG_LRG_ONE)
-                .angle(angleDeg)
-                .build();
-
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_LARGE_ONE)
                 .bodyType(BodyDef.BodyType.StaticBody)
-                .setAngle(angleDeg)
+                .angle(angleDeg)
                 .build();
 
         return bldg.getId();
@@ -116,11 +106,7 @@ public class EntityFactory {
         new ComponentBuilder(world, bldg, EntityIDs.BUILDING_ROUND_ONE, pos)
                 .texture(Resources.TEX_BLDG_ROUND_ONE)
                 .angle(angleDeg)
-                .build();
-
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.BUILDING_ROUND_ONE)
                 .bodyType(BodyDef.BodyType.StaticBody)
-                .setAngle(angleDeg)
                 .build();
 
         return bldg.getId();
@@ -132,11 +118,7 @@ public class EntityFactory {
         new ComponentBuilder(world, bldg, EntityIDs.RIFT_ONE, pos)
                 .texture(Resources.TEX_RIFT_ONE)
                 .angle(angleDeg)
-                .build();
-
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.RIFT_ONE)
                 .bodyType(BodyDef.BodyType.StaticBody)
-                .setAngle(angleDeg)
                 .build();
 
         return bldg.getId();
@@ -148,11 +130,7 @@ public class EntityFactory {
         new ComponentBuilder(world, bldg, EntityIDs.RIFT_TWO, pos)
                 .texture(Resources.TEX_RIFT_TWO)
                 .angle(angleDeg)
-                .build();
-
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.RIFT_TWO)
                 .bodyType(BodyDef.BodyType.StaticBody)
-                .setAngle(angleDeg)
                 .build();
 
         return bldg.getId();
@@ -164,11 +142,7 @@ public class EntityFactory {
         new ComponentBuilder(world, bldg, EntityIDs.VYROID_BEACON, pos)
                 .texture(Resources.TEX_VYROID_BEACON)
                 .angle(angleDeg)
-                .build();
-
-        new PhysicsBuilder(world, bldg, pos, EntityIDs.VYROID_BEACON)
                 .bodyType(BodyDef.BodyType.StaticBody)
-                .setAngle(angleDeg)
                 .build();
 
         return bldg.getId();

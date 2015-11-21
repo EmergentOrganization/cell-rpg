@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.core.SceneFactory;
+import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 
 /**
@@ -24,18 +24,14 @@ public class Arcade extends BaseScene {
         super(pt);
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
         initArtemis(physWorld);
-
     }
 
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
         EntityFactory entityFactory = new EntityFactory();
-        world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
-        entityFactory.initialize(world);
+        world = WorldFactory.standardGameWorld(pt, physWorld, batch, stage, entityFactory);
 
-        // we need a dedicated class to define assets
-
-        int player = entityFactory.createPlayer(0, 0);
+        entityFactory.createPlayer(0, 0);
     }
 
     @Override

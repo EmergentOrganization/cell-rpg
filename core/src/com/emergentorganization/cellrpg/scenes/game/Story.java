@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.core.SceneFactory;
+import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
@@ -39,8 +39,7 @@ public class Story extends BaseScene {
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
-        entityFactory.initialize(world);
+        world = WorldFactory.standardGameWorld(pt, physWorld, batch, stage, entityFactory);
     }
 
     @Override

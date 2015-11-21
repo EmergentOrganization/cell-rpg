@@ -28,6 +28,7 @@ public class EntityFactory {
     public Archetype collidable;
     public Archetype character;
     private Archetype player;
+    private Archetype bullet;
 
     public void initialize(World world) {
         this.world = world;
@@ -35,6 +36,7 @@ public class EntityFactory {
         object = new ArchetypeBuilder(base).add(Visual.class).add(SFX.class)
                 .add(Rotation.class).add(Scale.class).add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
+        bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).add(Equipment.class).build(world);
     }
@@ -67,7 +69,7 @@ public class EntityFactory {
 
     public int createBullet(Vector2 pos, Vector2 dir) {
         final float speed = 10f;
-        Entity bullet = new EntityBuilder(world, collidable, "Bullet", EntityIDs.BULLET, pos)
+        Entity bullet = new EntityBuilder(world, this.bullet, "Bullet", EntityIDs.BULLET, pos)
                 .texture(Resources.TEX_BULLET)
                 .renderIndex(RenderIndex.BULLET)
                 .velocity(speed, dir)

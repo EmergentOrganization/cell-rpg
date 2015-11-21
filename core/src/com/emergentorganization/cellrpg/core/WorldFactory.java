@@ -9,6 +9,7 @@ import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.*;
 
 /**
@@ -25,6 +26,8 @@ public class WorldFactory {
         wc.setSystem(new AssetManager(pt.getGdxAssetManager()));
 
         wc.setSystem(new BodyManager(physWorld, pt.getBodyLoader()));
+
+        wc.setSystem(new EventManager());
 
         wc.setSystem(new CameraSystem());
         wc.setSystem(new RenderSystem(batch));

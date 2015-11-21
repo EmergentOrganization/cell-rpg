@@ -10,6 +10,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.WorldFactory;
+import com.emergentorganization.cellrpg.events.EventListener;
+import com.emergentorganization.cellrpg.events.GameEvent;
+import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
@@ -31,8 +34,19 @@ public class Story extends BaseScene {
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
         initArtemis(physWorld);
         world.getSystem(RenderSystem.class).setTronShader(
-                new TronShader(new Vector3(1,1,1))
+                new TronShader(new Vector3(1, 1, 1))
         );
+
+        world.getSystem(EventManager.class).addListener(new EventListener() {
+            @Override
+            public void notify(GameEvent event) {
+                if(event == GameEvent.PLAYER_SHOOTING)
+                {
+                    System.out.println("player is shooting");
+                }
+            }
+        });
+        
         MapTools.importMap("OneEachTestMap", entityFactory);
     }
 

@@ -10,7 +10,9 @@ import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.Input;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.input.InputProcessor;
+import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 
 /**
@@ -21,6 +23,7 @@ public class PlayerWeapon extends InputProcessor {
     private final ComponentMapper<Bounds> bm;
     private final EntityFactory entityFactory;
     private final Camera camera;
+    private final EventManager eventManager;
 
     public PlayerWeapon(World world, EntityFactory entityFactory, ComponentMapper<Input> im, ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
         super(world, im);
@@ -29,12 +32,14 @@ public class PlayerWeapon extends InputProcessor {
         this.pm = pm;
         this.bm = bm;
         this.camera = world.getSystem(CameraSystem.class).getGameCamera();
+        this.eventManager = world.getSystem(EventManager.class);
     }
 
     @Override
     public void process(int entityId) {
         if (Gdx.input.justTouched()) { // LMB or RMB?
             shootBullet(entityId);
+            eventManager.pushEvent(GameEvent.PLAYER_SHOOTING);
         }
     }
 

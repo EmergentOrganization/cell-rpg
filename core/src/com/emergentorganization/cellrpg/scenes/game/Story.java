@@ -14,6 +14,7 @@ import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
@@ -29,7 +30,7 @@ public class Story extends BaseScene {
     private SpriteBatch batch;
     private EntityFactory entityFactory;
 
-    public Story(PixelonTransmission pt) {
+    public Story(final PixelonTransmission pt) {
         super(pt);
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
         initArtemis(physWorld);
@@ -40,13 +41,20 @@ public class Story extends BaseScene {
         world.getSystem(EventManager.class).addListener(new EventListener() {
             @Override
             public void notify(GameEvent event) {
-                if(event == GameEvent.PLAYER_SHOOT)
-                {
-                    System.out.println("player is shooting");
+                switch (event) {
+                    case PLAYER_SHOOT:
+                        break;
+                    case PLAYER_HIT:
+                        break;
+                    case PLAYER_SHIELD_DOWN:
+                        pt.getSceneManager().setScene(Scene.MAIN_MENU);
+                        break;
+                    case COLLISION_BULLET:
+                        break;
                 }
             }
         });
-        
+
         MapTools.importMap("OneEachTestMap", entityFactory);
     }
 

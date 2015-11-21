@@ -16,12 +16,12 @@ public class EventManager extends BaseSystem {
      * Not sure if this is the best way to handle that
      * Going to research it
      */
-    private ArrayList<GameEvent> events;
+    private ArrayList<GameEvent> events, newEvents;
     private ArrayList<EventListener> listenerInsertion, listenerRemoval, listeners;
 
     public EventManager() {
         events = new ArrayList<GameEvent>();
-
+        newEvents = new ArrayList<GameEvent>();
         listenerInsertion = new ArrayList<EventListener>();
         listenerRemoval = new ArrayList<EventListener>();
         listeners = new ArrayList<EventListener>();
@@ -37,7 +37,7 @@ public class EventManager extends BaseSystem {
 
     public void pushEvent(GameEvent event)
     {
-        events.add(event);
+        newEvents.add(event);
     }
 
     @Override
@@ -62,6 +62,8 @@ public class EventManager extends BaseSystem {
             }
         }
         events.clear();
+        events.addAll(newEvents);
+        newEvents.clear();
     }
 
 

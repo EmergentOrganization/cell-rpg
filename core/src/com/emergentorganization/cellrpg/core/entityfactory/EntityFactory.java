@@ -10,6 +10,9 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.RenderIndex;
+import com.emergentorganization.cellrpg.events.EventListener;
+import com.emergentorganization.cellrpg.events.GameEvent;
+import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.tools.Resources;
 
 /**
@@ -22,6 +25,7 @@ public class EntityFactory {
     public static float BULLET_MAX_DIST = 20f;
 
     private World world;
+    private EventManager eventManager;
 
     public Archetype base;
     public Archetype object;
@@ -32,6 +36,7 @@ public class EntityFactory {
 
     public void initialize(World world) {
         this.world = world;
+        this.eventManager = world.getSystem(EventManager.class);
         base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
@@ -43,7 +48,7 @@ public class EntityFactory {
 
     public int createPlayer(float x, float y) {
         Vector2 pos = new Vector2(x, y);
-        Entity player = new EntityBuilder(world, this.player, "Player", EntityIDs.PLAYER, pos)
+        final Entity player = new EntityBuilder(world, this.player, "Player", EntityIDs.PLAYER, pos)
                 .tag("player")
                 .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 .renderIndex(RenderIndex.PLAYER)
@@ -55,14 +60,32 @@ public class EntityFactory {
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         // Shield
-        Entity shield = new EntityBuilder(world, object, "Energy Shield", EntityIDs.PLAYER_SHIELD, pos)
+        final Entity shield = new EntityBuilder(world, object, "Energy Shield", EntityIDs.PLAYER_SHIELD, pos)
                 .tag("shield")
-                .texture(Resources.ANIM_PLAYER_SHIELD.get(0))
+                .texture(Resources.ANIM_PLAYER_SHIELD.get(Resources.ANIM_PLAYER_SHIELD.size() - 1))
                 .renderIndex(RenderIndex.PLAYER_SHIELD)
                 .build();
 
-        Equipment ec = player.getComponent(Equipment.class);
+        final Equipment ec = player.getComponent(Equipment.class);
         ec.shieldEntity = shield.getId();
+        ec.shieldState = Resources.ANIM_PLAYER_SHIELD.size() - 1;
+
+        eventManager.addListener(new EventListener() {
+            @Override
+            public void notify(GameEvent event) {
+                switch (event) {
+                    case PLAYER_HIT:
+                        ec.shieldState--;
+                        if (ec.shieldState < 0) {
+                            ec.shieldState = 0;
+                            eventManager.pushEvent(GameEvent.PLAYER_SHIELD_DOWN);
+                        } else {
+                            shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(ec.shieldState));
+                        }
+                        break;
+                }
+            }
+        });
 
         return player.getId();
     }
@@ -75,6 +98,7 @@ public class EntityFactory {
                 .velocity(speed, dir)
                 .bodyFriction(0.0001f)
                 .bodyRestitution(1.0f)
+                .bullet(true)
                 .build();
 
         return bullet.getId();

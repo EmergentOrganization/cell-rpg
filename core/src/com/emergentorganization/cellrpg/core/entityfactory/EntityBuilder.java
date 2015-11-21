@@ -47,6 +47,7 @@ public class EntityBuilder {
     private float angleDeg = 0f;
     private RenderIndex renderIndex = RenderIndex.BUILDING;
     private Vector2 velocity = new Vector2();
+    private boolean isBullet = false;
 
 
     public EntityBuilder(World world, Archetype archetype, String friendlyName, String entityId, Vector2 position) {
@@ -166,6 +167,11 @@ public class EntityBuilder {
         return this;
     }
 
+    public EntityBuilder bullet(boolean bullet) {
+        isBullet = bullet;
+        return this;
+    }
+
     public Entity build() {
         Entity entity = world.createEntity(archetype);
         Name name = entity.getComponent(Name.class);
@@ -219,6 +225,7 @@ public class EntityBuilder {
         PhysicsBody pb = entity.getComponent(PhysicsBody.class);
         if (pb != null) {
             BodyDef bDef = new BodyDef();
+            bDef.bullet = isBullet;
             bDef.allowSleep = allowSleep;
             bDef.type = bodyType;
             bDef.fixedRotation = fixedRotation;

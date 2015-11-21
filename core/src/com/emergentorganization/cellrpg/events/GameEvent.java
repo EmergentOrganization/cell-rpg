@@ -6,5 +6,6 @@ package com.emergentorganization.cellrpg.events;
 public enum GameEvent {
     PLAYER_SHOOT,
     PLAYER_HIT,
+    PLAYER_SHIELD_DOWN,
     COLLISION_BULLET
 }

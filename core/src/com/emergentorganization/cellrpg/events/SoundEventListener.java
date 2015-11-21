@@ -28,6 +28,9 @@ public class SoundEventListener implements EventListener {
             case COLLISION_BULLET:
                 soundEffects.get(SoundEffect.CELL_HIT).play();
                 break;
+            case PLAYER_SHIELD_DOWN:
+                soundEffects.get(SoundEffect.LOSE).play();
+                break;
         }
     }
 }

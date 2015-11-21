@@ -51,7 +51,7 @@ public class WorldFactory {
         entityFactory.initialize(world);
         physWorld.setContactListener(new PhysicsContactListener(world));
         eventManager.addListener(new SoundEventListener(assetManager));
-        
+
         return world;
     }
 }

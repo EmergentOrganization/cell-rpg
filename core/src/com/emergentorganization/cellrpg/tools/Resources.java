@@ -72,10 +72,10 @@ public class Resources {
         // ANIM_PLAYER_SHIELD
         prefix = DIR_IMG_GAME + EntityIDs.PLAYER_SHIELD + "/";
         ArrayList<String> playerShieldAnim = new ArrayList<String>();
-        playerShieldAnim.add(prefix + "100p");
-        playerShieldAnim.add(prefix + "75p");
-        playerShieldAnim.add(prefix + "50p");
         playerShieldAnim.add(prefix + "25p");
+        playerShieldAnim.add(prefix + "50p");
+        playerShieldAnim.add(prefix + "75p");
+        playerShieldAnim.add(prefix + "100p");
         ANIM_PLAYER_SHIELD = Collections.unmodifiableList(playerShieldAnim);
 
         // ANIM_CIV1_BLINKER

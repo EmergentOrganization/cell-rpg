@@ -30,9 +30,11 @@ import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.systems.InputSystem;
+import com.emergentorganization.cellrpg.systems.PhysicsRenderSystem;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileListNode;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
@@ -80,6 +82,7 @@ public class MapEditor extends BaseScene {
     private EntityFactory entityFactory;
     private BodyManager bodyManager;
     private VisList<FileListNode> importList;
+    private BoundsGizmo boundsGizmo;
 
     public MapEditor(PixelonTransmission pt) {
         super(pt);
@@ -115,6 +118,7 @@ public class MapEditor extends BaseScene {
 
         bodyManager = world.getSystem(BodyManager.class);
         entityFactory.createPlayer(0, 0);
+        world.getSystem(PhysicsRenderSystem.class).setEnabled(true);
         world.getSystem(InputSystem.class).setEnabled(false);
         world.getSystem(CameraSystem.class).setCamFollow(false);
     }
@@ -457,7 +461,8 @@ public class MapEditor extends BaseScene {
             Bounds bounds = target.getComponent(Bounds.class);
             Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
             Vector2 pos = target.getComponent(Position.class).position.cpy().add(size.cpy().scl(0.5f));
-            drawBoundingBox(size, new Vector2(pos.x, pos.y));
+            boundsGizmo.setPosition(pos);
+            boundsGizmo.render(shapeRenderer);
         }
 
         shapeRenderer.end();
@@ -476,19 +481,6 @@ public class MapEditor extends BaseScene {
         }
 
         setMapTarget(null);
-    }
-
-    /**
-     * Must call between ShapeRenderer.begin() and ShapeRenderer.end()
-     * @param size Scaled size of the object
-     * @param pos center origin of object
-     */
-    private void drawBoundingBox(Vector2 size, Vector2 pos) {
-        Vector2 hs = size.cpy().scl(0.5f);
-        shapeRenderer.rectLine(pos.x - hs.x, pos.y - hs.y, pos.x + hs.x, pos.y - hs.y, BB_THICKNESS); // bl to br
-        shapeRenderer.rectLine(pos.x + hs.x, pos.y - hs.y, pos.x + hs.x, pos.y + hs.y, BB_THICKNESS); // br to tr
-        shapeRenderer.rectLine(pos.x + hs.x, pos.y + hs.y, pos.x - hs.x, pos.y + hs.y, BB_THICKNESS); // tr to tl
-        shapeRenderer.rectLine(pos.x - hs.x, pos.y + hs.y, pos.x - hs.x, pos.y - hs.y, BB_THICKNESS); // tl to bl
     }
 
     private void handleInput() {
@@ -567,6 +559,14 @@ public class MapEditor extends BaseScene {
 
     public void setMapTarget(Entity target) {
         this.target = target;
+        if (this.target != null) {
+            Bounds bounds = target.getComponent(Bounds.class);
+            Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
+            Vector2 pos = target.getComponent(Position.class).position.cpy().add(size.cpy().scl(0.5f));
+            this.boundsGizmo = new BoundsGizmo(size, pos);
+        } else {
+            this.boundsGizmo = null;
+        }
         updateTargetTransform();
     }
 

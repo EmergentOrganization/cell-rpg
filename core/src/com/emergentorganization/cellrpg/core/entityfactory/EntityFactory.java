@@ -208,6 +208,8 @@ public class EntityFactory {
             return createBackgroundTheEdge(pos);
         } else if (id.equals(EntityIDs.VYROID_BEACON)) {
             return createVyroidBeacon(pos, angleDeg);
+        } else if (id.equals(EntityIDs.INVISIBLE_WALL)) {
+            return createInvsibileWall(new Vector2(1,1), pos, angleDeg);
         } else {
             throw new RuntimeException("Error: Could not find entity by ID '" + id + "'");
         }

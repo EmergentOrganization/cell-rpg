@@ -4,10 +4,8 @@ import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.PhysicsBody;
 import com.emergentorganization.cellrpg.components.Visual;
@@ -36,10 +34,7 @@ public class BodyManager extends BaseEntitySystem {
     }
 
     public Body createBody(int entityId, String colliderId, BodyDef bd, FixtureDef fd) {
-        if (!pm.has(entityId))
-            throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
-        Body body = physWorld.createBody(bd);
-        body.setUserData(entityId);
+        Body body = createEmptyBody(entityId, bd);
         Bounds b = bm.get(entityId);
         float scale;
         if (b.height < b.width)
@@ -48,6 +43,41 @@ public class BodyManager extends BaseEntitySystem {
             scale = Math.min(b.width, b.height);
         bodyLoader.attachFixture(body, colliderId, fd, scale);
         bodies.put(entityId, body);
+        return body;
+    }
+
+    private Body createEmptyBody(int entityId, BodyDef bd) {
+        if (!pm.has(entityId))
+            throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
+        Body body = physWorld.createBody(bd);
+        body.setUserData(entityId);
+        return body;
+    }
+
+    public Body createBoundsBody(int entityId, BodyDef bd, FixtureDef fd) {
+        Body body = createEmptyBody(entityId, bd);
+        Bounds b = bm.get(entityId);
+        PolygonShape rect = new PolygonShape();
+        rect.setAsBox(b.width * 0.5f, b.height * 0.5f);
+        fd.shape = rect;
+        body.createFixture(fd);
+        bodies.put(entityId, body);
+        return body;
+    }
+
+    public Body updateBoundsBody(int entityId) {
+        if (physWorld.isLocked())
+            throw new RuntimeException("ERROR: Cannot update bounds body in physics loop");
+
+        Body body = bodies.get(entityId);
+        for (Fixture fixture : body.getFixtureList()) {
+            body.destroyFixture(fixture);
+        }
+
+        Bounds b = bm.get(entityId);
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(b.width * 0.5f, b.height * 0.5f);
+        body.createFixture(polygonShape, 1.0f);
         return body;
     }
 

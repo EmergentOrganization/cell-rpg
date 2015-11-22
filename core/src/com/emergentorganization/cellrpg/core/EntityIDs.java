@@ -16,6 +16,7 @@ public class EntityIDs {
     public static final String VYROID_BEACON = "vyroid-generator";
     public static final String CIV_ONE_BLINKER = "char-civ1-blinker";
     public static final String THE_EDGE = "the_edge";
+    public static final String INVISIBLE_WALL = "invisible_wall";
 
     /**
      * Get all entity IDs in an array.
@@ -32,7 +33,8 @@ public class EntityIDs {
                 RIFT_TWO,
                 VYROID_BEACON,
                 CIV_ONE_BLINKER,
-                THE_EDGE
+                THE_EDGE,
+                INVISIBLE_WALL
         };
     }
 }

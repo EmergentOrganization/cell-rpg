@@ -6,7 +6,6 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
@@ -48,6 +47,7 @@ public class EntityBuilder {
     private RenderIndex renderIndex = RenderIndex.BUILDING;
     private Vector2 velocity = new Vector2();
     private boolean isBullet = false;
+    private Vector2 rectSize;
 
 
     public EntityBuilder(World world, Archetype archetype, String friendlyName, String entityId, Vector2 position) {
@@ -121,6 +121,7 @@ public class EntityBuilder {
 
     /**
      * Default BodyType is Dynamic
+     * @param bodyType If static, most physics parameters are useless
      */
     public EntityBuilder bodyType(BodyDef.BodyType bodyType) {
         this.bodyType = bodyType;
@@ -169,6 +170,11 @@ public class EntityBuilder {
 
     public EntityBuilder bullet(boolean bullet) {
         isBullet = bullet;
+        return this;
+    }
+
+    public EntityBuilder boundsBody(Vector2 rectSize) {
+        this.rectSize = rectSize;
         return this;
     }
 
@@ -236,7 +242,15 @@ public class EntityBuilder {
             fDef.density = density;
             fDef.friction = friction;
             fDef.restitution = restitution;
-            world.getSystem(BodyManager.class).createBody(entity.getId(), entityId, bDef, fDef);
+            BodyManager bodyManager = world.getSystem(BodyManager.class);
+            if (rectSize != null) {
+                Bounds b = entity.getComponent(Bounds.class);
+                b.width = rectSize.x;
+                b.height = rectSize.y;
+                bodyManager.createBoundsBody(entity.getId(), bDef, fDef);
+            } else {
+                bodyManager.createBody(entity.getId(), entityId, bDef, fDef);
+            }
         }
 
         return entity;

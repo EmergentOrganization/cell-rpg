@@ -33,6 +33,7 @@ public class EntityFactory {
     public Archetype character;
     private Archetype player;
     private Archetype bullet;
+    private Archetype invisibleObject;
 
     public void initialize(World world) {
         this.world = world;
@@ -40,6 +41,7 @@ public class EntityFactory {
         base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
+        invisibleObject = new ArchetypeBuilder(object).remove(Visual.class).add(PhysicsBody.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
@@ -175,6 +177,16 @@ public class EntityFactory {
                 .build();
 
         return bg.getId();
+    }
+
+    public int createInvsibileWall(Vector2 size, Vector2 pos, float angleDeg) {
+        Entity wall = new EntityBuilder(world, invisibleObject, "Invisible Wall", EntityIDs.INVISIBLE_WALL, pos)
+                .angle(angleDeg)
+                .bodyType(BodyDef.BodyType.StaticBody)
+                .boundsBody(size)
+                .build();
+
+        return wall.getId();
     }
 
     public int createEntityByID(String id, Vector2 pos, float angleDeg) {

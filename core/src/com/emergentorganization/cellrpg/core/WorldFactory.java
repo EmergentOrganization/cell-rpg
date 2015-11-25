@@ -27,6 +27,7 @@ public class WorldFactory {
         WorldConfiguration wc = new WorldConfiguration();
         wc.register(entityFactory);
 
+        // set up world systemss
         wc.setSystem(new TagManager()); // useful for tagging unique entities
 
         AssetManager assetManager = new AssetManager(pt.getGdxAssetManager());
@@ -49,12 +50,13 @@ public class WorldFactory {
         wc.setSystem(new EntityLifecycleSystem());
         wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
 
+        wc.setSystem(new CARenderSystem(new ShapeRenderer()));
+
+        // initialize world
         World world = new World(wc);
         entityFactory.initialize(world);
         physWorld.setContactListener(new PhysicsContactListener(world));
         eventManager.addListener(new SoundEventListener(assetManager));
-
-        wc.setSystem(new CARenderSystem(new ShapeRenderer()));
 
         return world;
     }

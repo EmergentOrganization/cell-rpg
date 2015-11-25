@@ -4,9 +4,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.Input;
 import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.InputProcessor;
 
 /**
@@ -20,13 +21,13 @@ public class PlayerInputProcessor extends InputProcessor {
     private PlayerWeapon weapon;
     // PlayerAbilities abilites; ...
 
-    public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<Input> im, ComponentMapper<Position> pm) {
+    public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<Input> im, ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
         super(world, im);
 
         tagManager = world.getSystem(TagManager.class);
 
         movement = new PlayerMovement(world, im);
-        weapon = new PlayerWeapon(world, ef, im, pm);
+        weapon = new PlayerWeapon(world, ef, im, pm, bm);
     }
 
     private boolean isPlayer(int entityId) {

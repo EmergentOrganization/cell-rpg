@@ -2,8 +2,7 @@ package com.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.emergentorganization.cellrpg.core.EntityFactory;
-import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 
 /**
  * The bounds component represents the size of the entity in the world.

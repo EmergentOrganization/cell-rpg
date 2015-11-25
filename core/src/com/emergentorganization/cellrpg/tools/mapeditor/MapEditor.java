@@ -22,9 +22,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.components.*;
-import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.EntityIDs;
-import com.emergentorganization.cellrpg.core.SceneFactory;
+import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.managers.BodyManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
@@ -111,8 +111,8 @@ public class MapEditor extends BaseScene {
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
-        entityFactory.initialize(world);
+        world = WorldFactory.standardGameWorld(pt, physWorld, batch, stage, entityFactory);
+
         bodyManager = world.getSystem(BodyManager.class);
         entityFactory.createPlayer(0, 0);
         world.getSystem(InputSystem.class).setEnabled(false);

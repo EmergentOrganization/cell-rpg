@@ -5,7 +5,10 @@ package com.emergentorganization.cellrpg.core;
  */
 public class EntityIDs {
     public static final String BULLET = "bullet";
+
     public static final String PLAYER = "char-player";
+    public static final String PLAYER_SHIELD = "shield";
+
     public static final String BUILDING_LARGE_ONE = "building-large-1";
     public static final String BUILDING_ROUND_ONE = "building-round-1";
     public static final String RIFT_ONE = "rift1";
@@ -22,6 +25,7 @@ public class EntityIDs {
         return new String[] {
                 BULLET,
                 PLAYER,
+                PLAYER_SHIELD,
                 BUILDING_LARGE_ONE,
                 BUILDING_ROUND_ONE,
                 RIFT_ONE,

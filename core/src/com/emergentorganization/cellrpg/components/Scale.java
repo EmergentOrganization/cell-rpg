@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
-import com.emergentorganization.cellrpg.core.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 
 /**
  * Created by brian on 10/28/15.

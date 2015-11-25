@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
@@ -58,6 +59,7 @@ public class PixelonTransmission extends Game {
 
         assetManager = new AssetManager(new InternalFileHandleResolver());
         assetManager.load(ATLAS_PATH, TextureAtlas.class);
+        loadSounds();
         assetManager.finishLoading();
         textureAtlas = assetManager.get(ATLAS_PATH, TextureAtlas.class);
 
@@ -85,6 +87,27 @@ public class PixelonTransmission extends Game {
         }
 
         return null;
+    }
+
+    private void loadSounds() {
+        String prefix = FileStructure.RESOURCE_DIR + "sounds/";
+        String ext = ".wav";
+        String[] sounds = {
+                "Hit",
+                "PlayerHurt",
+                "Explosion",
+                "Select",
+                "ShieldDown",
+                "LaserShot",
+                "ShootBlank",
+                "UIBack",
+                "UIBackLong",
+                "UIConfirm"
+        };
+
+        for (String sound : sounds) {
+            assetManager.load(prefix + sound + ext, Sound.class);
+        }
     }
 
     @Override

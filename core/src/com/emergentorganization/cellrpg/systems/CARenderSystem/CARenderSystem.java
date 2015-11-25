@@ -44,7 +44,7 @@ public class CARenderSystem extends BaseEntitySystem {
 
     // === START BOILERPLATE
 
-    // variables injected (by SceneFactory?) @ runtime:
+    // variables injected (by Artemis.World) @ runtime:
     private CameraSystem cameraSystem;
     private AssetManager assetManager;
 

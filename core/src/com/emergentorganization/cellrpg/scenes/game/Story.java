@@ -2,20 +2,19 @@ package com.emergentorganization.cellrpg.scenes.game;
 
 
 import com.artemis.World;
-import com.artemis.WorldConfiguration;
-import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.PixelonTransmission;
-import com.emergentorganization.cellrpg.core.EntityFactory;
-import com.emergentorganization.cellrpg.core.SceneFactory;
-import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import com.emergentorganization.cellrpg.core.WorldFactory;
+import com.emergentorganization.cellrpg.events.EventListener;
+import com.emergentorganization.cellrpg.events.GameEvent;
+import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
+import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
@@ -31,21 +30,38 @@ public class Story extends BaseScene {
     private SpriteBatch batch;
     private EntityFactory entityFactory;
 
-    public Story(PixelonTransmission pt) {
+    public Story(final PixelonTransmission pt) {
         super(pt);
         physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
         initArtemis(physWorld);
         world.getSystem(RenderSystem.class).setTronShader(
-                new TronShader(new Vector3(1,1,1))
+                new TronShader(new Vector3(1, 1, 1))
         );
+
+        world.getSystem(EventManager.class).addListener(new EventListener() {
+            @Override
+            public void notify(GameEvent event) {
+                switch (event) {
+                    case PLAYER_SHOOT:
+                        break;
+                    case PLAYER_HIT:
+                        break;
+                    case PLAYER_SHIELD_DOWN:
+                        pt.getSceneManager().setScene(Scene.MAIN_MENU);
+                        break;
+                    case COLLISION_BULLET:
+                        break;
+                }
+            }
+        });
+
         MapTools.importMap("OneEachTestMap", entityFactory);
     }
 
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = new World(SceneFactory.basicGameConfiguration(pt, physWorld, batch, stage, entityFactory));
-        entityFactory.initialize(world);
+        world = WorldFactory.standardGameWorld(pt, physWorld, batch, stage, entityFactory);
     }
 
     @Override

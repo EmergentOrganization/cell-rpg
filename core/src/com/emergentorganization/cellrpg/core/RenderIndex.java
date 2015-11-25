@@ -8,6 +8,7 @@ public enum RenderIndex {
     BULLET,
     PLAYER,
     NPC,
+    PLAYER_SHIELD,
     BUILDING,
     CA
 }

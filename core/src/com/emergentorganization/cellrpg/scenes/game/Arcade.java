@@ -14,22 +14,19 @@ import com.emergentorganization.cellrpg.scenes.BaseScene;
  * Created by orelb on 10/28/2015.
  */
 public class Arcade extends BaseScene {
-
-    private final com.badlogic.gdx.physics.box2d.World physWorld;
     private World world;
 
     private SpriteBatch batch;
 
     public Arcade(PixelonTransmission pt) {
         super(pt);
-        physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
-        initArtemis(physWorld);
+        initArtemis();
     }
 
-    private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
+    private void initArtemis() {
         batch = new SpriteBatch();
         EntityFactory entityFactory = new EntityFactory();
-        world = WorldFactory.standardGameWorld(pt, physWorld, batch, stage, entityFactory);
+        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
 
         entityFactory.createPlayer(0, 0);
     }
@@ -42,15 +39,13 @@ public class Arcade extends BaseScene {
         world.process();
 
         super.render(delta);
-
-        physWorld.step(PixelonTransmission.PHYSICS_TIMESTEP, 6, 2);
     }
 
     @Override
     public void dispose() {
+        super.dispose();
         world.dispose();
         batch.dispose();
-        physWorld.dispose();
     }
 
     @Override

@@ -6,13 +6,12 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
 import java.util.List;
 
@@ -236,7 +235,7 @@ public class EntityBuilder {
             fDef.density = density;
             fDef.friction = friction;
             fDef.restitution = restitution;
-            world.getSystem(BodyManager.class).createBody(entity.getId(), entityId, bDef, fDef);
+            world.getSystem(PhysicsSystem.class).createBody(entity.getId(), entityId, bDef, fDef);
         }
 
         return entity;

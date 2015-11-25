@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.emergentorganization.cellrpg.components.*;
-import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
 /**
  * Created by brian on 10/28/15.
@@ -35,7 +35,7 @@ public class MovementSystem extends IteratingSystem {
         Velocity v = velMapper.get(entityId);
 
         if (physMapper.has(entityId)) {
-            Body body = world.getSystem(BodyManager.class).getBody(entityId);
+            Body body = world.getSystem(PhysicsSystem.class).getBody(entityId);
             if (inputMapper.has(entityId)) { // control physics body by input
                 processPhysicsMovement(body, inputMapper.get(entityId), p, v, r);
             } else { // keep image with body for when physics is acting upon it

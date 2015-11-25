@@ -24,16 +24,9 @@ public class EntityLifecycleSystem extends IteratingSystem {
     private ComponentMapper<BulletState> bulletStateMapper;
 
     private TagManager tagManager;
-    private Position playerPosComp;
 
     public EntityLifecycleSystem() {
         super(Aspect.all());
-    }
-
-    @Override
-    protected void begin() {
-        if (playerPosComp == null)
-            playerPosComp = pm.get(tagManager.getEntity(Tags.PLAYER));
     }
 
     @Override
@@ -46,12 +39,15 @@ public class EntityLifecycleSystem extends IteratingSystem {
     }
 
     private void manageBullet(int entityId) {
-        Vector2 pos = pm.get(entityId).position;
-        Vector2 playerPos = playerPosComp.position;
-        BulletState bulletState = bulletStateMapper.get(entityId);
+        Position playerPosComp = pm.get(tagManager.getEntity(Tags.PLAYER));
+        if (playerPosComp != null) {
+            Vector2 pos = pm.get(entityId).position;
+            Vector2 playerPos = playerPosComp.position;
+            BulletState bulletState = bulletStateMapper.get(entityId);
 
-        if (pos.cpy().sub(playerPos).len() >= EntityFactory.BULLET_MAX_DIST || bulletState.bounces < 0) {
-            world.delete(entityId);
+            if (pos.cpy().sub(playerPos).len() >= EntityFactory.BULLET_MAX_DIST || bulletState.bounces < 0) {
+                world.delete(entityId);
+            }
         }
     }
 }

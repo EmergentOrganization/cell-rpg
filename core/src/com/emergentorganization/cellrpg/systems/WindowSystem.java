@@ -20,7 +20,6 @@ public class WindowSystem extends BaseSystem {
     private final Stage stage;
     private final Batch gameBatch;
     private RenderSystem renderSystem;
-    private PhysicsRenderSystem physicsRenderSystem;
     private MovementSystem movementSystem;
     private InputSystem inputSystem;
     private boolean isPaused = false;
@@ -77,7 +76,6 @@ public class WindowSystem extends BaseSystem {
 
     private void enableSystems(boolean paused) {
         renderSystem.setEnabled(paused);
-        physicsRenderSystem.setEnabled(paused);
         movementSystem.setEnabled(paused);
         inputSystem.setEnabled(paused);
     }

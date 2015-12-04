@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CARenderSystem;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CAEdgeSpawnType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -434,7 +436,7 @@ public abstract class CAGridBase {
         }
     }
 
-    protected void reposition(Camera cam){
+    public void reposition(Camera cam){
         gridFollow(cam);
     }
 
@@ -456,7 +458,6 @@ public abstract class CAGridBase {
             dY = gridOriginY - camera.position.y/SCALE;
             //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
-
 
         float dX = gridOriginX - camera.position.x/SCALE;
 

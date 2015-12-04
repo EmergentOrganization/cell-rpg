@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.AssetManager;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.BufferedCAGrid;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.CAGridBase;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,7 +39,8 @@ public class CARenderSystem extends BaseEntitySystem {
         this.renderer = shapeRenderer;
         int sizeOfCells = 11;
         Color[] stateColorMap = new Color[] {new Color(.3f,.5f,.7f,.5f), new Color(.7f, .5f, .3f, .5f)}; // TODO: testing only. remove when ready.
-        cellGrid = new NoBufferCAGrid(sizeOfCells, stateColorMap);
+        cellGrid = new BufferedCAGrid(sizeOfCells, stateColorMap);
+        //cellGrid = new NoBufferCAGrid(sizeOfCells, stateColorMap);
     }
 
     @Override

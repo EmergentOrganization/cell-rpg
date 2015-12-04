@@ -1,20 +1,21 @@
-package com.emergentorganization.cellrpg.entities.ca;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.emergentorganization.cellrpg.entities.ZIndex;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.CellWithHistory;
 
 /**
  * Created by 7yl4r on 9/18/2015.
  */
 public class BufferedCAGrid extends CAGridBase{
-    public BufferedCAGrid(int sizeOfCells, ZIndex z_index, Color[] state_color_map) {
+    public BufferedCAGrid(int sizeOfCells, Color[] state_color_map) {
         /*
         @sizeOfCells     : display size of an individual cell
         @z_index         : ZIndex level to render the grid
         @state_color_map : list of colors which correspond to ca states  TODO: use a CAColorDefinition class instead
          */
-        super(sizeOfCells, z_index, state_color_map);
+        super(sizeOfCells, state_color_map);
     }
 
     @Override

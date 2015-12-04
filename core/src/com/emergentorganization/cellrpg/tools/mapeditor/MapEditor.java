@@ -25,7 +25,7 @@ import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.WorldFactory;
-import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
@@ -78,7 +78,7 @@ public class MapEditor extends BaseScene {
     private SpriteBatch batch;
     private World world;
     private EntityFactory entityFactory;
-    private BodyManager bodyManager;
+    private PhysicsSystem physicsSystem;
     private VisList<FileListNode> importList;
 
     public MapEditor(PixelonTransmission pt) {
@@ -111,9 +111,9 @@ public class MapEditor extends BaseScene {
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = WorldFactory.standardGameWorld(pt, physWorld, batch, stage, entityFactory);
+        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
 
-        bodyManager = world.getSystem(BodyManager.class);
+        physicsSystem = world.getSystem(PhysicsSystem.class);
         entityFactory.createPlayer(0, 0);
         world.getSystem(InputSystem.class).setEnabled(false);
         world.getSystem(CameraSystem.class).setCamFollow(false);
@@ -316,7 +316,7 @@ public class MapEditor extends BaseScene {
                 try {
                     float v = Float.parseFloat(textField.getText());
                     if (target != null) {
-                        Body body = bodyManager.getBody(target.getId());
+                        Body body = physicsSystem.getBody(target.getId());
                         if (body != null)
                             body.setTransform(v, body.getPosition().y, body.getAngle());
                         else
@@ -335,7 +335,7 @@ public class MapEditor extends BaseScene {
                 try {
                     float v = Float.parseFloat(textField.getText());
                     if (target != null) {
-                        Body body = bodyManager.getBody(target.getId());
+                        Body body = physicsSystem.getBody(target.getId());
                         if (body != null)
                             body.setTransform(body.getPosition().x, v, body.getAngle());
                         else
@@ -353,7 +353,7 @@ public class MapEditor extends BaseScene {
                 try {
                     float v = Float.parseFloat(textField.getText());
                     if (target != null) {
-                        Body body = bodyManager.getBody(target.getId());
+                        Body body = physicsSystem.getBody(target.getId());
                         if (body != null)
                             body.setTransform(body.getPosition().x, body.getPosition().y, MathUtils.degreesToRadians * v);
                         else

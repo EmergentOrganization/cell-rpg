@@ -22,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 public class CARenderSystem extends BaseEntitySystem {
 
     private CAGridBase cellGrid;
-    private float SCALE = 1.0f;  // leftover code bit
 
     private final ShapeRenderer renderer;
     private final Logger logger = LogManager.getLogger(getClass());

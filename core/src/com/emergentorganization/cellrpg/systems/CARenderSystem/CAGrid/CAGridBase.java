@@ -22,7 +22,7 @@ import java.util.TimerTask;
 public abstract class CAGridBase {
     public static final long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
     protected static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
-    private float SCALE = 1.0f;  // leftover code bit
+    private float SCALE = .025f;  // empirically derived constant... why is it this? idk...
 
     public long minGenTime = 999999;
     public long maxGenTime = 0;
@@ -146,8 +146,8 @@ public abstract class CAGridBase {
     }
 
     public void added(Camera camera) {
-        sx = (int) (camera.viewportWidth / SCALE) + 2*OFF_SCREEN_PIXELS;
-        sy = (int) (camera.viewportHeight / SCALE) + 2*OFF_SCREEN_PIXELS;
+        sx = (int) (camera.viewportWidth) + 2*OFF_SCREEN_PIXELS;
+        sy = (int) (camera.viewportHeight) + 2*OFF_SCREEN_PIXELS;
 
         w = sx / (cellSize + 1);  // +1 for border pixel between cells
         h = sy / (cellSize + 1);
@@ -442,7 +442,7 @@ public abstract class CAGridBase {
 
     private void gridFollow(Camera camera){
         // enables grid to follow the camera
-
+        
         float dY = gridOriginY - camera.position.y/SCALE;
         //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
 
@@ -469,6 +469,8 @@ public abstract class CAGridBase {
             addColRight();
             dX = gridOriginX - camera.position.x/SCALE;
         }
+
+        //logger.info("camera is (" + dX + "," + dY + ") from grid origin.");
     }
 
     protected BaseCell newCell(int init_state){

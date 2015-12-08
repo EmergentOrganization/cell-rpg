@@ -2,18 +2,19 @@ package com.emergentorganization.cellrpg.systems.CARenderSystem;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
+import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.BufferedCAGrid;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.CAGridBase;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.NoBufferCAGrid;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.*;
 
 /**
  * Created by 7yl4r on 2015-11-18.
@@ -21,14 +22,13 @@ import org.apache.logging.log4j.Logger;
 @Wire
 public class CARenderSystem extends BaseEntitySystem {
 
-    private CAGridBase cellGrid;
+    private final LinkedList<Integer> sortedEntityIds;
 
     private final ShapeRenderer renderer;
     private final Logger logger = LogManager.getLogger(getClass());
 
-    // === START BOILERPLATE
-
     // variables injected (by Artemis.World) @ runtime:
+    private ComponentMapper<Position> pm;
     private CameraSystem cameraSystem;
     private AssetManager assetManager;
 
@@ -36,10 +36,12 @@ public class CARenderSystem extends BaseEntitySystem {
         super(Aspect.all(CameraFollow.class));  // select only (assumed 1) camera-followed component (a bit hacky)
 
         this.renderer = shapeRenderer;
-        int sizeOfCells = 11;
-        Color[] stateColorMap = new Color[] {new Color(.3f,.5f,.7f,.5f), new Color(.7f, .5f, .3f, .5f)}; // TODO: testing only. remove when ready.
-        cellGrid = new BufferedCAGrid(sizeOfCells, stateColorMap);
-        //cellGrid = new NoBufferCAGrid(sizeOfCells, stateColorMap);
+        sortedEntityIds = new LinkedList<Integer>();
+
+        // TODO: move this to ca_layer entity constructor? or somewhere else...?
+//        int sizeOfCells = 11;
+//        Color[] stateColorMap = new Color[] {new Color(.3f,.5f,.7f,.5f), new Color(.7f, .5f, .3f, .5f)}; // TODO: testing only. remove when ready.
+//        cellGrid = new BufferedCAGrid(sizeOfCells, stateColorMap);
     }
 
     @Override
@@ -51,17 +53,9 @@ public class CARenderSystem extends BaseEntitySystem {
 
     @Override
     protected  void processSystem() {
-        cellGrid.reposition(cameraSystem.getGameCamera());
-
-        renderer.setAutoShapeType(true);
-        renderer.setProjectionMatrix(cameraSystem.getGameCamera().combined);  // this should be uncommented, but doing so breaks cagrid...
-        renderer.begin();
-        cellGrid.renderGrid(renderer, getXOrigin(), getYOrigin());
-        renderer.end();
-
-//        for (Integer id : sortedEntityIds) {
-//            process(id);
-//        }
+        for (Integer id : sortedEntityIds) {
+            process(id);
+        }
     }
 
     protected  void process(int entityId) {
@@ -78,6 +72,15 @@ public class CARenderSystem extends BaseEntitySystem {
 //            }
 //            batch.draw(t, cameraSystem.getGameCamera().position.x, cameraSystem.getGameCamera().position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
 //        }
+
+        // TODO: how do I get the cellGrid from the entityId here?
+        cellGrid.reposition(cameraSystem.getGameCamera());
+
+        renderer.setAutoShapeType(true);
+        renderer.setProjectionMatrix(cameraSystem.getGameCamera().combined);  // this should be uncommented, but doing so breaks cagrid...
+        renderer.begin();
+        cellGrid.renderGrid(renderer, getXOrigin(), getYOrigin());
+        renderer.end();
     }
 
     @Override
@@ -89,11 +92,32 @@ public class CARenderSystem extends BaseEntitySystem {
     protected  void inserted(int entityId) {
         Camera camera = cameraSystem.getGameCamera();
         cellGrid.added(camera);
+
+        sortedEntityIds.add(entityId);
+        Collections.sort(sortedEntityIds, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                Visual v1 = vm.get(o1);
+                Visual v2 = vm.get(o2);
+                return v1.index.ordinal() - v2.index.ordinal();
+            }
+        });
     }
 
     @Override
     protected void removed(int entityId) {
+        ListIterator<Integer> iter = sortedEntityIds.listIterator();
 
+        while (iter.hasNext()) {
+            Integer id = iter.next();
+            if (id - entityId == 0) {
+                iter.remove();
+            }
+        }
+    }
+
+    public List<Integer> getSortedEntityIds() {
+        return Collections.unmodifiableList(sortedEntityIds);
     }
 
     protected BaseCell newCell(int init_state){

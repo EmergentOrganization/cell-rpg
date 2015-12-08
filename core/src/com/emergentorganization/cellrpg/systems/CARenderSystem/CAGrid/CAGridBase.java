@@ -178,9 +178,11 @@ public abstract class CAGridBase {
 
     }
 
-    public void renderGrid(ShapeRenderer shapeRenderer, float x_origin, float y_origin) {
+    public void renderGrid(ShapeRenderer shapeRenderer, Camera camera ) {
 
-        //NOTE: this is getting called... so maybe it's drawing in wrong location/scale?
+        float x_origin = getXOrigin(camera);
+        float y_origin = getYOrigin(camera);
+
         //shapeRenderer.setProjectionMatrix(new Matrix4());
         Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
         Matrix4 oldMatrix = shapeRenderer.getProjectionMatrix();

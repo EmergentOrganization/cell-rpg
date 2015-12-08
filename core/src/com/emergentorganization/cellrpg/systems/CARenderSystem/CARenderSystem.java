@@ -10,6 +10,8 @@ import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.CAGridBase;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.CALayer;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.LayerBuilder;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +23,8 @@ import java.util.*;
  */
 @Wire
 public class CARenderSystem extends BaseEntitySystem {
+
+    protected Map<CALayer, CAGridBase> ca_layers = new EnumMap<CALayer, CAGridBase>(CALayer.class);
 
     private final LinkedList<Integer> sortedEntityIds;
 
@@ -42,6 +46,15 @@ public class CARenderSystem extends BaseEntitySystem {
 //        int sizeOfCells = 11;
 //        Color[] stateColorMap = new Color[] {new Color(.3f,.5f,.7f,.5f), new Color(.7f, .5f, .3f, .5f)}; // TODO: testing only. remove when ready.
 //        cellGrid = new BufferedCAGrid(sizeOfCells, stateColorMap);
+    }
+
+    private void updateLayerList(Camera camera){
+        // updates layer list such that it contains only the ca layers it needs
+        //    (so we don't waste time computing layers we're not using)
+        // TODO: add more layers (and do it cleverly). also remove them when not needed
+        if (ca_layers.values().size() < 1) {
+            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS).added(camera);
+        }
     }
 
     @Override
@@ -72,14 +85,25 @@ public class CARenderSystem extends BaseEntitySystem {
 //            }
 //            batch.draw(t, cameraSystem.getGameCamera().position.x, cameraSystem.getGameCamera().position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
 //        }
+        Camera camera = cameraSystem.getGameCamera();
 
-        // TODO: how do I get the cellGrid from the entityId here?
-        cellGrid.reposition(cameraSystem.getGameCamera());
+        updateLayerList(camera);
 
         renderer.setAutoShapeType(true);
         renderer.setProjectionMatrix(cameraSystem.getGameCamera().combined);  // this should be uncommented, but doing so breaks cagrid...
         renderer.begin();
-        cellGrid.renderGrid(renderer, getXOrigin(), getYOrigin());
+
+        for ( Map.Entry<CALayer, CAGridBase> entry : ca_layers.entrySet()) {
+            CALayer layerKey = entry.getKey();
+            CAGridBase layer = entry.getValue();
+
+            layer.reposition(cameraSystem.getGameCamera());
+            layer.renderGrid(renderer, camera);
+
+            // TODO: for each entityId
+            // process each entity
+        }
+
         renderer.end();
     }
 
@@ -90,18 +114,16 @@ public class CARenderSystem extends BaseEntitySystem {
 
     @Override
     protected  void inserted(int entityId) {
-        Camera camera = cameraSystem.getGameCamera();
-        cellGrid.added(camera);
 
         sortedEntityIds.add(entityId);
-        Collections.sort(sortedEntityIds, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                Visual v1 = vm.get(o1);
-                Visual v2 = vm.get(o2);
-                return v1.index.ordinal() - v2.index.ordinal();
-            }
-        });
+//        Collections.sort(sortedEntityIds, new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer o1, Integer o2) {
+//                Visual v1 = vm.get(o1);
+//                Visual v2 = vm.get(o2);
+//                return v1.index.ordinal() - v2.index.ordinal();
+//            }
+//        });
     }
 
     @Override
@@ -124,12 +146,14 @@ public class CARenderSystem extends BaseEntitySystem {
         return new BaseCell(init_state);
     }
 
-    private float getXOrigin(){
-        Camera camera = cameraSystem.getGameCamera();
-        return cellGrid.getXOrigin(camera);
+    public void removeCALayers(){
+        // TODO: confirm that this properly disposes of layers:
+        for (CALayer layerKey : ca_layers.keySet()){
+            ca_layers.remove(layerKey);
+        }
     }
-    private float getYOrigin(){
-        Camera camera = cameraSystem.getGameCamera();
-        return cellGrid.getYOrigin(camera);
+
+    public CAGridBase getLayer(CALayer layer){
+        return ca_layers.get(layer);
     }
 }

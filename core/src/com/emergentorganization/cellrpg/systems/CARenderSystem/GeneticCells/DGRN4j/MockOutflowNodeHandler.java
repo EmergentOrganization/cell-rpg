@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j;
 
 /**
  * Created by 7yl4r on 10/4/2015.

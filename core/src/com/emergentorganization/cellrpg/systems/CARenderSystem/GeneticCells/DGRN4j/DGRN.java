@@ -1,6 +1,5 @@
-package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j;
 
-import com.emergentorganization.cellrpg.scenes.CAScene;
 import it.uniroma1.dis.wsngroup.gexf4j.core.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.GexfImpl;
@@ -20,10 +19,8 @@ import java.util.*;
  */
 
 public class DGRN {
-    // NOTE: these vars should be the only connection back to cellRPG
     private final Logger logger = LogManager.getLogger(getClass());
-    Random randomGenerator = CAScene.randomGenerator;
-    // END cellRPG dependent vars
+    public Random randomGenerator;
 
     private Gexf gexf;
     public Graph graph;
@@ -35,7 +32,14 @@ public class DGRN {
     private InflowNodeHandler inflowNodeHandle;
 
     public DGRN(String creator, String description, AttributeList attrList, Attribute attributeActivationValue,
-                OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler) {
+                OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler){
+        this(creator, description, attrList, attributeActivationValue,outflowNodeHandler, inflowNodeHandler,
+                new Random());
+    }
+
+    public DGRN(String creator, String description, AttributeList attrList, Attribute attributeActivationValue,
+                OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler, Random randomizer) {
+        randomGenerator = randomizer;
         attr_AlleleCount = attrList.createAttribute(
                 ALLELE_COUNT_ID,
                 AttributeType.INTEGER,

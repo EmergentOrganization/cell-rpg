@@ -1,7 +1,5 @@
-package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j;
 
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRNTest;
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.gexfTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

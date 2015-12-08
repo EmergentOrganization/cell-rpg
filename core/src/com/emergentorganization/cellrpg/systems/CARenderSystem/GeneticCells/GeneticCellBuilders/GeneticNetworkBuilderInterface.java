@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.GeneticCellBuilders;
 
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j.DGRN;
 
 /**
  * Created by 7yl4r on 10/6/2015.

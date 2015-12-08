@@ -1,10 +1,7 @@
 package com.emergentorganization.cellrpg.systems.CARenderSystem.layers;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.BufferedCAGrid;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.CAGridBase;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.NoBufferCAGrid;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.decayCAGrid;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.*;
 
 import java.util.Map;
 
@@ -35,10 +32,9 @@ public class LayerBuilder {
             case VYROIDS:
                 return new BufferedCAGrid(size, colorMap);
 
-            // TODO: re-enable genetic grid
-//            case VYROIDS_GENETIC:
-//                size = 11;
-//                return new GeneticCAGrid(size);
+            case VYROIDS_GENETIC:
+                size = 11;
+                return new GeneticCAGrid(size);
 
             case ENERGY:
                 size = 1;

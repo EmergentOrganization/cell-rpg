@@ -1,11 +1,10 @@
-package com.emergentorganization.cellrpg.entities.ca;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.CACell;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.InflowNodeHandler;
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.OutflowNodeHandler;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.GeneticNetworkBuilderInterface;
-import com.emergentorganization.cellrpg.scenes.CAScene;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j.DGRN;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j.InflowNodeHandler;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j.OutflowNodeHandler;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.GeneticCellBuilders.GeneticNetworkBuilderInterface;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.*;
 import it.uniroma1.dis.wsngroup.gexf4j.core.impl.data.AttributeListImpl;
 import org.apache.logging.log4j.LogManager;
@@ -20,9 +19,9 @@ import java.util.ArrayList;
  *
  * Created by 7yl4r on 9/25/2015.
  */
-public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowNodeHandler{
+public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowNodeHandler {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
-    protected DGRN dgrn;
+    public DGRN dgrn;
     public int neighborCount = 0;
     private GeneticNetworkBuilderInterface builder;
 
@@ -86,9 +85,9 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         if (parents.size() > 1) {
             logger.debug("cell inheriting from 2 parents");
             // choose 2 parents at random
-            int p1 = CAScene.randomGenerator.nextInt(parents.size());
-            int p2 = CAScene.randomGenerator.nextInt(parents.size());
-            while (p2 == p1) p2 = CAScene.randomGenerator.nextInt(parents.size());
+            int p1 = dgrn.randomGenerator.nextInt(parents.size());
+            int p2 = dgrn.randomGenerator.nextInt(parents.size());
+            while (p2 == p1) p2 = dgrn.randomGenerator.nextInt(parents.size());
             // for 1st parent
             dgrn.inheritGenes(parents.get(p1).dgrn, 2);
             dgrn.inheritGenes(parents.get(p2).dgrn, 2);
@@ -117,7 +116,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
 
     public void initDGRN(){
         dgrn = new DGRN(
-                "Planiverse Bridge v" + CellRpg.fetch().getVersion(),
+                "Planiverse Bridge ",  // TODO: add back version : v" + CellRpg.fetch().getVersion(),
                 "Digital Gene Regulatory Network",
                 attrList,
                 attr_ActivationValue,

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j;
 
 import javax.xml.crypto.KeySelectorException;
 

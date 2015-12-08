@@ -1,12 +1,11 @@
-package com.emergentorganization.cellrpg.entities.ca;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.CACell;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.DGRN;
-import com.emergentorganization.cellrpg.entities.ca.DGRN4j.GraphInitializer;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.MockBuilder;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.TestCell1;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.TestCell2;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j.DGRN;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j.GraphInitializer;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.GeneticCellBuilders.MockBuilder;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.GeneticCellBuilders.TestCell1;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.GeneticCellBuilders.TestCell2;
 import junit.framework.Assert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

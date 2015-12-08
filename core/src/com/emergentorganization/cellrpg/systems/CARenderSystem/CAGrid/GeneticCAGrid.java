@@ -1,9 +1,10 @@
-package com.emergentorganization.cellrpg.entities.ca;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.emergentorganization.cellrpg.entities.ZIndex;
-import com.emergentorganization.cellrpg.entities.ca.GeneticCellBuilders.*;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.GeneticCell;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.GeneticCellBuilders.*;
 
 import java.util.ArrayList;
 
@@ -21,12 +22,12 @@ public class GeneticCAGrid extends CAGridBase{
             new MrGreen(),
             new MrRed()
     };
-    public GeneticCAGrid(int sizeOfCells, ZIndex z_index) {
+    public GeneticCAGrid(int sizeOfCells) {
         /*
         @sizeOfCells     : display size of an individual cell
         @z_index         : ZIndex level to render the grid
          */
-        super(sizeOfCells, z_index, new Color[]{});
+        super(sizeOfCells, new Color[]{});
     }
 
     @Override

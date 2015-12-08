@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.entities.ca.DGRN4j;
+package com.emergentorganization.cellrpg.systems.CARenderSystem.GeneticCells.DGRN4j;
 
 import it.uniroma1.dis.wsngroup.gexf4j.core.Edge;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Node;

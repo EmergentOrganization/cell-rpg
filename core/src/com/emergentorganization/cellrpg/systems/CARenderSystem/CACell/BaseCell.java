@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class BaseCell {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    protected int state;  // cell state value
+    public int state;  // cell state value
     public boolean lock; // TODO: true locks the cell, means "don't compute rule on this cell"
 
     public BaseCell(int _state){

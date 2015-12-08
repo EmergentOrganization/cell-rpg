@@ -41,11 +41,6 @@ public class CARenderSystem extends BaseEntitySystem {
 
         this.renderer = shapeRenderer;
         sortedEntityIds = new LinkedList<Integer>();
-
-        // TODO: move this to ca_layer entity constructor? or somewhere else...?
-//        int sizeOfCells = 11;
-//        Color[] stateColorMap = new Color[] {new Color(.3f,.5f,.7f,.5f), new Color(.7f, .5f, .3f, .5f)}; // TODO: testing only. remove when ready.
-//        cellGrid = new BufferedCAGrid(sizeOfCells, stateColorMap);
     }
 
     private void updateLayerList(Camera camera){
@@ -54,6 +49,10 @@ public class CARenderSystem extends BaseEntitySystem {
         // TODO: add more layers (and do it cleverly). also remove them when not needed
         if (ca_layers.values().size() < 1) {
             LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS).added(camera);
+            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_GENETIC).added(camera);
+            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MEGA).added(camera);
+            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MINI).added(camera);
+            LayerBuilder.addVyroidLayer(ca_layers, CALayer.ENERGY).added(camera);
         }
     }
 

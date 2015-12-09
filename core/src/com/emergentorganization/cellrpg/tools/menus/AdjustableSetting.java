@@ -10,42 +10,43 @@ public class AdjustableSetting {
     private float max;
     private float delta = 1;
 
-    public AdjustableSetting(String name, float defaultVal, float MIN, float MAX, float deltaValue){
+    public AdjustableSetting(String name, float defaultVal, float MIN, float MAX, float deltaValue) {
         this(name, defaultVal, MIN, MAX);
         delta = deltaValue;
     }
-    public AdjustableSetting(String name, float defaultVal, float MIN, float MAX){
+
+    public AdjustableSetting(String name, float defaultVal, float MIN, float MAX) {
         label = name;
         value = defaultVal;
         min = MIN;
         max = MAX;
     }
 
-    public void setValue(float newVal){
-        value = newVal;
-    }
-
-    public float getDelta(){
+    public float getDelta() {
         return delta;
     }
 
-    public String getName(){
+    public String getName() {
         return getLabel();
     }
 
-    public String getLabel(){
+    public String getLabel() {
         return label;
     }
 
-    public float getValue(){
+    public float getValue() {
         return value;
     }
 
-    public float getMin(){
+    public void setValue(float newVal) {
+        value = newVal;
+    }
+
+    public float getMin() {
         return min;
     }
 
-    public float getMax(){
+    public float getMax() {
         return max;
     }
 }

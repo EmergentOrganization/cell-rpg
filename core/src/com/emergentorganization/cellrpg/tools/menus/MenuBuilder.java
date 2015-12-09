@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
  * Created by 7yl4r on 10/10/2015.
  */
 public class MenuBuilder {
-    public static void buildSliderSetting(VisTable menuTable, final VisWindow menuWindow, final AdjustableSetting setting){
+    public static void buildSliderSetting(VisTable menuTable, final VisWindow menuWindow, final AdjustableSetting setting) {
         VisLabel settingLabel = new VisLabel(setting.getLabel());
         menuTable.add(settingLabel).pad(0f, 0f, 5f, 0f).fill(true, false);
 
@@ -31,6 +31,5 @@ public class MenuBuilder {
                 }
         );
         menuTable.add(settingSlider).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-
     }
 }

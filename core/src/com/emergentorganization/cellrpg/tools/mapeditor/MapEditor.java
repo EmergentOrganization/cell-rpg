@@ -1,51 +1,52 @@
 package com.emergentorganization.cellrpg.tools.mapeditor;
 
-import com.badlogic.gdx.Gdx;
+import com.artemis.Entity;
+import com.artemis.World;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.emergentorganization.cellrpg.CellRpg;
-import com.emergentorganization.cellrpg.components.entity.MovementComponent;
-import com.emergentorganization.cellrpg.components.entity.PhysicsComponent;
-import com.emergentorganization.cellrpg.entities.Entity;
+import com.emergentorganization.cellrpg.PixelonTransmission;
+import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import com.emergentorganization.cellrpg.core.EntityIDs;
+import com.emergentorganization.cellrpg.core.WorldFactory;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
+import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.scenes.mainmenu.FileListNode;
-import com.emergentorganization.cellrpg.scenes.mainmenu.MainMenu;
-import com.emergentorganization.cellrpg.tools.mapeditor.map.Map;
+import com.emergentorganization.cellrpg.systems.CameraSystem;
+import com.emergentorganization.cellrpg.systems.InputSystem;
+import com.emergentorganization.cellrpg.systems.RenderSystem;
+import com.emergentorganization.cellrpg.tools.FileListNode;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
-import org.dyn4j.collision.narrowphase.NarrowphaseDetector;
-import org.dyn4j.collision.narrowphase.Penetration;
-import org.dyn4j.geometry.AABB;
-import org.dyn4j.geometry.Convex;
-import org.dyn4j.geometry.Transform;
 
 import java.io.File;
 
 /**
  * Created by BrianErikson on 6/14/2015.
  */
-public class MapEditor extends Scene {
-    private VisList<EntityListNode> entityList;
-    private EntityListNode selectedItem;
-    public String selectedMapName = "";
-    
-    private final Matrix3 scaler = new Matrix3().setToScaling(Scene.scale, Scene.scale);
-    private final Matrix3 rotator = new Matrix3();
-    private final Matrix3 translator = new Matrix3();
+public class MapEditor extends BaseScene {
+    private final com.badlogic.gdx.physics.box2d.World physWorld;
+    private final OrthographicCamera gameCamera;
+    private final InputMultiplexer multiplexer;
+    private String selectedItem;
 
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;
@@ -53,20 +54,19 @@ public class MapEditor extends Scene {
     public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
     public static float SAVE_WINDOW_WIDTH = Gdx.graphics.getWidth() / 6f;
     public static float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
-    public static float MOVE_SPEED = 20f;
-    public static float MIN_ZOOM = 0.1f;
-    public static float ZOOM_AMT = 0.1f; // amount of zoom per keypress
+    public static float MOVE_SPEED = 300f;
+    public static float MIN_ZOOM = 0.001f;
+    public static float ZOOM_AMT = 0.001f; // amount of zoom per keypress
 
-    public static float BB_THICKNESS = 1f; // Bounding box thickness of lines
+    private static final float AXIS_POLE_SIZE = 1.0f; // size of the axis poles denoting 0,0
+    public static float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
 
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
-    public final Vector2 rayStart = new Vector2(); // in game space
-    public final Vector2 rayEnd = new Vector2(); // in game space
     private PopupMenu contextMenu;
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    private MapTarget target = null;
+    private Entity target = null;
     private VisTextField xField;
     private VisTextField yField;
     private VisTextField rotField;
@@ -75,25 +75,17 @@ public class MapEditor extends Scene {
     private final VisWindow saveWindow = new VisWindow("Save", true);
     private final VisWindow loadWindow = new VisWindow("Load", true);
     private boolean mapInputEnabled = true;
+    private SpriteBatch batch;
+    private World world;
+    private EntityFactory entityFactory;
+    private PhysicsSystem physicsSystem;
+    private VisList<FileListNode> importList;
 
-    @Override
-    public void create() {
-        super.create();
-        setToEditor();
+    public MapEditor(PixelonTransmission pt) {
+        super(pt);
 
-        // fixes bug #29. Effectively disables NarrowphaseDetector from doing penetration testing
-        getWorld().setNarrowphaseDetector(new NarrowphaseDetector() {
-            @Override
-            public boolean detect(Convex convex1, Transform transform1, Convex convex2, Transform transform2,
-                                  Penetration penetration) {
-                return false;
-            }
-
-            @Override
-            public boolean detect(Convex convex1, Transform transform1, Convex convex2, Transform transform2) {
-                return false;
-            }
-        });
+        physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
+        initArtemis(physWorld);
 
         VisUI.setDefaultTitleAlign(Align.center);
 
@@ -104,8 +96,27 @@ public class MapEditor extends Scene {
         initSaveWindow();
         initLoadWindow();
 
-        getInputMultiplexer().addProcessor(new EditorInputProcessor(this));
-        getInputMultiplexer().addProcessor(new GestureDetector(new EditorGestureListener(getGameCamera())));
+        gameCamera = (OrthographicCamera) world.getSystem(CameraSystem.class).getGameCamera();
+
+        multiplexer = new InputMultiplexer(stage, new EditorInputProcessor(this));
+        Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        Gdx.input.setInputProcessor(multiplexer);
+    }
+
+    private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
+        batch = new SpriteBatch();
+        entityFactory = new EntityFactory();
+        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
+
+        physicsSystem = world.getSystem(PhysicsSystem.class);
+        entityFactory.createPlayer(0, 0);
+        world.getSystem(InputSystem.class).setEnabled(false);
+        world.getSystem(CameraSystem.class).setCamFollow(false);
     }
 
     private void initSaveWindow() {
@@ -139,7 +150,7 @@ public class MapEditor extends Scene {
                 super.clicked(event, x, y);
 
                 if (!fileField.getText().isEmpty()) {
-                    MapTools.exportMap(_this, fileField.getText());
+                    MapTools.exportMap(world, fileField.getText());
                     setSaveWindowVisible(false);
                 }
             }
@@ -162,22 +173,14 @@ public class MapEditor extends Scene {
         loadWindow.setHeight(SAVE_WINDOW_HEIGHT);
         loadWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
 
-        final VisList<FileListNode> list = new VisList<FileListNode>();
+        importList = new VisList<FileListNode>();
 
         FileListNode[] maps = getMaps();
-        if (getMaps() != null) {
-            list.setItems(getMaps());
-            selectedMapName = list.getSelected().file.getName();
+        if (maps != null) {
+            importList.setItems(getMaps());
         }
 
-        list.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                selectedMapName = list.getSelected().file.getName();
-            }
-        });
-
-        VisScrollPane scrollPane = new VisScrollPane(list);
+        final VisScrollPane scrollPane = new VisScrollPane(importList);
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setupFadeScrollBars(1f, 0.3f);
         scrollPane.setupOverscroll(20f, 30f, 200f);
@@ -198,13 +201,15 @@ public class MapEditor extends Scene {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                String fileName = list.getSelected().file.getName();
-                String mapName = fileName.substring(0, fileName.length() - MapTools.EXTENSION.length());
+                FileListNode selected = importList.getSelected();
+                if (selected != null) {
+                    String fileName = selected.file.getName();
+                    String mapName = fileName.substring(0, fileName.length() - MapTools.EXTENSION.length());
 
-                Map map = MapTools.importMap(mapName);
-                clearMap();
-                _this.addEntities(map.getEntities());
-                setLoadWindowVisible(false);
+                    clearMap();
+                    MapTools.importMap(mapName, entityFactory);
+                    setLoadWindowVisible(false);
+                }
             }
         });
 
@@ -223,8 +228,8 @@ public class MapEditor extends Scene {
         contextMenu.addItem(new MenuItem("Add Entity from List", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Vector3 worldSpace = getUiStage().getCamera().unproject(new Vector3(lastRMBClick.x, lastRMBClick.y, 0f));
-                Vector3 unproject = getGameCamera().unproject(new Vector3(worldSpace.x, worldSpace.y, 0f));
+                Vector3 worldSpace = stage.getCamera().unproject(new Vector3(lastRMBClick.x, lastRMBClick.y, 0f));
+                Vector3 unproject = gameCamera.unproject(new Vector3(worldSpace.x, worldSpace.y, 0f));
                 createNewEntity(new Vector2(unproject.x, unproject.y));
                 closeContextMenu();
             }
@@ -275,7 +280,6 @@ public class MapEditor extends Scene {
         table.add(scaleField).width(MENU_BAR_WIDTH / 8f);
         table.addSeparator(true);
 
-        final MapEditor _this = this;
         clear.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -301,7 +305,7 @@ public class MapEditor extends Scene {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // TODO: Throw warning window saying that changes won't be saved if they continue
-                CellRpg.fetch().setScreen(new MainMenu("done editing?"));
+                pt.getSceneManager().setScene(Scene.MAIN_MENU);
             }
         });
 
@@ -311,8 +315,13 @@ public class MapEditor extends Scene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    MapTarget target = getMapTarget();
-                    target.movementComponent.setWorldPosition(v, target.movementComponent.getWorldPosition().y);
+                    if (target != null) {
+                        Body body = physicsSystem.getBody(target.getId());
+                        if (body != null)
+                            body.setTransform(v, body.getPosition().y, body.getAngle());
+                        else
+                            target.getComponent(Position.class).position.x = v;
+                    }
                 }
                 catch (NumberFormatException e) {
                     // meh
@@ -325,8 +334,13 @@ public class MapEditor extends Scene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    MapTarget target = getMapTarget();
-                    target.movementComponent.setWorldPosition(target.movementComponent.getWorldPosition().x, v);
+                    if (target != null) {
+                        Body body = physicsSystem.getBody(target.getId());
+                        if (body != null)
+                            body.setTransform(body.getPosition().x, v, body.getAngle());
+                        else
+                            target.getComponent(Position.class).position.y = v;
+                    }
                 } catch (NumberFormatException e) {
                     // meh
                 }
@@ -338,12 +352,13 @@ public class MapEditor extends Scene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    MapTarget target = getMapTarget();
-                    target.movementComponent.setRotation(v);
-
-                    /*PhysicsComponent physComp = (PhysicsComponent) target.target.getFirstComponentByType(PhysicsComponent.class);
-                    if (physComp != null)
-                        physComp.getBody().rotate(v);*/ // TODO
+                    if (target != null) {
+                        Body body = physicsSystem.getBody(target.getId());
+                        if (body != null)
+                            body.setTransform(body.getPosition().x, body.getPosition().y, MathUtils.degreesToRadians * v);
+                        else
+                            target.getComponent(Rotation.class).angle = v;
+                    }
                 } catch (NumberFormatException e) {
                     // meh
                 }
@@ -355,24 +370,24 @@ public class MapEditor extends Scene {
             public void keyTyped(VisTextField textField, char c) {
                 try {
                     float v = Float.parseFloat(textField.getText());
-                    MapTarget target = getMapTarget();
-                    target.movementComponent.setScale(v);
+                    if (target != null)
+                        target.getComponent(Scale.class).scale = v; // TODO: rebuild colliders on resize
                 } catch (NumberFormatException e) {
                     // meh
                 }
             }
         });
 
-        getUiStage().addActor(menuBar.getTable());
+        stage.addActor(menuBar.getTable());
     }
 
     private void initLeftPane() {
-        entityList = new VisList<EntityListNode>();
+        VisList<String> entityList = new VisList<String>();
         entityList.setVisible(true);
 
-        entityList.setItems(EntityList.get());
+        entityList.setItems(EntityIDs.getIDs());
         selectedItem = entityList.getItems().get(entityList.getSelectedIndex());
-        final VisList<EntityListNode> listRef = entityList;
+        final VisList<String> listRef = entityList;
         entityList.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -393,7 +408,7 @@ public class MapEditor extends Scene {
 
         Cell<VisScrollPane> scrollCell = leftPane.add(scrollPane);
         scrollCell.align(Align.topLeft);
-        getUiStage().addActor(leftPane);
+        stage.addActor(leftPane);
     }
 
     private FileListNode[] getMaps() {
@@ -416,65 +431,50 @@ public class MapEditor extends Scene {
     }
 
     private void createNewEntity(Vector2 pos) {
-        try {
-            Entity entity = getSelectedItem().entity.newInstance();
-
-            Matrix3 transform = getNewObjectTransform();
-            MovementComponent mc = entity.getFirstComponentByType(MovementComponent.class);
-
-            mc.setScale(transform.getScale(new Vector2()));
-            mc.setRotation(transform.getRotation());
-            mc.setWorldPosition(transform.getTranslation(new Vector2()).add(pos));
-
-            addEntity(entity);
-
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void show() {
-        super.show();
-
-        if (entityList == null)
-            create();
+        entityFactory.createEntityByID(selectedItem, pos, 0f);
     }
 
     @Override
     public void render(float delta) {
-        super.render(delta);
+        handleInput();
 
-        Vector3 rayA = getGameCamera().project(new Vector3(rayStart.x, rayStart.y, 0f));
-        Vector3 rayB = getGameCamera().project(new Vector3(rayEnd.x, rayEnd.y, 0f));
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        shapeRenderer.setProjectionMatrix(getGameCamera().combined);
+        world.setDelta(delta);
+        world.process();
+
+        physWorld.step(PixelonTransmission.PHYSICS_TIMESTEP, 6, 2);
+
+        shapeRenderer.setProjectionMatrix(gameCamera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // x / y axis
-        shapeRenderer.rect(0f, 0f, 10000f, 0.1f * getGameCamera().zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
-        shapeRenderer.rect(0f, 0f, 0.1f * getGameCamera().zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0f, 0f, 10000f, AXIS_POLE_SIZE * gameCamera.zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0f, 0f, AXIS_POLE_SIZE * gameCamera.zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
 
         // selected object bounds
         if (target != null) {
-            AABB rect = (target.target.getFirstComponentByType(PhysicsComponent.class)).getBody().createAABB();
-            Vector2 size = new Vector2((float)rect.getWidth(), (float)rect.getHeight());
-            Vector2 pos = target.movementComponent.getWorldPosition();
+            Bounds bounds = target.getComponent(Bounds.class);
+            Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
+            Vector2 pos = target.getComponent(Position.class).position.cpy().add(size.cpy().scl(0.5f));
             drawBoundingBox(size, new Vector2(pos.x, pos.y));
         }
 
         shapeRenderer.end();
 
-        drawUI();
+        super.render(delta);
+    }
 
-        handleInput();
+    @Override
+    protected boolean shouldStash() {
+        return false;
     }
 
     private void clearMap() {
-        getEntities().clear();
-        getWorld().removeAllBodies();
+        for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
+            world.delete(id);
+        }
+
         setMapTarget(null);
     }
 
@@ -495,42 +495,38 @@ public class MapEditor extends Scene {
         if (mapInputEnabled) {
             boolean update = false;
 
-            OrthographicCamera camera = getGameCamera();
-            float speed = MOVE_SPEED * camera.zoom * Gdx.graphics.getDeltaTime();
+            float speed = MOVE_SPEED * gameCamera.zoom * Gdx.graphics.getDeltaTime();
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 update = true;
-                camera.position.add(0f, speed, 0f);
+                gameCamera.position.add(0f, speed, 0f);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 update = true;
-                camera.position.add(0f, -speed, 0f);
+                gameCamera.position.add(0f, -speed, 0f);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 update = true;
-                camera.position.add(speed, 0f, 0f);
+                gameCamera.position.add(speed, 0f, 0f);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 update = true;
-                camera.position.add(-speed, 0f, 0f);
+                gameCamera.position.add(-speed, 0f, 0f);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.Z)) { // zoom in
                 update = true;
-                camera.zoom -= ZOOM_AMT;
+                gameCamera.zoom -= ZOOM_AMT;
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.X)) { // zoom out
                 update = true;
-                camera.zoom += ZOOM_AMT;
+                gameCamera.zoom += ZOOM_AMT;
             }
 
-            if (update) getGameCamera().update();
+            if (update) gameCamera.update();
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL) && target != null) {
-                removeEntity(target.target);
-                PhysicsComponent phys = target.target.getFirstComponentByType(PhysicsComponent.class);
-                if (phys != null)
-                    getWorld().removeBody(phys.getBody());
+                target.deleteFromWorld();
                 setMapTarget(null);
             }
         }
@@ -541,12 +537,8 @@ public class MapEditor extends Scene {
 
     }
 
-    public EntityListNode getSelectedItem() {
+    public String getSelectedItem() {
         return selectedItem;
-    }
-    
-    public Matrix3 getNewObjectTransform() {
-        return new Matrix3().mul(scaler).mul(rotator).mul(translator); // scale, rotate translate
     }
 
     public Vector2 getLastRMBClick() {
@@ -566,24 +558,27 @@ public class MapEditor extends Scene {
     }
 
     public void openContextMenu() {
-        contextMenu.showMenu(getUiStage(), lastRMBClick.x, lastRMBClick.y);
+        contextMenu.showMenu(stage, lastRMBClick.x, lastRMBClick.y);
     }
 
     public void closeContextMenu() {
         contextMenu.remove();
     }
 
-    public void setMapTarget(MapTarget target) {
+    public void setMapTarget(Entity target) {
         this.target = target;
         updateTargetTransform();
     }
 
     public void updateTargetTransform() {
         if (this.target != null) {
-            xField.setText(String.valueOf(target.movementComponent.getWorldPosition().x));
-            yField.setText(String.valueOf(target.movementComponent.getWorldPosition().y));
-            rotField.setText(String.valueOf(target.movementComponent.getRotation()));
-            scaleField.setText(String.valueOf(target.movementComponent.getScale().x)); //TODO Fix this
+            Vector2 pos = target.getComponent(Position.class).position;
+            float rot = target.getComponent(Rotation.class).angle;
+            float scale = target.getComponent(Scale.class).scale;
+            xField.setText(String.valueOf(pos.x));
+            yField.setText(String.valueOf(pos.y));
+            rotField.setText(String.valueOf(rot));
+            scaleField.setText(String.valueOf(scale));
         }
         else {
             xField.setText("0.0");
@@ -593,7 +588,7 @@ public class MapEditor extends Scene {
         }
     }
 
-    public MapTarget getMapTarget() { return target; }
+    public Entity getMapTarget() { return target; }
 
     public void enableMapInput(boolean enable) {
         this.mapInputEnabled = enable;
@@ -605,7 +600,7 @@ public class MapEditor extends Scene {
 
     public void setSaveWindowVisible(boolean show) {
         if (show) {
-            getUiStage().addActor(saveWindow);
+            stage.addActor(saveWindow);
             saveWindow.fadeIn();
         }
         else
@@ -616,12 +611,35 @@ public class MapEditor extends Scene {
 
     public void setLoadWindowVisible(boolean show) {
         if (show) {
-            getUiStage().addActor(loadWindow);
+            stage.addActor(loadWindow);
+            refreshMapList();
             loadWindow.fadeIn();
         }
         else
             loadWindow.fadeOut();
 
         enableMapInput(!show);
+    }
+
+    private void refreshMapList() {
+        FileListNode[] maps = getMaps();
+        if (maps != null)
+            importList.setItems(maps);
+    }
+
+    public Stage getUiStage() {
+        return stage;
+    }
+
+    public OrthographicCamera getGameCamera() {
+        return gameCamera;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public com.badlogic.gdx.physics.box2d.World getPhysWorld() {
+        return physWorld;
     }
 }

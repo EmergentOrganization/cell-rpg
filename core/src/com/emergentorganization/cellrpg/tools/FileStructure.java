@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.Gdx;
-import com.emergentorganization.cellrpg.CellRpg;
+import com.emergentorganization.cellrpg.PixelonTransmission;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,31 +16,22 @@ import java.util.jar.JarFile;
  * Created by BrianErikson on 10/21/15.
  */
 public class FileStructure {
+    public static final String RESOURCE_DIR = "resources/";
     private final Logger logger = LogManager.getLogger(getClass());
     private boolean isJar = false;
-    public static final String RESOURCE_DIR = "resources/";
 
-    private static class FileStructureHolder {
-        private static final FileStructure INSTANCE = new FileStructure();
-    }
-
-    public static FileStructure fetch() {
-        return FileStructureHolder.INSTANCE;
-    }
-
-    public void initialize() {
+    public FileStructure() {
         if (!Gdx.files.internal(RESOURCE_DIR + "property.settings").file().exists()) { // Must be in a JAR
-            logger.info("JAR detected; unpacking assets");
+            logger.info("JAR detected");
             isJar = true;
-            unpackAssets();
         }
     }
 
     /**
      * Unpacks assets into root directory. Does not overwrite files if they are already there.
      */
-    private void unpackAssets() {
-        URL url = CellRpg.class.getProtectionDomain().getCodeSource().getLocation();
+    public void unpackAssets() {
+        URL url = PixelonTransmission.class.getProtectionDomain().getCodeSource().getLocation();
         try {
             String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
             JarFile jar = new JarFile(jarPath);
@@ -79,5 +70,9 @@ public class FileStructure {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isJar() {
+        return isJar;
     }
 }

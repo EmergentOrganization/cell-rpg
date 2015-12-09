@@ -1,29 +1,32 @@
 package com.emergentorganization.cellrpg.tools.mapeditor.ui;
 
-import com.badlogic.gdx.Gdx;
+import com.artemis.*;
+import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.emergentorganization.cellrpg.components.entity.GraphicsComponent;
-import com.emergentorganization.cellrpg.components.entity.MovementComponent;
-import com.emergentorganization.cellrpg.components.entity.SpriteComponent;
-import com.emergentorganization.cellrpg.entities.Entity;
-import com.emergentorganization.cellrpg.physics.CellUserData;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.emergentorganization.cellrpg.components.Bounds;
+import com.emergentorganization.cellrpg.components.PhysicsBody;
+import com.emergentorganization.cellrpg.components.Position;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
-import org.dyn4j.dynamics.Body;
-import org.dyn4j.geometry.AABB;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by BrianErikson on 6/15/2015.
  */
 public class EditorInputProcessor implements InputProcessor {
+    private static final float ZOOM_FACTOR = 0.001f;
     private MapEditor editor;
-    public static float HIT_ACCURACY = 5f; // lower the value, the more accurate the hit detection
+    public static float HIT_ACCURACY = 0.05f; // lower the value, the more accurate the hit detection
     private Vector2 dragOffset = new Vector2();
 
     public EditorInputProcessor(MapEditor editor) {
@@ -63,61 +66,47 @@ public class EditorInputProcessor implements InputProcessor {
     private void onLeftClick(Vector2 screenCoords) {
         if (editor.isMapInputEnabled()) {
             Vector3 uiVec = editor.getUiStage().getCamera().unproject(new Vector3(screenCoords, 0f));
-            editor.setLastLMBClick(new Vector2(uiVec.x, uiVec.y));
+            Vector2 click = new Vector2(uiVec.x, uiVec.y);
+            editor.setLastLMBClick(click);
 
             Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
-            AABB box = new AABB(HIT_ACCURACY);
-            org.dyn4j.geometry.Vector2 point = new org.dyn4j.geometry.Vector2(gameVec.x, gameVec.y);
-            box.translate(point);
+            Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
+            final ArrayList<Integer> entities = new ArrayList<Integer>();
+            editor.getPhysWorld().QueryAABB(new QueryCallback() {
+                @Override
+                public boolean reportFixture(Fixture fixture) {
+                    Body body = fixture.getBody();
+                    entities.add((Integer) body.getUserData());
 
-            editor.getWorld().update(Gdx.graphics.getDeltaTime());
-            List<Body> detect = editor.getWorld().getBroadphaseDetector().detect(box);
+                    return false;
+                }
+            }, hitBox.x, hitBox.y, hitBox.x + hitBox.getWidth(), hitBox.y + hitBox.getHeight());
 
-            boolean foundBody = false;
-            for (Body body : detect) {
-                if (body.contains(point)) {
-                    foundBody = true;
+            editor.setMapTarget(null);
 
-                    Entity entity = ((CellUserData) body.getUserData()).entity;
-                    SpriteComponent sc = entity.getFirstComponentByType(SpriteComponent.class);
-                    SpriteComponent gc = entity.getFirstComponentByType(GraphicsComponent.class);
-                    if (sc != null) {
-                        boolean switched = switchMapTarget(sc.getSprite(), entity);
+            boolean foundTarget = false;
+            for (Integer entityId : entities) {
+                foundTarget = true;
+                Entity entity = editor.getWorld().getEntity(entityId);
+                editor.setMapTarget(entity);
+                setDragOffset(screenCoords);
+            }
+
+            if (!foundTarget) {
+                ComponentMapper<Bounds> bm = editor.getWorld().getMapper(Bounds.class);
+                ComponentMapper<Position> pm = editor.getWorld().getMapper(Position.class);
+                IntBag bag = editor.getWorld().getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
+                for (int i = 0; i < bag.size(); i++) {
+                    int id = bag.get(i);
+                    Bounds bounds = bm.get(id);
+                    Vector2 pos = pm.get(id).position;
+                    Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
+                    if (rect.contains(hitBox)) {
+                        editor.setMapTarget(editor.getWorld().getEntity(id));
                         setDragOffset(screenCoords);
-                        if (switched) break;
-                    }
-                    else if (gc != null) {
-                        boolean switched = switchMapTarget(gc.getSprite(), entity);
-                        setDragOffset(screenCoords);
-                        if (switched) break;
-                    }
-                    else {
-                        throw new RuntimeException("Cannot select a component with no render-able component");
                     }
                 }
             }
-
-            if (!foundBody) editor.setMapTarget(null);
-        }
-    }
-
-    /**
-     * Handles selecting map targets and switching to a different one if one is already selected in overlay instances
-     * @param sprite Sprite to switch to
-     * @param entity Entity to switch to
-     * @return whether or not a switch happened
-     */
-    private boolean switchMapTarget(Sprite sprite, Entity entity) {
-        if (editor.getMapTarget() != null) {
-            if (entity != editor.getMapTarget().target) {
-                setMapTarget(sprite, entity);
-                return true;
-            }
-            else return false;
-        }
-        else {
-            setMapTarget(sprite, entity);
-            return true;
         }
     }
 
@@ -131,21 +120,15 @@ public class EditorInputProcessor implements InputProcessor {
 
     private void setDragOffset(Vector2 mousePos) {
         Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(mousePos.x, mousePos.y, 0f));
-        MapTarget mapTarget = editor.getMapTarget();
+        Entity mapTarget = editor.getMapTarget();
 
         if (mapTarget != null) {
-            Vector2 targetPos = mapTarget.movementComponent.getWorldPosition();
+            Vector2 targetPos = mapTarget.getComponent(Position.class).position;
             dragOffset = new Vector2(targetPos.x - gameVec.x, targetPos.y - gameVec.y);
         }
         else {
             throw new RuntimeException("Cannot set drag offset when the editor has no target");
         }
-    }
-
-    private void setMapTarget(Sprite sprite, Entity entity) {
-        Vector2 size = new Vector2(sprite.getWidth() * sprite.getScaleX(),
-                sprite.getHeight() * sprite.getScaleY());
-        editor.setMapTarget(new MapTarget(entity, size, entity.getFirstComponentByType(MovementComponent.class)));
     }
 
     @Override
@@ -157,10 +140,15 @@ public class EditorInputProcessor implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         if (editor.isMapInputEnabled()) {
             Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenX, screenY, 0f));
-            MapTarget mapTarget = editor.getMapTarget();
+            Entity mapTarget = editor.getMapTarget();
 
             if (mapTarget != null) {
-                mapTarget.movementComponent.setWorldPosition(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
+                HashMap<Integer, Body> map = editor.getWorld().getSystem(PhysicsSystem.class).getBodies();
+                Body body = map.get(mapTarget.getId());
+                if (body != null)
+                    body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
+                else
+                    mapTarget.getComponent(Position.class).position.set(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
                 editor.updateTargetTransform();
             }
         }
@@ -176,11 +164,8 @@ public class EditorInputProcessor implements InputProcessor {
     public boolean scrolled(int amount) {
         if (editor.isMapInputEnabled()) {
             OrthographicCamera camera = editor.getGameCamera();
-            camera.zoom += amount;
+            camera.zoom += amount * ZOOM_FACTOR;
             if (camera.zoom <= 0) camera.zoom = MapEditor.MIN_ZOOM;
-            else {
-                camera.zoom = (float) Math.floor(camera.zoom);
-            }
             camera.update();
         }
         return false;

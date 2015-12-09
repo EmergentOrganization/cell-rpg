@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.tools.mapeditor.map;
 
-import com.emergentorganization.cellrpg.entities.Entity;
+import com.artemis.Entity;
 
 import java.util.ArrayList;
 

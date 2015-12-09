@@ -1,0 +1,92 @@
+package com.emergentorganization.cellrpg.tools;
+
+import com.emergentorganization.cellrpg.core.EntityIDs;
+import com.emergentorganization.cellrpg.core.SoundEffect;
+
+import java.util.*;
+
+/**
+ * Created by brian on 11/19/15.
+ */
+public class Resources {
+    // DIR
+    public static final String DIR_IMG_GAME = "game/";
+    public static final String DIR_IMG_BLDG = DIR_IMG_GAME + "buildings/";
+    public static final String DIR_IMG_ENV = DIR_IMG_GAME + "environment/";
+    public static final String DIR_SOUNDS = FileStructure.RESOURCE_DIR + "sounds/";
+
+    // SFX
+    public static final Map<SoundEffect, String> SFX_FILENAME_MAP;
+
+    // ANIM
+    public static final List<String> ANIM_PLAYER;
+    public static final List<String> ANIM_PLAYER_SHIELD;
+    public static final List<String> ANIM_CIV1_BLINKER;
+
+    // GAME
+    public static final String TEX_BULLET = DIR_IMG_GAME + EntityIDs.BULLET;
+
+    // BLDG
+    public static final String TEX_BLDG_LRG_ONE = DIR_IMG_BLDG + EntityIDs.BUILDING_LARGE_ONE;
+    public static final String TEX_BLDG_ROUND_ONE = DIR_IMG_BLDG + EntityIDs.BUILDING_ROUND_ONE;
+    public static final String TEX_VYROID_BEACON = DIR_IMG_BLDG + EntityIDs.VYROID_BEACON;
+
+    // ENV
+    public static final String TEX_RIFT_ONE = DIR_IMG_ENV + EntityIDs.RIFT_ONE;
+    public static final String TEX_RIFT_TWO = DIR_IMG_ENV + EntityIDs.RIFT_TWO;
+    public static final String TEX_THE_EDGE = DIR_IMG_ENV + EntityIDs.THE_EDGE;
+
+
+    // Static Initializer
+    static {
+        // SFX_FILENAME_MAP
+        String ext = ".wav";
+        HashMap<SoundEffect, String> hashMap = new HashMap<SoundEffect, String>();
+        hashMap.put(SoundEffect.AMMO_DEPLETED, DIR_SOUNDS + "ShootBlank" + ext);
+        hashMap.put(SoundEffect.CELL_HIT, DIR_SOUNDS + "Hit" + ext);
+        hashMap.put(SoundEffect.EXPLOSION, DIR_SOUNDS + "Explosion" + ext);
+        hashMap.put(SoundEffect.LASER, DIR_SOUNDS + "LaserShot" + ext);
+        hashMap.put(SoundEffect.LOSE, DIR_SOUNDS + "ShieldDown" + ext);
+        hashMap.put(SoundEffect.PLAYER_HIT, DIR_SOUNDS + "PlayerHurt" + ext);
+        hashMap.put(SoundEffect.POWERUP_PICKUP, DIR_SOUNDS + "Select" + ext); // TODO sound effect
+        hashMap.put(SoundEffect.UI_BACK, DIR_SOUNDS + "UIBack" + ext);
+        hashMap.put(SoundEffect.UI_BACK_LONG, DIR_SOUNDS + "UIBackLong" + ext);
+        hashMap.put(SoundEffect.UI_CONFIRM, DIR_SOUNDS + "UIConfirm" + ext);
+        SFX_FILENAME_MAP = Collections.unmodifiableMap(hashMap);
+
+        // ANIM_PLAYER
+        String prefix = DIR_IMG_GAME + EntityIDs.PLAYER + "/";
+        ArrayList<String> playerAnim = new ArrayList<String>();
+        playerAnim.add(prefix + "0");
+        playerAnim.add(prefix + "1");
+        playerAnim.add(prefix + "2");
+        playerAnim.add(prefix + "3");
+        playerAnim.add(prefix + "4");
+        playerAnim.add(prefix + "5");
+        playerAnim.add(prefix + "6");
+        playerAnim.add(prefix + "7");
+        playerAnim.add(prefix + "8");
+        playerAnim.add(prefix + "9");
+        ANIM_PLAYER = Collections.unmodifiableList(playerAnim);
+
+        // ANIM_PLAYER_SHIELD
+        prefix = DIR_IMG_GAME + EntityIDs.PLAYER_SHIELD + "/";
+        ArrayList<String> playerShieldAnim = new ArrayList<String>();
+        playerShieldAnim.add(prefix + "25p");
+        playerShieldAnim.add(prefix + "50p");
+        playerShieldAnim.add(prefix + "75p");
+        playerShieldAnim.add(prefix + "100p");
+        ANIM_PLAYER_SHIELD = Collections.unmodifiableList(playerShieldAnim);
+
+        // ANIM_CIV1_BLINKER
+        prefix = DIR_IMG_GAME + EntityIDs.CIV_ONE_BLINKER + "/";
+        ArrayList<String> civ1BlinkerAnim = new ArrayList<String>();
+        civ1BlinkerAnim.add(prefix + "0");
+        civ1BlinkerAnim.add(prefix + "1");
+        ANIM_CIV1_BLINKER = Collections.unmodifiableList(civ1BlinkerAnim);
+    }
+
+    public static String getSfxPath(SoundEffect effect) {
+        return SFX_FILENAME_MAP.get(effect);
+    }
+}

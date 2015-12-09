@@ -33,6 +33,7 @@ public class EntityFactory {
     public Archetype character;
     private Archetype player;
     private Archetype bullet;
+    private Archetype ca_layer;
 
     public void initialize(World world) {
         this.world = world;
@@ -44,6 +45,7 @@ public class EntityFactory {
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).add(Equipment.class).build(world);
+        ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }
 
     public int createPlayer(float x, float y) {
@@ -177,6 +179,13 @@ public class EntityFactory {
         return bg.getId();
     }
 
+    public int createCALayerVyroids(Vector2 pos){
+        Entity layer = new EntityBuilder(world, object, "Standard Vyroid CA Layer", EntityIDs.CA_LAYER_VYROIDS, pos)
+                .renderIndex(RenderIndex.CA)
+                .build();
+        return layer.getId();
+    }
+
     public int createEntityByID(String id, Vector2 pos, float angleDeg) {
         if (id.equals(EntityIDs.BUILDING_LARGE_ONE)) {
             return createBuildingLargeOne(pos, angleDeg);
@@ -196,6 +205,8 @@ public class EntityFactory {
             return createBackgroundTheEdge(pos);
         } else if (id.equals(EntityIDs.VYROID_BEACON)) {
             return createVyroidBeacon(pos, angleDeg);
+        } else if (id.equals(EntityIDs.CA_LAYER_VYROIDS)) {
+            return createCALayerVyroids(pos);
         } else {
             throw new RuntimeException("Error: Could not find entity by ID '" + id + "'");
         }

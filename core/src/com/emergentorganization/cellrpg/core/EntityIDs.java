@@ -17,6 +17,8 @@ public class EntityIDs {
     public static final String CIV_ONE_BLINKER = "char-civ1-blinker";
     public static final String THE_EDGE = "the_edge";
 
+    public static final String CA_LAYER_VYROIDS = "ca-layer-vyroids";
+
     /**
      * Get all entity IDs in an array.
      * Implemented to iterate through all of the IDs for MapEditor usage (display them all in a list, etc)

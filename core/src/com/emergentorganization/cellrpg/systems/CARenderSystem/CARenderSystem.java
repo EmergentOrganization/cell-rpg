@@ -4,14 +4,14 @@ import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.CAGridBase;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.CALayer;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.LayerBuilder;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,9 +26,10 @@ import java.util.*;
 @Wire
 public class CARenderSystem extends BaseEntitySystem {
 
-    // TODO: store caLayer state in manager(?), only do rendering here.
-    protected Map<CALayer, CAGridBase> ca_layers = new EnumMap<CALayer, CAGridBase>(CALayer.class);
+    // artemis-injected entity components:
+    private ComponentMapper<CAGridComponents> CAComponent_m;
 
+    // list of entities registered w/ this system
     private final LinkedList<Integer> sortedEntityIds;
 
     private final ShapeRenderer renderer;
@@ -40,31 +41,21 @@ public class CARenderSystem extends BaseEntitySystem {
     private AssetManager assetManager;
 
     public CARenderSystem(ShapeRenderer shapeRenderer) {
-        super(Aspect.all(CameraFollow.class));  // select only (assumed 1) camera-followed component (a bit hacky)
+        super(Aspect.all(CAGridComponents.class));
 
         this.renderer = shapeRenderer;
         sortedEntityIds = new LinkedList<Integer>();
     }
 
-    private void updateLayerList(Camera camera){
-        // updates layer list such that it contains only the ca layers it needs
-        //    (so we don't waste time computing layers we're not using)
-        // TODO: add / remove layers based on their usage. How? Maybe by checking # "live" cells in layer?
-        if (ca_layers.values().size() < 1) {
-            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS).added(camera);
-            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_GENETIC).added(camera);
-            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MEGA).added(camera);
-            LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MINI).added(camera);
-            LayerBuilder.addVyroidLayer(ca_layers, CALayer.ENERGY).added(camera);
-        }
-    }
+    // TODO: where do I add layer entities?
+//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS).added(camera);
+//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_GENETIC).added(camera);
+//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MEGA).added(camera);
+//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MINI).added(camera);
+//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.ENERGY).added(camera);
 
     @Override
     protected  void begin() {
-        Camera camera = cameraSystem.getGameCamera();
-
-        updateLayerList(camera);
-
         renderer.setAutoShapeType(true);
         renderer.setProjectionMatrix(cameraSystem.getGameCamera().combined);  // this should be uncommented, but doing so breaks cagrid...
         renderer.begin();
@@ -72,15 +63,17 @@ public class CARenderSystem extends BaseEntitySystem {
 
     @Override
     protected  void processSystem() {
-        Camera camera = cameraSystem.getGameCamera();
-
-        for ( Map.Entry<CALayer, CAGridBase> entry : ca_layers.entrySet()) {
-            CALayer layerKey = entry.getKey();
-            CAGridBase layer = entry.getValue();
-
-            layer.reposition(cameraSystem.getGameCamera());
-            layer.renderGrid(renderer, camera);
+        for (Integer id : sortedEntityIds) {
+            process(id);
         }
+    }
+
+    protected  void process(int entityId) {
+        CAGridComponents layerStuff = CAComponent_m.get(entityId);
+        //CALayer layerKey = entry.getKey();
+        //CAGridBase layer = entry.getValue();
+
+        renderGrid();
     }
 
     @Override
@@ -122,14 +115,33 @@ public class CARenderSystem extends BaseEntitySystem {
         return new BaseCell(init_state);
     }
 
-    public void removeCALayers(){
-        // TODO: confirm that this properly disposes of layers:
-        for (CALayer layerKey : ca_layers.keySet()){
-            ca_layers.remove(layerKey);
+    public void renderGrid() {
+        Camera camera = cameraSystem.getGameCamera();
+
+        float x_origin = getXOrigin(camera);
+        float y_origin = getYOrigin(camera);
+
+        //shapeRenderer.setProjectionMatrix(new Matrix4());
+        Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
+        Matrix4 oldMatrix = renderer.getProjectionMatrix();
+        renderer.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        //long before = System.currentTimeMillis();
+        ShapeRenderer.ShapeType oldType = renderer.getCurrentType();
+        renderer.set(ShapeRenderer.ShapeType.Filled);
+
+        for (int i = 0; i < states.length; i++) {
+            for (int j = 0; j < states[0].length; j++) {
+                renderCell(i, j, renderer, x_origin, y_origin);
+            }
         }
+        renderer.set(oldType);
+        renderer.setProjectionMatrix(oldMatrix);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+        //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 
-    public CAGridBase getLayer(CALayer layer){
-        return ca_layers.get(layer);
-    }
+    protected abstract void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
+                                       final float x_origin, final float y_origin);
+
 }

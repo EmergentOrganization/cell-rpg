@@ -39,16 +39,7 @@ public abstract class CAGridBase {
     protected int w;
     protected int h;
 
-    // size of each cell
-    protected int cellSize;
 
-    // location of grid center
-    protected float gridOriginX = 0;
-    protected float gridOriginY = 0;
-
-    protected CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
-
-    protected BaseCell[][] states;
     protected Color[] stateColorMap;
 
     public CAGridBase(int sizeOfCells, Color[] state_color_map){
@@ -70,16 +61,6 @@ public abstract class CAGridBase {
     public void resetGenerationNumber(){
         // resets generation counter
         generation = 0;
-    }
-
-    public int getSizeX(){
-        // returns grid size (number of cells) in x-dimension
-        return states.length;
-    }
-
-    public int getSizeY(){
-        // returns grid size (number of cells) in y-dimension
-        return states[0].length;
     }
 
     protected void generate(){
@@ -162,49 +143,9 @@ public abstract class CAGridBase {
         return cellSize;
     }
 
-    protected void initStates(){
-        states = new BaseCell[w][h];
-        // init states. ?required?
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                states[i][j] = newCell(0);
-            }
-        }
-        // init states for testing
-        randomizeState();
-    }
-
     public void dispose(){
 
     }
-
-    public void renderGrid(ShapeRenderer shapeRenderer, Camera camera ) {
-
-        float x_origin = getXOrigin(camera);
-        float y_origin = getYOrigin(camera);
-
-        //shapeRenderer.setProjectionMatrix(new Matrix4());
-        Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
-        Matrix4 oldMatrix = shapeRenderer.getProjectionMatrix();
-        shapeRenderer.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
-        //long before = System.currentTimeMillis();
-        ShapeRenderer.ShapeType oldType = shapeRenderer.getCurrentType();
-        shapeRenderer.set(ShapeRenderer.ShapeType.Filled);
-
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                renderCell(i, j, shapeRenderer, x_origin, y_origin);
-            }
-        }
-        shapeRenderer.set(oldType);
-        shapeRenderer.setProjectionMatrix(oldMatrix);
-        Gdx.gl.glDisable(GL20.GL_BLEND);
-        //logger.info("renderTime=" + (System.currentTimeMillis()-before));
-    }
-
-    protected abstract void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
-                                       final float x_origin, final float y_origin);
 
     private void checkSize(int size) {
         if (size % 2 < 1) {
@@ -438,64 +379,6 @@ public abstract class CAGridBase {
         }
     }
 
-    public void reposition(Camera cam){
-        gridFollow(cam);
-    }
-
-    private void gridFollow(Camera camera){
-        // enables grid to follow the camera
-        
-        float dY = gridOriginY - camera.position.y/SCALE;
-        //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
-
-        while ( dY > cellSize+1){
-            //System.out.println("BotAddRow");
-            addRowBottom();
-            dY = gridOriginY - camera.position.y/SCALE;
-            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
-        }
-        while ( dY < -cellSize+1){
-            //System.out.println("TopAddRow");
-            addRowTop();
-            dY = gridOriginY - camera.position.y/SCALE;
-            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
-        }
-
-        float dX = gridOriginX - camera.position.x/SCALE;
-
-        while ( dX > cellSize+1){
-            addColLeft();
-            dX = gridOriginX - camera.position.x/SCALE;
-        }
-        while ( dX < -cellSize+1){
-            addColRight();
-            dX = gridOriginX - camera.position.x/SCALE;
-        }
-
-        //logger.info("camera is (" + dX + "," + dY + ") from grid origin.");
-    }
-
-    protected BaseCell newCell(int init_state){
-        return new BaseCell(init_state);
-    }
-
-    private BaseCell getEdgeState(int x){
-        // returns cell state in position x on a newly added edge
-        int state;
-        if (edgeSpawner == CAEdgeSpawnType.RANDOM_SPARSE) {
-            state = getRandomState(0.05f);
-        } else if ( edgeSpawner == CAEdgeSpawnType.RANDOM_50_50) {
-            state = getRandomState(.5f);
-        } else if ( edgeSpawner == CAEdgeSpawnType.RANDOM_DENSE){
-            state = getRandomState(.8f);
-        } else if (edgeSpawner == CAEdgeSpawnType.EMPTY){
-            state = 0;
-        } else {
-            throw new IllegalStateException("edgeSpawn type not recognized");
-        }
-        return newCell(state);  // TODO: this should be constructor based on desired cell type
-    }
-
     private int getRandomState(float percentLive){
         if (Math.random() > percentLive) {
             return 0;
@@ -504,67 +387,4 @@ public abstract class CAGridBase {
         }
     }
 
-    private void addColLeft(){
-        // pushes a column onto left side
-        for (int i = states.length-1; i >= 0; i--){
-            for (int j = 0; j < states[0].length; j++){
-                if ( i == 0 ){
-                    states[i][j] = getEdgeState(j);
-                } else {
-                    states[i][j] = states[i-1][j];
-                }
-            }
-        }
-        gridOriginX -= cellSize+1;
-    }
-
-    private void addColRight(){
-        // pushes a column onto right side
-        for (int i = 0; i < states.length; i++){
-            for (int j = 0; j < states[0].length; j++){
-                if ( i == states.length-1 ){
-                    states[i][j] = getEdgeState(j);
-                } else {
-                    states[i][j] = states[i+1][j];
-                }
-            }
-        }
-        gridOriginX += cellSize+1;
-    }
-
-    private void addRowBottom(){
-        // pushes a column of zeros
-        for (int i = 0; i < states.length; i++){
-            for (int j = states[0].length-1; j >= 0; j--){
-                if ( j == 0 ){
-                    states[i][j] = getEdgeState(i);
-                } else {
-                    states[i][j] = states[i][j-1];
-                }
-            }
-        }
-        gridOriginY -= cellSize+1;
-    }
-
-    private void addRowTop(){
-        // pushes a column of zeros
-        for (int i = 0; i < states.length; i++){
-            for (int j = 0; j < states[0].length; j++){
-                if ( j == states[0].length-1 ){
-                    states[i][j] = getEdgeState(i);
-                } else {
-                    states[i][j] = states[i][j+1];
-                }
-            }
-        }
-        gridOriginY += cellSize+1;
-    }
-
-    private void randomizeState() {
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                states[i][j].setState(Math.round(Math.round(Math.random())));// round twice? one is just a cast (I think)
-            }
-        }
-    }
 }

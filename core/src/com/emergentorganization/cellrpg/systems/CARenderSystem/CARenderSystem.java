@@ -19,11 +19,14 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 /**
+ * Renders cellular automata layers globally by selecting the entity with the CameraFollow component.
+ *
  * Created by 7yl4r on 2015-11-18.
  */
 @Wire
 public class CARenderSystem extends BaseEntitySystem {
 
+    // TODO: store caLayer state in manager(?), only do rendering here.
     protected Map<CALayer, CAGridBase> ca_layers = new EnumMap<CALayer, CAGridBase>(CALayer.class);
 
     private final LinkedList<Integer> sortedEntityIds;
@@ -46,7 +49,7 @@ public class CARenderSystem extends BaseEntitySystem {
     private void updateLayerList(Camera camera){
         // updates layer list such that it contains only the ca layers it needs
         //    (so we don't waste time computing layers we're not using)
-        // TODO: add more layers (and do it cleverly). also remove them when not needed
+        // TODO: add / remove layers based on their usage. How? Maybe by checking # "live" cells in layer?
         if (ca_layers.values().size() < 1) {
             LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS).added(camera);
             LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_GENETIC).added(camera);
@@ -58,32 +61,6 @@ public class CARenderSystem extends BaseEntitySystem {
 
     @Override
     protected  void begin() {
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);  // clears the screen
-        //batch.setProjectionMatrix(cameraSystem.getGameCamera().combined);
-        //batch.begin();
-    }
-
-    @Override
-    protected  void processSystem() {
-        for (Integer id : sortedEntityIds) {
-            process(id);
-        }
-    }
-
-    protected  void process(int entityId) {
-        // process completed for each entity matching filter
-//        Visual v = vm.get(entityId);
-//        Position p = pm.get(entityId);
-//        Scale s = sm.get(entityId);
-//        Rotation r = rm.get(entityId);
-//
-//        TextureRegion t = assetManager.getCurrentRegion(v);
-//        if (t != null) {
-//            if (v.isAnimation) {
-//                v.stateTime += world.getDelta();
-//            }
-//            batch.draw(t, cameraSystem.getGameCamera().position.x, cameraSystem.getGameCamera().position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
-//        }
         Camera camera = cameraSystem.getGameCamera();
 
         updateLayerList(camera);
@@ -91,6 +68,11 @@ public class CARenderSystem extends BaseEntitySystem {
         renderer.setAutoShapeType(true);
         renderer.setProjectionMatrix(cameraSystem.getGameCamera().combined);  // this should be uncommented, but doing so breaks cagrid...
         renderer.begin();
+    }
+
+    @Override
+    protected  void processSystem() {
+        Camera camera = cameraSystem.getGameCamera();
 
         for ( Map.Entry<CALayer, CAGridBase> entry : ca_layers.entrySet()) {
             CALayer layerKey = entry.getKey();
@@ -98,12 +80,7 @@ public class CARenderSystem extends BaseEntitySystem {
 
             layer.reposition(cameraSystem.getGameCamera());
             layer.renderGrid(renderer, camera);
-
-            // TODO: for each entityId
-            // process each entity
         }
-
-        renderer.end();
     }
 
     @Override

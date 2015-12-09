@@ -1,21 +1,26 @@
-package com.emergentorganization.cellrpg.components.entity;
+package com.emergentorganization.cellrpg.systems;
 
+import com.artemis.Component;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.EntityComponent;
 import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
 import com.emergentorganization.cellrpg.entities.EntityEvents;
 import com.emergentorganization.cellrpg.scenes.CALayer;
 import com.emergentorganization.cellrpg.scenes.CAScene;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGrid.CAGridBase;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * for allowing entities to "collide" with the CAGrid.
  *
- * create new CACollisionComponent, addCollision() for each effect you want, then addComponent().
+ * create new CAInteractionSystem, addCollision() for each effect you want, then addComponent().
  * Can affect the CAGrid onCollision using a gridStamp int[][].
  * Or can trigger EntityEvent to affect Entity.
  *
@@ -23,10 +28,39 @@ import java.util.HashMap;
  *       Attempting to do so will break HashMap implementation.
  *       A relatively easy fix is possible for events using array if desired.
  *
- * Created by 7yl4r on 9/1/2015.
+ * Ported from CACollisionComponent by 7yl4r on 2015-12-08
  */
-public class CACollisionComponent extends EntityComponent {
+public class CAInteractionSystem extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
+
+    protected  void process(int entityId) {
+        // process completed for each entity matching filter
+//        Visual v = vm.get(entityId);
+//        Position p = pm.get(entityId);
+//        Scale s = sm.get(entityId);
+//        Rotation r = rm.get(entityId);
+//
+//        TextureRegion t = assetManager.getCurrentRegion(v);
+//        if (t != null) {
+//            if (v.isAnimation) {
+//                v.stateTime += world.getDelta();
+//            }
+//            batch.draw(t, cameraSystem.getGameCamera().position.x, cameraSystem.getGameCamera().position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
+//        }
+        // TODO: for each interaction
+        // TODO: perform the action
+    }
+
+    @Override
+    protected  void processSystem() {
+        //Camera camera = cameraSystem.getGameCamera();
+
+        for (Integer id : sortedEntityIds) {
+            process(id);
+        }
+    }
+
+    // TODO: === === === start unported code === === ===
 
     private CAScene parentScene;
     private MovementComponent mc;
@@ -39,7 +73,7 @@ public class CACollisionComponent extends EntityComponent {
     HashMap<Integer, EntityEvents> events = new HashMap<Integer, EntityEvents>(); // events triggered by collisions
     CALayer collidingLayer;
 
-    public CACollisionComponent(CAScene scene, CALayer colliding_layer){
+    public CAInteractionSystem(CAScene scene, CALayer colliding_layer){
         // NOTE: scene is passed in only b/c we can't do getEntity() until after being added, and we want to throw
         //        the no-layer exception now instead.
         if (scene.getLayer(colliding_layer) == null){  // if layer not in this region

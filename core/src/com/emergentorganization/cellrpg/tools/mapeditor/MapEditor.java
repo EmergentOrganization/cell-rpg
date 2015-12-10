@@ -22,8 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
@@ -385,7 +385,7 @@ public class MapEditor extends BaseScene {
         VisList<String> entityList = new VisList<String>();
         entityList.setVisible(true);
 
-        entityList.setItems(EntityIDs.getIDs());
+        entityList.setItems(EntityID.getIDs());
         selectedItem = entityList.getItems().get(entityList.getSelectedIndex());
         final VisList<String> listRef = entityList;
         entityList.addListener(new ChangeListener() {

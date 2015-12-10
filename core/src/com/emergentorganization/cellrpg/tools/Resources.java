@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.tools;
 
-import com.emergentorganization.cellrpg.core.EntityIDs;
+import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.SoundEffect;
 
 import java.util.*;
@@ -24,17 +24,17 @@ public class Resources {
     public static final List<String> ANIM_CIV1_BLINKER;
 
     // GAME
-    public static final String TEX_BULLET = DIR_IMG_GAME + EntityIDs.BULLET;
+    public static final String TEX_BULLET = DIR_IMG_GAME + EntityID.BULLET;
 
     // BLDG
-    public static final String TEX_BLDG_LRG_ONE = DIR_IMG_BLDG + EntityIDs.BUILDING_LARGE_ONE;
-    public static final String TEX_BLDG_ROUND_ONE = DIR_IMG_BLDG + EntityIDs.BUILDING_ROUND_ONE;
-    public static final String TEX_VYROID_BEACON = DIR_IMG_BLDG + EntityIDs.VYROID_BEACON;
+    public static final String TEX_BLDG_LRG_ONE = DIR_IMG_BLDG + EntityID.BUILDING_LARGE_ONE;
+    public static final String TEX_BLDG_ROUND_ONE = DIR_IMG_BLDG + EntityID.BUILDING_ROUND_ONE;
+    public static final String TEX_VYROID_BEACON = DIR_IMG_BLDG + EntityID.VYROID_BEACON;
 
     // ENV
-    public static final String TEX_RIFT_ONE = DIR_IMG_ENV + EntityIDs.RIFT_ONE;
-    public static final String TEX_RIFT_TWO = DIR_IMG_ENV + EntityIDs.RIFT_TWO;
-    public static final String TEX_THE_EDGE = DIR_IMG_ENV + EntityIDs.THE_EDGE;
+    public static final String TEX_RIFT_ONE = DIR_IMG_ENV + EntityID.RIFT_ONE;
+    public static final String TEX_RIFT_TWO = DIR_IMG_ENV + EntityID.RIFT_TWO;
+    public static final String TEX_THE_EDGE = DIR_IMG_ENV + EntityID.THE_EDGE;
 
 
     // Static Initializer
@@ -55,7 +55,7 @@ public class Resources {
         SFX_FILENAME_MAP = Collections.unmodifiableMap(hashMap);
 
         // ANIM_PLAYER
-        String prefix = DIR_IMG_GAME + EntityIDs.PLAYER + "/";
+        String prefix = DIR_IMG_GAME + EntityID.PLAYER + "/";
         ArrayList<String> playerAnim = new ArrayList<String>();
         playerAnim.add(prefix + "0");
         playerAnim.add(prefix + "1");
@@ -70,7 +70,7 @@ public class Resources {
         ANIM_PLAYER = Collections.unmodifiableList(playerAnim);
 
         // ANIM_PLAYER_SHIELD
-        prefix = DIR_IMG_GAME + EntityIDs.PLAYER_SHIELD + "/";
+        prefix = DIR_IMG_GAME + EntityID.PLAYER_SHIELD + "/";
         ArrayList<String> playerShieldAnim = new ArrayList<String>();
         playerShieldAnim.add(prefix + "25p");
         playerShieldAnim.add(prefix + "50p");
@@ -79,7 +79,7 @@ public class Resources {
         ANIM_PLAYER_SHIELD = Collections.unmodifiableList(playerShieldAnim);
 
         // ANIM_CIV1_BLINKER
-        prefix = DIR_IMG_GAME + EntityIDs.CIV_ONE_BLINKER + "/";
+        prefix = DIR_IMG_GAME + EntityID.CIV_ONE_BLINKER + "/";
         ArrayList<String> civ1BlinkerAnim = new ArrayList<String>();
         civ1BlinkerAnim.add(prefix + "0");
         civ1BlinkerAnim.add(prefix + "1");

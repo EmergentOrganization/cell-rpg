@@ -9,9 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.BulletState;
 import com.emergentorganization.cellrpg.components.Name;
 import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.components.Visual;
+import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.core.EntityIDs;
 import com.emergentorganization.cellrpg.core.Tags;
 
 /**
@@ -30,23 +29,23 @@ public class EntityLifecycleSystem extends IteratingSystem {
     }
 
     @Override
-    protected void process(int entityId) {
-        Name name = nameMapper.get(entityId);
-        if (name.internalID.equals(EntityIDs.BULLET)) {
-            manageBullet(entityId);
+    protected void process(int EntityId) {
+        Name name = nameMapper.get(EntityId);
+        if (name.internalID.equals(EntityID.BULLET.toString())) {
+            manageBullet(EntityId);
         }
         // manage other entities with an else-if
     }
 
-    private void manageBullet(int entityId) {
+    private void manageBullet(int EntityId) {
         Position playerPosComp = pm.get(tagManager.getEntity(Tags.PLAYER));
         if (playerPosComp != null) {
-            Vector2 pos = pm.get(entityId).position;
+            Vector2 pos = pm.get(EntityId).position;
             Vector2 playerPos = playerPosComp.position;
-            BulletState bulletState = bulletStateMapper.get(entityId);
+            BulletState bulletState = bulletStateMapper.get(EntityId);
 
             if (pos.cpy().sub(playerPos).len() >= EntityFactory.BULLET_MAX_DIST || bulletState.bounces < 0) {
-                world.delete(entityId);
+                world.delete(EntityId);
             }
         }
     }

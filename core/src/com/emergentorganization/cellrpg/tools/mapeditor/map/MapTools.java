@@ -8,6 +8,7 @@ import com.emergentorganization.cellrpg.components.Name;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Rotation;
 import com.emergentorganization.cellrpg.components.Scale;
+import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileStructure;
@@ -18,6 +19,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
@@ -26,6 +28,10 @@ import java.util.LinkedHashMap;
 public class MapTools {
     public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
+    public static HashMap<String, Void> ENTITY_BLACKLIST = new HashMap<String, Void>(); // Using HashMap for contains API
+    static {
+        ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD.toString(), null);
+    }
 
     /**
      * Imports external JSON maps into the world
@@ -46,13 +52,15 @@ public class MapTools {
             for (Object json : jsonEntities) {
                 JSONObject jsonEntity = (JSONObject) json;
                 String type = (String) jsonEntity.get(JSONKey.TYPE);
-                float x = getFloat(jsonEntity.get(JSONKey.POSITION_X));
-                float y = getFloat(jsonEntity.get(JSONKey.POSITION_Y));
-                float rot = getFloat(jsonEntity.get(JSONKey.ROTATION));
-                float scaleX = getFloat(jsonEntity.get(JSONKey.SCALE_X));
-                float scaleY = getFloat(jsonEntity.get(JSONKey.SCALE_Y));
+                if (!ENTITY_BLACKLIST.containsKey(type)) {
+                    float x = getFloat(jsonEntity.get(JSONKey.POSITION_X));
+                    float y = getFloat(jsonEntity.get(JSONKey.POSITION_Y));
+                    float rot = getFloat(jsonEntity.get(JSONKey.ROTATION));
+                    float scaleX = getFloat(jsonEntity.get(JSONKey.SCALE_X));
+                    float scaleY = getFloat(jsonEntity.get(JSONKey.SCALE_Y));
 
-                entityFactory.createEntityByID(type, new Vector2(x, y), rot);
+                    entityFactory.createEntityByID(type, new Vector2(x, y), rot);
+                }
             }
 
         } catch (ParseException e) {
@@ -73,7 +81,10 @@ public class MapTools {
         ArrayList<LinkedHashMap> entityList = new ArrayList<LinkedHashMap>();
 
         for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
-            entityList.add(exportEntity(world.getEntity(id)));
+            Entity entity = world.getEntity(id);
+            if (!ENTITY_BLACKLIST.containsKey(entity.getComponent(Name.class).internalID)) {
+                entityList.add(exportEntity(entity));
+            }
         }
 
         map.put(JSONKey.ENTITIES, entityList);

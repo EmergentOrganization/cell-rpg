@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
 import java.util.List;
 
@@ -242,14 +242,14 @@ public class EntityBuilder {
             fDef.density = density;
             fDef.friction = friction;
             fDef.restitution = restitution;
-            BodyManager bodyManager = world.getSystem(BodyManager.class);
+            PhysicsSystem physicsSystem = world.getSystem(PhysicsSystem.class);
             if (rectSize != null) {
                 Bounds b = entity.getComponent(Bounds.class);
                 b.width = rectSize.x;
                 b.height = rectSize.y;
-                bodyManager.createBoundsBody(entity.getId(), bDef, fDef);
+                physicsSystem.createBoundsBody(entity.getId(), bDef, fDef);
             } else {
-                bodyManager.createBody(entity.getId(), entityId, bDef, fDef);
+                physicsSystem.createBody(entity.getId(), entityId, bDef, fDef);
             }
         }
 

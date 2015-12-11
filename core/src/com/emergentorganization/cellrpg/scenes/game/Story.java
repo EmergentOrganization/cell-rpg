@@ -23,8 +23,6 @@ import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
  * Created by brian on 10/30/15.
  */
 public class Story extends BaseScene {
-
-    private final com.badlogic.gdx.physics.box2d.World physWorld;
     private World world;
 
     private SpriteBatch batch;
@@ -32,8 +30,7 @@ public class Story extends BaseScene {
 
     public Story(final PixelonTransmission pt) {
         super(pt);
-        physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
-        initArtemis(physWorld);
+        initArtemis();
         world.getSystem(RenderSystem.class).setTronShader(
                 new TronShader(new Vector3(1, 1, 1))
         );
@@ -58,10 +55,10 @@ public class Story extends BaseScene {
         MapTools.importMap("OneEachTestMap", entityFactory);
     }
 
-    private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
+    private void initArtemis() {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = WorldFactory.standardGameWorld(pt, physWorld, batch, stage, entityFactory);
+        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
     }
 
     @Override
@@ -70,15 +67,13 @@ public class Story extends BaseScene {
 
         world.setDelta(delta);
         world.process();
-
-        physWorld.step(PixelonTransmission.PHYSICS_TIMESTEP, 6, 2);
     }
 
     @Override
     public void dispose() {
+        super.dispose();
         world.dispose();
         batch.dispose();
-        physWorld.dispose();
     }
 
     @Override

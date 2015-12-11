@@ -5,8 +5,6 @@ import com.artemis.utils.IntBag;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -16,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.PhysicsBody;
 import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.managers.BodyManager;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 
 import java.util.ArrayList;
@@ -145,7 +143,7 @@ public class EditorInputProcessor implements InputProcessor {
             Entity mapTarget = editor.getMapTarget();
 
             if (mapTarget != null) {
-                HashMap<Integer, Body> map = editor.getWorld().getSystem(BodyManager.class).getBodies();
+                HashMap<Integer, Body> map = editor.getWorld().getSystem(PhysicsSystem.class).getBodies();
                 Body body = map.get(mapTarget.getId());
                 if (body != null)
                     body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());

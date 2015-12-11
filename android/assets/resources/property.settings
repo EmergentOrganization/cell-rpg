@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 #Wed Dec 09 18:10:27 EST 2015
 majorVersion=0
 revision=85df1be
+=======
+#Thu Dec 10 06:56:02 CET 2015
+majorVersion=0
+revision=8bf9fdb
+>>>>>>> bfc15c32c7389f96950514ebf838bf8c6608adac
 minorVersion=3

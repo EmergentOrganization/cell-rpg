@@ -113,7 +113,7 @@ public class MapEditor extends BaseScene {
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
+        world = WorldFactory.editorGameWorld(pt, batch, stage, entityFactory);
 
         physicsSystem = world.getSystem(PhysicsSystem.class);
         entityFactory.createPlayer(0, 0);

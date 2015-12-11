@@ -45,7 +45,7 @@ public class EntityFactory {
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).add(Equipment.class).build(world);
-        ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
+        ca_layer = new ArchetypeBuilder(object).add(CAGridComponents.class).build(world);
     }
 
     public int createPlayer(float x, float y) {
@@ -181,6 +181,7 @@ public class EntityFactory {
 
     public int createCALayerVyroids(Vector2 pos){
         Entity layer = new EntityBuilder(world, object, "Standard Vyroid CA Layer", EntityIDs.CA_LAYER_VYROIDS, pos)
+                .texture(Resources.CA_LAYER_VYROIDS)
                 .renderIndex(RenderIndex.CA)
                 .build();
         return layer.getId();

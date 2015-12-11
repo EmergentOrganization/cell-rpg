@@ -34,7 +34,8 @@ public class EntityIDs {
                 RIFT_TWO,
                 VYROID_BEACON,
                 CIV_ONE_BLINKER,
-                THE_EDGE
+                THE_EDGE,
+                CA_LAYER_VYROIDS
         };
     }
 }

@@ -67,6 +67,7 @@ public class AssetManager extends BaseSystem {
     }
 
     public TextureRegion getRegion(String id) {
+        // logger.warn("texture region for " + id + " not found in atlas")
         return regions.get(id);
     }
 

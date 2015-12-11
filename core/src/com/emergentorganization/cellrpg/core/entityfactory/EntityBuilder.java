@@ -5,6 +5,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -13,6 +14,7 @@ import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -196,11 +198,16 @@ public class EntityBuilder {
                 entity.getComponent(Bounds.class).setFromRegion(animation.getKeyFrames()[0]);
             } else if (texturePath != null){
                 v.setTexture(texturePath);
+                TextureRegion region = world.getSystem(AssetManager.class).getRegion(texturePath);
+                if (region == null){
+                    // TODO: should this be logger.error or FileNotFoundException instead?
+                    throw new RuntimeException("texture not found in atlas at texturePath:" + texturePath);
+                }
                 entity.getComponent(Bounds.class).setFromRegion(
-                        world.getSystem(AssetManager.class).getRegion(texturePath)
+                        region
                 );
             } else {
-                throw new RuntimeException("ERROR: Need to set a texture or animation on entity " + entityId);
+                throw new RuntimeException("ERROR: EntityFactory entity creator must set a texture or animation for " + entityId);
             }
         }
 

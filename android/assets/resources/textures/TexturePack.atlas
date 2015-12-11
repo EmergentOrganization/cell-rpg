@@ -13,7 +13,7 @@ game/buildings/building-large-1
   index: -1
 game/buildings/building-round-1
   rotate: false
-  xy: 1900, 775
+  xy: 2402, 775
   size: 300, 304
   orig: 300, 304
   offset: 0, 0
@@ -27,7 +27,7 @@ game/buildings/vyroid-generator
   index: -1
 game/bullet
   rotate: false
-  xy: 2002, 720
+  xy: 1488, 406
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -48,49 +48,49 @@ game/char-civ1-blinker/1
   index: -1
 game/char-player/0
   rotate: false
-  xy: 2002, 737
+  xy: 1488, 423
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/1
   rotate: false
-  xy: 2202, 941
+  xy: 2402, 635
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/2
   rotate: false
-  xy: 2304, 1043
+  xy: 2504, 737
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/3
   rotate: false
-  xy: 1386, 219
+  xy: 2704, 941
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/4
   rotate: false
-  xy: 1488, 321
+  xy: 2806, 1043
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/5
   rotate: false
-  xy: 1590, 423
+  xy: 2104, 541
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/6
   rotate: false
-  xy: 1900, 533
+  xy: 1386, 219
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
@@ -114,6 +114,20 @@ game/char-player/9
   xy: 2, 2
   size: 40, 36
   orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/environment/ca-layer-vyroids
+  rotate: false
+  xy: 1900, 579
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+game/checkerboard
+  rotate: false
+  xy: 1900, 579
+  size: 500, 500
+  orig: 500, 500
   offset: 0, 0
   index: -1
 game/environment/rift1
@@ -146,77 +160,77 @@ game/light
   index: -1
 game/player-ammo/0p
   rotate: false
-  xy: 2044, 763
+  xy: 1900, 465
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/100p
   rotate: false
-  xy: 2202, 929
+  xy: 1530, 449
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/25p
   rotate: false
-  xy: 2244, 967
+  xy: 2402, 623
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/50p
   rotate: false
-  xy: 2304, 1031
+  xy: 2444, 661
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/75p
   rotate: false
-  xy: 2346, 1069
+  xy: 2504, 725
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/powerup-plus
   rotate: false
-  xy: 1488, 359
+  xy: 2002, 477
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/powerup-star
   rotate: false
-  xy: 1900, 571
+  xy: 1386, 257
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/100p
   rotate: false
-  xy: 1386, 359
+  xy: 1900, 477
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/25p
   rotate: false
-  xy: 1900, 673
+  xy: 1386, 359
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/50p
   rotate: false
-  xy: 2202, 979
+  xy: 2402, 673
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/75p
   rotate: false
-  xy: 1386, 257
+  xy: 2704, 979
   size: 100, 100
   orig: 100, 100
   offset: 0, 0

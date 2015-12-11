@@ -73,7 +73,7 @@ public class CARenderSystem extends BaseEntitySystem {
         //CALayer layerKey = entry.getKey();
         //CAGridBase layer = entry.getValue();
 
-        renderGrid();
+        renderGrid(layerStuff);
     }
 
     @Override
@@ -115,11 +115,11 @@ public class CARenderSystem extends BaseEntitySystem {
         return new BaseCell(init_state);
     }
 
-    public void renderGrid() {
+    public void renderGrid(CAGridComponents ca_components) {
         Camera camera = cameraSystem.getGameCamera();
 
-        float x_origin = getXOrigin(camera);
-        float y_origin = getYOrigin(camera);
+        float x_origin = ca_components.getXOrigin(camera);
+        float y_origin = ca_components.getYOrigin(camera);
 
         //shapeRenderer.setProjectionMatrix(new Matrix4());
         Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
@@ -130,9 +130,9 @@ public class CARenderSystem extends BaseEntitySystem {
         ShapeRenderer.ShapeType oldType = renderer.getCurrentType();
         renderer.set(ShapeRenderer.ShapeType.Filled);
 
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                renderCell(i, j, renderer, x_origin, y_origin);
+        for (int i = 0; i < ca_components.states.length; i++) {
+            for (int j = 0; j < ca_components.states[0].length; j++) {
+                renderCell(ca_components, i, j, x_origin, y_origin);
             }
         }
         renderer.set(oldType);
@@ -141,7 +141,20 @@ public class CARenderSystem extends BaseEntitySystem {
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 
-    protected abstract void renderCell(final int i, final int j, ShapeRenderer shapeRenderer,
-                                       final float x_origin, final float y_origin);
+    protected void renderCell(CAGridComponents layerComponents, final int i, final int j,
+                              final float x_origin, final float y_origin){
+        // TODO: if layerComponents.renderType == noBuffer else if == genetic... etc
+    }
 
+    protected void renderCell_noBuffer(CAGridComponents layerComponents, final int i, final int j,
+                              final float x_origin, final float y_origin){
+        if (layerComponents.states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
+            // draw square
+            renderer.setColor(layerComponents.stateColorMap[layerComponents.states[i][j].getState()-1]);
+
+            float x = i * (layerComponents.cellSize + 1) + x_origin;  // +1 for cell border
+            float y = j * (layerComponents.cellSize + 1) + y_origin;
+            renderer.rect(x, y, layerComponents.cellSize, layerComponents.cellSize);
+        }
+    }
 }

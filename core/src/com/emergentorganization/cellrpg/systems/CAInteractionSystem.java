@@ -23,7 +23,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public CAInteractionSystem(){
-        super(Aspect.all(CameraFollow.class));  // select only (assumed 1) camera-followed component (a bit hacky)
+        super(Aspect.all(CameraFollow.class));
 
 //        sortedEntityIds = new LinkedList<Integer>();
     }

@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
  * Created by BrianErikson on 6/19/2015.
  */
 public class MapTools {
+
     public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
     public static HashMap<String, Void> ENTITY_BLACKLIST = new HashMap<String, Void>(); // Using HashMap for contains API

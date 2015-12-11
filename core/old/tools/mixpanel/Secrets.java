@@ -25,7 +25,7 @@ public class Secrets {
 
     public static void initialize(){
         try {
-            obj = parser.parse(new FileReader(Gdx.files.getLocalStoragePath() + File.separator + FileStructure.RESOURCE_DIR + "secrets.json"));
+            obj = parser.parse(new FileReader(Gdx.files.getLocalStoragePath() + "/" + FileStructure.RESOURCE_DIR + "secrets.json"));
             jsonObject = (org.json.simple.JSONObject) obj;
 
             MIXPANEL_TOKEN = (String) jsonObject.get("mixpanel_token");

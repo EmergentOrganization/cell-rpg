@@ -34,8 +34,8 @@ public class ShieldComponent extends EntityComponent {
         graphicsComponent.play("100percent");
 
         AssetManager assets = CellRpg.fetch().getAssetManager();
-        hurt = assets.get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "PlayerHurt.wav", Sound.class);
-        shieldDown = assets.get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "ShieldDown.wav", Sound.class);
+        hurt = assets.get(FileStructure.RESOURCE_DIR + "sounds/PlayerHurt.wav", Sound.class);
+        shieldDown = assets.get(FileStructure.RESOURCE_DIR + "sounds/ShieldDown.wav", Sound.class);
     }
 
     public float getHealth(){

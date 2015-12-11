@@ -44,7 +44,6 @@ import java.io.File;
  * Created by BrianErikson on 6/14/2015.
  */
 public class MapEditor extends BaseScene {
-    private final com.badlogic.gdx.physics.box2d.World physWorld;
     private final OrthographicCamera gameCamera;
     private final InputMultiplexer multiplexer;
     private String selectedItem;
@@ -86,8 +85,7 @@ public class MapEditor extends BaseScene {
     public MapEditor(PixelonTransmission pt) {
         super(pt);
 
-        physWorld = new com.badlogic.gdx.physics.box2d.World(new Vector2(), true);
-        initArtemis(physWorld);
+        initArtemis();
 
         VisUI.setDefaultTitleAlign(Align.center);
 
@@ -110,7 +108,7 @@ public class MapEditor extends BaseScene {
         Gdx.input.setInputProcessor(multiplexer);
     }
 
-    private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
+    private void initArtemis() {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
         world = WorldFactory.editorGameWorld(pt, batch, stage, entityFactory);
@@ -446,8 +444,6 @@ public class MapEditor extends BaseScene {
         world.setDelta(delta);
         world.process();
 
-        physWorld.step(PixelonTransmission.PHYSICS_TIMESTEP, 6, 2);
-
         shapeRenderer.setProjectionMatrix(gameCamera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -638,7 +634,7 @@ public class MapEditor extends BaseScene {
         return world;
     }
 
-    public com.badlogic.gdx.physics.box2d.World getPhysWorld() {
-        return physWorld;
+    public PhysicsSystem getPhysicsSystem() {
+        return physicsSystem;
     }
 }

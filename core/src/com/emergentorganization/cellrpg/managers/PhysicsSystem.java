@@ -127,6 +127,10 @@ public class PhysicsSystem extends BaseEntitySystem {
         physWorld.setContactListener(listener);
     }
 
+    public void queryAABB(QueryCallback queryCallback, float lowerX, float lowerY, float upperX, float upperY) {
+        physWorld.QueryAABB(queryCallback, lowerX, lowerY, upperX, upperY);
+    }
+
     public HashMap<Integer, Body> getBodies() {
         return bodies;
     }

@@ -72,7 +72,7 @@ public class EditorInputProcessor implements InputProcessor {
             Vector3 gameVec = editor.getGameCamera().unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
             Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
             final ArrayList<Integer> entities = new ArrayList<Integer>();
-            editor.getPhysWorld().QueryAABB(new QueryCallback() {
+            editor.getPhysicsSystem().queryAABB(new QueryCallback() {
                 @Override
                 public boolean reportFixture(Fixture fixture) {
                     Body body = fixture.getBody();
@@ -143,10 +143,10 @@ public class EditorInputProcessor implements InputProcessor {
             Entity mapTarget = editor.getMapTarget();
 
             if (mapTarget != null) {
-                HashMap<Integer, Body> map = editor.getWorld().getSystem(PhysicsSystem.class).getBodies();
-                Body body = map.get(mapTarget.getId());
-                if (body != null)
+                Body body = editor.getWorld().getSystem(PhysicsSystem.class).getBody(mapTarget.getId());
+                if (body != null) {
                     body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
+                }
                 else
                     mapTarget.getComponent(Position.class).position.set(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
                 editor.updateTargetTransform();

@@ -78,4 +78,31 @@ public enum EntityID {
 
         return str;
     }
+
+    public static EntityID fromString(String id) {
+        if (id.equals(BULLET_STR))
+            return BULLET;
+        else if (id.equals(PLAYER_STR))
+            return PLAYER;
+        else if (id.equals(PLAYER_SHIELD_STR))
+            return PLAYER_SHIELD;
+        else if (id.equals(BUILDING_LARGE_ONE_STR))
+            return BUILDING_LARGE_ONE;
+        else if (id.equals(BUILDING_ROUND_ONE_STR))
+            return BUILDING_ROUND_ONE;
+        else if (id.equals(RIFT_ONE_STR))
+            return RIFT_ONE;
+        else if (id.equals(RIFT_TWO_STR))
+            return RIFT_TWO;
+        else if (id.equals(VYROID_BEACON_STR))
+            return VYROID_BEACON;
+        else if (id.equals(CIV_ONE_BLINKER_STR))
+            return CIV_ONE_BLINKER;
+        else if (id.equals(THE_EDGE_STR))
+            return THE_EDGE;
+        else if (id.equals(INVISIBLE_WALL_STR))
+            return INVISIBLE_WALL;
+        else
+            throw new RuntimeException("ERROR: Could not find EntityID " + id + " in EntityID.fromString()");
+    }
 }

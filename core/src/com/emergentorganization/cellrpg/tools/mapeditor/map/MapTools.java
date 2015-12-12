@@ -59,7 +59,7 @@ public class MapTools {
                     float scaleX = getFloat(jsonEntity.get(JSONKey.SCALE_X));
                     float scaleY = getFloat(jsonEntity.get(JSONKey.SCALE_Y));
 
-                    entityFactory.createEntityByID(type, new Vector2(x, y), rot);
+                    entityFactory.createEntityByID(EntityID.fromString(type), new Vector2(x, y), rot);
                 }
             }
 

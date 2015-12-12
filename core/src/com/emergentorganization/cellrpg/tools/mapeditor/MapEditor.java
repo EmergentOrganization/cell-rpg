@@ -1,7 +1,10 @@
 package com.emergentorganization.cellrpg.tools.mapeditor;
 
+import com.artemis.Aspect;
+import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.utils.IntBag;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -9,17 +12,13 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.EntityID;
@@ -27,7 +26,6 @@ import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
-import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.systems.InputSystem;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
@@ -35,70 +33,56 @@ import com.emergentorganization.cellrpg.tools.FileListNode;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
-import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.widget.*;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by BrianErikson on 6/14/2015.
  */
-public class MapEditor extends BaseScene {
+public class MapEditor extends BaseScene implements InputProcessor {
+    public static final float AXIS_POLE_LENGTH = 10000.0f;
     private final OrthographicCamera gameCamera;
     private final InputMultiplexer multiplexer;
-    private String selectedItem;
+    private final EditorWindow window;
 
-    public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
-    public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;
-    public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
-    public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
-    public static float SAVE_WINDOW_WIDTH = Gdx.graphics.getWidth() / 6f;
-    public static float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
-    public static float MOVE_SPEED = 300f;
-    public static float MIN_ZOOM = 0.001f;
-    public static float ZOOM_AMT = 0.001f; // amount of zoom per keypress
+    public static final float MOVE_SPEED = 300.0f;
+    public static final float MIN_ZOOM = 0.001f;
+    public static final float ZOOM_AMT = 0.001f; // amount of zoom per keypress
 
     private static final float AXIS_POLE_SIZE = 1.0f; // size of the axis poles denoting 0,0
-    public static float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
+    public static final float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
 
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
-    private PopupMenu contextMenu;
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    private Entity target = null;
-    private VisTextField xField;
-    private VisTextField yField;
-    private VisTextField rotField;
-    private VisTextField scaleField;
+    private EditorTarget target;
 
-    private final VisWindow saveWindow = new VisWindow("Save", true);
-    private final VisWindow loadWindow = new VisWindow("Load", true);
     private boolean mapInputEnabled = true;
     private SpriteBatch batch;
     private World world;
     private EntityFactory entityFactory;
     private PhysicsSystem physicsSystem;
-    private VisList<FileListNode> importList;
-    private BoundsGizmo boundsGizmo;
+
+
+    private static final float ZOOM_FACTOR = 0.001f;
+    private MapEditor editor;
+    public static final float HIT_ACCURACY =  0.05f; // lower the value, the more accurate the hit detection
+    private Vector2 dragOffset = new Vector2();
 
     public MapEditor(PixelonTransmission pt) {
         super(pt);
 
         initArtemis();
 
-        VisUI.setDefaultTitleAlign(Align.center);
-
-        initLeftPane();
-        initMenuBar();
-        initContextMenu();
-
-        initSaveWindow();
-        initLoadWindow();
+        window = new EditorWindow(pt, this, stage, world);
 
         gameCamera = (OrthographicCamera) world.getSystem(CameraSystem.class).getGameCamera();
 
-        multiplexer = new InputMultiplexer(stage, new EditorInputProcessor(this));
+        multiplexer = new InputMultiplexer(stage, this);
         Gdx.input.setInputProcessor(multiplexer);
     }
 
@@ -120,299 +104,7 @@ public class MapEditor extends BaseScene {
         world.getSystem(CameraSystem.class).setCamFollow(false);
     }
 
-    private void initSaveWindow() {
-        final float PADDING = 2f;
-
-        saveWindow.setWidth(SAVE_WINDOW_WIDTH);
-        saveWindow.setHeight(SAVE_WINDOW_HEIGHT);
-        saveWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
-
-        VisTable table = new VisTable();
-
-        VisLabel fileNameLabel = new VisLabel("Map Name", Align.center);
-        table.add(fileNameLabel).pad(PADDING).fill(true, false).colspan(2).row();
-
-        final VisTextField fileField = new VisTextField();
-        table.add(fileField).pad(PADDING).fill(true, false).colspan(2).row();
-
-        VisTextButton save = new VisTextButton("Save");
-        table.add(save).pad(PADDING).fill(true, false);
-
-        VisTextButton cancel = new VisTextButton("Cancel");
-        table.add(cancel).pad(PADDING).fill(true, false);
-
-        saveWindow.add(table).expand().fill();
-        saveWindow.getTitleLabel().setColor(Color.GRAY);
-
-        final MapEditor _this = this;
-        save.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                if (!fileField.getText().isEmpty()) {
-                    MapTools.exportMap(world, fileField.getText());
-                    setSaveWindowVisible(false);
-                }
-            }
-        });
-
-        cancel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                setSaveWindowVisible(false);
-            }
-        });
-    }
-
-    private void initLoadWindow() {
-        final float PADDING = 2f;
-
-        loadWindow.setWidth(SAVE_WINDOW_WIDTH);
-        loadWindow.setHeight(SAVE_WINDOW_HEIGHT);
-        loadWindow.setPosition(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, Align.center);
-
-        importList = new VisList<FileListNode>();
-
-        FileListNode[] maps = getMaps();
-        if (maps != null) {
-            importList.setItems(getMaps());
-        }
-
-        final VisScrollPane scrollPane = new VisScrollPane(importList);
-        scrollPane.setScrollingDisabled(true, false);
-        scrollPane.setupFadeScrollBars(1f, 0.3f);
-        scrollPane.setupOverscroll(20f, 30f, 200f);
-
-        VisTable table = new VisTable();
-
-        VisTextButton load = new VisTextButton("Load");
-        table.add(load).pad(PADDING).expand().fill().align(Align.left);
-
-        VisTextButton cancel = new VisTextButton("Cancel");
-        table.add(cancel).pad(PADDING).fill();
-
-        loadWindow.add(scrollPane).pad(PADDING).expand().fill(true, false).row();
-        loadWindow.add(table).expand().fill(true, false);
-
-        final MapEditor _this = this;
-        load.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                FileListNode selected = importList.getSelected();
-                if (selected != null) {
-                    String fileName = selected.file.getName();
-                    String mapName = fileName.substring(0, fileName.length() - MapTools.EXTENSION.length());
-
-                    clearMap();
-                    MapTools.importMap(mapName, entityFactory);
-                    setLoadWindowVisible(false);
-                }
-            }
-        });
-
-        cancel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                setLoadWindowVisible(false);
-            }
-        });
-    }
-
-    private void initContextMenu() {
-        contextMenu = new PopupMenu();
-
-        contextMenu.addItem(new MenuItem("Add Entity from List", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                Vector3 worldSpace = stage.getCamera().unproject(new Vector3(lastRMBClick.x, lastRMBClick.y, 0f));
-                Vector3 unproject = gameCamera.unproject(new Vector3(worldSpace.x, worldSpace.y, 0f));
-                createNewEntity(new Vector2(unproject.x, unproject.y));
-                closeContextMenu();
-            }
-        }));
-    }
-
-    private void initMenuBar() {
-        MenuBar menuBar = new MenuBar();
-        final VisTable table = (VisTable) menuBar.getTable();
-        table.setWidth(MENU_BAR_WIDTH);
-        table.setHeight(MENU_BAR_HEIGHT);
-        table.setPosition(LEFT_PANEL_WIDTH, Gdx.graphics.getHeight() - MENU_BAR_HEIGHT);
-
-        Menu menu = new Menu("File");
-
-        MenuItem clear = new MenuItem("Clear Map");
-        menu.addItem(clear);
-
-        MenuItem imp = new MenuItem("Import");
-        menu.addItem(imp);
-
-        MenuItem exp = new MenuItem("Export");
-        menu.addItem(exp);
-
-        MenuItem exit = new MenuItem("Exit to Main Menu");
-        menu.addItem(exit);
-
-        menuBar.addMenu(menu);
-        table.addSeparator(true);
-
-        table.add(new VisLabel("X: "));
-        xField = new VisTextField("0.0");
-        table.add(xField).width(MENU_BAR_WIDTH / 8f);
-        table.addSeparator(true);
-
-        table.add(new VisLabel("Y: "));
-        yField = new VisTextField("0.0");
-        table.add(yField).width(MENU_BAR_WIDTH / 8f);
-        table.addSeparator(true);
-
-        table.add(new VisLabel("Rotation: "));
-        rotField = new VisTextField("0.0");
-        table.add(rotField).width(MENU_BAR_WIDTH / 8f);
-        table.addSeparator(true);
-
-        table.add(new VisLabel("Scale: "));
-        scaleField = new VisTextField("0.0");
-        table.add(scaleField).width(MENU_BAR_WIDTH / 8f);
-        table.addSeparator(true);
-
-        clear.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                clearMap();
-            }
-        });
-
-        imp.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                setLoadWindowVisible(true);
-            }
-        });
-
-        exp.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                setSaveWindowVisible(true);
-            }
-        });
-
-        exit.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                // TODO: Throw warning window saying that changes won't be saved if they continue
-                pt.getSceneManager().setScene(Scene.MAIN_MENU);
-            }
-        });
-
-        xField.setTextFieldFilter(new TransformTextFilter());
-        xField.setTextFieldListener(new VisTextField.TextFieldListener() {
-            @Override
-            public void keyTyped(VisTextField textField, char c) {
-                try {
-                    float v = Float.parseFloat(textField.getText());
-                    if (target != null) {
-                        Body body = physicsSystem.getBody(target.getId());
-                        if (body != null)
-                            body.setTransform(v, body.getPosition().y, body.getAngle());
-                        else
-                            target.getComponent(Position.class).position.x = v;
-                    }
-                }
-                catch (NumberFormatException e) {
-                    // meh
-                }
-            }
-        });
-        yField.setTextFieldFilter(new TransformTextFilter());
-        yField.setTextFieldListener(new VisTextField.TextFieldListener() {
-            @Override
-            public void keyTyped(VisTextField textField, char c) {
-                try {
-                    float v = Float.parseFloat(textField.getText());
-                    if (target != null) {
-                        Body body = physicsSystem.getBody(target.getId());
-                        if (body != null)
-                            body.setTransform(body.getPosition().x, v, body.getAngle());
-                        else
-                            target.getComponent(Position.class).position.y = v;
-                    }
-                } catch (NumberFormatException e) {
-                    // meh
-                }
-            }
-        });
-        rotField.setTextFieldFilter(new TransformTextFilter());
-        rotField.setTextFieldListener(new VisTextField.TextFieldListener() {
-            @Override
-            public void keyTyped(VisTextField textField, char c) {
-                try {
-                    float v = Float.parseFloat(textField.getText());
-                    if (target != null) {
-                        Body body = physicsSystem.getBody(target.getId());
-                        if (body != null)
-                            body.setTransform(body.getPosition().x, body.getPosition().y, MathUtils.degreesToRadians * v);
-                        else
-                            target.getComponent(Rotation.class).angle = v;
-                    }
-                } catch (NumberFormatException e) {
-                    // meh
-                }
-            }
-        });
-        scaleField.setTextFieldFilter(new TransformTextFilter());
-        scaleField.setTextFieldListener(new VisTextField.TextFieldListener() {
-            @Override
-            public void keyTyped(VisTextField textField, char c) {
-                try {
-                    float v = Float.parseFloat(textField.getText());
-                    if (target != null)
-                        target.getComponent(Scale.class).scale = v; // TODO: rebuild colliders on resize
-                } catch (NumberFormatException e) {
-                    // meh
-                }
-            }
-        });
-
-        stage.addActor(menuBar.getTable());
-    }
-
-    private void initLeftPane() {
-        VisList<String> entityList = new VisList<String>();
-        entityList.setVisible(true);
-
-        entityList.setItems(EntityID.getIDs());
-        selectedItem = entityList.getItems().get(entityList.getSelectedIndex());
-        final VisList<String> listRef = entityList;
-        entityList.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                selectedItem = listRef.getItems().get(listRef.getSelectedIndex());
-            }
-        });
-
-        VisScrollPane scrollPane = new VisScrollPane(entityList);
-        scrollPane.setVisible(true);
-        scrollPane.setScrollingDisabled(true, false);
-        scrollPane.setupFadeScrollBars(1f, 0.3f);
-        scrollPane.setupOverscroll(20f, 30f, 200f);
-
-        VisWindow leftPane = new VisWindow("Assets");
-        leftPane.setWidth(LEFT_PANEL_WIDTH);
-        leftPane.setHeight(LEFT_PANEL_HEIGHT);
-        leftPane.clearListeners(); // disable interaction on window
-
-        Cell<VisScrollPane> scrollCell = leftPane.add(scrollPane);
-        scrollCell.align(Align.topLeft);
-        stage.addActor(leftPane);
-    }
-
-    private FileListNode[] getMaps() {
+    public FileListNode[] getMaps() {
         File folder = new File(MapTools.FOLDER_ROOT);
 
         if (folder.exists()) {
@@ -431,8 +123,22 @@ public class MapEditor extends BaseScene {
         return null;
     }
 
-    private void createNewEntity(Vector2 pos) {
-        entityFactory.createEntityByID(selectedItem, pos, 0f);
+    /**
+     * Instantiates new entity
+     * @param pos Position in world-space
+     */
+    public void createNewEntity(EntityID id, Vector3 pos) {
+        entityFactory.createEntityByID(id, new Vector2(pos.x, pos.y), 0.0f);
+    }
+
+    /**
+     * Instantiates new entity
+     * @param pos Position in screen-space
+     */
+    public void createNewEntity(EntityID id, Vector2 pos) {
+        Vector3 worldSpace = stage.getCamera().unproject(new Vector3(lastRMBClick.x, lastRMBClick.y, 0.0f));
+        Vector3 unproject = gameCamera.unproject(new Vector3(worldSpace.x, worldSpace.y, 0.0f));
+        createNewEntity(id, unproject);
     }
 
     @Override
@@ -448,16 +154,16 @@ public class MapEditor extends BaseScene {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         // x / y axis
-        shapeRenderer.rect(0f, 0f, 10000f, AXIS_POLE_SIZE * gameCamera.zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
-        shapeRenderer.rect(0f, 0f, AXIS_POLE_SIZE * gameCamera.zoom, 10000f, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0.0f, 0.0f, AXIS_POLE_LENGTH, AXIS_POLE_SIZE * gameCamera.zoom, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
+        shapeRenderer.rect(0.0f, 0.0f, AXIS_POLE_SIZE * gameCamera.zoom, AXIS_POLE_LENGTH, Color.GRAY, Color.GRAY, Color.GRAY, Color.GRAY);
 
         // selected object bounds
         if (target != null) {
-            Bounds bounds = target.getComponent(Bounds.class);
+            Bounds bounds = target.getEntity().getComponent(Bounds.class);
             Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
-            Vector2 pos = target.getComponent(Position.class).position.cpy();//.add(size.cpy().scl(0.5f));
-            boundsGizmo.setPosition(pos);
-            boundsGizmo.render(shapeRenderer);
+            Vector2 pos = target.getEntity().getComponent(Position.class).position.cpy();//.add(size.cpy().scl(0.5f));
+            target.getBoundsGizmo().setPosition(pos);
+            target.getBoundsGizmo().render(shapeRenderer);
         }
 
         shapeRenderer.end();
@@ -470,12 +176,12 @@ public class MapEditor extends BaseScene {
         return false;
     }
 
-    private void clearMap() {
+    public void clearMap() {
         for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
             world.delete(id);
         }
 
-        setMapTarget(null);
+        target = null;
     }
 
     private void handleInput() {
@@ -485,20 +191,20 @@ public class MapEditor extends BaseScene {
             float speed = MOVE_SPEED * gameCamera.zoom * Gdx.graphics.getDeltaTime();
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 update = true;
-                gameCamera.position.add(0f, speed, 0f);
+                gameCamera.position.add(0.0f, speed, 0.0f);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 update = true;
-                gameCamera.position.add(0f, -speed, 0f);
+                gameCamera.position.add(0.0f, -speed, 0.0f);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 update = true;
-                gameCamera.position.add(speed, 0f, 0f);
+                gameCamera.position.add(speed, 0.0f, 0.0f);
             }
             else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 update = true;
-                gameCamera.position.add(-speed, 0f, 0f);
+                gameCamera.position.add(-speed, 0.0f, 0.0f);
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.Z)) { // zoom in
@@ -513,8 +219,8 @@ public class MapEditor extends BaseScene {
             if (update) gameCamera.update();
 
             if (Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL) && target != null) {
-                target.deleteFromWorld();
-                setMapTarget(null);
+                target.getEntity().deleteFromWorld();
+                target = null;
             }
         }
     }
@@ -522,10 +228,6 @@ public class MapEditor extends BaseScene {
     @Override
     public void hide() {
 
-    }
-
-    public String getSelectedItem() {
-        return selectedItem;
     }
 
     public Vector2 getLastRMBClick() {
@@ -544,82 +246,24 @@ public class MapEditor extends BaseScene {
         lastLMBClick.set(vec);
     }
 
-    public void openContextMenu() {
-        contextMenu.showMenu(stage, lastRMBClick.x, lastRMBClick.y);
-    }
-
-    public void closeContextMenu() {
-        contextMenu.remove();
-    }
-
-    public void setMapTarget(Entity target) {
+    public void setTarget(EditorTarget target) {
         this.target = target;
-        if (this.target != null) {
-            Bounds bounds = target.getComponent(Bounds.class);
-            Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
-            Vector2 pos = target.getComponent(Position.class).position.cpy().add(size.cpy().scl(0.5f));
-            this.boundsGizmo = new BoundsGizmo(size, pos);
-        } else {
-            this.boundsGizmo = null;
-        }
-        updateTargetTransform();
+        window.updateTransform(target.getEntity());
     }
 
-    public void updateTargetTransform() {
-        if (this.target != null) {
-            Vector2 pos = target.getComponent(Position.class).position;
-            float rot = target.getComponent(Rotation.class).angle;
-            float scale = target.getComponent(Scale.class).scale;
-            xField.setText(String.valueOf(pos.x));
-            yField.setText(String.valueOf(pos.y));
-            rotField.setText(String.valueOf(rot));
-            scaleField.setText(String.valueOf(scale));
-        }
-        else {
-            xField.setText("0.0");
-            yField.setText("0.0");
-            rotField.setText("0.0");
-            scaleField.setText("0.0");
-        }
+    private void setTarget(Entity entity) {
+        Bounds bounds = entity.getComponent(Bounds.class);
+        Vector2 size = new Vector2(bounds.width, bounds.height);
+        Vector2 pos = entity.getComponent(Position.class).position.cpy();
+        setTarget(new EditorTarget(new BoundsGizmo(size, pos), entity));
     }
 
-    public Entity getMapTarget() { return target; }
-
-    public void enableMapInput(boolean enable) {
+    public void setMapInput(boolean enable) {
         this.mapInputEnabled = enable;
     }
 
     public boolean isMapInputEnabled() {
         return mapInputEnabled;
-    }
-
-    public void setSaveWindowVisible(boolean show) {
-        if (show) {
-            stage.addActor(saveWindow);
-            saveWindow.fadeIn();
-        }
-        else
-            saveWindow.fadeOut();
-
-        enableMapInput(!show);
-    }
-
-    public void setLoadWindowVisible(boolean show) {
-        if (show) {
-            stage.addActor(loadWindow);
-            refreshMapList();
-            loadWindow.fadeIn();
-        }
-        else
-            loadWindow.fadeOut();
-
-        enableMapInput(!show);
-    }
-
-    private void refreshMapList() {
-        FileListNode[] maps = getMaps();
-        if (maps != null)
-            importList.setItems(maps);
     }
 
     public Stage getUiStage() {
@@ -634,11 +278,164 @@ public class MapEditor extends BaseScene {
         return world;
     }
 
-    public BoundsGizmo getBoundsGizmo() {
-        return boundsGizmo;
-    }
-
     public PhysicsSystem getPhysicsSystem() {
         return physicsSystem;
+    }
+
+
+    public void load(String mapName) {
+        clearMap();
+        MapTools.importMap(mapName, entityFactory);
+    }
+
+    public EditorTarget getTarget() {
+        return target;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (isMapInputEnabled()) {
+            Vector2 screenCoords = new Vector2(screenX, screenY);
+            if (button == Input.Buttons.LEFT) {
+                onLeftClick(screenCoords);
+            }
+            else if (button == Input.Buttons.RIGHT) {
+                onRightClick(screenCoords);
+            }
+        }
+
+        return false;
+    }
+
+    private void onLeftClick(Vector2 screenCoords) {
+        if (mapInputEnabled) {
+            Vector3 uiVec = stage.getCamera().unproject(new Vector3(screenCoords, 0f));
+            Vector2 click = new Vector2(uiVec.x, uiVec.y);
+            setLastLMBClick(click);
+
+            Vector3 gameVec = gameCamera.unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
+            Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
+            final Collection<Integer> entities = new ArrayList<Integer>(5);
+            physicsSystem.queryAABB(new QueryCallback() {
+                @Override
+                public boolean reportFixture(Fixture fixture) {
+                    Body body = fixture.getBody();
+                    entities.add((Integer) body.getUserData());
+
+                    return false;
+                }
+            }, hitBox.x, hitBox.y, hitBox.x + hitBox.getWidth(), hitBox.y + hitBox.getHeight());
+
+            if (target != null) {
+                BoundsGizmo.GizmoTrigger gizmoTrigger = target.getBoundsGizmo().detectContains(hitBox);
+
+                if (gizmoTrigger != null) {
+                    //TODO
+                    System.out.println("GIZMO!");
+                }
+                else {
+                    target = null;
+
+                    boolean foundTarget = false;
+                    for (Integer entityId : entities) {
+                        foundTarget = true;
+                        Entity entity = world.getEntity(entityId);
+                        setTarget(entity);
+                        setDragOffset(screenCoords);
+                    }
+
+                    if (!foundTarget) {
+                        ComponentMapper<Bounds> bm = world.getMapper(Bounds.class);
+                        ComponentMapper<Position> pm = world.getMapper(Position.class);
+                        IntBag bag = world.getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
+                        for (int i = 0; i < bag.size(); i++) {
+                            int id = bag.get(i);
+                            Bounds bounds = bm.get(id);
+                            Vector2 pos = pm.get(id).position;
+                            Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
+                            if (rect.contains(hitBox)) {
+                                setTarget(world.getEntity(id));
+                                setDragOffset(screenCoords);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void onRightClick(Vector2 screenPos) {
+        if (mapInputEnabled) {
+            Vector3 worldPos = stage.getCamera().unproject(new Vector3(screenPos.x, screenPos.y, 0f));
+            setLastRMBClick(new Vector2(worldPos.x, worldPos.y));
+            window.openContextMenu(lastRMBClick);
+        }
+    }
+
+    private void setDragOffset(Vector2 mousePos) {
+        Vector3 gameVec = gameCamera.unproject(new Vector3(mousePos.x, mousePos.y, 0f));
+
+        if (target != null) {
+            Entity mapTarget = target.getEntity();
+            Vector2 targetPos = mapTarget.getComponent(Position.class).position;
+            dragOffset = new Vector2(targetPos.x - gameVec.x, targetPos.y - gameVec.y);
+        }
+        else {
+            throw new RuntimeException("Cannot set drag offset when the editor has no target");
+        }
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (mapInputEnabled) {
+            Vector3 gameVec = gameCamera.unproject(new Vector3(screenX, screenY, 0f));
+
+            if (target != null) {
+                Entity mapTarget = target.getEntity();
+                Body body = world.getSystem(PhysicsSystem.class).getBody(mapTarget.getId());
+                if (body != null) {
+                    body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
+                }
+                else
+                    mapTarget.getComponent(Position.class).position.set(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
+                window.updateTransform(mapTarget);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        if (mapInputEnabled) {
+            gameCamera.zoom += amount * ZOOM_FACTOR;
+            if (gameCamera.zoom <= 0) gameCamera.zoom = MIN_ZOOM;
+            gameCamera.update();
+        }
+        return false;
     }
 }

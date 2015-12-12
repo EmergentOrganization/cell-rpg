@@ -69,7 +69,13 @@ public class PhysicsSystem extends BaseEntitySystem {
         Body body = createEmptyBody(entityId, bd);
         Bounds b = bm.get(entityId);
         PolygonShape rect = new PolygonShape();
-        rect.setAsBox(b.width * 0.5f, b.height * 0.5f);
+        final Vector2 origin = new Vector2(-0.5f, -0.5f);
+        rect.set(new float[]{
+                origin.x,         origin.y,
+                b.width+origin.x, origin.y,
+                b.width+origin.x, b.height+origin.y,
+                origin.x,         b.height+origin.y
+        });
         fd.shape = rect;
         body.createFixture(fd);
         bodies.put(entityId, body);

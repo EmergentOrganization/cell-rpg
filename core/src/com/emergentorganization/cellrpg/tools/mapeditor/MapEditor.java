@@ -455,7 +455,7 @@ public class MapEditor extends BaseScene {
         if (target != null) {
             Bounds bounds = target.getComponent(Bounds.class);
             Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
-            Vector2 pos = target.getComponent(Position.class).position.cpy().add(size.cpy().scl(0.5f));
+            Vector2 pos = target.getComponent(Position.class).position.cpy();//.add(size.cpy().scl(0.5f));
             boundsGizmo.setPosition(pos);
             boundsGizmo.render(shapeRenderer);
         }

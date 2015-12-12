@@ -634,6 +634,10 @@ public class MapEditor extends BaseScene {
         return world;
     }
 
+    public BoundsGizmo getBoundsGizmo() {
+        return boundsGizmo;
+    }
+
     public PhysicsSystem getPhysicsSystem() {
         return physicsSystem;
     }

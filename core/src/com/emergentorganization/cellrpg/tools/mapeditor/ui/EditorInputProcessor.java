@@ -16,6 +16,7 @@ import com.emergentorganization.cellrpg.components.PhysicsBody;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
+import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,26 +85,32 @@ public class EditorInputProcessor implements InputProcessor {
 
             editor.setMapTarget(null);
 
-            boolean foundTarget = false;
-            for (Integer entityId : entities) {
-                foundTarget = true;
-                Entity entity = editor.getWorld().getEntity(entityId);
-                editor.setMapTarget(entity);
-                setDragOffset(screenCoords);
+            BoundsGizmo.GizmoTrigger gizmoTrigger = editor.getBoundsGizmo().detectContains(hitBox);
+            if (gizmoTrigger != null) {
+                //TODO
             }
+            else {
+                boolean foundTarget = false;
+                for (Integer entityId : entities) {
+                    foundTarget = true;
+                    Entity entity = editor.getWorld().getEntity(entityId);
+                    editor.setMapTarget(entity);
+                    setDragOffset(screenCoords);
+                }
 
-            if (!foundTarget) {
-                ComponentMapper<Bounds> bm = editor.getWorld().getMapper(Bounds.class);
-                ComponentMapper<Position> pm = editor.getWorld().getMapper(Position.class);
-                IntBag bag = editor.getWorld().getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
-                for (int i = 0; i < bag.size(); i++) {
-                    int id = bag.get(i);
-                    Bounds bounds = bm.get(id);
-                    Vector2 pos = pm.get(id).position;
-                    Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
-                    if (rect.contains(hitBox)) {
-                        editor.setMapTarget(editor.getWorld().getEntity(id));
-                        setDragOffset(screenCoords);
+                if (!foundTarget) {
+                    ComponentMapper<Bounds> bm = editor.getWorld().getMapper(Bounds.class);
+                    ComponentMapper<Position> pm = editor.getWorld().getMapper(Position.class);
+                    IntBag bag = editor.getWorld().getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
+                    for (int i = 0; i < bag.size(); i++) {
+                        int id = bag.get(i);
+                        Bounds bounds = bm.get(id);
+                        Vector2 pos = pm.get(id).position;
+                        Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
+                        if (rect.contains(hitBox)) {
+                            editor.setMapTarget(editor.getWorld().getEntity(id));
+                            setDragOffset(screenCoords);
+                        }
                     }
                 }
             }

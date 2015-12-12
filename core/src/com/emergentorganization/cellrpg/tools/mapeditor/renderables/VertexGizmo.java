@@ -9,21 +9,31 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class VertexGizmo extends BoundsRect {
     public static final float GIZMO_SIZE = 0.13f;
+    private final BoundsGizmo.GizmoTrigger trigger;
     private Rectangle rectangle;
     private BoundsRect boundsRect;
 
-    public VertexGizmo(Vector2 pos) {
+    public VertexGizmo(Vector2 pos, final BoundsGizmo.GizmoTrigger bottomLeft) {
         super(new Vector2(GIZMO_SIZE, GIZMO_SIZE), pos);
-        this.rectangle = new com.badlogic.gdx.math.Rectangle(pos.x, pos.y, GIZMO_SIZE, GIZMO_SIZE);
+        this.rectangle = new Rectangle(pos.x, pos.y, GIZMO_SIZE, GIZMO_SIZE);
+        this.trigger = bottomLeft;
         boundsRect = new BoundsRect(getSize(), pos);
     }
 
-    public boolean contains(com.badlogic.gdx.math.Rectangle other) {
+    public boolean contains(Rectangle other) {
         return rectangle.contains(other);
     }
 
     @Override
     public void render(ShapeRenderer shapeRenderer) {
         boundsRect.render(shapeRenderer);
+    }
+
+    public BoundsGizmo.GizmoTrigger getTrigger() {
+        return trigger;
+    }
+
+    public void setPosition(Vector2 pos) {
+        boundsRect.setPosition(pos);
     }
 }

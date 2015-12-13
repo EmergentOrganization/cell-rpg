@@ -177,27 +177,30 @@ public class EntityFactory {
         return bg.getId();
     }
 
-    public int createEntityByID(String id, Vector2 pos, float angleDeg) {
-        if (id.equals(EntityID.BUILDING_LARGE_ONE.toString())) {
-            return createBuildingLargeOne(pos, angleDeg);
-        } else if (id.equals(EntityID.BUILDING_ROUND_ONE.toString())) {
-            return createBuildingRoundOne(pos, angleDeg);
-        } else if (id.equals(EntityID.BULLET.toString())) {
-            return createBullet(pos, new Vector2().rotate(angleDeg));
-        } else if (id.equals(EntityID.CIV_ONE_BLINKER.toString())) {
-            return createCivOneBlinker(pos.x, pos.y);
-        } else if (id.equals(EntityID.PLAYER.toString())) {
-            return createPlayer(pos.x, pos.y);
-        } else if (id.equals(EntityID.RIFT_ONE.toString())) {
-            return createRiftOne(pos, angleDeg);
-        } else if (id.equals(EntityID.RIFT_TWO.toString())) {
-            return createRiftTwo(pos, angleDeg);
-        } else if (id.equals(EntityID.THE_EDGE.toString())) {
-            return createBackgroundTheEdge(pos);
-        } else if (id.equals(EntityID.VYROID_BEACON.toString())) {
-            return createVyroidBeacon(pos, angleDeg);
-        } else {
-            throw new RuntimeException("Error: Could not find entity by ID '" + id + "'");
+    public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
+        switch (id) {
+            case BULLET:
+                return createBullet(pos, new Vector2().rotate(angleDeg));
+            case PLAYER:
+                return createPlayer(pos.x, pos.y);
+            case PLAYER_SHIELD:
+                throw new RuntimeException("ERROR: Cannot initialize player shield on it's own.");
+            case BUILDING_LARGE_ONE:
+                return createBuildingLargeOne(pos, angleDeg);
+            case BUILDING_ROUND_ONE:
+                return createBuildingRoundOne(pos, angleDeg);
+            case RIFT_ONE:
+                return createRiftOne(pos, angleDeg);
+            case RIFT_TWO:
+                return createRiftTwo(pos, angleDeg);
+            case VYROID_BEACON:
+                return createVyroidBeacon(pos, angleDeg);
+            case CIV_ONE_BLINKER:
+                return createCivOneBlinker(pos.x, pos.y);
+            case THE_EDGE:
+                return createBackgroundTheEdge(pos);
+            default:
+                throw new RuntimeException("ERROR: enum instance missing in switch for id " + id);
         }
     }
 }

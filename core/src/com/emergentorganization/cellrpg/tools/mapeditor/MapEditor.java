@@ -431,7 +431,7 @@ public class MapEditor extends BaseScene {
     }
 
     private void createNewEntity(Vector2 pos) {
-        entityFactory.createEntityByID(selectedItem, pos, 0f);
+        entityFactory.createEntityByID(EntityID.fromString(selectedItem), pos, 0f);
     }
 
     @Override

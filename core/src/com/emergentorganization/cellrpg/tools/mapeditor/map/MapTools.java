@@ -19,6 +19,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -29,9 +30,9 @@ public class MapTools {
 
     public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
-    public static HashMap<String, Void> ENTITY_BLACKLIST = new HashMap<String, Void>(); // Using HashMap for contains API
+    public static EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
     static {
-        ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD.toString(), null);
+        ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD, null);
     }
 
     /**
@@ -53,14 +54,15 @@ public class MapTools {
             for (Object json : jsonEntities) {
                 JSONObject jsonEntity = (JSONObject) json;
                 String type = (String) jsonEntity.get(JSONKey.TYPE);
-                if (!ENTITY_BLACKLIST.containsKey(type)) {
+                EntityID id = EntityID.fromString(type);
+                if (!ENTITY_BLACKLIST.containsKey(id)) {
                     float x = getFloat(jsonEntity.get(JSONKey.POSITION_X));
                     float y = getFloat(jsonEntity.get(JSONKey.POSITION_Y));
                     float rot = getFloat(jsonEntity.get(JSONKey.ROTATION));
                     float scaleX = getFloat(jsonEntity.get(JSONKey.SCALE_X));
                     float scaleY = getFloat(jsonEntity.get(JSONKey.SCALE_Y));
 
-                    entityFactory.createEntityByID(type, new Vector2(x, y), rot);
+                    entityFactory.createEntityByID(id, new Vector2(x, y), rot);
                 }
             }
 

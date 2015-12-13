@@ -35,6 +35,11 @@ public class CAGridComponents extends Component {
 
     public Color[] stateColorMap;
 
+    public long minGenTime = 999999;
+    public long maxGenTime = 0;
+
+    public long generation = 0;
+
     public int getState(final float x, final float y){
         // returns state of cell nearest to given world-coordinates
         int row = getIndexOfX(x);

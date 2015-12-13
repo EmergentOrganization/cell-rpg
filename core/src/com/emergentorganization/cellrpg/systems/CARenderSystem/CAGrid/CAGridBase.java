@@ -21,10 +21,6 @@ import java.util.TimerTask;
  */
 public abstract class CAGridBase {
 //
-//    public long minGenTime = 999999;
-//    public long maxGenTime = 0;
-//
-//    public long generation = 0;
 //    protected int stampCount = 0;
 //
 //
@@ -55,65 +51,9 @@ public abstract class CAGridBase {
 //        generation = 0;
 //    }
 //
-//    protected void generate(){
-//        // generates new state
-//        generation += 1;
-//    }
-//
-//    public void scheduleGeneration(long runtime){
-//        // schedules a new generation thread
-//        Timer time = new Timer();
-//        // add runtime to TIME_BTWN_GENERATIONS to ensure this thread never uses more than 50% CPU time
-//        long genTime = TIME_BTWN_GENERATIONS + runtime;
-//        if( genTime > maxGenTime){
-//            maxGenTime = genTime;
-//        } else if (genTime < minGenTime){
-//            minGenTime = genTime;
-//        }
-//        time.schedule(new GenerateTask(this), genTime);
-//    }
-//
-//    class GenerateTask extends TimerTask {
-//        private CAGridBase grid;
-//
-//        public GenerateTask(CAGridBase _grid) {
-//            grid = _grid;
-//        }
-//
-//        public void run() {
-//            try {
-//                long runtime = System.currentTimeMillis();
-//                grid.generate();
-//                //grid.reposition();
-//                // schedule next update
-//                // NOTE: since generation computation time may be variable,
-//                //        this _could_ be scheduled before completing the above,
-//                //        but this also creates possibility of concurrency issues
-//                //        if generation time approaches TIME_BTWN_GENERATIONS.
-//                runtime = System.currentTimeMillis() - runtime;
-//                grid.scheduleGeneration(runtime);
-//                Thread.currentThread().stop();
-//                return;
-//            } catch (Exception ex) {
-//                logger.error("error running CA generation thread: " + ex.getMessage());
-//                Thread.currentThread().stop();
-//                return;
-//            }
-//        }
-//    }
-//
-
-//
-//    private void initGenerationLoop(){
-//        // sets up generation timer loop on separate thread
-//        scheduleGeneration(0);
-//    }
-//
 //    public void update(float deltaTime){
 //        // updates the grid. (probably) computes ca generations.
 //    }
-//
-
 //
 //    public int getCellSize(){
 //        return cellSize;
@@ -184,75 +124,7 @@ public abstract class CAGridBase {
 //        return neighbors;
 //    }
 //
-//    public int getNeighborhoodSum(final int row, final int col, final int size) {
-//        // returns sum of all states in neighborhood
-//        // size MUST be odd! (not checked for efficiency)
-//        final boolean SKIP_SELF = true;
-//
-//        // checkSize(size);
-//        final int radius = (size - 1) / 2;
-//        int sum = 0;
-//        for (int i = row - radius; i <= row + radius; i++) {
-//            for (int j = col - radius; j <= col + radius; j++) {
-//                if (SKIP_SELF && i - row + radius == j - col + radius && i - row + radius == radius) {
-//                    continue;
-//                } else {
-//                    sum += getLastState(i, j);
-//                }
-//            }
-//        }
-//        return sum;
-//    }
-//
-//    private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, final int[][] cellStates) {
-//        // returns value from applying the kernel matrix to the given neighborhood
-//        final boolean SKIP_SELF = true;
-//
-//        // checkSize(size);
-//        final int radius = (size - 1) / 2;
-//        int sum = 0;
-//        for (int i = row - radius; i <= row + radius; i++) {
-//            int kernel_i = i - row + radius;
-//            for (int j = col - radius; j <= col + radius; j++) {
-//                int kernel_j = j - row + radius;
-//                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius) {
-//                    continue;
-//                } else {
-//                    sum += getState(i, j) * kernel[kernel_i][kernel_j];
-//                }
-//            }
-//        }
-//        return sum;
-//    }
-//
-//    private float get3dKernelizedValue(final int[][][] kernel, final int row, final int col, final int size, final int[][] cellStates) {
-//        // returns value from applying the kernel matrix to the given neighborhood
-//        // 3rd dimension of the kernel is state-space (ie, kernel[x][y][state])
-//        final boolean SKIP_SELF = true;
-//
-//        // checkSize(size);
-//        final int radius = (size - 1) / 2;
-//        int sum = 0;
-//        for (int i = row - radius; i <= row + radius; i++) {
-//            int kernel_i = i - row + radius;
-//            for (int j = col - radius; j <= col + radius; j++) {
-//                int kernel_j = j - row + radius;
-//                if (SKIP_SELF && kernel_i == kernel_j && kernel_i == radius) {
-//                    continue;
-//                } else {
-//                    try {
-//                        sum += getState(i, j) * kernel[kernel_i][kernel_j][getState(i, j)];
-//                    } catch (IndexOutOfBoundsException err) {
-//                        throw new IndexOutOfBoundsException(
-//                                "kernel has no value for [" + kernel_i + "," + kernel_j + ","
-//                                + getState(i, j) + "]"
-//                        );
-//                    }
-//                }
-//            }
-//        }
-//        return sum;
-//    }
+
 //
 //    /*
 //       ============================================================
@@ -260,20 +132,6 @@ public abstract class CAGridBase {
 //       ============================================================
 //     */
 //
-//    protected int ca_rule(final int row, final int col) {
-//        // computes the rule at given row, col in cellStates array, returns result
-//        // Conway's Game of Life:
-//        switch (getNeighborhoodSum(row, col, 3)) {
-//            case 2:
-//                return getState(row, col);
-//            case 3:
-//                return 1;
-//            default:
-//                return 0;
-//        }
-//        // random state:
-//        //return Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
-//    }
 //
 //    protected int getIndexOfX(float x){
 //        float relative_x = x/SCALE-gridOriginX;

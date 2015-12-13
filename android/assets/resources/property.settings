@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Thu Dec 10 22:10:13 EST 2015
 majorVersion=0
 revision=02508f7
@@ -5,3 +6,12 @@ revision=02508f7
 minorVersion=3
 <<<<<<<=HEAD
 =\=\=\=\=\=\=
+=======
+#Fri Dec 11 22:50:48 CET 2015
+majorVersion=0
+>>>>>>>=bfc15c32c7389f96950514ebf838bf8c6608adac
+revision=d4bd537
+minorVersion=3
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>> 5f24bd3932f2a313ef83a5ba98d63f6a438e83d3

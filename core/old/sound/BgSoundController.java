@@ -36,7 +36,7 @@ public class BgSoundController {
 
     public void initialize() {
         logger = LogManager.getLogger(getClass());
-        FileHandle dir = Gdx.files.getFileHandle(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "arcade_30s_loops", Files.FileType.Internal);
+        FileHandle dir = Gdx.files.getFileHandle(FileStructure.RESOURCE_DIR + "sounds/arcade_30s_loops", Files.FileType.Internal);
         loops = dir.list();
     }
 

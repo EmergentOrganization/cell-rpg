@@ -1,3 +1,5 @@
+import org.ajoberstar.grgit.Grgit
+
 //TODO: Move version incrementer from root?
 Properties props = new Properties();
 File propsFile = new File(project.projectDir.absolutePath + "/android/assets/resources/property.settings");
@@ -5,7 +7,7 @@ propsFile.withInputStream {
     props.load(it);
 }
 
-def git = org.ajoberstar.grgit.Grgit.open(project.file("."));
+def git = Grgit.open(project.file("."));
 props.setProperty('revision', git.head().getAbbreviatedId());
 
 props.store(propsFile.newWriter(), null);
@@ -73,7 +75,30 @@ project(":desktop") {
 project(":android") {
     apply plugin: "android"
 
-    configurations { natives }
+    android.lintOptions {
+        abortOnError false
+    }
+
+    android.packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/notice.txt'
+    }
+
+    configurations {
+        natives
+        compile.exclude module: 'stax'
+        compile.exclude module: 'stax-api'
+        compile.exclude module: 'xpp3'
+        compile.exclude module: 'junit'
+    }
 
     dependencies {
         compile project(":core")

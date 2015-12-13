@@ -27,7 +27,7 @@ import java.util.Properties;
  */
 public class CellRpg extends Game {
     private String version;
-    private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures" + File.separator + "TexturePack.atlas";
+    private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
 
     public static final BgSoundController bgSoundController = BgSoundController.fetch();
 
@@ -86,7 +86,7 @@ public class CellRpg extends Game {
     }
 
     private void loadSounds() {
-        String prefix = FileStructure.RESOURCE_DIR + "sounds" + File.separator;
+        String prefix = FileStructure.RESOURCE_DIR + "sounds/";
         String ext = ".wav";
         String[] sounds = {
                 "Hit",

@@ -53,13 +53,13 @@ public class PhysicsContactListener implements ContactListener {
     }
 
     private void handleContactPair(Entity entityA, Name nameA, Entity entityB, Name nameB) {
-        if (nameA.internalID.equals(EntityIDs.BULLET) && nameB.internalID.equals(EntityIDs.PLAYER)) {
+        if (nameA.internalID.equals(EntityID.BULLET.toString()) && nameB.internalID.equals(EntityID.PLAYER.toString())) {
             eventManager.pushEvent(GameEvent.PLAYER_HIT);
         }
     }
 
     private void handleContact(Entity entity, Name name) {
-        if (name.internalID.equals(EntityIDs.BULLET)) {
+        if (name.internalID.equals(EntityID.BULLET.toString())) {
             handleBulletContact(entity);
         }
     }

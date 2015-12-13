@@ -36,7 +36,7 @@ public class Bullet extends Entity {
         bc = new BulletComponent(shootingPos, velocity, maxDist);
         addComponent(bc);
 
-        hit = CellRpg.fetch().getAssetManager().get(FileStructure.RESOURCE_DIR + "sounds" + File.separator + "Hit.wav", Sound.class);
+        hit = CellRpg.fetch().getAssetManager().get(FileStructure.RESOURCE_DIR + "sounds/Hit.wav", Sound.class);
     }
 
     @Override

@@ -23,7 +23,10 @@ public class GeneticCellTest {
 
     @Test
     public void testActivationPropagation() throws Exception{
-        GeneticCell testCell = new GeneticCell(1, new TestCell2());
+        TestCell2 cell_builder = new TestCell2();
+        logger.debug("cell builder:" + cell_builder);
+        GeneticCell testCell = new GeneticCell(1, cell_builder);
+        logger.debug("test cell:" + testCell);
         // t=0, states: 1 -> 0 -> 0
         int TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),

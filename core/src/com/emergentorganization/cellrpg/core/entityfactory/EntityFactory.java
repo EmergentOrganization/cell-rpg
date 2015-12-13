@@ -48,6 +48,12 @@ public class EntityFactory {
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }
 
+    private void addCALayers(Vector2 pos){
+        // adds all ca layer entities to the scene.
+        //
+        createCALayerVyroids(pos);
+    }
+
     public int createPlayer(float x, float y) {
         Vector2 pos = new Vector2(x, y);
         final Entity player = new EntityBuilder(world, this.player, "Player", EntityIDs.PLAYER, pos)
@@ -88,6 +94,8 @@ public class EntityFactory {
                 }
             }
         });
+
+        addCALayers(pos);
 
         return player.getId();
     }

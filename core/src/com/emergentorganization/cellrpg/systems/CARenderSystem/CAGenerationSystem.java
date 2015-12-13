@@ -6,9 +6,8 @@ import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.graphics.Camera;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
-import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.CellWithHistory;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -75,12 +74,37 @@ public class CAGenerationSystem extends BaseEntitySystem {
         gridComps.generation += 1;
 
         // TODO: switch/case using gridComps.GenerationType or something...
-        generate_NoBuffer(gridComps);
+        switch (gridComps.cellType){
+            case WITH_HISTORY:
+                generate_buffered(gridComps);
+                break;
+            case BASE:
+            default:
+                generate_NoBuffer(gridComps);
+        }
     }
 
     protected void generate_NoBuffer(CAGridComponents gridComps) {
         for (int i = 0; i < gridComps.states.length; i++) {
             for (int j = 0; j < gridComps.states[0].length; j++) {
+                gridComps.states[i][j].setState(ca_rule(i, j, gridComps));
+            }
+        }
+    }
+
+    protected void generate_buffered(CAGridComponents gridComps) {
+        // generates the next frame of the CA
+//        logger.info("gen buffered");
+        for (int i = 0; i < gridComps.states.length; i++) {
+            for (int j = 0; j < gridComps.states[0].length; j++) {
+                CellWithHistory cell = (CellWithHistory) gridComps.states[i][j];
+                cell.setLastState(gridComps.states[i][j].getState());
+            }
+        }
+
+        for (int i = 0; i < gridComps.states.length; i++) {
+            for (int j = 0; j < gridComps.states[0].length; j++) {
+                //System.out.print(i + "," + j +'\t');
                 gridComps.states[i][j].setState(ca_rule(i, j, gridComps));
             }
         }
@@ -123,6 +147,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
                 }
             }
         }
+//        logger.info("count: " + sum);
         return sum;
     }
 
@@ -222,7 +247,6 @@ public class CAGenerationSystem extends BaseEntitySystem {
 
     protected void initStates(CAGridComponents gridComponents, int w, int h){
         gridComponents.states = new BaseCell[w][h];
-        //gridComponents.states = new BaseCell[gridComponents.getSizeX()][gridComponents.getSizeY()];
         // init states. ?required?
         for (int i = 0; i < gridComponents.states.length; i++) {
             for (int j = 0; j < gridComponents.states[0].length; j++) {

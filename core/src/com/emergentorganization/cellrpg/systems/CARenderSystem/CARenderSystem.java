@@ -141,11 +141,11 @@ public class CARenderSystem extends BaseEntitySystem {
 
     protected void renderCell(CAGridComponents layerComponents, final int i, final int j,
                               final float x_origin, final float y_origin){
-        // TODO: if layerComponents.renderType == noBuffer else if == genetic... etc
-        renderCell_noBuffer(layerComponents, i, j, x_origin, y_origin);
+        // TODO: if layerComponents.renderType == normal else if == genetic... etc
+        renderCell_normal(layerComponents, i, j, x_origin, y_origin);
     }
 
-    protected void renderCell_noBuffer(CAGridComponents layerComponents, final int i, final int j,
+    protected void renderCell_normal(CAGridComponents layerComponents, final int i, final int j,
                               final float x_origin, final float y_origin){
         if (layerComponents.states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
             // draw square

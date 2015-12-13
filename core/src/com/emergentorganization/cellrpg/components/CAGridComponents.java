@@ -4,6 +4,8 @@ import com.artemis.Component;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.CellWithHistory;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.GeneticCell;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CAEdgeSpawnType;
 
 /**
@@ -15,11 +17,13 @@ import com.emergentorganization.cellrpg.systems.CARenderSystem.CAEdgeSpawnType;
  *
  * Created by 7yl4r 2015-12-09.
  */
+
 public class CAGridComponents extends Component {
-    public static final long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
+    public static final long TIME_BTWN_GENERATIONS = 500;  // ms time in between generation() calls
     public static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
     public float SCALE = .025f;  // empirically derived constant... why is it this? idk...
 
+    public CellType cellType = CellType.BASE;
     public BaseCell[][] states;
 
     // location of grid center
@@ -57,13 +61,27 @@ public class CAGridComponents extends Component {
     }
 
     public int getLastState(final int row, final int col){
-        // TODO: if renderType == noBuffer else if == genetic... etc
-        return getLastState_noBuffer(row, col);
+        switch(cellType){
+            case WITH_HISTORY:
+                return getLastState_buffered(row, col);
+            case BASE:
+            default:
+                return getLastState_noBuffer(row, col);
+        }
     }
 
     public int getLastState_noBuffer(final int row, final int col){
         // with no buffer there is no last state, just use current
         return getState(row, col);
+    }
+
+    public int getLastState_buffered(final int row, final int col){
+        try {
+            CellWithHistory cell = (CellWithHistory) states[row][col];
+            return cell.getLastState();
+        } catch (IndexOutOfBoundsException err){
+            return 0;  // if out-of-bounds, assume state=0
+        }
     }
 
     public int getSizeX(){
@@ -84,7 +102,15 @@ public class CAGridComponents extends Component {
     }
 
     public BaseCell newCell(int init_state){
-        return new BaseCell(init_state);
+        switch (cellType){
+            case WITH_HISTORY:
+                return new CellWithHistory(init_state);
+            //TODO: case GENETIC:
+                //return new GeneticCell(init_state);
+            case BASE:
+            default:
+                return new BaseCell(init_state);
+        }
     }
 
     protected int getIndexOfX(float x){

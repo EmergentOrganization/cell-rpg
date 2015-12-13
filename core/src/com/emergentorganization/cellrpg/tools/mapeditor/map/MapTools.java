@@ -32,6 +32,7 @@ public class MapTools {
     public static HashMap<String, Void> ENTITY_BLACKLIST = new HashMap<String, Void>(); // Using HashMap for contains API
     static {
         ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD.toString(), null);
+        ENTITY_BLACKLIST.put(EntityID.CA_LAYER_VYROIDS.toString(), null);
     }
 
     /**

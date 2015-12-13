@@ -6,7 +6,12 @@ import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.graphics.Camera;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
+import com.emergentorganization.cellrpg.components.Position;
+import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CameraSystem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Handles CA grid state generations and initialization.
@@ -14,9 +19,12 @@ import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
  * Created by 7yl4r on 12/9/2015.
  */
 public class CAGenerationSystem extends BaseEntitySystem {
+    private final Logger logger = LogManager.getLogger(getClass());
 
     // artemis-injected entity components:
     private ComponentMapper<CAGridComponents> CAComponent_m;
+    private CameraSystem cameraSystem;
+
 
     public CAGenerationSystem(){
         super(Aspect.all(CAGridComponents.class));
@@ -45,12 +53,23 @@ public class CAGenerationSystem extends BaseEntitySystem {
         super.inserted(entityId);
 
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
+        Camera camera = cameraSystem.getGameCamera();
 
-        initStates(layerStuff);
+        int sx = (int) (camera.viewportWidth)  + 2*layerStuff.OFF_SCREEN_PIXELS;
+        int sy = (int) (camera.viewportHeight) + 2*layerStuff.OFF_SCREEN_PIXELS;
+
+        int w = sx / (layerStuff.cellSize + 1);  // +1 for border pixel between cells
+        int h = sy / (layerStuff.cellSize + 1);
+
+        logger.info("initializing CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px). cellSize="+layerStuff.cellSize);
+
+        initStates(layerStuff, w, h);
+        // TODO: initGenerationLoop();
     }
 
-    protected void initStates(CAGridComponents gridComponents){
-        gridComponents.states = new BaseCell[gridComponents.getSizeX()][gridComponents.getSizeY()];
+    protected void initStates(CAGridComponents gridComponents, int w, int h){
+        gridComponents.states = new BaseCell[w][h];
+        //gridComponents.states = new BaseCell[gridComponents.getSizeX()][gridComponents.getSizeY()];
         // init states. ?required?
         for (int i = 0; i < gridComponents.states.length; i++) {
             for (int j = 0; j < gridComponents.states[0].length; j++) {
@@ -58,13 +77,17 @@ public class CAGenerationSystem extends BaseEntitySystem {
             }
         }
         // init states for testing
-        randomizeState(gridComponents.states);
+        randomizeState(gridComponents);
     }
 
-    private void randomizeState(BaseCell[][] states) {
-        for (int i = 0; i < states.length; i++) {
-            for (int j = 0; j < states[0].length; j++) {
-                states[i][j].setState(Math.round(Math.round(Math.random())));// round twice? one is just a cast (I think)
+    private void randomizeState(CAGridComponents gridComponents) {
+        for (int i = 0; i < gridComponents.states.length; i++) {
+            for (int j = 0; j < gridComponents.states[0].length; j++) {
+                int val = Math.round(Math.round(Math.random()));
+                if (val != 0){
+                    gridComponents.cellCount += 1;
+                    gridComponents.states[i][j].setState(val);// round twice? one is just a cast (I think)
+                }
             }
         }
     }

@@ -47,13 +47,6 @@ public class CARenderSystem extends BaseEntitySystem {
         sortedEntityIds = new LinkedList<Integer>();
     }
 
-    // TODO: where do I add layer entities?
-//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS).added(camera);
-//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_GENETIC).added(camera);
-//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MEGA).added(camera);
-//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.VYROIDS_MINI).added(camera);
-//    LayerBuilder.addVyroidLayer(ca_layers, CALayer.ENERGY).added(camera);
-
     @Override
     protected  void begin() {
         renderer.setAutoShapeType(true);
@@ -73,7 +66,12 @@ public class CARenderSystem extends BaseEntitySystem {
         //CALayer layerKey = entry.getKey();
         //CAGridBase layer = entry.getValue();
 
-        renderGrid(layerStuff);
+        if (layerStuff.states != null) {
+            //logger.info("rendering " + layerStuff.cellCount + " cells");
+            renderGrid(layerStuff);
+        } else {
+            logger.info("skipping render on null CA grid");
+        }
     }
 
     @Override
@@ -144,6 +142,7 @@ public class CARenderSystem extends BaseEntitySystem {
     protected void renderCell(CAGridComponents layerComponents, final int i, final int j,
                               final float x_origin, final float y_origin){
         // TODO: if layerComponents.renderType == noBuffer else if == genetic... etc
+        renderCell_noBuffer(layerComponents, i, j, x_origin, y_origin);
     }
 
     protected void renderCell_noBuffer(CAGridComponents layerComponents, final int i, final int j,

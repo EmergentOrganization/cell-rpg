@@ -27,12 +27,13 @@ public class CAGridComponents extends Component {
     public float gridOriginY = 0;
 
     // size of each cell
-    public int cellSize;
+    public int cellSize = 3;
+
+    public int cellCount = 0;  // number of live cells
 
     public CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
 
     public Color[] stateColorMap;
-
 
     public int getState(final float x, final float y){
         // returns state of cell nearest to given world-coordinates
@@ -81,8 +82,6 @@ public class CAGridComponents extends Component {
         return new BaseCell(init_state);
     }
 
-
-
     protected int getIndexOfX(float x){
         float relative_x = x/SCALE-gridOriginX;
         return (int)relative_x/(cellSize+1) + getSizeX()/2;
@@ -93,8 +92,6 @@ public class CAGridComponents extends Component {
         //System.out.println(y + " from " + gridOriginY + " nearest to " + cell);
         return cell;
     }
-
-
 
     protected int _getState(final int row, final int col){
         // returns state, throws exception if out of bounds

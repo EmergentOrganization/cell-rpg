@@ -27,10 +27,6 @@ public abstract class CAGridBase {
 //    public long generation = 0;
 //    protected int stampCount = 0;
 //
-//    protected final Logger logger = LogManager.getLogger(getClass());
-//    // size of grid in pixels
-//    protected int sx;
-//    protected int sy;
 //
 //    // size of grid in cells NOTE: use getSizeX & getSizeY instead!
 //    protected int w;
@@ -117,18 +113,7 @@ public abstract class CAGridBase {
 //        // updates the grid. (probably) computes ca generations.
 //    }
 //
-//    public void added(Camera camera) {
-//        sx = (int) (camera.viewportWidth) + 2*OFF_SCREEN_PIXELS;
-//        sy = (int) (camera.viewportHeight) + 2*OFF_SCREEN_PIXELS;
-//
-//        w = sx / (cellSize + 1);  // +1 for border pixel between cells
-//        h = sy / (cellSize + 1);
-//
-//        logger.info("created CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px)");
-//
-//        initStates();
-//        initGenerationLoop();
-//    }
+
 //
 //    public int getCellSize(){
 //        return cellSize;

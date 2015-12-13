@@ -13,6 +13,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.*;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CARenderSystem;
 
 /**
@@ -45,6 +46,7 @@ public class WorldFactory {
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
         wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
 
+        wc.setSystem(new CAGenerationSystem());
         wc.setSystem(new CARenderSystem(new ShapeRenderer()));
 
         // initialize world

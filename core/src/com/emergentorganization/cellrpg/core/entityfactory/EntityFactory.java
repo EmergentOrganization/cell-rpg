@@ -13,6 +13,7 @@ import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
+import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.Resources;
 
 /**
@@ -188,10 +189,12 @@ public class EntityFactory {
     }
 
     public int createCALayerVyroids(Vector2 pos){
-        Entity layer = new EntityBuilder(world, object, "Standard Vyroid CA Layer",
+        Entity layer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .build();
+        CAGridComponents layerStuff = layer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(layerStuff, CALayer.VYROIDS);
         return layer.getId();
     }
 

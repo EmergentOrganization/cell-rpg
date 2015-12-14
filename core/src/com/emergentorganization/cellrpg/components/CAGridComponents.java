@@ -138,8 +138,8 @@ public class CAGridComponents extends Component {
     public long stampState(final int[][] pattern, final int row, final int col) {
         // stamps a pattern onto the state with top-left corner @ (row, col)
         // returns estimated UNIX time when the pattern will be applied (@ next generation)
-        if (       row > 0
-                && col > 0
+        if (       row > -1
+                && col > -1
                 && row < states.length-pattern.length
                 && col < states[0].length-pattern[0].length) {
 

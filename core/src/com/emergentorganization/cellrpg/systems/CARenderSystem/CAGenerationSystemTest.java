@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Camera;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.CALayer;
+import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import com.emergentorganization.cellrpg.tools.testUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 /**
  * Created by 7yl4r on 12/14/2015.
@@ -17,24 +17,9 @@ public class CAGenerationSystemTest {
 
     private final Logger logger = LogManager.getLogger(getClass());
 
-    final int INP = 1;  // pattern insert position (upper left corner)
+    final int INP = 0;  // pattern insert position (upper left corner)
 
-    final int[][] BLINKER = {
-            {0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0},
-            {0,0,1,1,1,0,0},
-            {0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0},
-    };
 
-    final int[][] BLOCK = {
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
-            {0,0,1,1,0,0},
-            {0,0,1,1,0,0},
-            {0,0,0,0,0,0},
-            {0,0,0,0,0,0},
-    };
 
     public void setupTest(CAGenerationSystem testSystem, CAGridComponents testComps, int[][] testPattern){
         // # 2 # init or mock any other systems the system being tested depends upon
@@ -57,36 +42,22 @@ public class CAGenerationSystemTest {
 
         // # 4 # manually step through the processes of the system, injecting the mock entity/system components
         testSystem._inserted(testComps, camera, false);
-        testComps.stampState(testPattern, INP, INP);  // TODO: should set 50 as const
+
+        // test
+        testComps.stampState(testPattern, INP, INP);
     }
 
+
     @Test
-    public void testInsertOnBlock() throws Exception {
+    public void testInsertOnBlock() {
         CAGenerationSystem testSystem = new CAGenerationSystem();
 
         CAGridComponents testComps = new CAGridComponents();
 
-        setupTest(testSystem, testComps, BLOCK);
+        setupTest(testSystem, testComps, CGoLShapeConsts.BLOCK);
 
-        int[][] actualPattern = {
-                {testComps.getState(INP-2, INP-2), testComps.getState(INP-2, INP-1),
-                        testComps.getState(INP-2, INP), testComps.getState(INP-2, INP+1)},
-                {testComps.getState(INP-1, INP-2), testComps.getState(INP-1, INP-1),
-                        testComps.getState(INP-1, INP), testComps.getState(INP-1, INP+1)},
-                {testComps.getState(INP, INP-2), testComps.getState(INP, INP-1),
-                        testComps.getState(INP, INP), testComps.getState(INP, INP+1)},
-                {testComps.getState(INP+1, INP-2), testComps.getState(INP+1, INP-1),
-                        testComps.getState(INP+1, INP), testComps.getState(INP+1, INP+1)},
-        };
-        int[][] expectedPattern = {
-                {0,0,0,0},
-                {0,1,1,0},
-                {0,1,1,0},
-                {0,0,0,0}
-        };
-        logger.trace("block pattern: " + Arrays.deepToString(actualPattern));
         logger.trace("full pattern: " + testComps.statesToString());
-        assert Arrays.deepEquals(expectedPattern, actualPattern);
+        assert testUtils.ifStatesMatchAt(testComps, CGoLShapeConsts.BLOCK, INP, INP);
     }
 
     @Test
@@ -97,22 +68,11 @@ public class CAGenerationSystemTest {
 
         CAGridComponents testComps = new CAGridComponents();
 
-        setupTest(testSystem, testComps, BLINKER);
+        setupTest(testSystem, testComps, CGoLShapeConsts.BLINKER_H);
         testSystem.generate(testComps);
 
         // # 5 # test that the components of your mock entity are what they should be after passing through the system
-        int[][] actualPattern = {
-                {testComps.getState(INP-1, INP-1), testComps.getState(INP-1, INP), testComps.getState(INP-1, INP+1)},
-                {testComps.getState(INP  , INP-1), testComps.getState(INP  , INP), testComps.getState(INP  , INP+1)},
-                {testComps.getState(INP+1, INP-1), testComps.getState(INP+1, INP), testComps.getState(INP+1, INP+1)}
-        };
-        int[][] expectedPattern = {
-                {0,1,0},
-                {0,1,0},
-                {0,1,0}
-        };
-        logger.trace("blinker pattern: " + Arrays.deepToString(actualPattern));
-        assert Arrays.deepEquals(expectedPattern, actualPattern);
+        assert testUtils.ifStatesMatchAt(testComps, CGoLShapeConsts.BLINKER_V, INP, INP);
     }
 
 }

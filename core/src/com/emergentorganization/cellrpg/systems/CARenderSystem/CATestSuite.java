@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.systems.CARenderSystem;
 
 import com.emergentorganization.cellrpg.components.CAGridComponents;
+import com.emergentorganization.cellrpg.components.CAGridComponentsTest;
 import com.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.GeneticCell;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.GeneticCellTest;
@@ -16,5 +17,5 @@ import org.junit.runners.Suite;
 import java.util.Arrays;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ CAGenerationSystemTest.class, DGRNTestSuite.class, GeneticCellTest.class} )
+@Suite.SuiteClasses({CAGridComponentsTest.class, CAGenerationSystemTest.class, DGRNTestSuite.class, GeneticCellTest.class} )
 public final class CATestSuite {}

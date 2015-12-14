@@ -54,7 +54,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         _inserted(CAComponent_m.get(entityId), cameraSystem.getGameCamera(), true);
     }
 
-    protected void _inserted(CAGridComponents layerStuff, Camera camera,
+    public void _inserted(CAGridComponents layerStuff, Camera camera,
                              Boolean autoGenerate){
         // :param autoGenerate: if true starts generation loop on separate thread,
         //                      if false generations must be manually handled using CAGenerationSystem.generate()

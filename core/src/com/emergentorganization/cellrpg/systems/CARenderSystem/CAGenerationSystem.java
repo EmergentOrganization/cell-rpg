@@ -261,7 +261,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
             }
         }
         // init states for testing
-        //randomizeState(gridComponents);
+        randomizeState(gridComponents);
     }
 
     private void randomizeState(CAGridComponents gridComponents) {

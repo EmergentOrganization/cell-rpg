@@ -8,6 +8,8 @@ import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.CellWithHistory;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.GeneticCell;
 import com.emergentorganization.cellrpg.systems.CARenderSystem.CAEdgeSpawnType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This component contains a lot of information needed by a ca layer.
@@ -20,11 +22,13 @@ import com.emergentorganization.cellrpg.systems.CARenderSystem.CAEdgeSpawnType;
  */
 
 public class CAGridComponents extends Component {
+    private final Logger logger = LogManager.getLogger(getClass());
+
     public static final long TIME_BTWN_GENERATIONS = 500;  // ms time in between generation() calls
     public static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
     public float SCALE = .025f;  // empirically derived constant... why is it this? idk...
 
-    // location of grid center
+    // location of grid center TODO: maybe a position component could be used for this?
     public float gridOriginX = 0;
     public float gridOriginY = 0;
 
@@ -40,15 +44,17 @@ public class CAGridComponents extends Component {
     public long generation = 0;
     public int stampCount = 0;
 
-    public int getState(final float x, final float y){
+    public int getState(Vector2 pos){
         // returns state of cell nearest to given world-coordinates
-        int row = getIndexOfX(x);
-        int col = getIndexOfY(y);
+//        logger.trace("getState(position)");
+        int row = getIndexOfX(pos.x);
+        int col = getIndexOfY(pos.y);
         return getState(row, col);
     }
 
-    protected int getState(final int row, final int col) {
+    public int getState(final int row, final int col) {
         // returns state of given location, returns 0 for out-of-bounds
+//        logger.trace("getState(int,int)");
         try {
             return _getState(row,col);
         } catch (IndexOutOfBoundsException err) {
@@ -153,17 +159,22 @@ public class CAGridComponents extends Component {
         }
     }
 
-    public String statesToString(){
-        // returns string showing state of all cells
-        String res = "\n\n{";
-        for (int i = 0; i < getSizeX(); i++){
+    public String statesToString(int x, int y, int w, int h) {
+        // returns string showing state of cells in given rect
+        String res = "";
+        for (int i = 0; i < w; i++){
             res += "{";
-            for (int j = 0; j < getSizeY(); j++){
-                res += getState(i,j) + ",";
+            for (int j = 0; j < h; j++){
+                res += getState(i+x,j+y) + ",";
             }
             res += "}\n";
         }
-        return res + "}";
+        return res;
+    }
+
+    public String statesToString(){
+        // returns string showing state of all cells
+        return statesToString(0, 0, getSizeX(), getSizeY());
     }
 
     private void _stampState(final int[][] pattern, final int row, final int col) {
@@ -180,5 +191,4 @@ public class CAGridComponents extends Component {
         // returns state, throws exception if out of bounds
         return states[row][col].getState();
     }
-
 }

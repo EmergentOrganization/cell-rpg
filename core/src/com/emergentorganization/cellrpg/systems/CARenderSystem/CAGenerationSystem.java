@@ -34,8 +34,6 @@ public class CAGenerationSystem extends BaseEntitySystem {
 
     @Override
     protected  void processSystem() {
-
-        //Camera camera = cameraSystem.getGameCamera();
         IntBag idBag = getEntityIds();
         for (int index = 0; index < idBag.size(); index ++ ) {
             int id = idBag.get(index);
@@ -53,9 +51,15 @@ public class CAGenerationSystem extends BaseEntitySystem {
     @Override
     protected void inserted(int entityId) {
         super.inserted(entityId);
+        _inserted(CAComponent_m.get(entityId), cameraSystem.getGameCamera(), true);
+    }
 
-        CAGridComponents layerStuff = CAComponent_m.get(entityId);
-        Camera camera = cameraSystem.getGameCamera();
+    protected void _inserted(CAGridComponents layerStuff, Camera camera,
+                             Boolean autoGenerate){
+        // :param autoGenerate: if true starts generation loop on separate thread,
+        //                      if false generations must be manually handled using CAGenerationSystem.generate()
+        // _TEST : this inner method is separated from the entity-component system manager, that is, all components
+        //              are passed directly into this method. This is to enable unit testing of the system.
 
         int sx = (int) (camera.viewportWidth)  + 2*layerStuff.OFF_SCREEN_PIXELS;
         int sy = (int) (camera.viewportHeight) + 2*layerStuff.OFF_SCREEN_PIXELS;
@@ -66,7 +70,10 @@ public class CAGenerationSystem extends BaseEntitySystem {
         logger.info("initializing CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px). cellSize="+layerStuff.cellSize);
 
         initStates(layerStuff, w, h);
-        initGenerationLoop(layerStuff);
+
+        if (autoGenerate) {
+            initGenerationLoop(layerStuff);
+        }
     }
 
     protected void generate(CAGridComponents gridComps){
@@ -254,7 +261,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
             }
         }
         // init states for testing
-        randomizeState(gridComponents);
+        //randomizeState(gridComponents);
     }
 
     private void randomizeState(CAGridComponents gridComponents) {

@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 public class CAGridComponents extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public static final long TIME_BTWN_GENERATIONS = 500;  // ms time in between generation() calls
+    public static final long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
     public static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
     public float SCALE = .025f;  // empirically derived constant... why is it this? idk...
 
@@ -39,7 +39,7 @@ public class CAGridComponents extends Component {
     public BaseCell[][] states;
     public int cellSize = 3;  // size of each cell [px]
     public int cellCount = 0;  // number of live cells
-    public CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
+    public CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
     public Color[] stateColorMap;
     public long generation = 0;
     public int stampCount = 0;

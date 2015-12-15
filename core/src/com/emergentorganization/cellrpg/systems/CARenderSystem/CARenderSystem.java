@@ -26,7 +26,9 @@ import java.util.*;
 @Wire
 public class CARenderSystem extends BaseEntitySystem {
 
-    // artemis-injected entity components:
+    // variables injected (by Artemis.World) @ runtime:
+    private CameraSystem cameraSystem;
+    private AssetManager assetManager;
     private ComponentMapper<CAGridComponents> CAComponent_m;
 
     // list of entities registered w/ this system
@@ -34,11 +36,6 @@ public class CARenderSystem extends BaseEntitySystem {
 
     private final ShapeRenderer renderer;
     private final Logger logger = LogManager.getLogger(getClass());
-
-    // variables injected (by Artemis.World) @ runtime:
-    private ComponentMapper<Position> pm;
-    private CameraSystem cameraSystem;
-    private AssetManager assetManager;
 
     public CARenderSystem(ShapeRenderer shapeRenderer) {
         super(Aspect.all(CAGridComponents.class));

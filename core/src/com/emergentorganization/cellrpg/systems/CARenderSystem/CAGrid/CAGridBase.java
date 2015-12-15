@@ -150,11 +150,5 @@ public abstract class CAGridBase {
 //     */
 //
 //
-//    private int getRandomState(float percentLive){
-//        if (Math.random() > percentLive) {
-//            return 0;
-//        } else {
-//            return 1;
-//        }
-//    }
+
 }

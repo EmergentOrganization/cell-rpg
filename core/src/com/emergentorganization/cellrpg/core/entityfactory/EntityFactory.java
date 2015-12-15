@@ -13,7 +13,7 @@ import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.CALayer;
+import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.Resources;
 
 /**

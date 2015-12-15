@@ -13,9 +13,9 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.*;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAGenerationSystem;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAPositionSystem;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CARenderSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem;
 
 /**
  * Created by brian on 11/7/15.

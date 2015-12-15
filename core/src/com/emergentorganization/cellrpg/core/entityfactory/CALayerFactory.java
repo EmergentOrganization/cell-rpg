@@ -3,7 +3,7 @@ package com.emergentorganization.cellrpg.core.entityfactory;
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CellType;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.layers.CALayer;
+import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
  * Methods for building different types of CA layer entities by initializing the CAGridComponent.

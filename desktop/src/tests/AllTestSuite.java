@@ -1,7 +1,7 @@
 package tests;
 
 import com.emergentorganization.cellrpg.desktop.TesterTest;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CATestSuite;
+import com.emergentorganization.cellrpg.systems.CASystems.CATestSuite;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

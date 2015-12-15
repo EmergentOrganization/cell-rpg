@@ -4,10 +4,9 @@ import com.artemis.Component;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.BaseCell;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.CellWithHistory;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CACell.GeneticCell;
-import com.emergentorganization.cellrpg.systems.CARenderSystem.CAEdgeSpawnType;
+import com.emergentorganization.cellrpg.systems.CASystems.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CASystems.CACell.CellWithHistory;
+import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -159,6 +158,10 @@ public class CAGridComponents extends Component {
         }
     }
 
+    public void setState(final int row, final int col, final int newVal){
+        states[row][col].setState(newVal);
+    }
+
     public String statesToString(int x, int y, int w, int h) {
         // returns string showing state of cells in given rect
         String res = "";
@@ -190,5 +193,42 @@ public class CAGridComponents extends Component {
     protected int _getState(final int row, final int col){
         // returns state, throws exception if out of bounds
         return states[row][col].getState();
+    }
+
+    private void checkSize(int size) {
+        if (size % 2 < 1) {
+            throw new UnsupportedOperationException("size must be odd!");
+        } else {
+            return;
+        }
+    }
+
+    private void checkCellSize(int size) {
+        // checks that given size is acceptable, else throws error
+        if (size == 1) {
+            return;
+        } else {
+            int acceptableSize = 3;
+            while (acceptableSize <= size) {
+                if (size == acceptableSize) {
+                    return;
+                } else {
+                    acceptableSize = getNextSizeUp(acceptableSize);
+                }
+            } // else size not acceptable
+            throw new UnsupportedOperationException("size must be in 1, 3, 11, 35...");
+        }
+    }
+
+    private int getNextSizeUp(int lastSize) {
+        /*
+         * available sizes assuming 1px border between cells given by
+         * s(n) = 3(s(n-1))+2 for n > 1 (i.e. starting at s(2)=11)
+         */
+        if (lastSize < 3) {
+            throw new UnsupportedOperationException("previous cell size must be >= 3");
+        } else {
+            return 3 * lastSize + 2;
+        }
     }
 }

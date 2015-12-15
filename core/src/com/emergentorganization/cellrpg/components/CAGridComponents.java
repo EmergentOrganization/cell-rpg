@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.systems.CASystems.CACell.BaseCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CACell.CellWithHistory;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,6 +36,8 @@ public class CAGridComponents extends Component {
     public long maxGenTime = 0;
 
     public CellType cellType = CellType.BASE;
+    public CellRenderer renderType = CellRenderer.COLOR_MAP;
+
     public BaseCell[][] states;
     public int cellSize = 3;  // size of each cell [px]
     public int cellCount = 0;  // number of live cells

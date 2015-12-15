@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems;
+package com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
@@ -12,6 +12,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.CASystems.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.ICellRenderer;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +32,8 @@ public class CARenderSystem extends BaseEntitySystem {
     private CameraSystem cameraSystem;
     private AssetManager assetManager;
     private ComponentMapper<CAGridComponents> CAComponent_m;
+
+    private static EnumMap<CellRenderer, ICellRenderer> cellRenderer = CellRenderer.getRendererMap();
 
     // list of entities registered w/ this system
     private final LinkedList<Integer> sortedEntityIds;
@@ -135,19 +139,10 @@ public class CARenderSystem extends BaseEntitySystem {
 
     protected void renderCell(CAGridComponents layerComponents, final int i, final int j,
                               final float x_origin, final float y_origin){
-        // TODO: if layerComponents.renderType == normal else if == genetic... etc
-        renderCell_normal(layerComponents, i, j, x_origin, y_origin);
+        cellRenderer.get(layerComponents.renderType)
+                .renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
+        // TODO: handle key not found exception. print "Renderer for renderType not found", default to ColorMap?
     }
 
-    protected void renderCell_normal(CAGridComponents layerComponents, final int i, final int j,
-                              final float x_origin, final float y_origin){
-        if (layerComponents.states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
-            // draw square
-            renderer.setColor(layerComponents.stateColorMap[layerComponents.states[i][j].getState()-1]);
 
-            float x = i * (layerComponents.cellSize + 1) + x_origin;  // +1 for cell border
-            float y = j * (layerComponents.cellSize + 1) + y_origin;
-            renderer.rect(x, y, layerComponents.cellSize, layerComponents.cellSize);
-        }
-    }
 }

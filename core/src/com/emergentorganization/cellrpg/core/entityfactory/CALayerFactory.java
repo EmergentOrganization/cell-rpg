@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.core.entityfactory;
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CellType;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
@@ -18,7 +19,7 @@ public class CALayerFactory {
         layerComponents.stateColorMap = new Color[]{new Color(1f, .2f, .2f, 1f), new Color(1f, .4f, .8f, .8f)};
         layerComponents.cellSize = 3;
         layerComponents.cellType = CellType.WITH_HISTORY;
-        // TODO: layerComponents.renderType = CARenderType.BUFFERED;
+        layerComponents.renderType = CellRenderer.COLOR_MAP;
 
         // and then overwrite defaults as required based on type
         switch (layerType){
@@ -37,14 +38,14 @@ public class CALayerFactory {
 
             case VYROIDS_GENETIC:
                 layerComponents.cellSize = 11;
-                // TODO: layerComponents.renderType = CARenderType.GENETIC;
+                layerComponents.renderType = CellRenderer.GENETIC;
                 // TODO: layerComponents.cellType = CellType.GENETIC;
                 return;
 
             case ENERGY:
                 layerComponents.cellSize = 1;
                 layerComponents.stateColorMap = new Color[] {new Color(1f, 1f, 1f, .8f)};
-                // TODO: layerComponents.renderType = CARenderType.DECAY;
+                layerComponents.renderType = CellRenderer.DECAY;
                 layerComponents.cellType = CellType.BASE;
                 return;
         }

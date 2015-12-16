@@ -5,6 +5,7 @@ import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CellType;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
@@ -24,6 +25,7 @@ public class CALayerFactory {
         layerComponents.cellType = CellType.WITH_HISTORY;
         layerComponents.renderType = CellRenderer.COLOR_MAP;
         layerComponents.edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
+        layerComponents.ca = CA.BUFFERED;
 
         // and then overwrite defaults as required based on type
         switch (layerType){
@@ -44,6 +46,7 @@ public class CALayerFactory {
                 layerComponents.cellSize = 11;//35
                 layerComponents.renderType = CellRenderer.GENETIC;
                 layerComponents.cellType = CellType.GENETIC;
+                layerComponents.ca = CA.GENETIC;
                 return;
 
             case ENERGY:
@@ -52,6 +55,7 @@ public class CALayerFactory {
                 layerComponents.stateColorMap = new Color[] {new Color(1f, 1f, 1f, .8f)};
                 layerComponents.renderType = CellRenderer.DECAY;
                 layerComponents.cellType = CellType.DECAY;
+                layerComponents.ca = CA.DECAY;
                 return;
         }
     }

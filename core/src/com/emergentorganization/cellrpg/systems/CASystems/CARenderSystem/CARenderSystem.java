@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.systems.CASystems.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
-import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.ICellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.iCellRenderer;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +33,7 @@ public class CARenderSystem extends BaseEntitySystem {
     private AssetManager assetManager;
     private ComponentMapper<CAGridComponents> CAComponent_m;
 
-    private static EnumMap<CellRenderer, ICellRenderer> cellRenderer = CellRenderer.getRendererMap();
+    private static EnumMap<CellRenderer, iCellRenderer> cellRenderer = CellRenderer.getRendererMap();
 
     // list of entities registered w/ this system
     private final LinkedList<Integer> sortedEntityIds;

@@ -8,14 +8,14 @@ import com.emergentorganization.cellrpg.components.CAGridComponents;
  *
  * Created by 7yl4r on 12/14/2015.
  */
-public class ColorMapCellRenderer implements ICellRenderer{
+public class ColorMapCellRenderer implements iCellRenderer {
 
     @Override
     public void renderCell(ShapeRenderer renderer, CAGridComponents layerComponents, final int i, final int j,
                            final float x_origin, final float y_origin){
         if (layerComponents.states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
             // draw square
-            int state = layerComponents.getState(i,j);
+            int state = layerComponents.getState(i, j);
 //            System.out.println("("+i+","+j+")"+"="+state);
             renderer.setColor(layerComponents.stateColorMap[state-1]);
 

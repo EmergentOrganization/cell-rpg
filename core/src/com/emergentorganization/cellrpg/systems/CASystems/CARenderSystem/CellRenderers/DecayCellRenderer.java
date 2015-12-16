@@ -7,7 +7,7 @@ import com.emergentorganization.cellrpg.components.CAGridComponents;
 /**
  * Created by 7yl4r on 12/15/2015.
  */
-public class DecayCellRenderer implements ICellRenderer {
+public class DecayCellRenderer implements iCellRenderer {
 
     private final int MIN_RENDER = -5;
     private final float DELT = 1f/(float) MIN_RENDER;

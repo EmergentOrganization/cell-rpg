@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders;
 
-import com.emergentorganization.cellrpg.systems.CASystems.CACell.GeneticCell;
-import com.emergentorganization.cellrpg.systems.CASystems.CACell.GeneticCellTest;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCellTest;
 import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
 import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 import org.apache.logging.log4j.LogManager;

@@ -4,9 +4,10 @@ import com.artemis.Component;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.systems.CASystems.CACell.BaseCell;
-import com.emergentorganization.cellrpg.systems.CASystems.CACell.CellWithHistory;
-import com.emergentorganization.cellrpg.systems.CASystems.CACell.GeneticCell;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.CellWithHistory;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.*;
@@ -39,6 +40,7 @@ public class CAGridComponents extends Component {
 
     public CellType cellType = CellType.BASE;
     public CellRenderer renderType = CellRenderer.COLOR_MAP;
+    public CA ca = CA.NO_BUFFER;
 
     public BaseCell[][] states;
     public int cellSize = 3;  // size of each cell [px]
@@ -67,6 +69,7 @@ public class CAGridComponents extends Component {
     }
 
     public int getLastState(final int row, final int col){
+        // TODO: use computerType and CA here?
         switch(cellType){
             case WITH_HISTORY:
             case GENETIC:

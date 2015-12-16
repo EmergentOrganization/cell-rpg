@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CACell;
+package com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
 
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;

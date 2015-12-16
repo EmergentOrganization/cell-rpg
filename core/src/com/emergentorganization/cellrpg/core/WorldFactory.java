@@ -13,7 +13,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.*;
-import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem.CAGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
 

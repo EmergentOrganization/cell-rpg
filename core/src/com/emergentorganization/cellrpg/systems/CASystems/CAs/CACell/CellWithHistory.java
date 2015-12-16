@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CACell;
+package com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
 
 /**
  * Created by 7yl4r on 9/25/2015.

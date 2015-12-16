@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.systems.CASystems;
 import com.badlogic.gdx.graphics.Camera;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
+import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem.CAGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.testUtils;

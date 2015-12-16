@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.systems.CASystems.CACell.BaseCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CACell.CellWithHistory;
+import com.emergentorganization.cellrpg.systems.CASystems.CACell.GeneticCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,8 +69,10 @@ public class CAGridComponents extends Component {
     public int getLastState(final int row, final int col){
         switch(cellType){
             case WITH_HISTORY:
+            case GENETIC:
                 return getLastState_buffered(row, col);
             case BASE:
+            case DECAY:
             default:
                 return getLastState_noBuffer(row, col);
         }
@@ -105,12 +109,37 @@ public class CAGridComponents extends Component {
         return -OFF_SCREEN_PIXELS + gridOriginY - camera.position.y/SCALE;
     }
 
+    // === NOTE: these used by Genetic Cell NewCell only: ===
+    public int lastBuilderStamp = 0;
+    private int selectedBuilder = 0;
+    // list of cells used to seed when stamps are placed:
+    private GeneticNetworkBuilderInterface[] builders = new GeneticNetworkBuilderInterface[]{
+            //new CellAlpha(),
+            new AgeDarkener(),
+            new MrBlue(),
+            new MrGreen(),
+            new MrRed()
+    };
+    private GeneticNetworkBuilderInterface getBuilder(){
+        // returns most appropriate cell builder
+        if (stampCount != lastBuilderStamp){ // to keep builder from changing in middle of a stamp
+            lastBuilderStamp = stampCount;
+            selectedBuilder++;
+            if (selectedBuilder >= builders.length){
+                selectedBuilder = 0;
+            }
+        }  // else return previously selected builder
+        return builders[selectedBuilder];
+    }
+    // === END Genetic-cell newcell only stuff ===
+
     public BaseCell newCell(int init_state){
+        // TODO: use of inteface, enum, map like w/ CellRenderer is preferred.
         switch (cellType){
             case WITH_HISTORY:
                 return new CellWithHistory(init_state);
-            //TODO: case GENETIC:
-                //return new GeneticCell(init_state);
+            case GENETIC:
+                return new GeneticCell(init_state, getBuilder()).incubate();
             case BASE:
             case DECAY:
             default:

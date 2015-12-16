@@ -6,7 +6,7 @@ package com.emergentorganization.cellrpg.core;
 public enum EntityID {
     BULLET, PLAYER, PLAYER_SHIELD, BUILDING_LARGE_ONE, BUILDING_ROUND_ONE,
     RIFT_ONE, RIFT_TWO, VYROID_BEACON, CIV_ONE_BLINKER, THE_EDGE,
-    CA_LAYER_VYROIDS, CA_LAYER_ENERGY;
+    CA_LAYER_VYROIDS, CA_LAYER_ENERGY, CA_LAYER_GENETIC;
     private static final String BULLET_STR = "bullet";
 
     private static final String PLAYER_STR = "char-player";
@@ -22,6 +22,7 @@ public enum EntityID {
 
     public static final String CA_LAYER_VYROIDS_STR = "ca-layer-vyroids";
     public static final String CA_LAYER_ENERGY_STR = "ca-layer-energy";
+    public static final String CA_LAYER_GENETIC_STR = "ca-layer-genetic";
 
 
     /**

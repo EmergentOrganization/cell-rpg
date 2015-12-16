@@ -19,7 +19,7 @@ public enum CellRenderer {
 
         cellRenderer.put(CellRenderer.COLOR_MAP, new ColorMapCellRenderer());
         cellRenderer.put(CellRenderer.DECAY, new DecayCellRenderer());
-        cellRenderer.put(CellRenderer.GENETIC, new ColorMapCellRenderer());  // TODO: GeneticCellRenderer
+        cellRenderer.put(CellRenderer.GENETIC, new GeneticCellRenderer());
 
         return cellRenderer;
     }

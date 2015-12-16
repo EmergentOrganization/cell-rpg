@@ -64,6 +64,13 @@ public class EntityFactory {
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY);
+
+        Entity geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
+                EntityID.CA_LAYER_GENETIC.toString(), pos)
+                .renderIndex(RenderIndex.CA)
+                .build();
+        CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC);
     }
 
     public int createPlayer(float x, float y) {

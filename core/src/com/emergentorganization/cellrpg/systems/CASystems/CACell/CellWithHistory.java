@@ -18,6 +18,11 @@ public class CellWithHistory extends BaseCell{
         return lastState;
     }
 
+    public void setState(final int newState){
+        lastState = state;
+        state = newState;
+    }
+
     public void setLastState(final int newState){
         lastState = newState;
     }

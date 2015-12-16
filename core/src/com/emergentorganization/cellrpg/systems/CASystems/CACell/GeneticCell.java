@@ -19,7 +19,7 @@ import java.util.ArrayList;
  *
  * Created by 7yl4r on 9/25/2015.
  */
-public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowNodeHandler {
+public class GeneticCell extends CellWithHistory implements OutflowNodeHandler, InflowNodeHandler {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
     public DGRN dgrn;
     public int neighborCount = 0;

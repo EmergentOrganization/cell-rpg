@@ -9,6 +9,8 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 /**
  * Methods for building different types of CA layer entities by initializing the CAGridComponent.
  * Adapted from LayerBuilder (10-10-2015) on 12-12-2015 by 7yl4r.
+ *
+ * TODO: this should be part of the CALayerComponentsConstructor, not a separate class.
  */
 public class CALayerFactory {
 
@@ -43,10 +45,11 @@ public class CALayerFactory {
                 return;
 
             case ENERGY:
-                layerComponents.cellSize = 1;
+                layerComponents.TIME_BTWN_GENERATIONS = 700;
+                layerComponents.cellSize = 3;
                 layerComponents.stateColorMap = new Color[] {new Color(1f, 1f, 1f, .8f)};
                 layerComponents.renderType = CellRenderer.DECAY;
-                layerComponents.cellType = CellType.BASE;
+                layerComponents.cellType = CellType.DECAY;
                 return;
         }
     }

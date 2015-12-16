@@ -85,9 +85,20 @@ public class CAGenerationSystem extends BaseEntitySystem {
             case WITH_HISTORY:
                 generate_buffered(gridComps);
                 break;
+            case DECAY:
+                generate_decay(gridComps);
+                break;
             case BASE:
             default:
                 generate_NoBuffer(gridComps);
+        }
+    }
+
+    protected void generate_decay(CAGridComponents gridComps) {
+        for (int i = 0; i < gridComps.states.length; i++) {
+            for (int j = 0; j < gridComps.states[0].length; j++) {
+                gridComps.states[i][j].setState(gridComps.states[i][j].getState() - 1);
+            }
         }
     }
 

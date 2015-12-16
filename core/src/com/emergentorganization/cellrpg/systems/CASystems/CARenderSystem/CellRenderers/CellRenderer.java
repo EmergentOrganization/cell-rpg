@@ -14,10 +14,11 @@ public enum CellRenderer {
 
     public static EnumMap<CellRenderer, ICellRenderer> getRendererMap(){
         // maps enums to interface implementers.
-        EnumMap<CellRenderer, ICellRenderer> cellRenderer = new EnumMap<CellRenderer, ICellRenderer>(CellRenderer.class);
+        EnumMap<CellRenderer, ICellRenderer> cellRenderer
+                = new EnumMap<CellRenderer, ICellRenderer>(CellRenderer.class);
 
         cellRenderer.put(CellRenderer.COLOR_MAP, new ColorMapCellRenderer());
-        cellRenderer.put(CellRenderer.DECAY, new ColorMapCellRenderer());  // TODO: DecayCellRenderer
+        cellRenderer.put(CellRenderer.DECAY, new DecayCellRenderer());
         cellRenderer.put(CellRenderer.GENETIC, new ColorMapCellRenderer());  // TODO: GeneticCellRenderer
 
         return cellRenderer;

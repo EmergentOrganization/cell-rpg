@@ -51,8 +51,19 @@ public class EntityFactory {
 
     private void addCALayers(Vector2 pos){
         // adds all ca layer entities to the scene.
-        //
-        createCALayerVyroids(pos);
+        Entity vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
+                EntityID.CA_LAYER_VYROIDS.toString(), pos)
+                .renderIndex(RenderIndex.CA)
+                .build();
+        CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS);
+
+        Entity energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
+                EntityID.CA_LAYER_ENERGY.toString(), pos)
+                .renderIndex(RenderIndex.CA)
+                .build();
+        CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY);
     }
 
     public int createPlayer(float x, float y) {
@@ -188,16 +199,6 @@ public class EntityFactory {
         return bg.getId();
     }
 
-    public int createCALayerVyroids(Vector2 pos){
-        Entity layer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
-                EntityID.CA_LAYER_VYROIDS.toString(), pos)
-                .renderIndex(RenderIndex.CA)
-                .build();
-        CAGridComponents layerStuff = layer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(layerStuff, CALayer.VYROIDS);
-        return layer.getId();
-    }
-
     public int createEntityByID(String id, Vector2 pos, float angleDeg) {
         if (id.equals(EntityID.BUILDING_LARGE_ONE.toString())) {
             return createBuildingLargeOne(pos, angleDeg);
@@ -217,8 +218,6 @@ public class EntityFactory {
             return createBackgroundTheEdge(pos);
         } else if (id.equals(EntityID.VYROID_BEACON.toString())) {
             return createVyroidBeacon(pos, angleDeg);
-        } else if (id.equals(EntityID.CA_LAYER_VYROIDS.toString())) {
-            return createCALayerVyroids(pos);
         } else {
             throw new RuntimeException("Error: Could not find entity by ID '" + id + "'");
         }

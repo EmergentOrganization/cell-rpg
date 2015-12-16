@@ -15,7 +15,9 @@ public class ColorMapCellRenderer implements ICellRenderer{
                            final float x_origin, final float y_origin){
         if (layerComponents.states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
             // draw square
-            renderer.setColor(layerComponents.stateColorMap[layerComponents.states[i][j].getState()-1]);
+            int state = layerComponents.getState(i,j);
+//            System.out.println("("+i+","+j+")"+"="+state);
+            renderer.setColor(layerComponents.stateColorMap[state-1]);
 
             float x = i * (layerComponents.cellSize + 1) + x_origin;  // +1 for cell border
             float y = j * (layerComponents.cellSize + 1) + y_origin;

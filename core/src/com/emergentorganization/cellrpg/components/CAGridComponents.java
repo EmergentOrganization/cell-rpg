@@ -72,10 +72,10 @@ public class CAGridComponents extends Component {
         // TODO: use computerType and CA here?
         switch(cellType){
             case WITH_HISTORY:
-            case GENETIC:
                 return getLastState_buffered(row, col);
             case BASE:
             case DECAY:
+            case GENETIC:
             default:
                 return getLastState_noBuffer(row, col);
         }
@@ -229,14 +229,6 @@ public class CAGridComponents extends Component {
     protected int _getState(final int row, final int col){
         // returns state, throws exception if out of bounds
         return states[row][col].getState();
-    }
-
-    private void checkSize(int size) {
-        if (size % 2 < 1) {
-            throw new UnsupportedOperationException("size must be odd!");
-        } else {
-            return;
-        }
     }
 
     private void checkCellSize(int size) {

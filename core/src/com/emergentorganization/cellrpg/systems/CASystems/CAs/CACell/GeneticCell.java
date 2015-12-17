@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
 import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.InflowNodeHandler;
 import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.OutflowNodeHandler;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  *
  * Created by 7yl4r on 9/25/2015.
  */
-public class GeneticCell extends CellWithHistory implements OutflowNodeHandler, InflowNodeHandler {
+public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowNodeHandler {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
     public DGRN dgrn;
     public int neighborCount = 0;

@@ -19,7 +19,7 @@ public class CellWithHistory extends BaseCell{
     }
 
     public void setState(final int newState){
-        lastState = state;
+//        lastState = state;
         state = newState;
     }
 

@@ -42,12 +42,20 @@ public class util {
         return neighbors;
     }
 
+    private void checkNeighborhoodSize(int size) {
+        if (size % 2 < 1) {
+            throw new UnsupportedOperationException("size must be odd!");
+        } else {
+            return;
+        }
+    }
+
     public static int getNeighborhoodSum(final int row, final int col, final int size, CAGridComponents gridComps) {
         // returns sum of all states in neighborhood
         // size MUST be odd! (not checked for efficiency)
         final boolean SKIP_SELF = true;
 
-        // checkSize(size);
+        // checkNeighborhoodSize(size);
         final int radius = (size - 1) / 2;
         int sum = 0;
         for (int i = row - radius; i <= row + radius; i++) {

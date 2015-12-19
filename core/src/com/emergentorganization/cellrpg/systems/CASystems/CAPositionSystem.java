@@ -11,7 +11,8 @@ import com.emergentorganization.cellrpg.systems.CameraSystem;
 
 /**
  * system for positioning the CA layers so that they appear static
- * while also shifting the origin/center of the generation window.
+ * while also shifting the origin/center of the generation window's
+ * CA state array.
  *
  * Adapted from CAGridBase by 7yl4r on 2015-12-14.
  */
@@ -34,7 +35,6 @@ public class CAPositionSystem extends BaseEntitySystem {
     }
 
     protected  void process(int entityId) {
-        //TODO:
         CAGridComponents gridComps = CAComponent_m.get(entityId);
         gridFollow(gridComps, cameraSystem.getGameCamera());
     }
@@ -109,7 +109,7 @@ public class CAPositionSystem extends BaseEntitySystem {
         } else {
             throw new IllegalStateException("edgeSpawn type not recognized");
         }
-        return gridComps.newCell(state);  // TODO: this should be constructor based on desired cell type
+        return gridComps.newCell(state);
     }
 
     private void gridFollow(CAGridComponents gridComps, Camera camera){

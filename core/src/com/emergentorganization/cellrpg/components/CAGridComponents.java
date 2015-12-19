@@ -69,7 +69,6 @@ public class CAGridComponents extends Component {
     }
 
     public int getLastState(final int row, final int col){
-        // TODO: use computerType and CA here?
         switch(cellType){
             case WITH_HISTORY:
                 return getLastState_buffered(row, col);

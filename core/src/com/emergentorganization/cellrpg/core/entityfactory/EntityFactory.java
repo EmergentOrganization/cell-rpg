@@ -8,12 +8,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
+import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.Resources;
 
 /**
@@ -39,10 +42,12 @@ public class EntityFactory {
     public void initialize(World world) {
         this.world = world;
         this.eventManager = world.getSystem(EventManager.class);
+        // TODO: add CAManager & get CA layers using manager
+
         base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
-        collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
+        collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).add(Equipment.class).build(world);
@@ -75,6 +80,7 @@ public class EntityFactory {
 
     public int createPlayer(float x, float y) {
         Vector2 pos = new Vector2(x, y);
+
         final Entity player = new EntityBuilder(world, this.player, "Player", EntityID.PLAYER.toString(), pos)
                 .tag("player")
                 .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
@@ -114,7 +120,15 @@ public class EntityFactory {
             }
         });
 
-        addCALayers(pos);
+        addCALayers(pos);  // TODO: this should be somewhere else
+
+        // add cellular automata grid interactions
+        CAInteractionList interactList = player.getComponent(CAInteractionList.class);
+        interactList.addInteraction(
+                EntityID.CA_LAYER_VYROIDS.ordinal(),
+                new CAInteraction()
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), EntityID.CA_LAYER_VYROIDS.ordinal())
+        );
 
         return player.getId();
     }

@@ -2,9 +2,22 @@ package com.emergentorganization.cellrpg.systems.CASystems;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
-import com.emergentorganization.cellrpg.components.CameraFollow;
+import com.artemis.ComponentMapper;
+import com.artemis.utils.IntBag;
+import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.CAInteraction.CAImpact;
+import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
+import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
+import com.emergentorganization.cellrpg.events.GameEvent;
+import com.emergentorganization.cellrpg.managers.EventManager;
+import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * for allowing entities to "collide" with the CAGrid.
@@ -22,189 +35,118 @@ import org.apache.logging.log4j.Logger;
 public class CAInteractionSystem extends BaseEntitySystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public CAInteractionSystem(){
-        super(Aspect.all(CameraFollow.class));
+    // artemis-injected entity components:
+    private ComponentMapper<CAInteractionList> CAInteracdtions_m;
+    private ComponentMapper<CAGridComponents> CAGridComp_m;
+    private ComponentMapper<Position> pos_m;
+    private ComponentMapper<Velocity> vel_m;
+    private EventManager eventManager;
 
-//        sortedEntityIds = new LinkedList<Integer>();
+
+    private Vector2 lastCollisionPosition;  // position @ last location position was checked
+
+    public CAInteractionSystem(){
+        super(Aspect.all(CAInteractionList.class, Position.class, Velocity.class));
     }
 
-    protected  void process(int entityId) {
+    @Override
+    protected  void inserted(int entityId) {
+        Position pos = pos_m.get(entityId);
+        lastCollisionPosition = pos.position;
+    }
+
+    protected void processLayer(int collidingLayerId, CAInteractionList interList,
+                                final Vector2 currentPostion, final Vector2 velocity, Vector2 diff){
+        float delta = 1f/velocity.len();  // this should check every pixel (assuming velocity is in pixels)
+        float thresh = delta;
+
+        while (diff.sub(currentPostion).len2() > thresh){
+//                System.out.println("lastPos=" + lastCollisionPosition);
+//                System.out.println("lerp("+currentPostion+","+delta+")");
+            lastCollisionPosition.lerp(currentPostion, delta);
+//                System.out.println("collide @ " + lastCollisionPosition);
+            collide(lastCollisionPosition, interList, collidingLayerId);
+            diff.set(lastCollisionPosition);
+        }
+    }
+
+    protected void process(int entityId) {
         // process completed for each entity matching filter
-//        Visual v = vm.get(entityId);
-//        Position p = pm.get(entityId);
-//        Scale s = sm.get(entityId);
-//        Rotation r = rm.get(entityId);
-//
-//        TextureRegion t = assetManager.getCurrentRegion(v);
-//        if (t != null) {
-//            if (v.isAnimation) {
-//                v.stateTime += world.getDelta();
-//            }
-//            batch.draw(t, cameraSystem.getGameCamera().position.x, cameraSystem.getGameCamera().position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
-//        }
-        // TODO: for each interaction
-        // TODO: perform the action
+        Vector2 currentPostion = pos_m.get(entityId).position;
+        Vector2 velocity = vel_m.get(entityId).velocity;
+        CAInteractionList interList = CAInteracdtions_m.get(entityId);
+
+        for (int colldingLayerId : interList.interactions.keySet()) {
+            processLayer(colldingLayerId, interList, currentPostion, velocity, new Vector2(lastCollisionPosition));
+        }
     }
 
     @Override
     protected  void processSystem() {
-        //Camera camera = cameraSystem.getGameCamera();
-
-//        for (Integer id : sortedEntityIds) {
-//            process(id);
-//        }
+        IntBag idBag = getEntityIds();
+        for (int index = 0; index < idBag.size(); index ++ ) {
+            int id = idBag.get(index);
+            process(id);
+        }
     }
 
-    // TODO: === === === start unported code === === ===
-//
-//    private CAScene parentScene;
-//    private MovementComponent mc;
-//    private Vector2 lastCollisionPosition;  // position @ last locatoin position was checked
-//    private ArrayList collidingStates = new ArrayList(); // list of states with collision effects
-//    private int colliderRadius;  // radius of collision object
-//    private int colliderGridSize;  // when checking the collision area, checks at grid intersections
-//    HashMap<Integer, int[][]> impacts = new HashMap<Integer, int[][]>(); // collision impact grid stamps
-//    HashMap<Integer, CALayer> impactLayers = new HashMap<Integer, CALayer>(); // layers impacted onCollision
-//    HashMap<Integer, EntityEvents> events = new HashMap<Integer, EntityEvents>(); // events triggered by collisions
-//    CALayer collidingLayer;
-//
-//    public CAInteractionSystem(CAScene scene, CALayer colliding_layer){
-//        // NOTE: scene is passed in only b/c we can't do getEntity() until after being added, and we want to throw
-//        //        the no-layer exception now instead.
-//        if (scene.getLayer(colliding_layer) == null){  // if layer not in this region
-//            throw new IllegalArgumentException("ca layer '" + colliding_layer + "' not in this scene");
-//        } else {
-//            parentScene = scene;
-//            collidingLayer = colliding_layer;
-//        }
-//    }
-//
-//    public void addCollision(int state, EntityEvents triggeredEvent) {
-//        addCollision(state, triggeredEvent, 0, 0);
-//    }
-//    public void addCollision(int state, EntityEvents triggeredEvent, final int radius, final int gridSize){
-//        // adds collision between entity and cagrid layer
-//        // triggeredEvents: event triggered onCollision
-//        // state: ca state value collided with
-//        Integer stat = new Integer(state);
-//        if (!collidingStates.contains(stat)){
-//            collidingStates.add(new Integer(state));
-//        }
-//        events.put(stat, triggeredEvent);
-//        setCollisionSize(radius, gridSize);
-//    }
-//
-//    public void addCollision(int state, int[][] collisionImpact, CALayer impacted_layer){
-//        addCollision(state, collisionImpact, impacted_layer, 0, 0);
-//    }
-//    public void addCollision(int state, int[][] collisionImpact, CALayer impacted_layer, final int radius, final int gridSize){
-//        // adds collision between entity and given layer
-//        // collisionImpact: gridSeedStamp to apply to layer at pt of collision
-//        // state: ca state value collided with
-//        if (parentScene.getLayer(impacted_layer) == null){  // if layer not in this region
-//            logger.info("ca collision not added: impact layer '" + collisionImpact + "' not in this scene");
-//        } else {
-//            Integer stat = new Integer(state);
-//            if (!collidingStates.contains(stat)) {
-//                collidingStates.add(new Integer(state));
-//            }
-//            impacts.put(stat, collisionImpact);
-//            impactLayers.put(stat, impacted_layer);
-//            setCollisionSize(radius, gridSize);
-//        }
-//    }
-//
-//    private void setCollisionSize(final int radius, final int gridSize){
-//        assert (gridSize > 0);
-//        colliderRadius = radius;
-//        colliderGridSize = gridSize;
-//    }
-//
-//    @Override
-//    public void added() {
-//        mc = getFirstSiblingByType(MovementComponent.class);
-//        lastCollisionPosition = mc.getWorldPosition();
-//    }
-//
-//    @Override
-//    public void update(float deltaTime) {
-//        try {
-//            Vector2 currentPostion = mc.getWorldPosition();
-//            float delta = 1f/mc.getVelocity().len();  // this should check every pixel (assuming velocity is in pixels)
-//            float thresh = delta;
-//            Vector2 diff = new Vector2(lastCollisionPosition);
-//            while (diff.sub(currentPostion).len2() > thresh){
-////                System.out.println("lastPos=" + lastCollisionPosition);
-////                System.out.println("lerp("+currentPostion+","+delta+")");
-//                lastCollisionPosition.lerp(currentPostion, delta);
-////                System.out.println("collide @ " + lastCollisionPosition);
-//                collide(lastCollisionPosition);
-//                diff.set(lastCollisionPosition);
-//            }
-//        } catch(ClassCastException err){
-//            // non-cascene, can't check for ca collisions
-//            return;
-//        }
-//    }
-//
-//    private boolean checkCollideAt(float x, float y){
-//        CAScene caScene = (CAScene) getEntity().getScene();
-//        CAGridBase layer = caScene.getLayer(collidingLayer);
-//        Integer state = new Integer(layer.getState(x, y));
-//
-//        if (collidingStates.contains(state)){
-//            // impact the CA
-//            try{
-//                int[][] stamp = impacts.get(state);
-//                caScene.getLayer(impactLayers.get(state)).stampState(stamp, new Vector2(x,y));
-//            } catch(NullPointerException err){
-//                // maybe event-only interaction
-//            }
-//            // fire events to entity
-//            try{
-//                EntityEvents event = events.get(state);
-//                getEntity().fireEvent(event);
-//            } catch(NullPointerException err){
-//                // maybe impact-only interaction
-//            }
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    private boolean collide(Vector2 position){
-//        // checks for collisions
-//        // returns true if collided, else false
-//        // this method isn't pretty, but it is most efficient...
-//        float x = position.x;
-//        float y = position.y;
-//        // check origin
-//        if (checkCollideAt(x, y)) return true;
-//
-//        // check grid extending outwards from origin
-//        float delta = colliderGridSize;
-//        while(delta < colliderRadius){
-//            // x+1, y
-//            if(checkCollideAt(x+delta,y)) return true;
-//            // x-1, y
-//            if(checkCollideAt(x-delta,y)) return true;
-//            // x, y+1
-//            if(checkCollideAt(x,y+delta)) return true;
-//            // x, y-1
-//            if(checkCollideAt(x,y-delta)) return true;
-//            // check x+1, y+1
-//            if(checkCollideAt(x+delta,y+delta)) return true;
-//            // x+1, y-1
-//            if(checkCollideAt(x+delta,y-delta)) return true;
-//            // x-1, y+1
-//            if(checkCollideAt(x-delta,y+delta)) return true;
-//            // x-1, y-1
-//            if(checkCollideAt(x-delta,y-delta)) return true;
-//
-//            delta += colliderGridSize;
-//        }  // else no collisions
-//        return false;
-//    }
+
+    // START UNPORTED
+
+
+    private boolean checkCollideAt(Vector2 pos, CAInteraction inter, int collidingLayerId){
+        // performs collision between given object and colliding layer at given position
+        int state = CAGridComp_m.get(collidingLayerId).getState(pos);
+
+        if (inter.collidesWithState(state)){
+            // impact the CA
+            for (CAImpact imp: inter.impacts.get(state)){
+                CAGridComp_m.get(imp.targetGridId).stampState(imp.impactStamp, pos);
+            }
+
+            // fire events to entity
+            for (GameEvent evt : inter.events.get(state)){
+                eventManager.pushEvent(evt);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean collide(Vector2 position, CAInteractionList interList, int collidingLayerId){
+        // checks for collisions
+        // returns true if collided, else false
+        CAInteraction inter =  interList.interactions.get(collidingLayerId);
+
+        float x = position.x;
+        float y = position.y;
+        // check origin
+        if (checkCollideAt(position, inter, collidingLayerId)) return true;
+
+        // check grid extending outwards from origin
+        float delta = interList.colliderGridSize;
+        while(delta < interList.colliderRadius){
+            // x+1, y
+            if(checkCollideAt(new Vector2(x+delta, y), inter, collidingLayerId)) return true;
+            // x-1, y
+            if(checkCollideAt(new Vector2(x-delta, y), inter, collidingLayerId)) return true;
+            // x, y+1
+            if(checkCollideAt(new Vector2(x,y+delta), inter, collidingLayerId)) return true;
+            // x, y-1
+            if(checkCollideAt(new Vector2(x,y-delta), inter, collidingLayerId)) return true;
+            // check x+1, y+1
+            if(checkCollideAt(new Vector2(x+delta,y+delta), inter, collidingLayerId)) return true;
+            // x+1, y-1
+            if(checkCollideAt(new Vector2(x+delta,y-delta), inter, collidingLayerId)) return true;
+            // x-1, y+1
+            if(checkCollideAt(new Vector2(x-delta,y+delta), inter, collidingLayerId)) return true;
+            // x-1, y-1
+            if(checkCollideAt(new Vector2(x-delta,y-delta), inter, collidingLayerId)) return true;
+
+            delta += interList.colliderGridSize;
+        }  // else no collisions
+        return false;
+    }
 
 }

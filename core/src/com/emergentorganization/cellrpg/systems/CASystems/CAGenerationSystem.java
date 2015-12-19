@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
+package com.emergentorganization.cellrpg.systems.CASystems;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
@@ -8,14 +8,11 @@ import com.badlogic.gdx.graphics.Camera;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.CellWithHistory;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Timer;
 import java.util.TimerTask;

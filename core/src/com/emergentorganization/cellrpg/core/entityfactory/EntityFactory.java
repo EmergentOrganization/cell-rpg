@@ -39,11 +39,15 @@ public class EntityFactory {
     private Archetype bullet;
     private Archetype ca_layer;
 
+    // TODO: add CAManager & get CA layers using , not this:
+    Entity vyroidLayer;
+    Entity energyLayer;
+    Entity geneticLayer;
+
+
     public void initialize(World world) {
         this.world = world;
         this.eventManager = world.getSystem(EventManager.class);
-        // TODO: add CAManager & get CA layers using manager
-
         base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
@@ -56,21 +60,21 @@ public class EntityFactory {
 
     private void addCALayers(Vector2 pos){
         // adds all ca layer entities to the scene.
-        Entity vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
+        vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS);
 
-        Entity energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
+        energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY);
 
-        Entity geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
+        geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
                 EntityID.CA_LAYER_GENETIC.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .build();
@@ -124,10 +128,13 @@ public class EntityFactory {
 
         // add cellular automata grid interactions
         CAInteractionList interactList = player.getComponent(CAInteractionList.class);
+//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
         interactList.addInteraction(
-                EntityID.CA_LAYER_VYROIDS.ordinal(),
+                vyroidLayer.getId(),
                 new CAInteraction()
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), EntityID.CA_LAYER_VYROIDS.ordinal())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
+                    .addEventTrigger(1, GameEvent.PLAYER_HIT)
         );
 
         return player.getId();

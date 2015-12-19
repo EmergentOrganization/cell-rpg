@@ -1,8 +1,6 @@
 package com.emergentorganization.cellrpg.systems.CASystems;
 
-import com.artemis.Aspect;
-import com.artemis.BaseEntitySystem;
-import com.artemis.ComponentMapper;
+import com.artemis.*;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.*;
@@ -76,6 +74,8 @@ public class CAInteractionSystem extends BaseEntitySystem {
         Vector2 velocity = vel_m.get(entityId).velocity;
         CAInteractionList interList = CAInteracdtions_m.get(entityId);
 
+//        logger.info("CAInteractSys.process(" + entityId + ")");
+
         for (int colldingLayerId : interList.interactions.keySet()) {
             processLayer(colldingLayerId, interList, currentPostion, velocity, new Vector2(lastCollisionPosition));
         }
@@ -90,12 +90,9 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-
-    // START UNPORTED
-
-
     private boolean checkCollideAt(Vector2 pos, CAInteraction inter, int collidingLayerId){
         // performs collision between given object and colliding layer at given position
+        logger.info("checkCollide gridId#" + collidingLayerId + " @ " + pos);
         int state = CAGridComp_m.get(collidingLayerId).getState(pos);
 
         if (inter.collidesWithState(state)){

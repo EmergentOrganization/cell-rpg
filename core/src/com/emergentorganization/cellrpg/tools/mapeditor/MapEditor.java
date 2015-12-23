@@ -37,7 +37,6 @@ import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by BrianErikson on 6/14/2015.
@@ -330,53 +329,81 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
             Vector3 gameVec = gameCamera.unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
             Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
-            final Collection<Integer> entities = new ArrayList<Integer>(5);
-            physicsSystem.queryAABB(new QueryCallback() {
-                @Override
-                public boolean reportFixture(Fixture fixture) {
-                    Body body = fixture.getBody();
-                    entities.add((Integer) body.getUserData());
-
-                    return false;
-                }
-            }, hitBox.x, hitBox.y, hitBox.x + hitBox.getWidth(), hitBox.y + hitBox.getHeight());
 
             if (target != null) {
-                BoundsGizmo.GizmoTrigger gizmoTrigger = target.getBoundsGizmo().detectContains(hitBox);
-
-                if (gizmoTrigger != null) {
-                    //TODO
+                BoundsGizmo.GizmoTrigger trigger = detectGizmoClick(target, hitBox);
+                if (trigger != null) {
                     System.out.println("GIZMO!");
+                } else {
+                    detectNewTarget(hitBox, screenCoords);
                 }
-                else {
-                    target = null;
-
-                    boolean foundTarget = false;
-                    for (Integer entityId : entities) {
-                        foundTarget = true;
-                        Entity entity = world.getEntity(entityId);
-                        setTarget(entity);
-                        setDragOffset(screenCoords);
-                    }
-
-                    if (!foundTarget) {
-                        ComponentMapper<Bounds> bm = world.getMapper(Bounds.class);
-                        ComponentMapper<Position> pm = world.getMapper(Position.class);
-                        IntBag bag = world.getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
-                        for (int i = 0; i < bag.size(); i++) {
-                            int id = bag.get(i);
-                            Bounds bounds = bm.get(id);
-                            Vector2 pos = pm.get(id).position;
-                            Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
-                            if (rect.contains(hitBox)) {
-                                setTarget(world.getEntity(id));
-                                setDragOffset(screenCoords);
-                            }
-                        }
-                    }
-                }
+            } else {
+                detectNewTarget(hitBox, screenCoords);
             }
         }
+    }
+
+    private void detectNewTarget(Rectangle hitBox, Vector2 screenCoords) {
+        Entity entity = detectEntityClick(hitBox);
+        if (entity != null) {
+            setTarget(entity);
+            setDragOffset(screenCoords);
+        } else {
+            target = null;
+        }
+    }
+
+    private BoundsGizmo.GizmoTrigger detectGizmoClick(EditorTarget target, Rectangle hitBox) {
+        BoundsGizmo.GizmoTrigger gizmoTrigger = target.getBoundsGizmo().detectContains(hitBox);
+
+        if (gizmoTrigger != null) {
+            return gizmoTrigger;
+        }
+
+        return null;
+    }
+
+    private Entity detectEntityClick(Rectangle hitBox) {
+        Entity entity;
+        entity = detectPhysicsClick(hitBox);
+        if (entity == null) {
+            entity = detectImageClick(hitBox);
+        }
+
+        return entity;
+    }
+
+    private Entity detectPhysicsClick(Rectangle hitBox) {
+        final Collection<Integer> entities = new ArrayList<Integer>(5);
+        physicsSystem.queryAABB(new QueryCallback() {
+            @Override
+            public boolean reportFixture(Fixture fixture) {
+                Body body = fixture.getBody();
+                entities.add((Integer) body.getUserData());
+
+                return false;
+            }
+        }, hitBox.x, hitBox.y, hitBox.x + hitBox.getWidth(), hitBox.y + hitBox.getHeight());
+
+        if (entities.size() > 0)
+            return world.getEntity((Integer)entities.toArray()[0]);
+        else
+            return null;
+    }
+
+    private Entity detectImageClick(Rectangle hitBox) {
+        ComponentMapper<Bounds> bm = world.getMapper(Bounds.class);
+        ComponentMapper<Position> pm = world.getMapper(Position.class);
+        IntBag bag = world.getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
+        for (int i = 0; i < bag.size(); i++) {
+            int id = bag.get(i);
+            Bounds bounds = bm.get(id);
+            Vector2 pos = pm.get(id).position;
+            Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
+            if (rect.contains(hitBox))
+                return world.getEntity(id);
+        }
+        return null;
     }
 
     private void onRightClick(Vector2 screenPos) {

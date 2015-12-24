@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders;
+package com.emergentorganization.cellrpg.systems.CASystems.CAs.GeneticCells.GeneticCellBuilders;
 
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCellTest;

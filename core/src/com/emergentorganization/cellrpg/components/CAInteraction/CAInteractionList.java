@@ -58,9 +58,10 @@ public class CAInteractionList extends Component {
         return this;
     }
 
-    private void setCollisionSize(final int radius, final int gridSize){
-        assert (gridSize > 0);
-        colliderRadius = radius;
-        colliderGridSize = gridSize;
-    }
+//    TODO: depreciated, retained here only for reference until artemis port is complete
+//    private void setCollisionSize(final int radius, final int gridSize){
+//        assert (gridSize > 0);
+//        colliderRadius = radius;
+//        colliderGridSize = gridSize;
+//    }
 }

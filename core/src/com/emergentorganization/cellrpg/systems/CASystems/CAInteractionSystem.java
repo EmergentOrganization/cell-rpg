@@ -51,13 +51,17 @@ public class CAInteractionSystem extends BaseEntitySystem {
         float delta = 1f/velocity.len();  // this should check every pixel (assuming velocity is in pixels)
         float thresh = delta;
 
-        while (diff.sub(currentPostion).len2() > thresh){
+        while (diff.sub(currentPostion).len2() > thresh){  // TODO: diff.sub doesn't return result, it modifies diff. Is that the problem?
 //                System.out.println("lastPos=" + lastCollisionPosition);
 //                System.out.println("lerp("+currentPostion+","+delta+")");
             interList.lastCollisionPosition.lerp(currentPostion, delta);
 //                System.out.println("collide @ " + lastCollisionPosition);
             boolean res = collide(interList.lastCollisionPosition, interList, collidingLayerId);
-            if (res) logger.info("collision @ " + currentPostion );
+            if (res){
+                logger.info("collision @ " + currentPostion );
+            } else {
+                logger.info("no collision @ " + currentPostion);
+            }
             diff.set(interList.lastCollisionPosition);
         }
     }

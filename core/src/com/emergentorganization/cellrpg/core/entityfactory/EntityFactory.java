@@ -135,7 +135,8 @@ public class EntityFactory {
                     .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
                     .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
-        );
+        ).setColliderRadius(100)  // TODO: that's way bigger than it needs to be
+        .setColliderGridSize(100);
 
         return player.getId();
     }

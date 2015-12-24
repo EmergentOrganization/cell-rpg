@@ -9,13 +9,8 @@ import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * for allowing entities to "collide" with the CAGrid.
@@ -40,9 +35,6 @@ public class CAInteractionSystem extends BaseEntitySystem {
     private ComponentMapper<Velocity> vel_m;
     private EventManager eventManager;
 
-
-    private Vector2 lastCollisionPosition;  // position @ last location position was checked
-
     public CAInteractionSystem(){
         super(Aspect.all(CAInteractionList.class, Position.class, Velocity.class));
     }
@@ -50,7 +42,8 @@ public class CAInteractionSystem extends BaseEntitySystem {
     @Override
     protected  void inserted(int entityId) {
         Position pos = pos_m.get(entityId);
-        lastCollisionPosition = pos.position;
+        CAInteractionList interacts = CAInteracdtions_m.get(entityId);
+        interacts.lastCollisionPosition = pos.position.cpy();
     }
 
     protected void processLayer(int collidingLayerId, CAInteractionList interList,
@@ -61,10 +54,11 @@ public class CAInteractionSystem extends BaseEntitySystem {
         while (diff.sub(currentPostion).len2() > thresh){
 //                System.out.println("lastPos=" + lastCollisionPosition);
 //                System.out.println("lerp("+currentPostion+","+delta+")");
-            lastCollisionPosition.lerp(currentPostion, delta);
+            interList.lastCollisionPosition.lerp(currentPostion, delta);
 //                System.out.println("collide @ " + lastCollisionPosition);
-            collide(lastCollisionPosition, interList, collidingLayerId);
-            diff.set(lastCollisionPosition);
+            boolean res = collide(interList.lastCollisionPosition, interList, collidingLayerId);
+            if (res) logger.info("collision @ " + currentPostion );
+            diff.set(interList.lastCollisionPosition);
         }
     }
 
@@ -77,7 +71,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
 //        logger.info("CAInteractSys.process(" + entityId + ")");
 
         for (int colldingLayerId : interList.interactions.keySet()) {
-            processLayer(colldingLayerId, interList, currentPostion, velocity, new Vector2(lastCollisionPosition));
+            processLayer(colldingLayerId, interList, currentPostion, velocity, new Vector2(interList.lastCollisionPosition));
         }
     }
 
@@ -92,7 +86,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
 
     private boolean checkCollideAt(Vector2 pos, CAInteraction inter, int collidingLayerId){
         // performs collision between given object and colliding layer at given position
-        logger.info("checkCollide gridId#" + collidingLayerId + " @ " + pos);
+//        logger.info("checkCollide gridId#" + collidingLayerId + " @ " + pos);
         int state = CAGridComp_m.get(collidingLayerId).getState(pos);
 
         if (inter.collidesWithState(state)){
@@ -125,14 +119,14 @@ public class CAInteractionSystem extends BaseEntitySystem {
         float delta = interList.colliderGridSize;
         while(delta < interList.colliderRadius){
             // x+1, y
-            if(checkCollideAt(new Vector2(x+delta, y), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x+delta, y     ), inter, collidingLayerId)) return true;
             // x-1, y
-            if(checkCollideAt(new Vector2(x-delta, y), inter, collidingLayerId)) return true;
-            // x, y+1
-            if(checkCollideAt(new Vector2(x,y+delta), inter, collidingLayerId)) return true;
-            // x, y-1
-            if(checkCollideAt(new Vector2(x,y-delta), inter, collidingLayerId)) return true;
-            // check x+1, y+1
+            if(checkCollideAt(new Vector2(x-delta, y     ), inter, collidingLayerId)) return true;
+            // x  , y+1
+            if(checkCollideAt(new Vector2(x      ,y+delta), inter, collidingLayerId)) return true;
+            // x  , y-1
+            if(checkCollideAt(new Vector2(x      ,y-delta), inter, collidingLayerId)) return true;
+            // x+1, y+1
             if(checkCollideAt(new Vector2(x+delta,y+delta), inter, collidingLayerId)) return true;
             // x+1, y-1
             if(checkCollideAt(new Vector2(x+delta,y-delta), inter, collidingLayerId)) return true;

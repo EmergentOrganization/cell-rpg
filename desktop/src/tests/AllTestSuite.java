@@ -1,5 +1,6 @@
 package tests;
 
+import com.emergentorganization.cellrpg.components.ComponentTestSuite;
 import com.emergentorganization.cellrpg.desktop.TesterTest;
 import com.emergentorganization.cellrpg.systems.CASystems.CATestSuite;
 import com.emergentorganization.cellrpg.systems.SystemsTestSuite;
@@ -11,7 +12,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         TesterTest.class,
         CATestSuite.class,
-        SystemsTestSuite.class
+        SystemsTestSuite.class,
+        ComponentTestSuite.class
 } )
 
 public final class AllTestSuite {

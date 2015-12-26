@@ -43,7 +43,7 @@ public class CAInteractionList extends Component {
         if (interactions.containsKey(layerId)){
             logger.error("can't add CA interaction. Object already interacts with this layer");
         } else {
-            interactions.put(layerId, new CAInteraction());
+            interactions.put(layerId, interaction);
         }
         return this;
     }

@@ -28,6 +28,10 @@ public class CAInteraction{
 
     }
 
+    public ArrayList getCollidingStates(){
+        return collidingStates;
+    }
+
     public CAInteraction addCollisionImpactStamp(int state, int[][] collisionImpact, int targetLayerId){
         // adds collision with given state which stamps targeted layer with the collisionImpact state matrix.
         // collisionImpact: gridSeedStamp to apply to layer at pt of collision
@@ -64,7 +68,11 @@ public class CAInteraction{
         // (all states are not checked by default for efficiency)
         Integer stat = new Integer(state);
         if (!collidingStates.contains(stat)) {
+            logger.trace("new colliding state: " + stat);
             collidingStates.add(stat);
+        } else {
+            logger.trace("already collides w/ state: " + stat);
         }
+        logger.trace("colliding states: " + collidingStates);
     }
 }

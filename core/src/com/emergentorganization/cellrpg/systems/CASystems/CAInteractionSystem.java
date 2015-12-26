@@ -94,6 +94,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         int state = gridComps.getState(pos);
 
         if (inter.collidesWithState(state)){
+            logger.trace("collide w/ state " + state);
             // impact the CA
             for (CAImpact imp: inter.impacts.get(state)){
                 CAGridComp_m.get(imp.targetGridId).stampState(imp.impactStamp, pos);
@@ -105,6 +106,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
             }
             return true;
         } else {
+            logger.trace(
+                    "does not collide w/ state " + state + ". "
+                    + " colliding states are:" + inter.getCollidingStates()
+            );
             return false;
         }
     }

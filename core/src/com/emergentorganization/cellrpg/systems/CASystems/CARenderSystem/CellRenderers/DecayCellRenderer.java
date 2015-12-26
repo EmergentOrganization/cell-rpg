@@ -12,6 +12,8 @@ public class DecayCellRenderer implements iCellRenderer {
     private final int MIN_RENDER = -5;
     private final float DELT = 1f/(float) MIN_RENDER;
 
+    private int lastState;
+
     @Override
     public void renderCell(ShapeRenderer shapeRenderer, CAGridComponents gridComps, final int i, final int j,
                             final float x_origin, final float y_origin){
@@ -22,12 +24,15 @@ public class DecayCellRenderer implements iCellRenderer {
             shapeRenderer.setColor(gridComps.stateColorMap[gridComps.states[i][j].getState()-1]);
             drawSquare(i, j, shapeRenderer, gridComps, x_origin, y_origin);
         } else if (state > MIN_RENDER){
-            shapeRenderer.setColor(new Color(
-                    gridComps.stateColorMap[0].r,
-                    gridComps.stateColorMap[0].g,
-                    gridComps.stateColorMap[0].b,
-                    gridComps.stateColorMap[0].a - DELT * (float)state
-            ));
+            if (lastState != state) {  // don't worry about update color if state has not changed
+                shapeRenderer.setColor(new Color(
+                        gridComps.stateColorMap[0].r,
+                        gridComps.stateColorMap[0].g,
+                        gridComps.stateColorMap[0].b,
+                        gridComps.stateColorMap[0].a - DELT * (float) state
+                ));
+                lastState = state;
+            }
             drawSquare(i, j, shapeRenderer, gridComps, x_origin, y_origin);
         }  // else don't bother
     }

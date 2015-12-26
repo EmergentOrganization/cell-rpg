@@ -138,8 +138,17 @@ public class EntityFactory {
                     .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12, 12), energyLayer.getId())
                     .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10,10), vyroidLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
-        ).setColliderRadius(100)  // TODO: that's way bigger than it needs to be
-        .setColliderGridSize(100);
+            )
+            .addInteraction(
+                geneticLayer.getId(),
+                new CAInteraction()
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12,12), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(5,5), geneticLayer.getId())
+                    .addEventTrigger(1, GameEvent.PLAYER_HIT)
+            )
+            .setColliderRadius(100)  // TODO: that's way bigger than it needs to be
+            .setColliderGridSize(100)
+        ;
 
         return player.getId();
     }
@@ -162,7 +171,14 @@ public class EntityFactory {
                 new CAInteraction()
                         .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
                         .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
-            ).setColliderRadius(100)  // TODO: that's way bigger than it needs to be
+            )
+            .addInteraction(
+                    geneticLayer.getId(),
+                    new CAInteraction()
+                        .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
+                        .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3,3), geneticLayer.getId())
+            )
+            .setColliderRadius(100)  // TODO: that's way bigger than it needs to be
             .setColliderGridSize(100)
         ;
 

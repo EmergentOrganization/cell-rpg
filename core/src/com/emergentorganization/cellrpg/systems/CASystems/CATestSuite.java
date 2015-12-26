@@ -7,5 +7,5 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({CAGridComponentsTest.class, CAGenerationSystemTest.class, DGRNTestSuite.class, GeneticCellTest.class} )
+@Suite.SuiteClasses({CAGridComponentsTest.class, DGRNTestSuite.class, GeneticCellTest.class} )
 public final class CATestSuite {}

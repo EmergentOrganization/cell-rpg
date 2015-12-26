@@ -4,6 +4,7 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,6 +17,7 @@ import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.Resources;
 
@@ -60,26 +62,27 @@ public class EntityFactory {
 
     private void addCALayers(Vector2 pos){
         // adds all ca layer entities to the scene.
+        Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
         vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS);
+        CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
 
         energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY);
+        CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
 
         geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
                 EntityID.CA_LAYER_GENETIC.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC);
+        CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
     }
 
     public int createPlayer(float x, float y) {

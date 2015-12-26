@@ -80,6 +80,30 @@ public class CAGridComponents extends Component {
         }
     }
 
+    public void init(Camera camera) {
+        int sx = (int) (camera.viewportWidth)  + 2*OFF_SCREEN_PIXELS;
+        int sy = (int) (camera.viewportHeight) + 2*OFF_SCREEN_PIXELS;
+
+        int w = sx / (cellSize + 1);  // +1 for border pixel between cells
+        int h = sy / (cellSize + 1);
+
+        logger.info("initializing CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px). cellSize=" + cellSize);
+
+        initStates(w, h);
+    }
+
+    private void initStates(int w, int h){
+        states = new BaseCell[w][h];
+        // init states. ?required?
+        for (int i = 0; i < states.length; i++) {
+            for (int j = 0; j < states[0].length; j++) {
+                states[i][j] = newCell(0);
+            }
+        }
+        // init states for testing
+        //randomizeState(gridComponents);
+    }
+
     public int getLastState_noBuffer(final int row, final int col){
         // with no buffer there is no last state, just use current
         return getState(row, col);
@@ -213,6 +237,16 @@ public class CAGridComponents extends Component {
     public String statesToString(){
         // returns string showing state of all cells
         return statesToString(0, 0, getSizeX(), getSizeY());
+    }
+
+    public void fill(int state){
+        // fills the current ca grid with a single state
+        // useful mostly for testing
+        for (int i = 0; i < states.length; i++){
+            for (int j = 0; j < states[0].length; j++){
+                setState(i, j, state);
+            }
+        }
     }
 
     private void _stampState(final int[][] pattern, final int row, final int col) {

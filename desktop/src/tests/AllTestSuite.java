@@ -2,12 +2,18 @@ package tests;
 
 import com.emergentorganization.cellrpg.desktop.TesterTest;
 import com.emergentorganization.cellrpg.systems.CASystems.CATestSuite;
+import com.emergentorganization.cellrpg.systems.SystemsTestSuite;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ TesterTest.class, CATestSuite.class} )
+@Suite.SuiteClasses({
+        TesterTest.class,
+        CATestSuite.class,
+        SystemsTestSuite.class
+} )
+
 public final class AllTestSuite {
     @BeforeClass
     public static void initTestEnvironment() {

@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.core.entityfactory;
 
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CellType;
@@ -16,9 +17,13 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
  */
 public class CALayerFactory {
 
-    public static void initLayerComponentsByType(CAGridComponents layerComponents, CALayer layerType){
+    public static void initLayerComponentsByType(CAGridComponents layerComponents, CALayer layerType, Camera camera){
         // initializes given components such that they conform to the given type
+        layerCompSetup(layerComponents, layerType);
+        layerComponents.init(camera);
+    }
 
+    private static void layerCompSetup(CAGridComponents layerComponents, CALayer layerType){
         // start out with the default settings
         layerComponents.stateColorMap = new Color[]{new Color(1f, .2f, .2f, 1f), new Color(1f, .4f, .8f, .8f)};
         layerComponents.cellSize = 3;

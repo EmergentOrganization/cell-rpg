@@ -40,9 +40,13 @@ public class CAInteractionSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void inserted(int entityId) {
+    protected void inserted(int entityId) {
         Position pos = pos_m.get(entityId);
         CAInteractionList interacts = CAInteracdtions_m.get(entityId);
+        _inserted(pos, interacts);
+    }
+
+    protected void _inserted(Position pos, CAInteractionList interacts){
         interacts.lastCollisionPosition = pos.position.cpy();
     }
 
@@ -84,10 +88,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    private boolean checkCollideAt(Vector2 pos, CAInteraction inter, int collidingLayerId){
+    protected boolean checkCollideAt(Vector2 pos, CAInteraction inter, CAGridComponents gridComps){
         // performs collision between given object and colliding layer at given position
 //        logger.info("checkCollide gridId#" + collidingLayerId + " @ " + pos);
-        int state = CAGridComp_m.get(collidingLayerId).getState(pos);
+        int state = gridComps.getState(pos);
 
         if (inter.collidesWithState(state)){
             // impact the CA
@@ -109,31 +113,32 @@ public class CAInteractionSystem extends BaseEntitySystem {
         // checks for collisions
         // returns true if collided, else false
         CAInteraction inter =  interList.interactions.get(collidingLayerId);
+        CAGridComponents gridComps = CAGridComp_m.get(collidingLayerId);
 
         float x = position.x;
         float y = position.y;
         // check origin
-        if (checkCollideAt(position, inter, collidingLayerId)) return true;
+        if (checkCollideAt(position, inter, gridComps)) return true;
 
         // check grid extending outwards from origin
         float delta = interList.colliderGridSize;
         while(delta < interList.colliderRadius){
             // x+1, y
-            if(checkCollideAt(new Vector2(x+delta, y     ), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x+delta, y     ), inter, gridComps)) return true;
             // x-1, y
-            if(checkCollideAt(new Vector2(x-delta, y     ), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x-delta, y     ), inter, gridComps)) return true;
             // x  , y+1
-            if(checkCollideAt(new Vector2(x      ,y+delta), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x      ,y+delta), inter, gridComps)) return true;
             // x  , y-1
-            if(checkCollideAt(new Vector2(x      ,y-delta), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x      ,y-delta), inter, gridComps)) return true;
             // x+1, y+1
-            if(checkCollideAt(new Vector2(x+delta,y+delta), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x+delta,y+delta), inter, gridComps)) return true;
             // x+1, y-1
-            if(checkCollideAt(new Vector2(x+delta,y-delta), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x+delta,y-delta), inter, gridComps)) return true;
             // x-1, y+1
-            if(checkCollideAt(new Vector2(x-delta,y+delta), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x-delta,y+delta), inter, gridComps)) return true;
             // x-1, y-1
-            if(checkCollideAt(new Vector2(x-delta,y-delta), inter, collidingLayerId)) return true;
+            if(checkCollideAt(new Vector2(x-delta,y-delta), inter, gridComps)) return true;
 
             delta += interList.colliderGridSize;
         }  // else no collisions

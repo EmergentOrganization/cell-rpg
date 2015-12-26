@@ -19,8 +19,6 @@ public class CAGenerationSystemTest {
 
     final int INP = 0;  // pattern insert position (upper left corner)
 
-
-
     public void setupTest(CAGenerationSystem testSystem, CAGridComponents testComps, int[][] testPattern){
         // # 2 # init or mock any other systems the system being tested depends upon
         Camera camera = new Camera() {
@@ -38,10 +36,10 @@ public class CAGenerationSystemTest {
 //        camera.viewportHeight = ???
 
         // # 3 # set up components for the mock entity you will test the system with
-        CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS);
+        CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
 
         // # 4 # manually step through the processes of the system, injecting the mock entity/system components
-        testSystem._inserted(testComps, camera, false);
+        testSystem._inserted(testComps, false);
 
         // test
         testComps.stampState(testPattern, INP, INP);

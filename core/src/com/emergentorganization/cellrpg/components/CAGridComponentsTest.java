@@ -14,9 +14,6 @@ import org.junit.Test;
 public class CAGridComponentsTest {
     @Test
     public void testStampBlock(){
-        CAGridComponents testComps = new CAGridComponents();
-        CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS);
-        CAGenerationSystem testSystem = new CAGenerationSystem();
         Camera camera = new Camera() {
             @Override
             public void update() {
@@ -28,7 +25,12 @@ public class CAGridComponentsTest {
 
             }
         };
-        testSystem._inserted(testComps, camera, false);
+
+        CAGridComponents testComps = new CAGridComponents();
+        CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
+        CAGenerationSystem testSystem = new CAGenerationSystem();
+
+        testSystem._inserted(testComps, false);
         testComps.stampState(CGoLShapeConsts.BLOCK, 0, 0);
         assert testUtils.ifStatesMatchAt(testComps, CGoLShapeConsts.BLOCK, 0, 0);
     }

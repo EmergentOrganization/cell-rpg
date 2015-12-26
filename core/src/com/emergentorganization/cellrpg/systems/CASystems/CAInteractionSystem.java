@@ -96,13 +96,17 @@ public class CAInteractionSystem extends BaseEntitySystem {
         if (inter.collidesWithState(state)){
             logger.trace("collide w/ state " + state);
             // impact the CA
-            for (CAImpact imp: inter.impacts.get(state)){
-                CAGridComp_m.get(imp.targetGridId).stampState(imp.impactStamp, pos);
+            if (inter.impacts.get(state) != null) { // if some impacts
+                for (CAImpact imp : inter.impacts.get(state)) {
+                    CAGridComp_m.get(imp.targetGridId).stampState(imp.impactStamp, pos);
+                }
             }
 
             // fire events to entity
-            for (GameEvent evt : inter.events.get(state)){
-                eventManager.pushEvent(evt);
+            if (inter.events.get(state) != null) {  // if some events
+                for (GameEvent evt : inter.events.get(state)) {
+                    eventManager.pushEvent(evt);
+                }
             }
             return true;
         } else {

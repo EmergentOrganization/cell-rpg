@@ -135,8 +135,8 @@ public class EntityFactory {
         interactList.addInteraction(
                 vyroidLayer.getId(),
                 new CAInteraction()
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12, 12), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10,10), vyroidLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
         ).setColliderRadius(100)  // TODO: that's way bigger than it needs to be
         .setColliderGridSize(100);
@@ -154,6 +154,17 @@ public class EntityFactory {
                 .bodyRestitution(1.0f)
                 .bullet(true)
                 .build();
+
+        // add cellular automata grid interactions
+        CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
+        interactList.addInteraction(
+                vyroidLayer.getId(),
+                new CAInteraction()
+                        .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
+                        .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
+            ).setColliderRadius(100)  // TODO: that's way bigger than it needs to be
+            .setColliderGridSize(100)
+        ;
 
         return bullet.getId();
     }

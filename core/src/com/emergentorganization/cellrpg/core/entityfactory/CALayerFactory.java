@@ -10,6 +10,8 @@ import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
+ * !!! DISCLAIMER: despite the name, this does not follow the factory pattern. !!! TODO: rename
+ *
  * Methods for building different types of CA layer entities by initializing the CAGridComponent.
  * Adapted from LayerBuilder (10-10-2015) on 12-12-2015 by 7yl4r.
  *
@@ -57,7 +59,14 @@ public class CALayerFactory {
             case ENERGY:
                 layerComponents.TIME_BTWN_GENERATIONS = 700;
                 layerComponents.cellSize = 3;
-                layerComponents.stateColorMap = new Color[] {new Color(1f, 1f, 1f, .8f)};
+                layerComponents.stateColorMap = new Color[] {
+                        new Color(1f, 1f, 1f, .8f),  // white
+                        new Color(0f, .7f, 1f, .8f),  // light blue flame
+                        new Color(1f, 1f, 0f, .8f),  // yellow
+                        new Color(1f, .5f, 0f, .8f), // orange
+                        new Color(1f, 0f, 0f, .8f), // red
+                        new Color(.5f, 0f, 0f, .8f), // dark red
+                };
                 layerComponents.renderType = CellRenderer.DECAY;
                 layerComponents.cellType = CellType.DECAY;
                 layerComponents.ca = CA.DECAY;

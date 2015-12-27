@@ -173,14 +173,15 @@ public class CAGridComponents extends Component {
         }
     }
 
-    protected int getIndexOfX(float x){
+    public int getIndexOfX(float x){
+        // returns x index of cell given float position relative to global origin
         float relative_x = x/SCALE-gridOriginX;
         return (int)relative_x/(cellSize+1) + getSizeX()/2;
     }
-    protected int getIndexOfY(float y){
+    public int getIndexOfY(float y){
         float relative_y = y/SCALE-gridOriginY  ;
         int cell = (int)relative_y/(cellSize+1) + getSizeY()/2;
-        //System.out.println(y + " from " + gridOriginY + " nearest to " + cell);
+        logger.info("global y " + y + " (rel:" + relative_y + ") "+ " from " + gridOriginY + " nearest to " + cell);
         return cell;
     }
 

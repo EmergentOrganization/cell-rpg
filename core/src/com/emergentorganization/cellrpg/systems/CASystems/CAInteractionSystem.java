@@ -50,7 +50,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         interacts.lastCollisionPosition = pos.position.cpy();
     }
 
-    protected void processLayer(int collidingLayerId, CAInteractionList interList,
+    protected void processLayer(int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
                                 final Vector2 currentPostion, final Vector2 velocity, Vector2 diff){
         float delta = 1f/velocity.len();  // this should check every pixel (assuming velocity is in pixels)
         float thresh = delta;
@@ -58,11 +58,11 @@ public class CAInteractionSystem extends BaseEntitySystem {
         while (diff.sub(currentPostion).len2() > thresh){
 //                System.out.println("lastPos=" + lastCollisionPosition);
 //                System.out.println("lerp("+currentPostion+","+delta+")");
-            interList.lastCollisionPosition.lerp(currentPostion, delta);
+            lastPosition.lerp(currentPostion, delta);
 //                System.out.println("collide @ " + lastCollisionPosition);
-            boolean res = collide(interList.lastCollisionPosition, interList, collidingLayerId);
-            if (res) logger.info("collision @ " + currentPostion );
-            diff.set(interList.lastCollisionPosition);
+            boolean res = collide(lastPosition, interList, collidingLayerId);
+            if (res) logger.info("collision @ " + currentPostion);
+            diff.set(lastPosition);
         }
     }
 
@@ -75,8 +75,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
 //        logger.info("CAInteractSys.process(" + entityId + ")");
 
         for (int colldingLayerId : interList.interactions.keySet()) {
-            processLayer(colldingLayerId, interList, currentPostion, velocity, new Vector2(interList.lastCollisionPosition));
+            processLayer(colldingLayerId, interList, interList.lastCollisionPosition.cpy(),
+                    currentPostion, velocity, interList.lastCollisionPosition.cpy());
         }
+//        interList.lastCollisionPosition.set(currentPostion);
     }
 
     @Override

@@ -132,7 +132,8 @@ public class EntityFactory {
         // add cellular automata grid interactions
         CAInteractionList interactList = player.getComponent(CAInteractionList.class);
 //        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
-        interactList.addInteraction(
+        interactList
+            .addInteraction(
                 vyroidLayer.getId(),
                 new CAInteraction()
                     .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12, 12), energyLayer.getId())
@@ -146,8 +147,8 @@ public class EntityFactory {
                     .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(5,5), geneticLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
             )
-            .setColliderRadius(100)  // TODO: that's way bigger than it needs to be
-            .setColliderGridSize(100)
+            .setColliderRadius(1)
+            .setColliderGridSize(1)
         ;
 
         return player.getId();
@@ -166,20 +167,21 @@ public class EntityFactory {
 
         // add cellular automata grid interactions
         CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
-        interactList.addInteraction(
+        interactList
+            .addInteraction(
                 vyroidLayer.getId(),
                 new CAInteraction()
-                        .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
-                        .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
             )
             .addInteraction(
-                    geneticLayer.getId(),
-                    new CAInteraction()
-                        .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
-                        .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3,3), geneticLayer.getId())
+                geneticLayer.getId(),
+                new CAInteraction()
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3,3), geneticLayer.getId())
             )
-            .setColliderRadius(100)  // TODO: that's way bigger than it needs to be
-            .setColliderGridSize(100)
+            .setColliderRadius(1)
+            .setColliderGridSize(1)
         ;
 
         return bullet.getId();

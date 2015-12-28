@@ -178,11 +178,11 @@ public class CAInteractionSystem extends BaseEntitySystem {
                 CAGridComponents targetComps = CAGridComp_m.get(imp.targetGridId);
                 if (sourceComps.cellSize == targetComps.cellSize) {  // use x, y if same size
 //                    logger.info("stamp @ (" + cellKey.x + "," + cellKey.y + ")");
-                    targetComps.stampState(imp.impactStamp, cellKey.x, cellKey.y);
+                    targetComps.stampCenteredAt(imp.impactStamp, cellKey.x, cellKey.y);
                 } else {  // fall back on position vector if different sized CAs
                     Vector2 pos = sourceComps.getPositionOf(cellKey.x, cellKey.y);
                     logger.info("stamp @ " + pos);
-                    targetComps.stampState(imp.impactStamp, pos);
+                    targetComps.stampCenteredAt(imp.impactStamp, pos);
                 }
             }
         }

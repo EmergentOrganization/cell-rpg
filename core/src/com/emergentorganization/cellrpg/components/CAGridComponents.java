@@ -199,21 +199,19 @@ public class CAGridComponents extends Component {
         return pos;
     }
 
-    // TODO: should stampState stamp into the middle of the given position (or x,y)???
-
-    public long stampState(final int[][] pattern, Vector2 position){
-        // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
-        int row = getIndexOfX(position.x);
-        int col = getIndexOfY(position.y);
-        //System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
+    public long stampCenteredAt(final int[][] pattern, int row, int col){
         //center the pattern
         row -= pattern.length/2;
         col -= pattern[0].length/2;
         return stampState(pattern, row, col);
     }
 
-    public long stampState(final int[][] pattern, final float x, final float y){
-        return stampState(pattern, getIndexOfX(x), getIndexOfY(y));
+    public long stampCenteredAt(final int[][] pattern, Vector2 position){
+        // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
+        int row = getIndexOfX(position.x);
+        int col = getIndexOfY(position.y);
+        //System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
+        return stampCenteredAt(pattern, row, col);
     }
 
     public long stampState(final int[][] pattern, final int row, final int col) {

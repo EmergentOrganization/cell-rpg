@@ -81,38 +81,16 @@ public class CAInteractionSystem extends BaseEntitySystem {
             // ignore it
         }
 
-        // TODO: add other cells in colliding area
-//        CAInteraction inter =  interList.interactions.get(collidingLayerId);
-//        CAGridComponents gridComps = CAGridComp_m.get(collidingLayerId);
-//
-//        float x = position.x;
-//        float y = position.y;
-//        // check origin
-//        if (checkCollideAt(position, inter, gridComps)) return true;
-//
-//        // check grid extending outwards from origin
-//        float delta = interList.colliderGridSize;
-//        while(delta < interList.colliderRadius){
-//            // x+1, y
-//            if(checkCollideAt(new Vector2(x+delta, y     ), inter, gridComps)) return true;
-//            // x-1, y
-//            if(checkCollideAt(new Vector2(x-delta, y     ), inter, gridComps)) return true;
-//            // x  , y+1
-//            if(checkCollideAt(new Vector2(x      ,y+delta), inter, gridComps)) return true;
-//            // x  , y-1
-//            if(checkCollideAt(new Vector2(x      ,y-delta), inter, gridComps)) return true;
-//            // x+1, y+1
-//            if(checkCollideAt(new Vector2(x+delta,y+delta), inter, gridComps)) return true;
-//            // x+1, y-1
-//            if(checkCollideAt(new Vector2(x+delta,y-delta), inter, gridComps)) return true;
-//            // x-1, y+1
-//            if(checkCollideAt(new Vector2(x-delta,y+delta), inter, gridComps)) return true;
-//            // x-1, y-1
-//            if(checkCollideAt(new Vector2(x-delta,y-delta), inter, gridComps)) return true;
-//
-//            delta += interList.colliderGridSize;
-//        }  // else no collisions
-//        return false;
+        // add other cells in colliding area
+        for (int dx = -interList.colliderRadius; dx < interList.colliderRadius; dx++){
+            for (int dy = -interList.colliderRadius; dy < interList.colliderRadius; dy++){
+                try {
+                    cellsToCheck.put(new CACellKey(x + dx, y + dy, collidingLayerId), gridComps.states[x + dx][y + dx]);
+                } catch(IndexOutOfBoundsException ex){
+                    // don't check cells that are out-of-bounds
+                }
+            }
+        }
 
         // STEP 3: TODO: add cells past through since last collision check
         // TODO: http://stackoverflow.com/questions/10350258/find-all-tiles-intersected-by-line-segment
@@ -150,7 +128,6 @@ public class CAInteractionSystem extends BaseEntitySystem {
 
         logger.trace("CAInteractSys.process(" + entityId + ")");
 
-        // TODO: use bounds to dynamically size collision?
         for (int colldingLayerId : interList.interactions.keySet()) {
             processLayer(colldingLayerId, interList, interList.lastCollisionPosition.cpy(),
                     currentPostion);
@@ -171,9 +148,6 @@ public class CAInteractionSystem extends BaseEntitySystem {
         // impact the CA
         if (inter.impacts.get(cell.state) != null) { // if some impacts
             for (CAImpact imp : inter.impacts.get(cell.state)) {
-                // TODO: this stamps in the wrong location unless target & colliding grids are the same size
-                // TODO:    need to convert given  x, y (colliding grid) to x, y in target grid, could use pos vector
-                // TODO:    as intermediary.
                 CAGridComponents sourceComps = CAGridComp_m.get(cellKey.layer);
                 CAGridComponents targetComps = CAGridComp_m.get(imp.targetGridId);
                 if (sourceComps.cellSize == targetComps.cellSize) {  // use x, y if same size

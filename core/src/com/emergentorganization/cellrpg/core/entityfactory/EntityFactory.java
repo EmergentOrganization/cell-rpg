@@ -155,8 +155,7 @@ public class EntityFactory {
                     .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(5,5), geneticLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
             )
-            .setColliderRadius(1)
-            .setColliderGridSize(1)
+            .setColliderRadius(4)
         ;
 
         return player.getId();
@@ -194,8 +193,7 @@ public class EntityFactory {
                             .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
                             .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3, 3), geneticLayer.getId())
             )
-            .setColliderRadius(1)
-            .setColliderGridSize(1)
+            .setColliderRadius(2)
         ;
 
         return bullet.getId();

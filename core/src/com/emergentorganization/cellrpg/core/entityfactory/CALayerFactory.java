@@ -34,6 +34,7 @@ public class CALayerFactory {
         layerComponents.renderType = CellRenderer.COLOR_MAP;
         layerComponents.edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
         layerComponents.ca = CA.BUFFERED;
+        layerComponents.TIME_BTWN_GENERATIONS = 100;
 
         // and then overwrite defaults as required based on type
         switch (layerType){
@@ -58,7 +59,6 @@ public class CALayerFactory {
                 return;
 
             case ENERGY:
-                layerComponents.TIME_BTWN_GENERATIONS = 700;
                 layerComponents.cellSize = 3;
                 layerComponents.stateColorMap = DecayCellRenderer.stateColorMap;
                 layerComponents.renderType = CellRenderer.DECAY;

@@ -23,8 +23,7 @@ public class CAInteractionListTest {
                                 .addCollisionImpactStamp(COLLIDING_STATE, CGoLShapeConsts.EMPTY(6, 6), COLLIDING_LAYER_ID)
                                 .addEventTrigger(COLLIDING_STATE, GameEvent.PLAYER_HIT)
                 )
-                .setColliderRadius(100)  // TODO: that's way bigger than it needs to be
-                .setColliderGridSize(100)
+                .setColliderRadius(1)
         ;
     }
 

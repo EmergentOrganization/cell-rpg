@@ -29,9 +29,10 @@ public class CAInteractionList extends Component {
     public HashMap<Integer, CAInteraction> interactions = new HashMap<Integer, CAInteraction>();
 
     public int colliderRadius = 0;  // radius of collision object
-    public int colliderGridSize = 0;  // when checking the collision area, checks at grid intersections
 
     public Vector2 lastCollisionPosition;  // position @ last location position was checked
+
+    // TODO: public void setColliderRadiusFromBounds(Bounds bounds){
 
     public CAInteractionList addInteraction(int layerId, CAInteraction interaction) {
         //      adds interaction to the given ca grid's CAInteraction
@@ -48,16 +49,5 @@ public class CAInteractionList extends Component {
     public CAInteractionList setColliderRadius(int newVal){
         colliderRadius = newVal;
         return this;
-    }
-
-    public CAInteractionList setColliderGridSize(int newVal){
-        colliderGridSize = newVal;
-        return this;
-    }
-
-    private void setCollisionSize(final int radius, final int gridSize){
-        assert (gridSize > 0);
-        colliderRadius = radius;
-        colliderGridSize = gridSize;
     }
 }

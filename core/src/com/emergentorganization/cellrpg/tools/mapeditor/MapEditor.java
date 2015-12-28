@@ -344,7 +344,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     private void detectNewTarget(Rectangle hitBox, Vector2 screenCoords) {
-        Entity entity = detectEntityClick(hitBox);
+        Entity entity = getEntityOnClick(hitBox);
         if (entity != null) {
             setTarget(entity);
             setDragOffset(screenCoords);
@@ -363,7 +363,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
         return null;
     }
 
-    private Entity detectEntityClick(Rectangle hitBox) {
+    private Entity getEntityOnClick(Rectangle hitBox) {
         Entity entity;
         entity = detectPhysicsClick(hitBox);
         if (entity == null) {

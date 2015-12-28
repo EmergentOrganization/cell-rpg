@@ -7,7 +7,5 @@ import com.badlogic.gdx.math.Vector2;
  * Created by brian on 11/22/15.
  */
 public interface Renderable {
-    void setPosition(Vector2 pos);
-
     void render(ShapeRenderer shapeRenderer);
 }

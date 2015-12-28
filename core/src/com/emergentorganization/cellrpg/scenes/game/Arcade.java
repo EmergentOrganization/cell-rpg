@@ -25,6 +25,7 @@ public class Arcade extends BaseScene {
 
     private void initArtemis() {
         batch = new SpriteBatch();
+
         EntityFactory entityFactory = new EntityFactory();
         world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
 

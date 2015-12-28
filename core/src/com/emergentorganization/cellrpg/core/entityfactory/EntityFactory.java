@@ -4,15 +4,22 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
+import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import com.emergentorganization.cellrpg.systems.CameraSystem;
+import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.Resources;
 
 /**
@@ -33,6 +40,13 @@ public class EntityFactory {
     public Archetype character;
     private Archetype player;
     private Archetype bullet;
+    private Archetype ca_layer;
+
+    // TODO: add CAManager & get CA layers using , not this:
+    Entity vyroidLayer;
+    Entity energyLayer;
+    Entity geneticLayer;
+
 
     public void initialize(World world) {
         this.world = world;
@@ -40,14 +54,41 @@ public class EntityFactory {
         base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
-        collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).build(world);
+        collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).add(Equipment.class).build(world);
+        ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
+    }
+
+    private void addCALayers(Vector2 pos){
+        // adds all ca layer entities to the scene.
+        Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
+        vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
+                EntityID.CA_LAYER_VYROIDS.toString(), pos)
+                .renderIndex(RenderIndex.CA)
+                .build();
+        CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
+
+        energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
+                EntityID.CA_LAYER_ENERGY.toString(), pos)
+                .renderIndex(RenderIndex.CA)
+                .build();
+        CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
+
+        geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
+                EntityID.CA_LAYER_GENETIC.toString(), pos)
+                .renderIndex(RenderIndex.CA)
+                .build();
+        CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
     }
 
     public int createPlayer(float x, float y) {
         Vector2 pos = new Vector2(x, y);
+
         final Entity player = new EntityBuilder(world, this.player, "Player", EntityID.PLAYER.toString(), pos)
                 .tag("player")
                 .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
@@ -87,6 +128,37 @@ public class EntityFactory {
             }
         });
 
+        addCALayers(pos);  // TODO: this should be somewhere else
+
+        // add cellular automata grid interactions
+        CAInteractionList interactList = player.getComponent(CAInteractionList.class);
+//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
+        interactList
+            .addInteraction(
+                vyroidLayer.getId(),
+                new CAInteraction()
+                    // vyroid damage
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12, 12), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10, 10), vyroidLayer.getId())
+                    .addEventTrigger(1, GameEvent.PLAYER_HIT)
+                    // constant visual effect
+                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
+                            1,
+                            1,
+                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.BLUE)
+                    ), energyLayer.getId())
+            )
+            .addInteraction(  // genetic vyroids damage
+                geneticLayer.getId(),
+                new CAInteraction()
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12,12), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(5,5), geneticLayer.getId())
+                    .addEventTrigger(1, GameEvent.PLAYER_HIT)
+            )
+            .setColliderRadius(1)
+            .setColliderGridSize(1)
+        ;
+
         return player.getId();
     }
 
@@ -100,6 +172,31 @@ public class EntityFactory {
                 .bodyRestitution(1.0f)
                 .bullet(true)
                 .build();
+
+        // add cellular automata grid interactions
+        CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
+        interactList
+            .addInteraction(
+                vyroidLayer.getId(),
+                new CAInteraction()
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6, 6), vyroidLayer.getId())
+                    // constant visual effect
+                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
+                            1,
+                            1,
+                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.WHITE)
+                    ), energyLayer.getId())
+            )
+            .addInteraction(
+                    geneticLayer.getId(),
+                    new CAInteraction()
+                            .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
+                            .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3, 3), geneticLayer.getId())
+            )
+            .setColliderRadius(1)
+            .setColliderGridSize(1)
+        ;
 
         return bullet.getId();
     }

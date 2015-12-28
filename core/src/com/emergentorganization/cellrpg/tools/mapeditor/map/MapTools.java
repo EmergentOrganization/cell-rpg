@@ -33,6 +33,9 @@ public class MapTools {
     public static EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
     static {
         ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD, null);
+        ENTITY_BLACKLIST.put(EntityID.CA_LAYER_VYROIDS, null);
+        ENTITY_BLACKLIST.put(EntityID.CA_LAYER_ENERGY, null);
+        ENTITY_BLACKLIST.put(EntityID.CA_LAYER_GENETIC, null);
     }
 
     /**

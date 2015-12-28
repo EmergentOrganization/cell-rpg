@@ -1,4 +1,5 @@
 package com.emergentorganization.cellrpg.scenes;
+package com.emergentorganization.cellrpg.scenes;
 
 import com.emergentorganization.cellrpg.entities.ca.CAGridBase;
 import com.emergentorganization.cellrpg.entities.characters.Player;

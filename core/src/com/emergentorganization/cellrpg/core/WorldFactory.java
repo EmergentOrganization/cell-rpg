@@ -4,6 +4,7 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
@@ -12,6 +13,10 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.*;
+import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
 
 /**
  * Created by brian on 11/7/15.
@@ -23,6 +28,7 @@ public class WorldFactory {
         WorldConfiguration wc = new WorldConfiguration();
         wc.register(entityFactory);
 
+        // set up world systemss
         wc.setSystem(new TagManager()); // useful for tagging unique entities
 
         AssetManager assetManager = new AssetManager(pt.getGdxAssetManager());
@@ -42,6 +48,12 @@ public class WorldFactory {
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
         wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
 
+        wc.setSystem(new CAGenerationSystem());
+        wc.setSystem(new CAPositionSystem());
+        wc.setSystem(new CARenderSystem(new ShapeRenderer()));
+        wc.setSystem(new CAInteractionSystem());
+
+        // initialize world
         World world = new World(wc);
         entityFactory.initialize(world);
 

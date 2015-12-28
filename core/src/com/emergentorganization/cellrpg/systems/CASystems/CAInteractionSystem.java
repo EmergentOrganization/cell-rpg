@@ -85,7 +85,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
         for (int dx = -interList.colliderRadius; dx < interList.colliderRadius; dx++){
             for (int dy = -interList.colliderRadius; dy < interList.colliderRadius; dy++){
                 try {
-                    cellsToCheck.put(new CACellKey(x + dx, y + dy, collidingLayerId), gridComps.states[x + dx][y + dx]);
+                    CACellKey newKey = new CACellKey(x + dx, y + dy, collidingLayerId);
+                    if (!cellsToCheck.containsKey(newKey)) {  // no duplicates!
+                        cellsToCheck.put(newKey, gridComps.states[x + dx][y + dx]);
+                    }
                 } catch(IndexOutOfBoundsException ex){
                     // don't check cells that are out-of-bounds
                 }
@@ -115,7 +118,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
             CACellKey key  = entry.getKey();
             BaseCell  cell = entry.getValue();
 
-            checkCollideAt(interList.interactions.get(key.layer), cell, key);
+            checkCollideAt(interList.interactions.get(key.layer), cell, currentPostion);
         }
     }
 
@@ -144,20 +147,12 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected void applyCollision(CAInteraction inter, BaseCell cell, CACellKey cellKey){
+    protected void applyCollision(CAInteraction inter, BaseCell cell, Vector2 pos){
         // impact the CA
         if (inter.impacts.get(cell.state) != null) { // if some impacts
             for (CAImpact imp : inter.impacts.get(cell.state)) {
-                CAGridComponents sourceComps = CAGridComp_m.get(cellKey.layer);
                 CAGridComponents targetComps = CAGridComp_m.get(imp.targetGridId);
-                if (sourceComps.cellSize == targetComps.cellSize) {  // use x, y if same size
-//                    logger.info("stamp @ (" + cellKey.x + "," + cellKey.y + ")");
-                    targetComps.stampCenteredAt(imp.impactStamp, cellKey.x, cellKey.y);
-                } else {  // fall back on position vector if different sized CAs
-                    Vector2 pos = sourceComps.getPositionOf(cellKey.x, cellKey.y);
-                    logger.info("stamp @ " + pos);
-                    targetComps.stampCenteredAt(imp.impactStamp, pos);
-                }
+                targetComps.stampCenteredAt(imp.impactStamp, pos);
             }
         }
 
@@ -169,10 +164,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected boolean checkCollideAt(CAInteraction inter, BaseCell cell, CACellKey cellKey) {
+    protected boolean checkCollideAt(CAInteraction inter, BaseCell cell, Vector2 pos) {
         if (inter.collidesWithState(cell.state)) {
             logger.trace("collide w/ state " + cell.state);
-            applyCollision(inter, cell, cellKey);
+            applyCollision(inter, cell, pos);
             return true;
         } else {
             logger.trace(

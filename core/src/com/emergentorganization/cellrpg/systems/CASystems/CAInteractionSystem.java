@@ -36,6 +36,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
     private ComponentMapper<CAInteractionList> CAInteracdtions_m;
     private ComponentMapper<CAGridComponents> CAGridComp_m;
     private ComponentMapper<Position> pos_m;
+    private ComponentMapper<Bounds> bound_m;
     private ComponentMapper<Velocity> vel_m;
     private EventManager eventManager;
 
@@ -47,15 +48,16 @@ public class CAInteractionSystem extends BaseEntitySystem {
     protected void inserted(int entityId) {
         Position pos = pos_m.get(entityId);
         CAInteractionList interacts = CAInteracdtions_m.get(entityId);
-        _inserted(pos, interacts);
+        Bounds bounds = bound_m.get(entityId);
+        _inserted(pos, bounds, interacts);
     }
 
-    protected void _inserted(Position pos, CAInteractionList interacts){
-        interacts.lastCollisionPosition = pos.position.cpy();
+    protected void _inserted(Position pos, Bounds bounds, CAInteractionList interacts){
+        interacts.lastCollisionPosition = pos.getCenter(bounds).cpy();
     }
 
     protected void processLayer(int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
-                                final Vector2 currentPostion, final Vector2 velocity, Vector2 diff){
+                                final Vector2 currentPostion){
         // TODO: should the collision-checker stop after finding a single collision?
         // TODO: To accomplish this, cells should be checked immediately should keep list of already-checked.
         // TODO:    pros: more efficient, avoids multiple-events from simultaneous collisions
@@ -128,9 +130,8 @@ public class CAInteractionSystem extends BaseEntitySystem {
 //            if (res) logger.info("collision @ " + currentPostion);
 //            diff.set(lastPosition);
 //        }
-        interList.lastCollisionPosition.set(currentPostion);
 
-        // TODO: check each cell in list
+        // STEP 4: check each cell in list
         for (Map.Entry<CACellKey, BaseCell> entry : cellsToCheck.entrySet()){
             CACellKey key  = entry.getKey();
             BaseCell  cell = entry.getValue();
@@ -141,17 +142,19 @@ public class CAInteractionSystem extends BaseEntitySystem {
 
     protected void process(int entityId) {
         // process completed for each entity matching filter
-        Vector2 currentPostion = pos_m.get(entityId).position;
+        Bounds bounds = bound_m.get(entityId);
+        Vector2 currentPostion = pos_m.get(entityId).getCenter(bounds);
         Vector2 velocity = vel_m.get(entityId).velocity;
         CAInteractionList interList = CAInteracdtions_m.get(entityId);
 
-//        logger.info("CAInteractSys.process(" + entityId + ")");
+        logger.trace("CAInteractSys.process(" + entityId + ")");
 
+        // TODO: use bounds to dynamically size collision?
         for (int colldingLayerId : interList.interactions.keySet()) {
             processLayer(colldingLayerId, interList, interList.lastCollisionPosition.cpy(),
-                    currentPostion, velocity, interList.lastCollisionPosition.cpy());
+                    currentPostion);
         }
-//        interList.lastCollisionPosition.set(currentPostion);
+        interList.lastCollisionPosition.set(currentPostion);
     }
 
     @Override

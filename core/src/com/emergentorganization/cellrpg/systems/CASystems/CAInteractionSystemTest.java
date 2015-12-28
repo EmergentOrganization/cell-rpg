@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.systems.CASystems;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionListTest;
@@ -48,12 +49,17 @@ public class CAInteractionSystemTest {
         CAGridComponents testGridComps = new CAGridComponents();
         CAInteractionList testInteractions = new CAInteractionList();
         Position testPos = new Position();
+        Bounds testBound = new Bounds();
+
+        // set up bounds
+        testBound.height = 10;
+        testBound.width = 10;
 
         CAInteractionListTest.setupInteractions(testInteractions, COLLIDING_LAYER_ID, COLLIDING_STATE);
 
         setupTestState_full(testGridComps);
 
-        testSystem._inserted(testPos, testInteractions);
+        testSystem._inserted(testPos, testBound, testInteractions);
 
         // the following should throw a NullPointerException if working properly,
         // b/c ComponentMangers are not spoofed.

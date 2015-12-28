@@ -56,9 +56,6 @@ public class DecayCellRenderer implements iCellRenderer {
                             final float x_origin, final float y_origin){
         int state = gridComps.states[i][j].getState();
         if (gridComps.stateColorMap[state] != null) {
-            if (state > 2) {
-                System.out.println("cellRenderState:" + state);
-            }
             // draw square
             shapeRenderer.setColor(gridComps.stateColorMap[state]);
             drawSquare(i, j, shapeRenderer, gridComps, x_origin, y_origin);

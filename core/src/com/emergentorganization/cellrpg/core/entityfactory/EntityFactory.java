@@ -16,6 +16,7 @@ import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -141,7 +142,11 @@ public class EntityFactory {
                     .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10, 10), vyroidLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
                     // constant visual effect
-                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(1, 1, 12), energyLayer.getId())
+                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
+                            1,
+                            1,
+                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.BLUE)
+                    ), energyLayer.getId())
             )
             .addInteraction(  // genetic vyroids damage
                 geneticLayer.getId(),
@@ -177,7 +182,11 @@ public class EntityFactory {
                     .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
                     .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6, 6), vyroidLayer.getId())
                     // constant visual effect
-                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(1, 1, 7), energyLayer.getId())
+                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
+                            1,
+                            1,
+                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.WHITE)
+                    ), energyLayer.getId())
             )
             .addInteraction(
                     geneticLayer.getId(),

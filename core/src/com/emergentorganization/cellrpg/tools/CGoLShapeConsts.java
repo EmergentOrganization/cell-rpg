@@ -1,5 +1,7 @@
 package com.emergentorganization.cellrpg.tools;
 
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
+
 /**
  * static helper class that holds useful conway's game of life shapes.
  *
@@ -34,7 +36,7 @@ public class CGoLShapeConsts {
         int[][] res = new int[w][h];
         for (int i = 0; i < res.length; i++){
             for (int j = 0; j < res[0].length; j++){
-                res[i][j] = 2;
+                res[i][j] = fill_state;
             }
         }
         return res;
@@ -58,6 +60,6 @@ public class CGoLShapeConsts {
 //                {5, 5, 5, 5, 5, 5}
 //        };
 
-        return SQUARE(w, h, 4);
+        return SQUARE(w, h, DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.FIRE));
     }
 }

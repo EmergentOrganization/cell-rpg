@@ -181,7 +181,7 @@ public class CAGridComponents extends Component {
     public int getIndexOfY(float y){
         float relative_y = y/SCALE-gridOriginY  ;
         int cell = (int)relative_y/(cellSize+1) + getSizeY()/2;
-        logger.info("global y " + y + " (rel:" + relative_y + ") "+ " from " + gridOriginY + " nearest to " + cell);
+        logger.trace("global y " + y + " (rel:" + relative_y + ") "+ " from " + gridOriginY + " nearest to " + cell);
         return cell;
     }
 

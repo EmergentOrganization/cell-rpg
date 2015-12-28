@@ -136,11 +136,14 @@ public class EntityFactory {
             .addInteraction(
                 vyroidLayer.getId(),
                 new CAInteraction()
+                    // vyroid damage
                     .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12, 12), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10,10), vyroidLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10, 10), vyroidLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
+                    // constant visual effect
+                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(2, 2, 4), energyLayer.getId())
             )
-            .addInteraction(
+            .addInteraction(  // genetic vyroids damage
                 geneticLayer.getId(),
                 new CAInteraction()
                     .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12,12), energyLayer.getId())
@@ -171,14 +174,16 @@ public class EntityFactory {
             .addInteraction(
                 vyroidLayer.getId(),
                 new CAInteraction()
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6,6), vyroidLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6, 6), vyroidLayer.getId())
+                    // constant visual effect
+                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(1, 1, 3), energyLayer.getId())
             )
             .addInteraction(
-                geneticLayer.getId(),
-                new CAInteraction()
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9,9), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3,3), geneticLayer.getId())
+                    geneticLayer.getId(),
+                    new CAInteraction()
+                            .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
+                            .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3, 3), geneticLayer.getId())
             )
             .setColliderRadius(1)
             .setColliderGridSize(1)

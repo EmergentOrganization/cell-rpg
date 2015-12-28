@@ -70,8 +70,8 @@ public class CAInteractionSystem extends BaseEntitySystem {
         // STEP 2: add cells in current position's colliding area
         // get x, y of current position
         CAGridComponents gridComps = CAGridComp_m.get(collidingLayerId);
-        int x = gridComps.getIndexOfX(lastPosition.x);
-        int y = gridComps.getIndexOfY(lastPosition.y);
+        int x = gridComps.getIndexOfX(currentPostion.x);
+        int y = gridComps.getIndexOfY(currentPostion.y);
         // center of the colliding area
         try {
             cellsToCheck.put(new CACellKey(x, y, collidingLayerId), gridComps.states[x][y]);
@@ -115,6 +115,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
 //        return false;
 
         // STEP 3: TODO: add cells past through since last collision check
+        // TODO: http://stackoverflow.com/questions/10350258/find-all-tiles-intersected-by-line-segment
 //        float delta = 1f/velocity.len();  // this should check every pixel (assuming velocity is in pixels)
 //        float thresh = delta;
 //
@@ -136,7 +137,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
             CACellKey key  = entry.getKey();
             BaseCell  cell = entry.getValue();
 
-            checkCollideAt(interList.interactions.get(key.layer), cell, key.x, key.y);
+            checkCollideAt(interList.interactions.get(key.layer), cell, key);
         }
     }
 
@@ -166,14 +167,23 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected void applyCollision(CAInteraction inter, BaseCell cell, int x, int y){
+    protected void applyCollision(CAInteraction inter, BaseCell cell, CACellKey cellKey){
         // impact the CA
         if (inter.impacts.get(cell.state) != null) { // if some impacts
             for (CAImpact imp : inter.impacts.get(cell.state)) {
                 // TODO: this stamps in the wrong location unless target & colliding grids are the same size
                 // TODO:    need to convert given  x, y (colliding grid) to x, y in target grid, could use pos vector
                 // TODO:    as intermediary.
-                CAGridComp_m.get(imp.targetGridId).stampState(imp.impactStamp, x, y);
+                CAGridComponents sourceComps = CAGridComp_m.get(cellKey.layer);
+                CAGridComponents targetComps = CAGridComp_m.get(imp.targetGridId);
+                if (sourceComps.cellSize == targetComps.cellSize) {  // use x, y if same size
+//                    logger.info("stamp @ (" + cellKey.x + "," + cellKey.y + ")");
+                    targetComps.stampState(imp.impactStamp, cellKey.x, cellKey.y);
+                } else {  // fall back on position vector if different sized CAs
+                    Vector2 pos = sourceComps.getPositionOf(cellKey.x, cellKey.y);
+                    logger.info("stamp @ " + pos);
+                    targetComps.stampState(imp.impactStamp, pos);
+                }
             }
         }
 
@@ -185,10 +195,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected boolean checkCollideAt(CAInteraction inter, BaseCell cell, int x, int y) {
+    protected boolean checkCollideAt(CAInteraction inter, BaseCell cell, CACellKey cellKey) {
         if (inter.collidesWithState(cell.state)) {
             logger.trace("collide w/ state " + cell.state);
-            applyCollision(inter, cell, x, y);
+            applyCollision(inter, cell, cellKey);
             return true;
         } else {
             logger.trace(

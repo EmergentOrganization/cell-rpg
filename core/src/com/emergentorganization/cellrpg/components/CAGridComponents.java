@@ -185,6 +185,22 @@ public class CAGridComponents extends Component {
         return cell;
     }
 
+    public Vector2 getPositionOf(final int x, final int y){
+        // returns position vector for given cell location
+        Vector2 pos = new Vector2();
+        // x = (pos.x /SCALE-gridOriginX)/(cellSize+1) + getSizeX()/2;
+        // x = ( xp   /S    -  xo       )/( si     +1) + SX / 2;
+        // x - SX/2 = ( xp   /S    -  xo       )/( si     +1)
+        // (x - SX/2) * (si + 1) = xp /S - xo
+        // (x - SX/2) * (si + 1) + xo = xp/S
+        // ( (x - SX/2) * (si + 1) + xo ) * S = xp
+        pos.x = ((x - getSizeX()/2) * (cellSize + 1) + gridOriginX) * SCALE;
+        pos.y = ((y - getSizeY()/2) * (cellSize + 1) + gridOriginY) * SCALE;
+        return pos;
+    }
+
+    // TODO: should stampState stamp into the middle of the given position (or x,y)???
+
     public long stampState(final int[][] pattern, Vector2 position){
         // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
         int row = getIndexOfX(position.x);

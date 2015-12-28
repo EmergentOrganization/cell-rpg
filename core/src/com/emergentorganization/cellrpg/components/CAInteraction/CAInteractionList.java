@@ -33,9 +33,6 @@ public class CAInteractionList extends Component {
 
     public Vector2 lastCollisionPosition;  // position @ last location position was checked
 
-    // TODO: private registerLayer(int gridEntityId)
-    //      creates CAInteraction object for given ca grid id
-
     public CAInteractionList addInteraction(int layerId, CAInteraction interaction) {
         //      adds interaction to the given ca grid's CAInteraction
         //      adds CAInteraction object for ca grid if it doesn't already exist.

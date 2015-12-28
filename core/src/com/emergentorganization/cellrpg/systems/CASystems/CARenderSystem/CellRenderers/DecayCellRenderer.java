@@ -9,32 +9,35 @@ import com.emergentorganization.cellrpg.components.CAGridComponents;
  */
 public class DecayCellRenderer implements iCellRenderer {
 
-    private final int MIN_RENDER = -5;
-    private final float DELT = 1f/(float) MIN_RENDER;
-
-    private int lastState;
+    public static final Color[] stateColorMap = {
+        // group 1: white/gray
+        null,
+        new Color(1f, 1f, 1f, .2f),
+        new Color(1f, 1f, 1f, .4f),
+        new Color(1f, 1f, 1f, .8f),
+        // group 2: light blue
+        null,
+        new Color(0f, .7f, 1f, .2f),
+        new Color(0f, .7f, 1f, .4f),
+        new Color(0f, .7f, 1f, .8f),
+        // yellow-orange-red
+        null,
+        new Color(1f, 1f, 0f, .1f),  // yellow
+        new Color(1f, .5f, 0f, .2f), // orange
+        new Color(1f, 0f, 0f, .4f), // red
+        new Color(.5f, 0f, 0f, .8f), // dark red
+    };
 
     @Override
     public void renderCell(ShapeRenderer shapeRenderer, CAGridComponents gridComps, final int i, final int j,
                             final float x_origin, final float y_origin){
         int state = gridComps.states[i][j].getState();
-//        System.out.println("cellRenderState:"+state);
-        if (state > 0) {  // state must be > 0 else stateColorMap indexError
+        if (gridComps.stateColorMap[state] != null) {
+//            System.out.println("cellRenderState:" + state);
             // draw square
-            shapeRenderer.setColor(gridComps.stateColorMap[gridComps.states[i][j].getState()-1]);
+            shapeRenderer.setColor(gridComps.stateColorMap[state]);
             drawSquare(i, j, shapeRenderer, gridComps, x_origin, y_origin);
-        } else if (state > MIN_RENDER){
-            if (lastState != state) {  // don't worry about update color if state has not changed
-                shapeRenderer.setColor(new Color(
-                        gridComps.stateColorMap[0].r,
-                        gridComps.stateColorMap[0].g,
-                        gridComps.stateColorMap[0].b,
-                        gridComps.stateColorMap[0].a - DELT * (float) state
-                ));
-                lastState = state;
-            }
-            drawSquare(i, j, shapeRenderer, gridComps, x_origin, y_origin);
-        }  // else don't bother
+        }
     }
 
     private void drawSquare(final int i, final int j, ShapeRenderer shapeRenderer, CAGridComponents gridComps,

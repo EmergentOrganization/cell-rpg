@@ -6,6 +6,7 @@ import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CellType;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
@@ -59,14 +60,7 @@ public class CALayerFactory {
             case ENERGY:
                 layerComponents.TIME_BTWN_GENERATIONS = 700;
                 layerComponents.cellSize = 3;
-                layerComponents.stateColorMap = new Color[] {
-                        new Color(1f, 1f, 1f, .8f),  // white
-                        new Color(0f, .7f, 1f, .8f),  // light blue flame
-                        new Color(1f, 1f, 0f, .8f),  // yellow
-                        new Color(1f, .5f, 0f, .8f), // orange
-                        new Color(1f, 0f, 0f, .8f), // red
-                        new Color(.5f, 0f, 0f, .8f), // dark red
-                };
+                layerComponents.stateColorMap = DecayCellRenderer.stateColorMap;
                 layerComponents.renderType = CellRenderer.DECAY;
                 layerComponents.cellType = CellType.DECAY;
                 layerComponents.ca = CA.DECAY;

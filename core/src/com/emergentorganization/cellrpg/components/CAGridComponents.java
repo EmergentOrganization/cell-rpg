@@ -208,6 +208,7 @@ public class CAGridComponents extends Component {
 
     public long stampCenteredAt(final int[][] pattern, Vector2 position){
         // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
+        logger.trace("stamping " + pattern.length + "x" + pattern[0].length);
         int row = getIndexOfX(position.x);
         int col = getIndexOfY(position.y);
         //System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");

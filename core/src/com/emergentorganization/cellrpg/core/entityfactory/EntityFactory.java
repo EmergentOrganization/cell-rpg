@@ -138,21 +138,21 @@ public class EntityFactory {
                 vyroidLayer.getId(),
                 new CAInteraction()
                     // vyroid damage
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12, 12), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(10, 10), energyLayer.getId())
                     .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10, 10), vyroidLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
                     // constant visual effect
                     .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
-                            1,
-                            1,
+                            3,
+                            3,
                             DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.BLUE)
                     ), energyLayer.getId())
             )
             .addInteraction(  // genetic vyroids damage
                 geneticLayer.getId(),
                 new CAInteraction()
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(12,12), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(5,5), geneticLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(4*3,4*3), energyLayer.getId())
+                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(4, 4), geneticLayer.getId())
                     .addEventTrigger(1, GameEvent.PLAYER_HIT)
             )
             .setColliderRadius(4)

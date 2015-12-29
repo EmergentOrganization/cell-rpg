@@ -28,7 +28,9 @@ public class CAInteractionList extends Component {
     // map target CA Grid entity IDs to CAInteraction objects for an entity:
     public HashMap<Integer, CAInteraction> interactions = new HashMap<Integer, CAInteraction>();
 
-    public int colliderRadius = 0;  // radius of collision object
+    private int colliderRadius_1  = 0;  // radius of collision object for 1px CA
+    private int colliderRadius_3  = 0;  // for 3px CA
+    private int colliderRadius_11 = 0;  // for 11px CA
 
     public Vector2 lastCollisionPosition;  // position @ last location position was checked
 
@@ -47,7 +49,23 @@ public class CAInteractionList extends Component {
     }
 
     public CAInteractionList setColliderRadius(int newVal){
-        colliderRadius = newVal;
+        colliderRadius_1 = newVal*3;
+        colliderRadius_3 = newVal;
+        colliderRadius_11 = newVal/3;
+        if (colliderRadius_11 < 1)colliderRadius_11 = 1;
         return this;
+    }
+
+    public int getColliderRadius(int collidingGridSize){
+        switch(collidingGridSize){
+            case 1:
+                return colliderRadius_1;
+            case 3:
+                return colliderRadius_3;
+            case 11:
+                return colliderRadius_11;
+            default:
+                return 1;
+        }
     }
 }

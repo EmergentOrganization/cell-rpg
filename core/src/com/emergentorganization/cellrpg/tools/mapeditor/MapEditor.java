@@ -42,14 +42,14 @@ import java.util.Collection;
  * Created by BrianErikson on 6/14/2015.
  */
 public class MapEditor extends BaseScene implements InputProcessor {
-    public static final float AXIS_POLE_LENGTH = 10000.0f;
+    private static final float AXIS_POLE_LENGTH = 10000.0f;
     private final OrthographicCamera gameCamera;
     private final InputMultiplexer multiplexer;
     private final EditorWindow window;
 
-    public static final float MOVE_SPEED = 300.0f;
-    public static final float MIN_ZOOM = 0.001f;
-    public static final float ZOOM_AMT = 0.001f; // amount of zoom per keypress
+    private static final float MOVE_SPEED = 300.0f;
+    private static final float MIN_ZOOM = 0.001f;
+    private static final float ZOOM_AMT = 0.001f; // amount of zoom per key press
 
     private static final float AXIS_POLE_SIZE = 1.0f; // size of the axis poles denoting 0,0
     public static final float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
@@ -69,10 +69,10 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
     private static final float ZOOM_FACTOR = 0.001f;
     private MapEditor editor;
-    public static final float HIT_ACCURACY =  0.05f; // lower the value, the more accurate the hit detection
-    private Vector2 dragOffset = new Vector2();
+    private static final float HIT_ACCURACY =  0.05f; // lower the value, the more accurate the hit detection
+    private final Vector2 dragOffset = new Vector2();
 
-    public MapEditor(PixelonTransmission pt) {
+    public MapEditor(final PixelonTransmission pt) {
         super(pt);
 
         initArtemis();
@@ -104,19 +104,21 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     public FileListNode[] getMaps() {
-        File folder = new File(MapTools.FOLDER_ROOT);
+        final File folder = new File(MapTools.FOLDER_ROOT);
 
         if (folder.exists()) {
-            File[] files = folder.listFiles();
-            FileListNode[] fileNodes = new FileListNode[files.length];
-            for (int i = 0; i < files.length; i++) {
-                File file = files[i];
-                if (file.getName().contains(MapTools.EXTENSION)) {
-                    fileNodes[i] = new FileListNode(file);
+            final File[] files = folder.listFiles();
+            if (files != null) {
+                final FileListNode[] fileNodes = new FileListNode[files.length];
+                for (int i = 0; i < files.length; i++) {
+                    final File file = files[i];
+                    if (file.getName().contains(MapTools.EXTENSION)) {
+                        fileNodes[i] = new FileListNode(file);
+                    }
                 }
-            }
 
-            return fileNodes;
+                return fileNodes;
+            }
         }
 
         return null;
@@ -126,7 +128,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
      * Instantiates new entity
      * @param pos Position in world-space
      */
-    public void createNewEntity(EntityID id, Vector3 pos) {
+    private void createNewEntity(final EntityID id, final Vector3 pos) {
         entityFactory.createEntityByID(id, new Vector2(pos.x, pos.y), 0.0f);
     }
 
@@ -134,14 +136,14 @@ public class MapEditor extends BaseScene implements InputProcessor {
      * Instantiates new entity
      * @param pos Position in screen-space
      */
-    public void createNewEntity(EntityID id, Vector2 pos) {
-        Vector3 worldSpace = stage.getCamera().unproject(new Vector3(lastRMBClick.x, lastRMBClick.y, 0.0f));
-        Vector3 unproject = gameCamera.unproject(new Vector3(worldSpace.x, worldSpace.y, 0.0f));
+    public void createNewEntity(final EntityID id, final Vector2 pos) {
+        final Vector3 worldSpace = stage.getCamera().unproject(new Vector3(lastRMBClick.x, lastRMBClick.y, 0.0f));
+        final Vector3 unproject = gameCamera.unproject(new Vector3(worldSpace.x, worldSpace.y, 0.0f));
         createNewEntity(id, unproject);
     }
 
     @Override
-    public void render(float delta) {
+    public void render(final float delta) {
         handleInput();
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -158,9 +160,9 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
         // selected object bounds
         if (target != null) {
-            Bounds bounds = target.getEntity().getComponent(Bounds.class);
-            Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
-            Vector2 pos = target.getEntity().getComponent(Position.class).position.cpy();//.add(size.cpy().scl(0.5f));
+            final Bounds bounds = target.getEntity().getComponent(Bounds.class);
+            final Vector2 size = new Vector2(bounds.width, bounds.height); // stretch/shrink bounding box with rotation
+            final Vector2 pos = target.getEntity().getComponent(Position.class).position.cpy();//.add(size.cpy().scl(0.5f));
             target.getBoundsGizmo().setPosition(pos);
             target.getBoundsGizmo().render(shapeRenderer);
         }
@@ -176,7 +178,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     public void clearMap() {
-        for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
+        for (final Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
             world.delete(id);
         }
 
@@ -187,7 +189,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
         if (mapInputEnabled) {
             boolean update = false;
 
-            float speed = MOVE_SPEED * gameCamera.zoom * Gdx.graphics.getDeltaTime();
+            final float speed = MOVE_SPEED * gameCamera.zoom * Gdx.graphics.getDeltaTime();
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 update = true;
                 gameCamera.position.add(0.0f, speed, 0.0f);
@@ -233,7 +235,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
         return lastRMBClick.cpy();
     }
 
-    public void setLastRMBClick(Vector2 vec) {
+    private void setLastRMBClick(final Vector2 vec) {
         lastRMBClick.set(vec);
     }
 
@@ -241,27 +243,27 @@ public class MapEditor extends BaseScene implements InputProcessor {
         return lastLMBClick.cpy();
     }
 
-    public void setLastLMBClick(Vector2 vec) {
+    private void setLastLMBClick(final Vector2 vec) {
         lastLMBClick.set(vec);
     }
 
-    public void setTarget(EditorTarget target) {
+    private void setTarget(final EditorTarget target) {
         this.target = target;
         window.updateTransform(target.getEntity());
     }
 
-    private void setTarget(Entity entity) {
-        Bounds bounds = entity.getComponent(Bounds.class);
-        Vector2 size = new Vector2(bounds.width, bounds.height);
-        Vector2 pos = entity.getComponent(Position.class).position.cpy();
+    private void setTarget(final Entity entity) {
+        final Bounds bounds = entity.getComponent(Bounds.class);
+        final Vector2 size = new Vector2(bounds.width, bounds.height);
+        final Vector2 pos = entity.getComponent(Position.class).position.cpy();
         setTarget(new EditorTarget(new BoundsGizmo(size, pos), entity));
     }
 
-    public void setMapInput(boolean enable) {
+    public void setMapInput(final boolean enable) {
         this.mapInputEnabled = enable;
     }
 
-    public boolean isMapInputEnabled() {
+    private boolean isMapInputEnabled() {
         return mapInputEnabled;
     }
 
@@ -282,7 +284,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
 
-    public void load(String mapName) {
+    public void load(final String mapName) {
         clearMap();
         MapTools.importMap(mapName, entityFactory);
     }
@@ -292,69 +294,77 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int keycode) {
+    public boolean keyDown(final int keycode) {
         return false;
     }
 
     @Override
-    public boolean keyUp(int keycode) {
+    public boolean keyUp(final int keycode) {
         return false;
     }
 
     @Override
-    public boolean keyTyped(char character) {
+    public boolean keyTyped(final char character) {
         return false;
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean touchDown(final int screenX, final int screenY, final int pointer, final int button) {
         if (isMapInputEnabled()) {
-            Vector2 screenCoords = new Vector2(screenX, screenY);
+            final Vector2 screenPos = new Vector2(screenX, screenY);
             if (button == Input.Buttons.LEFT) {
-                onLeftClick(screenCoords);
+                onLeftClick(screenPos);
             }
             else if (button == Input.Buttons.RIGHT) {
-                onRightClick(screenCoords);
+                onRightClick(screenPos);
             }
         }
 
         return false;
     }
 
-    private void onLeftClick(Vector2 screenCoords) {
+    private void onLeftClick(final Vector2 screenPos) {
         if (mapInputEnabled) {
-            Vector3 uiVec = stage.getCamera().unproject(new Vector3(screenCoords, 0f));
-            Vector2 click = new Vector2(uiVec.x, uiVec.y);
+            final Vector3 uiVec = stage.getCamera().unproject(new Vector3(screenPos, 0f));
+            final Vector2 click = new Vector2(uiVec.x, uiVec.y);
             setLastLMBClick(click);
 
-            Vector3 gameVec = gameCamera.unproject(new Vector3(screenCoords.x, screenCoords.y, 0f));
-            Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
+            final Vector3 gameVec = gameCamera.unproject(new Vector3(screenPos.x, screenPos.y, 0f));
+            final Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
 
             if (target != null) {
-                BoundsGizmo.GizmoTrigger trigger = detectGizmoClick(target, hitBox);
+                final BoundsGizmo.GizmoTrigger trigger = detectGizmoClick(target, hitBox);
                 if (trigger != null) {
-                    System.out.println("GIZMO!");
+                    System.out.println("GIZMO!"); //TODO
                 } else {
-                    detectNewTarget(hitBox, screenCoords);
+                    detectNewTarget(hitBox);
                 }
             } else {
-                detectNewTarget(hitBox, screenCoords);
+                detectNewTarget(hitBox);
             }
         }
     }
 
-    private void detectNewTarget(Rectangle hitBox, Vector2 screenCoords) {
-        Entity entity = getEntityOnClick(hitBox);
+
+    private final Vector3 dragPoint = new Vector3();
+    private final Vector3 entityPos = new Vector3();
+    /**
+     * @param hitBox Hitbox in world space
+     */
+    private void detectNewTarget(final Rectangle hitBox) {
+        final Entity entity = getEntityOnClick(hitBox);
         if (entity != null) {
             setTarget(entity);
-            setDragOffset(screenCoords);
+
+            final Vector2 center = hitBox.getCenter(new Vector2());
+            setDragOffset(dragPoint.set(center, 0), entityPos.set(entity.getComponent(Position.class).position, 0));
         } else {
             target = null;
         }
     }
 
-    private BoundsGizmo.GizmoTrigger detectGizmoClick(EditorTarget target, Rectangle hitBox) {
-        BoundsGizmo.GizmoTrigger gizmoTrigger = target.getBoundsGizmo().detectContains(hitBox);
+    private BoundsGizmo.GizmoTrigger detectGizmoClick(final EditorTarget target, final Rectangle hitBox) {
+        final BoundsGizmo.GizmoTrigger gizmoTrigger = target.getBoundsGizmo().detectContains(hitBox);
 
         if (gizmoTrigger != null) {
             return gizmoTrigger;
@@ -363,7 +373,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
         return null;
     }
 
-    private Entity getEntityOnClick(Rectangle hitBox) {
+    private Entity getEntityOnClick(final Rectangle hitBox) {
         Entity entity;
         entity = detectPhysicsClick(hitBox);
         if (entity == null) {
@@ -373,12 +383,12 @@ public class MapEditor extends BaseScene implements InputProcessor {
         return entity;
     }
 
-    private Entity detectPhysicsClick(Rectangle hitBox) {
+    private Entity detectPhysicsClick(final Rectangle hitBox) {
         final Collection<Integer> entities = new ArrayList<Integer>(5);
         physicsSystem.queryAABB(new QueryCallback() {
             @Override
-            public boolean reportFixture(Fixture fixture) {
-                Body body = fixture.getBody();
+            public boolean reportFixture(final Fixture fixture) {
+                final Body body = fixture.getBody();
                 entities.add((Integer) body.getUserData());
 
                 return false;
@@ -391,55 +401,50 @@ public class MapEditor extends BaseScene implements InputProcessor {
             return null;
     }
 
-    private Entity detectImageClick(Rectangle hitBox) {
-        ComponentMapper<Bounds> bm = world.getMapper(Bounds.class);
-        ComponentMapper<Position> pm = world.getMapper(Position.class);
-        IntBag bag = world.getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
+    private Entity detectImageClick(final Rectangle hitBox) {
+        final ComponentMapper<Bounds> bm = world.getMapper(Bounds.class);
+        final ComponentMapper<Position> pm = world.getMapper(Position.class);
+        final IntBag bag = world.getAspectSubscriptionManager().get(Aspect.all().exclude(PhysicsBody.class)).getEntities();
         for (int i = 0; i < bag.size(); i++) {
-            int id = bag.get(i);
-            Bounds bounds = bm.get(id);
-            Vector2 pos = pm.get(id).position;
-            Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
+            final int id = bag.get(i);
+            final Bounds bounds = bm.get(id);
+            final Vector2 pos = pm.get(id).position;
+            final Rectangle rect = new Rectangle(pos.x, pos.y, bounds.width, bounds.height);
             if (rect.contains(hitBox))
                 return world.getEntity(id);
         }
         return null;
     }
 
-    private void onRightClick(Vector2 screenPos) {
+    private void onRightClick(final Vector2 screenPos) {
         if (mapInputEnabled) {
-            Vector3 worldPos = stage.getCamera().unproject(new Vector3(screenPos.x, screenPos.y, 0f));
+            final Vector3 worldPos = stage.getCamera().unproject(new Vector3(screenPos.x, screenPos.y, 0f));
             setLastRMBClick(new Vector2(worldPos.x, worldPos.y));
             window.openContextMenu(lastRMBClick);
         }
     }
 
-    private void setDragOffset(Vector2 mousePos) {
-        Vector3 gameVec = gameCamera.unproject(new Vector3(mousePos.x, mousePos.y, 0f));
-
-        if (target != null) {
-            Entity mapTarget = target.getEntity();
-            Vector2 targetPos = mapTarget.getComponent(Position.class).position;
-            dragOffset = new Vector2(targetPos.x - gameVec.x, targetPos.y - gameVec.y);
-        }
-        else {
-            throw new RuntimeException("Cannot set drag offset when the editor has no target");
-        }
+    /**
+     * @param mousePos Mouse position in world space
+     * @param startPoint Drag start position in world space
+     */
+    private void setDragOffset(final Vector3 mousePos, final Vector3 startPoint) {
+        dragOffset.set(startPoint.x - mousePos.x, startPoint.y - mousePos.y);
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+    public boolean touchUp(final int screenX, final int screenY, final int pointer, final int button) {
         return false;
     }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
+    public boolean touchDragged(final int screenX, final int screenY, final int pointer) {
         if (mapInputEnabled) {
-            Vector3 gameVec = gameCamera.unproject(new Vector3(screenX, screenY, 0f));
+            final Vector3 gameVec = gameCamera.unproject(new Vector3(screenX, screenY, 0f));
 
             if (target != null) {
-                Entity mapTarget = target.getEntity();
-                Body body = world.getSystem(PhysicsSystem.class).getBody(mapTarget.getId());
+                final Entity mapTarget = target.getEntity();
+                final Body body = world.getSystem(PhysicsSystem.class).getBody(mapTarget.getId());
                 if (body != null) {
                     body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
                 }
@@ -452,12 +457,12 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean mouseMoved(final int screenX, final int screenY) {
         return false;
     }
 
     @Override
-    public boolean scrolled(int amount) {
+    public boolean scrolled(final int amount) {
         if (mapInputEnabled) {
             gameCamera.zoom += amount * ZOOM_FACTOR;
             if (gameCamera.zoom <= 0) gameCamera.zoom = MIN_ZOOM;

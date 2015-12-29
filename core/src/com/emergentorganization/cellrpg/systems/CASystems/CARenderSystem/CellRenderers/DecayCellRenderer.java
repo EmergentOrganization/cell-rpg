@@ -16,9 +16,16 @@ public class DecayCellRenderer implements iCellRenderer {
     public static final Color[] stateColorMap = {
         // group 1: white/gray
         null,
+        new Color(1f, 1f, 1f, .05f),
+        new Color(1f, 1f, 1f, .1f),
         new Color(1f, 1f, 1f, .2f),
+        new Color(1f, 1f, 1f, .3f),
         new Color(1f, 1f, 1f, .4f),
+        new Color(1f, 1f, 1f, .5f),
+        new Color(1f, 1f, 1f, .6f),
+        new Color(1f, 1f, 1f, .7f),
         new Color(1f, 1f, 1f, .8f),
+        new Color(1f, 1f, 1f, .9f),
         // group 2: light blue
         null,
         new Color(0f, .7f, 1f, .2f),
@@ -41,13 +48,13 @@ public class DecayCellRenderer implements iCellRenderer {
         // returns the index of the highest state in the given color group
         switch (groupKey){
             case WHITE:
-                return 3;
+                return 10;
             case BLUE:
-                return 7;
+                return 14;
             case FIRE:
-                return 12;
+                return 19;
             default:
-                return 16;
+                return 23;
         }
     }
 

@@ -7,10 +7,10 @@ import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
  * Created by brian on 12/12/15.
  */
 public class EditorTarget {
-    private BoundsGizmo boundsGizmo;
-    private Entity entity;
+    private final BoundsGizmo boundsGizmo;
+    private final Entity entity;
 
-    public EditorTarget(BoundsGizmo boundsGizmo, Entity entity) {
+    public EditorTarget(final BoundsGizmo boundsGizmo, final Entity entity) {
         this.boundsGizmo = boundsGizmo;
         this.entity = entity;
     }

@@ -8,30 +8,26 @@ import com.badlogic.gdx.math.Vector2;
  * Created by brian on 11/22/15.
  */
 public class BoundsGizmo implements Renderable {
-    public static final float GIZMO_LENGTH = 0.13f;
+    public static final float GIZMO_LENGTH = 0.20f;
     private static final Vector2 GIZMO_SIZE = new Vector2(GIZMO_LENGTH, GIZMO_LENGTH);
-    public enum GizmoTrigger {
-        BOTTOM_LEFT, BOTTOM_RIGHT,
-        TOP_LEFT, TOP_RIGHT, CENTER
-    }
-    private BoundsBox[] gizmos;
-    private BoundsBox boundsBox;
-    private Vector2 pos;
-    private Vector2 size;
+    private final CornerGizmo[] gizmos;
+    private final BoundsBox boundsBox;
+    private final Vector2 pos;
+    private final Vector2 size;
 
-    public BoundsGizmo(Vector2 size, Vector2 pos) {
+    public BoundsGizmo(final Vector2 size, final Vector2 pos) {
         this.pos = pos;
         this.size = size;
-        boundsBox = new BoundsBox(pos, size, GizmoTrigger.CENTER);
-        gizmos = new BoundsBox[] {
-                new BoundsBox(pos.cpy(), GIZMO_SIZE, GizmoTrigger.BOTTOM_LEFT),
-                new BoundsBox(pos.cpy().add(size.x, 0), GIZMO_SIZE, GizmoTrigger.BOTTOM_RIGHT),
-                new BoundsBox(pos.cpy().add(0, size.y), GIZMO_SIZE, GizmoTrigger.TOP_LEFT),
-                new BoundsBox(pos.cpy().add(size), GIZMO_SIZE, GizmoTrigger.TOP_RIGHT)
+        boundsBox = new BoundsBox(pos, size);
+        gizmos = new CornerGizmo[] {
+                new CornerGizmo(pos.cpy(), GIZMO_SIZE, Corner.BOTTOM_LEFT),
+                new CornerGizmo(pos.cpy().add(size.x, 0), GIZMO_SIZE, Corner.BOTTOM_RIGHT),
+                new CornerGizmo(pos.cpy().add(0, size.y), GIZMO_SIZE, Corner.TOP_LEFT),
+                new CornerGizmo(pos.cpy().add(size), GIZMO_SIZE, Corner.TOP_RIGHT)
         };
     }
 
-    public void setPosition(Vector2 pos) {
+    public void setPosition(final Vector2 pos) {
         this.pos.set(pos);
         boundsBox.setPosition(pos.cpy());
         gizmos[0].setCenter(pos.cpy());
@@ -45,19 +41,19 @@ public class BoundsGizmo implements Renderable {
      * @param rectangle The hit to compare against
      * @return The vertex gizmo position on the bounds collider, or null if none were hit
      */
-    public GizmoTrigger detectContains(Rectangle rectangle) {
-        for (BoundsBox gizmo : gizmos) {
-            boolean contains = gizmo.contains(rectangle);
+    public CornerGizmo detectContains(final Rectangle rectangle) {
+        for (final CornerGizmo gizmo : gizmos) {
+            final boolean contains = gizmo.contains(rectangle);
             if (contains) {
-                return gizmo.getTrigger();
+                return gizmo;
             }
         }
         return null;
     }
 
-    public void moveVertexGizmo(GizmoTrigger trigger, Vector2 newPos) {
-        for (BoundsBox gizmo : gizmos) {
-            if (gizmo.getTrigger() == trigger) {
+    public void moveVertexGizmo(final Corner corner, final Vector2 newPos) {
+        for (final CornerGizmo gizmo : gizmos) {
+            if (gizmo.getCorner() == corner) {
                 gizmo.setPosition(newPos);
             }
         }
@@ -65,9 +61,9 @@ public class BoundsGizmo implements Renderable {
     }
 
     @Override
-    public void render(ShapeRenderer shapeRenderer) {
+    public void render(final ShapeRenderer shapeRenderer) {
         boundsBox.render(shapeRenderer);
-        for (BoundsBox gizmo : gizmos) {
+        for (final BoundsBox gizmo : gizmos) {
             gizmo.render(shapeRenderer);
         }
     }

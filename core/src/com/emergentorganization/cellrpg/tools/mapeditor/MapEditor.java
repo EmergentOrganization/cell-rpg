@@ -31,7 +31,9 @@ import com.emergentorganization.cellrpg.systems.InputSystem;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileListNode;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsBox;
 import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
+import com.emergentorganization.cellrpg.tools.mapeditor.renderables.CornerGizmo;
 import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
 
 import java.io.File;
@@ -59,6 +61,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private EditorTarget target;
+    private CornerGizmo selectedGizmo;
 
     private boolean mapInputEnabled = true;
     private SpriteBatch batch;
@@ -333,13 +336,20 @@ public class MapEditor extends BaseScene implements InputProcessor {
             final Rectangle hitBox = new Rectangle(gameVec.x - HIT_ACCURACY, gameVec.y - HIT_ACCURACY, HIT_ACCURACY, HIT_ACCURACY);
 
             if (target != null) {
-                final BoundsGizmo.GizmoTrigger trigger = detectGizmoClick(target, hitBox);
-                if (trigger != null) {
-                    System.out.println("GIZMO!"); //TODO
-                } else {
+                final CornerGizmo old = selectedGizmo;
+                selectedGizmo = target.getBoundsGizmo().detectContains(hitBox);
+                if (selectedGizmo != null) {
+                    System.out.println("Gizmo selected"); //TODO
+                }
+                else if (old != null) {
+                    System.out.println("Deselected Gizmo.");
                     detectNewTarget(hitBox);
                 }
-            } else {
+                else {
+                    detectNewTarget(hitBox);
+                }
+            }
+            else {
                 detectNewTarget(hitBox);
             }
         }
@@ -363,14 +373,9 @@ public class MapEditor extends BaseScene implements InputProcessor {
         }
     }
 
-    private BoundsGizmo.GizmoTrigger detectGizmoClick(final EditorTarget target, final Rectangle hitBox) {
-        final BoundsGizmo.GizmoTrigger gizmoTrigger = target.getBoundsGizmo().detectContains(hitBox);
+    private void detectGizmoClick(final EditorTarget target, final Rectangle hitBox) {
+        this.selectedGizmo = target.getBoundsGizmo().detectContains(hitBox);
 
-        if (gizmoTrigger != null) {
-            return gizmoTrigger;
-        }
-
-        return null;
     }
 
     private Entity getEntityOnClick(final Rectangle hitBox) {
@@ -434,6 +439,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
     @Override
     public boolean touchUp(final int screenX, final int screenY, final int pointer, final int button) {
+        selectedGizmo = null;
         return false;
     }
 
@@ -444,13 +450,19 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
             if (target != null) {
                 final Entity mapTarget = target.getEntity();
-                final Body body = world.getSystem(PhysicsSystem.class).getBody(mapTarget.getId());
-                if (body != null) {
-                    body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
+
+                if (selectedGizmo != null) {
+                    System.out.println("Scaling entity by " + dragOffset);
                 }
-                else
-                    mapTarget.getComponent(Position.class).position.set(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
-                window.updateTransform(mapTarget);
+                else {
+                    final Body body = world.getSystem(PhysicsSystem.class).getBody(mapTarget.getId());
+                    if (body != null) {
+                        body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
+                    }
+                    else
+                        mapTarget.getComponent(Position.class).position.set(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
+                    window.updateTransform(mapTarget);
+                }
             }
         }
         return false;

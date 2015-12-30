@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes.game;
 
+import com.artemis.WorldConfiguration;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
@@ -22,13 +23,27 @@ public abstract class WorldScene extends BaseScene {
 
     public WorldScene(final PixelonTransmission pt) {
         super(pt);
-        initArtemis();
+        init(getBaseWorldConfiguration());
     }
 
-    private void initArtemis() {
+    /* ================================================================== */
+    /* ====================== INTERFACE METHODS ========================= */
+    /* ================================================================== */
+
+    public abstract WorldConfiguration getBaseWorldConfiguration();
+        // returns world configuration to start from
+        // override this to modify world configuration before calling initArtemis()
+        // simplest method is just:
+        // return new WorldConfiguration();
+
+    /* ================================================================== */
+    /* ================================================================== */
+    /* ================================================================== */
+
+    public void init(WorldConfiguration baseConfig) {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
+        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, baseConfig);
     }
 
     @Override

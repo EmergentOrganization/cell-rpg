@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes.game;
 
+import com.artemis.WorldConfiguration;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
@@ -17,5 +18,11 @@ public class Story extends WorldScene {
         MapTools.importMap("OneEachTestMap", entityFactory);
 
         WorldFactory.setupStandardWorldEffects(world);
+    }
+
+    @Override
+    public WorldConfiguration getBaseWorldConfiguration(){
+        WorldConfiguration wc = new WorldConfiguration();
+        return wc;
     }
 }

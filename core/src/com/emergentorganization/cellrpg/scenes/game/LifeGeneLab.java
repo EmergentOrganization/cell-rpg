@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes.game;
 
+import com.artemis.WorldConfiguration;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 
@@ -18,4 +19,8 @@ public class LifeGeneLab extends WorldScene {
         WorldFactory.setupStandardWorldEffects(world);
     }
 
+    @Override
+    public WorldConfiguration getBaseWorldConfiguration(){
+        return new WorldConfiguration();
+    }
 }

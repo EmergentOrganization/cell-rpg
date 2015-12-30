@@ -29,8 +29,8 @@ import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 public class WorldFactory {
 
     public static World standardGameWorld(PixelonTransmission pt,
-                                          SpriteBatch batch, Stage stage, EntityFactory entityFactory) {
-        WorldConfiguration wc = new WorldConfiguration();
+                                          SpriteBatch batch, Stage stage, EntityFactory entityFactory,
+                                          WorldConfiguration wc) {
         wc.register(entityFactory);
 
         // set up world systemss

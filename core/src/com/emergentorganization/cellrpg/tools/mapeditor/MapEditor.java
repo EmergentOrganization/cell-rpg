@@ -2,6 +2,7 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.artemis.Entity;
 import com.artemis.World;
+import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
@@ -43,6 +44,7 @@ import java.io.File;
  * Created by BrianErikson on 6/14/2015.
  */
 public class MapEditor extends BaseScene {
+    // TODO: move this with other scenes, and probably extend the WorldScene to reduce code duplication.
     private final com.badlogic.gdx.physics.box2d.World physWorld;
     private final OrthographicCamera gameCamera;
     private final InputMultiplexer multiplexer;
@@ -111,7 +113,7 @@ public class MapEditor extends BaseScene {
     private void initArtemis(com.badlogic.gdx.physics.box2d.World physWorld) {
         batch = new SpriteBatch();
         entityFactory = new EntityFactory();
-        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory);
+        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, new WorldConfiguration());
 
         physicsSystem = world.getSystem(PhysicsSystem.class);
         entityFactory.createPlayer(0, 0);

@@ -13,8 +13,6 @@ import com.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwit
 import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
 import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion1;
 
-import java.util.ArrayList;
-
 /**
  * Arcade scene with immobile camera and survival gameplay.
  *

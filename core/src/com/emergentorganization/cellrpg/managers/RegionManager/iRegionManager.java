@@ -10,7 +10,8 @@ import com.artemis.BaseSystem;
 public abstract class iRegionManager extends BaseSystem{
 
     @Override
-    public void begin() {
+    public void initialize() {
+        super.initialize();
         // set up the first region before system processing begins
     }
 

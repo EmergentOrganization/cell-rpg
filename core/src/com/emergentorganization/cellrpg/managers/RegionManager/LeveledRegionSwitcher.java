@@ -22,31 +22,23 @@ public class LeveledRegionSwitcher extends iRegionManager {
     private iRegion nextRegion;
 
     public LeveledRegionSwitcher(iRegion startingRegion){
-        currentRegion = startingRegion;
-        // TODO:
-//        currentRegion.loadRegion();
-//        currentRegion.enterRegion();
-    }
-
-    @Override
-    public void begin(){
-
+        nextRegion = startingRegion;
     }
 
     @Override
     public void processSystem(){
         // check if should move to next region
-        iRegion nextRegion = currentRegion.getNextRegion();
-        if (nextRegion != null){
-            // TODO:
-//            nextRegion.load();  // or instantiate region here?
-//            if( ready to transistion between regions ){
-//                currentRegion.leave();
-//                currentRegion.destroy();
-//                currentRegion = nextRegion;
-//                nextRegion = null;
-//                currentRegion.enterRegion();
-//            }
+        if (nextRegion != null) {
+            nextRegion.loadRegion(world);  // or instantiate region here?
+
+//            currentRegion.leave();
+//            currentRegion.destroy();
+            currentRegion = nextRegion;
+            nextRegion = null;
+            currentRegion.enterRegion(world);
+
+        } else {
+            nextRegion = currentRegion.getNextRegion(world);
         }
     }
 }

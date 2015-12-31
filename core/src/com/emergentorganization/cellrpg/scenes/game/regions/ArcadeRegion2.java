@@ -1,51 +1,49 @@
 package com.emergentorganization.cellrpg.scenes.game.regions;
 
-import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
+import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.scenes.Scene;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
  * Created by 7yl4r on 10/10/2015.
  */
-public class TheEdge implements iRegion {
-
-    public TheEdge(Scene parentScene){
+public class ArcadeRegion2 implements iRegion {
+    public ArcadeRegion2(){
         super();
     }
 
-    public CALayer[] getCALayers() {
+    public CALayer[] getCALayers(){
+        // TODO: this is currently unused, but layers should be dynamically added/removed
+        // TODO:    by a CA Manager.
         return new CALayer[]{
                 CALayer.ENERGY,
-                CALayer.VYROIDS
+                CALayer.VYROIDS,
+                CALayer.VYROIDS_MINI,
+                CALayer.VYROIDS_MEGA
         };
     }
 
-    public void loadRegion(World world) {
+    public iRegion getNextRegion(World world){
+        return null;
+    }
 
+    public void loadRegion(World world){
     }
 
     public void enterRegion(World world){
-        System.out.println("entering the edge region");
+        System.out.println("entering arcade region 2");
         setCAEdgeSpawns(world);
     }
 
     private void setCAEdgeSpawns(World world){
         TagManager tagMan = world.getSystem(TagManager.class);
-
-        Entity CAEnt = tagMan.getEntity(Tags.CA_VYROIDS_STD);
-        CAGridComponents CAComp = CAEnt.getComponent(CAGridComponents.class);
-        CAComp.edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
-
+        tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
+                = CAEdgeSpawnType.RANDOM_50_50;
         tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.RANDOM_50_50;
-    }
-
-    public iRegion getNextRegion(World world){
-        return null;  // TODO: return adjoining region when nearing boundary
     }
 }

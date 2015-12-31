@@ -45,7 +45,7 @@ public class CAGridComponents extends Component {
     public BaseCell[][] states;
     public int cellSize = 3;  // size of each cell [px]
     public int cellCount = 0;  // number of live cells
-    public CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
+    public CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
     public Color[] stateColorMap;
     public long generation = 0;
     public int stampCount = 0;

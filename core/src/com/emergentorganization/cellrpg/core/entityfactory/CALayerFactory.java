@@ -32,7 +32,6 @@ public class CALayerFactory {
         layerComponents.cellSize = 3;
         layerComponents.cellType = CellType.WITH_HISTORY;
         layerComponents.renderType = CellRenderer.COLOR_MAP;
-        layerComponents.edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
         layerComponents.ca = CA.BUFFERED;
         layerComponents.TIME_BTWN_GENERATIONS = 100;
 

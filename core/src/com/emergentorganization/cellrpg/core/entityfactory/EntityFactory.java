@@ -74,6 +74,7 @@ public class EntityFactory {
         vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
                 .renderIndex(RenderIndex.CA)
+                .tag(Tags.CA_VYROIDS_STD)
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
@@ -81,6 +82,7 @@ public class EntityFactory {
         energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
                 .renderIndex(RenderIndex.CA)
+                .tag(Tags.CA_VYROIDS_GENETIC)
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);

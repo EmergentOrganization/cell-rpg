@@ -45,9 +45,7 @@ public class Arcade extends WorldScene {
     @Override
     public WorldConfiguration getBaseWorldConfiguration(){
         WorldConfiguration wc = new WorldConfiguration();
-        ArrayList<Class> regionList = new ArrayList<Class>();
-        regionList.add(ArcadeRegion1.class);
-        wc.setSystem(new LeveledRegionSwitcher(regionList));
+        wc.setSystem(new LeveledRegionSwitcher(new ArcadeRegion1()));
         return wc;
     }
 }

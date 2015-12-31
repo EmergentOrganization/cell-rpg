@@ -10,12 +10,13 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
  * Created by 7yl4r on 10/10/2015,
  * updated to artemis build 2015-12-29 by 7yl4r.
  */
-public abstract class Region {
+public interface iRegion {
 
-    public Region(){
+    iRegion getNextRegion();
+    /* should return region ready to be switched to, else returns null
+    * TODO: should this return the region class instead and leave instantiation to the regionSwitcher?
+    */
 
-    }
-
-    public abstract CALayer[] getCALayers();
+    CALayer[] getCALayers();
     /* returns a list of CA layers present in this region */
 }

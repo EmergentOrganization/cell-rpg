@@ -12,6 +12,8 @@ Developed using libGDX.
 [![Build Status](https://api.travis-ci.org/EmergentOrganization/cell-rpg.svg)](https://travis-ci.org/EmergentOrganization/cell-rpg) 
 [![GitHub release](https://img.shields.io/github/release/EmergentOrganization/cell-rpg.svg)](https://github.com/EmergentOrganization/cell-rpg/releases)
 [![Bountysource](https://img.shields.io/bountysource/team/emergent-organization/activity.svg)](https://www.bountysource.com/teams/emergent-organization)
+[![ghit.me hit counter](https://ghit.me/badge.svg?repo=EmergentOrganization/cell-rpg)](https://ghit.me/repo/EmergentOrganization/cell-rpg)
+
 
 ## Developer Setup
 This project (and LibGDX) uses Gradle to install dependencies, but you _need_ to ensure your java environment and android sdk are properly set up first. We use primarily intellij IDEA to develop (but you can use others) and will do our best to guide you through the process. In addition to the guide below, you can find more information in [libGDX's dev environment set up guide](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29).

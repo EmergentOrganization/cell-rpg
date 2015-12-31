@@ -29,13 +29,7 @@ public class Arcade extends WorldScene {
 
         WorldFactory.setupStandardWorldEffects(world);
 
-        Stage HUD = new Stage();
-        scoreDisplay = new ScoreDisplay(world, HUD);
-    }
-
-    @Override
-    public void render(float delta){
-        super.render(delta);
+        scoreDisplay = new ScoreDisplay(world, stage);
         scoreDisplay.updateScore();  // TODO: do this on score update events from EventManager
     }
 

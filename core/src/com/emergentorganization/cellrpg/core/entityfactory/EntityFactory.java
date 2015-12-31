@@ -13,6 +13,7 @@ import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
+import com.emergentorganization.cellrpg.core.Tags;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
@@ -57,7 +58,12 @@ public class EntityFactory {
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
-        player = new ArchetypeBuilder(character).add(Input.class).add(CameraFollow.class).add(Equipment.class).build(world);
+        player = new ArchetypeBuilder(character)
+                .add(Input.class)
+                .add(CameraFollow.class)
+                .add(Equipment.class)
+                .add(StatsTracker.class)
+                .build(world);
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }
 
@@ -90,7 +96,7 @@ public class EntityFactory {
         Vector2 pos = new Vector2(x, y);
 
         final Entity player = new EntityBuilder(world, this.player, "Player", EntityID.PLAYER.toString(), pos)
-                .tag("player")
+                .tag(Tags.PLAYER)
                 .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 .renderIndex(RenderIndex.PLAYER)
                 .setFixedRotation(true)

@@ -15,12 +15,14 @@ public class StatsTracker extends Component {
     public int damageTaken;
     public int kills;
     public int powerUpsCollected;
+    public int shots;
 
     private static int POINTS_PER_KILL    = 100;
     private static int POINTS_PER_POWERUP = 100;
 
     public int getScore(){
         return kills * POINTS_PER_KILL
-                + powerUpsCollected * POINTS_PER_POWERUP;
+                + powerUpsCollected * POINTS_PER_POWERUP
+                + shots;
     }
 }

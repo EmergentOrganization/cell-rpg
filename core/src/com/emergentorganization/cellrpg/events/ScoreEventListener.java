@@ -7,6 +7,7 @@ import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.SoundEffect;
 import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 import java.util.Map;
 
@@ -31,9 +32,15 @@ public class ScoreEventListener implements EventListener {
             case PLAYER_SHOOT:
                 stats.shots += 1;
                 break;
+            case VYROID_KILL_GENETIC:
+                stats.addKill(CALayer.VYROIDS_GENETIC);
+                break;
+            case VYROID_KILL_STD:
+                stats.addKill(CALayer.VYROIDS);
+                break;
             default:
                 return;  // return w/o updating display
         }
-        display.updateScore();
+        //display.updateScore(0);  // don't need to worry about this b/c it's updated every render
     }
 }

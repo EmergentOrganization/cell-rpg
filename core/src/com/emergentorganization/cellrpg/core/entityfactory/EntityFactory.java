@@ -4,6 +4,7 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.artemis.World;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
@@ -192,12 +193,14 @@ public class EntityFactory {
                             1,
                             DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.WHITE)
                     ), energyLayer.getId())
+                    .addEventTrigger(1, GameEvent.VYROID_KILL_STD)
             )
             .addInteraction(
                     geneticLayer.getId(),
                     new CAInteraction()
                             .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
                             .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3, 3), geneticLayer.getId())
+                            .addEventTrigger(1, GameEvent.VYROID_KILL_GENETIC)
             )
             .setColliderRadius(2)
         ;

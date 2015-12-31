@@ -41,10 +41,11 @@ public class ScoreDisplay {
         eMan.addListener(new ScoreEventListener(this));
     }
 
-    public void updateScore(){
-        // TODO: get entities with statsTracker component
-        //world.getEntity(EntityID.PLAYER);
-        score = world.getEntity(targetEntityId).getComponent(StatsTracker.class).getScore();
+    public void updateScore(float delta){
+        // get entities with statsTracker component
+        StatsTracker stats = world.getEntity(targetEntityId).getComponent(StatsTracker.class);
+        stats.timeSurvived += delta;
+        score = stats.getScore();
         scoreLabel.setText(getFormattedScoreStr());
         // scoreWindow.pack() repack? not needed as long as score stays same length.
     }

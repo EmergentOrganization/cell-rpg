@@ -34,8 +34,12 @@ public class Arcade extends WorldScene {
         WorldFactory.setupStandardWorldEffects(world);
         TagManager tm = world.getSystem(TagManager.class);
         scoreDisplay = new ScoreDisplay(world, stage, tm.getEntity(Tags.PLAYER).getId());
+    }
 
-        scoreDisplay.updateScore();  // TODO: do this on score update events from EventManager
+    @Override
+    public void render(float delta){
+        super.render(delta);
+        scoreDisplay.updateScore(delta);
     }
 
     @Override

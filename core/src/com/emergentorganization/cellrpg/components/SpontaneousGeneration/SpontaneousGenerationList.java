@@ -8,7 +8,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -26,8 +26,14 @@ public class SpontaneousGenerationList extends Component {
     public float frequency;  // how often the stamp will occur
     public float variance;  // how much the timing of the can vary randomly
 
-    public List<CALayer> layers;  // list of layers that might be stamped
-    public List<int[][]> stampList;  // list of stamps that may be applied
+    public ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
+    public ArrayList<int[][]> stampList = new ArrayList<int[][]>();  // list of stamps that may be applied
+
+    public void clear(){
+        // clears layers and stamps
+        layers.clear();
+        stampList.clear();
+    }
 
     public SpontaneousGeneration getRandomGeneration(Position entityPos, Bounds entityBounds){
         // gets a random SpontaneousGeneration
@@ -38,7 +44,7 @@ public class SpontaneousGenerationList extends Component {
                 (float)(radius*Math.random()),
                 (float)(radius*Math.random())
         );
-        
+
         return new SpontaneousGeneration(layers.get(layer), stampList.get(stamp), pos);
     }
 }

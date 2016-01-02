@@ -32,6 +32,38 @@ public class CGoLShapeConsts {
             {0,0,0,0,0,0},
     };
 
+    public static final int[][] GLIDER_DOWN_RIGHT = {
+            {0,0,0,0,0},
+            {0,0,1,0,0},
+            {0,0,0,1,0},
+            {0,1,1,1,0},
+            {0,0,0,0,0},
+    };
+
+    public static final int[][] GLIDER_UP_RIGHT = {
+            {0,0,0,0,0},
+            {0,0,1,1,0},
+            {0,1,0,1,0},
+            {0,0,0,1,0},
+            {0,0,0,0,0},
+    };
+
+    public static final int[][] GLIDER_DOWN_LEFT = {
+            {0,0,0,0,0},
+            {0,1,0,0,0},
+            {0,1,0,1,0},
+            {0,1,1,0,0},
+            {0,0,0,0,0},
+    };
+
+    public static final int[][] GLIDER_UP_LEFT = {
+            {0,0,0,0,0},
+            {0,1,1,1,0},
+            {0,1,0,0,0},
+            {0,0,1,0,0},
+            {0,0,0,0,0},
+    };
+
     public static int[][] SQUARE(final int w, final int h, final int fill_state){
         int[][] res = new int[w][h];
         for (int i = 0; i < res.length; i++){

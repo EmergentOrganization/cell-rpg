@@ -1,14 +1,10 @@
 package com.emergentorganization.cellrpg.scenes.game;
 
-import com.artemis.Entity;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.emergentorganization.cellrpg.PixelonTransmission;
-import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.Tags;
 import com.emergentorganization.cellrpg.core.WorldFactory;
-import com.emergentorganization.cellrpg.events.ScoreEventListener;
 import com.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
 import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion1;

@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
+import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.core.Tags;
@@ -64,6 +65,7 @@ public class EntityFactory {
                 .add(CameraFollow.class)
                 .add(Equipment.class)
                 .add(StatsTracker.class)
+                .add(SpontaneousGenerationList.class)
                 .build(world);
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }

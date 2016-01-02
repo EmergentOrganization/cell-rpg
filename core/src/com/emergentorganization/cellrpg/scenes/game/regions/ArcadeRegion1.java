@@ -4,10 +4,13 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
+import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
+import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.Tags;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 
 /**
  * Created by 7yl4r on 10/10/2015.
@@ -45,11 +48,22 @@ public class ArcadeRegion1 implements iRegion {
 
     public void enterRegion(World world){
         System.out.println("entering arcade region 1");
-        setCAEdgeSpawns(world);
+        TagManager tagMan = world.getSystem(TagManager.class);
+
+        setCAEdgeSpawns(tagMan);
+
+        // setup the player-centric SpontGen
+        Entity player = tagMan.getEntity(Tags.PLAYER);
+        SpontaneousGenerationList genList = player.getComponent(SpontaneousGenerationList.class);
+        genList.clear();
+        genList.stampList.add(CGoLShapeConsts.GLIDER_DOWN_LEFT);
+        genList.stampList.add(CGoLShapeConsts.GLIDER_DOWN_RIGHT);
+        genList.stampList.add(CGoLShapeConsts.GLIDER_UP_RIGHT);
+        genList.stampList.add(CGoLShapeConsts.GLIDER_UP_LEFT);
+        genList.layers.add(CALayer.VYROIDS);
     }
 
-    private void setCAEdgeSpawns(World world){
-        TagManager tagMan = world.getSystem(TagManager.class);
+    private void setCAEdgeSpawns(TagManager tagMan){
 
         Entity CAEnt = tagMan.getEntity(Tags.CA_VYROIDS_STD);
         CAGridComponents CAComp = CAEnt.getComponent(CAGridComponents.class);

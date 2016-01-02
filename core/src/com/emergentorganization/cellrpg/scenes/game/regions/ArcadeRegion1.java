@@ -61,6 +61,7 @@ public class ArcadeRegion1 implements iRegion {
         genList.stampList.add(CGoLShapeConsts.GLIDER_UP_RIGHT);
         genList.stampList.add(CGoLShapeConsts.GLIDER_UP_LEFT);
         genList.layers.add(CALayer.VYROIDS);
+        genList.frequency = 10;
     }
 
     private void setCAEdgeSpawns(TagManager tagMan){

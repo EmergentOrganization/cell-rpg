@@ -22,9 +22,10 @@ import java.util.concurrent.ThreadLocalRandom;
 public class SpontaneousGenerationList extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public float radius;  // area around entity which may be stamped
-    public float frequency;  // how often the stamp will occur
-    public float variance;  // how much the timing of the can vary randomly
+    public float radius = 1;  // area around entity which may be stamped
+    public float frequency = -1;  // how often the stamp will occur
+    public float variance = 0;  // how much the timing of the can vary randomly
+    public int sinceLastGenerationCounter = 0;  // counter for determining when it's time to generate
 
     public ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
     public ArrayList<int[][]> stampList = new ArrayList<int[][]>();  // list of stamps that may be applied
@@ -33,6 +34,8 @@ public class SpontaneousGenerationList extends Component {
         // clears layers and stamps
         layers.clear();
         stampList.clear();
+        frequency = -1;
+        sinceLastGenerationCounter = 0;
     }
 
     public SpontaneousGeneration getRandomGeneration(Position entityPos, Bounds entityBounds){
@@ -40,11 +43,24 @@ public class SpontaneousGenerationList extends Component {
         int layer = ThreadLocalRandom.current().nextInt(0, layers.size());
         int stamp = ThreadLocalRandom.current().nextInt(0, stampList.size());
 
+        // TODO: exclude inner radius / bounds?
         Vector2 pos = entityPos.getCenter(entityBounds).add(
-                (float)(radius*Math.random()),
-                (float)(radius*Math.random())
+                (float)(2*radius*Math.random()-radius),
+                (float)(2*radius*Math.random()-radius)
         );
 
+        sinceLastGenerationCounter = 0;
         return new SpontaneousGeneration(layers.get(layer), stampList.get(stamp), pos);
     }
+
+     public boolean readyForGen() {
+         // returns true if it is time to insert stamp
+//         logger.trace(sinceLastGenerationCounter + " not yet " + frequency);
+         if (frequency < 1){
+             return false;
+         } else {
+             // TODO: incorporate variance
+             return sinceLastGenerationCounter > frequency;
+         }
+     }
 }

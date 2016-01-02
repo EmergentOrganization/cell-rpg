@@ -4,7 +4,6 @@ import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
@@ -20,6 +19,7 @@ import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -168,6 +168,9 @@ public class EntityFactory {
             )
             .setColliderRadius(4)
         ;
+
+        SpontaneousGenerationList genList = player.getComponent(SpontaneousGenerationList.class);
+        genList.radius = 10;  // TODO: not sure what this value should be... could use Bounds?
 
         return player.getId();
     }

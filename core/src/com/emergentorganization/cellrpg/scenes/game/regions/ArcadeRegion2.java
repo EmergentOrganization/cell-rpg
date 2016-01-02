@@ -51,6 +51,7 @@ public class ArcadeRegion2 implements iRegion {
         genList.stampList.add(CGoLShapeConsts.GLIDER_UP_RIGHT);
         genList.stampList.add(CGoLShapeConsts.GLIDER_UP_LEFT);
         genList.layers.add(CALayer.VYROIDS);
+        genList.frequency = 1;
 
     }
 

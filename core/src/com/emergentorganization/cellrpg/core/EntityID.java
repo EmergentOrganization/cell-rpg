@@ -1,5 +1,7 @@
 package com.emergentorganization.cellrpg.core;
 
+import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -22,9 +24,9 @@ public enum EntityID {
         map.put(VYROID_BEACON, "vyroid-generator");
         map.put(CIV_ONE_BLINKER, "char-civ1-blinker");
         map.put(THE_EDGE, "the_edge");
-        map.put(CA_LAYER_VYROIDS, "ca-layer-vyroids");
-        map.put(CA_LAYER_ENERGY, "ca-layer-energy");
-        map.put(CA_LAYER_GENETIC, "ca-layer-genetic");
+        map.put(CA_LAYER_VYROIDS, CALayer.VYROIDS.toString());
+        map.put(CA_LAYER_ENERGY, CALayer.ENERGY.toString());
+        map.put(CA_LAYER_GENETIC, CALayer.VYROIDS_GENETIC.toString());
     }
 
     /**

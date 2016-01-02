@@ -21,6 +21,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
+import com.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
 import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 
 /**
@@ -55,6 +56,7 @@ public class WorldFactory {
         wc.setSystem(new CAPositionSystem());
         wc.setSystem(new CARenderSystem(new ShapeRenderer()));
         wc.setSystem(new CAInteractionSystem());
+        wc.setSystem(new CASpontaneousGenerationSystem());
 
         // initialize world
         World world = new World(wc);

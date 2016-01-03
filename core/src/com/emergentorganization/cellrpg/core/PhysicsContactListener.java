@@ -62,10 +62,8 @@ public class PhysicsContactListener implements ContactListener {
             eventManager.pushEvent(GameEvent.POWERUP_PLUS);
             entityA.getComponent(destructionTimer.class).timeToDestruction=0;
         } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
-                && nameB.internalID.equals(EntityID.PLAYER.toString())) {
+                && nameB.internalID.equals(EntityID.BULLET.toString())) {
             eventManager.pushEvent(GameEvent.POWERUP_STAR);
-            entityA.getComponent(destructionTimer.class).timeToDestruction=0;
-
         }
     }
 

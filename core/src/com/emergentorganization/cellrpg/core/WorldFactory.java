@@ -16,6 +16,8 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.scenes.Scene;
+import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import com.emergentorganization.cellrpg.scenes.game.WorldScene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
@@ -93,7 +95,10 @@ public class WorldFactory {
 
     public static void setupStandardWorldEffects(World world){
             world.getSystem(RenderSystem.class).setTronShader(
-            new TronShader(new Vector3(1, 1, 1))
-        );
+                    new TronShader(new Vector3(1, 1, 1))
+            );
+    }
+
+    public static void setupStdHUD(World world, Stage stage){
     }
 }

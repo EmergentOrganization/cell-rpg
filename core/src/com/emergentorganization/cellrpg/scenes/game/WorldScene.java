@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.WorldFactory;
+import com.emergentorganization.cellrpg.scenes.game.HUD.DialogDisplay;
 
 /**
  * Game world scene.
@@ -20,10 +21,12 @@ public abstract class WorldScene extends BaseScene {
 
     protected SpriteBatch batch;
     protected EntityFactory entityFactory;
+    protected DialogDisplay dialogDisplay;
 
     public WorldScene(final PixelonTransmission pt) {
         super(pt);
         init(getBaseWorldConfiguration());
+        dialogDisplay = new DialogDisplay(stage);
     }
 
     /* ================================================================== */
@@ -52,6 +55,7 @@ public abstract class WorldScene extends BaseScene {
 
         world.setDelta(delta);
         world.process();
+        dialogDisplay.update(delta);
     }
 
     @Override

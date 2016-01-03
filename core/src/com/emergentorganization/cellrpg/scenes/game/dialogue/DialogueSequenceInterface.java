@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.story.dialogue;
+package com.emergentorganization.cellrpg.scenes.game.dialogue;
 
 /**
  * Created by 7yl4r on 10/9/2015.

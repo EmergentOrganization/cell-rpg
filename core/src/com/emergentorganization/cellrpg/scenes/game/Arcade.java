@@ -7,6 +7,7 @@ import com.emergentorganization.cellrpg.core.Tags;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
 import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion1;
 
 /**
@@ -21,13 +22,19 @@ public class Arcade extends WorldScene {
         super(pt);
 
         WorldFactory.setupStandardEventSystem(world, pt);
+        WorldFactory.setupStdHUD(world, stage);
 
         // setup map
         entityFactory.createPlayer(0, 0);
 
         WorldFactory.setupStandardWorldEffects(world);
         TagManager tm = world.getSystem(TagManager.class);
+
+        // HUD tweaks
         scoreDisplay = new ScoreDisplay(world, stage, tm.getEntity(Tags.PLAYER).getId());
+
+        // load story
+        dialogDisplay.loadDialogueSequence(new ArcadeStory());
     }
 
     @Override

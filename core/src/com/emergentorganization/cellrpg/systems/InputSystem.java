@@ -5,7 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
 import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.Input;
+import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.Velocity;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
@@ -21,13 +21,13 @@ import java.util.ArrayList;
 public class InputSystem extends IteratingSystem {
 
     private ArrayList<InputProcessor> processors;
-    private ComponentMapper<Input> im;
+    private ComponentMapper<InputComponent> im;
     private ComponentMapper<Position> pm;
     private ComponentMapper<Bounds> bm;
     @Wire private EntityFactory ef;
 
     public InputSystem() {
-        super(Aspect.all(Input.class, Velocity.class));
+        super(Aspect.all(InputComponent.class, Velocity.class));
     }
 
     @Override

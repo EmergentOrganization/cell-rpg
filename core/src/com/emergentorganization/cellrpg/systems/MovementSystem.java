@@ -19,7 +19,7 @@ public class MovementSystem extends IteratingSystem {
     private ComponentMapper<Position> posMapper;
     private ComponentMapper<Velocity> velMapper;
     private ComponentMapper<PhysicsBody> physMapper;
-    private ComponentMapper<Input> inputMapper;
+    private ComponentMapper<InputComponent> inputMapper;
     private ComponentMapper<Rotation> rotMapper;
     private ComponentMapper<Equipment> equipMapper;
     private ComponentMapper<Bounds> boundsMapper;
@@ -64,7 +64,7 @@ public class MovementSystem extends IteratingSystem {
         }
     }
 
-    private void processPhysicsMovement(Body body, Input ic, Position pc, Velocity vc, Rotation rc) {
+    private void processPhysicsMovement(Body body, InputComponent ic, Position pc, Velocity vc, Rotation rc) {
         body.setLinearVelocity(0, 0);
 
         // accelerate

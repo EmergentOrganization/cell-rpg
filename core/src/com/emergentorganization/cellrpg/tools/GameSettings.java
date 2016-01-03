@@ -6,9 +6,11 @@ import com.badlogic.gdx.Preferences;
 /**
  * Created by BrianErikson on 9/15/15.
  */
-public abstract class GameSettings {
+public class GameSettings {
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
-    public static String KEY_INPUT_METHOD = "InputMethod";
+//    public static String KEY_INPUT_METHOD = "InputMethod";  // TODO: replaced w/ the next two:
+    public static String KEY_MOVEMENT_CONTROL_METHOD;
+    public static String KEY_WEAPON_CONTROL_METHOD;
     public static String KEY_CAM_EDGE_MARGIN = "Cam_EdgeMargin";
     public static String KEY_CAM_LEAD = "Cam_Lead";
     public static String KEY_CAM_NEARNESS_CUTOFF = "Cam_NearnessCutoff";

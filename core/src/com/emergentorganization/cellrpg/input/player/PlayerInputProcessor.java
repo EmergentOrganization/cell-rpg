@@ -4,11 +4,17 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.badlogic.gdx.Preferences;
 import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.Input;
+import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.InputProcessor;
+import com.emergentorganization.cellrpg.input.player.MovementControls.WASD;
+import com.emergentorganization.cellrpg.input.player.WeaponControls.ClickShoot;
+import com.emergentorganization.cellrpg.tools.GameSettings;
+
+import java.util.ArrayList;
 
 /**
  * Created by orelb on 10/29/2015.
@@ -16,18 +22,35 @@ import com.emergentorganization.cellrpg.input.InputProcessor;
 public class PlayerInputProcessor extends InputProcessor {
 
     private TagManager tagManager;
+    Preferences prefs;
 
-    private PlayerMovement movement;
-    private PlayerWeapon weapon;
+    private ArrayList<WASD> movementControls = new ArrayList<WASD>();
+    private ArrayList<ClickShoot> weaponControls = new ArrayList<ClickShoot>();
     // PlayerAbilities abilites; ...
 
-    public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<Input> im, ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
+    public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<InputComponent> im,
+                                ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
         super(world, im);
 
         tagManager = world.getSystem(TagManager.class);
 
-        movement = new PlayerMovement(world, im);
-        weapon = new PlayerWeapon(world, ef, im, pm, bm);
+        prefs = GameSettings.getPreferences();
+
+        prefs.putInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD, 0);  // default to first controller
+        movementControls.add(new WASD(world, im));
+        // TODO: add more movement control options
+
+        prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, 0);  // default to first controller
+        weaponControls.add(new ClickShoot(world, ef, im, pm, bm));
+        // TODO: add more weapon control options
+    }
+
+    private InputProcessor getPlayerMovement(){
+        return movementControls.get(prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));
+    }
+
+    private InputProcessor getPlayerWeapon(){
+        return weaponControls.get(prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
     }
 
     private boolean isPlayer(int entityId) {
@@ -44,8 +67,8 @@ public class PlayerInputProcessor extends InputProcessor {
         if (!isPlayer(entityId))
             return;
 
-        movement.process(entityId);
-        weapon.process(entityId);
+        getPlayerMovement().process(entityId);
+        getPlayerWeapon().process(entityId);
         // abilites.process(entityId);
     }
 }

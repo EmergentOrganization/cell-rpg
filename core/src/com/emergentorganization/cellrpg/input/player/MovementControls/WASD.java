@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.input.player;
+package com.emergentorganization.cellrpg.input.player.MovementControls;
 
 
 import com.artemis.ComponentMapper;
@@ -6,20 +6,21 @@ import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.input.InputProcessor;
 
 /**
  * Created by orelb on 10/29/2015.
  */
-public class PlayerMovement extends InputProcessor {
+public class WASD extends InputProcessor {
 
-    public PlayerMovement(World world, ComponentMapper<com.emergentorganization.cellrpg.components.Input> im) {
+    public WASD(World world, ComponentMapper<InputComponent> im) {
         super(world, im);
     }
 
     @Override
     public void process(int playerId) {
-        com.emergentorganization.cellrpg.components.Input input = im.get(playerId);
+        InputComponent input = im.get(playerId);
         if (input != null) {
             Vector2 dir = input.direction.setZero();
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {

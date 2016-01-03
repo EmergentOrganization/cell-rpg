@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.input.player;
+package com.emergentorganization.cellrpg.input.player.WeaponControls;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.Input;
+import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.events.GameEvent;
@@ -18,14 +18,14 @@ import com.emergentorganization.cellrpg.systems.CameraSystem;
 /**
  * Created by brian on 11/7/15.
  */
-public class PlayerWeapon extends InputProcessor {
+public class ClickShoot extends InputProcessor {
     private final ComponentMapper<Position> pm;
     private final ComponentMapper<Bounds> bm;
     private final EntityFactory entityFactory;
     private final Camera camera;
     private final EventManager eventManager;
 
-    public PlayerWeapon(World world, EntityFactory entityFactory, ComponentMapper<Input> im, ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
+    public ClickShoot(World world, EntityFactory entityFactory, ComponentMapper<InputComponent> im, ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
         super(world, im);
 
         this.entityFactory = entityFactory;

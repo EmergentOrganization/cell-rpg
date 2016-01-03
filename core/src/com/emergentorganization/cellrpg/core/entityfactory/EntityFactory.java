@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
+import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
@@ -62,7 +63,7 @@ public class EntityFactory {
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character)
-                .add(Input.class)
+                .add(InputComponent.class)
                 .add(CameraFollow.class)
                 .add(Equipment.class)
                 .add(StatsTracker.class)
@@ -111,7 +112,7 @@ public class EntityFactory {
                 .bodyFriction(0.3f)
                 .build();
 
-        Input ic = player.getComponent(Input.class);
+        InputComponent ic = player.getComponent(InputComponent.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         // Shield

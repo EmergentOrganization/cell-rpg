@@ -19,7 +19,6 @@ import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
-import com.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -66,6 +65,7 @@ public class EntityFactory {
                 .add(Equipment.class)
                 .add(StatsTracker.class)
                 .add(SpontaneousGenerationList.class)
+                .add(CollectibleSpawnField.class)
                 .build(world);
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }
@@ -171,6 +171,9 @@ public class EntityFactory {
 
         SpontaneousGenerationList genList = player.getComponent(SpontaneousGenerationList.class);
         genList.radius = 10;  // TODO: not sure what this value should be... could use Bounds?
+
+        CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
+        spawnField.radius = 10;  // TODO: not sure what this should be
 
         return player.getId();
     }

@@ -4,9 +4,11 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
+import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.components.StatsTracker;
+import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.Tags;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
@@ -52,8 +54,9 @@ public class ArcadeRegion1 implements iRegion {
 
         setCAEdgeSpawns(tagMan);
 
-        // setup the player-centric SpontGen
         Entity player = tagMan.getEntity(Tags.PLAYER);
+
+        // setup the player-centric SpontGen
         SpontaneousGenerationList genList = player.getComponent(SpontaneousGenerationList.class);
         genList.clear();
         genList.stampList.add(CGoLShapeConsts.GLIDER_DOWN_LEFT);
@@ -62,6 +65,12 @@ public class ArcadeRegion1 implements iRegion {
         genList.stampList.add(CGoLShapeConsts.GLIDER_UP_LEFT);
         genList.layers.add(CALayer.VYROIDS);
         genList.frequency = 10;
+
+        // setup power-up spawns around player
+        CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
+        spawnField.entityList.clear();
+        spawnField.entityList.add(EntityID.BULLET);  // TODO: use power-up instead of bullet
+        spawnField.frequency = 20;
     }
 
     private void setCAEdgeSpawns(TagManager tagMan){

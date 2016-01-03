@@ -45,18 +45,19 @@ public class WorldFactory {
         PhysicsSystem physicsSystem = new PhysicsSystem(pt.getBodyLoader(), null);
         wc.setSystem(physicsSystem);
 
+        wc.setSystem(new CAGenerationSystem());
+        wc.setSystem(new CAPositionSystem());
+        wc.setSystem(new CARenderSystem(new ShapeRenderer()));
+        wc.setSystem(new CAInteractionSystem());
+        wc.setSystem(new CASpontaneousGenerationSystem());
+
+        wc.setSystem(new CollectibleSpawnSystem());
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering
         wc.setSystem(new EntityLifecycleSystem());
         EventManager eventManager = new EventManager();
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
         wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
-
-        wc.setSystem(new CAGenerationSystem());
-        wc.setSystem(new CAPositionSystem());
-        wc.setSystem(new CARenderSystem(new ShapeRenderer()));
-        wc.setSystem(new CAInteractionSystem());
-        wc.setSystem(new CASpontaneousGenerationSystem());
 
         // initialize world
         World world = new World(wc);

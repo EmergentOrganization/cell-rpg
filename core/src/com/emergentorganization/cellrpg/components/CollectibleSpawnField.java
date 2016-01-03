@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
-import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;

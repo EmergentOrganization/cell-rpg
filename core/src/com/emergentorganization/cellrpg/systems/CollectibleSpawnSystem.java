@@ -31,7 +31,7 @@ public class CollectibleSpawnSystem extends BaseEntitySystem {
     public void processSystem(){
         TagManager tagMan = world.getSystem(TagManager.class);
         IntBag idBag = getEntityIds();
-        logger.info("collectible spawn on " + idBag.size() + " entities.");
+        logger.trace("collectible spawn on " + idBag.size() + " entities.");
         for (int index = 0; index < idBag.size(); index ++ ) {
             int id = idBag.get(index);
             process(id, tagMan);

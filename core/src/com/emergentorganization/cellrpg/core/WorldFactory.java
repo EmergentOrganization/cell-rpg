@@ -51,6 +51,7 @@ public class WorldFactory {
         wc.setSystem(new CAInteractionSystem());
         wc.setSystem(new CASpontaneousGenerationSystem());
 
+        wc.setSystem(new TimedDestructionSystem());
         wc.setSystem(new CollectibleSpawnSystem());
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering

@@ -49,6 +49,7 @@ public class EntityBuilder {
     private boolean isBullet = false;
 
 
+
     public EntityBuilder(World world, Archetype archetype, String friendlyName, String entityId, Vector2 position) {
         this.world = world;
         this.archetype = archetype;
@@ -171,6 +172,12 @@ public class EntityBuilder {
         return this;
     }
 
+    private long timeToDestruction = -1;
+    public EntityBuilder timeToDestruction(long t2d){
+        timeToDestruction = t2d;
+        return this;
+    }
+
     public Entity build() {
         Entity entity = world.createEntity(archetype);
         Name name = entity.getComponent(Name.class);
@@ -220,7 +227,7 @@ public class EntityBuilder {
             vc.velocity.set(velocity);
         }
         
-        // Physics
+        // === Physics
         PhysicsBody pb = entity.getComponent(PhysicsBody.class);
         if (pb != null) {
             BodyDef bDef = new BodyDef();
@@ -236,6 +243,12 @@ public class EntityBuilder {
             fDef.friction = friction;
             fDef.restitution = restitution;
             world.getSystem(PhysicsSystem.class).createBody(entity.getId(), entityId, bDef, fDef);
+        }
+
+        // === destruction timer
+        destructionTimer destTimer = entity.getComponent(destructionTimer.class);
+        if (destTimer != null){
+            destTimer.timeToDestruction = timeToDestruction;
         }
 
         return entity;

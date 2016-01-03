@@ -39,6 +39,7 @@ public class EntityFactory {
     public Archetype base;
     public Archetype object;
     public Archetype collidable;
+    public Archetype collectable;
     public Archetype character;
     private Archetype player;
     private Archetype bullet;
@@ -57,6 +58,7 @@ public class EntityFactory {
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
+        collectable = new ArchetypeBuilder(collidable).add(destructionTimer.class).build(world);
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         player = new ArchetypeBuilder(character)
@@ -291,6 +293,24 @@ public class EntityFactory {
         return bg.getId();
     }
 
+    public int createPowerupPlus(Vector2 pos){
+        Entity powerup = new EntityBuilder(world, collectable, "plus powerup", EntityID.POWERUP_PLUS.toString(), pos)
+                .texture(Resources.TEX_POWERUP_PLUS)
+                .renderIndex(RenderIndex.BULLET)
+                .timeToDestruction(5)
+                .build();
+        return powerup.getId();
+    }
+
+    public int createPowerupStar(Vector2 pos){
+        Entity powerup = new EntityBuilder(world, collectable, "star powerup", EntityID.POWERUP_PLUS.toString(), pos)
+                .texture(Resources.TEX_POWERUP_STAR)
+                .renderIndex(RenderIndex.BULLET)
+                .timeToDestruction(5)
+                .build();
+        return powerup.getId();
+    }
+
     public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
         switch (id) {
             case BULLET:
@@ -313,6 +333,10 @@ public class EntityFactory {
                 return createCivOneBlinker(pos.x, pos.y);
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
+            case POWERUP_PLUS:
+                return createPowerupPlus(pos);
+            case POWERUP_STAR:
+                return createPowerupStar(pos);
             default:
                 throw new RuntimeException("ERROR: enum instance missing in switch for id " + id);
         }

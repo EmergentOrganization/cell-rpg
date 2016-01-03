@@ -27,7 +27,7 @@ game/buildings/vyroid-generator
   index: -1
 game/bullet
   rotate: false
-  xy: 2002, 720
+  xy: 1942, 656
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -48,70 +48,70 @@ game/char-civ1-blinker/1
   index: -1
 game/char-player/0
   rotate: false
-  xy: 2002, 737
+  xy: 1488, 423
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/1
   rotate: false
-  xy: 2202, 941
+  xy: 1900, 635
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/2
   rotate: false
-  xy: 2304, 1043
+  xy: 2002, 737
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/3
   rotate: false
-  xy: 1386, 219
+  xy: 2202, 941
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/4
   rotate: false
-  xy: 1488, 321
+  xy: 2304, 1043
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/5
   rotate: false
-  xy: 1590, 423
+  xy: 1386, 219
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/6
   rotate: false
-  xy: 1900, 533
+  xy: 4004, 4005
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/7
   rotate: false
-  xy: 4004, 4005
+  xy: 4046, 4045
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/8
   rotate: false
-  xy: 4046, 4045
+  xy: 2, 2
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/9
   rotate: false
-  xy: 2, 2
+  xy: 44, 42
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
@@ -139,58 +139,58 @@ game/environment/the_edge
   index: -1
 game/light
   rotate: false
-  xy: 44, 61
+  xy: 1900, 616
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 game/player-ammo/0p
   rotate: false
-  xy: 2044, 763
+  xy: 2002, 725
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/100p
   rotate: false
-  xy: 2202, 929
+  xy: 2044, 763
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/25p
   rotate: false
-  xy: 2244, 967
+  xy: 2202, 929
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/50p
   rotate: false
-  xy: 2304, 1031
+  xy: 2244, 967
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/75p
   rotate: false
-  xy: 2346, 1069
+  xy: 2304, 1031
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/powerup-plus
   rotate: false
-  xy: 1488, 359
-  size: 100, 100
-  orig: 100, 100
+  xy: 1488, 401
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
 game/powerup-star
   rotate: false
-  xy: 1900, 571
-  size: 100, 100
-  orig: 100, 100
+  xy: 1530, 439
+  size: 20, 20
+  orig: 20, 20
   offset: 0, 0
   index: -1
 game/shield/100p

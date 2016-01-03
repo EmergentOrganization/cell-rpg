@@ -69,8 +69,9 @@ public class ArcadeRegion1 implements iRegion {
         // setup power-up spawns around player
         CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
         spawnField.entityList.clear();
-        spawnField.entityList.add(EntityID.BULLET);  // TODO: use power-up instead of bullet
-        spawnField.frequency = 20;
+        spawnField.entityList.add(EntityID.POWERUP_PLUS);
+        spawnField.entityList.add(EntityID.POWERUP_STAR);
+        spawnField.frequency = 100;
     }
 
     private void setCAEdgeSpawns(TagManager tagMan){

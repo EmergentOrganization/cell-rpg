@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.scenes.game.regions;
 
 import com.artemis.World;
+import com.emergentorganization.cellrpg.scenes.game.WorldScene;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
@@ -12,7 +13,6 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
  * updated to artemis build 2015-12-29 by 7yl4r.
  */
 public interface iRegion {
-
     void loadRegion(World world);
     /* loads the region in preparation for insertion into the given world */
 

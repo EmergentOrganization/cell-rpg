@@ -5,8 +5,10 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
-import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.Tags;
+import com.emergentorganization.cellrpg.scenes.game.WorldScene;
+import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory1;
+import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory2;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -15,8 +17,10 @@ import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
  * Created by 7yl4r on 10/10/2015.
  */
 public class ArcadeRegion2 implements iRegion {
-    public ArcadeRegion2(){
+    WorldScene scene;
+    public ArcadeRegion2(WorldScene parentScene){
         super();
+        scene = parentScene;
     }
 
     public CALayer[] getCALayers(){
@@ -53,6 +57,8 @@ public class ArcadeRegion2 implements iRegion {
         genList.layers.add(CALayer.VYROIDS);
         genList.frequency = 1;
 
+        // load story
+        scene.dialogDisplay.loadDialogueSequence(new ArcadeStory2());
     }
 
     private void setCAEdgeSpawns(TagManager tagMan){

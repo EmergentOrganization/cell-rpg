@@ -9,6 +9,8 @@ import com.emergentorganization.cellrpg.components.SpontaneousGeneration.Spontan
 import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.Tags;
+import com.emergentorganization.cellrpg.scenes.game.WorldScene;
+import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory1;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -17,8 +19,10 @@ import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
  * Created by 7yl4r on 10/10/2015.
  */
 public class ArcadeRegion1 implements iRegion {
-    public ArcadeRegion1(){
+    WorldScene scene;
+    public ArcadeRegion1(WorldScene parentScene){
         super();
+        scene = parentScene;
     }
 
     public CALayer[] getCALayers(){
@@ -38,7 +42,7 @@ public class ArcadeRegion1 implements iRegion {
         final int score = tagMan.getEntity(Tags.PLAYER).getComponent(StatsTracker.class).getScore();
         final int SCORE_TO_MOVE_ON = 1000;
         if (score > SCORE_TO_MOVE_ON){
-            return new ArcadeRegion2();
+            return new ArcadeRegion2(scene);
         } else {
             return null;
         }
@@ -71,6 +75,9 @@ public class ArcadeRegion1 implements iRegion {
         spawnField.entityList.add(EntityID.POWERUP_PLUS);
         spawnField.entityList.add(EntityID.POWERUP_STAR);
         spawnField.frequency = 100;
+
+        // load story
+        scene.dialogDisplay.loadDialogueSequence(new ArcadeStory1());
     }
 
     private void setCAEdgeSpawns(TagManager tagMan){

@@ -3,7 +3,7 @@ package com.emergentorganization.cellrpg.scenes.game.dialogue;
 /**
  * Created by 7yl4r on 10/9/2015.
  */
-public class ArcadeStory implements DialogueSequenceInterface{
+public class ArcadeStory1 implements DialogueSequenceInterface{
     int step;
 
     public void init(){

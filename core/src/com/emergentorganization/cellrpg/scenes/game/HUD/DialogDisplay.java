@@ -3,13 +3,10 @@ package com.emergentorganization.cellrpg.scenes.game.HUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.DialogueSequenceInterface;
-import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import org.apache.logging.log4j.LogManager;
@@ -30,10 +27,9 @@ public class DialogDisplay {
     private VisLabel label;
     private DialogueSequenceInterface dialogueSequence;
     private boolean optionsPresented = false;  // true when an option must be selected, and not just dialog shown.
-    private boolean enabled = false;
-
     private long typewriterDelay = 100;
     private String typewriterText = "";
+    private boolean noMoreText = true;
 
     private long timer;
 
@@ -66,9 +62,10 @@ public class DialogDisplay {
         // load given dialogueSequence implementing class for use.
         dialogueSequence = sequence;
         // initializes dialogue sequence
-        enabled = true;
+        dialog.setVisible(true);
         dialogueSequence.init();
         addText(dialogueSequence.enter());
+        noMoreText = false;
         return this;
     }
 
@@ -87,7 +84,7 @@ public class DialogDisplay {
     }
 
     public void update(float deltaTime){
-        if(!enabled)
+        if(!dialog.isVisible())
             return;
         handleTypewriter();
     }
@@ -106,14 +103,13 @@ public class DialogDisplay {
 
             char c = typewriterText.charAt(0);
             typewriterText = typewriterText.substring(1);
-//            logger.info(c);
             label.setText(getText() + c);
         }
     }
 
     private void finishDialogSection(){
-        label.setText("...");
-        enabled = false;
+        label.setText("");
+        dialog.setVisible(false);
     }
 
     private void finishText(){
@@ -123,9 +119,14 @@ public class DialogDisplay {
 
     private void addText(String text) {
         // adds text to dialogue, if text==null, dialog component disables
-        logger.info("adding dialog text: " + text);
+        logger.debug("adding dialog text: " + text);
         if (text == null){
-            finishDialogSection();
+            if (noMoreText) {
+                finishDialogSection();
+            } else {
+                noMoreText = true;
+                finishText();
+            }
         } else {
             finishText();
             typewriterText = '\n' + text;

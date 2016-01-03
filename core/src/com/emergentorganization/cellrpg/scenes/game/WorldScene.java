@@ -18,10 +18,10 @@ import com.emergentorganization.cellrpg.scenes.game.HUD.DialogDisplay;
  */
 public abstract class WorldScene extends BaseScene {
     protected World world;
-
     protected SpriteBatch batch;
     protected EntityFactory entityFactory;
-    protected DialogDisplay dialogDisplay;
+
+    public DialogDisplay dialogDisplay;
 
     public WorldScene(final PixelonTransmission pt) {
         super(pt);

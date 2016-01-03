@@ -86,7 +86,7 @@ public class EntityFactory {
         energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
                 .renderIndex(RenderIndex.CA)
-                .tag(Tags.CA_VYROIDS_GENETIC)
+                .tag(Tags.CA_ENERGY)
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
@@ -94,6 +94,7 @@ public class EntityFactory {
         geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
                 EntityID.CA_LAYER_GENETIC.toString(), pos)
                 .renderIndex(RenderIndex.CA)
+                .tag(Tags.CA_VYROIDS_GENETIC)
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
@@ -146,6 +147,11 @@ public class EntityFactory {
                             shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(ec.shieldState));
                         }
                         break;
+                    case POWERUP_STAR:
+                        Vector2 cen = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class));
+                        vyroidLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(210,210), cen);
+                        geneticLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(70,70), cen);
+                        energyLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.BOOM(210, 210), cen);
                 }
             }
         });
@@ -321,25 +327,7 @@ public class EntityFactory {
         eventManager.addListener(new EventListener() {
             @Override
             public void notify(GameEvent event) {
-                try {
-                    switch (event) {
-                        case POWERUP_STAR:
-                            Vector2 pos = powerup.getComponent(Position.class)
-                                    .getCenter(powerup.getComponent(Bounds.class));
-                            vyroidLayer.getComponent(CAGridComponents.class)
-                                    .stampCenteredAt(CGoLShapeConsts.EMPTY(30, 30), pos);
-                            geneticLayer.getComponent(CAGridComponents.class)
-                                    .stampCenteredAt(CGoLShapeConsts.EMPTY(10, 10), pos);
-                            energyLayer.getComponent(CAGridComponents.class)
-                                    .stampCenteredAt(CGoLShapeConsts.BOOM(30, 30), pos);
-                            //                    powerup.getComponent(destructionTimer.class).timeToDestruction=0;
-                            world.deleteEntity(powerup);
-                            break;
-                    }
-                } catch (NullPointerException ex){
-                    // powerup may have been deleted between event trigger and event propagation.
-                    return;
-                }
+
             }
         });
 

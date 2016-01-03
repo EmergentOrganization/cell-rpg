@@ -23,7 +23,12 @@ public class TimedDestructionSystem extends IntervalEntityProcessingSystem {
         if (destTimer.timeToDestruction < 0){
             return;
         } else if (destTimer.timeToDestruction < 1){
-            world.deleteEntity(e);
+            try {
+                world.deleteEntity(e);
+            } catch (NullPointerException ex){
+                // entity may be already deleted
+                return;
+            }
         } else {
             destTimer.timeToDestruction -= 1;
         }

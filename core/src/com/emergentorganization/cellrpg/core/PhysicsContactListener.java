@@ -2,12 +2,13 @@ package com.emergentorganization.cellrpg.core;
 
 import com.artemis.*;
 import com.artemis.World;
+import com.artemis.managers.TagManager;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.emergentorganization.cellrpg.components.BulletState;
-import com.emergentorganization.cellrpg.components.Name;
-import com.emergentorganization.cellrpg.components.destructionTimer;
+import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
+import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 
 /**
  * Created by brian on 11/21/15.
@@ -60,10 +61,37 @@ public class PhysicsContactListener implements ContactListener {
         } else if (nameA.internalID.equals(EntityID.POWERUP_PLUS.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
             eventManager.pushEvent(GameEvent.POWERUP_PLUS);
-            entityA.getComponent(destructionTimer.class).timeToDestruction=0;
+            try {
+                world.deleteEntity(entityA);
+            } catch (RuntimeException ex){
+                System.out.println("powerup_plus already deleted");
+            }
         } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
                 && nameB.internalID.equals(EntityID.BULLET.toString())) {
+            try {
+                Vector2 pos = entityA.getComponent(Position.class)
+                        .getCenter(entityA.getComponent(Bounds.class));
+                TagManager tagMan = world.getSystem(TagManager.class);
+                tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class)
+                        .stampCenteredAt(CGoLShapeConsts.EMPTY(30, 30), pos);
+                tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class)
+                        .stampCenteredAt(CGoLShapeConsts.EMPTY(10, 10), pos);
+                tagMan.getEntity(Tags.CA_ENERGY).getComponent(CAGridComponents.class)
+                        .stampCenteredAt(CGoLShapeConsts.BOOM(30, 30), pos);
+                world.deleteEntity(entityA);
+            } catch (NullPointerException ex) {
+                System.out.println("failed star detonate");
+                // powerup may have been deleted
+                return;
+            }
+        } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
+                && nameB.internalID.equals(EntityID.PLAYER.toString())) {
             eventManager.pushEvent(GameEvent.POWERUP_STAR);
+            try {
+                world.deleteEntity(entityA);
+            } catch (RuntimeException ex){
+                System.out.println("star powerup already deleted");
+            }
         }
     }
 

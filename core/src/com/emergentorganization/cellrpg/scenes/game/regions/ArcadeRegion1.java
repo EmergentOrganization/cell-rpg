@@ -5,7 +5,6 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
-import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.EntityID;

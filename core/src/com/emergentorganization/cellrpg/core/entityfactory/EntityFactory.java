@@ -114,15 +114,16 @@ public class EntityFactory {
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         // Shield
+        final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
         final Entity shield = new EntityBuilder(world, object, "Energy Shield", EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag("shield")
-                .texture(Resources.ANIM_PLAYER_SHIELD.get(Resources.ANIM_PLAYER_SHIELD.size() - 1))
+                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
                 .renderIndex(RenderIndex.PLAYER_SHIELD)
                 .build();
 
         final Equipment ec = player.getComponent(Equipment.class);
         ec.shieldEntity = shield.getId();
-        ec.shieldState = Resources.ANIM_PLAYER_SHIELD.size() - 1;
+        ec.shieldState = MAX_SHIELD_STATE;
 
         eventManager.addListener(new EventListener() {
             @Override
@@ -136,6 +137,17 @@ public class EntityFactory {
                         } else {
                             shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(ec.shieldState));
                         }
+                        break;
+                    case POWERUP_PLUS:
+//                        System.out.println("shield (" + ec.shieldState + ") powerup");
+                        if (ec.shieldState < (MAX_SHIELD_STATE)) {
+                            ec.shieldState++;
+//                            System.out.println("shield++");
+                            shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(ec.shieldState));
+                        }
+                        break;
+                    case POWERUP_STAR:
+                        // TODO: weapon boost?
                         break;
                 }
             }
@@ -303,7 +315,7 @@ public class EntityFactory {
     }
 
     public int createPowerupStar(Vector2 pos){
-        Entity powerup = new EntityBuilder(world, collectable, "star powerup", EntityID.POWERUP_PLUS.toString(), pos)
+        Entity powerup = new EntityBuilder(world, collectable, "star powerup", EntityID.POWERUP_STAR.toString(), pos)
                 .texture(Resources.TEX_POWERUP_STAR)
                 .renderIndex(RenderIndex.BULLET)
                 .timeToDestruction(5)

@@ -19,7 +19,7 @@ public class TimedDestructionSystem extends IntervalEntityProcessingSystem {
 
     public void process(Entity e){
         destructionTimer destTimer = e.getComponent(destructionTimer.class);
-        logger.info("timedDestruction has " + destTimer.timeToDestruction + "s left.");
+        logger.trace("timedDestruction has " + destTimer.timeToDestruction + "s left.");
         if (destTimer.timeToDestruction < 0){
             return;
         } else if (destTimer.timeToDestruction < 1){

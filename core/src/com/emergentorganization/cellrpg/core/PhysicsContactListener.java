@@ -5,6 +5,7 @@ import com.artemis.World;
 import com.badlogic.gdx.physics.box2d.*;
 import com.emergentorganization.cellrpg.components.BulletState;
 import com.emergentorganization.cellrpg.components.Name;
+import com.emergentorganization.cellrpg.components.destructionTimer;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 
@@ -53,12 +54,23 @@ public class PhysicsContactListener implements ContactListener {
     }
 
     private void handleContactPair(Entity entityA, Name nameA, Entity entityB, Name nameB) {
-        if (nameA.internalID.equals(EntityID.BULLET.toString()) && nameB.internalID.equals(EntityID.PLAYER.toString())) {
+        if (nameA.internalID.equals(EntityID.BULLET.toString())
+                && nameB.internalID.equals(EntityID.PLAYER.toString())) {
             eventManager.pushEvent(GameEvent.PLAYER_HIT);
+        } else if (nameA.internalID.equals(EntityID.POWERUP_PLUS.toString())
+                && nameB.internalID.equals(EntityID.PLAYER.toString())) {
+            eventManager.pushEvent(GameEvent.POWERUP_PLUS);
+            entityA.getComponent(destructionTimer.class).timeToDestruction=0;
+        } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
+                && nameB.internalID.equals(EntityID.PLAYER.toString())) {
+            eventManager.pushEvent(GameEvent.POWERUP_STAR);
+            entityA.getComponent(destructionTimer.class).timeToDestruction=0;
+
         }
     }
 
     private void handleContact(Entity entity, Name name) {
+//        System.out.println("contact " + name.internalID);
         if (name.internalID.equals(EntityID.BULLET.toString())) {
             handleBulletContact(entity);
         }

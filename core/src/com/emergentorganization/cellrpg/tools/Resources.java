@@ -36,7 +36,9 @@ public class Resources {
     // ENV
     public static final String TEX_RIFT_ONE = DIR_IMG_ENV + EntityID.RIFT_ONE;
     public static final String TEX_RIFT_TWO = DIR_IMG_ENV + EntityID.RIFT_TWO;
-    public static final String TEX_THE_EDGE = DIR_IMG_ENV + EntityID.THE_EDGE;
+
+    public static final String TEX_THE_EDGE  = DIR_IMG_ENV + EntityID.THE_EDGE;
+    public static final String TEX_BG_ARCADE = DIR_IMG_ENV + EntityID.BG_ARCADE;
 
 
     // Static Initializer

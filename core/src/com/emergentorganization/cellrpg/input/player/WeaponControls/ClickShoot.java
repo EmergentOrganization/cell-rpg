@@ -4,21 +4,15 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.InputComponent;
-import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.events.GameEvent;
-import com.emergentorganization.cellrpg.input.InputProcessor;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 
 /**
  * Created by brian on 11/7/15.
  */
-public class ClickShoot extends InputProcessor {
+public class ClickShoot extends iWeaponCtrl {
     private final EntityFactory entityFactory;
     private final Camera camera;
     private final EventManager eventManager;

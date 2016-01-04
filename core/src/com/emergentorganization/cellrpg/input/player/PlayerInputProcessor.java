@@ -11,7 +11,9 @@ import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.InputProcessor;
 import com.emergentorganization.cellrpg.input.player.MovementControls.WASD;
+import com.emergentorganization.cellrpg.input.player.WeaponControls.ArrowsShoot;
 import com.emergentorganization.cellrpg.input.player.WeaponControls.ClickShoot;
+import com.emergentorganization.cellrpg.input.player.WeaponControls.iWeaponCtrl;
 import com.emergentorganization.cellrpg.tools.GameSettings;
 
 import java.util.ArrayList;
@@ -24,8 +26,8 @@ public class PlayerInputProcessor extends InputProcessor {
     private TagManager tagManager;
     Preferences prefs;
 
-    private ArrayList<WASD> movementControls = new ArrayList<WASD>();
-    private ArrayList<ClickShoot> weaponControls = new ArrayList<ClickShoot>();
+    private ArrayList<WASD> movementControls = new ArrayList<WASD>();  // TODO: should be list of iMovementCtrl
+    private ArrayList<iWeaponCtrl> weaponControls = new ArrayList<iWeaponCtrl>();
     // PlayerAbilities abilites; ...
 
     public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<InputComponent> im,
@@ -42,6 +44,7 @@ public class PlayerInputProcessor extends InputProcessor {
 
         prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, 0);  // default to first controller
         weaponControls.add(new ClickShoot(world, ef, im));
+        weaponControls.add(new ArrowsShoot(world, ef, im));
         // TODO: add more weapon control options
     }
 

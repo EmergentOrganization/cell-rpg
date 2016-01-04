@@ -4,225 +4,238 @@ size: 4096,4096
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-game/buildings/building-large-1
-  rotate: false
-  xy: 773, 79
-  size: 611, 1000
-  orig: 611, 1000
-  offset: 0, 0
-  index: -1
-game/buildings/building-round-1
-  rotate: false
-  xy: 1900, 775
-  size: 300, 304
-  orig: 300, 304
-  offset: 0, 0
-  index: -1
-game/buildings/vyroid-generator
-  rotate: false
-  xy: 1386, 567
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
 game/bullet
   rotate: false
-  xy: 1942, 656
+  xy: 170, 75
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
   index: -1
 game/char-civ1-blinker/0
   rotate: false
-  xy: 4004, 4043
+  xy: 2, 52
   size: 40, 38
   orig: 40, 38
   offset: 0, 0
   index: -1
 game/char-civ1-blinker/1
   rotate: false
-  xy: 2, 40
+  xy: 4004, 4056
   size: 40, 38
   orig: 40, 38
   offset: 0, 0
   index: -1
 game/char-player/0
   rotate: false
-  xy: 1488, 423
+  xy: 2, 14
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/1
   rotate: false
-  xy: 1900, 635
+  xy: 44, 54
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/2
   rotate: false
-  xy: 2002, 737
+  xy: 4004, 4018
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/3
   rotate: false
-  xy: 2202, 941
+  xy: 4046, 4058
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/4
   rotate: false
-  xy: 2304, 1043
+  xy: 44, 16
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/5
   rotate: false
-  xy: 1386, 219
+  xy: 86, 54
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/6
   rotate: false
-  xy: 4004, 4005
+  xy: 4004, 3980
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/7
   rotate: false
-  xy: 4046, 4045
+  xy: 4046, 4020
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/8
   rotate: false
-  xy: 2, 2
+  xy: 86, 16
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
 game/char-player/9
   rotate: false
-  xy: 44, 42
+  xy: 128, 54
   size: 40, 36
   orig: 40, 36
   offset: 0, 0
   index: -1
-game/environment/rift1
+game/environment/bg-arcade
   rotate: false
-  xy: 2, 80
-  size: 769, 999
-  orig: 769, 999
-  offset: 0, 0
-  index: -1
-game/environment/rift2
-  rotate: false
-  xy: 1386, 461
-  size: 512, 104
-  orig: 512, 104
-  offset: 0, 0
-  index: -1
-game/environment/the_edge
-  rotate: false
-  xy: 2, 1081
-  size: 4000, 3000
-  orig: 4000, 3000
+  xy: 2, 92
+  size: 4000, 4002
+  orig: 4000, 4002
   offset: 0, 0
   index: -1
 game/light
   rotate: false
-  xy: 1900, 616
+  xy: 128, 35
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 game/player-ammo/0p
   rotate: false
-  xy: 2002, 725
+  xy: 2, 2
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/100p
   rotate: false
-  xy: 2044, 763
+  xy: 14, 2
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/25p
   rotate: false
-  xy: 2202, 929
+  xy: 26, 2
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/50p
   rotate: false
-  xy: 2244, 967
+  xy: 38, 2
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/player-ammo/75p
   rotate: false
-  xy: 2304, 1031
+  xy: 4004, 3946
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
 game/powerup-plus
   rotate: false
-  xy: 1488, 401
+  xy: 4004, 3958
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 game/powerup-star
   rotate: false
-  xy: 1530, 439
+  xy: 4046, 3998
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
+
+TexturePack2.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+game/buildings/building-large-1
+  rotate: false
+  xy: 773, 2
+  size: 611, 1000
+  orig: 611, 1000
+  offset: 0, 0
+  index: -1
+game/buildings/building-round-1
+  rotate: false
+  xy: 1900, 698
+  size: 300, 304
+  orig: 300, 304
+  offset: 0, 0
+  index: -1
+game/buildings/vyroid-generator
+  rotate: false
+  xy: 1386, 490
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+game/environment/rift1
+  rotate: false
+  xy: 2, 3
+  size: 769, 999
+  orig: 769, 999
+  offset: 0, 0
+  index: -1
+game/environment/rift2
+  rotate: false
+  xy: 1386, 384
+  size: 512, 104
+  orig: 512, 104
+  offset: 0, 0
+  index: -1
+game/environment/the_edge
+  rotate: false
+  xy: 2, 1004
+  size: 4000, 3000
+  orig: 4000, 3000
+  offset: 0, 0
+  index: -1
 game/shield/100p
   rotate: false
-  xy: 1386, 359
+  xy: 1386, 282
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/25p
   rotate: false
-  xy: 1900, 673
+  xy: 1900, 596
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/50p
   rotate: false
-  xy: 2202, 979
+  xy: 2202, 902
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/75p
   rotate: false
-  xy: 1386, 257
+  xy: 1386, 180
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 
-TexturePack2.png
+TexturePack3.png
 size: 256,64
 format: RGBA8888
 filter: Nearest,Nearest

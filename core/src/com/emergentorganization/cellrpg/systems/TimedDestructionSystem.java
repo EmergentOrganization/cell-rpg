@@ -27,6 +27,7 @@ public class TimedDestructionSystem extends IntervalEntityProcessingSystem {
                 world.deleteEntity(e);
             } catch (NullPointerException ex){
                 // entity may be already deleted
+                logger.trace("timed destruction fail; entity already deleted?");
                 return;
             }
         } else {

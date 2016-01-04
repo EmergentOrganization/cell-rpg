@@ -76,3 +76,9 @@ $ANDROID_HOME environment variable is not set properly. You may need to edit it 
 > Gradle is giving me unusual build errors!
 
 Ensure that you are using the copy of gradle provided in the repository (`gradlew`), or that you are using version `2.4`
+
+> ArrayIndexOutOfBoundsException: 0 at LinuxDisplay.getAvailableDisplayModes(LinuxDisplay.java:951)
+
+This seems to occur when running the project on an xorg-server with more than one monitor attached. Ensure that `xorg-xrandr` is installed and configured correctly.
+
+

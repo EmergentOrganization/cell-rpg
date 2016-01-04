@@ -9,11 +9,14 @@ import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by brian on 11/21/15.
  */
 public class PhysicsContactListener implements ContactListener {
+    private final Logger logger = LogManager.getLogger(getClass());
     private final EventManager eventManager;
     private com.artemis.World world;
 
@@ -64,7 +67,7 @@ public class PhysicsContactListener implements ContactListener {
             try {
                 world.deleteEntity(entityA);
             } catch (RuntimeException ex){
-                System.out.println("powerup_plus already deleted");
+                logger.trace("powerup_plus already deleted");
             }
         } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
                 && nameB.internalID.equals(EntityID.BULLET.toString())) {
@@ -80,7 +83,7 @@ public class PhysicsContactListener implements ContactListener {
                         .stampCenteredAt(CGoLShapeConsts.BOOM(30, 30), pos);
                 world.deleteEntity(entityA);
             } catch (NullPointerException ex) {
-                System.out.println("failed star detonate");
+                logger.trace("failed star detonate");
                 // powerup may have been deleted
                 return;
             }
@@ -90,13 +93,13 @@ public class PhysicsContactListener implements ContactListener {
             try {
                 world.deleteEntity(entityA);
             } catch (RuntimeException ex){
-                System.out.println("star powerup already deleted");
+                logger.trace("star powerup already deleted");
             }
         }
     }
 
     private void handleContact(Entity entity, Name name) {
-//        System.out.println("contact " + name.internalID);
+        logger.trace("contact " + name.internalID);
         if (name.internalID.equals(EntityID.BULLET.toString())) {
             handleBulletContact(entity);
         }

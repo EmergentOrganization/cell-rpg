@@ -38,7 +38,7 @@ public class EntityFactory {
     private EventManager eventManager;
 
     public Archetype base;
-    public Archetype object;
+    public static Archetype object;
     public Archetype collidable;
     public Archetype collectable;
     public Archetype character;

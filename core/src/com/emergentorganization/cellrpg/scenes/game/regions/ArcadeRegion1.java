@@ -5,15 +5,20 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
+import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.EntityID;
+import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.core.Tags;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityBuilder;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.scenes.game.WorldScene;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory1;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import com.emergentorganization.cellrpg.tools.Resources;
 
 /**
  * Created by 7yl4r on 10/10/2015.
@@ -78,6 +83,17 @@ public class ArcadeRegion1 implements iRegion {
 
         // load story
         scene.dialogDisplay.loadDialogueSequence(new ArcadeStory1());
+
+        Entity bg = new EntityBuilder(
+                world,
+                EntityFactory.object,
+                "Arcade Background",
+                EntityID.BG_ARCADE.toString(),
+                player.getComponent(Position.class).position.cpy().sub(2000*.025f,2000*.025f)  // minus 1/2 texture size
+        )
+                .texture(Resources.TEX_BG_ARCADE)
+                .renderIndex(RenderIndex.BACKGROUND)
+                .build();
     }
 
     private void setCAEdgeSpawns(TagManager tagMan){

@@ -65,7 +65,10 @@ public class PixelonTransmission extends Game {
 
         bodyLoader = new BodyEditorLoader(Gdx.files.internal(COLLIDER_PATH));
 
-        skin = new Skin(Gdx.files.internal("resources/uiskin/skin.json"), new TextureAtlas());
+        skin = new Skin(
+                Gdx.files.internal("resources/uiskin/skin.json"),
+                new TextureAtlas(Gdx.files.internal("resources/uiskin/skin.atlas"))
+        );
 
         sceneManager = new SceneManager(this);
         sceneManager.setScene(Scene.MAIN_MENU);

@@ -41,7 +41,7 @@ public class PlayerInputProcessor extends InputProcessor {
         // TODO: add more movement control options
 
         prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, 0);  // default to first controller
-        weaponControls.add(new ClickShoot(world, ef, im, pm, bm));
+        weaponControls.add(new ClickShoot(world, ef, im));
         // TODO: add more weapon control options
     }
 

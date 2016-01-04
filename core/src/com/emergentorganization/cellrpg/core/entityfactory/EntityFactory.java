@@ -66,6 +66,7 @@ public class EntityFactory {
                 .add(InputComponent.class)
                 .add(CameraFollow.class)
                 .add(Equipment.class)
+                .add(WeaponComponent.class)
                 .add(StatsTracker.class)
                 .add(SpontaneousGenerationList.class)
                 .add(CollectibleSpawnField.class)

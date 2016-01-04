@@ -19,18 +19,14 @@ import com.emergentorganization.cellrpg.systems.CameraSystem;
  * Created by brian on 11/7/15.
  */
 public class ClickShoot extends InputProcessor {
-    private final ComponentMapper<Position> pm;
-    private final ComponentMapper<Bounds> bm;
     private final EntityFactory entityFactory;
     private final Camera camera;
     private final EventManager eventManager;
 
-    public ClickShoot(World world, EntityFactory entityFactory, ComponentMapper<InputComponent> im, ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
+    public ClickShoot(World world, EntityFactory entityFactory, ComponentMapper<InputComponent> im) {
         super(world, im);
 
         this.entityFactory = entityFactory;
-        this.pm = pm;
-        this.bm = bm;
         this.camera = world.getSystem(CameraSystem.class).getGameCamera();
         this.eventManager = world.getSystem(EventManager.class);
     }
@@ -38,22 +34,9 @@ public class ClickShoot extends InputProcessor {
     @Override
     public void process(int entityId) {
         if (Gdx.input.justTouched()) { // LMB or RMB?
-            shootBullet(entityId);
-            eventManager.pushEvent(GameEvent.PLAYER_SHOOT);
+            int x = Gdx.input.getX();
+            int y = Gdx.input.getY();
+            WeaponUtil.shootTo(x, y, camera, world.getEntity(entityId), eventManager, entityFactory);
         }
-    }
-
-    private void shootBullet(int entityId) {
-        Bounds bounds = bm.get(entityId);
-        Vector2 center = pm.get(entityId).getCenter(bounds);
-        Vector2 arm = new Vector2(0, Math.max(bounds.width, bounds.height)+.1f);
-
-        int x = Gdx.input.getX();
-        int y = Gdx.input.getY();
-        Vector3 unproject = camera.unproject(new Vector3(x, y, 0));
-        Vector2 dir = new Vector2(unproject.x, unproject.y).sub(center).nor();
-        arm.setAngle(dir.angle());
-
-        entityFactory.createBullet(center.add(arm), dir);
     }
 }

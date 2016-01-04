@@ -45,15 +45,13 @@ public class ClickShoot extends InputProcessor {
 
     private void shootBullet(int entityId) {
         Bounds bounds = bm.get(entityId);
-        Vector2 offset = new Vector2(bounds.width, bounds.height).scl(0.5f);
-        Vector2 playerPos = pm.get(entityId).position;
-        Vector2 center = playerPos.cpy().add(offset); // TODO: A bit off for some reason
-        Vector2 arm = new Vector2(0, Math.max(bounds.width, bounds.height));
+        Vector2 center = pm.get(entityId).getCenter(bounds);
+        Vector2 arm = new Vector2(0, Math.max(bounds.width, bounds.height)+.1f);
 
         int x = Gdx.input.getX();
         int y = Gdx.input.getY();
         Vector3 unproject = camera.unproject(new Vector3(x, y, 0));
-        Vector2 dir = new Vector2(unproject.x, unproject.y).sub(playerPos).nor();
+        Vector2 dir = new Vector2(unproject.x, unproject.y).sub(center).nor();
         arm.setAngle(dir.angle());
 
         entityFactory.createBullet(center.add(arm), dir);

@@ -31,6 +31,13 @@ public class SoundEventListener implements EventListener {
             case PLAYER_SHIELD_DOWN:
                 soundEffects.get(SoundEffect.LOSE).play();
                 break;
+            case POWERUP_PLUS:
+            case POWERUP_STAR:
+                soundEffects.get(SoundEffect.POWERUP_PICKUP).play();
+                break;
+            case VYROID_KILL_STD:
+            case VYROID_KILL_GENETIC:
+                soundEffects.get(SoundEffect.EXPLOSION).play();
         }
     }
 }

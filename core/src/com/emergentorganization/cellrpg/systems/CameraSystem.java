@@ -11,20 +11,24 @@ import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.CameraFollow;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.managers.AssetManager;
+import com.emergentorganization.cellrpg.events.EventListener;
+import com.emergentorganization.cellrpg.events.GameEvent;
+import com.emergentorganization.cellrpg.managers.EventManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Created by orelb on 10/29/2015.
  */
 @Wire
 public class CameraSystem extends IteratingSystem {
-
-    private OrthographicCamera gameCamera;
+    private final Logger logger = LogManager.getLogger(getClass());
 
     private ComponentMapper<Position> pm;
     private ComponentMapper<Bounds> bm;
+    private EventManager eventMan;
 
-    private AssetManager assetManager;
+    private OrthographicCamera gameCamera;
     private boolean shouldFollow = true;
 
     public CameraSystem() {
@@ -33,6 +37,28 @@ public class CameraSystem extends IteratingSystem {
         gameCamera.zoom = EntityFactory.SCALE_WORLD_TO_BOX;
         gameCamera.lookAt(0, 0, 0);
         gameCamera.update();
+    }
+
+    @Override
+    public void initialize(){
+        super.initialize();
+        eventMan.addListener(new EventListener() {
+            @Override
+            public void notify(GameEvent event) {
+                switch (event){
+                    case PLAYER_HIT:
+                        camShake();
+                        break;
+                }
+            }
+        });
+    }
+
+    private void camShake(){
+        logger.info("camShake!");
+        final float offset = .5f;  // TODO: randomize directions
+        gameCamera.translate(offset, offset);
+//        shouldFollow = !shouldFollow;  // this was just temporary to test that it works
     }
 
     public Camera getGameCamera() {

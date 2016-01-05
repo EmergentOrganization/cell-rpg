@@ -60,7 +60,11 @@ public class PhysicsContactListener implements ContactListener {
     private void handleContactPair(Entity entityA, Name nameA, Entity entityB, Name nameB) {
         if (nameA.internalID.equals(EntityID.BULLET.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
-            eventManager.pushEvent(GameEvent.PLAYER_HIT);
+            BulletState bulletState = entityA.getComponent(BulletState.class);
+            if (bulletState.bounces < bulletState.starting_bounces){
+                // cannot hit until after a bounce (helps keep player from shooting self in foot as bullet is leaving)
+                eventManager.pushEvent(GameEvent.PLAYER_HIT);
+            }
         } else if (nameA.internalID.equals(EntityID.POWERUP_PLUS.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
             eventManager.pushEvent(GameEvent.POWERUP_PLUS);

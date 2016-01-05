@@ -53,4 +53,13 @@ public class PauseWindow extends VisWindow {
         table.align(Align.center);
         this.pack();
     }
+
+    @Override
+    public void fadeOut(){
+        super.fadeOut();
+        if (settingsMenu != null)
+            settingsMenu.closeSubmenu();
+        if (debugMenu != null)
+            debugMenu.closeSubmenu();
+    }
 }

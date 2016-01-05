@@ -25,14 +25,12 @@ public class ArrowsShoot extends iPlayerCtrl {
     private final String NAME = "Directional Arrows To Shoot";
 
     private final EntityFactory entityFactory;
-    private final Camera camera;
     private final EventManager eventManager;
 
     public ArrowsShoot(World world, EntityFactory entityFactory, ComponentMapper<InputComponent> im) {
         super(world, im);
 
         this.entityFactory = entityFactory;
-        this.camera = world.getSystem(CameraSystem.class).getGameCamera();
         this.eventManager = world.getSystem(EventManager.class);
     }
 
@@ -63,7 +61,12 @@ public class ArrowsShoot extends iPlayerCtrl {
             shooting = true;
         }
         if (shooting) {
-            WeaponUtil.shootTo(target.x, target.y, camera, player, eventManager, entityFactory);
+            WeaponUtil.shootTo(
+                    target,
+                    player,
+                    eventManager,
+                    entityFactory
+            );
         }
     }
 }

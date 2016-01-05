@@ -21,7 +21,7 @@ import java.awt.*;
  */
 public class WeaponUtil {
 
-    public static void shootTo(float x, float y, Camera cam, Entity shooter, EventManager eventMan, EntityFactory entFact) {
+    public static void shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact) {
         WeaponComponent weapon = shooter.getComponent(WeaponComponent.class);
         if (weapon == null) {
             eventMan.pushEvent(GameEvent.PLAYER_WEAPON_EMPTY);
@@ -47,8 +47,7 @@ public class WeaponUtil {
                 // calculate the velocity
 //                vel.set(x, y).sub(pos).nor().scl(speed);
 
-                Vector3 unproject = cam.unproject(new Vector3(x, y, 0));
-                Vector2 dir = new Vector2(unproject.x, unproject.y).sub(center).nor();
+                Vector2 dir = pos.sub(center).nor();
                 arm.setAngle(dir.angle());
 
                 entFact.createBullet(center.add(arm), dir);

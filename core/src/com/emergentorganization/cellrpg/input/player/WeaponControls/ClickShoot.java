@@ -5,6 +5,8 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
@@ -44,7 +46,8 @@ public class ClickShoot extends iPlayerCtrl {
         if (Gdx.input.justTouched()) { // LMB or RMB?
             int x = Gdx.input.getX();
             int y = Gdx.input.getY();
-            WeaponUtil.shootTo(x, y, camera, player, eventManager, entityFactory);
+            Vector3 unproject = camera.unproject(new Vector3(x, y, 0));
+            WeaponUtil.shootTo(new Vector2(unproject.x, unproject.y), player, eventManager, entityFactory);
         }
     }
 }

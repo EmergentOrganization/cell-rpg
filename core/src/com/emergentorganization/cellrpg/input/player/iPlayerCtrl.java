@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.VisWindow;
  * Created by 7yl4r on 1/4/2016.
  */
 public abstract class iPlayerCtrl {
-    World world;
+    protected World world;
     ComponentMapper<InputComponent> inp_m;
 
     public iPlayerCtrl(World world, ComponentMapper<InputComponent> inp_m){

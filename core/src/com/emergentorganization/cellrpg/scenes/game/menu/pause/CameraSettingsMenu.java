@@ -19,7 +19,6 @@ public class CameraSettingsMenu extends Submenu {
 
     // min distance between player & cam we care about (to reduce small-dist jitter & performance++):
     public static AdjustableSetting closeEnough = new AdjustableSetting("camera-player nearness cutoff", 4, 1, 30, 1);
-    private Preferences preferences;
 
     public CameraSettingsMenu(VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
@@ -27,7 +26,7 @@ public class CameraSettingsMenu extends Submenu {
 
     public void addMenuTableButtons() {
         // set up menu buttons:
-        preferences = GameSettings.getPreferences();
+        Preferences preferences = GameSettings.getPreferences();
         edgeMargin.setValue(preferences.getFloat(GameSettings.KEY_CAM_EDGE_MARGIN, 10));
         cameraLead.setValue(preferences.getFloat(GameSettings.KEY_CAM_LEAD, 20));
         closeEnough.setValue(preferences.getFloat(GameSettings.KEY_CAM_NEARNESS_CUTOFF, 4));
@@ -46,6 +45,7 @@ public class CameraSettingsMenu extends Submenu {
 
     @Override
     public void closeSubmenu() {
+        Preferences preferences = GameSettings.getPreferences();
         preferences.putFloat(GameSettings.KEY_CAM_EDGE_MARGIN, edgeMargin.getValue());
         preferences.putFloat(GameSettings.KEY_CAM_LEAD, cameraLead.getValue());
         preferences.putFloat(GameSettings.KEY_CAM_NEARNESS_CUTOFF, closeEnough.getValue());

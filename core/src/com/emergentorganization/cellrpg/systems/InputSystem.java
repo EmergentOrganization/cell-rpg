@@ -15,6 +15,8 @@ import com.emergentorganization.cellrpg.input.player.PlayerInputProcessor;
 import java.util.ArrayList;
 
 /**
+ * manages all InputProcessors which convert user input into various game happenings (eg player movement)
+ *
  * Created by brian on 10/28/15.
  */
 @Wire
@@ -26,17 +28,20 @@ public class InputSystem extends IteratingSystem {
     private ComponentMapper<Bounds> bm;
     @Wire private EntityFactory ef;
 
+    private static final int PLAYER_IN_PROC_INDEX = 0;  // careful not to add a processor and move this!
+
     public InputSystem() {
         super(Aspect.all(InputComponent.class, Velocity.class));
     }
 
+    public PlayerInputProcessor getPlayerInputProcessor(){
+        return (PlayerInputProcessor) processors.get(PLAYER_IN_PROC_INDEX);
+    }
+
     @Override
     protected void initialize() {
-        // I am using initiailze() cause this is called after the World object is injected to the systems.
-
         processors = new ArrayList<InputProcessor>();
-
-        processors.add(new PlayerInputProcessor(world, ef, im, pm, bm));
+        processors.add(PLAYER_IN_PROC_INDEX, new PlayerInputProcessor(world, ef, im, pm, bm));
     }
 
     @Override

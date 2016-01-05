@@ -18,6 +18,9 @@ public class GameSettings {
     private static String PREFS_FILE = "com.emergentorganization.cellrpg.configuration";
     private boolean devModeEnabled = false;
 
+    // TODO: encapsulate this, make prefs private. Instead
+    // TODO:    use GameSettings.get(Str key) which calls getFloat/getInt/etc
+    // TODO:    with default value which is also stored here.
     public static Preferences getPreferences() {
         return Gdx.app.getPreferences(PREFS_FILE);
     }

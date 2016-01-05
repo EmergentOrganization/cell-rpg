@@ -57,18 +57,6 @@ public class PlayerInputComponent extends InputComponent {
         prefs.flush();
     }
 
-    public BaseInputMethod getCurrentInputMethod(){
-        return inputChoices[currentInputMethodIndex];
-    }
-
-    public String[] getInputTypeChoices(){
-        String nameList[] = new String[inputChoices.length];
-        for (int i = 0; i < inputChoices.length; i++){
-            nameList[i] = inputChoices[i].getName();
-        }
-        return nameList;
-    }
-
     @Override
     public void update(float deltaTime) {
         Vector3 mousePos = getEntity().getScene().getGameCamera().unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0f));

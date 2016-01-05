@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes.game.menu.pause;
 
+import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -13,9 +14,11 @@ public class SettingsMenu extends Submenu {
 
     private CameraSettingsMenu cameraMenu;
     private MovementSettingsMenu moveMenu;
+    World world;
 
-    public SettingsMenu(VisTable table, Stage stage, String buttonText) {
+    public SettingsMenu(VisTable table, Stage stage, String buttonText, World _world) {
         super(table, stage, buttonText);
+        world = _world;
     }
 
     @Override
@@ -23,7 +26,7 @@ public class SettingsMenu extends Submenu {
         super.launchSubmenu();
 
         // set up menu buttons:
-        moveMenu = new MovementSettingsMenu(menuTable, stage, "controls");
+        moveMenu = new MovementSettingsMenu(menuTable, stage, "controls", world);
         cameraMenu = new CameraSettingsMenu(menuTable, stage, "camera");
 
         // TODO:

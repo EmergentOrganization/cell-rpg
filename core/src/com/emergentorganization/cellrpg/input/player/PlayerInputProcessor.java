@@ -13,12 +13,13 @@ import com.emergentorganization.cellrpg.input.InputProcessor;
 import com.emergentorganization.cellrpg.input.player.MovementControls.WASD;
 import com.emergentorganization.cellrpg.input.player.WeaponControls.ArrowsShoot;
 import com.emergentorganization.cellrpg.input.player.WeaponControls.ClickShoot;
-import com.emergentorganization.cellrpg.input.player.WeaponControls.iWeaponCtrl;
 import com.emergentorganization.cellrpg.tools.GameSettings;
 
 import java.util.ArrayList;
 
 /**
+ * processes user input and produces movement of player avatar.
+ *
  * Created by orelb on 10/29/2015.
  */
 public class PlayerInputProcessor extends InputProcessor {
@@ -26,8 +27,8 @@ public class PlayerInputProcessor extends InputProcessor {
     private TagManager tagManager;
     Preferences prefs;
 
-    private ArrayList<WASD> movementControls = new ArrayList<WASD>();  // TODO: should be list of iMovementCtrl
-    private ArrayList<iWeaponCtrl> weaponControls = new ArrayList<iWeaponCtrl>();
+    private ArrayList<iPlayerCtrl> movementControls = new ArrayList<iPlayerCtrl>();  // TODO: should be list of iMovementCtrl
+    private ArrayList<iPlayerCtrl> weaponControls = new ArrayList<iPlayerCtrl>();
     // PlayerAbilities abilites; ...
 
     public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<InputComponent> im,
@@ -38,21 +39,30 @@ public class PlayerInputProcessor extends InputProcessor {
 
         prefs = GameSettings.getPreferences();
 
-        prefs.putInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD, 0);  // default to first controller
+//        prefs.putInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD, 0);  // default to first controller
         movementControls.add(new WASD(world, im));
         // TODO: add more movement control options
 
-        prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, 0);  // default to first controller
+//        prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, 0);  // default to first controller
         weaponControls.add(new ClickShoot(world, ef, im));
         weaponControls.add(new ArrowsShoot(world, ef, im));
         // TODO: add more weapon control options
     }
 
-    private InputProcessor getPlayerMovement(){
+    public String[] getWeaponCtrlChoices(){
+        // returns list of weapon control names.
+        String nameList[] = new String[weaponControls.size()];
+        for (int i = 0; i < weaponControls.size(); i++){
+            nameList[i] = weaponControls.get(i).getName();
+        }
+        return nameList;
+    }
+
+    public iPlayerCtrl getPlayerMovement(){
         return movementControls.get(prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));
     }
 
-    private InputProcessor getPlayerWeapon(){
+    public iPlayerCtrl getPlayerWeapon(){
         return weaponControls.get(prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
     }
 
@@ -65,13 +75,14 @@ public class PlayerInputProcessor extends InputProcessor {
         return false;
     }
 
-    @Override
     public void process(int entityId) {
-        if (!isPlayer(entityId))
+        if (!isPlayer(entityId)) {
             return;
-
-        getPlayerMovement().process(entityId);
-        getPlayerWeapon().process(entityId);
-        // abilites.process(entityId);
+        } else {
+            Entity player = tagManager.getEntity("player");
+            getPlayerMovement().process(player);
+            getPlayerWeapon().process(player);
+            // abilites.process(entityId);
+        }
     }
 }

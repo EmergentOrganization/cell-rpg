@@ -2,25 +2,39 @@ package com.emergentorganization.cellrpg.input.player.MovementControls;
 
 
 import com.artemis.ComponentMapper;
+import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.input.InputProcessor;
+import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisWindow;
 
 /**
  * Created by orelb on 10/29/2015.
  */
-public class WASD extends InputProcessor {
+public class WASD extends iPlayerCtrl {
+    final String NAME = "WASD Movement";
 
     public WASD(World world, ComponentMapper<InputComponent> im) {
         super(world, im);
     }
 
     @Override
-    public void process(int playerId) {
-        InputComponent input = im.get(playerId);
+    public String getName(){
+        return NAME;
+    }
+
+    public void addInputConfigButtons(VisTable table, VisWindow menuWindow){
+        // config items for wasd movement controls? can't think of any...
+    }
+
+    @Override
+    public void process(Entity player) {
+        InputComponent input = player.getComponent(InputComponent.class);
         if (input != null) {
             Vector2 dir = input.direction.setZero();
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {

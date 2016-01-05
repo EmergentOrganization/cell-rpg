@@ -11,11 +11,6 @@ import com.emergentorganization.cellrpg.scenes.Scene;
  */
 public class MovementComponent extends EntityComponent {
 
-    public enum MoveState {
-        NOT_MOVING,
-        MOUSE_FOLLOW,
-        PATH_FOLLOW
-    }
     private MoveState moveState = MoveState.NOT_MOVING;
 
     private Matrix3 translation = new Matrix3();
@@ -97,10 +92,6 @@ public class MovementComponent extends EntityComponent {
         return pos;
     }
 
-    public Vector2 getWorldPosition() {
-        // TODO
-        return getLocalPosition();
-    }
 
     public float getRotation() {
         return rotation.getRotation();
@@ -159,21 +150,12 @@ public class MovementComponent extends EntityComponent {
         this.moveState = state;
     }
 
-    public MoveState getMoveState() {
-        return moveState;
-    }
-
     private void updateMovement(){
         Vector2 newPos = getWorldPosition();
         Vector2 move = getVelocity().scl(Gdx.graphics.getDeltaTime());
 
         newPos.add(move);
         setWorldPosition(newPos);
-    }
-
-    public void stopMoving() {
-        setVelocity(Vector2.Zero);
-        moveState = MoveState.NOT_MOVING;
     }
 
     @Override

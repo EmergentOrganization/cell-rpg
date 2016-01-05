@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools;
+package com.emergentorganization.cellrpg.input.player.MovementControls;
 
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.math.Vector2;

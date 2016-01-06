@@ -9,13 +9,14 @@ import java.util.ArrayList;
  * A utility class to record the screen coordinates with a delay between each "frame"
  *
  * Created by OrelBitton on 07/06/2015.
+ * ported to artemis branch by 7yl4r 2016-01-06
  */
 public class CoordinateRecorder {
 
     private float delay = 100; // Delay in ms
     private long lastRecord;
 
-    private float minPathLen = 100f;  // min length of path segment
+    public static float minPathLen = 100f;  // min length of path segment (in world units?)
 
     private ArrayList<Vector2> coords = new ArrayList<Vector2>();
 

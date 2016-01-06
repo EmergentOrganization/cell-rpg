@@ -130,8 +130,10 @@ public class PathDraw extends iPlayerCtrl {
         LocomotionComponent loco = player.getComponent(LocomotionComponent.class);
         Velocity vel = player.getComponent(Velocity.class);
         Camera cam = world.getSystem(CameraSystem.class).getGameCamera();
-        Vector2 mouse = inputUtil.getMousePos(cam);  // this is off-screen work
-        mouse.scl(EntityFactory.SCALE_BOX_TO_WORLD);  // this is closer to right... (on-screen shifted up-right)
+        Vector2 mouse = inputUtil.getMousePos(cam);  // this is off-screen
+        mouse.scl(EntityFactory.SCALE_BOX_TO_WORLD);  // this is closer, but shifted down-left
+
+//        mouse.add(mouse.x*.1f, mouse.y*.1f);
 
 //        mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());  // this is on screen, but y inverted
 
@@ -142,7 +144,7 @@ public class PathDraw extends iPlayerCtrl {
             shapeRen.end();
         }
 
-        handlePath(inComp, center, loco, vel, cam);
+        handlePath(inComp, center, loco, cam);
 
         clickedPath = false;
 
@@ -175,11 +177,11 @@ public class PathDraw extends iPlayerCtrl {
                     Vector2 firstPathCoord = savedPath.getCoords().get(0);
                     if (mouse.dst(firstPathCoord.x, firstPathCoord.y) < pathDrawRadius) {
                         // if path started near player too, assume mini-path, player attempting click-to-stop
-                        stopMoving(vel, inComp);
+                        inComp.stopMoving();
                     }
                 } else {
                     // not on path, player must have clicked to stop
-                    stopMoving(vel, inComp);
+                    inComp.stopMoving();
                 }
             }
         }
@@ -213,28 +215,28 @@ public class PathDraw extends iPlayerCtrl {
             InputComponent inComp,
             Vector2 pos,
             LocomotionComponent loco,
-            Velocity vel,
             Camera camera
     ) {
-        final float PATH_MIN_SIZE = 1f;  // minimum path segment size
+        final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen;  // path-to-player distance close enough to ignore
         if (!path || inComp.moveState != MoveState.PATH_FOLLOW)
             return;
 
-        if (dest == null || dest.dst(pos) <= PATH_MIN_SIZE)
+        if (dest == null || dest.dst(pos) <= CLOSE_ENOUGH_TO_PATH)
             dest = savedPath.pop();
 
         if (dest != null) {
             Vector2 dir = dest.cpy().sub(pos).nor();
             Vector2 travelDst = dir.scl(loco.maxSpeed);
-            vel.velocity.set(travelDst);
+            inComp.direction.set(dir);
+            inComp.speed = loco.maxSpeed;
         } else {
             if (autoWalk){
                 // keep moving unless too far from camera
                 if ( pos.dst(camera.position.x, camera.position.y) > MAX_CAMERA_DIST){
-                    stopMoving(vel, inComp);
+                    inComp.stopMoving();
                 }
             } else {
-                stopMoving(vel, inComp);
+                inComp.stopMoving();
             }
         }
     }
@@ -243,11 +245,6 @@ public class PathDraw extends iPlayerCtrl {
         if (!recording)
             return;
         savedPath.record(mousePos.x, mousePos.y);
-    }
-
-    public void stopMoving(Velocity vel, InputComponent inComp) {
-        vel.velocity.set(Vector2.Zero);
-        inComp.moveState = MoveState.NOT_MOVING;
     }
 
     public void inputComponentDebugRender(ShapeRenderer renderer, Vector2 playerPos, InputComponent inComp, Vector2 mouse){
@@ -264,7 +261,7 @@ public class PathDraw extends iPlayerCtrl {
 //        mouse.y *= -1;
 
         if (!path) {
-            logger.info("line " + playerPos + "->" + mouse);
+//            logger.info("line " + playerPos + "->" + mouse);
             // player should be 511, 376
             renderer.line(playerPos.x, playerPos.y, mouse.x, mouse.y);
         } else {

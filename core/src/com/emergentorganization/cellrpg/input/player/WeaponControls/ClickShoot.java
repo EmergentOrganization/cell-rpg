@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
+import com.emergentorganization.cellrpg.input.player.inputUtil;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -44,10 +45,7 @@ public class ClickShoot extends iPlayerCtrl {
     @Override
     public void process(Entity player) {
         if (Gdx.input.justTouched()) { // LMB or RMB?
-            int x = Gdx.input.getX();
-            int y = Gdx.input.getY();
-            Vector3 unproject = camera.unproject(new Vector3(x, y, 0));
-            WeaponUtil.shootTo(new Vector2(unproject.x, unproject.y), player, eventManager, entityFactory);
+            WeaponUtil.shootTo(inputUtil.getMousePos(camera), player, eventManager, entityFactory);
         }
     }
 }

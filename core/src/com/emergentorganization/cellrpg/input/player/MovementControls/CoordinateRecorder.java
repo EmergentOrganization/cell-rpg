@@ -12,8 +12,10 @@ import java.util.ArrayList;
  */
 public class CoordinateRecorder {
 
-    private float delay = 0; // Delay in ms
+    private float delay = 100; // Delay in ms
     private long lastRecord;
+
+    private float minPathLen = 100f;  // min length of path segment
 
     private ArrayList<Vector2> coords = new ArrayList<Vector2>();
 
@@ -23,10 +25,13 @@ public class CoordinateRecorder {
 
     public void record(float x, float y){
         if(TimeUtils.timeSinceMillis(lastRecord) >= delay){
-            lastRecord += delay;
+            Vector2 vect = new Vector2(x,y);
+            if (farEnoughFromLastCoord(vect)) {
+                lastRecord += delay;
 
-            //System.out.println("Recording " + x + ", " + y);
-            coords.add(new Vector2(x, y));
+                //System.out.println("Recording " + x + ", " + y);
+                coords.add(vect);
+            }
         }
     }
 
@@ -59,6 +64,15 @@ public class CoordinateRecorder {
 
     public float getDelay(){
         return delay;
+    }
+
+    private boolean farEnoughFromLastCoord(Vector2 vect){
+        if (coords.size() < 1){
+            return true;
+        } else {
+            Vector2 last = coords.get(coords.size() - 1);
+            return vect.cpy().sub(last).len2() > minPathLen;
+        }
     }
 
 }

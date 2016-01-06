@@ -6,6 +6,8 @@ import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,10 +16,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.MoveState;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
+import com.emergentorganization.cellrpg.input.player.inputUtil;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.kotcrab.vis.ui.widget.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
 
 /** Controls movement and firing using only mouse and 1 button.
  * Click within radius of player and drag to draw a path. New path overwrites old path.
@@ -27,13 +35,14 @@ import com.kotcrab.vis.ui.widget.*;
  * based on OrelBitton's DirectFollowAndPathInputMethod
  */
 public class PathDraw extends iPlayerCtrl {
+    Logger logger = LogManager.getLogger(getClass());
+    private final boolean DEBUG_MODE = true;
+    // debug-only vars:
+    ShapeRenderer shapeRen;
+
     private final String NAME = "path";
     private final String DESC = "Drag to draw path for player," +
             " click on player to stop moving, tap/click to shoot.";
-
-    public PathDraw (World world, ComponentMapper<InputComponent> comp_m){
-        super(world, comp_m);
-    }
 
     private int pathDrawRadius = 5;  // Radius around player which triggers path redraw
     public final int PATH_RADIUS_MIN = 1;
@@ -55,8 +64,15 @@ public class PathDraw extends iPlayerCtrl {
     protected boolean recording = false; // Is the player recording a path
 
     protected Vector2 player; // The player coordinates for the current frame (if mouse is pressed)
-    protected Vector2 dest = null;
+    protected Vector2 dest = null;  // next destination point on path
 
+    public PathDraw (World world, ComponentMapper<InputComponent> comp_m){
+        super(world, comp_m);
+        if (DEBUG_MODE){
+            shapeRen = new ShapeRenderer();
+            shapeRen.setAutoShapeType(true);
+        }
+    }
 
     public String getName(){
         return NAME;
@@ -98,8 +114,6 @@ public class PathDraw extends iPlayerCtrl {
 
     @Override
     public void process(Entity player){
-        // TODO: port: float deltaTime, Camera camera, Vector3 mousePos, MovementComponent mc
-
         // if left mouse button (touch down) is pressed in the current frame
         boolean framePress = Gdx.input.isButtonPressed(Input.Buttons.LEFT);// || Gdx.input.isTouched();
 
@@ -110,18 +124,31 @@ public class PathDraw extends iPlayerCtrl {
         InputComponent inComp = player.getComponent(InputComponent.class);
         Position pos = player.getComponent(Position.class);
         Bounds bounds = player.getComponent(Bounds.class);
+        Vector2 center = pos.getCenter(bounds);
+        center.scl(EntityFactory.SCALE_BOX_TO_WORLD);
+
         LocomotionComponent loco = player.getComponent(LocomotionComponent.class);
         Velocity vel = player.getComponent(Velocity.class);
         Camera cam = world.getSystem(CameraSystem.class).getGameCamera();
-        Vector2 mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+        Vector2 mouse = inputUtil.getMousePos(cam);  // this is off-screen work
+        mouse.scl(EntityFactory.SCALE_BOX_TO_WORLD);  // this is closer to right... (on-screen shifted up-right)
 
-        handlePath(inComp, pos, bounds, loco, vel, cam);
+//        mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());  // this is on screen, but y inverted
+
+        if (DEBUG_MODE) {
+//            logger.info("mouseP:" + mouse);
+            shapeRen.begin();
+            inputComponentDebugRender(shapeRen, center, inComp, mouse);
+            shapeRen.end();
+        }
+
+        handlePath(inComp, center, loco, vel, cam);
 
         clickedPath = false;
-        Vector2 center =pos.getCenter(bounds);
 
         // if the button is pressed right now
         if (framePress) {
+//            logger.info("clicked @ " + mouse);
             if (!lastFramePressed) {
                 lastClick = now;
 
@@ -130,21 +157,21 @@ public class PathDraw extends iPlayerCtrl {
             }
 
             // handle movement
-            handleMovement(center, inComp, new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+            handleMovement(center, inComp, mouse);
 
             // handle path recording
-            handleRecording();
+            handleRecording(mouse);
         }
 
         // if the button was released
         if (!framePress && lastFramePressed) {
-
             recording = false;
             if (inComp.moveState == MoveState.MOUSE_FOLLOW)
                 inComp.moveState = MoveState.NOT_MOVING;
 
             if (mouse.dst(center) < pathDrawRadius) {  // if mouse is released close
                 if (!savedPath.isEmpty()) {  // if we're on path
+//                    logger.info("on path");
                     Vector2 firstPathCoord = savedPath.getCoords().get(0);
                     if (mouse.dst(firstPathCoord.x, firstPathCoord.y) < pathDrawRadius) {
                         // if path started near player too, assume mini-path, player attempting click-to-stop
@@ -166,12 +193,14 @@ public class PathDraw extends iPlayerCtrl {
         if (mouse.dst(playerPos) < pathDrawRadius) {
             // if it is close and we're not already recording, start recording new path
             if (!savedPath.isEmpty() && !recording) {
+//                logger.info("start rec new path");
                 savedPath.clear();
             }
             recording = true;
             path = true;
         } else if(!savedPath.isEmpty() &&
                 savedPath.getCoords().get(savedPath.getCoords().size()-1).dst(mouse) < pathDrawRadius){
+//            logger.info("mouse is close to path end");
             // if mouse is close to current path end
             recording = true;
             path = true;
@@ -182,25 +211,23 @@ public class PathDraw extends iPlayerCtrl {
 
     private void handlePath(
             InputComponent inComp,
-            Position position,
-            Bounds bounds,
+            Vector2 pos,
             LocomotionComponent loco,
             Velocity vel,
             Camera camera
     ) {
-        Vector2 pos = position.getCenter(bounds);
+        final float PATH_MIN_SIZE = 1f;  // minimum path segment size
         if (!path || inComp.moveState != MoveState.PATH_FOLLOW)
             return;
 
-        if (dest == null || dest.dst(pos) <= 1f)
+        if (dest == null || dest.dst(pos) <= PATH_MIN_SIZE)
             dest = savedPath.pop();
 
         if (dest != null) {
             Vector2 dir = dest.cpy().sub(pos).nor();
             Vector2 travelDst = dir.scl(loco.maxSpeed);
             vel.velocity.set(travelDst);
-        }
-        else {
+        } else {
             if (autoWalk){
                 // keep moving unless too far from camera
                 if ( pos.dst(camera.position.x, camera.position.y) > MAX_CAMERA_DIST){
@@ -212,14 +239,46 @@ public class PathDraw extends iPlayerCtrl {
         }
     }
 
-    private void handleRecording() {
+    private void handleRecording(Vector2 mousePos) {
         if (!recording)
             return;
-        savedPath.record(Gdx.input.getX(), Gdx.input.getY());
+        savedPath.record(mousePos.x, mousePos.y);
     }
 
     public void stopMoving(Velocity vel, InputComponent inComp) {
         vel.velocity.set(Vector2.Zero);
         inComp.moveState = MoveState.NOT_MOVING;
+    }
+
+    public void inputComponentDebugRender(ShapeRenderer renderer, Vector2 playerPos, InputComponent inComp, Vector2 mouse){
+
+        if (inComp.moveState == MoveState.NOT_MOVING)
+            return;
+
+        renderer.setColor(Color.MAGENTA);
+
+        // the class-scope player variable is updated only if the mouse is pressed.
+//        logger.info("p:" + playerPos + " -> m:" + mouse);
+//        playerPos.scl(1f/.025f);
+//        playerPos.y *= -1;
+//        mouse.y *= -1;
+
+        if (!path) {
+            logger.info("line " + playerPos + "->" + mouse);
+            // player should be 511, 376
+            renderer.line(playerPos.x, playerPos.y, mouse.x, mouse.y);
+        } else {
+//            logger.info("drawing path");
+            Vector2 prev = null;
+            ArrayList<Vector2> v = savedPath.getCoords();
+            for (int i = 0; i < v.size(); i++) {
+                if (prev == null)
+                    prev = playerPos;
+                Vector2 cur = v.get(i);
+//                logger.info("path " + prev + "->" + cur);
+                renderer.line(prev, cur);
+                prev = cur;
+            }
+        }
     }
 }

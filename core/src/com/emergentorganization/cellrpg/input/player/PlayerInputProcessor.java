@@ -10,6 +10,7 @@ import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.InputProcessor;
+import com.emergentorganization.cellrpg.input.player.MovementControls.PathDraw;
 import com.emergentorganization.cellrpg.input.player.MovementControls.WASD;
 import com.emergentorganization.cellrpg.input.player.WeaponControls.ArrowsShoot;
 import com.emergentorganization.cellrpg.input.player.WeaponControls.ClickShoot;
@@ -39,14 +40,22 @@ public class PlayerInputProcessor extends InputProcessor {
 
         prefs = GameSettings.getPreferences();
 
-//        prefs.putInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD, 0);  // default to first controller
         movementControls.add(new WASD(world, im));
+        movementControls.add(new PathDraw(world, im));
         // TODO: add more movement control options
 
-//        prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, 0);  // default to first controller
         weaponControls.add(new ClickShoot(world, ef, im));
         weaponControls.add(new ArrowsShoot(world, ef, im));
         // TODO: add more weapon control options
+    }
+
+    public String[] getMovementCtrlChoices(){
+        // returns list of movement control names.
+        String nameList[] = new String[movementControls.size()];
+        for (int i = 0; i < movementControls.size(); i++){
+            nameList[i] = movementControls.get(i).getName();
+        }
+        return nameList;
     }
 
     public String[] getWeaponCtrlChoices(){

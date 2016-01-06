@@ -1,7 +1,6 @@
 package com.emergentorganization.cellrpg.scenes.game.menu.pause;
 
 import com.artemis.World;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -27,21 +26,20 @@ public class MovementSettingsMenu extends Submenu {
         // set up menu buttons:
         VisLabel controlTypeLabel = new VisLabel("weapon control scheme");
         menuTable.add(controlTypeLabel).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-
-        final VisSelectBox controlsType = new VisSelectBox();
         PlayerInputProcessor playInProc = world.getSystem(InputSystem.class).getPlayerInputProcessor();
-        controlsType.setItems(playInProc.getWeaponCtrlChoices());
-
-        menuTable.add(controlsType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         final Preferences prefs = GameSettings.getPreferences();
 
-        controlsType.setSelectedIndex(prefs.getInteger( GameSettings.KEY_WEAPON_CONTROL_METHOD ));
-        controlsType.addListener(
+        // weapon control buttons
+        final VisSelectBox weaponControlType = new VisSelectBox();
+        weaponControlType.setItems(playInProc.getWeaponCtrlChoices());
+        menuTable.add(weaponControlType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        weaponControlType.setSelectedIndex(prefs.getInteger( GameSettings.KEY_WEAPON_CONTROL_METHOD ));
+        weaponControlType.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         // signal to movementControls new value to be set
-                        prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, controlsType.getSelectedIndex());
+                        prefs.putInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD, weaponControlType.getSelectedIndex());
                         // update UI display
                         // clear out old stuff
                         menuTable.clear();
@@ -57,7 +55,31 @@ public class MovementSettingsMenu extends Submenu {
         );
         playInProc.getPlayerWeapon().addInputConfigButtons(menuTable, menuWindow);
 
-        // TODO: movement controls
+        // movement controls
+        final VisSelectBox moveControlType = new VisSelectBox();
+        moveControlType.setItems(playInProc.getMovementCtrlChoices());
+        menuTable.add(moveControlType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        moveControlType.setSelectedIndex(prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));
+        moveControlType.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        // signal to movementControls new value to be set
+                        prefs.putInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD, moveControlType.getSelectedIndex());
+                        // update UI display
+                        // clear out old stuff
+                        menuTable.clear();
+
+                        // add back buttons
+                        addMenuTableButtons();
+                        addBackButton();
+
+                        // resize window to fit new children
+                        menuWindow.pack();
+                    }
+                }
+        );
+        playInProc.getPlayerMovement().addInputConfigButtons(menuTable, menuWindow);
     }
 
     @Override

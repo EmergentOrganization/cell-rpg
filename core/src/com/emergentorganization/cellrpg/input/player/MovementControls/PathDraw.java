@@ -127,7 +127,6 @@ public class PathDraw extends iPlayerCtrl {
         Vector2 center = pos.getCenter(bounds);
         center.scl(EntityFactory.SCALE_BOX_TO_WORLD);
 
-        LocomotionComponent loco = player.getComponent(LocomotionComponent.class);
         Velocity vel = player.getComponent(Velocity.class);
         Camera cam = world.getSystem(CameraSystem.class).getGameCamera();
         Vector2 mouse = inputUtil.getMousePos(cam);  // this is off-screen
@@ -144,7 +143,7 @@ public class PathDraw extends iPlayerCtrl {
             shapeRen.end();
         }
 
-        handlePath(inComp, center, loco, cam);
+        handlePath(inComp, center, cam);
 
         clickedPath = false;
 
@@ -214,7 +213,6 @@ public class PathDraw extends iPlayerCtrl {
     private void handlePath(
             InputComponent inComp,
             Vector2 pos,
-            LocomotionComponent loco,
             Camera camera
     ) {
         final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen;  // path-to-player distance close enough to ignore
@@ -226,9 +224,8 @@ public class PathDraw extends iPlayerCtrl {
 
         if (dest != null) {
             Vector2 dir = dest.cpy().sub(pos).nor();
-            Vector2 travelDst = dir.scl(loco.maxSpeed);
             inComp.direction.set(dir);
-            inComp.speed = loco.maxSpeed;
+//            inComp.speed = loco.maxSpeed;  speed is constant, set by constructor
         } else {
             if (autoWalk){
                 // keep moving unless too far from camera

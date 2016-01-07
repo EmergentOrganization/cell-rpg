@@ -70,7 +70,6 @@ public class EntityFactory {
                 .add(StatsTracker.class)
                 .add(SpontaneousGenerationList.class)
                 .add(CollectibleSpawnField.class)
-                .add(LocomotionComponent.class)
                 .build(world);
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }

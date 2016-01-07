@@ -15,7 +15,6 @@ public class InputComponent extends Component {
 
     public void stopMoving() {
         direction.set(Vector2.Zero);
-        speed = 0;
         moveState = MoveState.NOT_MOVING;
     }
 }

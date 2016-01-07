@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.InputComponent;
-import com.emergentorganization.cellrpg.input.InputProcessor;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;

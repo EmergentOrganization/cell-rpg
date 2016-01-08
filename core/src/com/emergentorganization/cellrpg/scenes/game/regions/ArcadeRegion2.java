@@ -5,10 +5,11 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
+import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.Tags;
 import com.emergentorganization.cellrpg.scenes.game.WorldScene;
-import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory1;
-import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory2;
+import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
+import com.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -35,7 +36,15 @@ public class ArcadeRegion2 implements iRegion {
     }
 
     public iRegion getNextRegion(World world){
-        return null;
+        // if score is high enough return next region
+        TagManager tagMan = world.getSystem(TagManager.class);
+        final int score = tagMan.getEntity(Tags.PLAYER).getComponent(StatsTracker.class).getScore();
+        final int SCORE_TO_MOVE_ON = 10000;
+        if (score > SCORE_TO_MOVE_ON){
+            return new ArcadeRegion3(scene);
+        } else {
+            return null;
+        }
     }
 
     public void loadRegion(World world){
@@ -55,16 +64,17 @@ public class ArcadeRegion2 implements iRegion {
         genList.stampList.add(CGoLShapeConsts.GLIDER_UP_RIGHT);
         genList.stampList.add(CGoLShapeConsts.GLIDER_UP_LEFT);
         genList.layers.add(CALayer.VYROIDS);
-        genList.frequency = 1;
+        genList.frequency = 4;
+        genList.layers.add(CALayer.VYROIDS_GENETIC);
 
         // load story
-        scene.dialogDisplay.loadDialogueSequence(new ArcadeStory2());
+        scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.II));
     }
 
     private void setCAEdgeSpawns(TagManager tagMan){
         tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
-                = CAEdgeSpawnType.RANDOM_50_50;
+                = CAEdgeSpawnType.RANDOM_SPARSE;
         tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
-                = CAEdgeSpawnType.RANDOM_50_50;
+                = CAEdgeSpawnType.EMPTY;
     }
 }

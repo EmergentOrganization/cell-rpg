@@ -5,6 +5,7 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.managers.TagManager;
+import com.artemis.systems.IntervalIteratingSystem;
 import com.artemis.utils.IntBag;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
@@ -21,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  *
  * Created by 7yl4r on 1/1/2016.
  */
-public class CASpontaneousGenerationSystem extends BaseEntitySystem {
+public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private ComponentMapper<Position> pos_m;
@@ -29,21 +30,11 @@ public class CASpontaneousGenerationSystem extends BaseEntitySystem {
     private ComponentMapper<SpontaneousGenerationList> spontGen_m;
 
     public CASpontaneousGenerationSystem(){
-        super(Aspect.all(SpontaneousGenerationList.class, Position.class, Bounds.class));
+        super(Aspect.all(SpontaneousGenerationList.class, Position.class, Bounds.class), 1);
     }
 
-    @Override
-    public void processSystem(){
+    public void process(int id){
         TagManager tagMan = world.getSystem(TagManager.class);
-        IntBag idBag = getEntityIds();
-        logger.trace("spontGen on " + idBag.size() + " entities.");
-        for (int index = 0; index < idBag.size(); index ++ ) {
-            int id = idBag.get(index);
-            process(id, tagMan);
-        }
-    }
-
-    public void process(int id, TagManager tagMan){
         SpontaneousGenerationList genList = spontGen_m.get(id);
         if (genList.readyForGen()){
             spontaneousGenerate(id, genList, tagMan);

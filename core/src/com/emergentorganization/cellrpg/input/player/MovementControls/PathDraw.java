@@ -45,7 +45,14 @@ public class PathDraw extends iPlayerCtrl {
             " click on player to stop moving, tap/click to shoot.";
     public final int PATH_RADIUS_MIN = 1;
     public final int PATH_RADIUS_MAX = 20;
-    private final int MAX_CAMERA_DIST = 30;  // max distance to auto-travel away from camera (to keep on-screen in arcade mode)
+    // max distance to auto-travel away from camera (to keep on-screen in arcade mode)
+    private final int MAX_CAMERA_DIST = 30;
+    // path-to-player distance close enough to ignore
+    final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen * .1f;
+    // max time[ms] before giving up on dest
+    final long MAX_DEST_SEEK_TIME = 3000;
+    // min distance moved towards dest required else give up
+    final float MIN_PROGRESS = CoordinateRecorder.minPathLen * .01f;
 
     private int pathDrawRadius = 5;  // Radius around player which triggers path redraw
     private boolean autoWalk = false;  // if true player keeps moving in last given direction, else stops
@@ -60,6 +67,7 @@ public class PathDraw extends iPlayerCtrl {
     protected boolean recording = false; // Is the player recording a path
     protected Vector2 dest = null;  // next destination point on path
     protected long destStart = 0;  // time started pursuing current dest
+    protected Vector2 lastPos = new Vector2(0,0);  // position from last time
 
     public PathDraw (World world, ComponentMapper<InputComponent> comp_m){
         super(world, comp_m);
@@ -205,6 +213,13 @@ public class PathDraw extends iPlayerCtrl {
 
     }
 
+    private void nextDest(){
+        // movest to next destination
+        logger.info("new dest");
+        dest = savedPath.pop();
+        destStart = TimeUtils.millis();
+    }
+
     private void handlePath(
             InputComponent inComp,
             Vector2 pos,
@@ -213,27 +228,45 @@ public class PathDraw extends iPlayerCtrl {
         if (!path || inComp.moveState != MoveState.PATH_FOLLOW)
             return;
 
-        final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen * .1f;  // path-to-player distance close enough to ignore
-        final long MAX_DEST_SEEK_TIME = (long)(5*CoordinateRecorder.minPathLen/inComp.speed);  // max time[ms] before giving up on dest
-
         long now = TimeUtils.millis();
 
-        if (dest == null
-                || dest.dst(pos) < CLOSE_ENOUGH_TO_PATH
-                || now - destStart > MAX_DEST_SEEK_TIME){
-            dest = savedPath.pop();
-            destStart = now;
-            logger.info("new dest");
-        } else {
-            logger.info(dest.dst(pos) - CLOSE_ENOUGH_TO_PATH + "m til close enough" );
-            logger.info(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
+        if (dest == null) {
+            nextDest();
         }
 
         if (dest != null) {
             Vector2 dir = dest.cpy().sub(pos).nor();
             inComp.direction.set(dir);
 //            inComp.speed = loco.maxSpeed;  speed is constant, set by constructor
-            logger.info("pursue dest");
+            boolean carryOn = true;  // flag to prevent calling nextDest multiple times
+
+            // give up if not making sufficient progress
+            if (carryOn && pos.dst2(lastPos) < MIN_PROGRESS){
+                logger.info("nextPos; insufficient progress towards dest");
+                nextDest();
+                carryOn = false;
+            } else if (carryOn){
+                logger.info("progress made:" + pos.dst2(lastPos) + "m");
+                lastPos.set(pos);
+            }
+
+            // stop if close enough to path
+            if (carryOn && dest.dst(pos) < CLOSE_ENOUGH_TO_PATH){
+                logger.info("nextPos; close enough!");
+                nextDest();
+                carryOn = false;
+            } else if (carryOn){
+                logger.info(dest.dst(pos) - CLOSE_ENOUGH_TO_PATH + "m til close enough" );
+            }
+
+            // stop if taking too long
+            if (carryOn && (now - destStart) > MAX_DEST_SEEK_TIME){
+                logger.info("nextPos; taking too long!");
+                nextDest();
+                carryOn = false;
+            } else if (carryOn){
+                logger.info(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
+            }
         } else {
             if (autoWalk){
                 // keep moving unless too far from camera

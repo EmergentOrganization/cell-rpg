@@ -28,21 +28,25 @@ public class CollectibleSpawnField extends Component{
     public ArrayList<EntityID> entityList = new ArrayList<EntityID>();  // list entity classes that may be spawned
 
     public int getCollectible(Position entityPos, Bounds entityBounds, EntityFactory entFact){
-        // gets a random SpontaneousGeneration
+        // gets a random entity from the list, returns the id of entity created.
+        // if entity not created returns -1
         sinceLastSpawnCounter = 0;
+        if (entityList.size() > 0) {
+            int ent_i = ThreadLocalRandom.current().nextInt(0, entityList.size());
 
-        int ent_i = ThreadLocalRandom.current().nextInt(0, entityList.size());
+            // TODO: exclude inner radius / bounds?
+            Vector2 pos = entityPos.getCenter(entityBounds).add(
+                    (float) (2 * radius * Math.random() - radius),
+                    (float) (2 * radius * Math.random() - radius)
+            );
 
-        // TODO: exclude inner radius / bounds?
-        Vector2 pos = entityPos.getCenter(entityBounds).add(
-                (float)(2*radius*Math.random()-radius),
-                (float)(2*radius*Math.random()-radius)
-        );
+            float rotation = 0f;  // TODO: add rotation?
 
-        float rotation = 0f;  // TODO: add rotation?
-
-        // instantiate one of the entities, return id
-        return entFact.createEntityByID(entityList.get(ent_i), pos, rotation);
+            // instantiate one of the entities, return id
+            return entFact.createEntityByID(entityList.get(ent_i), pos, rotation);
+        } else {
+            return -1;
+        }
     }
 
     public boolean readyForSpawn() {

@@ -3,6 +3,8 @@ package com.emergentorganization.cellrpg.scenes.game;
 import com.artemis.WorldConfiguration;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.WorldFactory;
+import com.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
+import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion1;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 
 /**
@@ -23,6 +25,7 @@ public class Story extends WorldScene {
     @Override
     public WorldConfiguration getBaseWorldConfiguration(){
         WorldConfiguration wc = new WorldConfiguration();
+        wc.setSystem(new LeveledRegionSwitcher(new ArcadeRegion1(this)));  // TODO: change this region
         return wc;
     }
 }

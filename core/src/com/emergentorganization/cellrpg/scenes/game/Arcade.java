@@ -7,6 +7,7 @@ import com.emergentorganization.cellrpg.core.Tags;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion;
 import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion1;
 
 /**
@@ -43,7 +44,7 @@ public class Arcade extends WorldScene {
     @Override
     public WorldConfiguration getBaseWorldConfiguration(){
         WorldConfiguration wc = new WorldConfiguration();
-        wc.setSystem(new LeveledRegionSwitcher(new ArcadeRegion1(this)));
+        wc.setSystem(new LeveledRegionSwitcher(new ArcadeRegion(this)));
         return wc;
     }
 }

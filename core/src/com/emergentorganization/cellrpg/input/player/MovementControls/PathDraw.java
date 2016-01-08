@@ -43,28 +43,23 @@ public class PathDraw extends iPlayerCtrl {
     private final String NAME = "path";
     private final String DESC = "Drag to draw path for player," +
             " click on player to stop moving, tap/click to shoot.";
-
-    private int pathDrawRadius = 5;  // Radius around player which triggers path redraw
     public final int PATH_RADIUS_MIN = 1;
     public final int PATH_RADIUS_MAX = 20;
-
-    private boolean autoWalk = false;  // if true player keeps moving in last given direction, else stops
-
     private final int MAX_CAMERA_DIST = 30;  // max distance to auto-travel away from camera (to keep on-screen in arcade mode)
 
-    protected Vector3 tmp = new Vector3(); // A temporary vector, so we won't have to create a new every frame
+    private int pathDrawRadius = 5;  // Radius around player which triggers path redraw
+    private boolean autoWalk = false;  // if true player keeps moving in last given direction, else stops
 
     protected boolean lastFramePressed = false; // If the left mouse button was pressed last frame
     protected long elapsedTime; // Time elapsed since last frame
     protected long lastClick = 0; // Last time the player has clicked the mouse button
-
+    protected Vector3 tmp = new Vector3(); // A temporary vector, so we won't have to create a new every frame
     protected CoordinateRecorder savedPath = new CoordinateRecorder(500); // The coordinate recorder, a utility used for saving the path
     protected boolean clickedPath = false; // Has the player clicked the mouse since he began recording a path
     protected boolean path = false; // Is the player moving along a path
     protected boolean recording = false; // Is the player recording a path
-
-    protected Vector2 player; // The player coordinates for the current frame (if mouse is pressed)
     protected Vector2 dest = null;  // next destination point on path
+    protected long destStart = 0;  // time started pursuing current dest
 
     public PathDraw (World world, ComponentMapper<InputComponent> comp_m){
         super(world, comp_m);
@@ -215,23 +210,37 @@ public class PathDraw extends iPlayerCtrl {
             Vector2 pos,
             Camera camera
     ) {
-        final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen;  // path-to-player distance close enough to ignore
         if (!path || inComp.moveState != MoveState.PATH_FOLLOW)
             return;
 
-        if (dest == null || dest.dst(pos) <= CLOSE_ENOUGH_TO_PATH)
+        final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen * .1f;  // path-to-player distance close enough to ignore
+        final long MAX_DEST_SEEK_TIME = (long)(5*CoordinateRecorder.minPathLen/inComp.speed);  // max time[ms] before giving up on dest
+
+        long now = TimeUtils.millis();
+
+        if (dest == null
+                || dest.dst(pos) < CLOSE_ENOUGH_TO_PATH
+                || now - destStart > MAX_DEST_SEEK_TIME){
             dest = savedPath.pop();
+            destStart = now;
+            logger.info("new dest");
+        } else {
+            logger.info(dest.dst(pos) - CLOSE_ENOUGH_TO_PATH + "m til close enough" );
+            logger.info(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
+        }
 
         if (dest != null) {
             Vector2 dir = dest.cpy().sub(pos).nor();
             inComp.direction.set(dir);
 //            inComp.speed = loco.maxSpeed;  speed is constant, set by constructor
+            logger.info("pursue dest");
         } else {
             if (autoWalk){
                 // keep moving unless too far from camera
                 if ( pos.dst(camera.position.x, camera.position.y) > MAX_CAMERA_DIST){
                     inComp.stopMoving();
                 }
+                logger.info("autowalk");
             } else {
                 inComp.stopMoving();
             }

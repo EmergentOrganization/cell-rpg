@@ -4,9 +4,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.Position;
@@ -15,16 +17,24 @@ import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.emergentorganization.cellrpg.input.player.inputUtil;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
+import com.emergentorganization.cellrpg.tools.GameSettings;
+import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
 /**
+ * Click screen to shoot weapon.
+ *
+ * SETTINGS:
+ *  * excludeRadius : radius inside which clicks don't count
+ *
  * Created by brian on 11/7/15.
+ * excludeRadius added by 7yl4r 2016-01
  */
 public class ClickShoot extends iPlayerCtrl {
     private final String NAME = "Click to Shoot";
     private final EntityFactory entityFactory;
-    private final float exclusionRadius = .5f;  // radius inside which clicks don't count
     private final Camera camera;
     private final EventManager eventManager;
 
@@ -40,8 +50,32 @@ public class ClickShoot extends iPlayerCtrl {
         return NAME;
     }
 
-    public void addInputConfigButtons(VisTable table, VisWindow menuWindow){
-        // TODO: exclusionRadius
+    public void addInputConfigButtons(VisTable menuTable, final VisWindow menuWindow){
+        final Preferences prefs = GameSettings.getPreferences();
+
+        float EXCLUDE_RADIUS_DEFAULT = 1f;
+        float EXCLUDE_RADIUS_MIN = 0f;
+        float EXCLUDE_RADIUS_MAX = 5f;
+        float EXCLUDE_RADIUS_DELTA = .05f;
+        float exclusionRadius = prefs.getFloat(GameSettings.KEY_WEAPON_CLICKSHOOT_RADIUS, EXCLUDE_RADIUS_DEFAULT);
+        VisLabel excludeRadiusLabel = new VisLabel("exclusion radius around bridge orb: ");
+        menuTable.add(excludeRadiusLabel).pad(0f, 0f, 5f, 0f).fill(true, false);
+        final VisLabel excludeRadiusValue = new VisLabel(Float.toString(exclusionRadius));
+        menuTable.add(excludeRadiusValue).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        final VisSlider excludeRadiusSlider = new VisSlider(EXCLUDE_RADIUS_MIN, EXCLUDE_RADIUS_MAX, EXCLUDE_RADIUS_DELTA, false);
+        excludeRadiusSlider.setValue(exclusionRadius);
+        excludeRadiusSlider.addListener(
+                new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        float newVal = excludeRadiusSlider.getValue();
+                        prefs.putFloat(GameSettings.KEY_WEAPON_CLICKSHOOT_RADIUS, newVal);
+                        excludeRadiusValue.setText(Float.toString(newVal));
+                        menuWindow.pack();
+                    }
+                }
+        );
+        menuTable.add(excludeRadiusSlider).pad(0f, 0f, 5f, 0f).fill(true, false).row();
     }
 
     @Override
@@ -56,6 +90,7 @@ public class ClickShoot extends iPlayerCtrl {
     }
 
     private boolean isOutsideExclusionRadius(Vector2 pos, Vector2 center){
-        return pos.dst(center) > exclusionRadius;
+        final Preferences prefs = GameSettings.getPreferences();
+        return pos.dst(center) > prefs.getFloat(GameSettings.KEY_WEAPON_CLICKSHOOT_RADIUS);
     }
 }

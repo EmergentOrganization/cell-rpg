@@ -5,6 +5,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -21,6 +22,7 @@ import com.emergentorganization.cellrpg.input.MoveState;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.emergentorganization.cellrpg.input.player.inputUtil;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
+import com.emergentorganization.cellrpg.tools.GameSettings;
 import com.kotcrab.vis.ui.widget.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,6 +32,10 @@ import java.util.ArrayList;
 /** Controls movement and firing using only mouse and 1 button.
  * Click within radius of player and drag to draw a path. New path overwrites old path.
  * Player keeps moving in last path direction given. Click to shoot.
+ *
+ * SETTINGS:
+ *  * autowalk : if true player keeps moving in last direction until stopped
+ *  * pathDrawRadius : Radius around player which triggers path redraw
  *
  * ported by 7yl4r on 2016-01-04 from PathInputMethod (by 7yl4r 2015-09-05)
  * based on OrelBitton's DirectFollowAndPathInputMethod
@@ -44,7 +50,9 @@ public class PathDraw extends iPlayerCtrl {
     private final String DESC = "Drag to draw path for player," +
             " click on player to stop moving, tap/click to shoot.";
     public final int PATH_RADIUS_MIN = 1;
-    public final int PATH_RADIUS_MAX = 20;
+    public final int PATH_RADIUS_MAX = 50;
+    public final int PATH_RADIUS_DEFAULT = 5;
+    public final int PATH_RADIUS_DELTA = 1;
     // max distance to auto-travel away from camera (to keep on-screen in arcade mode)
     private final int MAX_CAMERA_DIST = 30;
     // path-to-player distance close enough to ignore
@@ -53,9 +61,6 @@ public class PathDraw extends iPlayerCtrl {
     final long MAX_DEST_SEEK_TIME = 3000;
     // min distance moved towards dest required else give up
     final float MIN_PROGRESS = CoordinateRecorder.minPathLen * .01f;
-
-    private int pathDrawRadius = 5;  // Radius around player which triggers path redraw
-    private boolean autoWalk = false;  // if true player keeps moving in last given direction, else stops
 
     protected boolean lastFramePressed = false; // If the left mouse button was pressed last frame
     protected long elapsedTime; // Time elapsed since last frame
@@ -80,18 +85,22 @@ public class PathDraw extends iPlayerCtrl {
 
     @Override
     public void addInputConfigButtons(VisTable menuTable, final VisWindow menuWindow) {
-        VisLabel pathDrawRadiusLabel = new VisLabel("pathing start area size: ");
+        final Preferences prefs = GameSettings.getPreferences();
+
+        int pathDrawRadius = prefs.getInteger(GameSettings.KEY_WEAPON_PATHDRAW_RADIUS, PATH_RADIUS_DEFAULT);
+        VisLabel pathDrawRadiusLabel = new VisLabel("path draw start area size: ");
         menuTable.add(pathDrawRadiusLabel).pad(0f, 0f, 5f, 0f).fill(true, false);
         final VisLabel pathDrawRadiusValue = new VisLabel(Integer.toString(pathDrawRadius));
         menuTable.add(pathDrawRadiusValue).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        final VisSlider pathDrawRadiusSlider = new VisSlider(PATH_RADIUS_MIN, PATH_RADIUS_MAX, 1, false);
+        final VisSlider pathDrawRadiusSlider = new VisSlider(PATH_RADIUS_MIN, PATH_RADIUS_MAX, PATH_RADIUS_DELTA, false);
         pathDrawRadiusSlider.setValue(pathDrawRadius);
         pathDrawRadiusSlider.addListener(
                 new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        pathDrawRadius = (int) pathDrawRadiusSlider.getValue();
-                        pathDrawRadiusValue.setText(Integer.toString(pathDrawRadius));
+                        int newVal = (int) pathDrawRadiusSlider.getValue();
+                        prefs.putInteger(GameSettings.KEY_WEAPON_PATHDRAW_RADIUS, newVal);
+                        pathDrawRadiusValue.setText(Integer.toString(newVal));
                         menuWindow.pack();
                     }
                 }
@@ -99,14 +108,18 @@ public class PathDraw extends iPlayerCtrl {
         menuTable.add(pathDrawRadiusSlider).pad(0f, 0f, 5f, 0f).fill(true, false).row();
 
         // auto-walk toggle
-        final VisTextButton toggleAutoWalk = new VisTextButton("AutoWalk:"+Boolean.toString(autoWalk));
+
+        final VisTextButton toggleAutoWalk = new VisTextButton(
+                "AutoWalk:"+Boolean.toString(prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK))
+        );
         menuTable.add(toggleAutoWalk).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         toggleAutoWalk.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                autoWalk = !autoWalk;
-                toggleAutoWalk.setText("AutoWalk:"+ Boolean.toString(autoWalk));
+                boolean newVal = !prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK);
+                prefs.putBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK,newVal);
+                toggleAutoWalk.setText("AutoWalk:"+ Boolean.toString(newVal));
                 menuWindow.pack();
             }
         });
@@ -114,6 +127,9 @@ public class PathDraw extends iPlayerCtrl {
 
     @Override
     public void process(Entity player){
+        Preferences prefs = GameSettings.getPreferences();
+        int pathDrawRadius = prefs.getInteger(GameSettings.KEY_WEAPON_PATHDRAW_RADIUS);
+
         // if left mouse button (touch down) is pressed in the current frame
         boolean framePress = Gdx.input.isButtonPressed(Input.Buttons.LEFT);// || Gdx.input.isTouched();
 
@@ -129,15 +145,10 @@ public class PathDraw extends iPlayerCtrl {
 
         Velocity vel = player.getComponent(Velocity.class);
         Camera cam = world.getSystem(CameraSystem.class).getGameCamera();
-        Vector2 mouse = inputUtil.getMousePos(cam);  // this is off-screen
-        mouse.scl(EntityFactory.SCALE_BOX_TO_WORLD);  // this is closer, but shifted down-left
-
-//        mouse.add(mouse.x*.1f, mouse.y*.1f);
-
-//        mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());  // this is on screen, but y inverted
+        Vector2 mouse = inputUtil.getMousePos(cam);
+        mouse.scl(EntityFactory.SCALE_BOX_TO_WORLD);
 
         if (DEBUG_MODE) {
-//            logger.trace("mouseP:" + mouse);
             inputComponentDebugRender(center, inComp, mouse);
         }
 
@@ -150,15 +161,10 @@ public class PathDraw extends iPlayerCtrl {
 //            logger.trace("clicked @ " + mouse);
             if (!lastFramePressed) {
                 lastClick = now;
-
                 if (path)
                     clickedPath = framePress;
             }
-
-            // handle movement
-            handleMovement(center, inComp, mouse);
-
-            // handle path recording
+            handleDrawing(center, inComp, mouse);
             handleRecording(mouse);
         }
 
@@ -185,7 +191,10 @@ public class PathDraw extends iPlayerCtrl {
         lastFramePressed = framePress;
     }
 
-    private void handleMovement(Vector2 playerPos, InputComponent incComp, Vector2 mouse) {
+    private void handleDrawing(Vector2 playerPos, InputComponent incComp, Vector2 mouse) {
+        Preferences prefs = GameSettings.getPreferences();
+        int pathDrawRadius = prefs.getInteger(GameSettings.KEY_WEAPON_PATHDRAW_RADIUS);
+
         incComp.moveState = MoveState.PATH_FOLLOW;
 
         // check if the mouse button is not very far away from the player
@@ -204,8 +213,6 @@ public class PathDraw extends iPlayerCtrl {
             recording = true;
             path = true;
         } // else mouse not close enough to path areas
-
-
     }
 
     private void nextDest(){
@@ -220,6 +227,8 @@ public class PathDraw extends iPlayerCtrl {
             Vector2 pos,
             Camera camera
     ) {
+        Preferences prefs = GameSettings.getPreferences();
+
         if (!path || inComp.moveState != MoveState.PATH_FOLLOW)
             return;
 
@@ -263,12 +272,13 @@ public class PathDraw extends iPlayerCtrl {
 //                logger.trace(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
             }
         } else {
-            if (autoWalk){
+            if (prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK)){
                 // keep moving unless too far from camera
                 if ( pos.dst(camera.position.x, camera.position.y) > MAX_CAMERA_DIST){
                     inComp.stopMoving();
+                } else {
+                    logger.info("autowalk");
                 }
-//                logger.trace("autowalk");
             } else {
                 inComp.stopMoving();
             }

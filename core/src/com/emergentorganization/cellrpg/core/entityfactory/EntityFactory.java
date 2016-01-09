@@ -42,6 +42,7 @@ public class EntityFactory {
     public Archetype collidable;
     public Archetype collectable;
     public Archetype character;
+    public Archetype npc;
     private Archetype player;
     private Archetype bullet;
     private Archetype ca_layer;
@@ -62,6 +63,7 @@ public class EntityFactory {
         collectable = new ArchetypeBuilder(collidable).add(destructionTimer.class).build(world);
         bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
+        npc = new ArchetypeBuilder(character).add(AIComponent.class, InputComponent.class).build(world);
         player = new ArchetypeBuilder(character)
                 .add(InputComponent.class)
                 .add(CameraFollow.class)
@@ -337,10 +339,15 @@ public class EntityFactory {
     }
 
     public int createVyrapuffer(Vector2 pos){
-        Entity puffer = new EntityBuilder(world, character, "vyrapuffer", EntityID.VYRAPUFFER.toString(), pos)
+        Entity puffer = new EntityBuilder(world, npc, "vyrapuffer", EntityID.VYRAPUFFER.toString(), pos)
                 .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
                 .renderIndex(RenderIndex.NPC)
+                .bodyFriction(.5f)
                 .build();
+
+        InputComponent ic = puffer.getComponent(InputComponent.class);
+        ic.speed = 10f; // meters per sec // a dedicated component?
+
         return puffer.getId();
     }
 

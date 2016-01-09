@@ -53,6 +53,7 @@ public class WorldFactory {
         wc.setSystem(new CAInteractionSystem());
         wc.setSystem(new CASpontaneousGenerationSystem());
 
+        wc.setSystem(new AISystem());
         wc.setSystem(new TimedDestructionSystem());
         wc.setSystem(new CollectibleSpawnSystem());
         wc.setSystem(new InputSystem());

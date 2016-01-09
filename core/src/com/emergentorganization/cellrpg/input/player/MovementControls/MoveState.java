@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.input;
+package com.emergentorganization.cellrpg.input.player.MovementControls;
 
 /**
  * ported by 7yl4r on 1/4/2016

@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.*;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -31,7 +33,13 @@ public class FileStructure {
      * Unpacks assets into root directory. Does not overwrite files if they are already there.
      */
     public void unpackAssets() {
-        URL url = PixelonTransmission.class.getProtectionDomain().getCodeSource().getLocation();
+        ProtectionDomain pd = PixelonTransmission.class.getProtectionDomain();
+        CodeSource cs = pd.getCodeSource();
+        URL url = cs.getLocation();
+
+        System.out.println("URL:" + url);
+        System.out.println("ext:" + Gdx.files.getExternalStoragePath());
+        System.out.println("loc:" + Gdx.files.getLocalStoragePath());
         try {
             String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
             JarFile jar = new JarFile(jarPath);

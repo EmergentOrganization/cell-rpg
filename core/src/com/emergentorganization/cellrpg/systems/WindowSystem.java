@@ -25,11 +25,17 @@ public class WindowSystem extends BaseSystem {
     private boolean isPaused = false;
     private VisWindow pauseWindow;
     private TextureRegion framebufferTexture;
+    SceneManager sceneManager;
 
     public WindowSystem(Stage stage, Batch batch, SceneManager sceneManager) {
         this.stage = stage;
-        this.pauseWindow = new PauseWindow(stage, sceneManager);
         this.gameBatch = batch;
+        this.sceneManager = sceneManager;
+    }
+
+    @Override
+    protected void initialize() {
+        this.pauseWindow = new PauseWindow(stage, sceneManager, world);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.emergentorganization.cellrpg.scenes.game.menu.pause;
 
+import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -17,7 +18,7 @@ public class PauseWindow extends VisWindow {
     private final SettingsMenu settingsMenu;
     private final DebugMenu debugMenu;
 
-    public PauseWindow(final Stage stage, final SceneManager sceneManager) {
+    public PauseWindow(final Stage stage, final SceneManager sceneManager, World world) {
         super("", false);
 
         VisTable table = new VisTable();
@@ -36,7 +37,7 @@ public class PauseWindow extends VisWindow {
         table.add(map).pad(0f, 0f, 5f, 0f).fill(true, false).row();
 
 
-        settingsMenu = new SettingsMenu(table, stage, "settings");
+        settingsMenu = new SettingsMenu(table, stage, "settings", world);
 
         debugMenu = new DebugMenu(table, stage, "debug menu");
 
@@ -51,5 +52,14 @@ public class PauseWindow extends VisWindow {
 
         table.align(Align.center);
         this.pack();
+    }
+
+    @Override
+    public void fadeOut(){
+        super.fadeOut();
+        if (settingsMenu != null)
+            settingsMenu.closeSubmenu();
+        if (debugMenu != null)
+            debugMenu.closeSubmenu();
     }
 }

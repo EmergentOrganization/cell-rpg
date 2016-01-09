@@ -65,6 +65,7 @@ public class PhysicsContactListener implements ContactListener {
                 // cannot hit until after a bounce (helps keep player from shooting self in foot as bullet is leaving)
                 eventManager.pushEvent(GameEvent.PLAYER_HIT);
             }
+            
         } else if (entityA.getComponent(CollideEffect.class) != null
                 && entityB.getComponent(Health.class) != null) {
             entityB.getComponent(Health.class).health -= entityA.getComponent(CollideEffect.class).damage;

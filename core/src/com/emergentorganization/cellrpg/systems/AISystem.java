@@ -44,7 +44,7 @@ public class AISystem extends DelayedIteratingSystem {
         AIComponent ai = AICom_m.get(entityId);
         ai.delay = ai.period;
 
-        // test: move forward
+        // test: move forward TODO: use slightly more clever AI
         InputComponent input = inCom_m.get(entityId);
         input.moveState = MoveState.PATH_FOLLOW;
         Vector2 forwardDir = input.getForwardDirection(rot_m.get(entityId));

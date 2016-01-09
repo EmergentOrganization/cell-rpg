@@ -53,8 +53,6 @@ public class PathDraw extends iPlayerCtrl {
     public final int PATH_RADIUS_MAX = 50;
     public final int PATH_RADIUS_DEFAULT = 5;
     public final int PATH_RADIUS_DELTA = 1;
-    // max distance to auto-travel away from camera (to keep on-screen in arcade mode)
-    private final int MAX_CAMERA_DIST = 30;
     // path-to-player distance close enough to ignore
     final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen * .1f;
     // max time[ms] before giving up on dest
@@ -273,12 +271,7 @@ public class PathDraw extends iPlayerCtrl {
             }
         } else {
             if (prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK)){
-                // keep moving unless too far from camera
-                if ( pos.dst(camera.position.x, camera.position.y) > MAX_CAMERA_DIST){
-                    inComp.stopMoving();
-                } else {
-                    logger.info("autowalk");
-                }
+//                logger.info("autowalk");
             } else {
                 inComp.stopMoving();
             }

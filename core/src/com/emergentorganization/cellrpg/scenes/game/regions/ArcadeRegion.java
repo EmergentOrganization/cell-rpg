@@ -103,13 +103,13 @@ public class ArcadeRegion implements iRegion {
         return 99/(500*SCL)*score + 1;
     }
 
-    private void adjustPowerups(int score, Entity player){
+    private void adjustPowerups(int score, Entity player) {
         CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
         spawnField.frequency = getPowerupFreq(score);
-
-        if (score > 30*SCL) {
+        if ( score > 50*SCL){
+            spawnField.entityList.add(EntityID.VYRAPUFFER);
+        } else if (score > 10*SCL) {
             spawnField.entityList.add(EntityID.POWERUP_PLUS);
-
         } else if (score > 1*SCL) {
             spawnField.entityList.add(EntityID.POWERUP_STAR);
         }

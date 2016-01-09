@@ -90,6 +90,10 @@ public class PhysicsContactListener implements ContactListener {
                 logger.trace("failed star detonate");
                 // powerup may have been deleted
                 return;
+            } catch (RuntimeException ex){
+                logger.trace("failed star detonate");
+                // powerup may have been deleted
+                return;
             }
         } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {

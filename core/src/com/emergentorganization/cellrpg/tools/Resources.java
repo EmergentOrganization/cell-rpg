@@ -22,6 +22,7 @@ public class Resources {
     public static final List<String> ANIM_PLAYER;
     public static final List<String> ANIM_PLAYER_SHIELD;
     public static final List<String> ANIM_CIV1_BLINKER;
+    public static final List<String> ANIM_VYRAPUFFER;
 
     // GAME
     public static final String TEX_BULLET = DIR_IMG_GAME + EntityID.BULLET;
@@ -88,6 +89,14 @@ public class Resources {
         civ1BlinkerAnim.add(prefix + "0");
         civ1BlinkerAnim.add(prefix + "1");
         ANIM_CIV1_BLINKER = Collections.unmodifiableList(civ1BlinkerAnim);
+
+        // ANIM VYRAPUFFER
+        prefix = DIR_IMG_GAME + EntityID.VYRAPUFFER + "/";
+        ArrayList<String> vyrapufferAnim = new ArrayList<String>();
+        vyrapufferAnim.add(prefix + "0");
+        vyrapufferAnim.add(prefix + "1");
+        vyrapufferAnim.add(prefix + "2");
+        ANIM_VYRAPUFFER = Collections.unmodifiableList(vyrapufferAnim);
     }
 
     public static String getSfxPath(SoundEffect effect) {

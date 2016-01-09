@@ -151,8 +151,8 @@ public class EntityFactory {
                         break;
                     case POWERUP_STAR:
                         Vector2 cen = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class));
-                        vyroidLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(210,210), cen);
-                        geneticLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(70,70), cen);
+                        vyroidLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(210, 210), cen);
+                        geneticLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(70, 70), cen);
                         energyLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.BOOM(210, 210), cen);
                 }
             }
@@ -336,6 +336,14 @@ public class EntityFactory {
         return powerup.getId();
     }
 
+    public int createVyrapuffer(Vector2 pos){
+        Entity puffer = new EntityBuilder(world, character, "vyrapuffer", EntityID.VYRAPUFFER.toString(), pos)
+                .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
+                .renderIndex(RenderIndex.NPC)
+                .build();
+        return puffer.getId();
+    }
+
     public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
         switch (id) {
             case BULLET:
@@ -356,6 +364,8 @@ public class EntityFactory {
                 return createVyroidBeacon(pos, angleDeg);
             case CIV_ONE_BLINKER:
                 return createCivOneBlinker(pos.x, pos.y);
+            case VYRAPUFFER:
+                return createVyrapuffer(pos);
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
             case POWERUP_PLUS:

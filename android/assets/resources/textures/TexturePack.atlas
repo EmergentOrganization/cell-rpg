@@ -208,30 +208,51 @@ game/environment/the_edge
   index: -1
 game/shield/100p
   rotate: false
-  xy: 1386, 282
+  xy: 2202, 902
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/25p
   rotate: false
-  xy: 1900, 596
+  xy: 1386, 146
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/50p
   rotate: false
-  xy: 2202, 902
+  xy: 1538, 282
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/75p
   rotate: false
-  xy: 1386, 180
+  xy: 1900, 460
   size: 100, 100
   orig: 100, 100
+  offset: 0, 0
+  index: -1
+game/vyrapuffer/0
+  rotate: false
+  xy: 1386, 248
+  size: 150, 134
+  orig: 150, 134
+  offset: 0, 0
+  index: -1
+game/vyrapuffer/2
+  rotate: false
+  xy: 1386, 248
+  size: 150, 134
+  orig: 150, 134
+  offset: 0, 0
+  index: -1
+game/vyrapuffer/1
+  rotate: false
+  xy: 1900, 562
+  size: 150, 134
+  orig: 150, 134
   offset: 0, 0
   index: -1
 

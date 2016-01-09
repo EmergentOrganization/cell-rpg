@@ -61,7 +61,7 @@ public class EntityFactory {
                 .add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
         collectable = new ArchetypeBuilder(collidable).add(destructionTimer.class).build(world);
-        bullet = new ArchetypeBuilder(collidable).add(BulletState.class).build(world);
+        bullet = new ArchetypeBuilder(collidable).add(BulletState.class).add(CollideEffect.class).build(world);
         character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         npc = new ArchetypeBuilder(character).add(AIComponent.class, InputComponent.class).build(world);
         player = new ArchetypeBuilder(character)
@@ -114,6 +114,9 @@ public class EntityFactory {
                 .setFixedRotation(true)
                 .bodyFriction(0.3f)
                 .build();
+
+//        Health heal = player.getComponent(Health.class);
+//        heal.health = 3;
 
         InputComponent ic = player.getComponent(InputComponent.class);
         ic.speed = 2f; // 2 meters per sec // a dedicated component?
@@ -209,6 +212,8 @@ public class EntityFactory {
                 .bodyRestitution(1.0f)
                 .bullet(true)
                 .build();
+
+        bullet.getComponent(CollideEffect.class).damage = 1;
 
         // add cellular automata grid interactions
         CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
@@ -357,6 +362,9 @@ public class EntityFactory {
                 .renderIndex(RenderIndex.NPC)
                 .bodyFriction(.5f)
                 .build();
+
+        Health heal = puffer.getComponent(Health.class);
+        heal.health = 3;
 
         InputComponent ic = puffer.getComponent(InputComponent.class);
         ic.speed = 10f; // meters per sec // a dedicated component?

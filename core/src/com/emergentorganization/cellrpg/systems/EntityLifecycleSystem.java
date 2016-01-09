@@ -7,6 +7,7 @@ import com.artemis.managers.TagManager;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.BulletState;
+import com.emergentorganization.cellrpg.components.Health;
 import com.emergentorganization.cellrpg.components.Name;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.EntityID;
@@ -21,6 +22,7 @@ public class EntityLifecycleSystem extends IteratingSystem {
     private ComponentMapper<Name> nameMapper;
     private ComponentMapper<Position> pm;
     private ComponentMapper<BulletState> bulletStateMapper;
+    private ComponentMapper<Health> health_m;
 
     private TagManager tagManager;
 
@@ -31,7 +33,10 @@ public class EntityLifecycleSystem extends IteratingSystem {
     @Override
     protected void process(int EntityId) {
         Name name = nameMapper.get(EntityId);
-        if (name.internalID.equals(EntityID.BULLET.toString())) {
+        Health health = health_m.get(EntityId);
+        if(health != null && health.health < 0) {
+            world.delete(EntityId);
+        } else if (name.internalID.equals(EntityID.BULLET.toString())) {
             manageBullet(EntityId);
         }
         // manage other entities with an else-if

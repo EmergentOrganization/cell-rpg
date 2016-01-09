@@ -5,6 +5,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.Position;
@@ -33,7 +34,8 @@ public class PlayerInputProcessor extends InputProcessor {
     // PlayerAbilities abilites; ...
 
     public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<InputComponent> im,
-                                ComponentMapper<Position> pm, ComponentMapper<Bounds> bm) {
+                                ComponentMapper<Position> pm, ComponentMapper<Bounds> bm,
+                                ShapeRenderer renderer) {
         super(world, im);
 
         tagManager = world.getSystem(TagManager.class);
@@ -41,7 +43,7 @@ public class PlayerInputProcessor extends InputProcessor {
         prefs = GameSettings.getPreferences();
 
         movementControls.add(new WASD(world, im));
-        movementControls.add(new PathDraw(world, im));
+        movementControls.add(new PathDraw(world, im, renderer));
         // TODO: add more movement control options
 
         weaponControls.add(new ClickShoot(world, ef, im));

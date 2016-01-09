@@ -4,6 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.Position;
@@ -26,7 +27,10 @@ public class InputSystem extends IteratingSystem {
     private ComponentMapper<InputComponent> im;
     private ComponentMapper<Position> pm;
     private ComponentMapper<Bounds> bm;
+    private CameraSystem camSys;
     @Wire private EntityFactory ef;
+
+    private ShapeRenderer renderer;
 
     private static final int PLAYER_IN_PROC_INDEX = 0;  // careful not to add a processor and move this!
 
@@ -41,9 +45,23 @@ public class InputSystem extends IteratingSystem {
     @Override
     protected void initialize() {
         processors = new ArrayList<InputProcessor>();
-        processors.add(PLAYER_IN_PROC_INDEX, new PlayerInputProcessor(world, ef, im, pm, bm));
+        renderer = new ShapeRenderer();
+        renderer.setAutoShapeType(true);
+        processors.add(PLAYER_IN_PROC_INDEX, new PlayerInputProcessor(world, ef, im, pm, bm, renderer));
     }
 
+    @Override
+    protected void begin(){
+        super.begin();
+        renderer.setProjectionMatrix(camSys.getGameCamera().combined);
+        renderer.begin();
+    }
+
+    @Override
+    protected void end(){
+        super.end();
+        renderer.end();
+    }
     @Override
     protected void process(int entityId) {
         for (InputProcessor p : processors) {

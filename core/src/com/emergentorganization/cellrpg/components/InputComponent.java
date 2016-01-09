@@ -18,7 +18,7 @@ public class InputComponent extends Component {
     public MoveState moveState = MoveState.NOT_MOVING;
 
     public void stopMoving() {
-        logger.info("halt");
+//        logger.trace("halt");
         direction.set(Vector2.Zero);
         moveState = MoveState.NOT_MOVING;
     }

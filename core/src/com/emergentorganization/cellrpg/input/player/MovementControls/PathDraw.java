@@ -36,7 +36,7 @@ import java.util.ArrayList;
  */
 public class PathDraw extends iPlayerCtrl {
     Logger logger = LogManager.getLogger(getClass());
-    private final boolean DEBUG_MODE = true;
+    private final boolean DEBUG_MODE = true; //logger.isDebugEnabled();
     // debug-only vars:
     ShapeRenderer shapeRen;
 
@@ -69,12 +69,9 @@ public class PathDraw extends iPlayerCtrl {
     protected long destStart = 0;  // time started pursuing current dest
     protected Vector2 lastPos = new Vector2(0,0);  // position from last time
 
-    public PathDraw (World world, ComponentMapper<InputComponent> comp_m){
+    public PathDraw (World world, ComponentMapper<InputComponent> comp_m, ShapeRenderer renderer){
         super(world, comp_m);
-        if (DEBUG_MODE){
-            shapeRen = new ShapeRenderer();
-            shapeRen.setAutoShapeType(true);
-        }
+        shapeRen = renderer;
     }
 
     public String getName(){
@@ -141,9 +138,7 @@ public class PathDraw extends iPlayerCtrl {
 
         if (DEBUG_MODE) {
 //            logger.info("mouseP:" + mouse);
-            shapeRen.begin();
-            inputComponentDebugRender(shapeRen, center, inComp, mouse);
-            shapeRen.end();
+            inputComponentDebugRender(center, inComp, mouse);
         }
 
         handlePath(inComp, center, cam);
@@ -175,7 +170,7 @@ public class PathDraw extends iPlayerCtrl {
 
             if (mouse.dst(center) < pathDrawRadius) {  // if mouse is released close
                 if (!savedPath.isEmpty()) {  // if we're on path
-//                    logger.info("on path");
+//                    logger.trace("on path");
                     Vector2 firstPathCoord = savedPath.getCoords().get(0);
                     if (mouse.dst(firstPathCoord.x, firstPathCoord.y) < pathDrawRadius) {
                         // if path started near player too, assume mini-path, player attempting click-to-stop
@@ -197,14 +192,14 @@ public class PathDraw extends iPlayerCtrl {
         if (mouse.dst(playerPos) < pathDrawRadius) {
             // if it is close and we're not already recording, start recording new path
             if (!savedPath.isEmpty() && !recording) {
-//                logger.info("start rec new path");
+//                logger.trace("start rec new path");
                 savedPath.clear();
             }
             recording = true;
             path = true;
         } else if(!savedPath.isEmpty() &&
                 savedPath.getCoords().get(savedPath.getCoords().size()-1).dst(mouse) < pathDrawRadius){
-//            logger.info("mouse is close to path end");
+//            logger.trace("mouse is close to path end");
             // if mouse is close to current path end
             recording = true;
             path = true;
@@ -215,7 +210,7 @@ public class PathDraw extends iPlayerCtrl {
 
     private void nextDest(){
         // movest to next destination
-        logger.info("new dest");
+        logger.trace("new dest");
         dest = savedPath.pop();
         destStart = TimeUtils.millis();
     }
@@ -242,30 +237,30 @@ public class PathDraw extends iPlayerCtrl {
 
             // give up if not making sufficient progress
             if (carryOn && pos.dst2(lastPos) < MIN_PROGRESS){
-                logger.info("nextPos; insufficient progress towards dest");
+                logger.trace("nextPos; insufficient progress towards dest");
                 nextDest();
                 carryOn = false;
             } else if (carryOn){
-                logger.info("progress made:" + pos.dst2(lastPos) + "m");
+//                logger.trace("progress made:" + pos.dst2(lastPos) + "m");
                 lastPos.set(pos);
             }
 
             // stop if close enough to path
             if (carryOn && dest.dst(pos) < CLOSE_ENOUGH_TO_PATH){
-                logger.info("nextPos; close enough!");
+                logger.trace("nextPos; close enough!");
                 nextDest();
                 carryOn = false;
             } else if (carryOn){
-                logger.info(dest.dst(pos) - CLOSE_ENOUGH_TO_PATH + "m til close enough" );
+//                logger.trace(dest.dst(pos) - CLOSE_ENOUGH_TO_PATH + "m til close enough" );
             }
 
             // stop if taking too long
             if (carryOn && (now - destStart) > MAX_DEST_SEEK_TIME){
-                logger.info("nextPos; taking too long!");
+                logger.trace("nextPos; taking too long!");
                 nextDest();
                 carryOn = false;
             } else if (carryOn){
-                logger.info(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
+//                logger.trace(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
             }
         } else {
             if (autoWalk){
@@ -273,7 +268,7 @@ public class PathDraw extends iPlayerCtrl {
                 if ( pos.dst(camera.position.x, camera.position.y) > MAX_CAMERA_DIST){
                     inComp.stopMoving();
                 }
-                logger.info("autowalk");
+//                logger.trace("autowalk");
             } else {
                 inComp.stopMoving();
             }
@@ -286,33 +281,40 @@ public class PathDraw extends iPlayerCtrl {
         savedPath.record(mousePos.x, mousePos.y);
     }
 
-    public void inputComponentDebugRender(ShapeRenderer renderer, Vector2 playerPos, InputComponent inComp, Vector2 mouse){
-
+    public void inputComponentDebugRender(
+            Vector2 playerPos,
+            InputComponent inComp,
+            Vector2 mouse
+    ){
+        float SCL = EntityFactory.SCALE_WORLD_TO_BOX;
         if (inComp.moveState == MoveState.NOT_MOVING)
             return;
 
-        renderer.setColor(Color.MAGENTA);
+        shapeRen.setColor(Color.MAGENTA);
+
+//        logger.trace("r.PM:" + shapeRen.getProjectionMatrix());
+//        logger.trace("r.TM:" + shapeRen.getTransformMatrix());
 
         // the class-scope player variable is updated only if the mouse is pressed.
-//        logger.info("p:" + playerPos + " -> m:" + mouse);
+//        logger.trace("p:" + playerPos + " -> m:" + mouse);
 //        playerPos.scl(1f/.025f);
 //        playerPos.y *= -1;
 //        mouse.y *= -1;
 
         if (!path) {
-//            logger.info("line " + playerPos + "->" + mouse);
+//            logger.trace("line " + playerPos + "->" + mouse);
             // player should be 511, 376
-            renderer.line(playerPos.x, playerPos.y, mouse.x, mouse.y);
+            shapeRen.line(playerPos.x*SCL, playerPos.y*SCL, mouse.x*SCL, mouse.y*SCL);
         } else {
-//            logger.info("drawing path");
+//            logger.trace("drawing path");
             Vector2 prev = null;
             ArrayList<Vector2> v = savedPath.getCoords();
             for (int i = 0; i < v.size(); i++) {
                 if (prev == null)
                     prev = playerPos;
                 Vector2 cur = v.get(i);
-//                logger.info("path " + prev + "->" + cur);
-                renderer.line(prev, cur);
+                logger.info("path " + prev + "->" + cur);
+                shapeRen.line(prev.cpy().scl(SCL), cur.cpy().scl(SCL));
                 prev = cur;
             }
         }

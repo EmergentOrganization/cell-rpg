@@ -338,6 +338,19 @@ public class EntityFactory {
         return powerup.getId();
     }
 
+    public int[][] getVyrapufferStamp(){  // TODO: move this... somewhere...
+        int[][] res = new int[][]{
+                {1,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,0,0,0,0,0,0},
+                {1,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0},
+                {1,0,0,0,0,0,0}
+        };
+        // TODO: randomize first col
+        return res;
+    }
+
     public int createVyrapuffer(Vector2 pos){
         Entity puffer = new EntityBuilder(world, npc, "vyrapuffer", EntityID.VYRAPUFFER.toString(), pos)
                 .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
@@ -347,6 +360,13 @@ public class EntityFactory {
 
         InputComponent ic = puffer.getComponent(InputComponent.class);
         ic.speed = 10f; // meters per sec // a dedicated component?
+
+        CAInteractionList interactList = puffer.getComponent(CAInteractionList.class);
+//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
+        interactList.addInteraction(
+                geneticLayer.getId(),
+                new CAInteraction().addCollisionImpactStamp(0, getVyrapufferStamp(), geneticLayer.getId())
+        ).setColliderRadius(1);
 
         return puffer.getId();
     }

@@ -137,7 +137,7 @@ public class PathDraw extends iPlayerCtrl {
 //        mouse = new Vector2(Gdx.input.getX(), Gdx.input.getY());  // this is on screen, but y inverted
 
         if (DEBUG_MODE) {
-//            logger.info("mouseP:" + mouse);
+//            logger.trace("mouseP:" + mouse);
             inputComponentDebugRender(center, inComp, mouse);
         }
 
@@ -147,7 +147,7 @@ public class PathDraw extends iPlayerCtrl {
 
         // if the button is pressed right now
         if (framePress) {
-//            logger.info("clicked @ " + mouse);
+//            logger.trace("clicked @ " + mouse);
             if (!lastFramePressed) {
                 lastClick = now;
 
@@ -210,7 +210,7 @@ public class PathDraw extends iPlayerCtrl {
 
     private void nextDest(){
         // movest to next destination
-        logger.trace("new dest");
+//        logger.trace("new dest");
         dest = savedPath.pop();
         destStart = TimeUtils.millis();
     }
@@ -313,7 +313,7 @@ public class PathDraw extends iPlayerCtrl {
                 if (prev == null)
                     prev = playerPos;
                 Vector2 cur = v.get(i);
-                logger.info("path " + prev + "->" + cur);
+//                logger.trace("path " + prev + "->" + cur);
                 shapeRen.line(prev.cpy().scl(SCL), cur.cpy().scl(SCL));
                 prev = cur;
             }

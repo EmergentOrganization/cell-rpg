@@ -102,13 +102,6 @@ game/environment/bg-arcade
   orig: 4000, 4002
   offset: 0, 0
   index: -1
-game/light
-  rotate: false
-  xy: 128, 35
-  size: 17, 17
-  orig: 17, 17
-  offset: 0, 0
-  index: -1
 game/player-ammo/0p
   rotate: false
   xy: 2, 2
@@ -156,6 +149,13 @@ game/powerup-star
   xy: 4046, 3998
   size: 20, 20
   orig: 20, 20
+  offset: 0, 0
+  index: -1
+game/tubsnake
+  rotate: false
+  xy: 128, 35
+  size: 17, 17
+  orig: 17, 17
   offset: 0, 0
   index: -1
 
@@ -208,28 +208,28 @@ game/environment/the_edge
   index: -1
 game/shield/100p
   rotate: false
-  xy: 2202, 902
+  xy: 1386, 146
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/25p
   rotate: false
-  xy: 1386, 146
+  xy: 1538, 282
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/50p
   rotate: false
-  xy: 1538, 282
+  xy: 1900, 460
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/75p
   rotate: false
-  xy: 1900, 460
+  xy: 2052, 596
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
@@ -241,16 +241,16 @@ game/vyrapuffer/0
   orig: 150, 134
   offset: 0, 0
   index: -1
-game/vyrapuffer/2
+game/vyrapuffer/1
   rotate: false
-  xy: 1386, 248
+  xy: 1900, 562
   size: 150, 134
   orig: 150, 134
   offset: 0, 0
   index: -1
-game/vyrapuffer/1
+game/vyrapuffer/2
   rotate: false
-  xy: 1900, 562
+  xy: 2202, 868
   size: 150, 134
   orig: 150, 134
   offset: 0, 0

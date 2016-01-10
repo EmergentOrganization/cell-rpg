@@ -31,7 +31,7 @@ import com.emergentorganization.cellrpg.tools.Resources;
 public class EntityFactory {
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
-    
+
     private World world;
     private EventManager eventManager;
 
@@ -373,6 +373,40 @@ public class EntityFactory {
         return puffer.getId();
     }
 
+    public int createTubSnake(Vector2 pos){
+        Entity ent = new EntityBuilder(world, npc, "tub still life with snake behavior", EntityID.TUBSNAKE.toString(), pos)
+                .renderIndex(RenderIndex.NPC)
+                .bodyFriction(.5f)
+                .health(1)
+                .speed(2f)
+                .texture(Resources.TEX_TUBSNAKE)
+                .renderIndex(RenderIndex.NPC)
+                .build();
+
+        CAInteractionList interactList = ent.getComponent(CAInteractionList.class);
+//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
+        interactList
+                .addInteraction(
+                    vyroidLayer.getId(),
+                    new CAInteraction().addCollisionImpactStamp(0, CGoLShapeConsts.TUB, vyroidLayer.getId())
+                )
+                .addInteraction(
+                        vyroidLayer.getId(),
+                        new CAInteraction().addCollisionImpactStamp(
+                                0,
+                                CGoLShapeConsts.stateReplace(
+                                        CGoLShapeConsts.TUB,
+                                        DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.FIRE)
+                                ),
+                                energyLayer.getId()
+                        )
+                )
+                .setColliderRadius(1)
+        ;
+
+        return ent.getId();
+    }
+
     public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
         switch (id) {
             case BULLET:
@@ -395,6 +429,8 @@ public class EntityFactory {
                 return createCivOneBlinker(pos.x, pos.y);
             case VYRAPUFFER:
                 return createVyrapuffer(pos);
+            case TUBSNAKE:
+                return createTubSnake(pos);
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
             case POWERUP_PLUS:

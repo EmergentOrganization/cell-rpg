@@ -28,6 +28,7 @@ public class Resources {
     public static final String TEX_BULLET = DIR_IMG_GAME + EntityID.BULLET;
     public static final String TEX_POWERUP_STAR = DIR_IMG_GAME + EntityID.POWERUP_STAR;
     public static final String TEX_POWERUP_PLUS = DIR_IMG_GAME + EntityID.POWERUP_PLUS;
+    public static final String TEX_TUBSNAKE = DIR_IMG_GAME + EntityID.TUBSNAKE;
 
     // BLDG
     public static final String TEX_BLDG_LRG_ONE = DIR_IMG_BLDG + EntityID.BUILDING_LARGE_ONE;

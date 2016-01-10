@@ -110,6 +110,8 @@ public class ArcadeRegion implements iRegion {
             spawnField.entityList.add(EntityID.VYRAPUFFER);
         } else if (score > 10*SCL) {
             spawnField.entityList.add(EntityID.POWERUP_PLUS);
+        } else if (score > 5*SCL){
+            spawnField.entityList.add(EntityID.TUBSNAKE);
         } else if (score > 1*SCL) {
             spawnField.entityList.add(EntityID.POWERUP_STAR);
         }

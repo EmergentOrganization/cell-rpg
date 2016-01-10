@@ -9,6 +9,8 @@ import com.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Created by 7yl4r on 1/9/2016.
  */
@@ -44,7 +46,43 @@ public class AISystem extends DelayedIteratingSystem {
         AIComponent ai = AICom_m.get(entityId);
         ai.delay = ai.period;
 
-        // test: move forward TODO: use slightly more clever AI
+        switch (ai.type){
+            case DUMBWALK:
+                dumbWalk(entityId);
+                break;
+            case RANDWALK:
+                randWalk(entityId);
+                break;
+        }
+    }
+
+    private void randWalk(int entityId){
+        // moves randomly up, down, left, or right
+        InputComponent input = inCom_m.get(entityId);
+        input.moveState = MoveState.PATH_FOLLOW;
+        // rand -1, 0, 1
+        int choice = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        float x = 0, y = 0;
+        switch (choice){
+            case 0:
+                x = 1;
+                break;
+            case 1:
+                x = -1;
+                break;
+            case 2:
+                y = 1;
+                break;
+            case 3:
+                y = -1;
+                break;
+        }
+
+        input.direction.set(new Vector2(x, y));
+    }
+
+    private void dumbWalk(int entityId){
+        // test AI just moves forward
         InputComponent input = inCom_m.get(entityId);
         input.moveState = MoveState.PATH_FOLLOW;
         Vector2 forwardDir = input.getForwardDirection(rot_m.get(entityId));

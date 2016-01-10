@@ -361,6 +361,7 @@ public class EntityFactory {
                 .bodyFriction(.5f)
                 .health(3)
                 .speed(10f)
+                .AIType(AIComponent.aiType.DUMBWALK)
                 .build();
 
         CAInteractionList interactList = puffer.getComponent(CAInteractionList.class);
@@ -378,9 +379,11 @@ public class EntityFactory {
                 .renderIndex(RenderIndex.NPC)
                 .bodyFriction(.5f)
                 .health(1)
-                .speed(2f)
+                .speed(.2f)
                 .texture(Resources.TEX_TUBSNAKE)
                 .renderIndex(RenderIndex.NPC)
+                .AIType(AIComponent.aiType.RANDWALK)
+                .AIPeriod(.1f)
                 .build();
 
         CAInteractionList interactList = ent.getComponent(CAInteractionList.class);
@@ -388,18 +391,16 @@ public class EntityFactory {
         interactList
                 .addInteraction(
                     vyroidLayer.getId(),
-                    new CAInteraction().addCollisionImpactStamp(0, CGoLShapeConsts.TUB, vyroidLayer.getId())
-                )
-                .addInteraction(
-                        vyroidLayer.getId(),
-                        new CAInteraction().addCollisionImpactStamp(
-                                0,
-                                CGoLShapeConsts.stateReplace(
-                                        CGoLShapeConsts.TUB,
-                                        DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.FIRE)
-                                ),
-                                energyLayer.getId()
-                        )
+                    new CAInteraction()
+                            .addCollisionImpactStamp(0, CGoLShapeConsts.TUB, vyroidLayer.getId())
+                            .addCollisionImpactStamp(
+                                    0,
+                                    CGoLShapeConsts.stateReplace(
+                                            CGoLShapeConsts.TUB,
+                                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.FIRE)
+                                    ),
+                                    energyLayer.getId()
+                            )
                 )
                 .setColliderRadius(1)
         ;

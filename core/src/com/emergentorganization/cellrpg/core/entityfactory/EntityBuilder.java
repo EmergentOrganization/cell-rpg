@@ -63,6 +63,8 @@ public class EntityBuilder {
     private int collideDamage = 0;
     private int collideSelfDamage = 0;
     private float maxDistanceFromPlayer = 20f;  // set to -1 for infinite distance
+    private AIComponent.aiType AIType;
+    private float AIPeriod = 1f;
 
     // ==================================================================
     // ==================================================================
@@ -120,6 +122,7 @@ public class EntityBuilder {
         buildSpontGen(entity);
         buildSpawnField(entity);
         buildCollideEffect(entity);
+        buildAI(entity);
 
         return entity;
     }
@@ -131,6 +134,14 @@ public class EntityBuilder {
     // === properties on the given entity. Generally, should check    ===
     // === that component exists on given entity first.               ===
     // ==================================================================
+
+    private void buildAI(Entity entity){
+        AIComponent ai = entity.getComponent(AIComponent.class);
+        if (ai != null){
+            ai.type = AIType;
+            ai.period = AIPeriod;
+        }
+    }
 
     private void buildLifecycle(Entity entity){
         entity.getComponent(Lifecycle.class).maxPlayerDist = maxDistanceFromPlayer;
@@ -241,6 +252,16 @@ public class EntityBuilder {
     // === Non-sorted mess of setter methods only below this line.    ===
     // ===              You have been warned.                         ===
     // ==================================================================
+
+    public EntityBuilder AIPeriod(float period){
+        AIPeriod = period;
+        return this;
+    }
+
+    public EntityBuilder AIType(AIComponent.aiType type){
+        this.AIType = type;
+        return this;
+    }
 
     public EntityBuilder maxDistanceFromPlayer( float maxDist){
         maxDistanceFromPlayer = maxDist;

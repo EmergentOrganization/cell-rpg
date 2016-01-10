@@ -57,9 +57,12 @@ public class EntityBuilder {
     private long timeToDestruction = -1;
     private float speed = 1f;
     private int health = Integer.MAX_VALUE;  // still destructible TODO: fix?
+    private int maxHealth = -1;  // defaults to full health unless other given.
     private float spawnFieldRadius = 0;
     private float spontGenRadius = 0;
     private int collideDamage = 0;
+    private int collideSelfDamage = 0;
+    private float maxDistanceFromPlayer = 20f;  // set to -1 for infinite distance
 
     // ==================================================================
     // ==================================================================
@@ -86,6 +89,7 @@ public class EntityBuilder {
         Entity entity = world.createEntity(archetype);
 
         buildName(entity);
+        buildLifecycle(entity);
 
         if (tag != null) {
             world.getSystem(TagManager.class).register(tag, entity);
@@ -128,10 +132,16 @@ public class EntityBuilder {
     // === that component exists on given entity first.               ===
     // ==================================================================
 
+    private void buildLifecycle(Entity entity){
+        entity.getComponent(Lifecycle.class).maxPlayerDist = maxDistanceFromPlayer;
+    }
+
     private void buildCollideEffect(Entity entity){
         CollideEffect eff = entity.getComponent(CollideEffect.class);
-        if (eff != null)
+        if (eff != null) {
             eff.damage = collideDamage;
+            eff.selfDamage = collideSelfDamage;
+        }
     }
 
     private void buildSpontGen(Entity entity){
@@ -148,8 +158,15 @@ public class EntityBuilder {
 
     private void buildHealth(Entity entity){
         Health heal = entity.getComponent(Health.class);
-        if(heal != null)
+        if(heal != null) {
             heal.health = health;
+
+            if (maxHealth > -1){
+                heal.maxHealth = maxHealth;
+            } else {
+                heal.maxHealth = health;
+            }
+        }
     }
 
     private void buildInput(Entity entity){
@@ -225,8 +242,23 @@ public class EntityBuilder {
     // ===              You have been warned.                         ===
     // ==================================================================
 
+    public EntityBuilder maxDistanceFromPlayer( float maxDist){
+        maxDistanceFromPlayer = maxDist;
+        return this;
+    }
+
+    public EntityBuilder maxHealth( int maxHealth){
+        this.maxHealth = maxHealth;
+        return this;
+    }
+
     public EntityBuilder health( int health){
         this.health = health;
+        return this;
+    }
+
+    public EntityBuilder collideSelfDamage(int dam){
+        collideSelfDamage = dam;
         return this;
     }
 

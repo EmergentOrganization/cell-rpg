@@ -58,20 +58,22 @@ public class PhysicsContactListener implements ContactListener {
     }
 
     private void handleContactPair(Entity entityA, Name nameA, Entity entityB, Name nameB) {
-        if (nameA.internalID.equals(EntityID.BULLET.toString())
-                && nameB.internalID.equals(EntityID.PLAYER.toString())) {
-            BulletState bulletState = entityA.getComponent(BulletState.class);
-            if (bulletState.bounces < bulletState.starting_bounces){
-                // cannot hit until after a bounce (helps keep player from shooting self in foot as bullet is leaving)
-                eventManager.pushEvent(GameEvent.PLAYER_HIT);
-            }
-            
-        } else if (entityA.getComponent(CollideEffect.class) != null
+        // collision damage form A to B
+        if (entityA.getComponent(CollideEffect.class) != null
                 && entityB.getComponent(Health.class) != null) {
             entityB.getComponent(Health.class).health -= entityA.getComponent(CollideEffect.class).damage;
 //            logger.trace("puff health=" + entityB.getComponent(Health.class).health);
+        }
 
-        }else if (nameA.internalID.equals(EntityID.POWERUP_PLUS.toString())
+        // === specific pair effects:
+        if (nameA.internalID.equals(EntityID.BULLET.toString())
+                && nameB.internalID.equals(EntityID.PLAYER.toString())) {
+            Health bulletHealth = entityA.getComponent(Health.class);
+            if (bulletHealth.health < bulletHealth.maxHealth){
+                // cannot hit until after a bounce (helps keep player from shooting self in foot as bullet is leaving)
+                eventManager.pushEvent(GameEvent.PLAYER_HIT);
+            }
+        } else if (nameA.internalID.equals(EntityID.POWERUP_PLUS.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
             eventManager.pushEvent(GameEvent.POWERUP_PLUS);
             try {
@@ -113,16 +115,22 @@ public class PhysicsContactListener implements ContactListener {
     }
 
     private void handleContact(Entity entity, Name name) {
-        logger.trace("contact " + name.internalID);
-        if (name.internalID.equals(EntityID.BULLET.toString())) {
-            handleBulletContact(entity);
-        }
-    }
+//        logger.trace("contact " + name.internalID);
 
-    private void handleBulletContact(Entity entity) {
-        BulletState bulletState = entity.getComponent(BulletState.class);
-        eventManager.pushEvent(GameEvent.COLLISION_BULLET);
-        bulletState.bounces--;
+        // collide effects on self
+        CollideEffect eff = entity.getComponent(CollideEffect.class);
+        if (eff != null){
+            // self-damage from collision
+            Health health = entity.getComponent(Health.class);
+            if (health != null){
+                health.health -= eff.selfDamage;
+//                logger.trace("health-damage="+health.health);
+            }
+        }
+
+        if (name.internalID.equals(EntityID.BULLET.toString())){  // TODO: add collide-events to CollideEffect?
+            eventManager.pushEvent(GameEvent.COLLISION_BULLET);
+        }
     }
 
     private int getEntityId(Fixture fixture) {

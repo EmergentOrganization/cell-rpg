@@ -31,9 +31,7 @@ import com.emergentorganization.cellrpg.tools.Resources;
 public class EntityFactory {
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
-
-    public static float BULLET_MAX_DIST = 20f;
-
+    
     private World world;
     private EventManager eventManager;
 
@@ -42,6 +40,7 @@ public class EntityFactory {
     public Archetype collidable;
     public Archetype collectable;
     public Archetype character;
+    public Archetype destructable;
     public Archetype npc;
     private Archetype player;
     private Archetype bullet;
@@ -56,13 +55,14 @@ public class EntityFactory {
     public void initialize(World world) {
         this.world = world;
         this.eventManager = world.getSystem(EventManager.class);
-        base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
+        base = new ArchetypeBuilder().add(Position.class).add(Name.class).add(Lifecycle.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
-        collectable = new ArchetypeBuilder(collidable).add(destructionTimer.class).build(world);
-        bullet = new ArchetypeBuilder(collidable).add(BulletState.class).add(CollideEffect.class).build(world);
-        character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
+        destructable = new ArchetypeBuilder(collidable).add(Health.class).build(world);
+        collectable = new ArchetypeBuilder(destructable).add(destructionTimer.class).build(world);
+        bullet = new ArchetypeBuilder(destructable).add(CollideEffect.class).build(world);
+        character = new ArchetypeBuilder(destructable).build(world);
         npc = new ArchetypeBuilder(character).add(AIComponent.class, InputComponent.class).build(world);
         player = new ArchetypeBuilder(character)
                 .add(InputComponent.class)
@@ -83,6 +83,7 @@ public class EntityFactory {
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_VYROIDS_STD)
+                .maxDistanceFromPlayer(-1)
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
@@ -91,6 +92,7 @@ public class EntityFactory {
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_ENERGY)
+                .maxDistanceFromPlayer(-1)
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
@@ -99,6 +101,7 @@ public class EntityFactory {
                 EntityID.CA_LAYER_GENETIC.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_VYROIDS_GENETIC)
+                .maxDistanceFromPlayer(-1)
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
@@ -116,6 +119,7 @@ public class EntityFactory {
                 .speed(2f)
                 .spontGenRadius(10)    // TODO: not sure what this value should be... could use Bounds?
                 .spawnFieldRadius(10)  // TODO: not sure what this should be either
+                .maxDistanceFromPlayer(-1)  // don't check player distance from itself
                 //.health(1) // shield takes care of this instead
                 .build();
 
@@ -203,7 +207,9 @@ public class EntityFactory {
                 .bodyFriction(0.0001f)
                 .bodyRestitution(1.0f)
                 .bullet(true)
+                .health(3)
                 .collideDamage(1)
+                .collideSelfDamage(1)
                 .build();
 
         // add cellular automata grid interactions
@@ -303,6 +309,7 @@ public class EntityFactory {
         Entity bg = new EntityBuilder(world, object, "The Edge Background", EntityID.THE_EDGE.toString(), pos)
                 .texture(Resources.TEX_THE_EDGE)
                 .renderIndex(RenderIndex.BACKGROUND)
+                .maxDistanceFromPlayer(-1)
                 .build();
 
         return bg.getId();

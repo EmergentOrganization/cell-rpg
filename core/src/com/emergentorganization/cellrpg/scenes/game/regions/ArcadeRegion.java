@@ -17,7 +17,6 @@ import com.emergentorganization.cellrpg.scenes.game.WorldScene;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
 import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.Resources;
@@ -88,6 +87,7 @@ public class ArcadeRegion implements iRegion {
         )
                 .texture(Resources.TEX_BG_ARCADE)
                 .renderIndex(RenderIndex.BACKGROUND)
+                .maxDistanceFromPlayer(-1)
                 .build();
     }
 

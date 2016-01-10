@@ -113,13 +113,11 @@ public class EntityFactory {
                 .renderIndex(RenderIndex.PLAYER)
                 .setFixedRotation(true)
                 .bodyFriction(0.3f)
+                .speed(2f)
+                .spontGenRadius(10)    // TODO: not sure what this value should be... could use Bounds?
+                .spawnFieldRadius(10)  // TODO: not sure what this should be either
+                //.health(1) // shield takes care of this instead
                 .build();
-
-//        Health heal = player.getComponent(Health.class);
-//        heal.health = 3;
-
-        InputComponent ic = player.getComponent(InputComponent.class);
-        ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         // Shield
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
@@ -193,12 +191,6 @@ public class EntityFactory {
             .setColliderRadius(4)
         ;
 
-        SpontaneousGenerationList genList = player.getComponent(SpontaneousGenerationList.class);
-        genList.radius = 10;  // TODO: not sure what this value should be... could use Bounds?
-
-        CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
-        spawnField.radius = 10;  // TODO: not sure what this should be
-
         return player.getId();
     }
 
@@ -211,9 +203,8 @@ public class EntityFactory {
                 .bodyFriction(0.0001f)
                 .bodyRestitution(1.0f)
                 .bullet(true)
+                .collideDamage(1)
                 .build();
-
-        bullet.getComponent(CollideEffect.class).damage = 1;
 
         // add cellular automata grid interactions
         CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
@@ -361,13 +352,9 @@ public class EntityFactory {
                 .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
                 .renderIndex(RenderIndex.NPC)
                 .bodyFriction(.5f)
+                .health(3)
+                .speed(10f)
                 .build();
-
-        Health heal = puffer.getComponent(Health.class);
-        heal.health = 3;
-
-        InputComponent ic = puffer.getComponent(InputComponent.class);
-        ic.speed = 10f; // meters per sec // a dedicated component?
 
         CAInteractionList interactList = puffer.getComponent(CAInteractionList.class);
 //        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());

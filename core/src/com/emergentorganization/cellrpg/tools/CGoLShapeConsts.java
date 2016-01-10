@@ -32,6 +32,14 @@ public class CGoLShapeConsts {
             {0,0,0,0,0,0},
     };
 
+    public static final int[][] TUB = {
+            {0,0,0,0,0},
+            {0,0,1,0,0},
+            {0,1,0,1,0},
+            {0,0,1,0,0},
+            {0,0,0,0,0}
+    };
+
     public static final int[][] GLIDER_DOWN_RIGHT = {
             {0,0,0,0,0},
             {0,0,1,0,0},

@@ -7,6 +7,6 @@ import com.artemis.Component;
  *
  * Created by 7yl4r on 1/2/2016.
  */
-public class destructionTimer extends Component {
+public class DestructionTimer extends Component {
     public long timeToDestruction = -1;  // seconds until destruction
 }

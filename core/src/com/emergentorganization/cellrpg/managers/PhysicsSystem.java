@@ -66,6 +66,8 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     public Body createBoundsBody(int entityId, BodyDef bd, FixtureDef fd) {
+        if (!pm.has(entityId))
+            throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
         Body body = createEmptyBody(entityId, bd);
         Bounds b = bm.get(entityId);
         PolygonShape rect = new PolygonShape();

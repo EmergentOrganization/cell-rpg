@@ -16,9 +16,12 @@ import com.emergentorganization.cellrpg.components.SpontaneousGeneration.Spontan
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.core.Tags;
+import com.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
@@ -62,7 +65,7 @@ public class EntityFactory {
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
         invisibleObject = new ArchetypeBuilder(object).remove(Visual.class).add(PhysicsBody.class).build(world);
         destructable = new ArchetypeBuilder(collidable).add(Health.class).build(world);
-        collectable = new ArchetypeBuilder(destructable).add(destructionTimer.class).build(world);
+        collectable = new ArchetypeBuilder(destructable).add(DestructionTimer.class).build(world);
         bullet = new ArchetypeBuilder(destructable).add(CollideEffect.class).build(world);
         character = new ArchetypeBuilder(destructable).build(world);
         npc = new ArchetypeBuilder(character).add(AIComponent.class, InputComponent.class).build(world);
@@ -83,27 +86,24 @@ public class EntityFactory {
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
         vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
-                .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_VYROIDS_STD)
-                .maxDistanceFromPlayer(-1)
+                .addBuilder(new LifecycleBuilder(-1))
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
 
         energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
-                .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_ENERGY)
-                .maxDistanceFromPlayer(-1)
+                .addBuilder(new LifecycleBuilder(-1))
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
 
         geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
                 EntityID.CA_LAYER_GENETIC.toString(), pos)
-                .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_VYROIDS_GENETIC)
-                .maxDistanceFromPlayer(-1)
+                .addBuilder(new LifecycleBuilder(-1))
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
@@ -143,14 +143,20 @@ public class EntityFactory {
 
         final Entity player = new EntityBuilder(world, this.player, "Player", EntityID.PLAYER.toString(), pos)
                 .tag(Tags.PLAYER)
-                .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
-                .renderIndex(RenderIndex.PLAYER)
-                .setFixedRotation(true)
-                .bodyFriction(0.3f)
-                .speed(2f)
-                .spontGenRadius(10)    // TODO: not sure what this value should be... could use Bounds?
-                .spawnFieldRadius(10)  // TODO: not sure what this should be either
-                .maxDistanceFromPlayer(-1)  // don't check player distance from itself
+                .addBuilder(new VisualBuilder()
+                        .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
+                        .renderIndex(RenderIndex.PLAYER)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .setFixedRotation(true)
+                        .bodyFriction(0.3f)
+                )
+                .addBuilder(new InputBuilder()
+                        .speed(2f)
+                )
+                .addBuilder(new SpontaneousGenerationListBuilder(10))// TODO: not sure what this value should be... could use Bounds?
+                .addBuilder(new CollectibleSpawnFieldBuilder(10))// TODO: not sure what this should be either
+                .addBuilder(new LifecycleBuilder(-1)) // don't check player distance from itself
                 //.health(1) // shield takes care of this instead
                 .build();
 
@@ -158,8 +164,10 @@ public class EntityFactory {
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
         final Entity shield = new EntityBuilder(world, object, "Energy Shield", EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag("shield")
-                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
-                .renderIndex(RenderIndex.PLAYER_SHIELD)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
+                        .renderIndex(RenderIndex.PLAYER_SHIELD)
+                )
                 .build();
 
         final Equipment ec = player.getComponent(Equipment.class);
@@ -202,15 +210,23 @@ public class EntityFactory {
     public int createBullet(Vector2 pos, Vector2 dir) {
         final float speed = 10f;
         Entity bullet = new EntityBuilder(world, this.bullet, "Bullet", EntityID.BULLET.toString(), pos)
-                .texture(Resources.TEX_BULLET)
-                .renderIndex(RenderIndex.BULLET)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_BULLET)
+                        .renderIndex(RenderIndex.BULLET)
+                )
                 .velocity(speed, dir)
-                .bodyFriction(0.0001f)
-                .bodyRestitution(1.0f)
-                .bullet(true)
-                .health(3)
-                .collideDamage(1)
-                .collideSelfDamage(1)
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyFriction(0.0001f)
+                        .bodyRestitution(1.0f)
+                        .bullet(true)
+                )
+                .addBuilder(new HealthBuilder()
+                        .health(3)
+                )
+                .addBuilder(new CollideEffectBuilder()
+                        .collideDamage(1)
+                        .collideSelfDamage(1)
+                )
                 .build();
 
         // add cellular automata grid interactions
@@ -245,11 +261,15 @@ public class EntityFactory {
     public int createCivOneBlinker(float x, float y) {
         Vector2 pos = new Vector2(x, y);
         Entity civ = new EntityBuilder(world, character, "Civilian", EntityID.CIV_ONE_BLINKER.toString(), pos)
-                .renderIndex(RenderIndex.NPC)
-                .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
-                .bodyType(BodyDef.BodyType.KinematicBody)
-                .setFixedRotation(true)
-                .bodyFriction(0.3f)
+                .addBuilder(new VisualBuilder()
+                        .renderIndex(RenderIndex.NPC)
+                        .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyType(BodyDef.BodyType.KinematicBody)
+                        .setFixedRotation(true)
+                        .bodyFriction(0.3f)
+                )
                 .build();
 
         return civ.getId();
@@ -257,8 +277,12 @@ public class EntityFactory {
 
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Large Building", EntityID.BUILDING_LARGE_ONE.toString(), pos)
-                .texture(Resources.TEX_BLDG_LRG_ONE)
-                .bodyType(BodyDef.BodyType.StaticBody)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_BLDG_LRG_ONE)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyType(BodyDef.BodyType.StaticBody)
+                )
                 .angle(angleDeg)
                 .build();
 
@@ -268,9 +292,13 @@ public class EntityFactory {
     public int createBuildingRoundOne(Vector2 pos, float angleDeg) {
         // TODO: Tie GridSeed component to this somehow
         Entity bldg = new EntityBuilder(world, collidable, "Round Building", EntityID.BUILDING_ROUND_ONE.toString(), pos)
-                .texture(Resources.TEX_BLDG_ROUND_ONE)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_BLDG_ROUND_ONE)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyType(BodyDef.BodyType.StaticBody)
+                )
                 .angle(angleDeg)
-                .bodyType(BodyDef.BodyType.StaticBody)
                 .build();
 
         return bldg.getId();
@@ -278,9 +306,13 @@ public class EntityFactory {
 
     public int createRiftOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift1", EntityID.RIFT_ONE.toString(), pos) // TODO: Come up with a more ui-friendly name
-                .texture(Resources.TEX_RIFT_ONE)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_RIFT_ONE)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyType(BodyDef.BodyType.StaticBody)
+                )
                 .angle(angleDeg)
-                .bodyType(BodyDef.BodyType.StaticBody)
                 .build();
 
         return bldg.getId();
@@ -288,9 +320,13 @@ public class EntityFactory {
 
     public int createRiftTwo(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift2", EntityID.RIFT_TWO.toString(), pos) // TODO: Come up with a more ui-friendly name
-                .texture(Resources.TEX_RIFT_TWO)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_RIFT_TWO)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyType(BodyDef.BodyType.StaticBody)
+                )
                 .angle(angleDeg)
-                .bodyType(BodyDef.BodyType.StaticBody)
                 .build();
 
         return bldg.getId();
@@ -298,9 +334,13 @@ public class EntityFactory {
 
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Vyroid Beacon", EntityID.VYROID_BEACON.toString(), pos)
-                .texture(Resources.TEX_VYROID_BEACON)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_VYROID_BEACON)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyType(BodyDef.BodyType.StaticBody)
+                )
                 .angle(angleDeg)
-                .bodyType(BodyDef.BodyType.StaticBody)
                 .build();
 
         return bldg.getId();
@@ -308,9 +348,11 @@ public class EntityFactory {
 
     public int createBackgroundTheEdge(Vector2 pos) {
         Entity bg = new EntityBuilder(world, object, "The Edge Background", EntityID.THE_EDGE.toString(), pos)
-                .texture(Resources.TEX_THE_EDGE)
-                .renderIndex(RenderIndex.BACKGROUND)
-                .maxDistanceFromPlayer(-1)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_THE_EDGE)
+                        .renderIndex(RenderIndex.BACKGROUND)
+                )
+                .addBuilder(new LifecycleBuilder(-1))
                 .build();
 
         return bg.getId();
@@ -318,9 +360,11 @@ public class EntityFactory {
 
     public int createPowerupPlus(Vector2 pos) {
         Entity powerup = new EntityBuilder(world, collectable, "plus powerup", EntityID.POWERUP_PLUS.toString(), pos)
-                .texture(Resources.TEX_POWERUP_PLUS)
-                .renderIndex(RenderIndex.BULLET)
-                .timeToDestruction(5)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_POWERUP_PLUS)
+                        .renderIndex(RenderIndex.BULLET)
+                )
+                .addBuilder(new DestructionTimerBuilder(5))
                 .build();
         return powerup.getId();
     }
@@ -328,17 +372,21 @@ public class EntityFactory {
     public int createInvisibleWall(Vector2 size, Vector2 pos, float angleDeg) {
         Entity wall = new EntityBuilder(world, invisibleObject, "Invisible Wall", EntityID.INVISIBLE_WALL.toString(), pos)
                 .angle(angleDeg)
-                .bodyType(BodyDef.BodyType.StaticBody)
-                .boundsBody(size)
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyType(BodyDef.BodyType.StaticBody)
+                        .boundsBody(size)
+                )
                 .build();
         return wall.getId();
     }
 
     public int createPowerupStar(Vector2 pos){
         final Entity powerup = new EntityBuilder(world, collectable, "star powerup", EntityID.POWERUP_STAR.toString(), pos)
-                .texture(Resources.TEX_POWERUP_STAR)
-                .renderIndex(RenderIndex.BULLET)
-                .timeToDestruction(10)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_POWERUP_STAR)
+                        .renderIndex(RenderIndex.BULLET)
+                )
+                .addBuilder(new DestructionTimerBuilder(10))
                 .build();
 
         eventManager.addListener(new EventListener() {
@@ -366,12 +414,20 @@ public class EntityFactory {
 
     public int createVyrapuffer(Vector2 pos){
         Entity puffer = new EntityBuilder(world, npc, "vyrapuffer", EntityID.VYRAPUFFER.toString(), pos)
-                .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
-                .renderIndex(RenderIndex.NPC)
-                .bodyFriction(.5f)
-                .health(3)
-                .speed(10f)
-                .AIType(AIComponent.aiType.DUMBWALK)
+                .addBuilder(new VisualBuilder()
+                        .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
+                        .renderIndex(RenderIndex.NPC)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyFriction(.5f)
+                )
+                .addBuilder(new HealthBuilder()
+                    .health(3)
+                )
+                .addBuilder(new InputBuilder()
+                        .speed(10f)
+                )
+                .addBuilder(new AIComponentBuilder(AIComponent.aiType.DUMBWALK))
                 .build();
 
         CAInteractionList interactList = puffer.getComponent(CAInteractionList.class);
@@ -386,14 +442,22 @@ public class EntityFactory {
 
     public int createTubSnake(Vector2 pos){
         Entity ent = new EntityBuilder(world, npc, "tub still life with snake behavior", EntityID.TUBSNAKE.toString(), pos)
-                .renderIndex(RenderIndex.NPC)
-                .bodyFriction(.5f)
-                .health(1)
-                .speed(.2f)
-                .texture(Resources.TEX_TUBSNAKE)
-                .renderIndex(RenderIndex.NPC)
-                .AIType(AIComponent.aiType.RANDWALK)
-                .AIPeriod(.1f)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_TUBSNAKE)
+                        .renderIndex(RenderIndex.NPC)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                        .bodyFriction(.5f)
+                )
+                .addBuilder(new HealthBuilder()
+                        .health(1)
+                )
+                .addBuilder(new InputBuilder()
+                        .speed(.2f)
+                )
+                .addBuilder(new AIComponentBuilder(AIComponent.aiType.RANDWALK)
+                        .AIPeriod(.1f)
+                )
                 .build();
 
         CAInteractionList interactList = ent.getComponent(CAInteractionList.class);

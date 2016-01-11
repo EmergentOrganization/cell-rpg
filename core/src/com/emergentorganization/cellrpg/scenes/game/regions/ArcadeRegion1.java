@@ -11,8 +11,10 @@ import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityBuilder;
+import com.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.LifecycleBuilder;
+import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import com.emergentorganization.cellrpg.scenes.game.WorldScene;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
@@ -92,8 +94,10 @@ public class ArcadeRegion1 implements iRegion {
                 EntityID.BG_ARCADE.toString(),
                 player.getComponent(Position.class).position.cpy().sub(2000*.025f,2000*.025f)  // minus 1/2 texture size
         )
-                .texture(Resources.TEX_BG_ARCADE)
-                .renderIndex(RenderIndex.BACKGROUND)
+                .addBuilder(new VisualBuilder()
+                        .texture(Resources.TEX_BG_ARCADE)
+                        .renderIndex(RenderIndex.BACKGROUND)
+                )
                 .build();
     }
 

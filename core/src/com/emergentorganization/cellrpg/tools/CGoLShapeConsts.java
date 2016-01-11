@@ -32,6 +32,14 @@ public class CGoLShapeConsts {
             {0,0,0,0,0,0},
     };
 
+    public static final int[][] TUB = {
+            {0,0,0,0,0},
+            {0,0,1,0,0},
+            {0,1,0,1,0},
+            {0,0,1,0,0},
+            {0,0,0,0,0}
+    };
+
     public static final int[][] GLIDER_DOWN_RIGHT = {
             {0,0,0,0,0},
             {0,0,1,0,0},
@@ -71,6 +79,22 @@ public class CGoLShapeConsts {
             {0,0,1,0,0},
             {0,0,0,0,0}
     };
+
+    public static int[][] stateReplace(int[][] pattern, int state){
+        // replaces the 1s in the given pattern with another state
+        int REPL = 1;  // value to replace
+        int[][] res = new int[pattern.length][pattern[0].length];
+        for (int i = 0; i < res.length; i++){
+            for (int j = 0; j < res[0].length; j++){
+                if (pattern[i][j] == REPL) {
+                    res[i][j] = state;
+                } else {
+                    res[i][j] = pattern[i][j];
+                }
+            }
+        }
+        return res;
+    }
 
     public static int[][] SQUARE(final int w, final int h, final int fill_state){
         int[][] res = new int[w][h];

@@ -32,8 +32,6 @@ public class EntityFactory {
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
 
-    public static float BULLET_MAX_DIST = 20f;
-
     private World world;
     private EventManager eventManager;
 
@@ -42,6 +40,7 @@ public class EntityFactory {
     public Archetype collidable;
     public Archetype collectable;
     public Archetype character;
+    public Archetype destructable;
     public Archetype npc;
     private Archetype player;
     private Archetype bullet;
@@ -56,13 +55,14 @@ public class EntityFactory {
     public void initialize(World world) {
         this.world = world;
         this.eventManager = world.getSystem(EventManager.class);
-        base = new ArchetypeBuilder().add(Position.class).add(Name.class).build(world);
+        base = new ArchetypeBuilder().add(Position.class).add(Name.class).add(Lifecycle.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
-        collectable = new ArchetypeBuilder(collidable).add(destructionTimer.class).build(world);
-        bullet = new ArchetypeBuilder(collidable).add(BulletState.class).add(CollideEffect.class).build(world);
-        character = new ArchetypeBuilder(collidable).add(Health.class).build(world);
+        destructable = new ArchetypeBuilder(collidable).add(Health.class).build(world);
+        collectable = new ArchetypeBuilder(destructable).add(destructionTimer.class).build(world);
+        bullet = new ArchetypeBuilder(destructable).add(CollideEffect.class).build(world);
+        character = new ArchetypeBuilder(destructable).build(world);
         npc = new ArchetypeBuilder(character).add(AIComponent.class, InputComponent.class).build(world);
         player = new ArchetypeBuilder(character)
                 .add(InputComponent.class)
@@ -83,6 +83,7 @@ public class EntityFactory {
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_VYROIDS_STD)
+                .maxDistanceFromPlayer(-1)
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
@@ -91,6 +92,7 @@ public class EntityFactory {
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_ENERGY)
+                .maxDistanceFromPlayer(-1)
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
@@ -99,6 +101,7 @@ public class EntityFactory {
                 EntityID.CA_LAYER_GENETIC.toString(), pos)
                 .renderIndex(RenderIndex.CA)
                 .tag(Tags.CA_VYROIDS_GENETIC)
+                .maxDistanceFromPlayer(-1)
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
@@ -113,13 +116,12 @@ public class EntityFactory {
                 .renderIndex(RenderIndex.PLAYER)
                 .setFixedRotation(true)
                 .bodyFriction(0.3f)
+                .speed(2f)
+                .spontGenRadius(10)    // TODO: not sure what this value should be... could use Bounds?
+                .spawnFieldRadius(10)  // TODO: not sure what this should be either
+                .maxDistanceFromPlayer(-1)  // don't check player distance from itself
+                //.health(1) // shield takes care of this instead
                 .build();
-
-//        Health heal = player.getComponent(Health.class);
-//        heal.health = 3;
-
-        InputComponent ic = player.getComponent(InputComponent.class);
-        ic.speed = 2f; // 2 meters per sec // a dedicated component?
 
         // Shield
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
@@ -193,12 +195,6 @@ public class EntityFactory {
             .setColliderRadius(4)
         ;
 
-        SpontaneousGenerationList genList = player.getComponent(SpontaneousGenerationList.class);
-        genList.radius = 10;  // TODO: not sure what this value should be... could use Bounds?
-
-        CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
-        spawnField.radius = 10;  // TODO: not sure what this should be
-
         return player.getId();
     }
 
@@ -211,9 +207,10 @@ public class EntityFactory {
                 .bodyFriction(0.0001f)
                 .bodyRestitution(1.0f)
                 .bullet(true)
+                .health(3)
+                .collideDamage(1)
+                .collideSelfDamage(1)
                 .build();
-
-        bullet.getComponent(CollideEffect.class).damage = 1;
 
         // add cellular automata grid interactions
         CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
@@ -312,6 +309,7 @@ public class EntityFactory {
         Entity bg = new EntityBuilder(world, object, "The Edge Background", EntityID.THE_EDGE.toString(), pos)
                 .texture(Resources.TEX_THE_EDGE)
                 .renderIndex(RenderIndex.BACKGROUND)
+                .maxDistanceFromPlayer(-1)
                 .build();
 
         return bg.getId();
@@ -361,13 +359,10 @@ public class EntityFactory {
                 .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
                 .renderIndex(RenderIndex.NPC)
                 .bodyFriction(.5f)
+                .health(3)
+                .speed(10f)
+                .AIType(AIComponent.aiType.DUMBWALK)
                 .build();
-
-        Health heal = puffer.getComponent(Health.class);
-        heal.health = 3;
-
-        InputComponent ic = puffer.getComponent(InputComponent.class);
-        ic.speed = 10f; // meters per sec // a dedicated component?
 
         CAInteractionList interactList = puffer.getComponent(CAInteractionList.class);
 //        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
@@ -377,6 +372,40 @@ public class EntityFactory {
         ).setColliderRadius(1);
 
         return puffer.getId();
+    }
+
+    public int createTubSnake(Vector2 pos){
+        Entity ent = new EntityBuilder(world, npc, "tub still life with snake behavior", EntityID.TUBSNAKE.toString(), pos)
+                .renderIndex(RenderIndex.NPC)
+                .bodyFriction(.5f)
+                .health(1)
+                .speed(.2f)
+                .texture(Resources.TEX_TUBSNAKE)
+                .renderIndex(RenderIndex.NPC)
+                .AIType(AIComponent.aiType.RANDWALK)
+                .AIPeriod(.1f)
+                .build();
+
+        CAInteractionList interactList = ent.getComponent(CAInteractionList.class);
+//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
+        interactList
+                .addInteraction(
+                    vyroidLayer.getId(),
+                    new CAInteraction()
+                            .addCollisionImpactStamp(0, CGoLShapeConsts.TUB, vyroidLayer.getId())
+                            .addCollisionImpactStamp(
+                                    0,
+                                    CGoLShapeConsts.stateReplace(
+                                            CGoLShapeConsts.TUB,
+                                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.FIRE)
+                                    ),
+                                    energyLayer.getId()
+                            )
+                )
+                .setColliderRadius(1)
+        ;
+
+        return ent.getId();
     }
 
     public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
@@ -401,6 +430,8 @@ public class EntityFactory {
                 return createCivOneBlinker(pos.x, pos.y);
             case VYRAPUFFER:
                 return createVyrapuffer(pos);
+            case TUBSNAKE:
+                return createTubSnake(pos);
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
             case POWERUP_PLUS:

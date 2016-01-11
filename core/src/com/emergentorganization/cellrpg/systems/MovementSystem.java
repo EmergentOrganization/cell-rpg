@@ -36,7 +36,6 @@ public class MovementSystem extends IteratingSystem {
 
         if (physMapper.has(entityId)) {
             Body body = world.getSystem(PhysicsSystem.class).getBody(entityId);
-            System.out.println(world.getEntity(entityId).getComponent(Name.class).friendlyName);
             if (inputMapper.has(entityId)) { // control physics body by input
                 processPhysicsMovement(body, inputMapper.get(entityId), p, v, r);
             } else { // keep image with body for when physics is acting upon it

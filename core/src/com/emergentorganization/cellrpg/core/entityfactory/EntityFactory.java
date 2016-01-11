@@ -77,6 +77,7 @@ public class EntityFactory {
                 .add(StatsTracker.class)
                 .add(SpontaneousGenerationList.class)
                 .add(CollectibleSpawnField.class)
+                .remove(Health.class) // doesn't need health; has shield
                 .build(world);
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }
@@ -214,7 +215,6 @@ public class EntityFactory {
                         .texture(Resources.TEX_BULLET)
                         .renderIndex(RenderIndex.BULLET)
                 )
-                .velocity(speed, dir)
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyFriction(0.0001f)
                         .bodyRestitution(1.0f)
@@ -227,6 +227,7 @@ public class EntityFactory {
                         .collideDamage(1)
                         .collideSelfDamage(1)
                 )
+                .velocity(speed, dir)
                 .build();
 
         // add cellular automata grid interactions
@@ -364,6 +365,7 @@ public class EntityFactory {
                         .texture(Resources.TEX_POWERUP_PLUS)
                         .renderIndex(RenderIndex.BULLET)
                 )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class)))
                 .addBuilder(new DestructionTimerBuilder(5))
                 .build();
         return powerup.getId();
@@ -386,6 +388,7 @@ public class EntityFactory {
                         .texture(Resources.TEX_POWERUP_STAR)
                         .renderIndex(RenderIndex.BULLET)
                 )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class)))
                 .addBuilder(new DestructionTimerBuilder(10))
                 .build();
 

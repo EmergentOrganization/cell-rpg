@@ -16,10 +16,10 @@ import java.util.HashMap;
  * Created by 7yl4r on 12/31/2015.
  */
 public class StatsTracker extends Component {
-    public int damageTaken;
-    public int vyroidKills;
-    public int shots;
-    public float timeSurvived;
+    public int damageTaken = 0;
+    public int vyroidKills = 0;
+    public int shots = 0;
+    public float timeSurvived = 0f;
     private int[] kills = new int[CALayer.values().length];
 
     private static int POINTS_PER_KILL    = 100;

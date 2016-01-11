@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.InputComponent;
 
@@ -28,5 +29,10 @@ public class InputBuilder extends BaseComponentBuilder {
 
         InputComponent ic = entity.getComponent(InputComponent.class);
         ic.speed = speed; // meters per sec
+    }
+
+    @Override
+    public Class<? extends Component> getComponentClass() {
+        return InputComponent.class;
     }
 }

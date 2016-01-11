@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.emergentorganization.cellrpg.components.Bounds;
@@ -78,5 +79,10 @@ public class VisualBuilder extends BaseComponentBuilder {
                 throw new RuntimeException("ERROR: Need to set a texture or animation on entity " + entityId);
             }
         }
+    }
+
+    @Override
+    public Class<? extends Component> getComponentClass() {
+        return Visual.class;
     }
 }

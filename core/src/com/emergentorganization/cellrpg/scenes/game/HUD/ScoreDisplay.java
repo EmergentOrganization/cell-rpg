@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
+import com.emergentorganization.cellrpg.components.Name;
 import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.events.ScoreEventListener;
 import com.emergentorganization.cellrpg.managers.EventManager;
@@ -19,12 +20,12 @@ public class ScoreDisplay {
     private Stage stage;
     private VisLabel scoreLabel;
     private int score = 0;
-    public int targetEntityId;
+    public StatsTracker targetTracker;
 
     public ScoreDisplay(World world, Stage stage, int entityId){
         this.world = world;
         this.stage = stage;
-        this.targetEntityId = entityId;
+        this.targetTracker = world.getEntity(entityId).getComponent(StatsTracker.class);
         VisWindow scoreWindow = new VisWindow("", true);
         scoreWindow.setPosition(0, 1000, Align.topRight);
 
@@ -43,9 +44,8 @@ public class ScoreDisplay {
 
     public void updateScore(float delta){
         // get entities with statsTracker component
-        StatsTracker stats = world.getEntity(targetEntityId).getComponent(StatsTracker.class);
-        stats.timeSurvived += delta;
-        score = stats.getScore();
+        targetTracker.timeSurvived += delta;
+        score = targetTracker.getScore();
         scoreLabel.setText(getFormattedScoreStr());
         // scoreWindow.pack() repack? not needed as long as score stays same length.
     }

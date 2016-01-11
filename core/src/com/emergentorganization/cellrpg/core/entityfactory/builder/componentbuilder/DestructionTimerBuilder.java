@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.DestructionTimer;
 
@@ -19,5 +20,10 @@ public class DestructionTimerBuilder extends BaseComponentBuilder {
         super.build(entity);
         DestructionTimer destTimer = entity.getComponent(DestructionTimer.class);
         destTimer.timeToDestruction = timeToDestruction;
+    }
+
+    @Override
+    public Class<? extends Component> getComponentClass() {
+        return DestructionTimer.class;
     }
 }

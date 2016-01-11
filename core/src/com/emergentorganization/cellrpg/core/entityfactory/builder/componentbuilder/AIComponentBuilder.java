@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.AIComponent;
 
@@ -29,5 +30,10 @@ public class AIComponentBuilder extends BaseComponentBuilder {
         AIComponent ai = entity.getComponent(AIComponent.class);
         ai.type = AIType;
         ai.period = AIPeriod;
+    }
+
+    @Override
+    public Class<? extends Component> getComponentClass() {
+        return AIComponent.class;
     }
 }

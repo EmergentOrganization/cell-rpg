@@ -1,6 +1,7 @@
 package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.Lifecycle;
 
@@ -21,5 +22,10 @@ public class LifecycleBuilder extends BaseComponentBuilder {
         super.build(entity);
 
         entity.getComponent(Lifecycle.class).maxPlayerDist = maxDistanceFromPlayer;
+    }
+
+    @Override
+    public Class<? extends Component> getComponentClass() {
+        return Lifecycle.class;
     }
 }

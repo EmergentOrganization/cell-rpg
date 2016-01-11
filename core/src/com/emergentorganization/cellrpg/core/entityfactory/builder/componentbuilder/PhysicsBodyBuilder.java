@@ -1,13 +1,13 @@
 package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.Name;
-import com.emergentorganization.cellrpg.components.PhysicsBody;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
 /**
@@ -54,6 +54,26 @@ public class PhysicsBodyBuilder extends BaseComponentBuilder {
      */
     public PhysicsBodyBuilder setAngleRad(float angleRad) {
         this.angleRad = angleRad;
+        return this;
+    }
+
+    public PhysicsBodyBuilder velocity(Vector2 vel) {
+        this.velocity.set(vel);
+        return this;
+    }
+
+    public PhysicsBodyBuilder velocity(float speed, Vector2 dir) {
+        this.velocity.set(dir).scl(speed);
+        return this;
+    }
+
+    public PhysicsBodyBuilder position(float x, float y) {
+        this.position.set(x,y);
+        return this;
+    }
+
+    public PhysicsBodyBuilder position(Vector2 pos) {
+        this.position.set(pos);
         return this;
     }
 
@@ -108,8 +128,17 @@ public class PhysicsBodyBuilder extends BaseComponentBuilder {
         bDef.allowSleep = allowSleep;
         bDef.type = bodyType;
         bDef.fixedRotation = fixedRotation;
-        bDef.position.set(position);
-        bDef.linearVelocity.set(velocity);
+        if (position.len() != 0.0f) {
+            bDef.position.set(position);
+        }
+        else {
+            bDef.position.set(entity.getComponent(Position.class).position);
+        }
+        if (velocity.len() != 0.0f) {
+            bDef.linearVelocity.set(velocity);
+        } else {
+            bDef.linearVelocity.set(entity.getComponent(Velocity.class).velocity);
+        }
         bDef.angle = angleRad;
         FixtureDef fDef = new FixtureDef();
         fDef.density = density;
@@ -123,5 +152,10 @@ public class PhysicsBodyBuilder extends BaseComponentBuilder {
         } else {
             physicsSystem.createBody(entity.getId(), entity.getComponent(Name.class).internalID, bDef, fDef);
         }
+    }
+
+    @Override
+    public Class<? extends Component> getComponentClass() {
+        return PhysicsBody.class;
     }
 }

@@ -1,14 +1,18 @@
 package com.emergentorganization.cellrpg.core.entityfactory.builder;
 
 import com.artemis.Archetype;
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.artemis.utils.Bag;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.BuilderComparator;
 import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.IComponentBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -16,6 +20,7 @@ import java.util.*;
  * Created by brian on 11/21/15.
  */
 public class EntityBuilder {
+    private final Logger logger = LogManager.getLogger(getClass());
     // ==================================================================
     // ================= ENTITY COMPONENT PROPERTIES ====================
     // === these are the properties to be added to the entity which   ===
@@ -88,7 +93,33 @@ public class EntityBuilder {
             builder.build(entity);
         }
 
+        //checkForMissingBuilders(builders, entity);
+
         return entity;
+    }
+
+    /**
+     * DEBUG ONLY: A method for checking the creation of arbitrary components
+     */
+    private void checkForMissingBuilders(ArrayList<IComponentBuilder> builders, Entity entity) {
+        Bag<Component> components = entity.getComponents(new Bag<Component>());
+        for (Component component : components) {
+            String cName = component.getClass().getName();
+            boolean found = false;
+            for (IComponentBuilder builder : builders) {
+                if (cName.equals(builder.getComponentClass().getName())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                logger.warn(
+                        "Could not find builder for the " + cName +
+                        " component attached to " + entity.getComponent(Name.class).friendlyName
+                );
+            }
+        }
+
     }
 
     private void buildName(Entity entity){

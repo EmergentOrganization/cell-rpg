@@ -24,7 +24,7 @@ public class ScoreEventListener implements EventListener {
     @Override
     public void notify(GameEvent event) {
         // TODO: iff event applies to this entity
-        StatsTracker stats = display.world.getEntity(display.targetEntityId).getComponent(StatsTracker.class);
+        StatsTracker stats = display.targetTracker;
         switch (event) {
             case PLAYER_HIT:
                 stats.damageTaken += 1;

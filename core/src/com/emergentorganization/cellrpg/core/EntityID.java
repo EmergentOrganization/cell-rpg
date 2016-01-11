@@ -15,7 +15,7 @@ public enum EntityID {
     RIFT_ONE, RIFT_TWO, VYROID_BEACON,
     CIV_ONE_BLINKER,
     VYRAPUFFER,TUBSNAKE,
-    THE_EDGE, BG_ARCADE,
+    THE_EDGE, BG_ARCADE, INVISIBLE_WALL,
     POWERUP_PLUS, POWERUP_STAR,
     CA_LAYER_VYROIDS, CA_LAYER_ENERGY, CA_LAYER_GENETIC;
 
@@ -39,6 +39,7 @@ public enum EntityID {
 
         map.put(THE_EDGE, "the_edge");
         map.put(BG_ARCADE, "bg-arcade");
+        map.put(INVISIBLE_WALL, "invisible_wall");
 
         map.put(CA_LAYER_VYROIDS, CALayer.VYROIDS.toString());
         map.put(CA_LAYER_ENERGY, CALayer.ENERGY.toString());

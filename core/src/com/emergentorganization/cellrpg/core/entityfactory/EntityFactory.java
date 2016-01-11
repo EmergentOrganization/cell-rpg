@@ -45,6 +45,7 @@ public class EntityFactory {
     private Archetype player;
     private Archetype bullet;
     private Archetype ca_layer;
+    private Archetype invisibleObject;
 
     // TODO: add CAManager & get CA layers using , not this:
     Entity vyroidLayer;
@@ -59,6 +60,7 @@ public class EntityFactory {
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
                 .add(Bounds.class).add(Velocity.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
+        invisibleObject = new ArchetypeBuilder(object).remove(Visual.class).add(PhysicsBody.class).build(world);
         destructable = new ArchetypeBuilder(collidable).add(Health.class).build(world);
         collectable = new ArchetypeBuilder(destructable).add(destructionTimer.class).build(world);
         bullet = new ArchetypeBuilder(destructable).add(CollideEffect.class).build(world);
@@ -76,7 +78,7 @@ public class EntityFactory {
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }
 
-    private void addCALayers(Vector2 pos){
+    public void addCALayers(Vector2 pos, int playerID){
         // adds all ca layer entities to the scene.
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
         vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
@@ -105,6 +107,35 @@ public class EntityFactory {
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
+
+        // add cellular automata grid interactions
+        Entity player = world.getEntity(playerID);
+        CAInteractionList interactList = player.getComponent(CAInteractionList.class);
+//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
+        interactList
+                .addInteraction(
+                        vyroidLayer.getId(),
+                        new CAInteraction()
+                                // vyroid damage
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(10, 10), energyLayer.getId())
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10, 10), vyroidLayer.getId())
+                                .addEventTrigger(1, GameEvent.PLAYER_HIT)
+                                // constant visual effect
+                                .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
+                                        3,
+                                        3,
+                                        DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.BLUE)
+                                ), energyLayer.getId())
+                )
+                .addInteraction(  // genetic vyroids damage
+                        geneticLayer.getId(),
+                        new CAInteraction()
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(4*3,4*3), energyLayer.getId())
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(4, 4), geneticLayer.getId())
+                                .addEventTrigger(1, GameEvent.PLAYER_HIT)
+                )
+                .setColliderRadius(4)
+        ;
     }
 
     public int createPlayer(float x, float y) {
@@ -164,36 +195,6 @@ public class EntityFactory {
                 }
             }
         });
-
-        addCALayers(pos);  // TODO: this should be somewhere else
-
-        // add cellular automata grid interactions
-        CAInteractionList interactList = player.getComponent(CAInteractionList.class);
-//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
-        interactList
-            .addInteraction(
-                vyroidLayer.getId(),
-                new CAInteraction()
-                    // vyroid damage
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(10, 10), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(10, 10), vyroidLayer.getId())
-                    .addEventTrigger(1, GameEvent.PLAYER_HIT)
-                    // constant visual effect
-                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
-                            3,
-                            3,
-                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.BLUE)
-                    ), energyLayer.getId())
-            )
-            .addInteraction(  // genetic vyroids damage
-                geneticLayer.getId(),
-                new CAInteraction()
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(4*3,4*3), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(4, 4), geneticLayer.getId())
-                    .addEventTrigger(1, GameEvent.PLAYER_HIT)
-            )
-            .setColliderRadius(4)
-        ;
 
         return player.getId();
     }
@@ -315,13 +316,22 @@ public class EntityFactory {
         return bg.getId();
     }
 
-    public int createPowerupPlus(Vector2 pos){
+    public int createPowerupPlus(Vector2 pos) {
         Entity powerup = new EntityBuilder(world, collectable, "plus powerup", EntityID.POWERUP_PLUS.toString(), pos)
                 .texture(Resources.TEX_POWERUP_PLUS)
                 .renderIndex(RenderIndex.BULLET)
                 .timeToDestruction(5)
                 .build();
         return powerup.getId();
+    }
+
+    public int createInvisibleWall(Vector2 size, Vector2 pos, float angleDeg) {
+        Entity wall = new EntityBuilder(world, invisibleObject, "Invisible Wall", EntityID.INVISIBLE_WALL.toString(), pos)
+                .angle(angleDeg)
+                .bodyType(BodyDef.BodyType.StaticBody)
+                .boundsBody(size)
+                .build();
+        return wall.getId();
     }
 
     public int createPowerupStar(Vector2 pos){
@@ -434,6 +444,8 @@ public class EntityFactory {
                 return createTubSnake(pos);
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
+            case INVISIBLE_WALL:
+                return createInvisibleWall(new Vector2(1,1), pos, angleDeg);
             case POWERUP_PLUS:
                 return createPowerupPlus(pos);
             case POWERUP_STAR:

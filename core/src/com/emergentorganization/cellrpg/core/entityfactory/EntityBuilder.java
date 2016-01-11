@@ -55,6 +55,7 @@ public class EntityBuilder {
     private Vector2 velocity = new Vector2();
     private boolean isBullet = false;
     private long timeToDestruction = -1;
+    private Vector2 rectSize;
     private float speed = 1f;
     private int health = Integer.MAX_VALUE;  // still destructible TODO: fix?
     private int maxHealth = -1;  // defaults to full health unless other given.
@@ -233,7 +234,15 @@ public class EntityBuilder {
             fDef.density = density;
             fDef.friction = friction;
             fDef.restitution = restitution;
-            world.getSystem(PhysicsSystem.class).createBody(entity.getId(), entityId, bDef, fDef);
+            PhysicsSystem physicsSystem = world.getSystem(PhysicsSystem.class);
+            if (rectSize != null) {
+                Bounds b = entity.getComponent(Bounds.class);
+                b.width = rectSize.x;
+                b.height = rectSize.y;
+                physicsSystem.createBoundsBody(entity.getId(), bDef, fDef);
+            } else {
+                physicsSystem.createBody(entity.getId(), entityId, bDef, fDef);
+            }
         }
     }
 
@@ -366,6 +375,7 @@ public class EntityBuilder {
 
     /**
      * Default BodyType is Dynamic
+     * @param bodyType If static, most physics parameters are useless
      */
     public EntityBuilder bodyType(BodyDef.BodyType bodyType) {
         this.bodyType = bodyType;
@@ -417,8 +427,13 @@ public class EntityBuilder {
         return this;
     }
 
-    public EntityBuilder timeToDestruction(long t2d){
+    public EntityBuilder timeToDestruction(long t2d) {
         timeToDestruction = t2d;
+        return this;
+    }
+
+    public EntityBuilder boundsBody(Vector2 rectSize) {
+        this.rectSize = rectSize;
         return this;
     }
 }

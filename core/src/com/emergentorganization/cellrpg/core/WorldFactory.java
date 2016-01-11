@@ -102,4 +102,37 @@ public class WorldFactory {
 
     public static void setupStdHUD(World world, Stage stage){
     }
+
+    public static World editorGameWorld(PixelonTransmission pt, SpriteBatch batch, Stage stage, EntityFactory entityFactory) {
+        WorldConfiguration wc = new WorldConfiguration();
+        wc.register(entityFactory);
+
+        wc.setSystem(new TagManager()); // useful for tagging unique entities
+
+        AssetManager assetManager = new AssetManager(pt.getGdxAssetManager());
+        wc.setSystem(assetManager);
+
+
+
+        wc.setSystem(new CameraSystem());
+        wc.setSystem(new RenderSystem(batch));
+        PhysicsSystem physicsSystem = new PhysicsSystem(pt.getBodyLoader(), batch);
+        wc.setSystem(physicsSystem);
+
+        wc.setSystem(new InputSystem());
+        wc.setSystem(new MovementSystem()); // move after rendering
+        wc.setSystem(new EntityLifecycleSystem());
+        EventManager eventManager = new EventManager();
+        wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
+        wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
+
+        World world = new World(wc);
+        entityFactory.initialize(world);
+
+        physicsSystem.setContactListener(new PhysicsContactListener(world));
+
+        eventManager.addListener(new SoundEventListener(assetManager));
+
+        return world;
+    }
 }

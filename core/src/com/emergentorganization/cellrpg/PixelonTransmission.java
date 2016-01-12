@@ -26,6 +26,7 @@ import java.util.Properties;
  */
 public class PixelonTransmission extends Game {
     public static final float PHYSICS_TIMESTEP = 1 / 45f;
+    private static final String VERSION = "0.3";
     private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
     private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
 
@@ -34,7 +35,6 @@ public class PixelonTransmission extends Game {
     }
 
     private final Logger logger;
-    private String version;
     private AssetManager assetManager;
     private SceneManager sceneManager;
     private TextureAtlas textureAtlas;
@@ -54,7 +54,7 @@ public class PixelonTransmission extends Game {
             fileStructure.unpackAssets();
         }
 
-        version = loadVersion();
+        //version = getVersion();
         VisUI.load();
 
         assetManager = new AssetManager(new InternalFileHandleResolver());
@@ -120,7 +120,7 @@ public class PixelonTransmission extends Game {
     }
 
     public String getVersion() {
-        return version;
+        return VERSION;
     }
 
     public AssetManager getGdxAssetManager() {

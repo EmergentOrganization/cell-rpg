@@ -1,16 +1,16 @@
 import org.ajoberstar.grgit.Grgit
 
 //TODO: Move version incrementer from root?
-Properties props = new Properties();
-File propsFile = new File(project.projectDir.absolutePath + "/android/assets/resources/property.settings");
-propsFile.withInputStream {
-    props.load(it);
-}
-
-def git = Grgit.open(project.file("."));
-props.setProperty('revision', git.head().getAbbreviatedId());
-
-props.store(propsFile.newWriter(), null);
+//Properties props = new Properties();
+//File propsFile = new File(project.projectDir.absolutePath + "/android/assets/resources/property.settings");
+//propsFile.withInputStream {
+//    props.load(it);
+//}
+//
+//def git = Grgit.open(project.file("."));
+//props.setProperty('revision', git.head().getAbbreviatedId());
+//
+//props.store(propsFile.newWriter(), null);
 // END VERSION INCREMENTER
 
 buildscript {
@@ -33,7 +33,7 @@ allprojects {
 
     ext {
         appName = 'Cell-RPG'
-        appVersion = props.majorVersion + "." + props.minorVersion + "." + props.revision
+        //appVersion = props.majorVersion + "." + props.minorVersion + "." + props.revision
         gdxVersion = '1.7.0'
         roboVMVersion = '1.2.0'
         box2DLightsVersion = '1.3'

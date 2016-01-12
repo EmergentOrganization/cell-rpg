@@ -125,8 +125,9 @@ public class EntityBuilder {
                 }
             }
             if (!found) {
+                String[] packages = cName.split("\\.");
                 logger.warn(
-                        "Could not find builder for the " + cName +
+                        "Could not find builder for the " + packages[packages.length - 1] +
                         " component attached to " + entity.getComponent(Name.class).friendlyName
                 );
             }

@@ -93,18 +93,30 @@ public class EntityBuilder {
             builder.build(entity);
         }
 
-        //checkForMissingBuilders(builders, entity);
+        checkForMissingBuilders(builders, entity, false);
 
         return entity;
     }
 
+    private static final ArrayList<Class<? extends Component>> ignoredComponentBuilders = new ArrayList<Class<? extends Component>>();
+    static {
+        ignoredComponentBuilders.add(Position.class);
+        ignoredComponentBuilders.add(Rotation.class);
+        ignoredComponentBuilders.add(Scale.class);
+        ignoredComponentBuilders.add(Velocity.class);
+        ignoredComponentBuilders.add(Bounds.class);
+        ignoredComponentBuilders.add(Name.class);
+    }
     /**
      * DEBUG ONLY: A method for checking the creation of arbitrary components
      */
-    private void checkForMissingBuilders(ArrayList<IComponentBuilder> builders, Entity entity) {
+    private void checkForMissingBuilders(ArrayList<IComponentBuilder> builders, Entity entity, boolean verbose) {
         Bag<Component> components = entity.getComponents(new Bag<Component>());
         for (Component component : components) {
             String cName = component.getClass().getName();
+            if (!verbose && ignoredComponentBuilders.contains(component.getClass())) {
+                continue;
+            }
             boolean found = false;
             for (IComponentBuilder builder : builders) {
                 if (cName.equals(builder.getComponentClass().getName())) {

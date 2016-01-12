@@ -88,7 +88,6 @@ public class EntityFactory {
         vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
                 EntityID.CA_LAYER_VYROIDS.toString(), pos)
                 .tag(Tags.CA_VYROIDS_STD)
-                .addBuilder(new LifecycleBuilder(-1))
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
@@ -96,7 +95,6 @@ public class EntityFactory {
         energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
                 .tag(Tags.CA_ENERGY)
-                .addBuilder(new LifecycleBuilder(-1))
                 .build();
         CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
@@ -104,7 +102,6 @@ public class EntityFactory {
         geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
                 EntityID.CA_LAYER_GENETIC.toString(), pos)
                 .tag(Tags.CA_VYROIDS_GENETIC)
-                .addBuilder(new LifecycleBuilder(-1))
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
@@ -157,7 +154,6 @@ public class EntityFactory {
                 )
                 .addBuilder(new SpontaneousGenerationListBuilder(10))// TODO: not sure what this value should be... could use Bounds?
                 .addBuilder(new CollectibleSpawnFieldBuilder(10))// TODO: not sure what this should be either
-                .addBuilder(new LifecycleBuilder(-1)) // don't check player distance from itself
                 //.health(1) // shield takes care of this instead
                 .build();
 
@@ -227,6 +223,7 @@ public class EntityFactory {
                         .collideDamage(1)
                         .collideSelfDamage(1)
                 )
+                .addBuilder(new LifecycleBuilder(20f))
                 .velocity(speed, dir)
                 .build();
 
@@ -353,7 +350,6 @@ public class EntityFactory {
                         .texture(Resources.TEX_THE_EDGE)
                         .renderIndex(RenderIndex.BACKGROUND)
                 )
-                .addBuilder(new LifecycleBuilder(-1))
                 .build();
 
         return bg.getId();

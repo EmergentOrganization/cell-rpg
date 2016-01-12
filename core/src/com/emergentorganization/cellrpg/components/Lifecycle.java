@@ -11,5 +11,5 @@ import com.artemis.Component;
  */
 public class Lifecycle extends Component {
     // maximum distance from player before being deconstructed (can be set to -1 for infinite distance)
-    public float maxPlayerDist = 20f;
+    public float maxPlayerDist = -1f;
 }

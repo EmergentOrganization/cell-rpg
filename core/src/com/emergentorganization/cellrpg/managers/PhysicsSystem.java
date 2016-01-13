@@ -20,11 +20,10 @@ import java.util.HashMap;
 
 @Wire
 public class PhysicsSystem extends BaseEntitySystem {
-    private CameraSystem cs;
-
     private final BodyEditorLoader bodyLoader;
     private final World physWorld;
     private final Box2DDebugRenderer renderer;
+    private CameraSystem cs;
     private Batch batch;
     private AssetManager assetManager;
     private ComponentMapper<Visual> vm;
@@ -71,10 +70,10 @@ public class PhysicsSystem extends BaseEntitySystem {
         PolygonShape rect = new PolygonShape();
         final Vector2 origin = new Vector2(-0.5f, -0.5f);
         rect.set(new float[]{
-                origin.x,         origin.y,
-                b.width+origin.x, origin.y,
-                b.width+origin.x, b.height+origin.y,
-                origin.x,         b.height+origin.y
+                origin.x, origin.y,
+                b.width + origin.x, origin.y,
+                b.width + origin.x, b.height + origin.y,
+                origin.x, b.height + origin.y
         });
         fd.shape = rect;
         body.createFixture(fd);

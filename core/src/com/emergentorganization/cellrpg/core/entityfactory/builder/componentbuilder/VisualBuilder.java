@@ -68,7 +68,7 @@ public class VisualBuilder extends BaseComponentBuilder {
                         playMode
                 );
                 entity.getComponent(Bounds.class).setFromRegion(animation.getKeyFrames()[0]);
-            } else if (texturePath != null){
+            } else if (texturePath != null) {
                 v.setTexture(texturePath);
                 entity.getComponent(Bounds.class).setFromRegion(
                         entity.getWorld().getSystem(AssetManager.class).getRegion(texturePath)

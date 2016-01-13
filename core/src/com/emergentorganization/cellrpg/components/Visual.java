@@ -5,8 +5,6 @@ import com.emergentorganization.cellrpg.core.RenderIndex;
 
 /**
  * This is used for both animation and static images.
- * <p/>
- * Created by orelb on 10/28/2015.
  */
 public class Visual extends Component {
 

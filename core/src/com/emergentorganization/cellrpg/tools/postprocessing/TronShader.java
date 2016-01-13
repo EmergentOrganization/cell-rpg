@@ -32,8 +32,7 @@ public class TronShader implements PostProcessor {
         try {
             if (!blurProgram.isCompiled()) {
                 throw new ShaderException(blurProgram.getLog());
-            }
-            else if (!colorMaskProgram.isCompiled()) {
+            } else if (!colorMaskProgram.isCompiled()) {
                 throw new ShaderException(colorMaskProgram.getLog());
             }
         } catch (ShaderException e) {

@@ -5,7 +5,6 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.InputComponent;
@@ -13,14 +12,9 @@ import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.emergentorganization.cellrpg.managers.EventManager;
-import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-/**
- * Created by 7yl4r 2015-09-13
- * ported to artemis branch by 7yl4r 2016-01-04
- */
 public class ArrowsShoot extends iPlayerCtrl {
     private final String NAME = "Directional Arrows To Shoot";
 
@@ -34,11 +28,11 @@ public class ArrowsShoot extends iPlayerCtrl {
         this.eventManager = world.getSystem(EventManager.class);
     }
 
-    public String getName(){
+    public String getName() {
         return NAME;
     }
 
-    public void addInputConfigButtons(VisTable table, VisWindow menuWindow){
+    public void addInputConfigButtons(VisTable table, VisWindow menuWindow) {
         // config items for arrow controls? can't think of any...
     }
 

@@ -21,11 +21,11 @@ public class WASD extends iPlayerCtrl {
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return NAME;
     }
 
-    public void addInputConfigButtons(VisTable table, VisWindow menuWindow){
+    public void addInputConfigButtons(VisTable table, VisWindow menuWindow) {
         // config items for wasd movement controls? can't think of any...
     }
 

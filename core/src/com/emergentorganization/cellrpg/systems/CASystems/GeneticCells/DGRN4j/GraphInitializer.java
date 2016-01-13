@@ -6,15 +6,6 @@ import javax.xml.crypto.KeySelectorException;
 
 
 public class GraphInitializer {
-    public static class inflowNode{
-        public static String ALWAYS_ON = "always_on";
-    }
-    public static class innerNode{
-        public static String TF1 = "tf-1";
-    }
-    public static class outflowNode{
-        public static String COLOR_LIGHTEN = "Lighten Color";
-    }
     public static void buildLightenCellTestGraph(DGRN dgrn) throws KeySelectorException {
         // Create test graph of shape:
         //   (on) -> (TF1) -> (colorAdd)
@@ -41,7 +32,7 @@ public class GraphInitializer {
         TF1.connectTo("1", colorAdd1).setWeight(2);
     }
 
-    public static void buildDGRNExample_homozygous(DGRN dgrn) throws KeySelectorException{
+    public static void buildDGRNExample_homozygous(DGRN dgrn) throws KeySelectorException {
         Node TF1 = dgrn.graph.createNode(innerNode.TF1);
         TF1
                 .setLabel("TF1")
@@ -58,5 +49,17 @@ public class GraphInitializer {
 
         dgrn.connect(inflowNode.ALWAYS_ON, innerNode.TF1, 1);
         TF1.connectTo("1", colorAdd1).setWeight(10);
+    }
+
+    public static class inflowNode {
+        public static String ALWAYS_ON = "always_on";
+    }
+
+    public static class innerNode {
+        public static String TF1 = "tf-1";
+    }
+
+    public static class outflowNode {
+        public static String COLOR_LIGHTEN = "Lighten Color";
     }
 }

@@ -26,19 +26,16 @@ import java.util.*;
 public class RenderSystem extends BaseEntitySystem {
 
     private final TextureRegion fboRegion;
-    private TronShader tronShader;
     private final FrameBuffer frameBuffer;
+    private final SpriteBatch batch;
+    private final LinkedList<Integer> sortedEntityIds;
+    private TronShader tronShader;
     private ComponentMapper<Visual> vm;
     private ComponentMapper<Position> pm;
     private ComponentMapper<Scale> sm;
     private ComponentMapper<Rotation> rm;
-
     private CameraSystem cameraSystem;
-
     private AssetManager assetManager; // being a registered system, it is injected on runtime
-
-    private final SpriteBatch batch;
-    private final LinkedList<Integer> sortedEntityIds;
     private boolean tronShaderEnabled = false;
     private Batch outBatch;
 
@@ -55,7 +52,7 @@ public class RenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void begin() {
+    protected void begin() {
         frameBuffer.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(cameraSystem.getGameCamera().combined);
@@ -63,13 +60,13 @@ public class RenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void processSystem() {
+    protected void processSystem() {
         for (Integer id : sortedEntityIds) {
             process(id);
         }
     }
 
-    protected  void process(int entityId) {
+    protected void process(int entityId) {
         Visual v = vm.get(entityId);
         Position p = pm.get(entityId);
         Scale s = sm.get(entityId);
@@ -102,7 +99,7 @@ public class RenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void inserted(int entityId) {
+    protected void inserted(int entityId) {
         sortedEntityIds.add(entityId);
         Collections.sort(sortedEntityIds, new Comparator<Integer>() {
             @Override
@@ -132,6 +129,7 @@ public class RenderSystem extends BaseEntitySystem {
 
     /**
      * Enables the Tron glow shader
+     *
      * @return The RenderSystem for shader chaining
      */
     public RenderSystem setTronShader(TronShader tronShader) {

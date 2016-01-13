@@ -17,6 +17,7 @@ public abstract class BaseComponentBuilder implements IComponentBuilder {
 
     /**
      * EntityBuilder class this method on the newly created entity
+     *
      * @param entity Entity to build upon
      */
     @Override

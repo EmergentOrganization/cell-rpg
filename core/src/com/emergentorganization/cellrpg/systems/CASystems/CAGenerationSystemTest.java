@@ -13,11 +13,10 @@ import org.junit.Test;
 
 public class CAGenerationSystemTest {
 
+    final int INP = 0;  // pattern insert position (upper left corner)
     private final Logger logger = LogManager.getLogger(getClass());
 
-    final int INP = 0;  // pattern insert position (upper left corner)
-
-    public void setupTest(CAGenerationSystem testSystem, CAGridComponents testComps, int[][] testPattern){
+    public void setupTest(CAGenerationSystem testSystem, CAGridComponents testComps, int[][] testPattern) {
         // # 2 # init or mock any other systems the system being tested depends upon
         Camera camera = new Camera() {
             @Override

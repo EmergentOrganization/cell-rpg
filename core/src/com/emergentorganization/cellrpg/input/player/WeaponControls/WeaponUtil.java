@@ -1,9 +1,7 @@
 package com.emergentorganization.cellrpg.input.player.WeaponControls;
 
 import com.artemis.Entity;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.components.Bounds;
 import com.emergentorganization.cellrpg.components.Position;
@@ -12,12 +10,8 @@ import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 
-import java.awt.*;
-
 /**
  * static class for weapon helper methods
- *
- * Created by 7yl4r on 1/4/2016.
  */
 public class WeaponUtil {
 
@@ -42,7 +36,7 @@ public class WeaponUtil {
                 // get player position
                 Bounds bounds = shooter.getComponent(Bounds.class);
                 Vector2 center = shooter.getComponent(Position.class).getCenter(bounds);
-                Vector2 arm = new Vector2(0, Math.max(bounds.width, bounds.height)+.1f);
+                Vector2 arm = new Vector2(0, Math.max(bounds.width, bounds.height) + .1f);
 
                 // calculate the velocity
 //                vel.set(x, y).sub(pos).nor().scl(speed);

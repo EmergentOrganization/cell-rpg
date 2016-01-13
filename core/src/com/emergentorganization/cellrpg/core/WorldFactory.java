@@ -13,11 +13,9 @@ import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.events.SoundEventListener;
 import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.managers.EventManager;
+import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
-import com.emergentorganization.cellrpg.scenes.game.WorldScene;
 import com.emergentorganization.cellrpg.systems.*;
 import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
@@ -72,8 +70,8 @@ public class WorldFactory {
         return world;
     }
 
-    public static void setupStandardEventSystem(final World world, final PixelonTransmission pt){
-                // setup events
+    public static void setupStandardEventSystem(final World world, final PixelonTransmission pt) {
+        // setup events
         world.getSystem(EventManager.class).addListener(new EventListener() {
             @Override
             public void notify(GameEvent event) {
@@ -92,13 +90,13 @@ public class WorldFactory {
         });
     }
 
-    public static void setupStandardWorldEffects(World world){
-            world.getSystem(RenderSystem.class).setTronShader(
-                    new TronShader(new Vector3(1, 1, 1))
-            );
+    public static void setupStandardWorldEffects(World world) {
+        world.getSystem(RenderSystem.class).setTronShader(
+                new TronShader(new Vector3(1, 1, 1))
+        );
     }
 
-    public static void setupStdHUD(World world, Stage stage){
+    public static void setupStdHUD(World world, Stage stage) {
     }
 
     public static World editorGameWorld(PixelonTransmission pt, SpriteBatch batch, Stage stage, EntityFactory entityFactory) {
@@ -109,7 +107,6 @@ public class WorldFactory {
 
         AssetManager assetManager = new AssetManager(pt.getGdxAssetManager());
         wc.setSystem(assetManager);
-
 
 
         wc.setSystem(new CameraSystem());

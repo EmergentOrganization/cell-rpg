@@ -13,8 +13,8 @@ import javax.xml.crypto.KeySelectorException;
 public class TestCell1 implements GeneticNetworkBuilderInterface {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
 
-    public void buildNetwork(DGRN dgrn){
-        try{
+    public void buildNetwork(DGRN dgrn) {
+        try {
             Node testNode = dgrn.graph.createNode(GeneticCellTest.TEST_INNER_NODE_ID_1);
             testNode
                     .setLabel(GeneticCellTest.TEST_INNER_NODE_ID_1)
@@ -24,7 +24,7 @@ public class TestCell1 implements GeneticNetworkBuilderInterface {
             dgrn.connect(GeneticCell.inflowNodes.ALWAYS_ON, GeneticCellTest.TEST_INNER_NODE_ID_1, 1);
             dgrn.connect(GeneticCellTest.TEST_INNER_NODE_ID_1, GeneticCell.outflowNodes.COLOR_LIGHTEN, 2);
 
-        } catch(KeySelectorException err){
+        } catch (KeySelectorException err) {
             logger.error("nodes failed to insert in building mock network: " + err.getMessage());
         }
 

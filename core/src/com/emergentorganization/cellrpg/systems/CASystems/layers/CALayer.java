@@ -14,13 +14,14 @@ public enum CALayer {
 
     private static final EnumMap<CALayer, String> map = new EnumMap<CALayer, String>(CALayer.class);
     private static final String pre = "ca-layer-";
+
     static {
-        map.put(VYROIDS,         pre + "vyroids");
-        map.put(ENERGY,          pre + "energy" );
+        map.put(VYROIDS, pre + "vyroids");
+        map.put(ENERGY, pre + "energy");
         map.put(VYROIDS_GENETIC, pre + "genetic");
     }
 
-    public static CALayer[] vyroid_values(){
+    public static CALayer[] vyroid_values() {
         // returns array of values only including those which are vyroids
         return new CALayer[]{
                 VYROIDS_MINI,
@@ -31,7 +32,7 @@ public enum CALayer {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return map.get(this);
     }
 }

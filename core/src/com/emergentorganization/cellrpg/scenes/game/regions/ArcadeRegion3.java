@@ -16,12 +16,13 @@ import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 
 public class ArcadeRegion3 implements iRegion {
     WorldScene scene;
-    public ArcadeRegion3(WorldScene parentScene){
+
+    public ArcadeRegion3(WorldScene parentScene) {
         super();
         scene = parentScene;
     }
 
-    public CALayer[] getCALayers(){
+    public CALayer[] getCALayers() {
         // TODO: this is currently unused, but layers should be dynamically added/removed
         // TODO:    by a CA Manager.
         return new CALayer[]{
@@ -32,14 +33,14 @@ public class ArcadeRegion3 implements iRegion {
         };
     }
 
-    public iRegion getNextRegion(World world){
+    public iRegion getNextRegion(World world) {
         return null;
     }
 
-    public void loadRegion(World world){
+    public void loadRegion(World world) {
     }
 
-    public void enterRegion(World world){
+    public void enterRegion(World world) {
         System.out.println("entering arcade region 3");
         TagManager tagMan = world.getSystem(TagManager.class);
         setCAEdgeSpawns(tagMan);
@@ -61,7 +62,7 @@ public class ArcadeRegion3 implements iRegion {
         scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.III));
     }
 
-    private void setCAEdgeSpawns(TagManager tagMan){
+    private void setCAEdgeSpawns(TagManager tagMan) {
         tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.RANDOM_SPARSE;
         tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner

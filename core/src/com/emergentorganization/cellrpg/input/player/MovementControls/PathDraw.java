@@ -16,7 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.Bounds;
+import com.emergentorganization.cellrpg.components.InputComponent;
+import com.emergentorganization.cellrpg.components.Position;
+import com.emergentorganization.cellrpg.components.Velocity;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.emergentorganization.cellrpg.input.player.inputUtil;
@@ -28,26 +31,19 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
-/** Controls movement and firing using only mouse and 1 button.
+/**
+ * Controls movement and firing using only mouse and 1 button.
  * Click within radius of player and drag to draw a path. New path overwrites old path.
  * Player keeps moving in last path direction given. Click to shoot.
- *
+ * <p/>
  * SETTINGS:
- *  * autowalk : if true player keeps moving in last direction until stopped
- *  * pathDrawRadius : Radius around player which triggers path redraw
- *
+ * * autowalk : if true player keeps moving in last direction until stopped
+ * * pathDrawRadius : Radius around player which triggers path redraw
+ * <p/>
  * ported by 7yl4r on 2016-01-04 from PathInputMethod (by 7yl4r 2015-09-05)
  * based on OrelBitton's DirectFollowAndPathInputMethod
  */
 public class PathDraw extends iPlayerCtrl {
-    Logger logger = LogManager.getLogger(getClass());
-    private final boolean DEBUG_MODE = true; //logger.isDebugEnabled();
-    // debug-only vars:
-    ShapeRenderer shapeRen;
-
-    private final String NAME = "path";
-    private final String DESC = "Drag to draw path for player," +
-            " click on player to stop moving, tap/click to shoot.";
     public final int PATH_RADIUS_MIN = 1;
     public final int PATH_RADIUS_MAX = 50;
     public final int PATH_RADIUS_DEFAULT = 5;
@@ -58,7 +54,10 @@ public class PathDraw extends iPlayerCtrl {
     final long MAX_DEST_SEEK_TIME = 3000;
     // min distance moved towards dest required else give up
     final float MIN_PROGRESS = CoordinateRecorder.minPathLen * .01f;
-
+    private final boolean DEBUG_MODE = true; //logger.isDebugEnabled();
+    private final String NAME = "path";
+    private final String DESC = "Drag to draw path for player," +
+            " click on player to stop moving, tap/click to shoot.";
     protected boolean lastFramePressed = false; // If the left mouse button was pressed last frame
     protected long elapsedTime; // Time elapsed since last frame
     protected long lastClick = 0; // Last time the player has clicked the mouse button
@@ -69,14 +68,17 @@ public class PathDraw extends iPlayerCtrl {
     protected boolean recording = false; // Is the player recording a path
     protected Vector2 dest = null;  // next destination point on path
     protected long destStart = 0;  // time started pursuing current dest
-    protected Vector2 lastPos = new Vector2(0,0);  // position from last time
+    protected Vector2 lastPos = new Vector2(0, 0);  // position from last time
+    Logger logger = LogManager.getLogger(getClass());
+    // debug-only vars:
+    ShapeRenderer shapeRen;
 
-    public PathDraw (World world, ComponentMapper<InputComponent> comp_m, ShapeRenderer renderer){
+    public PathDraw(World world, ComponentMapper<InputComponent> comp_m, ShapeRenderer renderer) {
         super(world, comp_m);
         shapeRen = renderer;
     }
 
-    public String getName(){
+    public String getName() {
         return NAME;
     }
 
@@ -107,7 +109,7 @@ public class PathDraw extends iPlayerCtrl {
         // auto-walk toggle
 
         final VisTextButton toggleAutoWalk = new VisTextButton(
-                "AutoWalk:"+Boolean.toString(prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK))
+                "AutoWalk:" + Boolean.toString(prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK))
         );
         menuTable.add(toggleAutoWalk).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         toggleAutoWalk.addListener(new ClickListener() {
@@ -115,15 +117,15 @@ public class PathDraw extends iPlayerCtrl {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 boolean newVal = !prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK);
-                prefs.putBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK,newVal);
-                toggleAutoWalk.setText("AutoWalk:"+ Boolean.toString(newVal));
+                prefs.putBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK, newVal);
+                toggleAutoWalk.setText("AutoWalk:" + Boolean.toString(newVal));
                 menuWindow.pack();
             }
         });
     }
 
     @Override
-    public void process(Entity player){
+    public void process(Entity player) {
         Preferences prefs = GameSettings.getPreferences();
         int pathDrawRadius = prefs.getInteger(GameSettings.KEY_WEAPON_PATHDRAW_RADIUS);
 
@@ -203,8 +205,8 @@ public class PathDraw extends iPlayerCtrl {
             }
             recording = true;
             path = true;
-        } else if(!savedPath.isEmpty() &&
-                savedPath.getCoords().get(savedPath.getCoords().size()-1).dst(mouse) < pathDrawRadius){
+        } else if (!savedPath.isEmpty() &&
+                savedPath.getCoords().get(savedPath.getCoords().size() - 1).dst(mouse) < pathDrawRadius) {
 //            logger.trace("mouse is close to path end");
             // if mouse is close to current path end
             recording = true;
@@ -212,7 +214,7 @@ public class PathDraw extends iPlayerCtrl {
         } // else mouse not close enough to path areas
     }
 
-    private void nextDest(){
+    private void nextDest() {
         // movest to next destination
 //        logger.trace("new dest");
         dest = savedPath.pop();
@@ -242,34 +244,34 @@ public class PathDraw extends iPlayerCtrl {
             boolean carryOn = true;  // flag to prevent calling nextDest multiple times
 
             // give up if not making sufficient progress
-            if (carryOn && pos.dst2(lastPos) < MIN_PROGRESS){
+            if (carryOn && pos.dst2(lastPos) < MIN_PROGRESS) {
                 logger.trace("nextPos; insufficient progress towards dest");
                 nextDest();
                 carryOn = false;
-            } else if (carryOn){
+            } else if (carryOn) {
 //                logger.trace("progress made:" + pos.dst2(lastPos) + "m");
                 lastPos.set(pos);
             }
 
             // stop if close enough to path
-            if (carryOn && dest.dst(pos) < CLOSE_ENOUGH_TO_PATH){
+            if (carryOn && dest.dst(pos) < CLOSE_ENOUGH_TO_PATH) {
                 logger.trace("nextPos; close enough!");
                 nextDest();
                 carryOn = false;
-            } else if (carryOn){
+            } else if (carryOn) {
 //                logger.trace(dest.dst(pos) - CLOSE_ENOUGH_TO_PATH + "m til close enough" );
             }
 
             // stop if taking too long
-            if (carryOn && (now - destStart) > MAX_DEST_SEEK_TIME){
+            if (carryOn && (now - destStart) > MAX_DEST_SEEK_TIME) {
                 logger.trace("nextPos; taking too long!");
                 nextDest();
                 carryOn = false;
-            } else if (carryOn){
+            } else if (carryOn) {
 //                logger.trace(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
             }
         } else {
-            if (prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK)){
+            if (prefs.getBoolean(GameSettings.KEY_WEAPON_PATHDRAW_AUTOWALK)) {
 //                logger.info("autowalk");
             } else {
                 inComp.stopMoving();
@@ -287,7 +289,7 @@ public class PathDraw extends iPlayerCtrl {
             Vector2 playerPos,
             InputComponent inComp,
             Vector2 mouse
-    ){
+    ) {
         float SCL = EntityFactory.SCALE_WORLD_TO_BOX;
         if (inComp.moveState == MoveState.NOT_MOVING)
             return;
@@ -306,7 +308,7 @@ public class PathDraw extends iPlayerCtrl {
         if (!path) {
 //            logger.trace("line " + playerPos + "->" + mouse);
             // player should be 511, 376
-            shapeRen.line(playerPos.x*SCL, playerPos.y*SCL, mouse.x*SCL, mouse.y*SCL);
+            shapeRen.line(playerPos.x * SCL, playerPos.y * SCL, mouse.x * SCL, mouse.y * SCL);
         } else {
 //            logger.trace("drawing path");
             Vector2 prev = null;

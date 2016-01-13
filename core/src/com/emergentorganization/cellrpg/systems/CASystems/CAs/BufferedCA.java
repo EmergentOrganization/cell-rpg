@@ -4,7 +4,7 @@ import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.CellWithHistory;
 
 
-public class BufferedCA implements  iCA{
+public class BufferedCA implements iCA {
 
     public void generate(CAGridComponents gridComps) {
         // generates the next frame of the CA

@@ -16,7 +16,7 @@ public class InputBuilder extends BaseComponentBuilder {
     /**
      * Defaults to 1 m/s
      */
-    public InputBuilder speed(float movementSpeed){
+    public InputBuilder speed(float movementSpeed) {
         this.speed = movementSpeed;
         return this;
     }

@@ -20,7 +20,6 @@ import org.json.simple.parser.ParseException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 
@@ -29,6 +28,7 @@ public class MapTools {
     public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
     public static EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
+
     static {
         ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD, null);
         ENTITY_BLACKLIST.put(EntityID.CA_LAYER_VYROIDS, null);
@@ -38,7 +38,8 @@ public class MapTools {
 
     /**
      * Imports external JSON maps into the world
-     * @param fileName Name of the map file, without the extension
+     *
+     * @param fileName      Name of the map file, without the extension
      * @param entityFactory Fully-initialized entityFactory for a defined world
      */
     public static void importMap(String fileName, EntityFactory entityFactory) {

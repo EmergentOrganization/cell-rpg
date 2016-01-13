@@ -11,8 +11,8 @@ import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.LifecycleBuilder;
 import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import com.emergentorganization.cellrpg.scenes.game.WorldScene;
@@ -27,18 +27,17 @@ import com.emergentorganization.cellrpg.tools.Resources;
  * region to create score-based difficulty ramp for arcade mode.
  * Region never returns a new region to swtich to, instead, it uses `getNextRegion`
  * as an opportunity to modify this region.
- *
- * Created by 7yl4r on 2016-01-07.
  */
 public class ArcadeRegion implements iRegion {
-    WorldScene scene;
     private static int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
-    public ArcadeRegion(WorldScene parentScene){
+    WorldScene scene;
+
+    public ArcadeRegion(WorldScene parentScene) {
         super();
         scene = parentScene;
     }
 
-    public CALayer[] getCALayers(){
+    public CALayer[] getCALayers() {
         // TODO: this is currently unused, but layers should be dynamically added/removed
         // TODO:    by a CA Manager.
         return new CALayer[]{
@@ -49,7 +48,7 @@ public class ArcadeRegion implements iRegion {
         };
     }
 
-    public iRegion getNextRegion(World world){
+    public iRegion getNextRegion(World world) {
         TagManager tagMan = world.getSystem(TagManager.class);
         Entity player = tagMan.getEntity(Tags.PLAYER);
 
@@ -58,10 +57,10 @@ public class ArcadeRegion implements iRegion {
         return null;  // never leave this region
     }
 
-    public void loadRegion(World world){
+    public void loadRegion(World world) {
     }
 
-    public void enterRegion(World world){
+    public void enterRegion(World world) {
         System.out.println("entering arcade region");
         TagManager tagMan = world.getSystem(TagManager.class);
 
@@ -85,7 +84,7 @@ public class ArcadeRegion implements iRegion {
                 EntityFactory.object,
                 "Arcade Background",
                 EntityID.BG_ARCADE.toString(),
-                player.getComponent(Position.class).position.cpy().sub(2000*.025f,2000*.025f)  // minus 1/2 texture size
+                player.getComponent(Position.class).position.cpy().sub(2000 * .025f, 2000 * .025f)  // minus 1/2 texture size
         )
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_BG_ARCADE)
@@ -95,7 +94,7 @@ public class ArcadeRegion implements iRegion {
                 .build();
     }
 
-    private void updateRegion(Entity player, TagManager tagMan){
+    private void updateRegion(Entity player, TagManager tagMan) {
         int score = player.getComponent(StatsTracker.class).getScore();
 
         adjustPowerups(score, player);
@@ -103,83 +102,83 @@ public class ArcadeRegion implements iRegion {
         adjustCABoundaries(score, tagMan);
     }
 
-    private int getPowerupFreq(int score){
-        return 99/(500*SCL)*score + 1;
+    private int getPowerupFreq(int score) {
+        return 99 / (500 * SCL) * score + 1;
     }
 
     private void adjustPowerups(int score, Entity player) {
         CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
         spawnField.frequency = getPowerupFreq(score);
-        if ( score > 20*SCL){
+        if (score > 20 * SCL) {
             spawnField.entityList.add(EntityID.VYRAPUFFER);
-        } else if (score > 10*SCL) {
+        } else if (score > 10 * SCL) {
             spawnField.entityList.add(EntityID.POWERUP_PLUS);
-        } else if (score > 5*SCL){
+        } else if (score > 5 * SCL) {
             spawnField.entityList.add(EntityID.TUBSNAKE);
-        } else if (score > 1*SCL) {
+        } else if (score > 1 * SCL) {
             spawnField.entityList.add(EntityID.POWERUP_STAR);
         }
     }
 
-    private int getCASpawnFreq(int score){
-        int res = -score*8/(200*SCL) + 6;
-        if (res < 1){
+    private int getCASpawnFreq(int score) {
+        int res = -score * 8 / (200 * SCL) + 6;
+        if (res < 1) {
             return 1;  // no lower than 1
         } else {
             return res;
         }
     }
 
-    private void setCASpawnLayers(SpontaneousGenerationList genList, int score){
-        if (score > 100*SCL) {
+    private void setCASpawnLayers(SpontaneousGenerationList genList, int score) {
+        if (score > 100 * SCL) {
             // both (b/c default vyroid remains in list uncleared)
             genList.layers.add(CALayer.VYROIDS_GENETIC);
-        } else if (score > 10*SCL){
+        } else if (score > 10 * SCL) {
             genList.clear();
             genList.layers.add(CALayer.VYROIDS);
-        } else if (score > -1){
+        } else if (score > -1) {
             genList.layers.add(CALayer.VYROIDS_GENETIC);
         }
     }
 
-    private void adjustCASpawns(int score, Entity player){
+    private void adjustCASpawns(int score, Entity player) {
         SpontaneousGenerationList genList = player.getComponent(SpontaneousGenerationList.class);
         genList.frequency = getCASpawnFreq(score);
         setCASpawnLayers(genList, score);
-        if (score > 1000*SCL) {
+        if (score > 1000 * SCL) {
             genList.stampList.clear();  // clear out the easy stuff
             // put the hard stuff back
             genList.stampList.add(CGoLShapeConsts.R_PENTOMINO);
-        } else if (score > 100*SCL){
+        } else if (score > 100 * SCL) {
             genList.stampList.add(CGoLShapeConsts.R_PENTOMINO);
-        } else if (score > 50*SCL){
+        } else if (score > 50 * SCL) {
             genList.stampList.add(CGoLShapeConsts.GLIDER_DOWN_LEFT);
             genList.stampList.add(CGoLShapeConsts.GLIDER_DOWN_RIGHT);
             genList.stampList.add(CGoLShapeConsts.GLIDER_UP_RIGHT);
-        } else if (score > 10*SCL){
+        } else if (score > 10 * SCL) {
             genList.stampList.add(CGoLShapeConsts.GLIDER_UP_LEFT);
-        } else if (score > 5*SCL){
+        } else if (score > 5 * SCL) {
             genList.stampList.add(CGoLShapeConsts.BLINKER_H);
             genList.stampList.add(CGoLShapeConsts.BLINKER_V);
-        } else if (score > 0){
+        } else if (score > 0) {
             genList.stampList.add(CGoLShapeConsts.BLOCK);
         }
     }
 
-    private void adjustCABoundaries(int score, TagManager tagMan){
+    private void adjustCABoundaries(int score, TagManager tagMan) {
         CAGridComponents stdCA = tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class);
         CAGridComponents geneticCA = tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class);
-        if (score > 1000*SCL){
+        if (score > 1000 * SCL) {
             stdCA.edgeSpawner = CAEdgeSpawnType.RANDOM_DENSE;
             geneticCA.edgeSpawner = CAEdgeSpawnType.RANDOM_DENSE;
-        } else if ( score > 100*SCL) {
+        } else if (score > 100 * SCL) {
             stdCA.edgeSpawner = CAEdgeSpawnType.RANDOM_50_50;
             geneticCA.edgeSpawner = CAEdgeSpawnType.RANDOM_50_50;
-        } else if (score > 50*SCL){
+        } else if (score > 50 * SCL) {
             stdCA.edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
-        } else if (score > 10*SCL){
+        } else if (score > 10 * SCL) {
             geneticCA.edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
-        } else if (score > -1){
+        } else if (score > -1) {
             stdCA.edgeSpawner = CAEdgeSpawnType.EMPTY;
             geneticCA.edgeSpawner = CAEdgeSpawnType.EMPTY;
         }

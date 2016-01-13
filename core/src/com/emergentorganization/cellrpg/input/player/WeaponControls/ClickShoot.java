@@ -25,12 +25,9 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 
 /**
  * Click screen to shoot weapon.
- *
+ * <p/>
  * SETTINGS:
- *  * excludeRadius : radius inside which clicks don't count
- *
- * Created by brian on 11/7/15.
- * excludeRadius added by 7yl4r 2016-01
+ * * excludeRadius : radius inside which clicks don't count
  */
 public class ClickShoot extends iPlayerCtrl {
     private final String NAME = "Click to Shoot";
@@ -46,11 +43,11 @@ public class ClickShoot extends iPlayerCtrl {
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return NAME;
     }
 
-    public void addInputConfigButtons(VisTable menuTable, final VisWindow menuWindow){
+    public void addInputConfigButtons(VisTable menuTable, final VisWindow menuWindow) {
         final Preferences prefs = GameSettings.getPreferences();
 
         float EXCLUDE_RADIUS_DEFAULT = 1f;
@@ -89,7 +86,7 @@ public class ClickShoot extends iPlayerCtrl {
         }
     }
 
-    private boolean isOutsideExclusionRadius(Vector2 pos, Vector2 center){
+    private boolean isOutsideExclusionRadius(Vector2 pos, Vector2 center) {
         final Preferences prefs = GameSettings.getPreferences();
         return pos.dst(center) > prefs.getFloat(GameSettings.KEY_WEAPON_CLICKSHOOT_RADIUS);
     }

@@ -9,5 +9,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         DGRNTestSuite.class,
         GeneticCellTest.class
-} )
-public final class CATestSuite {}
+})
+public final class CATestSuite {
+}

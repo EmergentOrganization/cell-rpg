@@ -16,7 +16,7 @@ public class AIComponentBuilder extends BaseComponentBuilder {
         this.AIType = aiType;
     }
 
-    public AIComponentBuilder AIPeriod(float period){
+    public AIComponentBuilder AIPeriod(float period) {
         AIPeriod = period;
         return this;
     }

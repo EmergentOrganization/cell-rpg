@@ -19,7 +19,7 @@ import java.util.List;
 public class InheritanceTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    private DGRN getMockParent1() throws KeySelectorException{
+    private DGRN getMockParent1() throws KeySelectorException {
         AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
         Attribute attr_ActivationValue = attrList.createAttribute(
                 "activation value id",
@@ -27,7 +27,7 @@ public class InheritanceTest {
                 "activation value"
         ).setDefaultValue("0");
 
-        MockInflowNodeHandler inflowHandle =  new MockInflowNodeHandler();
+        MockInflowNodeHandler inflowHandle = new MockInflowNodeHandler();
         inflowHandle.setInflowNodeList(new String[]{GraphInitializer.inflowNode.ALWAYS_ON});
 
         return new DGRN(
@@ -41,7 +41,7 @@ public class InheritanceTest {
     }
 
     @Test
-    public void testTwoIdenticalParentsYieldClone() throws KeySelectorException{
+    public void testTwoIdenticalParentsYieldClone() throws KeySelectorException {
         DGRN parent1 = getMockParent1();
         GraphInitializer.buildDGRNExample_homozygous(parent1);
         DGRN parent2 = getMockParent1();

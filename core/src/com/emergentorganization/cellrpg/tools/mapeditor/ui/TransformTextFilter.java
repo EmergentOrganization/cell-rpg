@@ -9,10 +9,9 @@ public class TransformTextFilter implements VisTextField.TextFieldFilter {
         if (c == '.') return true;
         try {
             //noinspection ResultOfMethodCallIgnored
-            Float.parseFloat(""+c);
+            Float.parseFloat("" + c);
             return true;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             return false;
         }
     }

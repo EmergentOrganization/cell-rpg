@@ -4,7 +4,6 @@ import com.artemis.BaseSystem;
 import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 
-import java.awt.Event;
 import java.util.ArrayList;
 
 
@@ -25,37 +24,32 @@ public class EventManager extends BaseSystem {
         listeners = new ArrayList<EventListener>();
     }
 
-    public void addListener(EventListener listener){
+    public void addListener(EventListener listener) {
         listenerInsertion.add(listener);
     }
 
-    public void removeListener(EventListener listener){
+    public void removeListener(EventListener listener) {
         listenerInsertion.remove(listener);
     }
 
-    public void pushEvent(GameEvent event)
-    {
+    public void pushEvent(GameEvent event) {
         newEvents.add(event);
     }
 
     @Override
     protected void processSystem() {
-        for(EventListener l : listenerInsertion)
-        {
+        for (EventListener l : listenerInsertion) {
             listeners.add(l);
         }
         listenerInsertion.clear();
 
-        for(EventListener l : listenerRemoval)
-        {
+        for (EventListener l : listenerRemoval) {
             listeners.remove(l);
         }
         listenerRemoval.clear();
 
-        for(GameEvent e : events)
-        {
-            for(EventListener l : listeners)
-            {
+        for (GameEvent e : events) {
+            for (EventListener l : listeners) {
                 l.notify(e);
             }
         }

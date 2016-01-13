@@ -13,7 +13,7 @@ public class CAInteractionListTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public static void setupInteractions(CAInteractionList testList,
-                                          final int COLLIDING_LAYER_ID, final int COLLIDING_STATE){
+                                         final int COLLIDING_LAYER_ID, final int COLLIDING_STATE) {
         testList
                 .addInteraction(
                         COLLIDING_LAYER_ID,
@@ -26,7 +26,7 @@ public class CAInteractionListTest {
     }
 
     @Test
-    public void testInteractionBuilderAddsCollidingStates(){
+    public void testInteractionBuilderAddsCollidingStates() {
         final int COLLIDING_LAYER_ID = 777;
         final int COLLIDING_STATE = 9;
 

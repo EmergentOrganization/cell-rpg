@@ -6,7 +6,10 @@ import com.artemis.Entity;
 
 public interface IComponentBuilder {
     void build(Entity entity);
+
     boolean isBuilt();
+
     int getSortIndex();
+
     Class<? extends Component> getComponentClass();
 }

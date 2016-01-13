@@ -11,7 +11,7 @@ public enum CA {
 //        return caMap.get(ca);
 //    }
 
-    public static EnumMap<CA, iCA> getCAMap(){
+    public static EnumMap<CA, iCA> getCAMap() {
         // maps enums to interface implementers.
         EnumMap<CA, iCA> ca
                 = new EnumMap<CA, iCA>(CA.class);

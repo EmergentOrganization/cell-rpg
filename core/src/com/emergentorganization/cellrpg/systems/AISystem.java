@@ -4,7 +4,9 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.AIComponent;
+import com.emergentorganization.cellrpg.components.InputComponent;
+import com.emergentorganization.cellrpg.components.Rotation;
 import com.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,15 +24,16 @@ public class AISystem extends DelayedIteratingSystem {
         super(Aspect.all(AIComponent.class, InputComponent.class, Rotation.class));
     }
 
-    /** Returns entity timer. */
+    /**
+     * Returns entity timer.
+     */
     @Override
-    protected float getRemainingDelay(int entityId)
-    {
+    protected float getRemainingDelay(int entityId) {
         return AICom_m.get(entityId).delay;
     }
 
     @Override
-    public void processDelta(int entityId, float delt){
+    public void processDelta(int entityId, float delt) {
 //        logger.trace("process delt " + delt + " ID:" + entityId);
         AICom_m.get(entityId).delay -= delt;
     }
@@ -44,7 +47,7 @@ public class AISystem extends DelayedIteratingSystem {
         AIComponent ai = AICom_m.get(entityId);
         ai.delay = ai.period;
 
-        switch (ai.type){
+        switch (ai.type) {
             case DUMBWALK:
                 dumbWalk(entityId);
                 break;
@@ -54,14 +57,14 @@ public class AISystem extends DelayedIteratingSystem {
         }
     }
 
-    private void randWalk(int entityId){
+    private void randWalk(int entityId) {
         // moves randomly up, down, left, or right
         InputComponent input = inCom_m.get(entityId);
         input.moveState = MoveState.PATH_FOLLOW;
         // rand -1, 0, 1
         int choice = ThreadLocalRandom.current().nextInt(0, 4 + 1);
         float x = 0, y = 0;
-        switch (choice){
+        switch (choice) {
             case 0:
                 x = 1;
                 break;
@@ -79,7 +82,7 @@ public class AISystem extends DelayedIteratingSystem {
         input.direction.set(new Vector2(x, y));
     }
 
-    private void dumbWalk(int entityId){
+    private void dumbWalk(int entityId) {
         // test AI just moves forward
         InputComponent input = inCom_m.get(entityId);
         input.moveState = MoveState.PATH_FOLLOW;

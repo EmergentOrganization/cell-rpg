@@ -15,12 +15,13 @@ import com.kotcrab.vis.ui.widget.VisTable;
 
 public class MovementSettingsMenu extends Submenu {
     World world;
+
     public MovementSettingsMenu(VisTable table, Stage stage, String buttonText, World world) {
         super(table, stage, buttonText);
         this.world = world;
     }
 
-    public void addMenuTableButtons(){
+    public void addMenuTableButtons() {
         // set up menu buttons:
         VisLabel controlTypeLabel = new VisLabel("weapon control scheme");
         menuTable.add(controlTypeLabel).pad(0f, 0f, 5f, 0f).fill(true, false).row();
@@ -31,7 +32,7 @@ public class MovementSettingsMenu extends Submenu {
         final VisSelectBox weaponControlType = new VisSelectBox();
         weaponControlType.setItems(playInProc.getWeaponCtrlChoices());
         menuTable.add(weaponControlType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        weaponControlType.setSelectedIndex(prefs.getInteger( GameSettings.KEY_WEAPON_CONTROL_METHOD ));
+        weaponControlType.setSelectedIndex(prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
         weaponControlType.addListener(
                 new ChangeListener() {
                     @Override

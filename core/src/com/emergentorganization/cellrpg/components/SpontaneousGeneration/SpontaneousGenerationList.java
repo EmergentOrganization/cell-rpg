@@ -13,11 +13,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Component to describe influence the area around the entity which causes
- *  sporadic stamping of the surrounding ca grid with a set pattern.
- *
- *  Future work could re-implement this component as a list of SpontGen objects,
- *  but to keep things simple for now entities are limited to having only 1
- *  spontaneous generation.
+ * sporadic stamping of the surrounding ca grid with a set pattern.
+ * <p/>
+ * Future work could re-implement this component as a list of SpontGen objects,
+ * but to keep things simple for now entities are limited to having only 1
+ * spontaneous generation.
  */
 public class SpontaneousGenerationList extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
@@ -30,7 +30,7 @@ public class SpontaneousGenerationList extends Component {
     public ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
     public ArrayList<int[][]> stampList = new ArrayList<int[][]>();  // list of stamps that may be applied
 
-    public void clear(){
+    public void clear() {
         // clears layers and stamps
         layers.clear();
         stampList.clear();
@@ -38,29 +38,29 @@ public class SpontaneousGenerationList extends Component {
         sinceLastGenerationCounter = 0;
     }
 
-    public SpontaneousGeneration getRandomGeneration(Position entityPos, Bounds entityBounds){
+    public SpontaneousGeneration getRandomGeneration(Position entityPos, Bounds entityBounds) {
         // gets a random SpontaneousGeneration
         int layer = ThreadLocalRandom.current().nextInt(0, layers.size());
         int stamp = ThreadLocalRandom.current().nextInt(0, stampList.size());
 
         // TODO: exclude inner radius / bounds?
         Vector2 pos = entityPos.getCenter(entityBounds).add(
-                (float)(2*radius*Math.random()-radius),
-                (float)(2*radius*Math.random()-radius)
+                (float) (2 * radius * Math.random() - radius),
+                (float) (2 * radius * Math.random() - radius)
         );
 
         sinceLastGenerationCounter = 0;
         return new SpontaneousGeneration(layers.get(layer), stampList.get(stamp), pos);
     }
 
-     public boolean readyForGen() {
-         // returns true if it is time to insert stamp
+    public boolean readyForGen() {
+        // returns true if it is time to insert stamp
 //         logger.trace(sinceLastGenerationCounter + " not yet " + frequency);
-         if (frequency < 1){
-             return false;
-         } else {
-             // TODO: incorporate variance
-             return sinceLastGenerationCounter > frequency;
-         }
-     }
+        if (frequency < 1) {
+            return false;
+        } else {
+            // TODO: incorporate variance
+            return sinceLastGenerationCounter > frequency;
+        }
+    }
 }

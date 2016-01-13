@@ -12,7 +12,7 @@ public abstract class iPlayerCtrl {
     protected World world;
     ComponentMapper<InputComponent> inp_m;
 
-    public iPlayerCtrl(World world, ComponentMapper<InputComponent> inp_m){
+    public iPlayerCtrl(World world, ComponentMapper<InputComponent> inp_m) {
         this.world = world;
         this.inp_m = inp_m;
     }

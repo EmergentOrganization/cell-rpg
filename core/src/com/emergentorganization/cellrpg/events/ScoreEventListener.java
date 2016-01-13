@@ -1,15 +1,8 @@
 package com.emergentorganization.cellrpg.events;
 
-import com.artemis.World;
-import com.badlogic.gdx.audio.Sound;
 import com.emergentorganization.cellrpg.components.StatsTracker;
-import com.emergentorganization.cellrpg.core.EntityID;
-import com.emergentorganization.cellrpg.core.SoundEffect;
-import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-
-import java.util.Map;
 
 
 public class ScoreEventListener implements EventListener {

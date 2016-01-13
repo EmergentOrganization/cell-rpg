@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.core;
 
-import com.artemis.*;
+import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
@@ -67,7 +67,7 @@ public class PhysicsContactListener implements ContactListener {
         if (nameA.internalID.equals(EntityID.BULLET.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
             Health bulletHealth = entityA.getComponent(Health.class);
-            if (bulletHealth.health < bulletHealth.maxHealth){
+            if (bulletHealth.health < bulletHealth.maxHealth) {
                 // cannot hit until after a bounce (helps keep player from shooting self in foot as bullet is leaving)
                 eventManager.pushEvent(GameEvent.PLAYER_HIT);
             }
@@ -76,7 +76,7 @@ public class PhysicsContactListener implements ContactListener {
             eventManager.pushEvent(GameEvent.POWERUP_PLUS);
             try {
                 world.deleteEntity(entityA);
-            } catch (RuntimeException ex){
+            } catch (RuntimeException ex) {
                 logger.trace("powerup_plus already deleted");
             }
         } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
@@ -96,7 +96,7 @@ public class PhysicsContactListener implements ContactListener {
                 logger.trace("failed star detonate");
                 // powerup may have been deleted
                 return;
-            } catch (RuntimeException ex){
+            } catch (RuntimeException ex) {
                 logger.trace("failed star detonate");
                 // powerup may have been deleted
                 return;
@@ -106,7 +106,7 @@ public class PhysicsContactListener implements ContactListener {
             eventManager.pushEvent(GameEvent.POWERUP_STAR);
             try {
                 world.deleteEntity(entityA);
-            } catch (RuntimeException ex){
+            } catch (RuntimeException ex) {
                 logger.trace("star powerup already deleted");
             }
         }
@@ -117,21 +117,21 @@ public class PhysicsContactListener implements ContactListener {
 
         // collide effects on self
         CollideEffect eff = entity.getComponent(CollideEffect.class);
-        if (eff != null){
+        if (eff != null) {
             // self-damage from collision
             Health health = entity.getComponent(Health.class);
-            if (health != null){
+            if (health != null) {
                 health.health -= eff.selfDamage;
 //                logger.trace("health-damage="+health.health);
             }
         }
 
-        if (name.internalID.equals(EntityID.BULLET.toString())){  // TODO: add collide-events to CollideEffect?
+        if (name.internalID.equals(EntityID.BULLET.toString())) {  // TODO: add collide-events to CollideEffect?
             eventManager.pushEvent(GameEvent.COLLISION_BULLET);
         }
     }
 
     private int getEntityId(Fixture fixture) {
-        return (Integer)fixture.getBody().getUserData();
+        return (Integer) fixture.getBody().getUserData();
     }
 }

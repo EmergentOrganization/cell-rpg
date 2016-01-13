@@ -11,8 +11,6 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 /**
  * submenu button included in a menu which launches a new menu when clicked.
  * new menu includes back button.
- * <p/>
- * Created by 7yl4r on 9/1/2015.
  */
 public class Submenu {
     protected VisWindow menuWindow;

@@ -9,7 +9,7 @@ public class SceneManager {
     private final PixelonTransmission pt;
     private IntMap<BaseScene> scenes;
 
-    public  SceneManager(PixelonTransmission pt) {
+    public SceneManager(PixelonTransmission pt) {
         this.pt = pt;
 
         scenes = new IntMap<BaseScene>();

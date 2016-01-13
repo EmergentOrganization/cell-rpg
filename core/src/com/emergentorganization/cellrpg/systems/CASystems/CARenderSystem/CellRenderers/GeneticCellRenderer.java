@@ -8,7 +8,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell
 public class GeneticCellRenderer implements iCellRenderer {
     @Override
     public void renderCell(ShapeRenderer shapeRenderer, CAGridComponents gridComps, final int i, final int j,
-                              final float x_origin, final float y_origin){
+                           final float x_origin, final float y_origin) {
         if (gridComps.getState(i, j) != 0) {  // state must be > 0 else stateColorMap indexError
             // draw square
             GeneticCell cell = (GeneticCell) gridComps.states[i][j];

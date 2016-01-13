@@ -12,10 +12,6 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by OrelBitton on 2015-07-11
- *  ported to artemis branch by 7yl4r 2016-01-03.
- */
 public class DialogDisplay {
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -33,7 +29,7 @@ public class DialogDisplay {
 
     private long timer;
 
-    public DialogDisplay(Stage _stage){
+    public DialogDisplay(Stage _stage) {
         stage = _stage;
         label = new VisLabel("");
 
@@ -58,7 +54,7 @@ public class DialogDisplay {
         stage.addActor(dialog);
     }
 
-    public DialogDisplay loadDialogueSequence(DialogueSequenceInterface sequence){
+    public DialogDisplay loadDialogueSequence(DialogueSequenceInterface sequence) {
         // load given dialogueSequence implementing class for use.
         dialogueSequence = sequence;
         // initializes dialogue sequence
@@ -69,29 +65,29 @@ public class DialogDisplay {
         return this;
     }
 
-    private void selectOption(int option){
+    private void selectOption(int option) {
         // select given option, or simply advance the story
         addText(dialogueSequence.enter(option));
     }
 
-    private void dialogClicked(){
+    private void dialogClicked() {
         logger.trace("dialog has been clicked");
-        if (optionsPresented){
+        if (optionsPresented) {
             return;
         } else {
             selectOption(0);
         }
     }
 
-    public void update(float deltaTime){
-        if(!dialog.isVisible())
+    public void update(float deltaTime) {
+        if (!dialog.isVisible())
             return;
         handleTypewriter();
     }
 
-    private void handleTypewriter(){
+    private void handleTypewriter() {
 
-        if(typewriterText.isEmpty()) {
+        if (typewriterText.isEmpty()) {
             return;
         }
 
@@ -107,12 +103,12 @@ public class DialogDisplay {
         }
     }
 
-    private void finishDialogSection(){
+    private void finishDialogSection() {
         label.setText("");
         dialog.setVisible(false);
     }
 
-    private void finishText(){
+    private void finishText() {
         label.setText(getText() + typewriterText);
         typewriterText = "";
     }
@@ -120,7 +116,7 @@ public class DialogDisplay {
     private void addText(String text) {
         // adds text to dialogue, if text==null, dialog component disables
         logger.debug("adding dialog text: " + text);
-        if (text == null){
+        if (text == null) {
             if (noMoreText) {
                 finishDialogSection();
             } else {
@@ -133,7 +129,7 @@ public class DialogDisplay {
         }
     }
 
-    private String getText(){
+    private String getText() {
         return label.getText().toString();
     }
 }

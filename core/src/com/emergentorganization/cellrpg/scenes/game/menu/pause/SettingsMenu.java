@@ -10,9 +10,9 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 
 public class SettingsMenu extends Submenu {
 
+    World world;
     private CameraSettingsMenu cameraMenu;
     private MovementSettingsMenu moveMenu;
-    World world;
 
     public SettingsMenu(VisTable table, Stage stage, String buttonText, World _world) {
         super(table, stage, buttonText);

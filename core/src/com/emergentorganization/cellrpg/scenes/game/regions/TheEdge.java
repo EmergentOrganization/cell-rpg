@@ -12,7 +12,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 public class TheEdge implements iRegion {
 
-    public TheEdge(Scene parentScene){
+    public TheEdge(Scene parentScene) {
         super();
     }
 
@@ -27,12 +27,12 @@ public class TheEdge implements iRegion {
 
     }
 
-    public void enterRegion(World world){
+    public void enterRegion(World world) {
         System.out.println("entering the edge region");
         setCAEdgeSpawns(world);
     }
 
-    private void setCAEdgeSpawns(World world){
+    private void setCAEdgeSpawns(World world) {
         TagManager tagMan = world.getSystem(TagManager.class);
 
         Entity CAEnt = tagMan.getEntity(Tags.CA_VYROIDS_STD);
@@ -43,7 +43,7 @@ public class TheEdge implements iRegion {
                 = CAEdgeSpawnType.RANDOM_50_50;
     }
 
-    public iRegion getNextRegion(World world){
+    public iRegion getNextRegion(World world) {
         return null;  // TODO: return adjoining region when nearing boundary
     }
 }

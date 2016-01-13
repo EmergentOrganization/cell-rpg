@@ -15,12 +15,11 @@ import javax.xml.crypto.KeySelectorException;
 
 
 public class GeneticCellTest {
+    public static final String TEST_INNER_NODE_ID_1 = "test inner node 1";
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public static final String TEST_INNER_NODE_ID_1 = "test inner node 1";
-
     @Test
-    public void testActivationPropagation() throws Exception{
+    public void testActivationPropagation() throws Exception {
         TestCell2 cell_builder = new TestCell2();
         logger.debug("cell builder:" + cell_builder);
         GeneticCell testCell = new GeneticCell(1, cell_builder);
@@ -105,20 +104,20 @@ public class GeneticCellTest {
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
-        if (TF < 1){
+        if (TF < 1) {
             throw new Exception("alwaysOn.TF should be >= 1, found:" + TF);
         }
     }
 
     @Test
-    public void testAlwaysOnStaysActive() throws Exception{
+    public void testAlwaysOnStaysActive() throws Exception {
         GeneticCell testCell = new GeneticCell(1, new TestCell1());
         // check activation value
         int TF = Integer.parseInt(DGRN.getNodeAttributeValue(
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
-        if (TF < 1){
+        if (TF < 1) {
             throw new Exception("alwaysOn.TF should be > 1, found:" + TF);
         }
 
@@ -129,7 +128,7 @@ public class GeneticCellTest {
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
-        if (TF < 1){
+        if (TF < 1) {
             throw new Exception("alwaysOn.TF should be > 1, found:" + TF);
         }
 
@@ -142,13 +141,13 @@ public class GeneticCellTest {
                 testCell.dgrn.getNode(GeneticCell.inflowNodes.ALWAYS_ON),
                 GeneticCell.nodeAttribute.ACTIVATION_VALUE
         ));
-        if (TF < 1){
+        if (TF < 1) {
             throw new Exception("alwaysOn.TF should be > 1, found:" + TF);
         }
     }
 
     @Test
-    public void testColorizeAfterEnoughTicks() throws Exception{
+    public void testColorizeAfterEnoughTicks() throws Exception {
         GeneticCell testCell = new GeneticCell(0, new TestCell1());
         // colorAdd should achieve activation level of 2 after a few ticks
         //       and color should therefore be lighter

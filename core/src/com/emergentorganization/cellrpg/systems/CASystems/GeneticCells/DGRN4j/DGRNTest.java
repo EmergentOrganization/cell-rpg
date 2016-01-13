@@ -19,7 +19,7 @@ import java.util.List;
 public class DGRNTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public DGRN getMockDGRN(){
+    public DGRN getMockDGRN() {
         AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
         Attribute attr_ActivationValue = attrList.createAttribute(
                 "activation value id",
@@ -27,7 +27,7 @@ public class DGRNTest {
                 "activation value"
         ).setDefaultValue("0");
 
-        MockInflowNodeHandler inflowHandle =  new MockInflowNodeHandler();
+        MockInflowNodeHandler inflowHandle = new MockInflowNodeHandler();
         inflowHandle.setInflowNodeList(new String[]{GraphInitializer.inflowNode.ALWAYS_ON});
 
         return new DGRN(
@@ -40,7 +40,7 @@ public class DGRNTest {
         );
     }
 
-    public DGRN getMockDGRN_twoNode() throws Exception{
+    public DGRN getMockDGRN_twoNode() throws Exception {
         AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
         Attribute attr_ActivationValue = attrList.createAttribute(
                 "activation value id",
@@ -49,7 +49,7 @@ public class DGRNTest {
         ).setDefaultValue("0");
 
 
-        MockInflowNodeHandler inflowHandle =  new MockInflowNodeHandler();
+        MockInflowNodeHandler inflowHandle = new MockInflowNodeHandler();
         inflowHandle.setInflowNodeList(new String[]{GraphInitializer.inflowNode.ALWAYS_ON});
         DGRN dgrn = new DGRN(
                 "DGRNTest.java",
@@ -57,7 +57,7 @@ public class DGRNTest {
                 attrList,
                 attr_ActivationValue,
                 new MockOutflowNodeHandler(),
-               inflowHandle
+                inflowHandle
         );
 
         Node TF1 = dgrn.graph.createNode(GraphInitializer.innerNode.TF1);
@@ -72,7 +72,7 @@ public class DGRNTest {
     }
 
     @Test
-    public void testGetNode() throws KeySelectorException{
+    public void testGetNode() throws KeySelectorException {
         DGRN dgrn = getMockDGRN();
         GraphInitializer.buildLightenCellTestGraph(dgrn);
         Assert.assertEquals(
@@ -87,7 +87,7 @@ public class DGRNTest {
     }
 
     @Test
-    public void testSignalShouldNotPropagateEdgeIfNotEnoughSrcNodePotential() throws Exception{
+    public void testSignalShouldNotPropagateEdgeIfNotEnoughSrcNodePotential() throws Exception {
         // tests when signal should propagate
         DGRN dgrn = getMockDGRN_twoNode();
         List<Edge> edges = dgrn.graph.getAllEdges();
@@ -149,7 +149,7 @@ public class DGRNTest {
         // TODO: WHY?
 
         String val = dgrn.getNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID);
-        String val2= dgrn.getNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID);
+        String val2 = dgrn.getNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID);
         logger.debug("srcNode.Id:" + edge.getSource().getId());
         Assert.assertEquals(val, val2);  // check that src node is what we think it is
         logger.debug("src node value:" + val);
@@ -157,7 +157,7 @@ public class DGRNTest {
     }
 
     @Test
-    public void testPrimeInflowNodesSetsAlwaysOnTo1() throws Exception{
+    public void testPrimeInflowNodesSetsAlwaysOnTo1() throws Exception {
         DGRN dgrn = getMockDGRN_twoNode();
         List<Edge> edges = dgrn.graph.getAllEdges();
         Assert.assertEquals(edges.size(), 1);  // only 1 edge in this graph
@@ -172,8 +172,8 @@ public class DGRNTest {
         dgrn.primeInflowNodes();
         Assert.assertEquals(
                 dgrn.getNodeAttributeValue(
-                    dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
-                    dgrn.ACTIVATION_VALUE_ID),
+                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                        dgrn.ACTIVATION_VALUE_ID),
                 "1"
         );
     }
@@ -191,8 +191,8 @@ public class DGRNTest {
         // before tick values should be
         //   (1) -> (0) -> (0)
         Assert.assertEquals("1", DGRN.getNodeAttributeValue(
-                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
-                        attr)
+                dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                attr)
         );
         Assert.assertEquals("0", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
         Assert.assertEquals(
@@ -223,14 +223,14 @@ public class DGRNTest {
         //   (1) -> (2) -> (0)
         Assert.assertEquals("1", alwaysOnV);
         Assert.assertEquals("2", TF1V);
-        Assert.assertEquals("0",lightenV);
+        Assert.assertEquals("0", lightenV);
 
         // 3 ticks
         //  (1) -> (1) -> (2)
         dgrn.tick();
         Assert.assertEquals("1", DGRN.getNodeAttributeValue(
-                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
-                        attr)
+                dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                attr)
         );
         Assert.assertEquals("1", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
         Assert.assertEquals(
@@ -245,8 +245,8 @@ public class DGRNTest {
         //  (1) -> (2) -> (2)
         dgrn.tick();
         Assert.assertEquals("1", DGRN.getNodeAttributeValue(
-                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
-                        attr)
+                dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                attr)
         );
         Assert.assertEquals("2", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
         Assert.assertEquals(
@@ -261,8 +261,8 @@ public class DGRNTest {
         //  (1) -> (1) -> (4)
         dgrn.tick();
         Assert.assertEquals("1", DGRN.getNodeAttributeValue(
-                        dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
-                        attr)
+                dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
+                attr)
         );
         Assert.assertEquals("1", DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.innerNode.TF1), attr));
         Assert.assertEquals(

@@ -29,7 +29,7 @@ public class Story extends WorldScene {
     }
 
     @Override
-    public WorldConfiguration getBaseWorldConfiguration(){
+    public WorldConfiguration getBaseWorldConfiguration() {
         WorldConfiguration wc = new WorldConfiguration();
         wc.setSystem(new LeveledRegionSwitcher(new ArcadeRegion1(this)));  // TODO: change this region
         return wc;

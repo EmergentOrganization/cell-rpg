@@ -11,7 +11,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
-import com.emergentorganization.cellrpg.components.InputComponent;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
@@ -32,27 +31,23 @@ import com.emergentorganization.cellrpg.tools.Resources;
 public class EntityFactory {
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
-
-    private World world;
-    private EventManager eventManager;
-
-    public Archetype base;
     public static Archetype object;
+    public Archetype base;
     public Archetype collidable;
     public Archetype collectable;
     public Archetype character;
     public Archetype destructable;
     public Archetype npc;
-    private Archetype player;
-    private Archetype bullet;
-    private Archetype ca_layer;
-    private Archetype invisibleObject;
-
     // TODO: add CAManager & get CA layers using , not this:
     Entity vyroidLayer;
     Entity energyLayer;
     Entity geneticLayer;
-
+    private World world;
+    private EventManager eventManager;
+    private Archetype player;
+    private Archetype bullet;
+    private Archetype ca_layer;
+    private Archetype invisibleObject;
 
     public void initialize(World world) {
         this.world = world;
@@ -80,7 +75,7 @@ public class EntityFactory {
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);
     }
 
-    public void addCALayers(Vector2 pos, int playerID){
+    public void addCALayers(Vector2 pos, int playerID) {
         // adds all ca layer entities to the scene.
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
         vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
@@ -126,7 +121,7 @@ public class EntityFactory {
                 .addInteraction(  // genetic vyroids damage
                         geneticLayer.getId(),
                         new CAInteraction()
-                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(4*3,4*3), energyLayer.getId())
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(4 * 3, 4 * 3), energyLayer.getId())
                                 .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(4, 4), geneticLayer.getId())
                                 .addEventTrigger(1, GameEvent.PLAYER_HIT)
                 )
@@ -228,27 +223,27 @@ public class EntityFactory {
         // add cellular automata grid interactions
         CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
         interactList
-            .addInteraction(
-                vyroidLayer.getId(),
-                new CAInteraction()
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
-                    .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6, 6), vyroidLayer.getId())
-                    // constant visual effect
-                    .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
-                            1,
-                            1,
-                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.WHITE)
-                    ), energyLayer.getId())
-                    .addEventTrigger(1, GameEvent.VYROID_KILL_STD)
-            )
-            .addInteraction(
-                    geneticLayer.getId(),
-                    new CAInteraction()
-                            .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
-                            .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3, 3), geneticLayer.getId())
-                            .addEventTrigger(1, GameEvent.VYROID_KILL_GENETIC)
-            )
-            .setColliderRadius(2)
+                .addInteraction(
+                        vyroidLayer.getId(),
+                        new CAInteraction()
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6, 6), vyroidLayer.getId())
+                                // constant visual effect
+                                .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
+                                        1,
+                                        1,
+                                        DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.WHITE)
+                                ), energyLayer.getId())
+                                .addEventTrigger(1, GameEvent.VYROID_KILL_STD)
+                )
+                .addInteraction(
+                        geneticLayer.getId(),
+                        new CAInteraction()
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3, 3), geneticLayer.getId())
+                                .addEventTrigger(1, GameEvent.VYROID_KILL_GENETIC)
+                )
+                .setColliderRadius(2)
         ;
 
         return bullet.getId();
@@ -376,7 +371,7 @@ public class EntityFactory {
         return wall.getId();
     }
 
-    public int createPowerupStar(Vector2 pos){
+    public int createPowerupStar(Vector2 pos) {
         final Entity powerup = new EntityBuilder(world, collectable, "star powerup", EntityID.POWERUP_STAR.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_POWERUP_STAR)
@@ -396,20 +391,20 @@ public class EntityFactory {
         return powerup.getId();
     }
 
-    public int[][] getVyrapufferStamp(){  // TODO: move this... somewhere...
+    public int[][] getVyrapufferStamp() {  // TODO: move this... somewhere...
         int[][] res = new int[][]{
-                {1,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {1,0,0,0,0,0,0},
-                {1,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0},
-                {1,0,0,0,0,0,0}
+                {1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0}
         };
         // TODO: randomize first col
         return res;
     }
 
-    public int createVyrapuffer(Vector2 pos){
+    public int createVyrapuffer(Vector2 pos) {
         Entity puffer = new EntityBuilder(world, npc, "vyrapuffer", EntityID.VYRAPUFFER.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
@@ -419,7 +414,7 @@ public class EntityFactory {
                         .bodyFriction(.5f)
                 )
                 .addBuilder(new HealthBuilder()
-                    .health(3)
+                        .health(3)
                 )
                 .addBuilder(new InputBuilder()
                         .speed(10f)
@@ -437,7 +432,7 @@ public class EntityFactory {
         return puffer.getId();
     }
 
-    public int createTubSnake(Vector2 pos){
+    public int createTubSnake(Vector2 pos) {
         Entity ent = new EntityBuilder(world, npc, "tub still life with snake behavior", EntityID.TUBSNAKE.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_TUBSNAKE)
@@ -461,17 +456,17 @@ public class EntityFactory {
 //        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
         interactList
                 .addInteraction(
-                    vyroidLayer.getId(),
-                    new CAInteraction()
-                            .addCollisionImpactStamp(0, CGoLShapeConsts.TUB, vyroidLayer.getId())
-                            .addCollisionImpactStamp(
-                                    0,
-                                    CGoLShapeConsts.stateReplace(
-                                            CGoLShapeConsts.TUB,
-                                            DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.FIRE)
-                                    ),
-                                    energyLayer.getId()
-                            )
+                        vyroidLayer.getId(),
+                        new CAInteraction()
+                                .addCollisionImpactStamp(0, CGoLShapeConsts.TUB, vyroidLayer.getId())
+                                .addCollisionImpactStamp(
+                                        0,
+                                        CGoLShapeConsts.stateReplace(
+                                                CGoLShapeConsts.TUB,
+                                                DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.FIRE)
+                                        ),
+                                        energyLayer.getId()
+                                )
                 )
                 .setColliderRadius(1)
         ;
@@ -506,7 +501,7 @@ public class EntityFactory {
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
             case INVISIBLE_WALL:
-                return createInvisibleWall(new Vector2(1,1), pos, angleDeg);
+                return createInvisibleWall(new Vector2(1, 1), pos, angleDeg);
             case POWERUP_PLUS:
                 return createPowerupPlus(pos);
             case POWERUP_STAR:

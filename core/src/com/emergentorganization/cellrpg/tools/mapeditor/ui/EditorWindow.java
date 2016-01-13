@@ -39,13 +39,12 @@ public class EditorWindow {
     private final Stage stage;
     private final MapEditor editor;
     private final PixelonTransmission pt;
-
+    private final VisWindow saveWindow = new VisWindow("Save", true);
+    private final VisWindow loadWindow = new VisWindow("Load", true);
     private VisTextField xField;
     private VisTextField yField;
     private VisTextField rotField;
     private VisTextField scaleField;
-    private final VisWindow saveWindow = new VisWindow("Save", true);
-    private final VisWindow loadWindow = new VisWindow("Load", true);
     private PopupMenu contextMenu;
     private VisList<FileListNode> importList;
     private String selectedItem;
@@ -264,8 +263,7 @@ public class EditorWindow {
                         else
                             target.getEntity().getComponent(Position.class).position.x = v;
                     }
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     // meh
                 }
             }
@@ -368,8 +366,7 @@ public class EditorWindow {
         if (show) {
             stage.addActor(saveWindow);
             saveWindow.fadeIn();
-        }
-        else
+        } else
             saveWindow.fadeOut();
 
         editor.setMapInput(!show);
@@ -380,8 +377,7 @@ public class EditorWindow {
             stage.addActor(loadWindow);
             importList.setItems(editor.getMaps());
             loadWindow.fadeIn();
-        }
-        else
+        } else
             loadWindow.fadeOut();
 
         editor.setMapInput(!show);

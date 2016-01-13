@@ -17,12 +17,13 @@ import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 
 public class ArcadeRegion2 implements iRegion {
     WorldScene scene;
-    public ArcadeRegion2(WorldScene parentScene){
+
+    public ArcadeRegion2(WorldScene parentScene) {
         super();
         scene = parentScene;
     }
 
-    public CALayer[] getCALayers(){
+    public CALayer[] getCALayers() {
         // TODO: this is currently unused, but layers should be dynamically added/removed
         // TODO:    by a CA Manager.
         return new CALayer[]{
@@ -33,22 +34,22 @@ public class ArcadeRegion2 implements iRegion {
         };
     }
 
-    public iRegion getNextRegion(World world){
+    public iRegion getNextRegion(World world) {
         // if score is high enough return next region
         TagManager tagMan = world.getSystem(TagManager.class);
         final int score = tagMan.getEntity(Tags.PLAYER).getComponent(StatsTracker.class).getScore();
         final int SCORE_TO_MOVE_ON = 10000;
-        if (score > SCORE_TO_MOVE_ON){
+        if (score > SCORE_TO_MOVE_ON) {
             return new ArcadeRegion3(scene);
         } else {
             return null;
         }
     }
 
-    public void loadRegion(World world){
+    public void loadRegion(World world) {
     }
 
-    public void enterRegion(World world){
+    public void enterRegion(World world) {
         System.out.println("entering arcade region 2");
         TagManager tagMan = world.getSystem(TagManager.class);
         setCAEdgeSpawns(tagMan);
@@ -69,7 +70,7 @@ public class ArcadeRegion2 implements iRegion {
         scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.II));
     }
 
-    private void setCAEdgeSpawns(TagManager tagMan){
+    private void setCAEdgeSpawns(TagManager tagMan) {
         tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.RANDOM_SPARSE;
         tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner

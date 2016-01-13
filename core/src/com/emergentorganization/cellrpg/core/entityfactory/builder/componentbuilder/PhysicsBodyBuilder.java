@@ -6,15 +6,14 @@ import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
 
 public class PhysicsBodyBuilder extends BaseComponentBuilder {
     private final PhysicsSystem physicsSystem;
-    private final Vector2 velocity = new Vector2(0,0);
-    private final Vector2 position = new Vector2(0,0);
+    private final Vector2 velocity = new Vector2(0, 0);
+    private final Vector2 position = new Vector2(0, 0);
 
     private boolean allowSleep = true;
     private BodyDef.BodyType bodyType = BodyDef.BodyType.DynamicBody;
@@ -30,8 +29,10 @@ public class PhysicsBodyBuilder extends BaseComponentBuilder {
         super(Aspect.all(Bounds.class, PhysicsBody.class, Name.class), 0);
         this.physicsSystem = physicsSystem;
     }
+
     /**
      * Default BodyType is Dynamic
+     *
      * @param bodyType If static, most physics parameters are useless
      */
     public PhysicsBodyBuilder bodyType(BodyDef.BodyType bodyType) {
@@ -66,7 +67,7 @@ public class PhysicsBodyBuilder extends BaseComponentBuilder {
     }
 
     public PhysicsBodyBuilder position(float x, float y) {
-        this.position.set(x,y);
+        this.position.set(x, y);
         return this;
     }
 
@@ -128,8 +129,7 @@ public class PhysicsBodyBuilder extends BaseComponentBuilder {
         bDef.fixedRotation = fixedRotation;
         if (position.len() != 0.0f) {
             bDef.position.set(position);
-        }
-        else {
+        } else {
             bDef.position.set(entity.getComponent(Position.class).position);
         }
         if (velocity.len() != 0.0f) {

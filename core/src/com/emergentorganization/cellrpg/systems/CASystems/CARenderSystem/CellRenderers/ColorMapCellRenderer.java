@@ -7,15 +7,13 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Simple cell renderer which renders a cell using a state-to-color colorMap.
- *
- * Created by 7yl4r on 12/14/2015.
  */
 public class ColorMapCellRenderer implements iCellRenderer {
     private final Logger logger = LogManager.getLogger(getClass());
 
     @Override
     public void renderCell(ShapeRenderer renderer, CAGridComponents layerComponents, final int i, final int j,
-                           final float x_origin, final float y_origin){
+                           final float x_origin, final float y_origin) {
         try {
             if (layerComponents.states[i][j].getState() != 0) {  // state must be > 0 else stateColorMap indexError
                 // draw square
@@ -27,7 +25,7 @@ public class ColorMapCellRenderer implements iCellRenderer {
                 float y = j * (layerComponents.cellSize + 1) + y_origin;
                 renderer.rect(x, y, layerComponents.cellSize, layerComponents.cellSize);
             }
-        } catch( ArrayIndexOutOfBoundsException ex){
+        } catch (ArrayIndexOutOfBoundsException ex) {
             // catch any out-of-bounds and ignore
             logger.error(ex.getMessage());
         }

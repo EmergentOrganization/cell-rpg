@@ -11,9 +11,8 @@ import com.emergentorganization.cellrpg.components.StatsTracker;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.LifecycleBuilder;
+import com.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import com.emergentorganization.cellrpg.scenes.game.WorldScene;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
@@ -26,12 +25,13 @@ import com.emergentorganization.cellrpg.tools.Resources;
 
 public class ArcadeRegion1 implements iRegion {
     WorldScene scene;
-    public ArcadeRegion1(WorldScene parentScene){
+
+    public ArcadeRegion1(WorldScene parentScene) {
         super();
         scene = parentScene;
     }
 
-    public CALayer[] getCALayers(){
+    public CALayer[] getCALayers() {
         // TODO: this is currently unused, but layers should be dynamically added/removed
         // TODO:    by a CA Manager.
         return new CALayer[]{
@@ -42,22 +42,22 @@ public class ArcadeRegion1 implements iRegion {
         };
     }
 
-    public iRegion getNextRegion(World world){
+    public iRegion getNextRegion(World world) {
         // if score is high enough return next region
         TagManager tagMan = world.getSystem(TagManager.class);
         final int score = tagMan.getEntity(Tags.PLAYER).getComponent(StatsTracker.class).getScore();
         final int SCORE_TO_MOVE_ON = 1000;
-        if (score > SCORE_TO_MOVE_ON){
+        if (score > SCORE_TO_MOVE_ON) {
             return new ArcadeRegion2(scene);
         } else {
             return null;
         }
     }
 
-    public void loadRegion(World world){
+    public void loadRegion(World world) {
     }
 
-    public void enterRegion(World world){
+    public void enterRegion(World world) {
         System.out.println("entering arcade region 1");
         TagManager tagMan = world.getSystem(TagManager.class);
 
@@ -90,7 +90,7 @@ public class ArcadeRegion1 implements iRegion {
                 EntityFactory.object,
                 "Arcade Background",
                 EntityID.BG_ARCADE.toString(),
-                player.getComponent(Position.class).position.cpy().sub(2000*.025f,2000*.025f)  // minus 1/2 texture size
+                player.getComponent(Position.class).position.cpy().sub(2000 * .025f, 2000 * .025f)  // minus 1/2 texture size
         )
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_BG_ARCADE)
@@ -99,7 +99,7 @@ public class ArcadeRegion1 implements iRegion {
                 .build();
     }
 
-    private void setCAEdgeSpawns(TagManager tagMan){
+    private void setCAEdgeSpawns(TagManager tagMan) {
 
         tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.EMPTY;

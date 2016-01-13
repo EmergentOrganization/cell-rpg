@@ -1,12 +1,17 @@
 package com.emergentorganization.cellrpg.systems.CASystems;
 
-import com.artemis.*;
+import com.artemis.Aspect;
+import com.artemis.BaseEntitySystem;
+import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.Bounds;
+import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAImpact;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
+import com.emergentorganization.cellrpg.components.Position;
+import com.emergentorganization.cellrpg.components.Velocity;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
@@ -17,15 +22,15 @@ import java.util.ArrayList;
 
 /**
  * for allowing entities to "collide" with the CAGrid.
- *
+ * <p/>
  * create new CAInteractionSystem, addCollision() for each effect you want, then addComponent().
  * Can affect the CAGrid onCollision using a gridStamp int[][].
  * Or can trigger EntityEvent to affect Entity.
- *
+ * <p/>
  * WARN: Current implementation cannot map two events (or two impacts) to one state+layer.
- *       Attempting to do so will break HashMap implementation.
- *       A relatively easy fix is possible for events using array if desired.
- *
+ * Attempting to do so will break HashMap implementation.
+ * A relatively easy fix is possible for events using array if desired.
+ * <p/>
  * Ported from CACollisionComponent by 7yl4r on 2015-12-08
  */
 public class CAInteractionSystem extends BaseEntitySystem {
@@ -39,7 +44,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
     private ComponentMapper<Velocity> vel_m;
     private EventManager eventManager;
 
-    public CAInteractionSystem(){
+    public CAInteractionSystem() {
         super(Aspect.all(CAInteractionList.class, Position.class, Velocity.class));
     }
 
@@ -51,12 +56,12 @@ public class CAInteractionSystem extends BaseEntitySystem {
         _inserted(pos, bounds, interacts);
     }
 
-    protected void _inserted(Position pos, Bounds bounds, CAInteractionList interacts){
+    protected void _inserted(Position pos, Bounds bounds, CAInteractionList interacts) {
         interacts.lastCollisionPosition = pos.getCenter(bounds).cpy();
     }
 
     protected void processLayer(int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
-                                final Vector2 currentPostion){
+                                final Vector2 currentPostion) {
         logger.trace("checking layer");
         ArrayList<Integer> collidedStates = new ArrayList<Integer>();
 
@@ -67,13 +72,13 @@ public class CAInteractionSystem extends BaseEntitySystem {
         CAInteraction interaction = interList.interactions.get(collidingLayerId);
         // check cells in colliding area
         int colliderRadius = interList.getColliderRadius(gridComps.cellSize);
-        for (int dx = -colliderRadius; dx < colliderRadius; dx++){
-            for (int dy = -colliderRadius; dy < colliderRadius; dy++){
+        for (int dx = -colliderRadius; dx < colliderRadius; dx++) {
+            for (int dy = -colliderRadius; dy < colliderRadius; dy++) {
                 try {
-                    BaseCell cell = gridComps.states[x+dx][y+dy];
+                    BaseCell cell = gridComps.states[x + dx][y + dy];
                     int cellState = cell.state;  // copy int here to avoid concurrency issue
-                    if (! collidedStates.contains(cellState)){ // if haven't already collided w/ this state
-                        if(checkCollideAt(interaction, cell, currentPostion)){
+                    if (!collidedStates.contains(cellState)) { // if haven't already collided w/ this state
+                        if (checkCollideAt(interaction, cell, currentPostion)) {
                             collidedStates.add(cellState);  // don't check for this state collision again
                             if (cellState > 0) {
                                 logger.trace("collided @ rel " + dx + "," + dy);
@@ -82,7 +87,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
                         }
                     }
 
-                } catch(IndexOutOfBoundsException ex){
+                } catch (IndexOutOfBoundsException ex) {
                     logger.trace("colliding cell out of bounds");
                     // don't check cells that are out-of-bounds
                 }
@@ -110,15 +115,15 @@ public class CAInteractionSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void processSystem() {
+    protected void processSystem() {
         IntBag idBag = getEntityIds();
-        for (int index = 0; index < idBag.size(); index ++ ) {
+        for (int index = 0; index < idBag.size(); index++) {
             int id = idBag.get(index);
             process(id);
         }
     }
 
-    protected void applyCollision(CAInteraction inter, BaseCell cell, Vector2 pos){
+    protected void applyCollision(CAInteraction inter, BaseCell cell, Vector2 pos) {
         // impact the CA
         int state = cell.state;  // copy int here to avoid concurrency issue
         if (state > 0) {

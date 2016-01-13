@@ -4,15 +4,13 @@ import java.util.EnumMap;
 
 /**
  * Cell renderers which can be used by CALayerComponents.renderType.
- *
- * Created by 7yl4r on 12/14/2015.
  */
 public enum CellRenderer {
     COLOR_MAP,
     DECAY,
     GENETIC;
 
-    public static EnumMap<CellRenderer, iCellRenderer> getRendererMap(){
+    public static EnumMap<CellRenderer, iCellRenderer> getRendererMap() {
         // maps enums to interface implementers.
         EnumMap<CellRenderer, iCellRenderer> cellRenderer
                 = new EnumMap<CellRenderer, iCellRenderer>(CellRenderer.class);

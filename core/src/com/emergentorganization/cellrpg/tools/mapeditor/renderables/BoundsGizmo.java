@@ -17,7 +17,7 @@ public class BoundsGizmo implements Renderable {
         this.pos = pos;
         this.size = size;
         boundsBox = new BoundsBox(pos, size);
-        gizmos = new CornerGizmo[] {
+        gizmos = new CornerGizmo[]{
                 new CornerGizmo(pos.cpy(), GIZMO_SIZE, Corner.BOTTOM_LEFT),
                 new CornerGizmo(pos.cpy().add(size.x, 0), GIZMO_SIZE, Corner.BOTTOM_RIGHT),
                 new CornerGizmo(pos.cpy().add(0, size.y), GIZMO_SIZE, Corner.TOP_LEFT),
@@ -36,6 +36,7 @@ public class BoundsGizmo implements Renderable {
 
     /**
      * Detects a hit on any vertex gizmo
+     *
      * @param rectangle The hit to compare against
      * @return The vertex gizmo position on the bounds collider, or null if none were hit
      */

@@ -7,12 +7,6 @@ import java.util.ArrayList;
 
 
 public class GeneticCA implements iCA {
-    private enum CellAction{
-        DIE,   // living cell -> dead cell
-        SPAWN, // dead  cell -> living cell
-        NONE  // no change to cell state
-    }
-
     private CellAction ca_rule(final int neighborCount) {
         // Conway's Game of Life:
         switch (neighborCount) {
@@ -25,7 +19,7 @@ public class GeneticCA implements iCA {
         }
     }
 
-    private ArrayList<GeneticCell> getLiveParentsOf(int row, int col, int neighborhoodSize, CAGridComponents gridComps){
+    private ArrayList<GeneticCell> getLiveParentsOf(int row, int col, int neighborhoodSize, CAGridComponents gridComps) {
         // returns list of live cells surrounding cell
         // size must be odd!
         ArrayList<GeneticCell> parents = new ArrayList<GeneticCell>();
@@ -43,7 +37,7 @@ public class GeneticCA implements iCA {
                         if (cell.state > 0) {
                             parents.add(cell);
                         }  // else cell is not alive, exclude
-                    } catch(ArrayIndexOutOfBoundsException err){
+                    } catch (ArrayIndexOutOfBoundsException err) {
                         // cell is on edge of grid, trying to access off-grid neighbor as potential parent
                         // ignore
                     }
@@ -72,12 +66,12 @@ public class GeneticCA implements iCA {
 //                if (cell.state > 0) {
 //                    System.out.println(cell.neighborCount + "->" + act.toString());
 //                }
-                switch(act){
+                switch (act) {
                     case SPAWN:
-                        if (cell.state == 0 ){
+                        if (cell.state == 0) {
                             try {
                                 gridComps.states[i][j] = new GeneticCell(1, getLiveParentsOf(i, j, 3, gridComps)).incubate();
-                            } catch (IllegalStateException ex){
+                            } catch (IllegalStateException ex) {
                                 // not enough parents
                                 gridComps.states[i][j] = gridComps.newCell(1);
                             }
@@ -94,5 +88,11 @@ public class GeneticCA implements iCA {
 
         // change up the lastBuilder periodically. This adds some variety to the random spawns.
         gridComps.lastBuilderStamp -= 1;
+    }
+
+    private enum CellAction {
+        DIE,   // living cell -> dead cell
+        SPAWN, // dead  cell -> living cell
+        NONE  // no change to cell state
     }
 }

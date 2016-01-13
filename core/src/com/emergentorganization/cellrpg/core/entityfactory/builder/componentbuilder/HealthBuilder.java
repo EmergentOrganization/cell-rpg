@@ -14,12 +14,12 @@ public class HealthBuilder extends BaseComponentBuilder {
         super(Aspect.all(Health.class), 50);
     }
 
-    public HealthBuilder maxHealth( int maxHealth){
+    public HealthBuilder maxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
         return this;
     }
 
-    public HealthBuilder health( int health){
+    public HealthBuilder health(int health) {
         this.health = health;
         return this;
     }
@@ -31,7 +31,7 @@ public class HealthBuilder extends BaseComponentBuilder {
         Health heal = entity.getComponent(Health.class);
         heal.health = health;
 
-        if (maxHealth > -1){
+        if (maxHealth > -1) {
             heal.maxHealth = maxHealth;
         } else {
             heal.maxHealth = health;

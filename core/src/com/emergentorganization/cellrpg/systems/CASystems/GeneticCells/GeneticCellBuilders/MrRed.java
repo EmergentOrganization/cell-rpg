@@ -12,8 +12,8 @@ import javax.xml.crypto.KeySelectorException;
 public class MrRed implements GeneticNetworkBuilderInterface {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
 
-    public void buildNetwork(DGRN dgrn){
-        try{
+    public void buildNetwork(DGRN dgrn) {
+        try {
 
             Node reddener = dgrn.graph.createNode("redden-crowded-gene");
             reddener.setLabel("redden-crowded-gene")
@@ -26,7 +26,7 @@ public class MrRed implements GeneticNetworkBuilderInterface {
             // this is instantaneous, but inheritance doesn't deal with direct inflow to outflow connections (at this time)
             //dgrn.connect(GeneticCell.inflowNodes.CROWDED, GeneticCell.outflowNodes.COLOR_ADD_R, 1);
 
-        } catch(KeySelectorException err){
+        } catch (KeySelectorException err) {
             logger.error("nodes failed to insert in building mock network: " + err.getMessage());
         }
 

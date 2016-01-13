@@ -14,12 +14,12 @@ public class CollideEffectBuilder extends BaseComponentBuilder {
         super(Aspect.all(CollideEffect.class), 0);
     }
 
-    public CollideEffectBuilder collideSelfDamage(int dam){
+    public CollideEffectBuilder collideSelfDamage(int dam) {
         collideSelfDamage = dam;
         return this;
     }
 
-    public CollideEffectBuilder collideDamage(int dam){
+    public CollideEffectBuilder collideDamage(int dam) {
         this.collideDamage = dam;
         return this;
     }

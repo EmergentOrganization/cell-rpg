@@ -5,15 +5,15 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
-import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.iCellRenderer;
+import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,24 +22,19 @@ import java.util.*;
 
 /**
  * Renders cellular automata layers globally by selecting the entity with the CameraFollow component.
- *
- * Created by 7yl4r on 2015-11-18.
  */
 @Wire
 public class CARenderSystem extends BaseEntitySystem {
 
+    private static EnumMap<CellRenderer, iCellRenderer> cellRenderer = CellRenderer.getRendererMap();
+    // list of entities registered w/ this system
+    private final LinkedList<Integer> sortedEntityIds;
+    private final ShapeRenderer renderer;
+    private final Logger logger = LogManager.getLogger(getClass());
     // variables injected (by Artemis.World) @ runtime:
     private CameraSystem cameraSystem;
     private AssetManager assetManager;
     private ComponentMapper<CAGridComponents> CAComponent_m;
-
-    private static EnumMap<CellRenderer, iCellRenderer> cellRenderer = CellRenderer.getRendererMap();
-
-    // list of entities registered w/ this system
-    private final LinkedList<Integer> sortedEntityIds;
-
-    private final ShapeRenderer renderer;
-    private final Logger logger = LogManager.getLogger(getClass());
 
     public CARenderSystem(ShapeRenderer shapeRenderer) {
         super(Aspect.all(CAGridComponents.class));
@@ -49,20 +44,20 @@ public class CARenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void begin() {
+    protected void begin() {
         renderer.setAutoShapeType(true);
         renderer.setProjectionMatrix(cameraSystem.getGameCamera().combined);  // this should be uncommented, but doing so breaks cagrid...
         renderer.begin();
     }
 
     @Override
-    protected  void processSystem() {
+    protected void processSystem() {
         for (Integer id : sortedEntityIds) {
             process(id);
         }
     }
 
-    protected  void process(int entityId) {
+    protected void process(int entityId) {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
         if (layerStuff.states != null) {
             //logger.info("rendering " + layerStuff.cellCount + " cells");
@@ -78,7 +73,7 @@ public class CARenderSystem extends BaseEntitySystem {
     }
 
     @Override
-    protected  void inserted(int entityId) {
+    protected void inserted(int entityId) {
 
         sortedEntityIds.add(entityId);
 //        Collections.sort(sortedEntityIds, new Comparator<Integer>() {
@@ -107,7 +102,7 @@ public class CARenderSystem extends BaseEntitySystem {
         return Collections.unmodifiableList(sortedEntityIds);
     }
 
-    protected BaseCell newCell(int init_state){
+    protected BaseCell newCell(int init_state) {
         return new BaseCell(init_state);
     }
 
@@ -139,7 +134,7 @@ public class CARenderSystem extends BaseEntitySystem {
     }
 
     protected void renderCell(CAGridComponents layerComponents, final int i, final int j,
-                              final float x_origin, final float y_origin){
+                              final float x_origin, final float y_origin) {
         cellRenderer.get(layerComponents.renderType)
                 .renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
         // TODO: handle key not found exception. print "Renderer for renderType not found", default to ColorMap?

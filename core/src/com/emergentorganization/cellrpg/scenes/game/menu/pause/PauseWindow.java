@@ -53,7 +53,7 @@ public class PauseWindow extends VisWindow {
     }
 
     @Override
-    public void fadeOut(){
+    public void fadeOut() {
         super.fadeOut();
         if (settingsMenu != null)
             settingsMenu.closeSubmenu();

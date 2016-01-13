@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
  * move player into the region and dispose of previous region.
  * Intended to enable easy creation of level-based gameflow.
  * Switcher also (optionally) displays level #.
- *
+ * <p/>
  * Adapted from LeveledRegionSwitcher (2015-10-12) by 7yl4r on 12/29/2015.
  */
 public class LeveledRegionSwitcher extends iRegionManager {
@@ -21,12 +21,12 @@ public class LeveledRegionSwitcher extends iRegionManager {
     private iRegion currentRegion;
     private iRegion nextRegion;
 
-    public LeveledRegionSwitcher(iRegion startingRegion){
+    public LeveledRegionSwitcher(iRegion startingRegion) {
         nextRegion = startingRegion;
     }
 
     @Override
-    public void processSystem(){
+    public void processSystem() {
         // check if should move to next region
         if (nextRegion != null) {
             nextRegion.loadRegion(world);  // or instantiate region here?

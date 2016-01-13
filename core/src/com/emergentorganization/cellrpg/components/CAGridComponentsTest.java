@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class CAGridComponentsTest {
     @Test
-    public void testStampBlock(){
+    public void testStampBlock() {
         Camera camera = new Camera() {
             @Override
             public void update() {

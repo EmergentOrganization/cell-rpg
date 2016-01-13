@@ -12,11 +12,11 @@ public class Map {
         return entities;
     }
 
-    public void addEntity(Entity entity) {
-        entities.add(entity);
-    }
-
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
+    }
+
+    public void addEntity(Entity entity) {
+        entities.add(entity);
     }
 }

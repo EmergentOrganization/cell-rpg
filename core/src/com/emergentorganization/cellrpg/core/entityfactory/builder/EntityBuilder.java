@@ -14,10 +14,23 @@ import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuil
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 public class EntityBuilder {
+    private static final ArrayList<Class<? extends Component>> ignoredComponentBuilders = new ArrayList<Class<? extends Component>>();
+
+    static {
+        ignoredComponentBuilders.add(Position.class);
+        ignoredComponentBuilders.add(Rotation.class);
+        ignoredComponentBuilders.add(Scale.class);
+        ignoredComponentBuilders.add(Velocity.class);
+        ignoredComponentBuilders.add(Bounds.class);
+        ignoredComponentBuilders.add(Name.class);
+    }
+
     private final Logger logger = LogManager.getLogger(getClass());
     // ==================================================================
     // ================= ENTITY COMPONENT PROPERTIES ====================
@@ -31,16 +44,23 @@ public class EntityBuilder {
     private final String entityId;
     private final Archetype archetype;
     private final String friendlyName;
-
     // MISC
     private ArrayList<IComponentBuilder> builders;
     private String tag = null;
     private float scale = EntityFactory.SCALE_WORLD_TO_BOX;
-    private float angleDeg = 0f;
-    private Vector2 velocity = new Vector2();
 
     // ==================================================================
     // ==================================================================
+    private float angleDeg = 0f;
+
+
+    // ==================================================================
+    // ====================== BUILD METHOD ==============================
+    // ===  Called at the end of the builder chain, this method       ===
+    // ===  actually builds and returns the entity using the          ===
+    // ===  properties specified using the component builder classes. ===
+    // ==================================================================
+    private Vector2 velocity = new Vector2();
 
     public EntityBuilder(World world, Archetype archetype, String friendlyName, String entityId, Vector2 position) {
         this.world = world;
@@ -50,14 +70,6 @@ public class EntityBuilder {
         this.friendlyName = friendlyName;
         this.builders = new ArrayList<IComponentBuilder>();
     }
-
-
-    // ==================================================================
-    // ====================== BUILD METHOD ==============================
-    // ===  Called at the end of the builder chain, this method       ===
-    // ===  actually builds and returns the entity using the          ===
-    // ===  properties specified using the component builder classes. ===
-    // ==================================================================
 
     public Entity build() {
         // called at the end of the builder chain, this actually builds and returns the entity
@@ -96,15 +108,6 @@ public class EntityBuilder {
         return entity;
     }
 
-    private static final ArrayList<Class<? extends Component>> ignoredComponentBuilders = new ArrayList<Class<? extends Component>>();
-    static {
-        ignoredComponentBuilders.add(Position.class);
-        ignoredComponentBuilders.add(Rotation.class);
-        ignoredComponentBuilders.add(Scale.class);
-        ignoredComponentBuilders.add(Velocity.class);
-        ignoredComponentBuilders.add(Bounds.class);
-        ignoredComponentBuilders.add(Name.class);
-    }
     /**
      * DEBUG ONLY: A method for checking the creation of arbitrary components
      */
@@ -126,14 +129,14 @@ public class EntityBuilder {
                 String[] packages = cName.split("\\.");
                 logger.warn(
                         "Could not find builder for the " + packages[packages.length - 1] +
-                        " component attached to " + entity.getComponent(Name.class).friendlyName
+                                " component attached to " + entity.getComponent(Name.class).friendlyName
                 );
             }
         }
 
     }
 
-    private void buildName(Entity entity){
+    private void buildName(Entity entity) {
         Name name = entity.getComponent(Name.class);
         name.friendlyName = friendlyName;
         name.internalID = entityId;

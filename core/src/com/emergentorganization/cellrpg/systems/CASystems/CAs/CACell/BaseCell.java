@@ -10,14 +10,15 @@ public class BaseCell {
     public int state;  // cell state value
     public boolean lock; // TODO: true locks the cell, means "don't compute rule on this cell"
 
-    public BaseCell(int _state){
+    public BaseCell(int _state) {
         state = _state;
     }
 
-    public int getState(){
+    public int getState() {
         return state;
     }
-    public void setState(final int new_state){
+
+    public void setState(final int new_state) {
         state = new_state;
     }
 }

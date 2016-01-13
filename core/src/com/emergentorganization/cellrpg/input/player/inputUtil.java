@@ -7,11 +7,9 @@ import com.badlogic.gdx.math.Vector3;
 
 /**
  * static utility class for player input helpers
- *
- * Created by 7yl4r on 1/5/2016.
  */
 public class inputUtil {
-    public static Vector2 getMousePos(Camera cam){
+    public static Vector2 getMousePos(Camera cam) {
         Vector3 mousePos = cam.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
         return new Vector2(mousePos.x, mousePos.y);
     }

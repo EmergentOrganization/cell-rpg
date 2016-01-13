@@ -6,5 +6,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({CAGenerationSystemTest.class, CAInteractionSystemTest.class} )
-public final class SystemsTestSuite {}
+@Suite.SuiteClasses({CAGenerationSystemTest.class, CAInteractionSystemTest.class})
+public final class SystemsTestSuite {
+}

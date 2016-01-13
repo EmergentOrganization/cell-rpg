@@ -4,8 +4,12 @@ import com.artemis.Component;
 
 
 public class Name extends Component {
-    /**UI-facing name**/
+    /**
+     * UI-facing name
+     **/
     public String friendlyName;
-    /**EntityID name**/
+    /**
+     * EntityID name
+     **/
     public String internalID;
 }

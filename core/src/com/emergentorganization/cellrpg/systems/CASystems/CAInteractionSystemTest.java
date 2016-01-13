@@ -20,7 +20,7 @@ public class CAInteractionSystemTest {
     private final int COLLIDING_STATE = 1;
     private final int COLLIDING_LAYER_ID = 1;
 
-    private void setupTestState_full(CAGridComponents testComps){
+    private void setupTestState_full(CAGridComponents testComps) {
         // sets up given component with a full CA grid
         Camera camera = new Camera() {
             @Override

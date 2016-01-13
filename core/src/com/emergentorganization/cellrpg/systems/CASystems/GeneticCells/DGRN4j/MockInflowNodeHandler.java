@@ -3,15 +3,16 @@ package com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j;
 
 public class MockInflowNodeHandler implements InflowNodeHandler {
     String[] infoNodeList = new String[]{};
-    public String[] getListOfInflowNodes(){
+
+    public String[] getListOfInflowNodes() {
         return infoNodeList;
     }
 
-    public void setInflowNodeList(String[] newNodeList){
+    public void setInflowNodeList(String[] newNodeList) {
         infoNodeList = newNodeList;
     }
 
-    public int getInflowNodeValue(String key){
+    public int getInflowNodeValue(String key) {
         return 1;
     }
 }

@@ -38,12 +38,12 @@ public class CameraSystem extends IteratingSystem {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         super.initialize();
         eventMan.addListener(new EventListener() {
             @Override
             public void notify(GameEvent event) {
-                switch (event){
+                switch (event) {
                     case PLAYER_HIT:
                         camShake();
                         break;
@@ -52,7 +52,7 @@ public class CameraSystem extends IteratingSystem {
         });
     }
 
-    private void camShake(){
+    private void camShake() {
         logger.info("camShake!");
         final float offset = .5f;  // TODO: randomize directions
         gameCamera.translate(offset, offset);

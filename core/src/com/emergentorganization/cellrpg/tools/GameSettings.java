@@ -23,8 +23,8 @@ public class GameSettings {
 
     // === OTHER ===
     public static String USER_ID = "user_id";
-    private static String PREFS_FILE = "com.emergentorganization.cellrpg.configuration";
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
+    private static String PREFS_FILE = "com.emergentorganization.cellrpg.configuration";
     private boolean devModeEnabled = false;
 
     public static Preferences getPreferences() {

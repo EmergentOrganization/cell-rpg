@@ -4,7 +4,7 @@ import com.emergentorganization.cellrpg.components.CAGridComponents;
 
 
 public class util {
-    public static int ca_rule(final int row, final int col, CAGridComponents gridComps){
+    public static int ca_rule(final int row, final int col, CAGridComponents gridComps) {
         // TODO: check gridComps.CARule and execute appropriate rule
         return ca_rule_CGoL(row, col, gridComps);
     }
@@ -23,6 +23,7 @@ public class util {
         // random state:
         //return Math.round(Math.round(Math.random()));  // round twice? one is just a cast (I think)
     }
+
     public static int[][] getNeighborhood(final int row, final int col, final int size, CAGridComponents gridComps) {
         // returns matrix of neighborhood around (row, col) with edge size "size"
         // size MUST be odd! (not checked for efficiency)
@@ -38,14 +39,6 @@ public class util {
             }
         }
         return neighbors;
-    }
-
-    private void checkNeighborhoodSize(int size) {
-        if (size % 2 < 1) {
-            throw new UnsupportedOperationException("size must be odd!");
-        } else {
-            return;
-        }
     }
 
     public static int getNeighborhoodSum(final int row, final int col, final int size, CAGridComponents gridComps) {
@@ -67,5 +60,13 @@ public class util {
         }
 //        logger.info("count: " + sum);
         return sum;
+    }
+
+    private void checkNeighborhoodSize(int size) {
+        if (size % 2 < 1) {
+            throw new UnsupportedOperationException("size must be odd!");
+        } else {
+            return;
+        }
     }
 }

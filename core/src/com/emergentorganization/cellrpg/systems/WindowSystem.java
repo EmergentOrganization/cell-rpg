@@ -17,13 +17,13 @@ import com.kotcrab.vis.ui.widget.VisWindow;
 public class WindowSystem extends BaseSystem {
     private final Stage stage;
     private final Batch gameBatch;
+    SceneManager sceneManager;
     private RenderSystem renderSystem;
     private MovementSystem movementSystem;
     private InputSystem inputSystem;
     private boolean isPaused = false;
     private VisWindow pauseWindow;
     private TextureRegion framebufferTexture;
-    SceneManager sceneManager;
 
     public WindowSystem(Stage stage, Batch batch, SceneManager sceneManager) {
         this.stage = stage;

@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class MockBuilder implements GeneticNetworkBuilderInterface {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
 
-    public void buildNetwork(DGRN dgrn){
+    public void buildNetwork(DGRN dgrn) {
         return;
     }
 }

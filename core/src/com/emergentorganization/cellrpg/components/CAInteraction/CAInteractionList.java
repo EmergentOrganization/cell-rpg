@@ -9,17 +9,17 @@ import java.util.HashMap;
 
 /**
  * List of CA interactions with a CAGrid.
- *
- *  CAInteraction data:
- *   target layer(s)
- *   colliding layer(s)
- *   resulting stamp  // TODO: (enhancement) could apply multiple stamps over multiple generations
- *   resulting event
- *
- *  EXAMPLE OF DATA REPRESENTED:
- *  spawn pattern A to targetGrid tg1 and pattern B to tg2 when entity collides with colliderGrids cg1, cg2.
- *  spawn pattern C to targetGrid tg3 when entity collides with colliderGrid cg3.
- *
+ * <p/>
+ * CAInteraction data:
+ * target layer(s)
+ * colliding layer(s)
+ * resulting stamp  // TODO: (enhancement) could apply multiple stamps over multiple generations
+ * resulting event
+ * <p/>
+ * EXAMPLE OF DATA REPRESENTED:
+ * spawn pattern A to targetGrid tg1 and pattern B to tg2 when entity collides with colliderGrids cg1, cg2.
+ * spawn pattern C to targetGrid tg3 when entity collides with colliderGrid cg3.
+ * <p/>
  * Adapted from CACollisionComponent by 7yl4r on 2015-12-08.
  */
 public class CAInteractionList extends Component {
@@ -27,12 +27,10 @@ public class CAInteractionList extends Component {
 
     // map target CA Grid entity IDs to CAInteraction objects for an entity:
     public HashMap<Integer, CAInteraction> interactions = new HashMap<Integer, CAInteraction>();
-
-    private int colliderRadius_1  = 0;  // radius of collision object for 1px CA
-    private int colliderRadius_3  = 0;  // for 3px CA
-    private int colliderRadius_11 = 0;  // for 11px CA
-
     public Vector2 lastCollisionPosition;  // position @ last location position was checked
+    private int colliderRadius_1 = 0;  // radius of collision object for 1px CA
+    private int colliderRadius_3 = 0;  // for 3px CA
+    private int colliderRadius_11 = 0;  // for 11px CA
 
     // TODO: public void setColliderRadiusFromBounds(Bounds bounds){
 
@@ -40,7 +38,7 @@ public class CAInteractionList extends Component {
         //      adds interaction to the given ca grid's CAInteraction
         //      adds CAInteraction object for ca grid if it doesn't already exist.
 
-        if (interactions.containsKey(layerId)){
+        if (interactions.containsKey(layerId)) {
             logger.error("can't add CA interaction. Object already interacts with this layer");
         } else {
             interactions.put(layerId, interaction);
@@ -48,16 +46,16 @@ public class CAInteractionList extends Component {
         return this;
     }
 
-    public CAInteractionList setColliderRadius(int newVal){
-        colliderRadius_1 = newVal*3;
+    public CAInteractionList setColliderRadius(int newVal) {
+        colliderRadius_1 = newVal * 3;
         colliderRadius_3 = newVal;
-        colliderRadius_11 = newVal/3;
-        if (colliderRadius_11 < 1)colliderRadius_11 = 1;
+        colliderRadius_11 = newVal / 3;
+        if (colliderRadius_11 < 1) colliderRadius_11 = 1;
         return this;
     }
 
-    public int getColliderRadius(int collidingGridSize){
-        switch(collidingGridSize){
+    public int getColliderRadius(int collidingGridSize) {
+        switch (collidingGridSize) {
             case 1:
                 return colliderRadius_1;
             case 3:

@@ -12,12 +12,13 @@ public enum EntityID {
     BUILDING_LARGE_ONE, BUILDING_ROUND_ONE,
     RIFT_ONE, RIFT_TWO, VYROID_BEACON,
     CIV_ONE_BLINKER,
-    VYRAPUFFER,TUBSNAKE,
+    VYRAPUFFER, TUBSNAKE,
     THE_EDGE, BG_ARCADE, INVISIBLE_WALL,
     POWERUP_PLUS, POWERUP_STAR,
     CA_LAYER_VYROIDS, CA_LAYER_ENERGY, CA_LAYER_GENETIC;
 
     private static final EnumMap<EntityID, String> map = new EnumMap<EntityID, String>(EntityID.class);
+
     static {
         map.put(BULLET, "bullet");
         map.put(PLAYER, "char-player");
@@ -57,13 +58,6 @@ public enum EntityID {
         return strs;
     }
 
-
-    @Override
-    public String toString() {
-        // convert entityId enum to string
-        return map.get(this);
-    }
-
     public static EntityID fromString(String type) {
         // convert string key to entityId enum
         for (Map.Entry<EntityID, String> entry : map.entrySet()) {
@@ -73,5 +67,11 @@ public enum EntityID {
         }
 
         throw new RuntimeException("ERROR: Could not find EntityID " + type + " in EntityID.fromString()");
+    }
+
+    @Override
+    public String toString() {
+        // convert entityId enum to string
+        return map.get(this);
     }
 }

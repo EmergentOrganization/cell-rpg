@@ -21,14 +21,11 @@ import java.util.ArrayList;
 
 /**
  * processes user input and produces movement of player avatar.
- *
- * Created by orelb on 10/29/2015.
  */
 public class PlayerInputProcessor extends InputProcessor {
 
-    private TagManager tagManager;
     Preferences prefs;
-
+    private TagManager tagManager;
     private ArrayList<iPlayerCtrl> movementControls = new ArrayList<iPlayerCtrl>();  // TODO: should be list of iMovementCtrl
     private ArrayList<iPlayerCtrl> weaponControls = new ArrayList<iPlayerCtrl>();
     // PlayerAbilities abilites; ...
@@ -51,29 +48,29 @@ public class PlayerInputProcessor extends InputProcessor {
         // TODO: add more weapon control options
     }
 
-    public String[] getMovementCtrlChoices(){
+    public String[] getMovementCtrlChoices() {
         // returns list of movement control names.
         String nameList[] = new String[movementControls.size()];
-        for (int i = 0; i < movementControls.size(); i++){
+        for (int i = 0; i < movementControls.size(); i++) {
             nameList[i] = movementControls.get(i).getName();
         }
         return nameList;
     }
 
-    public String[] getWeaponCtrlChoices(){
+    public String[] getWeaponCtrlChoices() {
         // returns list of weapon control names.
         String nameList[] = new String[weaponControls.size()];
-        for (int i = 0; i < weaponControls.size(); i++){
+        for (int i = 0; i < weaponControls.size(); i++) {
             nameList[i] = weaponControls.get(i).getName();
         }
         return nameList;
     }
 
-    public iPlayerCtrl getPlayerMovement(){
+    public iPlayerCtrl getPlayerMovement() {
         return movementControls.get(prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));
     }
 
-    public iPlayerCtrl getPlayerWeapon(){
+    public iPlayerCtrl getPlayerWeapon() {
         return weaponControls.get(prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
     }
 

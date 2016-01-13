@@ -4,10 +4,11 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.WorldConfiguration;
 import com.artemis.utils.IntBag;
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,10 +22,13 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.emergentorganization.cellrpg.PixelonTransmission;
-import com.emergentorganization.cellrpg.components.*;
+import com.emergentorganization.cellrpg.components.Bounds;
+import com.emergentorganization.cellrpg.components.Name;
+import com.emergentorganization.cellrpg.components.PhysicsBody;
+import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.EntityID;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.core.WorldFactory;
+import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
@@ -32,10 +36,9 @@ import com.emergentorganization.cellrpg.systems.InputSystem;
 import com.emergentorganization.cellrpg.systems.RenderSystem;
 import com.emergentorganization.cellrpg.tools.FileListNode;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
-import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsBox;
 import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
 import com.emergentorganization.cellrpg.tools.mapeditor.renderables.CornerGizmo;
-import com.emergentorganization.cellrpg.tools.mapeditor.ui.*;
+import com.emergentorganization.cellrpg.tools.mapeditor.ui.EditorWindow;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,37 +46,32 @@ import java.util.Collection;
 
 
 public class MapEditor extends BaseScene implements InputProcessor {
+    public static final float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
     // TODO: move this with other scenes, and probably extend the WorldScene to reduce code duplication.
     private static final float AXIS_POLE_LENGTH = 10000.0f;
-    private final OrthographicCamera gameCamera;
-    private final InputMultiplexer multiplexer;
-    private final EditorWindow window;
-
     private static final float MOVE_SPEED = 300.0f;
     private static final float MIN_ZOOM = 0.001f;
     private static final float ZOOM_AMT = 0.001f; // amount of zoom per key press
-
     private static final float AXIS_POLE_SIZE = 1.0f; // size of the axis poles denoting 0,0
-    public static final float BB_THICKNESS = 0.05f; // Bounding box thickness of lines
-
+    private static final float ZOOM_FACTOR = 0.001f;
+    private static final float HIT_ACCURACY = 0.05f; // lower the value, the more accurate the hit detection
+    private final OrthographicCamera gameCamera;
+    private final InputMultiplexer multiplexer;
+    private final EditorWindow window;
     private final Vector2 lastRMBClick = new Vector2(); // in UI space
     private final Vector2 lastLMBClick = new Vector2(); // in UI space
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
-
+    private final Vector2 dragOffset = new Vector2();
+    private final Vector3 dragPoint = new Vector3();
+    private final Vector3 entityPos = new Vector3();
     private EditorTarget target;
     private CornerGizmo selectedGizmo;
-
     private boolean mapInputEnabled = true;
     private SpriteBatch batch;
     private World world;
     private EntityFactory entityFactory;
     private PhysicsSystem physicsSystem;
-
-
-    private static final float ZOOM_FACTOR = 0.001f;
     private MapEditor editor;
-    private static final float HIT_ACCURACY =  0.05f; // lower the value, the more accurate the hit detection
-    private final Vector2 dragOffset = new Vector2();
 
     public MapEditor(final PixelonTransmission pt) {
         super(pt);
@@ -129,6 +127,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
     /**
      * Instantiates new entity
+     *
      * @param pos Position in world-space
      */
     private void createNewEntity(final EntityID id, final Vector3 pos) {
@@ -137,6 +136,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
     /**
      * Instantiates new entity
+     *
      * @param pos Position in screen-space
      */
     public void createNewEntity(final EntityID id, final Vector2 pos) {
@@ -196,8 +196,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 update = true;
                 gameCamera.position.add(0.0f, speed, 0.0f);
-            }
-            else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
                 update = true;
                 gameCamera.position.add(0.0f, -speed, 0.0f);
             }
@@ -205,8 +204,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
             if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 update = true;
                 gameCamera.position.add(speed, 0.0f, 0.0f);
-            }
-            else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
                 update = true;
                 gameCamera.position.add(-speed, 0.0f, 0.0f);
             }
@@ -214,8 +212,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
             if (Gdx.input.isKeyPressed(Input.Keys.Z)) { // zoom in
                 update = true;
                 gameCamera.zoom -= ZOOM_AMT;
-            }
-            else if (Gdx.input.isKeyPressed(Input.Keys.X)) { // zoom out
+            } else if (Gdx.input.isKeyPressed(Input.Keys.X)) { // zoom out
                 update = true;
                 gameCamera.zoom += ZOOM_AMT;
             }
@@ -255,13 +252,6 @@ public class MapEditor extends BaseScene implements InputProcessor {
         window.updateTransform(target.getEntity());
     }
 
-    private void setTarget(final Entity entity) {
-        final Bounds bounds = entity.getComponent(Bounds.class);
-        final Vector2 size = new Vector2(bounds.width, bounds.height);
-        final Vector2 pos = entity.getComponent(Position.class).position.cpy();
-        setTarget(new EditorTarget(new BoundsGizmo(size, pos), entity));
-    }
-
     public void setMapInput(final boolean enable) {
         this.mapInputEnabled = enable;
     }
@@ -286,7 +276,6 @@ public class MapEditor extends BaseScene implements InputProcessor {
         return physicsSystem;
     }
 
-
     public void load(final String mapName) {
         clearMap();
         MapTools.importMap(mapName, entityFactory);
@@ -294,6 +283,13 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
     public EditorTarget getTarget() {
         return target;
+    }
+
+    private void setTarget(final Entity entity) {
+        final Bounds bounds = entity.getComponent(Bounds.class);
+        final Vector2 size = new Vector2(bounds.width, bounds.height);
+        final Vector2 pos = entity.getComponent(Position.class).position.cpy();
+        setTarget(new EditorTarget(new BoundsGizmo(size, pos), entity));
     }
 
     @Override
@@ -317,8 +313,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
             final Vector2 screenPos = new Vector2(screenX, screenY);
             if (button == Input.Buttons.LEFT) {
                 onLeftClick(screenPos);
-            }
-            else if (button == Input.Buttons.RIGHT) {
+            } else if (button == Input.Buttons.RIGHT) {
                 onRightClick(screenPos);
             }
         }
@@ -340,24 +335,18 @@ public class MapEditor extends BaseScene implements InputProcessor {
                 selectedGizmo = target.getBoundsGizmo().detectContains(hitBox);
                 if (selectedGizmo != null) {
                     System.out.println("Gizmo selected"); //TODO
-                }
-                else if (old != null) {
+                } else if (old != null) {
                     System.out.println("Deselected Gizmo.");
                     detectNewTarget(hitBox);
-                }
-                else {
+                } else {
                     detectNewTarget(hitBox);
                 }
-            }
-            else {
+            } else {
                 detectNewTarget(hitBox);
             }
         }
     }
 
-
-    private final Vector3 dragPoint = new Vector3();
-    private final Vector3 entityPos = new Vector3();
     /**
      * @param hitBox Hitbox in world space
      */
@@ -401,7 +390,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
         }, hitBox.x, hitBox.y, hitBox.x + hitBox.getWidth(), hitBox.y + hitBox.getHeight());
 
         if (entities.size() > 0)
-            return world.getEntity((Integer)entities.toArray()[0]);
+            return world.getEntity((Integer) entities.toArray()[0]);
         else
             return null;
     }
@@ -431,7 +420,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     /**
-     * @param mousePos Mouse position in world space
+     * @param mousePos   Mouse position in world space
      * @param startPoint Drag start position in world space
      */
     private void setDragOffset(final Vector3 mousePos, final Vector3 startPoint) {
@@ -454,13 +443,11 @@ public class MapEditor extends BaseScene implements InputProcessor {
 
                 if (selectedGizmo != null) {
                     System.out.println("Scaling entity by " + dragOffset);
-                }
-                else {
+                } else {
                     final Body body = world.getSystem(PhysicsSystem.class).getBody(mapTarget.getId());
                     if (body != null) {
                         body.setTransform(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y, body.getAngle());
-                    }
-                    else
+                    } else
                         mapTarget.getComponent(Position.class).position.set(gameVec.x + dragOffset.x, gameVec.y + dragOffset.y);
                     window.updateTransform(mapTarget);
                 }

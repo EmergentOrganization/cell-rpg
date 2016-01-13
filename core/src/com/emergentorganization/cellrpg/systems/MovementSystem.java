@@ -10,9 +10,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
-/**
- * Created by brian on 10/28/15.
- */
+
 @Wire
 public class MovementSystem extends IteratingSystem {
 

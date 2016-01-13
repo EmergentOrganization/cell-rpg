@@ -12,9 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
-/**
- * Created by 7yl4r on 12/14/2015.
- */
+
 public class CAInteractionSystemTest {
 
     private final Logger logger = LogManager.getLogger(getClass());

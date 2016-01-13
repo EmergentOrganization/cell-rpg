@@ -4,9 +4,7 @@ import it.uniroma1.dis.wsngroup.gexf4j.core.Node;
 
 import javax.xml.crypto.KeySelectorException;
 
-/**
- * Created by 7yl4r on 10/4/2015.
- */
+
 public class GraphInitializer {
     public static class inflowNode{
         public static String ALWAYS_ON = "always_on";

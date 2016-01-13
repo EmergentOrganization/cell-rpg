@@ -7,9 +7,7 @@ import com.emergentorganization.cellrpg.events.GameEvent;
 import java.awt.Event;
 import java.util.ArrayList;
 
-/**
- * Created by orelb on 11/21/2015.
- */
+
 public class EventManager extends BaseSystem {
 
     /*

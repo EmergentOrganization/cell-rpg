@@ -3,9 +3,7 @@ package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbui
 import com.artemis.Component;
 import com.artemis.Entity;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public interface IComponentBuilder {
     void build(Entity entity);
     boolean isBuilt();

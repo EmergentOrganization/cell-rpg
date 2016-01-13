@@ -6,9 +6,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 
 import java.util.Map;
 
-/**
- * Created by brian on 11/21/15.
- */
+
 public class SoundEventListener implements EventListener {
     private Map<SoundEffect, Sound> soundEffects;
 

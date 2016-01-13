@@ -11,9 +11,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-/**
- * Created by brian on 10/30/15.
- */
+
 public class PauseWindow extends VisWindow {
     private final SettingsMenu settingsMenu;
     private final DebugMenu debugMenu;

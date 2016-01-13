@@ -12,9 +12,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 
 import java.util.List;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public class VisualBuilder extends BaseComponentBuilder {
     private RenderIndex renderIndex = RenderIndex.BUILDING;
     private boolean isAnimation = false;

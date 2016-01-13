@@ -1,8 +1,6 @@
 package com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
 
-/**
- * Created by 7yl4r on 9/25/2015.
- */
+
 public class CellWithHistory extends BaseCell{
     // TODO: replace this with bufferSwapCell which should store two state values here,
     //       one used for current, one used for previous for max efficiency,

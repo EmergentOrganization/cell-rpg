@@ -13,9 +13,7 @@ import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
 
-/**
- * Created by orelb on 10/30/2015.
- */
+
 public class MainMenu extends BaseScene {
 
     private final float tableMargin;

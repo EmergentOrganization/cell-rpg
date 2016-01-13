@@ -7,9 +7,7 @@ import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-/**
- * Created by 7yl4r on 10/10/2015.
- */
+
 public class MenuBuilder {
     public static void buildSliderSetting(VisTable menuTable, final VisWindow menuWindow, final AdjustableSetting setting) {
         VisLabel settingLabel = new VisLabel(setting.getLabel());

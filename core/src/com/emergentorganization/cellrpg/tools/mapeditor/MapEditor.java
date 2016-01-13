@@ -41,9 +41,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by BrianErikson on 6/14/2015.
- */
+
 public class MapEditor extends BaseScene implements InputProcessor {
     // TODO: move this with other scenes, and probably extend the WorldScene to reduce code duplication.
     private static final float AXIS_POLE_LENGTH = 10000.0f;

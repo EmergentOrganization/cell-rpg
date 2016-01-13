@@ -1,8 +1,6 @@
 package com.emergentorganization.cellrpg.tools.menus;
 
-/**
- * Created by 7yl4r on 10/10/2015.
- */
+
 public class AdjustableSetting {
     private String label;
     private float value;

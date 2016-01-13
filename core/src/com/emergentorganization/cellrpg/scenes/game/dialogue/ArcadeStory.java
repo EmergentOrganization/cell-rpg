@@ -1,8 +1,6 @@
 package com.emergentorganization.cellrpg.scenes.game.dialogue;
 
-/**
- * Created by 7yl4r on 1/7/2016.
- */
+
 public class ArcadeStory {
     public static String[] I = {
         "you have connected to a hostile planiverse.",

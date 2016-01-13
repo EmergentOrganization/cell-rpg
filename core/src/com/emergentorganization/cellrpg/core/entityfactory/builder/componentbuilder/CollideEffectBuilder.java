@@ -5,9 +5,7 @@ import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.CollideEffect;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public class CollideEffectBuilder extends BaseComponentBuilder {
     private int collideDamage = 0;
     private int collideSelfDamage = 0;

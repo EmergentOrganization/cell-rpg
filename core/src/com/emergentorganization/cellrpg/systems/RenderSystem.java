@@ -21,9 +21,7 @@ import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 
 import java.util.*;
 
-/**
- * Created by brian on 10/28/15.
- */
+
 @Wire
 public class RenderSystem extends BaseEntitySystem {
 

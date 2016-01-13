@@ -8,9 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-/**
- * Created by 7yl4r on 12/25/2015.
- */
+
 public class CAInteractionListTest {
     private final Logger logger = LogManager.getLogger(getClass());
 

@@ -5,9 +5,7 @@ import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public class SpontaneousGenerationListBuilder extends BaseComponentBuilder {
     private float radius;
 

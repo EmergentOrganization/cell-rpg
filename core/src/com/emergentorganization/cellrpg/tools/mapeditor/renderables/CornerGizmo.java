@@ -2,9 +2,7 @@ package com.emergentorganization.cellrpg.tools.mapeditor.renderables;
 
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by brian on 12/29/15.
- */
+
 public class CornerGizmo extends BoundsBox {
     private final Corner corner;
 

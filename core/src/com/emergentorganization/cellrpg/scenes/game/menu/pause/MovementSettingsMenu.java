@@ -12,9 +12,7 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisTable;
 
-/**
- * Created by 7yl4r on 9/1/2015.
- */
+
 public class MovementSettingsMenu extends Submenu {
     World world;
     public MovementSettingsMenu(VisTable table, Stage stage, String buttonText, World world) {

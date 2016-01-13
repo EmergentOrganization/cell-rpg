@@ -6,9 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
-/**
- * Created by 7yl4r on 12/14/2015.
- */
+
 public class testUtils {
     private static final Logger logger = LogManager.getLogger(testUtils.class);
 

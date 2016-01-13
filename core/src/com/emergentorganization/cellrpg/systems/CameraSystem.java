@@ -17,9 +17,7 @@ import com.emergentorganization.cellrpg.managers.EventManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by orelb on 10/29/2015.
- */
+
 @Wire
 public class CameraSystem extends IteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());

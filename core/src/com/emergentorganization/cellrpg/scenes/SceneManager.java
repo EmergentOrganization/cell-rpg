@@ -3,9 +3,7 @@ package com.emergentorganization.cellrpg.scenes;
 import com.badlogic.gdx.utils.IntMap;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 
-/**
- * Created by orelb on 10/30/2015.
- */
+
 public class SceneManager {
 
     private final PixelonTransmission pt;

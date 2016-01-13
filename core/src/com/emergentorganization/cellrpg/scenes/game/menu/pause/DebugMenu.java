@@ -6,9 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 
-/**
- * Created by 7yl4r on 9/1/2015.
- */
+
 public class DebugMenu extends Submenu {
     public DebugMenu(VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);

@@ -2,9 +2,7 @@ package com.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
 
-/**
- * Created by 7yl4r on 2015-01-04.
- */
+
 public class WeaponComponent extends Component {
     // public:
     public long delay;  // required delay between shots

@@ -8,9 +8,7 @@ import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.testUtils;
 import org.junit.Test;
 
-/**
- * Created by 7yl4r on 12/14/2015.
- */
+
 public class CAGridComponentsTest {
     @Test
     public void testStampBlock(){

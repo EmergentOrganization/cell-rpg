@@ -16,9 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-/**
- * Created by brian on 11/21/15.
- */
+
 public class EntityBuilder {
     private final Logger logger = LogManager.getLogger(getClass());
     // ==================================================================

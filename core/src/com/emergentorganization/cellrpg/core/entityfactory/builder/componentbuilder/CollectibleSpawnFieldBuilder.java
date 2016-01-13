@@ -5,9 +5,7 @@ import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public class CollectibleSpawnFieldBuilder extends BaseComponentBuilder {
     private float spawnFieldRadius;
 

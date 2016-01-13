@@ -12,9 +12,7 @@ import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-/**
- * Created by orelb on 10/29/2015.
- */
+
 public class WASD extends iPlayerCtrl {
     final String NAME = "WASD Movement";
 

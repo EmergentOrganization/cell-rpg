@@ -12,9 +12,7 @@ import com.emergentorganization.cellrpg.scenes.SceneManager;
 import com.emergentorganization.cellrpg.scenes.game.menu.pause.PauseWindow;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-/**
- * Created by brian on 10/30/15.
- */
+
 @Wire
 public class WindowSystem extends BaseSystem {
     private final Stage stage;

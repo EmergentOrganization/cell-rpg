@@ -17,9 +17,7 @@ import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
-/**
- * Created by brian on 10/29/15.
- */
+
 @Wire
 public class PhysicsSystem extends BaseEntitySystem {
     private CameraSystem cs;

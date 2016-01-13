@@ -14,9 +14,7 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-/**
- * Created by BrianErikson on 10/21/15.
- */
+
 public class FileStructure {
     public static final String RESOURCE_DIR = "resources/";
     private final Logger logger = LogManager.getLogger(getClass());

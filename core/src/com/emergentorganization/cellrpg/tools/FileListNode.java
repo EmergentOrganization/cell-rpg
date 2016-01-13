@@ -4,9 +4,7 @@ import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 
 import java.io.File;
 
-/**
- * Created by Brian on 6/22/2015.
- */
+
 public class FileListNode {
     public final File file;
 

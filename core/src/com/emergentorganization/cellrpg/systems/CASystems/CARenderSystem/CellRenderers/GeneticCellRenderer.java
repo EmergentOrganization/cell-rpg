@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
 
-/**
- * Created by 7yl4r on 12/16/2015.
- */
+
 public class GeneticCellRenderer implements iCellRenderer {
     @Override
     public void renderCell(ShapeRenderer shapeRenderer, CAGridComponents gridComps, final int i, final int j,

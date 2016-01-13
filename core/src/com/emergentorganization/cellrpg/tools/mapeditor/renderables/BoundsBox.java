@@ -5,9 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 
-/**
- * Created by brian on 11/22/15.
- */
+
 public class BoundsBox extends Rectangle implements Renderable {
     private final Vector2 bl = new Vector2();
     private final Vector2 br = new Vector2();

@@ -7,9 +7,7 @@ import com.emergentorganization.cellrpg.components.InputComponent;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-/**
- * Created by 7yl4r on 1/4/2016.
- */
+
 public abstract class iPlayerCtrl {
     protected World world;
     ComponentMapper<InputComponent> inp_m;

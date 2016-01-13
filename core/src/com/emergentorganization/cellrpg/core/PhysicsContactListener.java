@@ -12,9 +12,7 @@ import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by brian on 11/21/15.
- */
+
 public class PhysicsContactListener implements ContactListener {
     private final Logger logger = LogManager.getLogger(getClass());
     private final EventManager eventManager;

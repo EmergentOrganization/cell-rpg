@@ -13,9 +13,7 @@ import org.junit.Test;
 
 import javax.xml.crypto.KeySelectorException;
 
-/**
- * Created by 7yl4r on 10/3/2015.
- */
+
 public class GeneticCellTest {
     private final Logger logger = LogManager.getLogger(getClass());
 

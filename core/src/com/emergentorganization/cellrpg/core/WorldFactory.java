@@ -26,9 +26,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARende
 import com.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
 import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 
-/**
- * Created by brian on 11/7/15.
- */
+
 public class WorldFactory {
 
     public static World standardGameWorld(PixelonTransmission pt,

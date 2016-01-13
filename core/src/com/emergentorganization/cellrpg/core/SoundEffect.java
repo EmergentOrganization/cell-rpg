@@ -1,8 +1,6 @@
 package com.emergentorganization.cellrpg.core;
 
-/**
- * Created by brian on 11/19/15.
- */
+
 public enum SoundEffect {
     NONE,
     LASER,

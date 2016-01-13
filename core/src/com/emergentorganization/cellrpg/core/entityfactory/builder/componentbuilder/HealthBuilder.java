@@ -5,9 +5,7 @@ import com.artemis.Component;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.Health;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public class HealthBuilder extends BaseComponentBuilder {
     private int health = Integer.MAX_VALUE;  // still destructible TODO: fix?
     private int maxHealth = -1;  // defaults to full health unless other given.

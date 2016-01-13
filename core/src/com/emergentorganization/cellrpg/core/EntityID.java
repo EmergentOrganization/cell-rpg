@@ -5,9 +5,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import java.util.EnumMap;
 import java.util.Map;
 
-/**
- * Created by brian on 11/8/15.
- */
+
 public enum EntityID {
     BULLET,
     PLAYER, PLAYER_SHIELD,

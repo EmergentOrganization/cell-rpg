@@ -7,9 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 
-/**
- * Created by orelb on 10/30/2015.
- */
+
 public abstract class BaseScene extends ScreenAdapter {
 
     protected final PixelonTransmission pt;

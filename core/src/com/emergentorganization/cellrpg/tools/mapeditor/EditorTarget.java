@@ -3,9 +3,7 @@ package com.emergentorganization.cellrpg.tools.mapeditor;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
 
-/**
- * Created by brian on 12/12/15.
- */
+
 public class EditorTarget {
     private final BoundsGizmo boundsGizmo;
     private final Entity entity;

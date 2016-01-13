@@ -6,9 +6,7 @@ import com.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by brian on 10/28/15.
- */
+
 public class InputComponent extends Component {
     Logger logger = LogManager.getLogger(getClass());
 

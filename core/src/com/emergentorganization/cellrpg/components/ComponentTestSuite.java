@@ -4,9 +4,7 @@ import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionLi
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-/**
- * Created by 7yl4r on 12/25/2015.
- */
+
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

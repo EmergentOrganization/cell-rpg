@@ -5,9 +5,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DG
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by 7yl4r on 10/6/2015.
- */
+
 public class MockBuilder implements GeneticNetworkBuilderInterface {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
 

@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by brian on 11/22/15.
- */
+
 public class BoundsGizmo implements Renderable {
     public static final float GIZMO_LENGTH = 0.20f;
     private static final Vector2 GIZMO_SIZE = new Vector2(GIZMO_LENGTH, GIZMO_LENGTH);

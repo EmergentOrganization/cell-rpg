@@ -14,9 +14,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 
-/**
- * Created by 7yl4r on 10/10/2015.
- */
+
 public class ArcadeRegion2 implements iRegion {
     WorldScene scene;
     public ArcadeRegion2(WorldScene parentScene){

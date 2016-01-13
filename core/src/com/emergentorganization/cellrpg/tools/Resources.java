@@ -5,9 +5,7 @@ import com.emergentorganization.cellrpg.core.SoundEffect;
 
 import java.util.*;
 
-/**
- * Created by brian on 11/19/15.
- */
+
 public class Resources {
     // DIR
     public static final String DIR_IMG_GAME = "game/";

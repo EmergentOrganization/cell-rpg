@@ -12,9 +12,7 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 
-/**
- * Created by 7yl4r on 12/31/2015.
- */
+
 public class ScoreDisplay {
     public World world;
     private Stage stage;

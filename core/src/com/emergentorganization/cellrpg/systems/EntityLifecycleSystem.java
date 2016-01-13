@@ -12,9 +12,7 @@ import com.emergentorganization.cellrpg.components.Name;
 import com.emergentorganization.cellrpg.components.Position;
 import com.emergentorganization.cellrpg.core.Tags;
 
-/**
- * Created by brian on 11/8/15.
- */
+
 @Wire
 public class EntityLifecycleSystem extends IteratingSystem {
     private ComponentMapper<Name> nameMapper;

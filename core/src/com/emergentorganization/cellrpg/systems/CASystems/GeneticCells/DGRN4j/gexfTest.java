@@ -9,9 +9,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-/**
- * Created by 7yl4r on 10/3/2015.
- */
+
 public class gexfTest {
 
 // TODO: this test fails, attributes must be manually added to nodes.

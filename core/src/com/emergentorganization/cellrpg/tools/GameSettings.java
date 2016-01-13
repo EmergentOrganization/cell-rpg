@@ -3,9 +3,7 @@ package com.emergentorganization.cellrpg.tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-/**
- * Created by BrianErikson on 9/15/15.
- */
+
 public class GameSettings {
     // === MOVEMENT CONTROLS ===
     public static String KEY_MOVEMENT_CONTROL_METHOD = "movement-ctrl-method";

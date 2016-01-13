@@ -2,9 +2,7 @@ package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbui
 
 import java.util.Comparator;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public class BuilderComparator implements Comparator<IComponentBuilder> {
     @Override
     public int compare(IComponentBuilder o1, IComponentBuilder o2) {

@@ -23,9 +23,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.Resources;
 
-/**
- * Created by 7yl4r on 10/10/2015.
- */
+
 public class ArcadeRegion1 implements iRegion {
     WorldScene scene;
     public ArcadeRegion1(WorldScene parentScene){

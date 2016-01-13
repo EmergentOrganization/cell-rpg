@@ -28,9 +28,7 @@ import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.Resources;
 
-/**
- * Created by brian on 10/28/15.
- */
+
 public class EntityFactory {
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;

@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 
-/**
- * Created by 7yl4r on 12/15/2015.
- */
+
 public class DecayCellRenderer implements iCellRenderer {
 
     public static enum colorGroupKeys{

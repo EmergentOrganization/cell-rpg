@@ -2,9 +2,7 @@ package com.emergentorganization.cellrpg.systems.CASystems.CAs;
 
 import java.util.EnumMap;
 
-/**
- * Created by 7yl4r on 12/16/2015.
- */
+
 public enum CA {
     NO_BUFFER, BUFFERED, GENETIC, DECAY;
 

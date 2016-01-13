@@ -3,9 +3,7 @@ package com.emergentorganization.cellrpg.systems.CASystems.CAs;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.CellWithHistory;
 
-/**
- * Created by 7yl4r on 12/16/2015.
- */
+
 public class BufferedCA implements  iCA{
 
     public void generate(CAGridComponents gridComps) {

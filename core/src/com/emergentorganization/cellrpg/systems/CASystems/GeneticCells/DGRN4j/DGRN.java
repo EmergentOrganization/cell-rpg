@@ -14,9 +14,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 
-/**
- * Created by 7yl4r on 10/4/2015.
- */
+
 
 public class DGRN {
     private final Logger logger = LogManager.getLogger(getClass());

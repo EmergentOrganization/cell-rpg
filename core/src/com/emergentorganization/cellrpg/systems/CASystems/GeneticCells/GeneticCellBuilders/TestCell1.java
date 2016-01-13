@@ -9,9 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.xml.crypto.KeySelectorException;
 
-/**
- * Created by 7yl4r on 10/6/2015.
- */
+
 public class TestCell1 implements GeneticNetworkBuilderInterface {
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
 

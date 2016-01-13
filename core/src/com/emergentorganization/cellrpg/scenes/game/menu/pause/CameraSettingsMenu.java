@@ -7,9 +7,7 @@ import com.emergentorganization.cellrpg.tools.menus.AdjustableSetting;
 import com.emergentorganization.cellrpg.tools.menus.MenuBuilder;
 import com.kotcrab.vis.ui.widget.VisTable;
 
-/**
- * Created by 7yl4r on 9/1/2015.
- */
+
 public class CameraSettingsMenu extends Submenu {
     // min px between player & screen edge:
     public static AdjustableSetting edgeMargin = new AdjustableSetting("edge margin", 10, 1, 25, 1);

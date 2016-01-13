@@ -15,9 +15,7 @@ import org.junit.Test;
 import javax.xml.crypto.KeySelectorException;
 import java.util.List;
 
-/**
- * Created by 7yl4r on 10/3/2015.
- */
+
 public class DGRNTest {
     private final Logger logger = LogManager.getLogger(getClass());
 

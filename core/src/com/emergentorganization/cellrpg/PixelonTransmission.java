@@ -21,9 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * Created by brian on 10/28/15.
- */
+
 public class PixelonTransmission extends Game {
     public static final float PHYSICS_TIMESTEP = 1 / 45f;
     private static final String VERSION = "0.3";

@@ -2,9 +2,7 @@ package com.emergentorganization.cellrpg.desktop;
 
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
-/**
- * Created by BrianErikson on 9/17/15.
- */
+
 public class TexPacker {
     public static String TEXTURE_DIR = "./android/assets/resources/textures";
 

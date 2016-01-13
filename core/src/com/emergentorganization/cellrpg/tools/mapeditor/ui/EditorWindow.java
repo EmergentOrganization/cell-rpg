@@ -28,9 +28,7 @@ import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 
-/**
- * Created by brian on 12/12/15.
- */
+
 public class EditorWindow {
     public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
     public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;

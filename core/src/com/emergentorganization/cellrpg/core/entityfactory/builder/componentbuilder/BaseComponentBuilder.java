@@ -4,9 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.emergentorganization.cellrpg.components.Name;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public abstract class BaseComponentBuilder implements IComponentBuilder {
     private final Aspect.Builder aspectBuilder;
     private final int sortImportance;

@@ -12,9 +12,7 @@ import com.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwit
 import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion1;
 import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 
-/**
- * Created by brian on 10/30/15.
- */
+
 public class Story extends WorldScene {
     public Story(final PixelonTransmission pt) {
         super(pt);

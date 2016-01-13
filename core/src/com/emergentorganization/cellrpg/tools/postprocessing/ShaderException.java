@@ -1,8 +1,6 @@
 package com.emergentorganization.cellrpg.tools.postprocessing;
 
-/**
- * Created by BrianErikson on 9/3/15.
- */
+
 public class ShaderException extends Exception {
     public ShaderException(String message) {
         super(message);

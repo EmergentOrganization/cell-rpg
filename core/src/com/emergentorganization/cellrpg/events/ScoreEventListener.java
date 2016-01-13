@@ -11,9 +11,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 import java.util.Map;
 
-/**
- * Created by brian on 11/21/15.
- */
+
 public class ScoreEventListener implements EventListener {
     private ScoreDisplay display;
 

@@ -7,9 +7,7 @@ import com.emergentorganization.cellrpg.components.DestructionTimer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by 7yl4r on 1/2/2016.
- */
+
 
 // TODO: use DelayedIteratingSystem instead
 public class TimedDestructionSystem extends IntervalEntityProcessingSystem {

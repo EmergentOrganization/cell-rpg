@@ -10,9 +10,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
 
-/**
- * Created by Brian on 1/11/2016.
- */
+
 public class PhysicsBodyBuilder extends BaseComponentBuilder {
     private final PhysicsSystem physicsSystem;
     private final Vector2 velocity = new Vector2(0,0);

@@ -16,9 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-/**
- * Created by orelb on 10/28/2015.
- */
+
 public class AssetManager extends BaseSystem {
 
     private HashMap<String, TextureRegion> regions;

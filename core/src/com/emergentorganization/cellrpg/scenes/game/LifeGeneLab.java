@@ -5,9 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 
-/**
- * Created by brian on 10/30/15.
- */
+
 public class LifeGeneLab extends WorldScene {
 
     public LifeGeneLab(PixelonTransmission pt) {

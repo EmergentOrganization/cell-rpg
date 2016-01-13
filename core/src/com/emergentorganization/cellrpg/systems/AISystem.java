@@ -11,9 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * Created by 7yl4r on 1/9/2016.
- */
+
 public class AISystem extends DelayedIteratingSystem {
     Logger logger = LogManager.getLogger(getClass());
     ComponentMapper<AIComponent> AICom_m;

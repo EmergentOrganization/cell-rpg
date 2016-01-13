@@ -5,9 +5,7 @@ import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell
 
 import java.util.ArrayList;
 
-/**
- * Created by 7yl4r on 12/16/2015.
- */
+
 public class GeneticCA implements iCA {
     private enum CellAction{
         DIE,   // living cell -> dead cell

@@ -12,9 +12,7 @@ import com.emergentorganization.cellrpg.components.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Created by 7yl4r on 1/2/2016.
- */
+
 public class CollectibleSpawnSystem extends IntervalIteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 

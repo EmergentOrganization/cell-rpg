@@ -78,6 +78,11 @@ $ANDROID_HOME environment variable is not set properly. You may need to edit it 
 
 Ensure that you are using the copy of gradle provided in the repository (`gradlew`), or that you are using version `2.4`
 
+> Gradle's stacktrace isn't formatted with symbolic links to code in IntelliJ IDEA
+
+With the recent addition of IDEA version 15, java-grade and android-gradle misbehave when they are in the same project. 
+To fix this, open the desktop module settings in IntelliJ, and remove any references to android-gradle under *Facets*
+
 > ArrayIndexOutOfBoundsException: 0 at LinuxDisplay.getAvailableDisplayModes(LinuxDisplay.java:951)
 
 This seems to occur when running the project on an xorg-server with more than one monitor attached. Ensure that `xorg-xrandr` is installed and configured correctly.

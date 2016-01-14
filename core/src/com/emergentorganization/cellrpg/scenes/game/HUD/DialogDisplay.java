@@ -3,12 +3,15 @@ package com.emergentorganization.cellrpg.scenes.game.HUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.emergentorganization.cellrpg.scenes.game.dialogue.DialogueSequenceInterface;
 import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisLabel;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisWindow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +22,7 @@ public class DialogDisplay {
     private final float dialogHeight = Gdx.graphics.getHeight() * 0.25f;
 
     private Stage stage;
-    private VisDialog dialog;
+    private VisWindow dialog;
     private VisLabel label;
     private DialogueSequenceInterface dialogueSequence;
     private boolean optionsPresented = false;  // true when an option must be selected, and not just dialog shown.
@@ -32,12 +35,13 @@ public class DialogDisplay {
     public DialogDisplay(Stage _stage) {
         stage = _stage;
         label = new VisLabel("");
+        label.setAlignment(Align.topLeft);
 
-        dialog = new VisDialog("");
-        dialog.text(label);
+        dialog = new VisWindow("", false);
         dialog.setMovable(false);
         dialog.setVisible(false);
         dialog.setBounds(0, 0, dialogWidth, dialogHeight);
+        dialog.add(label).expand().fill().align(Align.topLeft);
         dialog.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -47,18 +51,24 @@ public class DialogDisplay {
             }
         });
 
+        stage.setDebugAll(true);
         // align topLeft TODO: this isn't working...
-        dialog.align(Align.topLeft);
-        label.setAlignment(Align.topLeft);
 
         stage.addActor(dialog);
     }
 
-    public DialogDisplay loadDialogueSequence(DialogueSequenceInterface sequence) {
+    /**
+     * Loads a dialog sequence to be handled and displayed
+     * @param sequence A dialog sequence to load
+     * @param textAlignment Aligns the text to an anchor. Use {@link Align}
+     * @return Itself for chaining
+     */
+    public DialogDisplay loadDialogueSequence(DialogueSequenceInterface sequence, int textAlignment) {
         // load given dialogueSequence implementing class for use.
         dialogueSequence = sequence;
         // initializes dialogue sequence
         dialog.setVisible(true);
+        label.setAlignment(textAlignment);
         dialogueSequence.init();
         addText(dialogueSequence.enter());
         noMoreText = false;

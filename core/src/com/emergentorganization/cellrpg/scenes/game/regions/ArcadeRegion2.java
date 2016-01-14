@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes.game.regions;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import com.emergentorganization.cellrpg.components.StatsTracker;
@@ -67,7 +68,7 @@ public class ArcadeRegion2 implements iRegion {
         genList.layers.add(CALayer.VYROIDS_GENETIC);
 
         // load story
-        scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.II));
+        scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.II), Align.topLeft);
     }
 
     private void setCAEdgeSpawns(TagManager tagMan) {

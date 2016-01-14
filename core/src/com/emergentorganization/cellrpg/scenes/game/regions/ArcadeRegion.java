@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.scenes.game.regions;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.badlogic.gdx.utils.Align;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
 import com.emergentorganization.cellrpg.components.Position;
@@ -77,7 +78,7 @@ public class ArcadeRegion implements iRegion {
         player.getComponent(CollectibleSpawnField.class).entityList.clear();
 
         // load story
-        scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.I));
+        scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.I), Align.topLeft);
 
         Entity bg = new EntityBuilder(
                 world,

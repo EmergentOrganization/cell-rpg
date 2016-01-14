@@ -7,8 +7,6 @@ import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
  * Component for tracking performance of an entity.
  * Used on the player class, but could also be useful for some NPCs
  * or player companions.
- * <p/>
- * TODO: connect this with game events using EventManager.
  */
 public class StatsTracker extends Component {
     private static int POINTS_PER_KILL = 100;

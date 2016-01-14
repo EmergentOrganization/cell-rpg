@@ -35,7 +35,7 @@ public class EntityLifecycleSystem extends IteratingSystem {
         float maxDistance = life_m.get(EntityId).maxPlayerDist;
 
         // kill if out of health
-        if (health != null && health.health < 0) {
+        if (health != null && health.health < 1) {
             world.delete(EntityId);
 
             // kill if too far away from player (maxDistance < 0 excluded)

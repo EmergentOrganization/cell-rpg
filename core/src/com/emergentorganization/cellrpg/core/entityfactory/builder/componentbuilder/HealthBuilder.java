@@ -7,20 +7,16 @@ import com.emergentorganization.cellrpg.components.Health;
 
 
 public class HealthBuilder extends BaseComponentBuilder {
-    private int health = Integer.MAX_VALUE;  // still destructible TODO: fix?
-    private int maxHealth = -1;  // defaults to full health unless other given.
+    private int health;
+    private int maxHealth;  // defaults to full health unless other given.
 
-    public HealthBuilder() {
+    public HealthBuilder(int health) {
         super(Aspect.all(Health.class), 50);
+        this.health = health;
     }
 
     public HealthBuilder maxHealth(int maxHealth) {
         this.maxHealth = maxHealth;
-        return this;
-    }
-
-    public HealthBuilder health(int health) {
-        this.health = health;
         return this;
     }
 
@@ -31,7 +27,7 @@ public class HealthBuilder extends BaseComponentBuilder {
         Health heal = entity.getComponent(Health.class);
         heal.health = health;
 
-        if (maxHealth > -1) {
+        if (maxHealth > 0) {
             heal.maxHealth = maxHealth;
         } else {
             heal.maxHealth = health;

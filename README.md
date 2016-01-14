@@ -2,6 +2,7 @@
 
 RPG based in a world where cellular automata have run rampant. 
 Developed using libGDX.
+All rights reserved
 
 * [concept art](http://imgur.com/a/5sx9C)
 * [concept/demo gifs/gfys](http://www.gfycat.com/7yl4r/planiverse_bridge)

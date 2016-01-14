@@ -35,7 +35,7 @@ public class WeaponUtil {
 
                 // get player position
                 Bounds bounds = shooter.getComponent(Bounds.class);
-                Vector2 center = shooter.getComponent(Position.class).getCenter(bounds);
+                Vector2 center = shooter.getComponent(Position.class).getCenter(bounds, 0);
                 Vector2 arm = new Vector2(0, Math.max(bounds.width, bounds.height) + .1f);
 
                 // calculate the velocity

@@ -38,7 +38,7 @@ public class ArrowsShoot extends iPlayerCtrl {
 
     @Override
     public void process(Entity player) {
-        Vector2 target = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class));
+        Vector2 target = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class), 0);
         boolean shooting = false;
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             target.add(0, 10);

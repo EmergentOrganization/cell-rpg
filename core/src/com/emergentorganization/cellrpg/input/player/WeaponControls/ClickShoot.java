@@ -79,7 +79,7 @@ public class ClickShoot extends iPlayerCtrl {
     public void process(Entity player) {
         if (Gdx.input.justTouched()) { // LMB or RMB?
             Vector2 mouse = inputUtil.getMousePos(camera);
-            Vector2 playerPos = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class));
+            Vector2 playerPos = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class), 0);
             if (isOutsideExclusionRadius(mouse, playerPos)) {
                 WeaponUtil.shootTo(mouse, player, eventManager, entityFactory);
             }

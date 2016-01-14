@@ -139,7 +139,7 @@ public class PathDraw extends iPlayerCtrl {
         InputComponent inComp = player.getComponent(InputComponent.class);
         Position pos = player.getComponent(Position.class);
         Bounds bounds = player.getComponent(Bounds.class);
-        Vector2 center = pos.getCenter(bounds);
+        Vector2 center = pos.getCenter(bounds, 0);
         center.scl(EntityFactory.SCALE_BOX_TO_WORLD);
 
         Velocity vel = player.getComponent(Velocity.class);

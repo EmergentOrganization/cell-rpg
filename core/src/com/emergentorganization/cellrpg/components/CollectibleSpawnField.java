@@ -34,7 +34,7 @@ public class CollectibleSpawnField extends Component {
             int ent_i = ThreadLocalRandom.current().nextInt(0, entityList.size());
 
             // TODO: exclude inner radius / bounds?
-            Vector2 pos = entityPos.getCenter(entityBounds).add(
+            Vector2 pos = entityPos.getCenter(entityBounds, 0).add(
                     (float) (2 * radius * Math.random() - radius),
                     (float) (2 * radius * Math.random() - radius)
             );

@@ -83,7 +83,7 @@ public class PhysicsContactListener implements ContactListener {
                 && nameB.internalID.equals(EntityID.BULLET.toString())) {
             try {
                 Vector2 pos = entityA.getComponent(Position.class)
-                        .getCenter(entityA.getComponent(Bounds.class));
+                        .getCenter(entityA.getComponent(Bounds.class), entityA.getComponent(Rotation.class).angle);
                 TagManager tagMan = world.getSystem(TagManager.class);
                 tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class)
                         .stampCenteredAt(CGoLShapeConsts.EMPTY(30, 30), pos);

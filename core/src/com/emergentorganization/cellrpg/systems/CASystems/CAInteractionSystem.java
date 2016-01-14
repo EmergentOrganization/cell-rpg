@@ -5,13 +5,10 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
+import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAImpact;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
-import com.emergentorganization.cellrpg.components.Position;
-import com.emergentorganization.cellrpg.components.Velocity;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
@@ -40,6 +37,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
     private ComponentMapper<CAInteractionList> CAInteracdtions_m;
     private ComponentMapper<CAGridComponents> CAGridComp_m;
     private ComponentMapper<Position> pos_m;
+    private ComponentMapper<Rotation> rot_m;
     private ComponentMapper<Bounds> bound_m;
     private ComponentMapper<Velocity> vel_m;
     private EventManager eventManager;
@@ -57,7 +55,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
     }
 
     protected void _inserted(Position pos, Bounds bounds, CAInteractionList interacts) {
-        interacts.lastCollisionPosition = pos.getCenter(bounds).cpy();
+        interacts.lastCollisionPosition = pos.getCenter(bounds, 0).cpy();
     }
 
     protected void processLayer(int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
@@ -101,7 +99,8 @@ public class CAInteractionSystem extends BaseEntitySystem {
     protected void process(int entityId) {
         // process completed for each entity matching filter
         Bounds bounds = bound_m.get(entityId);
-        Vector2 currentPostion = pos_m.get(entityId).getCenter(bounds);
+        float angle = rot_m.get(entityId).angle;
+        Vector2 currentPostion = pos_m.get(entityId).getCenter(bounds, angle);
         Vector2 velocity = vel_m.get(entityId).velocity;
         CAInteractionList interList = CAInteracdtions_m.get(entityId);
 

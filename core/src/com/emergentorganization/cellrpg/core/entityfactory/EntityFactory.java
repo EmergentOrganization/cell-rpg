@@ -186,7 +186,7 @@ public class EntityFactory {
                         }
                         break;
                     case POWERUP_STAR:
-                        Vector2 cen = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class));
+                        Vector2 cen = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class), 0);
                         vyroidLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(210, 210), cen);
                         geneticLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(70, 70), cen);
                         energyLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.BOOM(210, 210), cen);

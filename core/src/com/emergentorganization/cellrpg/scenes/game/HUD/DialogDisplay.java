@@ -51,9 +51,6 @@ public class DialogDisplay {
             }
         });
 
-        stage.setDebugAll(true);
-        // align topLeft TODO: this isn't working...
-
         stage.addActor(dialog);
     }
 

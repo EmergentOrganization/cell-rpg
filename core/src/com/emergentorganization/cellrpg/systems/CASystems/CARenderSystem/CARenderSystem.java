@@ -139,6 +139,4 @@ public class CARenderSystem extends BaseEntitySystem {
                 .renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
         // TODO: handle key not found exception. print "Renderer for renderType not found", default to ColorMap?
     }
-
-
 }

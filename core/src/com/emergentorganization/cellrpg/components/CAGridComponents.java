@@ -28,7 +28,7 @@ public class CAGridComponents extends Component {
     public long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
     public float SCALE = .025f;  // empirically derived constant... why is it this? idk...
 
-    // location of grid center TODO: maybe a position component could be used for this?
+    // location of grid center
     public float gridOriginX = 0;
     public float gridOriginY = 0;
 
@@ -222,10 +222,9 @@ public class CAGridComponents extends Component {
                 && row < states.length - pattern.length
                 && col < states[0].length - pattern[0].length) {
 
-            // TODO: add pattern, row, col to queue which will be handled, call _stampState during next generation
             _stampState(pattern, row, col);
             stampCount++;
-            return TIME_BTWN_GENERATIONS;  // TODO: estimate should + a few ms; currently this is soonest possible time.
+            return TIME_BTWN_GENERATIONS;
         } else {
             //logger.warn("attempt to stamp pattern out of bounds (" + row + "," + col +"); error suppressed.");
             return -1;  // -1 indicates pattern not drawn, out-of-CAGrid bounds

@@ -38,17 +38,6 @@ public class ArcadeRegion implements iRegion {
         scene = parentScene;
     }
 
-    public CALayer[] getCALayers() {
-        // TODO: this is currently unused, but layers should be dynamically added/removed
-        // TODO:    by a CA Manager.
-        return new CALayer[]{
-                CALayer.ENERGY,
-                CALayer.VYROIDS,
-                CALayer.VYROIDS_MINI,
-                CALayer.VYROIDS_MEGA
-        };
-    }
-
     public iRegion getNextRegion(World world) {
         TagManager tagMan = world.getSystem(TagManager.class);
         Entity player = tagMan.getEntity(Tags.PLAYER);

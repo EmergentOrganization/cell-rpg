@@ -26,7 +26,7 @@ public class PlayerInputProcessor extends InputProcessor {
 
     Preferences prefs;
     private TagManager tagManager;
-    private ArrayList<iPlayerCtrl> movementControls = new ArrayList<iPlayerCtrl>();  // TODO: should be list of iMovementCtrl
+    private ArrayList<iPlayerCtrl> movementControls = new ArrayList<iPlayerCtrl>();
     private ArrayList<iPlayerCtrl> weaponControls = new ArrayList<iPlayerCtrl>();
     // PlayerAbilities abilites; ...
 
@@ -41,11 +41,11 @@ public class PlayerInputProcessor extends InputProcessor {
 
         movementControls.add(new WASD(world, im));
         movementControls.add(new PathDraw(world, im, renderer));
-        // TODO: add more movement control options
+        // add more movement control options here...
 
         weaponControls.add(new ClickShoot(world, ef, im));
         weaponControls.add(new ArrowsShoot(world, ef, im));
-        // TODO: add more weapon control options
+        // add more weapon control options here...
     }
 
     public String[] getMovementCtrlChoices() {

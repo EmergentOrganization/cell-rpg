@@ -19,7 +19,4 @@ public interface iRegion {
     /* should return region ready to be switched to, else returns null
     * TODO: should this return the region class instead and leave instantiation to the regionSwitcher?
     */
-
-    CALayer[] getCALayers();
-    /* returns a list of CA layers present in this region */
 }

@@ -27,7 +27,7 @@ public class SettingsMenu extends Submenu {
         moveMenu = new MovementSettingsMenu(menuTable, stage, "controls", world);
         cameraMenu = new CameraSettingsMenu(menuTable, stage, "camera");
 
-        // TODO:
+        // TODO: audio settings
         VisTextButton audio = new VisTextButton("audio(disabled)");
         menuTable.add(audio).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         audio.addListener(new ClickListener() {

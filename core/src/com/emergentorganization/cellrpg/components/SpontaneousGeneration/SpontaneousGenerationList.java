@@ -2,8 +2,8 @@ package com.emergentorganization.cellrpg.components.SpontaneousGeneration;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.Position;
+import io.github.emergentorganization.engine.components.Bounds;
+import io.github.emergentorganization.engine.components.Position;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

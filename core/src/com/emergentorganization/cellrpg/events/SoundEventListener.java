@@ -3,6 +3,7 @@ package com.emergentorganization.cellrpg.events;
 import com.badlogic.gdx.audio.Sound;
 import com.emergentorganization.cellrpg.core.SoundEffect;
 import com.emergentorganization.cellrpg.managers.AssetManager;
+import io.github.emergentorganization.engine.events.EventListener;
 
 import java.util.Map;
 

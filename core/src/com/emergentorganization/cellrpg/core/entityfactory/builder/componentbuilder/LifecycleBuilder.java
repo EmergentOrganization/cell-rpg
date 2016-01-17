@@ -3,7 +3,7 @@ package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbui
 import com.artemis.Aspect;
 import com.artemis.Component;
 import com.artemis.Entity;
-import com.emergentorganization.cellrpg.components.Lifecycle;
+import io.github.emergentorganization.engine.components.Lifecycle;
 
 
 public class LifecycleBuilder extends BaseComponentBuilder {

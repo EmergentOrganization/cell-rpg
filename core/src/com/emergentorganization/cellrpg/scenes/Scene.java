@@ -1,6 +1,6 @@
 package com.emergentorganization.cellrpg.scenes;
 
-import com.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.engine.PixelonTransmission;
 import com.emergentorganization.cellrpg.scenes.game.Arcade;
 import com.emergentorganization.cellrpg.scenes.game.LifeGeneLab;
 import com.emergentorganization.cellrpg.scenes.game.Story;

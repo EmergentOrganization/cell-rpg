@@ -7,7 +7,7 @@ import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.InputComponent;
+import io.github.emergentorganization.engine.components.InputComponent;
 import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;

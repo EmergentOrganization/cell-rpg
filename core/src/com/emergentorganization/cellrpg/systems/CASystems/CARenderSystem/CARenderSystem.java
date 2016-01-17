@@ -14,7 +14,7 @@ import com.emergentorganization.cellrpg.managers.AssetManager;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.iCellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
-import com.emergentorganization.cellrpg.systems.CameraSystem;
+import io.github.emergentorganization.engine.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

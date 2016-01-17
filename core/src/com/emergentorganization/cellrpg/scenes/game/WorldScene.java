@@ -5,7 +5,7 @@ import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.engine.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import com.emergentorganization.cellrpg.scenes.BaseScene;

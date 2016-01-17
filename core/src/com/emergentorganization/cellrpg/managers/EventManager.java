@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.managers;
 
 import com.artemis.BaseSystem;
-import com.emergentorganization.cellrpg.events.EventListener;
+import io.github.emergentorganization.engine.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 
 import java.util.ArrayList;

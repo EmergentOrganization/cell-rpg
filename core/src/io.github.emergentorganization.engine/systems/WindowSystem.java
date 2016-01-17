@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems;
+package io.github.emergentorganization.engine.systems;
 
 import com.artemis.BaseSystem;
 import com.artemis.annotations.Wire;

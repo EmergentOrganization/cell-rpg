@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems;
+package io.github.emergentorganization.engine.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
+import io.github.emergentorganization.engine.components.*;
 
 
 @Wire

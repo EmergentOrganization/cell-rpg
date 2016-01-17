@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.emergentorganization.cellrpg.components.Visual;
+import io.github.emergentorganization.engine.components.Visual;
 import com.emergentorganization.cellrpg.core.SoundEffect;
 import com.emergentorganization.cellrpg.tools.Resources;
 

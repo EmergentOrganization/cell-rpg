@@ -2,7 +2,7 @@ package com.emergentorganization.cellrpg.scenes.game;
 
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.engine.PixelonTransmission;
 import com.emergentorganization.cellrpg.core.WorldFactory;
 
 

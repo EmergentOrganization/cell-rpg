@@ -1,8 +1,8 @@
-package com.emergentorganization.cellrpg.components;
+package io.github.emergentorganization.engine.components;
 
 import com.artemis.Component;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.engine.components.Bounds;
 
 /**
  * defines position of an entity.

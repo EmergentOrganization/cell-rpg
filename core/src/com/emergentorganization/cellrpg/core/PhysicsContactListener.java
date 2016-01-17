@@ -9,6 +9,10 @@ import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import io.github.emergentorganization.engine.components.Bounds;
+import io.github.emergentorganization.engine.components.Name;
+import io.github.emergentorganization.engine.components.Position;
+import io.github.emergentorganization.engine.components.Rotation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

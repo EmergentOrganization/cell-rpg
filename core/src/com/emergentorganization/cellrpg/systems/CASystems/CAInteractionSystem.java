@@ -12,6 +12,10 @@ import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionLi
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
+import io.github.emergentorganization.engine.components.Bounds;
+import io.github.emergentorganization.engine.components.Position;
+import io.github.emergentorganization.engine.components.Rotation;
+import io.github.emergentorganization.engine.components.Velocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

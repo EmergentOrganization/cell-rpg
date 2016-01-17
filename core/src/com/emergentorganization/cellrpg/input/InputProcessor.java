@@ -2,7 +2,7 @@ package com.emergentorganization.cellrpg.input;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;
-import com.emergentorganization.cellrpg.components.InputComponent;
+import io.github.emergentorganization.engine.components.InputComponent;
 
 /**
  * defines interface for inputProcessors (eg player controller or scripted input controllers)

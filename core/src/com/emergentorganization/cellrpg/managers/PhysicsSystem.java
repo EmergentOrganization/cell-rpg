@@ -7,11 +7,11 @@ import com.artemis.annotations.Wire;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.emergentorganization.cellrpg.PixelonTransmission;
-import com.emergentorganization.cellrpg.components.Bounds;
-import com.emergentorganization.cellrpg.components.PhysicsBody;
-import com.emergentorganization.cellrpg.components.Visual;
-import com.emergentorganization.cellrpg.systems.CameraSystem;
+import io.github.emergentorganization.engine.PixelonTransmission;
+import io.github.emergentorganization.engine.components.Bounds;
+import io.github.emergentorganization.engine.components.PhysicsBody;
+import io.github.emergentorganization.engine.components.Visual;
+import io.github.emergentorganization.engine.systems.CameraSystem;
 import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 
 import javax.annotation.Nullable;

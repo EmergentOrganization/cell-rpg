@@ -7,7 +7,7 @@ import com.artemis.utils.IntBag;
 import com.emergentorganization.cellrpg.components.CAGridComponents;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
-import com.emergentorganization.cellrpg.systems.CameraSystem;
+import io.github.emergentorganization.engine.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

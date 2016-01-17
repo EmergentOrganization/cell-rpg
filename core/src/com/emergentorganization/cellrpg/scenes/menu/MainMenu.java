@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import com.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.engine.PixelonTransmission;
 import com.emergentorganization.cellrpg.scenes.BaseScene;
 import com.emergentorganization.cellrpg.scenes.Scene;
 

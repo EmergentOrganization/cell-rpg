@@ -5,9 +5,9 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
-import com.emergentorganization.cellrpg.components.Bounds;
+import io.github.emergentorganization.engine.components.Bounds;
 import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
-import com.emergentorganization.cellrpg.components.Position;
+import io.github.emergentorganization.engine.components.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

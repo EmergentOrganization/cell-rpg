@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.Gdx;
-import com.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.engine.PixelonTransmission;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

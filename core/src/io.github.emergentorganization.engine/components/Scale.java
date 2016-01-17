@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components;
+package io.github.emergentorganization.engine.components;
 
 import com.artemis.Component;
 import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;

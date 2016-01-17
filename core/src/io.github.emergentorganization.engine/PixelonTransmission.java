@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg;
+package io.github.emergentorganization.engine;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

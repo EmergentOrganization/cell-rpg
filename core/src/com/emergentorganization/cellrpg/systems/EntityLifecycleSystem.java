@@ -7,9 +7,9 @@ import com.artemis.managers.TagManager;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.emergentorganization.cellrpg.components.Health;
-import com.emergentorganization.cellrpg.components.Lifecycle;
-import com.emergentorganization.cellrpg.components.Name;
-import com.emergentorganization.cellrpg.components.Position;
+import io.github.emergentorganization.engine.components.Lifecycle;
+import io.github.emergentorganization.engine.components.Name;
+import io.github.emergentorganization.engine.components.Position;
 import com.emergentorganization.cellrpg.core.Tags;
 
 

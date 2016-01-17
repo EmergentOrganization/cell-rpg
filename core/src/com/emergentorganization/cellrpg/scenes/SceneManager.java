@@ -1,7 +1,7 @@
 package com.emergentorganization.cellrpg.scenes;
 
 import com.badlogic.gdx.utils.IntMap;
-import com.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.engine.PixelonTransmission;
 
 
 public class SceneManager {

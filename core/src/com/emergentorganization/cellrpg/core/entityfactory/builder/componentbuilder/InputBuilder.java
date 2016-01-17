@@ -3,7 +3,7 @@ package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbui
 import com.artemis.Aspect;
 import com.artemis.Component;
 import com.artemis.Entity;
-import com.emergentorganization.cellrpg.components.InputComponent;
+import io.github.emergentorganization.engine.components.InputComponent;
 
 
 public class InputBuilder extends BaseComponentBuilder {

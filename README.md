@@ -48,8 +48,13 @@ Once your development environment is ready, navigate to the root directory of th
 
 Now that you have all of the dependencies you can make and run a build using `./gradlew desktop:run`. Please ensure this works before trying to import into intellij.
 
-### import into Intellij
+### Import into Intellij
 Finally, import the project **as a Gradle Project** in your favorite IDE. [Follow LibGDX's import guide](https://github.com/libgdx/libgdx/wiki/Gradle-and-Eclipse) to import the project. That particular link is for Eclipse, but if you look on the table of contents, you will see setup guides for various other IDEs.
+
+### Update submodules
+Navigate to the root directory of the project in a shell/cmd and run the following commands:
+* `git submodule init`
+* `git submodule update`
 
 #### run configurations:
 

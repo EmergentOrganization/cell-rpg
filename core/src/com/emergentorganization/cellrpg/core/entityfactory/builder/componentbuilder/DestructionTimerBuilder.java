@@ -9,8 +9,9 @@ import com.emergentorganization.cellrpg.components.DestructionTimer;
 public class DestructionTimerBuilder extends BaseComponentBuilder {
     private long timeToDestruction;
 
-    public DestructionTimerBuilder(float timeToDestruction) {
+    public DestructionTimerBuilder(long timeToDestruction) {
         super(Aspect.all(DestructionTimer.class), 0);
+        this.timeToDestruction = timeToDestruction;
     }
 
     @Override

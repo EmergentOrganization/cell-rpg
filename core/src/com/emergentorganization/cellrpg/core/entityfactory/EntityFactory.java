@@ -13,6 +13,8 @@ import com.emergentorganization.cellrpg.components.*;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
+import com.emergentorganization.cellrpg.components.Weapon.Powerup;
+import com.emergentorganization.cellrpg.components.Weapon.WeaponComponent;
 import com.emergentorganization.cellrpg.core.EntityID;
 import com.emergentorganization.cellrpg.core.RenderIndex;
 import com.emergentorganization.cellrpg.core.Tags;
@@ -22,16 +24,19 @@ import com.emergentorganization.cellrpg.events.EventListener;
 import com.emergentorganization.cellrpg.events.GameEvent;
 import com.emergentorganization.cellrpg.managers.EventManager;
 import com.emergentorganization.cellrpg.managers.PhysicsSystem;
-import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
 import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import com.emergentorganization.cellrpg.systems.CASystems.CAs.CAStamps;
 import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import com.emergentorganization.cellrpg.systems.CameraSystem;
 import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import com.emergentorganization.cellrpg.tools.Resources;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class EntityFactory {
+    private final Logger logger = LogManager.getLogger(getClass());
+
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
     public static Archetype object;
@@ -259,13 +264,13 @@ public class EntityFactory {
         Vector2 pos = new Vector2(x, y);
         Entity civ = new EntityBuilder(world, character, "Civilian", EntityID.CIV_ONE_BLINKER.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                        .renderIndex(RenderIndex.NPC)
-                        .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
+                                .renderIndex(RenderIndex.NPC)
+                                .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                        .bodyType(BodyDef.BodyType.KinematicBody)
-                        .setFixedRotation(true)
-                        .bodyFriction(0.3f)
+                                .bodyType(BodyDef.BodyType.KinematicBody)
+                                .setFixedRotation(true)
+                                .bodyFriction(0.3f)
                 )
                 .build();
 
@@ -275,7 +280,7 @@ public class EntityFactory {
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Large Building", EntityID.BUILDING_LARGE_ONE.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_BLDG_LRG_ONE)
+                                .texture(Resources.TEX_BLDG_LRG_ONE)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -290,7 +295,7 @@ public class EntityFactory {
         // TODO: Tie GridSeed component to this somehow
         Entity bldg = new EntityBuilder(world, collidable, "Round Building", EntityID.BUILDING_ROUND_ONE.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_BLDG_ROUND_ONE)
+                                .texture(Resources.TEX_BLDG_ROUND_ONE)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -304,7 +309,7 @@ public class EntityFactory {
     public int createRiftOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift1", EntityID.RIFT_ONE.toString(), pos) // TODO: Come up with a more ui-friendly name
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_RIFT_ONE)
+                                .texture(Resources.TEX_RIFT_ONE)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -318,7 +323,7 @@ public class EntityFactory {
     public int createRiftTwo(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift2", EntityID.RIFT_TWO.toString(), pos) // TODO: Come up with a more ui-friendly name
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_RIFT_TWO)
+                                .texture(Resources.TEX_RIFT_TWO)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -346,8 +351,8 @@ public class EntityFactory {
     public int createBackgroundTheEdge(Vector2 pos) {
         Entity bg = new EntityBuilder(world, object, "The Edge Background", EntityID.THE_EDGE.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_THE_EDGE)
-                        .renderIndex(RenderIndex.BACKGROUND)
+                                .texture(Resources.TEX_THE_EDGE)
+                                .renderIndex(RenderIndex.BACKGROUND)
                 )
                 .build();
 
@@ -390,7 +395,9 @@ public class EntityFactory {
         eventManager.addListener(new EventListener() {
             @Override
             public void notify(GameEvent event) {
-
+                if (event == GameEvent.POWERUP_STAR){
+                    tagManager.getEntity(Tags.PLAYER).getComponent(WeaponComponent.class).powerUp(Powerup.FIRE_RATE);
+                }
             }
         });
 

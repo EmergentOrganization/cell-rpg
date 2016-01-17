@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor;
+package io.github.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -26,19 +26,19 @@ import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.Name;
 import io.github.emergentorganization.engine.components.PhysicsBody;
 import io.github.emergentorganization.engine.components.Position;
-import com.emergentorganization.cellrpg.core.EntityID;
-import com.emergentorganization.cellrpg.core.WorldFactory;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.managers.PhysicsSystem;
-import com.emergentorganization.cellrpg.scenes.BaseScene;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
+import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.engine.systems.CameraSystem;
 import io.github.emergentorganization.engine.systems.InputSystem;
 import io.github.emergentorganization.engine.systems.RenderSystem;
-import com.emergentorganization.cellrpg.tools.FileListNode;
-import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
-import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
-import com.emergentorganization.cellrpg.tools.mapeditor.renderables.CornerGizmo;
-import com.emergentorganization.cellrpg.tools.mapeditor.ui.EditorWindow;
+import io.github.emergentorganization.cellrpg.tools.FileListNode;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.renderables.CornerGizmo;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.ui.EditorWindow;
 
 import java.io.File;
 import java.util.ArrayList;

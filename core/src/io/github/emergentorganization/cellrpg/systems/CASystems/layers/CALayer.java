@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.layers;
+package io.github.emergentorganization.cellrpg.systems.CASystems.layers;
 
 import java.util.EnumMap;
 

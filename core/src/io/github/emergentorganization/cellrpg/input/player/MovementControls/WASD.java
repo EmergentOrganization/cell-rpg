@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.input.player.MovementControls;
+package io.github.emergentorganization.cellrpg.input.player.MovementControls;
 
 
 import com.artemis.ComponentMapper;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.engine.components.InputComponent;
-import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
+import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 

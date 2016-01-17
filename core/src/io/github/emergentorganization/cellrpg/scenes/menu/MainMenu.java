@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes.menu;
+package io.github.emergentorganization.cellrpg.scenes.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.engine.PixelonTransmission;
-import com.emergentorganization.cellrpg.scenes.BaseScene;
-import com.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.scenes.BaseScene;
+import io.github.emergentorganization.cellrpg.scenes.Scene;
 
 
 public class MainMenu extends BaseScene {

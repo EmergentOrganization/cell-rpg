@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.core;
+package io.github.emergentorganization.cellrpg.core;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
@@ -8,21 +8,21 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.emergentorganization.engine.PixelonTransmission;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.engine.events.EventListener;
-import com.emergentorganization.cellrpg.events.GameEvent;
-import com.emergentorganization.cellrpg.events.SoundEventListener;
-import com.emergentorganization.cellrpg.managers.AssetManager;
-import com.emergentorganization.cellrpg.managers.EventManager;
-import com.emergentorganization.cellrpg.managers.PhysicsSystem;
-import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.systems.*;
-import com.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
-import com.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
-import com.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
-import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
-import com.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
-import com.emergentorganization.cellrpg.tools.postprocessing.TronShader;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
+import io.github.emergentorganization.cellrpg.events.SoundEventListener;
+import io.github.emergentorganization.cellrpg.managers.AssetManager;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
+import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
+import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.systems.*;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
+import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 import io.github.emergentorganization.engine.systems.*;
 
 

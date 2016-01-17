@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.managers.RegionManager;
+package io.github.emergentorganization.cellrpg.managers.RegionManager;
 
 import com.artemis.BaseSystem;
 

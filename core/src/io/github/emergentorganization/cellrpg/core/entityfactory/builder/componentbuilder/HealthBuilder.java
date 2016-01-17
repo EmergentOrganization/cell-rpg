@@ -1,9 +1,9 @@
-package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
+package io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
 import com.artemis.Component;
 import com.artemis.Entity;
-import com.emergentorganization.cellrpg.components.Health;
+import io.github.emergentorganization.cellrpg.components.Health;
 
 
 public class HealthBuilder extends BaseComponentBuilder {

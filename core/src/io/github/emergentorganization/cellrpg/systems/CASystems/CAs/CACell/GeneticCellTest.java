@@ -1,11 +1,11 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
+package io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.GraphInitializer;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.MockBuilder;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.TestCell1;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.TestCell2;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.GraphInitializer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.MockBuilder;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.TestCell1;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.TestCell2;
 import junit.framework.Assert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

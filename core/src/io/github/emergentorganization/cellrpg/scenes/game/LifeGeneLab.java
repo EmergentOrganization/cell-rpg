@@ -1,9 +1,9 @@
-package com.emergentorganization.cellrpg.scenes.game;
+package io.github.emergentorganization.cellrpg.scenes.game;
 
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.engine.PixelonTransmission;
-import com.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.core.WorldFactory;
 
 
 public class LifeGeneLab extends WorldScene {

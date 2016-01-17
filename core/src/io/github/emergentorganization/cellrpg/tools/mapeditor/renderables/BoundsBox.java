@@ -1,9 +1,9 @@
-package com.emergentorganization.cellrpg.tools.mapeditor.renderables;
+package io.github.emergentorganization.cellrpg.tools.mapeditor.renderables;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 
 
 public class BoundsBox extends Rectangle implements Renderable {

@@ -1,13 +1,13 @@
-package com.emergentorganization.cellrpg.systems;
+package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.AIComponent;
+import io.github.emergentorganization.cellrpg.components.AIComponent;
 import io.github.emergentorganization.engine.components.InputComponent;
 import io.github.emergentorganization.engine.components.Rotation;
-import com.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
+import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

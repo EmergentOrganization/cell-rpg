@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems;
+package io.github.emergentorganization.cellrpg.systems.CASystems;
 
 /**
  * key which identifies a single CA cell (by it's x,y and cellLayer attributes) to be used in a HashMap

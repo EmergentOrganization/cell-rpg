@@ -1,9 +1,9 @@
 package tests;
 
-import com.emergentorganization.cellrpg.components.ComponentTestSuite;
-import com.emergentorganization.cellrpg.desktop.TesterTest;
-import com.emergentorganization.cellrpg.systems.CASystems.CATestSuite;
-import com.emergentorganization.cellrpg.systems.SystemsTestSuite;
+import io.github.emergentorganization.cellrpg.components.ComponentTestSuite;
+import io.github.emergentorganization.cellrpg.desktop.TesterTest;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CATestSuite;
+import io.github.emergentorganization.cellrpg.systems.SystemsTestSuite;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools;
+package io.github.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.Gdx;
 import io.github.emergentorganization.engine.PixelonTransmission;

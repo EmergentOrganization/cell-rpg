@@ -1,13 +1,13 @@
-package com.emergentorganization.cellrpg.core.entityfactory;
+package io.github.emergentorganization.cellrpg.core.entityfactory;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
-import com.emergentorganization.cellrpg.components.CellType;
-import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
-import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.CellType;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
  * !!! DISCLAIMER: despite the name, this does not follow the factory pattern. !!! TODO: rename

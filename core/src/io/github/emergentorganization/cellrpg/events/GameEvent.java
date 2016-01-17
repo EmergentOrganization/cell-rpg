@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.events;
+package io.github.emergentorganization.cellrpg.events;
 
 
 public enum GameEvent {

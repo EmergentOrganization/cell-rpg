@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.desktop;
+package io.github.emergentorganization.cellrpg.desktop;
 
 import junit.framework.Assert;
 import org.junit.Test;

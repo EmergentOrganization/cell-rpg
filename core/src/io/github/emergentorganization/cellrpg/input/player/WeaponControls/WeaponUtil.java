@@ -1,14 +1,14 @@
-package com.emergentorganization.cellrpg.input.player.WeaponControls;
+package io.github.emergentorganization.cellrpg.input.player.WeaponControls;
 
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.Position;
-import com.emergentorganization.cellrpg.components.Weapon.WeaponComponent;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.events.GameEvent;
-import com.emergentorganization.cellrpg.managers.EventManager;
+import io.github.emergentorganization.cellrpg.components.Weapon.WeaponComponent;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
 
 /**
  * static class for weapon helper methods

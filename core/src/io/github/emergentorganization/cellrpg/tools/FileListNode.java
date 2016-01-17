@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.tools;
+package io.github.emergentorganization.cellrpg.tools;
 
-import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 
 import java.io.File;
 

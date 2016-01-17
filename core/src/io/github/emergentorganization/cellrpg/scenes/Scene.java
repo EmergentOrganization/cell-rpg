@@ -1,11 +1,11 @@
-package com.emergentorganization.cellrpg.scenes;
+package io.github.emergentorganization.cellrpg.scenes;
 
 import io.github.emergentorganization.engine.PixelonTransmission;
-import com.emergentorganization.cellrpg.scenes.game.Arcade;
-import com.emergentorganization.cellrpg.scenes.game.LifeGeneLab;
-import com.emergentorganization.cellrpg.scenes.game.Story;
-import com.emergentorganization.cellrpg.scenes.menu.MainMenu;
-import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
+import io.github.emergentorganization.cellrpg.scenes.game.Arcade;
+import io.github.emergentorganization.cellrpg.scenes.game.LifeGeneLab;
+import io.github.emergentorganization.cellrpg.scenes.game.Story;
+import io.github.emergentorganization.cellrpg.scenes.menu.MainMenu;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 
 
 public enum Scene {

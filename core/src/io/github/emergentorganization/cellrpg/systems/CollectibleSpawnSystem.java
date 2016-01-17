@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems;
+package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -6,7 +6,7 @@ import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
 import io.github.emergentorganization.engine.components.Bounds;
-import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
+import io.github.emergentorganization.cellrpg.components.CollectibleSpawnField;
 import io.github.emergentorganization.engine.components.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +16,7 @@ public class CollectibleSpawnSystem extends IntervalIteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
     @Wire
-    private com.emergentorganization.cellrpg.core.entityfactory.EntityFactory ef;
+    private io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory ef;
 
     private ComponentMapper<Position> pos_m;
     private ComponentMapper<Bounds> bounds_m;

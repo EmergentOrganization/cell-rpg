@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools;
+package io.github.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -24,7 +24,7 @@ public class GameSettings {
     // === OTHER ===
     public static String USER_ID = "user_id";
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
-    private static String PREFS_FILE = "com.emergentorganization.cellrpg.configuration";
+    private static String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";
     private boolean devModeEnabled = false;
 
     public static Preferences getPreferences() {

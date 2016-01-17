@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components;
+package io.github.emergentorganization.cellrpg.components;
 
 
 public enum CellType {

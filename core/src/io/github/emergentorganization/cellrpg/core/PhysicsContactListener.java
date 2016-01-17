@@ -1,14 +1,14 @@
-package com.emergentorganization.cellrpg.core;
+package io.github.emergentorganization.cellrpg.core;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.emergentorganization.cellrpg.components.*;
-import com.emergentorganization.cellrpg.events.GameEvent;
-import com.emergentorganization.cellrpg.managers.EventManager;
-import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import io.github.emergentorganization.cellrpg.components.*;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
+import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.Name;
 import io.github.emergentorganization.engine.components.Position;

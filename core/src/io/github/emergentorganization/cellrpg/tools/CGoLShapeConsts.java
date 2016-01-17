@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.tools;
+package io.github.emergentorganization.cellrpg.tools;
 
-import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 
 /**
  * static helper class that holds useful conway's game of life shapes.

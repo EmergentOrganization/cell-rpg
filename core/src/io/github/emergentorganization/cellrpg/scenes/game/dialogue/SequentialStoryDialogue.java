@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes.game.dialogue;
+package io.github.emergentorganization.cellrpg.scenes.game.dialogue;
 
 
 public class SequentialStoryDialogue implements DialogueSequenceInterface {

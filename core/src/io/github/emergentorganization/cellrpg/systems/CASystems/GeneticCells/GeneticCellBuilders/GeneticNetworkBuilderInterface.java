@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders;
+package io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders;
 
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
 
 
 public interface GeneticNetworkBuilderInterface {

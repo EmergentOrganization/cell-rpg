@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.managers;
+package io.github.emergentorganization.cellrpg.managers;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
@@ -12,7 +12,7 @@ import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.PhysicsBody;
 import io.github.emergentorganization.engine.components.Visual;
 import io.github.emergentorganization.engine.systems.CameraSystem;
-import com.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
+import io.github.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;

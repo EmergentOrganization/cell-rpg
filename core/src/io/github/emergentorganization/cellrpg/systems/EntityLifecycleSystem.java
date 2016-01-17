@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems;
+package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -6,11 +6,11 @@ import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.Health;
+import io.github.emergentorganization.cellrpg.components.Health;
 import io.github.emergentorganization.engine.components.Lifecycle;
 import io.github.emergentorganization.engine.components.Name;
 import io.github.emergentorganization.engine.components.Position;
-import com.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.Tags;
 
 
 @Wire

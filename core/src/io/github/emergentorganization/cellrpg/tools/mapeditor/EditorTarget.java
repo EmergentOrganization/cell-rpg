@@ -1,7 +1,7 @@
-package com.emergentorganization.cellrpg.tools.mapeditor;
+package io.github.emergentorganization.cellrpg.tools.mapeditor;
 
 import com.artemis.Entity;
-import com.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
 
 
 public class EditorTarget {

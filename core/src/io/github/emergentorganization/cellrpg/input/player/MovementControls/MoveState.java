@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.input.player.MovementControls;
+package io.github.emergentorganization.cellrpg.input.player.MovementControls;
 
 public enum MoveState {
     NOT_MOVING,

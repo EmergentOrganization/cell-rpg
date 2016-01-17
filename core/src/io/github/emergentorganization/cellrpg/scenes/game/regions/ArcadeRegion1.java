@@ -1,27 +1,27 @@
-package com.emergentorganization.cellrpg.scenes.game.regions;
+package io.github.emergentorganization.cellrpg.scenes.game.regions;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.utils.Align;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
-import com.emergentorganization.cellrpg.components.CollectibleSpawnField;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.CollectibleSpawnField;
 import io.github.emergentorganization.engine.components.Position;
-import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
-import com.emergentorganization.cellrpg.components.StatsTracker;
-import com.emergentorganization.cellrpg.core.EntityID;
-import com.emergentorganization.cellrpg.core.RenderIndex;
-import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
-import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
-import com.emergentorganization.cellrpg.scenes.game.WorldScene;
-import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
-import com.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
-import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
-import com.emergentorganization.cellrpg.tools.Resources;
+import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
+import io.github.emergentorganization.cellrpg.components.StatsTracker;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.RenderIndex;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
+import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
+import io.github.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import io.github.emergentorganization.cellrpg.tools.Resources;
 
 
 public class ArcadeRegion1 implements iRegion {

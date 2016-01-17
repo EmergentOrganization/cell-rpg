@@ -1,19 +1,19 @@
-package com.emergentorganization.cellrpg.scenes.game.regions;
+package io.github.emergentorganization.cellrpg.scenes.game.regions;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.utils.Align;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
-import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
-import com.emergentorganization.cellrpg.components.StatsTracker;
-import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.scenes.game.WorldScene;
-import com.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
-import com.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
-import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
+import io.github.emergentorganization.cellrpg.components.StatsTracker;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
+import io.github.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 
 
 public class ArcadeRegion2 implements iRegion {

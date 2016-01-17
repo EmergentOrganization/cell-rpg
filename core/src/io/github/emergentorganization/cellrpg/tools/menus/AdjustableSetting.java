@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.menus;
+package io.github.emergentorganization.cellrpg.tools.menus;
 
 
 public class AdjustableSetting {

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes.game.menu.pause;
+package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 
 import com.artemis.World;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

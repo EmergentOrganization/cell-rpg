@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.core.entityfactory.builder;
+package io.github.emergentorganization.cellrpg.core.entityfactory.builder;
 
 import com.artemis.Archetype;
 import com.artemis.Component;
@@ -7,9 +7,9 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.artemis.utils.Bag;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.BuilderComparator;
-import com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.IComponentBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.BuilderComparator;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.IComponentBuilder;
 import io.github.emergentorganization.engine.components.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

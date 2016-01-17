@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.core;
+package io.github.emergentorganization.cellrpg.core;
 
 
 public enum SoundEffect {

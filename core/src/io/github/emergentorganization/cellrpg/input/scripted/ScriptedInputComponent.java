@@ -1,6 +1,6 @@
-//package com.emergentorganization.cellrpg.components.Input.scripted;
+//package io.github.emergentorganization.cellrpg.components.Input.scripted;
 //
-//import com.emergentorganization.cellrpg.components.entity.input.InputComponent;
+//import io.github.emergentorganization.cellrpg.components.entity.input.InputComponent;
 //
 //import java.util.HashMap;
 //

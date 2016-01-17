@@ -1,8 +1,8 @@
-package com.emergentorganization.cellrpg.events;
+package io.github.emergentorganization.cellrpg.events;
 
-import com.emergentorganization.cellrpg.components.StatsTracker;
-import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.components.StatsTracker;
+import io.github.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.engine.events.EventListener;
 
 

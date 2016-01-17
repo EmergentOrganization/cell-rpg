@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CAs;
+package io.github.emergentorganization.cellrpg.systems.CASystems.CAs;
 
 /**
  * Created by Brian on 1/14/2016.

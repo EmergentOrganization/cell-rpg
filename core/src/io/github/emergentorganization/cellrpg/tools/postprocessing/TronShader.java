@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.postprocessing;
+package io.github.emergentorganization.cellrpg.tools.postprocessing;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
-import com.emergentorganization.cellrpg.tools.FileStructure;
+import io.github.emergentorganization.cellrpg.tools.FileStructure;
 
 
 public class TronShader implements PostProcessor {

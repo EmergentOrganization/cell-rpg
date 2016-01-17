@@ -1,10 +1,10 @@
-package com.emergentorganization.cellrpg.components.SpontaneousGeneration;
+package io.github.emergentorganization.cellrpg.components.SpontaneousGeneration;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.Position;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

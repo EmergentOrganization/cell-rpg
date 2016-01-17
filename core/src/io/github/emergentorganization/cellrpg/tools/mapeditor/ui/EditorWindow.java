@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor.ui;
+package io.github.emergentorganization.cellrpg.tools.mapeditor.ui;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -18,13 +18,13 @@ import io.github.emergentorganization.engine.PixelonTransmission;
 import io.github.emergentorganization.engine.components.Position;
 import io.github.emergentorganization.engine.components.Rotation;
 import io.github.emergentorganization.engine.components.Scale;
-import com.emergentorganization.cellrpg.core.EntityID;
-import com.emergentorganization.cellrpg.managers.PhysicsSystem;
-import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.tools.FileListNode;
-import com.emergentorganization.cellrpg.tools.mapeditor.EditorTarget;
-import com.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
-import com.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
+import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.tools.FileListNode;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.EditorTarget;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
+import io.github.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 

@@ -1,7 +1,7 @@
-package com.emergentorganization.cellrpg.components.CAInteraction;
+package io.github.emergentorganization.cellrpg.components.CAInteraction;
 
-import com.emergentorganization.cellrpg.events.GameEvent;
-import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
+import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;

@@ -1,17 +1,17 @@
-package com.emergentorganization.cellrpg.systems.CASystems;
+package io.github.emergentorganization.cellrpg.systems.CASystems;
 
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.components.*;
-import com.emergentorganization.cellrpg.components.CAInteraction.CAImpact;
-import com.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
-import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
-import com.emergentorganization.cellrpg.events.GameEvent;
-import com.emergentorganization.cellrpg.managers.EventManager;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
+import io.github.emergentorganization.cellrpg.components.*;
+import io.github.emergentorganization.cellrpg.components.CAInteraction.CAImpact;
+import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
+import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.Position;
 import io.github.emergentorganization.engine.components.Rotation;

@@ -1,10 +1,10 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
+package io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
 
 import com.badlogic.gdx.graphics.Color;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.InflowNodeHandler;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.OutflowNodeHandler;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.GeneticNetworkBuilderInterface;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.DGRN;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.InflowNodeHandler;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j.OutflowNodeHandler;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.GeneticNetworkBuilderInterface;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.Attribute;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeClass;
 import it.uniroma1.dis.wsngroup.gexf4j.core.data.AttributeList;

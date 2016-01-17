@@ -1,4 +1,4 @@
-//package com.emergentorganization.cellrpg.input.scripted;
+//package io.github.emergentorganization.cellrpg.input.scripted;
 //
 //import java.util.ArrayList;
 //import java.util.Arrays;

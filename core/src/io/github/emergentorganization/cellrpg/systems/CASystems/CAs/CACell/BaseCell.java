@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
+package io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components.CAInteraction;
+package io.github.emergentorganization.cellrpg.components.CAInteraction;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;

@@ -1,7 +1,7 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers;
+package io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

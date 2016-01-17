@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.menus;
+package io.github.emergentorganization.cellrpg.tools.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;

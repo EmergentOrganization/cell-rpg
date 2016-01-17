@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes.game;
+package io.github.emergentorganization.cellrpg.scenes.game;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
@@ -6,10 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.emergentorganization.engine.PixelonTransmission;
-import com.emergentorganization.cellrpg.core.WorldFactory;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.scenes.BaseScene;
-import com.emergentorganization.cellrpg.scenes.game.HUD.DialogDisplay;
+import io.github.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.scenes.BaseScene;
+import io.github.emergentorganization.cellrpg.scenes.game.HUD.DialogDisplay;
 
 /**
  * Game world scene.

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems;
+package io.github.emergentorganization.cellrpg.systems.CASystems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
@@ -6,10 +6,10 @@ import com.artemis.Entity;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
 import io.github.emergentorganization.engine.components.Bounds;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.engine.components.Position;
-import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
-import com.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
+import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
+import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

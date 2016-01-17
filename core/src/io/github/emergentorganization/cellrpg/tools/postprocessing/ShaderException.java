@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.postprocessing;
+package io.github.emergentorganization.cellrpg.tools.postprocessing;
 
 
 public class ShaderException extends Exception {

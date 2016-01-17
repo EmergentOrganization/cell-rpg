@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.managers.RegionManager;
+package io.github.emergentorganization.cellrpg.managers.RegionManager;
 
-import com.emergentorganization.cellrpg.scenes.game.regions.iRegion;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.iRegion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

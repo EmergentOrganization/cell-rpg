@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.postprocessing;
+package io.github.emergentorganization.cellrpg.tools.postprocessing;
 
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 

@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.tools;
+package io.github.emergentorganization.cellrpg.tools;
 
-import com.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

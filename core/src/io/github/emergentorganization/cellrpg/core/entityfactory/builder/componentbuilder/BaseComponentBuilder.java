@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
+package io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
 import com.artemis.Entity;

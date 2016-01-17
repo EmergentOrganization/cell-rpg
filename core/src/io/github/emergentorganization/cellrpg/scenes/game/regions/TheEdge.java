@@ -1,13 +1,13 @@
-package com.emergentorganization.cellrpg.scenes.game.regions;
+package io.github.emergentorganization.cellrpg.scenes.game.regions;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
-import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.scenes.Scene;
-import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 
 public class TheEdge implements iRegion {

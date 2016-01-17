@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.core;
+package io.github.emergentorganization.cellrpg.core;
 
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 import java.util.EnumMap;
 import java.util.Map;

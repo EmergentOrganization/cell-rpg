@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.input.player.MovementControls;
+package io.github.emergentorganization.cellrpg.input.player.MovementControls;
 
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
@@ -20,11 +20,11 @@ import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.InputComponent;
 import io.github.emergentorganization.engine.components.Position;
 import io.github.emergentorganization.engine.components.Velocity;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import com.emergentorganization.cellrpg.input.player.iPlayerCtrl;
-import com.emergentorganization.cellrpg.input.player.inputUtil;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
+import io.github.emergentorganization.cellrpg.input.player.inputUtil;
 import io.github.emergentorganization.engine.systems.CameraSystem;
-import com.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import com.kotcrab.vis.ui.widget.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

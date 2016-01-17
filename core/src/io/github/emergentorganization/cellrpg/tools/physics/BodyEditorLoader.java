@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.physics;
+package io.github.emergentorganization.cellrpg.tools.physics;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;

@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes;
+package io.github.emergentorganization.cellrpg.scenes;
 
 import com.badlogic.gdx.utils.IntMap;
 import io.github.emergentorganization.engine.PixelonTransmission;

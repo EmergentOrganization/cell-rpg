@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j;
+package io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DGRN4j;
 
 
 public class MockOutflowNodeHandler implements OutflowNodeHandler {

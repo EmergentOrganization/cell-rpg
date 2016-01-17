@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor.map;
+package io.github.emergentorganization.cellrpg.tools.mapeditor.map;
 
 import com.artemis.Entity;
 import com.artemis.World;
@@ -8,10 +8,10 @@ import io.github.emergentorganization.engine.components.Name;
 import io.github.emergentorganization.engine.components.Position;
 import io.github.emergentorganization.engine.components.Rotation;
 import io.github.emergentorganization.engine.components.Scale;
-import com.emergentorganization.cellrpg.core.EntityID;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.engine.systems.RenderSystem;
-import com.emergentorganization.cellrpg.tools.FileStructure;
+import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

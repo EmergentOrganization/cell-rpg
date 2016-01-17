@@ -1,16 +1,16 @@
-package com.emergentorganization.cellrpg.components;
+package io.github.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
-import com.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.CellWithHistory;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
-import com.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.*;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.CellWithHistory;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
+import io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.GeneticCellBuilders.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

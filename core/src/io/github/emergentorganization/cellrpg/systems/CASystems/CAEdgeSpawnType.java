@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.systems.CASystems;
+package io.github.emergentorganization.cellrpg.systems.CASystems;
 
 
 public enum CAEdgeSpawnType {

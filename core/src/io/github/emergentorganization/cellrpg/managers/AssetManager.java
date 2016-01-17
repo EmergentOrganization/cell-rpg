@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.managers;
+package io.github.emergentorganization.cellrpg.managers;
 
 import com.artemis.BaseSystem;
 import com.badlogic.gdx.audio.Sound;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import io.github.emergentorganization.engine.components.Visual;
-import com.emergentorganization.cellrpg.core.SoundEffect;
-import com.emergentorganization.cellrpg.tools.Resources;
+import io.github.emergentorganization.cellrpg.core.SoundEffect;
+import io.github.emergentorganization.cellrpg.tools.Resources;
 
 import java.util.Collections;
 import java.util.HashMap;

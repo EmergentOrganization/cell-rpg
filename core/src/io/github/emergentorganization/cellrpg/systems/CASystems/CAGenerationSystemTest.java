@@ -1,11 +1,11 @@
-package com.emergentorganization.cellrpg.systems.CASystems;
+package io.github.emergentorganization.cellrpg.systems.CASystems;
 
 import com.badlogic.gdx.graphics.Camera;
-import com.emergentorganization.cellrpg.components.CAGridComponents;
-import com.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import com.emergentorganization.cellrpg.tools.CGoLShapeConsts;
-import com.emergentorganization.cellrpg.tools.testUtils;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
+import io.github.emergentorganization.cellrpg.tools.testUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;

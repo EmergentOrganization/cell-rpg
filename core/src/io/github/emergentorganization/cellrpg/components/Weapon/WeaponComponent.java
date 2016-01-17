@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.components.Weapon;
+package io.github.emergentorganization.cellrpg.components.Weapon;
 
 import com.artemis.Component;
 import org.apache.logging.log4j.LogManager;

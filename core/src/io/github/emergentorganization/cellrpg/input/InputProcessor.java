@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.input;
+package io.github.emergentorganization.cellrpg.input;
 
 import com.artemis.ComponentMapper;
 import com.artemis.World;

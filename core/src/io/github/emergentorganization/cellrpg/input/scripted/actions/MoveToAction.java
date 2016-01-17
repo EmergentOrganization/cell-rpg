@@ -1,8 +1,8 @@
-//package com.emergentorganization.cellrpg.input.scripted.actions;
+//package io.github.emergentorganization.cellrpg.input.scripted.actions;
 //
-//import com.emergentorganization.cellrpg.components.entity.MovementComponent;
-//import com.emergentorganization.cellrpg.components.entity.input.scripted.ScriptAction;
-//import com.emergentorganization.cellrpg.components.entity.input.scripted.ScriptedInputComponent;
+//import io.github.emergentorganization.cellrpg.components.entity.MovementComponent;
+//import io.github.emergentorganization.cellrpg.components.entity.input.scripted.ScriptAction;
+//import io.github.emergentorganization.cellrpg.components.entity.input.scripted.ScriptedInputComponent;
 //import com.badlogic.gdx.math.Vector2;
 //
 ///**

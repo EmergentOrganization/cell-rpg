@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor.map;
+package io.github.emergentorganization.cellrpg.tools.mapeditor.map;
 
 import com.artemis.Entity;
 

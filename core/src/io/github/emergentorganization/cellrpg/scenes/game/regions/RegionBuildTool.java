@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.scenes.game.regions;
+package io.github.emergentorganization.cellrpg.scenes.game.regions;
 
 /**
  * static helpers for building regions.

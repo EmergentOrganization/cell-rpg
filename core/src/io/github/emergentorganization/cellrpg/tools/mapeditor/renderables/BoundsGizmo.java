@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.tools.mapeditor.renderables;
+package io.github.emergentorganization.cellrpg.tools.mapeditor.renderables;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;

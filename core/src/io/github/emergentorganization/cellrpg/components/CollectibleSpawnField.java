@@ -1,9 +1,9 @@
-package com.emergentorganization.cellrpg.components;
+package io.github.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
-import com.emergentorganization.cellrpg.core.EntityID;
-import com.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.Position;
 import org.apache.logging.log4j.LogManager;

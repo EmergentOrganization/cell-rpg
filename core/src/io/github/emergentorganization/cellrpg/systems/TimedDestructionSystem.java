@@ -1,9 +1,9 @@
-package com.emergentorganization.cellrpg.systems;
+package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.Entity;
 import com.artemis.systems.IntervalEntityProcessingSystem;
-import com.emergentorganization.cellrpg.components.DestructionTimer;
+import io.github.emergentorganization.cellrpg.components.DestructionTimer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

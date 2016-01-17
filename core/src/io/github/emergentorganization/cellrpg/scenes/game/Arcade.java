@@ -1,14 +1,14 @@
-package com.emergentorganization.cellrpg.scenes.game;
+package io.github.emergentorganization.cellrpg.scenes.game;
 
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.engine.PixelonTransmission;
-import com.emergentorganization.cellrpg.core.Tags;
-import com.emergentorganization.cellrpg.core.WorldFactory;
-import com.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
-import com.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
-import com.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
+import io.github.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion;
 
 /**
  * Arcade scene with immobile camera and survival gameplay.

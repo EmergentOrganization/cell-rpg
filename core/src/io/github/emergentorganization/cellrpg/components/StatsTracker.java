@@ -1,7 +1,7 @@
-package com.emergentorganization.cellrpg.components;
+package io.github.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
-import com.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
  * Component for tracking performance of an entity.

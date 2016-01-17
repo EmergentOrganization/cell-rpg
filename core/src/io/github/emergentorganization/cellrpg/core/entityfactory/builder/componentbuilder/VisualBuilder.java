@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
+package io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder;
 
 import com.artemis.Aspect;
 import com.artemis.Component;
@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import io.github.emergentorganization.engine.components.Bounds;
 import io.github.emergentorganization.engine.components.Name;
 import io.github.emergentorganization.engine.components.Visual;
-import com.emergentorganization.cellrpg.core.RenderIndex;
-import com.emergentorganization.cellrpg.managers.AssetManager;
+import io.github.emergentorganization.cellrpg.core.RenderIndex;
+import io.github.emergentorganization.cellrpg.managers.AssetManager;
 
 import java.util.List;
 

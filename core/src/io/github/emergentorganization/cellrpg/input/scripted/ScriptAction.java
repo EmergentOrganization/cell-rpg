@@ -1,4 +1,4 @@
-//package com.emergentorganization.cellrpg.input.scripted;
+//package io.github.emergentorganization.cellrpg.input.scripted;
 //
 ///**
 // * Created by OrelBitton on 09/06/2015.

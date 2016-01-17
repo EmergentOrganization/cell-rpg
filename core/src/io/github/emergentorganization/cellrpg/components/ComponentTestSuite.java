@@ -1,6 +1,6 @@
-package com.emergentorganization.cellrpg.components;
+package io.github.emergentorganization.cellrpg.components;
 
-import com.emergentorganization.cellrpg.components.CAInteraction.CAInteractionListTest;
+import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionListTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

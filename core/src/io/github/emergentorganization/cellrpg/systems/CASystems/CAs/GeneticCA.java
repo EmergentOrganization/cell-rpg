@@ -1,7 +1,7 @@
-package com.emergentorganization.cellrpg.systems.CASystems.CAs;
+package io.github.emergentorganization.cellrpg.systems.CASystems.CAs;
 
-import com.emergentorganization.cellrpg.components.CAGridComponents;
-import com.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.GeneticCell;
 
 import java.util.ArrayList;
 

@@ -11,9 +11,10 @@ public class WeaponComponent extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
     // public:
-    public long delay;  // required delay between shots
-    public int charge;  // how much charge stored in weapon
-    public int SHOT_CHARGE_COST;
+    public long delay = 200;  // required delay between shots
+    public int charge = 100;  // how much charge stored in weapon
+    public int SHOT_CHARGE_COST = 10;
+    public int recharge_per_s = 10;
 
     // private:
     public long lastShot;  // time of last weapon fire
@@ -24,15 +25,17 @@ public class WeaponComponent extends Component {
     public ArrayList<Long> powerup_timers = new ArrayList<Long>();
 
     // power-up constants:
-    static final long DELAY_DELTA = 100;
+    static final long FIRE_RATE_DELAY_DELTA = 100;
     static final long FIRE_RATE_LEN = 5;
+    static final long FIRE_RATE_CHARGE_BOOST = 100;
 
     public void powerUp(Powerup pow){
         // applies powerup. adds to powerups and powerup_timers lists automatically
         logger.info("applying powerup " + pow);
         switch (pow){
             case FIRE_RATE:
-                delay -= DELAY_DELTA;
+                delay -= FIRE_RATE_DELAY_DELTA;
+                charge += FIRE_RATE_CHARGE_BOOST;
                 powerups.add(pow);
                 powerup_timers.add(FIRE_RATE_LEN);
                 break;
@@ -51,7 +54,7 @@ public class WeaponComponent extends Component {
         logger.info("powering down" + pow);
         switch (pow){
             case FIRE_RATE:
-                delay += DELAY_DELTA;
+                delay += FIRE_RATE_DELAY_DELTA;
                 break;
         }
     }

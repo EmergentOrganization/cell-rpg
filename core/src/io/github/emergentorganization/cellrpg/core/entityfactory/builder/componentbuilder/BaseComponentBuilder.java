@@ -2,7 +2,7 @@ package io.github.emergentorganization.cellrpg.core.entityfactory.builder.compon
 
 import com.artemis.Aspect;
 import com.artemis.Entity;
-import io.github.emergentorganization.engine.components.Name;
+import io.github.emergentorganization.emergent2dcore.components.Name;
 
 
 public abstract class BaseComponentBuilder implements IComponentBuilder {

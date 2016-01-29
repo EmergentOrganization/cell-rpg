@@ -17,8 +17,11 @@ public class GameSettings {
     public static String KEY_WEAPON_CLICKSHOOT_RADIUS = "clickShoot-exclusion-radius";
 
     // === CAMERA CONTROLS ===
+    // min px between player & screen edge
     public static String KEY_CAM_EDGE_MARGIN = "Cam_EdgeMargin";
+    // dist camera should try to lead player movement
     public static String KEY_CAM_LEAD = "Cam_Lead";
+    // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
     public static String KEY_CAM_NEARNESS_CUTOFF = "Cam_NearnessCutoff";
 
     // === OTHER ===

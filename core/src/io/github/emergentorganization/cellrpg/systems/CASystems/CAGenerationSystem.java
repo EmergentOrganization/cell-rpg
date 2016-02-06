@@ -3,10 +3,12 @@ package io.github.emergentorganization.cellrpg.systems.CASystems;
 import com.artemis.Aspect;
 import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.Profile;
 import com.artemis.utils.IntBag;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +20,7 @@ import java.util.TimerTask;
 /**
  * Handles CA grid state generations and initialization.
  */
+@Profile(using=EmergentProfiler.class, enabled=true)
 public class CAGenerationSystem extends BaseEntitySystem {
     private static final EnumMap<CA, iCA> CAs = CA.getCAMap();
     private final Logger logger = LogManager.getLogger(getClass());

@@ -2,9 +2,12 @@ package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.Profile;
 import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.AIComponent;
+import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.components.InputComponent;
 import io.github.emergentorganization.emergent2dcore.components.Rotation;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
@@ -13,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-
+@Profile(using=EmergentProfiler.class, enabled=true)
 public class AISystem extends DelayedIteratingSystem {
     Logger logger = LogManager.getLogger(getClass());
     ComponentMapper<AIComponent> AICom_m;
@@ -88,5 +91,20 @@ public class AISystem extends DelayedIteratingSystem {
         input.moveState = MoveState.PATH_FOLLOW;
         Vector2 forwardDir = input.getForwardDirection(rot_m.get(entityId));
         input.direction.set(forwardDir);
+    }
+
+    @Override
+    public void initialize(){
+        super.initialize();
+    }
+
+    @Override
+    public void begin(){
+        super.begin();
+    }
+
+    @Override
+    public void end(){
+        super.end();
     }
 }

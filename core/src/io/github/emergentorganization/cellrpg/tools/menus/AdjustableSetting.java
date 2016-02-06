@@ -2,6 +2,9 @@ package io.github.emergentorganization.cellrpg.tools.menus;
 
 
 public class AdjustableSetting {
+    /*
+    Game Setting with numerical value that falls in between two bounds and with granularity set by delta.
+     */
     private String label;
     private float value;
     private float min;

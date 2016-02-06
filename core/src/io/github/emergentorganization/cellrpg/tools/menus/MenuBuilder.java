@@ -30,4 +30,8 @@ public class MenuBuilder {
         );
         menuTable.add(settingSlider).pad(0f, 0f, 5f, 0f).fill(true, false).row();
     }
+
+    public static void buildToggle(){
+
+    }
 }

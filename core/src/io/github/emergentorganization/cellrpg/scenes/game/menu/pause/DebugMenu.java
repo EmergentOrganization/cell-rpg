@@ -1,10 +1,12 @@
 package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
+import io.github.emergentorganization.cellrpg.tools.GameSettings;
 
 
 public class DebugMenu extends Submenu {
@@ -16,24 +18,17 @@ public class DebugMenu extends Submenu {
     public void launchSubmenu() {
         super.launchSubmenu();
 
-        // set up menu buttons:
-        VisTextButton damageMe = new VisTextButton("damageMe");
-        menuTable.add(damageMe).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        damageMe.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                //parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).damage();
-            }
-        });
+        final Preferences prefs = GameSettings.getPreferences();
+        final String prefix = "devMode:";
 
-        VisTextButton regenShield = new VisTextButton("regenShield");
-        menuTable.add(regenShield).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        regenShield.addListener(new ClickListener() {
+        final VisTextButton devMode = new VisTextButton(prefix+GameSettings.devMode());
+        menuTable.add(devMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+        devMode.addListener(new ClickListener(){
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+        public void clicked(InputEvent event, float x, float y){
                 super.clicked(event, x, y);
-                //parentScene.getPlayer().getFirstComponentByType(ShieldComponent.class).addEnergy(26);
+                prefs.putBoolean(GameSettings.KEY_DEV_DEVMODE, !GameSettings.devMode());
+                devMode.setText(prefix+GameSettings.devMode());
             }
         });
     }

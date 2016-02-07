@@ -2,16 +2,18 @@ package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
+import com.artemis.annotations.Profile;
 import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.cellrpg.components.CollectibleSpawnField;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+@Profile(using=EmergentProfiler.class, enabled=true)
 public class CollectibleSpawnSystem extends IntervalIteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 

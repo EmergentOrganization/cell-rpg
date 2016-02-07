@@ -19,18 +19,20 @@ import org.apache.logging.log4j.Logger;
 public class EmergentProfiler implements ArtemisProfiler {
     private final Logger logger = LogManager.getLogger(getClass());
     private String className = "UNNAMED_CLASS";
-    private final long LOG_PERIOD = 5000;  // profiler log frequency [ms]
+    private final long LOG_PERIOD = 10*1000;  // profiler log frequency [ms]
     private long lastLog = System.currentTimeMillis();
 
     PerformanceCounter counter;
 
     public EmergentProfiler(){
-        logger.info("profiler constructed");
+        logger.debug("profiler constructed");
     }
 
     public void initialize(BaseSystem system, World world){
-        className = system.toString();
-        logger.info("init profiler on " + className);
+        String[] strs = system.toString().split("@")[0].split("\\.");
+        logger.info(strs);
+        className = strs[strs.length-1];  // last section split by '.' (but excluding after @) is class name
+        logger.debug("init profiler on " + className);
         counter = new PerformanceCounter(className);
     }
 
@@ -47,10 +49,10 @@ public class EmergentProfiler implements ArtemisProfiler {
                 ProfileLogger.log(counter);
                 lastLog = System.currentTimeMillis();
             } else {
-                logger.info(LOG_PERIOD - (System.currentTimeMillis() - lastLog) + "ms remain until log");
+                logger.debug(LOG_PERIOD - (System.currentTimeMillis() - lastLog) + "ms remain until log");
             }
         } else {
-            logger.info("devmode disabled");
+            logger.debug("devmode disabled");
         }
     }
 }

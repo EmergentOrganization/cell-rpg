@@ -2,13 +2,16 @@ package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.Entity;
+import com.artemis.annotations.Profile;
 import com.artemis.systems.IntervalEntityProcessingSystem;
 import io.github.emergentorganization.cellrpg.components.DestructionTimer;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
 // TODO: use DelayedIteratingSystem instead
+@Profile(using=EmergentProfiler.class, enabled=true)
 public class TimedDestructionSystem extends IntervalEntityProcessingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 

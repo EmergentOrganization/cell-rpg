@@ -2,8 +2,10 @@ package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.Aspect;
 import com.artemis.Entity;
+import com.artemis.annotations.Profile;
 import com.artemis.systems.IntervalEntityProcessingSystem;
 import io.github.emergentorganization.cellrpg.components.Weapon.WeaponComponent;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +16,7 @@ import org.apache.logging.log4j.Logger;
  *  - weapon powerups returning weapon to normal after powerup has worn off.
  *  - weapon recharging
  */
+@Profile(using=EmergentProfiler.class, enabled=true)
 public class WeaponSystem extends IntervalEntityProcessingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
     static final int FREQ = 1;

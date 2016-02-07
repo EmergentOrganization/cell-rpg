@@ -20,7 +20,7 @@ public class ProfileLogger {
 
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream("profilerLog.txt"), "utf-8"));
+                    new FileOutputStream("profilerLog.csv", true), "utf-8"));
             writer.write(
                     counter.name + ','
                             + Float.toString(counter.time.average) + ','
@@ -29,6 +29,7 @@ public class ProfileLogger {
                             + Float.toString(counter.load.average) + ','
                             + Float.toString(counter.load.min) + ','
                             + Float.toString(counter.load.max)
+                            + "\n"
             );
         } catch (IOException ex) {
             logger.error("profileLog write exception: " + ex.getMessage());

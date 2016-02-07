@@ -45,6 +45,7 @@ public class EmergentProfiler implements ArtemisProfiler {
     public void stop(){
         if (GameSettings.devMode()) {
             counter.stop();
+            counter.tick();
             if (System.currentTimeMillis() - lastLog > LOG_PERIOD) {
                 ProfileLogger.log(counter);
                 lastLog = System.currentTimeMillis();

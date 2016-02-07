@@ -51,7 +51,7 @@ public class WeaponComponent extends Component {
 
     void _powerDown(Powerup pow){
         // un-applies powerup. powerup and timer must be manually removed from powerups and powerup_timers separately.
-        logger.info("powering down" + pow);
+        logger.info("powering down " + pow);
         switch (pow){
             case FIRE_RATE:
                 delay += FIRE_RATE_DELAY_DELTA;

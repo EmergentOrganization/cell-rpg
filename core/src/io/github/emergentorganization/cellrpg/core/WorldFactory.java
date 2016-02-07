@@ -60,6 +60,7 @@ public class WorldFactory {
         EventManager eventManager = new EventManager();
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
         wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
+        wc.setSystem(new FPSLoggerSystem());
 
         // initialize world
         World world = new World(wc);

@@ -14,13 +14,14 @@ public class ProfileLogger {
 
     public static void log(PerformanceCounter counter){
 
-        logger.info("writing profiler log to file");
+        logger.debug("writing profiler log to file");
 
         Writer writer = null;
 
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream("profilerLog.csv", true), "utf-8"));
+                    new FileOutputStream("profilerLog.csv", true), "utf-8")
+            );
             writer.write(
                     counter.name + ','
                             + Float.toString(counter.time.average) + ','

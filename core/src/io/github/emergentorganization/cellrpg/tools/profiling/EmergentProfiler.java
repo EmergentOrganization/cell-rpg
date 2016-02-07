@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 public class EmergentProfiler implements ArtemisProfiler {
     private final Logger logger = LogManager.getLogger(getClass());
     private String className = "UNNAMED_CLASS";
-    private final long LOG_PERIOD = 10*1000;  // profiler log frequency [ms]
+    private final long LOG_PERIOD = 3*1000;  // profiler log frequency [ms]
     private long lastLog = System.currentTimeMillis();
 
     PerformanceCounter counter;

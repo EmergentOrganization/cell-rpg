@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="INFO">
     <Appenders>
-        <!--<File name="file" fileName="app.log">
+        <File name="FILE" fileName="app.log">
+            <PatternLayout pattern="[%p]\t%d{HH:mm:ss.SSS}\t%c{2}.%M\t-\t%m%n"/>
+            <!--
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
             </PatternLayout>
-        </File>-->
+            -->
+        </File>
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout pattern="[%p]\t%d{HH:mm:ss.SSS}\t%c{2}.%M\t-\t%m%n"/>
         </Console>
     </Appenders>
     <Loggers>
-        <Root level="trace">
-            <!--<AppenderRef ref="file" level="DEBUG"/>-->
+        <!-- levels: ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF -->
+
+        <!-- root level: -->
+        <Root level="TRACE">
             <AppenderRef ref="STDOUT" level="INFO"/>
+            <AppenderRef ref="FILE"   level="INFO"/>
         </Root>
-        <logger name="com.emergentorganization.cellrpg.CellRpg" level="trace" additivity="false">
+
+        <!-- class-specific levels -->
+        <logger name="io.emergentorganization.cellrpg" level="TRACE" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
     </Loggers>

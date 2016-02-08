@@ -12,9 +12,12 @@ import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class MainMenu extends BaseScene {
+    private final Logger logger = LogManager.getLogger(getClass());
 
     private final float tableMargin;
     private Table table;
@@ -38,6 +41,7 @@ public class MainMenu extends BaseScene {
 
     @Override
     public void show() {
+        logger.info("showing main menu");
         super.show();
         initUI();
     }

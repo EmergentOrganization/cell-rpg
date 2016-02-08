@@ -11,11 +11,16 @@ import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion1;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class Story extends WorldScene {
+    private final Logger logger = LogManager.getLogger(getClass());
+
     public Story(final PixelonTransmission pt) {
         super(pt);
+        logger.info("enter main story");
 
         WorldFactory.setupStandardEventSystem(world, pt);
 

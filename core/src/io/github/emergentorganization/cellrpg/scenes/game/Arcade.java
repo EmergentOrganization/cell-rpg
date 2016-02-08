@@ -9,15 +9,20 @@ import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Arcade scene with immobile camera and survival gameplay.
  */
 public class Arcade extends WorldScene {
+    private final Logger logger = LogManager.getLogger(getClass());
+
     ScoreDisplay scoreDisplay;
 
     public Arcade(PixelonTransmission pt) {
         super(pt);
+        logger.info("enter arcade mode");
 
         WorldFactory.setupStandardEventSystem(world, pt);
         WorldFactory.setupStdHUD(world, stage);

@@ -271,6 +271,7 @@ public class CAGridComponents extends Component {
                 states[row + i][col + j].setState(pattern[i][j]);
             }
         }
+        logger.info(pattern.length + "x" + pattern[0].length + " CA stamp applied!");
     }
 
     protected int _getState(final int row, final int col) {

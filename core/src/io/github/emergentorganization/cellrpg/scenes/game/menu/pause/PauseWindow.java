@@ -10,14 +10,20 @@ import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class PauseWindow extends VisWindow {
+    private final Logger logger = LogManager.getLogger(getClass());
+
     private final SettingsMenu settingsMenu;
     private final DebugMenu debugMenu;
 
     public PauseWindow(final Stage stage, final SceneManager sceneManager, World world) {
         super("", false);
+
+        logger.info("enter pause menu");
 
         VisTable table = new VisTable();
         this.setFillParent(false);
@@ -54,6 +60,7 @@ public class PauseWindow extends VisWindow {
 
     @Override
     public void fadeOut() {
+        logger.info("closing pause window");
         super.fadeOut();
         if (settingsMenu != null)
             settingsMenu.closeSubmenu();

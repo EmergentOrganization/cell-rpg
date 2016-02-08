@@ -13,11 +13,15 @@ import io.github.emergentorganization.emergent2dcore.components.Lifecycle;
 import io.github.emergentorganization.emergent2dcore.components.Name;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 @Wire
 @Profile(using=EmergentProfiler.class, enabled=true)
 public class EntityLifecycleSystem extends IteratingSystem {
+    private final Logger logger = LogManager.getLogger(getClass());
+
     private ComponentMapper<Name> nameMapper;
     private ComponentMapper<Position> pm;
     private ComponentMapper<Health> health_m;
@@ -39,12 +43,14 @@ public class EntityLifecycleSystem extends IteratingSystem {
 
         // kill if out of health
         if (health != null && health.health < 1) {
+            logger.info("entity del: out of health");
             world.delete(EntityId);
 
             // kill if too far away from player (maxDistance < 0 excluded)
         } else if (playerPosComp != null && maxDistance > 0) {
             Vector2 playerPos = playerPosComp.position;  // ideally use center, but this is close enough.
             if (pos.cpy().sub(playerPos).len() > maxDistance) {
+                logger.info("entity del: too far from player");
                 world.delete(EntityId);
             }
         }

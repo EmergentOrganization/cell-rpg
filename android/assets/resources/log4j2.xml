@@ -16,14 +16,15 @@
     <Loggers>
         <!-- levels: ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF -->
 
-        <!-- root level: -->
+        <!-- === root level: === -->
         <Root level="TRACE">
             <AppenderRef ref="STDOUT" level="INFO"/>
             <AppenderRef ref="FILE"   level="INFO"/>
         </Root>
 
-        <!-- class-specific levels -->
-        <logger name="io.emergentorganization.cellrpg" level="TRACE" additivity="false">
+        <!-- === class-specific levels === -->
+        <!-- suppress "stamp applied" spam -->
+        <logger name="io.github.emergentorganization.cellrpg.components.CAGridComponents" level="WARN" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
     </Loggers>

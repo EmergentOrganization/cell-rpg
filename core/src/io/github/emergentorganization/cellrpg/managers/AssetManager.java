@@ -20,9 +20,11 @@ public class AssetManager extends BaseSystem {
     private HashMap<String, TextureRegion> regions;
     private HashMap<String, Animation> animations;
     private Map<SoundEffect, Sound> soundEffects;
+    public com.badlogic.gdx.assets.AssetManager gdxAssetManager;
 
     public AssetManager(com.badlogic.gdx.assets.AssetManager assets) {
         setEnabled(false);
+        gdxAssetManager = assets;
 
         regions = new HashMap<String, TextureRegion>();
         animations = new HashMap<String, Animation>();

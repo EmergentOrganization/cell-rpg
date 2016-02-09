@@ -48,7 +48,6 @@ public class ArcadeRegion1 implements iRegion {
     }
 
     public void enterRegion(World world) {
-        System.out.println("entering arcade region 1");
         TagManager tagMan = world.getSystem(TagManager.class);
 
         setCAEdgeSpawns(tagMan);

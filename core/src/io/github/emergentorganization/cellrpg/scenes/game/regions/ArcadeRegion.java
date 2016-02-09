@@ -23,6 +23,8 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * region to create score-based difficulty ramp for arcade mode.
@@ -30,6 +32,7 @@ import io.github.emergentorganization.cellrpg.tools.Resources;
  * as an opportunity to modify this region.
  */
 public class ArcadeRegion implements iRegion {
+    private final Logger logger = LogManager.getLogger(getClass());
     private static int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
     WorldScene scene;
 
@@ -51,7 +54,7 @@ public class ArcadeRegion implements iRegion {
     }
 
     public void enterRegion(World world) {
-        System.out.println("entering arcade region");
+        logger.info("entering arcade region");
         TagManager tagMan = world.getSystem(TagManager.class);
 
         tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner

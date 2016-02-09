@@ -12,5 +12,8 @@ public enum SoundEffect {
     LOSE,
     UI_BACK,
     UI_BACK_LONG,
-    UI_CONFIRM
+    UI_CONFIRM,
+
+    MUSIC_LOOP_PAD,
+    MUSIC_LOOP_KEYS
 }

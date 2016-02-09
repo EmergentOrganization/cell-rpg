@@ -17,6 +17,8 @@ public class GameSettings {
     public static String KEY_WEAPON_CLICKSHOOT_RADIUS = "clickShoot-exclusion-radius";
 
     // === CAMERA CONTROLS ===
+    public static String KEY_CAM_FOLLOW_METHOD = "camera-follow-method";
+
     // min px between player & screen edge
     public static String KEY_CAM_EDGE_MARGIN = "Cam_EdgeMargin";
     // dist camera should try to lead player movement

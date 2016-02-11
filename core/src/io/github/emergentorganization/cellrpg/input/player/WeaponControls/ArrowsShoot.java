@@ -21,6 +21,9 @@ public class ArrowsShoot extends iPlayerCtrl {
     private final EntityFactory entityFactory;
     private final EventManager eventManager;
 
+    private long lastClick = 0;
+    private final long clickInterval = 100;
+
     public ArrowsShoot(World world, EntityFactory entityFactory, ComponentMapper<InputComponent> im) {
         super(world, im);
 
@@ -54,13 +57,18 @@ public class ArrowsShoot extends iPlayerCtrl {
             target.add(10, 0);
             shooting = true;
         }
-        if (shooting) {
+        if (shooting && readyForNextClick()) {
             WeaponUtil.shootTo(
                     target,
                     player,
                     eventManager,
                     entityFactory
             );
+            lastClick = System.currentTimeMillis();
         }
+    }
+
+    private boolean readyForNextClick(){
+        return System.currentTimeMillis() - lastClick > clickInterval;
     }
 }

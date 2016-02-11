@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
-
 public class WeaponComponent extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -49,7 +48,7 @@ public class WeaponComponent extends Component {
         powerups.remove(i);
     }
 
-    void _powerDown(Powerup pow){
+    private void _powerDown(Powerup pow){
         // un-applies powerup. powerup and timer must be manually removed from powerups and powerup_timers separately.
         logger.debug("powering down " + pow);
         switch (pow){

@@ -6,6 +6,7 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import io.github.emergentorganization.cellrpg.components.*;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -73,11 +74,11 @@ public class PhysicsContactListener implements ContactListener {
             Health bulletHealth = entityA.getComponent(Health.class);
             if (bulletHealth.health < bulletHealth.maxHealth) {
                 // cannot hit until after a bounce (helps keep player from shooting self in foot as bullet is leaving)
-                eventManager.pushEvent(GameEvent.PLAYER_HIT);
+                eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_HIT));
             }
         } else if (nameA.internalID.equals(EntityID.POWERUP_PLUS.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
-            eventManager.pushEvent(GameEvent.POWERUP_PLUS);
+            eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.POWERUP_PLUS));
             try {
                 world.deleteEntity(entityA);
             } catch (RuntimeException ex) {
@@ -107,7 +108,7 @@ public class PhysicsContactListener implements ContactListener {
             }
         } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
-            eventManager.pushEvent(GameEvent.POWERUP_STAR);
+            eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.POWERUP_STAR));
             try {
                 world.deleteEntity(entityA);
             } catch (RuntimeException ex) {
@@ -131,7 +132,7 @@ public class PhysicsContactListener implements ContactListener {
         }
 
         if (name.internalID.equals(EntityID.BULLET.toString())) {  // TODO: add collide-events to CollideEffect?
-            eventManager.pushEvent(GameEvent.COLLISION_BULLET);
+            eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.COLLISION_BULLET));
         }
     }
 

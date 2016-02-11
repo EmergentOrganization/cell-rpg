@@ -1,8 +1,8 @@
 package io.github.emergentorganization.cellrpg.managers;
 
 import com.artemis.BaseSystem;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.emergent2dcore.events.EventListener;
-import io.github.emergentorganization.cellrpg.events.GameEvent;
 
 import java.util.ArrayList;
 
@@ -13,12 +13,12 @@ public class EventManager extends BaseSystem {
      * Not sure if this is the best way to handle that
      * Going to research it
      */
-    private ArrayList<GameEvent> events, newEvents;
+    private ArrayList<EntityEvent> events, newEvents;
     private ArrayList<EventListener> listenerInsertion, listenerRemoval, listeners;
 
     public EventManager() {
-        events = new ArrayList<GameEvent>();
-        newEvents = new ArrayList<GameEvent>();
+        events = new ArrayList<EntityEvent>();
+        newEvents = new ArrayList<EntityEvent>();
         listenerInsertion = new ArrayList<EventListener>();
         listenerRemoval = new ArrayList<EventListener>();
         listeners = new ArrayList<EventListener>();
@@ -32,7 +32,7 @@ public class EventManager extends BaseSystem {
         listenerInsertion.remove(listener);
     }
 
-    public void pushEvent(GameEvent event) {
+    public void pushEvent(EntityEvent event) {
         newEvents.add(event);
     }
 
@@ -48,7 +48,7 @@ public class EventManager extends BaseSystem {
         }
         listenerRemoval.clear();
 
-        for (GameEvent e : events) {
+        for (EntityEvent e : events) {
             for (EventListener l : listeners) {
                 l.notify(e);
             }

@@ -3,6 +3,7 @@ package io.github.emergentorganization.cellrpg.input.player.WeaponControls;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.components.Weapon.WeaponComponent;
@@ -18,7 +19,7 @@ public class WeaponUtil {
     public static void shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact) {
         WeaponComponent weapon = shooter.getComponent(WeaponComponent.class);
         if (weapon == null) {
-            eventMan.pushEvent(GameEvent.PLAYER_WEAPON_EMPTY);
+            eventMan.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_WEAPON_EMPTY));
             return;
         }
 
@@ -46,10 +47,10 @@ public class WeaponUtil {
 
                 entFact.createBullet(center.add(arm), dir);
 
-                eventMan.pushEvent(GameEvent.PLAYER_SHOOT);
+                eventMan.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_SHOOT));
             } // else not enough charge to shoot
             else {
-                eventMan.pushEvent(GameEvent.PLAYER_WEAPON_EMPTY);
+                eventMan.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_WEAPON_EMPTY));
             }
         } // else trying to shoot too quickly
     }

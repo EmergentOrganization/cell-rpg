@@ -9,6 +9,7 @@ import io.github.emergentorganization.cellrpg.components.*;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAImpact;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
@@ -62,7 +63,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         interacts.lastCollisionPosition = pos.getCenter(bounds, 0).cpy();
     }
 
-    protected void processLayer(int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
+    protected void processLayer(int entityId, int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
                                 final Vector2 currentPostion) {
         logger.trace("checking layer");
         ArrayList<Integer> collidedStates = new ArrayList<Integer>();
@@ -80,7 +81,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
                     BaseCell cell = gridComps.states[x + dx][y + dy];
                     int cellState = cell.state;  // copy int here to avoid concurrency issue
                     if (!collidedStates.contains(cellState)) { // if haven't already collided w/ this state
-                        if (checkCollideAt(interaction, cell, currentPostion)) {
+                        if (checkCollideAt(entityId, interaction, cell, currentPostion)) {
                             collidedStates.add(cellState);  // don't check for this state collision again
                             if (cellState > 0) {
                                 logger.trace("collided @ rel " + dx + "," + dy);
@@ -111,7 +112,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         logger.trace("CAInteractSys.process(" + entityId + ")");
 
         for (int colldingLayerId : interList.interactions.keySet()) {
-            processLayer(colldingLayerId, interList, interList.lastCollisionPosition,
+            processLayer(entityId, colldingLayerId, interList, interList.lastCollisionPosition,
                     currentPostion);
         }
         interList.lastCollisionPosition.set(currentPostion);
@@ -126,7 +127,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected void applyCollision(CAInteraction inter, BaseCell cell, Vector2 pos) {
+    protected void applyCollision(final int entityId, CAInteraction inter, BaseCell cell, Vector2 pos) {
         // impact the CA
         int state = cell.state;  // copy int here to avoid concurrency issue
         if (state > 0) {
@@ -136,7 +137,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         if (inter.events.get(state) != null) {  // if some events
             logger.trace("firing events for state " + state);
             for (GameEvent evt : inter.events.get(state)) {
-                eventManager.pushEvent(evt);
+                eventManager.pushEvent(new EntityEvent(entityId, evt));
             }
         }
         if (inter.impacts.get(state) != null) {  // if some impacts
@@ -148,10 +149,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected boolean checkCollideAt(CAInteraction inter, BaseCell cell, Vector2 pos) {
+    protected boolean checkCollideAt(final int entityId, CAInteraction inter, BaseCell cell, Vector2 pos) {
         if (inter.collidesWithState(cell.state)) {
             if (cell.state > 0) logger.trace("collide w/ state " + cell.state);
-            applyCollision(inter, cell, pos);
+            applyCollision(entityId, inter, cell, pos);
             return true;
         } else {
             if (cell.state > 0) logger.trace(

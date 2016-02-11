@@ -12,7 +12,8 @@ public class WeaponComponent extends Component {
     // public:
     public long delay = 200;  // required delay between shots
     public int charge = 100;  // how much charge stored in weapon
-    public int SHOT_CHARGE_COST = 10;
+    public final int MAX_CHARGE = 100;
+    public final int SHOT_CHARGE_COST = 10;
     public int recharge_per_s = 10;
 
     // private:
@@ -25,7 +26,7 @@ public class WeaponComponent extends Component {
 
     // power-up constants:
     static final long FIRE_RATE_DELAY_DELTA = 100;
-    static final long FIRE_RATE_LEN = 5;
+    static final long FIRE_RATE_LEN = 3;
     static final long FIRE_RATE_CHARGE_BOOST = 100;
 
     public void powerUp(Powerup pow){

@@ -16,8 +16,8 @@ public class SoundEventListener implements EventListener {
     }
 
     @Override
-    public void notify(GameEvent event) {
-        switch (event) {
+    public void notify(EntityEvent event) {
+        switch (event.event) {
             case PLAYER_SHOOT:
                 soundEffects.get(SoundEffect.LASER).play();
                 break;

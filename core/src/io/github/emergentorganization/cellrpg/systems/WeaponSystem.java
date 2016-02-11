@@ -39,6 +39,8 @@ public class WeaponSystem extends IntervalEntityProcessingSystem {
         }
 
         // recharge weapon
-        weaponComp.charge += weaponComp.recharge_per_s*FREQ;
+        if (weaponComp.charge < weaponComp.MAX_CHARGE) {
+            weaponComp.charge += weaponComp.recharge_per_s * FREQ;
+        }
     }
 }

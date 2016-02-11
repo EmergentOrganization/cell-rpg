@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.emergent2dcore.events.EventListener;
@@ -80,8 +81,8 @@ public class WorldFactory {
         // setup events
         world.getSystem(EventManager.class).addListener(new EventListener() {
             @Override
-            public void notify(GameEvent event) {
-                switch (event) {
+            public void notify(EntityEvent event) {
+                switch (event.event) {
                     case PLAYER_SHOOT:
                         break;
                     case PLAYER_HIT:

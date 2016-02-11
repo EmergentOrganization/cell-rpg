@@ -20,6 +20,7 @@ import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.emergent2dcore.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
@@ -177,13 +178,13 @@ public class EntityFactory {
 
         eventManager.addListener(new EventListener() {
             @Override
-            public void notify(GameEvent event) {
-                switch (event) {
+            public void notify(EntityEvent event) {
+                switch (event.event) {
                     case PLAYER_HIT:
                         ec.shieldState--;
                         if (ec.shieldState < 0) {
                             ec.shieldState = 0;
-                            eventManager.pushEvent(GameEvent.PLAYER_SHIELD_DOWN);
+                            eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_SHIELD_DOWN));
                         } else {
                             shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(ec.shieldState));
                         }
@@ -398,8 +399,8 @@ public class EntityFactory {
 
         eventManager.addListener(new EventListener() {
             @Override
-            public void notify(GameEvent event) {
-                if (event == GameEvent.POWERUP_STAR){
+            public void notify(EntityEvent event) {
+                if (event.event == GameEvent.POWERUP_STAR){
                     tagManager.getEntity(Tags.PLAYER).getComponent(WeaponComponent.class).powerUp(Powerup.FIRE_RATE);
                 }
             }

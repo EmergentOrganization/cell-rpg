@@ -14,10 +14,10 @@ public class ScoreEventListener implements EventListener {
     }
 
     @Override
-    public void notify(GameEvent event) {
+    public void notify(EntityEvent event) {
         // TODO: iff event applies to this entity
         StatsTracker stats = display.targetTracker;
-        switch (event) {
+        switch (event.event) {
             case PLAYER_HIT:
                 stats.damageTaken += 1;
                 break;

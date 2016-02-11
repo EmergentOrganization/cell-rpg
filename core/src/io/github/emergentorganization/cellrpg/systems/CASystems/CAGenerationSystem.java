@@ -10,6 +10,7 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
+import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +28,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
     // artemis-injected entity components:
     private ComponentMapper<CAGridComponents> CAComponent_m;
     private CameraSystem cameraSystem;
+    private MoodSystem moodSystem;
 
     public CAGenerationSystem() {
         super(Aspect.all(CAGridComponents.class));
@@ -45,7 +47,6 @@ public class CAGenerationSystem extends BaseEntitySystem {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
 
         // TODO: manage generation tasks somehow?
-
     }
 
     @Override
@@ -69,8 +70,13 @@ public class CAGenerationSystem extends BaseEntitySystem {
         // generates next state of the CA
         gridComps.generation += 1;
         CAs.get(gridComps.ca).generate(gridComps);
-    }
 
+        logger.debug("liveCells: " + gridComps.cellCount);
+        int deltaIntensity = gridComps.cellCount*gridComps.intensityPerCell;
+        logger.trace("cells increase intensity by " + deltaIntensity);
+        moodSystem.intensity += deltaIntensity;
+
+    }
 
     private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, CAGridComponents gridComps) {
         // returns value from applying the kernel matrix to the given neighborhood
@@ -141,6 +147,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
     }
 
     private void randomizeState(CAGridComponents gridComponents) {
+        gridComponents.cellCount = 0;
         for (int i = 0; i < gridComponents.states.length; i++) {
             for (int j = 0; j < gridComponents.states[0].length; j++) {
                 int val = Math.round(Math.round(Math.random()));

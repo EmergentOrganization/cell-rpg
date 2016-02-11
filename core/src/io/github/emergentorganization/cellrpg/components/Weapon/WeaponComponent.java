@@ -31,7 +31,7 @@ public class WeaponComponent extends Component {
 
     public void powerUp(Powerup pow){
         // applies powerup. adds to powerups and powerup_timers lists automatically
-        logger.info("applying powerup " + pow);
+        logger.debug("applying powerup " + pow);
         switch (pow){
             case FIRE_RATE:
                 delay -= FIRE_RATE_DELAY_DELTA;
@@ -51,7 +51,7 @@ public class WeaponComponent extends Component {
 
     void _powerDown(Powerup pow){
         // un-applies powerup. powerup and timer must be manually removed from powerups and powerup_timers separately.
-        logger.info("powering down " + pow);
+        logger.debug("powering down " + pow);
         switch (pow){
             case FIRE_RATE:
                 delay += FIRE_RATE_DELAY_DELTA;

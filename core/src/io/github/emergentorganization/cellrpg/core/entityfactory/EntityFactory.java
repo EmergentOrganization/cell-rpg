@@ -31,6 +31,7 @@ import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 import io.github.emergentorganization.emergent2dcore.components.*;
+import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -92,6 +93,7 @@ public class EntityFactory {
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
+        vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(Tags.CA_VYROIDS_STD);
 
         Entity energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
                 EntityID.CA_LAYER_ENERGY.toString(), pos)
@@ -106,6 +108,7 @@ public class EntityFactory {
                 .build();
         CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
+        geneticLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(Tags.CA_VYROIDS_GENETIC);
 
         // add cellular automata grid interactions
         Entity player = world.getEntity(playerID);
@@ -458,7 +461,7 @@ public class EntityFactory {
                 .addInteraction(
                         vyroidLayer.getId(),
                         new CAInteraction()
-                                .addCollisionImpactStamp(0, CGoLShapeConsts.TUB, vyroidLayer.getId())
+                                .addCollisionImpactStamp(0, CGoLShapeConsts.CELL, vyroidLayer.getId())
                                 .addCollisionImpactStamp(
                                         0,
                                         CGoLShapeConsts.stateReplace(

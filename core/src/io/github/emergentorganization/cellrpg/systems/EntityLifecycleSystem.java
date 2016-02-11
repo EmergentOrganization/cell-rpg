@@ -43,14 +43,14 @@ public class EntityLifecycleSystem extends IteratingSystem {
 
         // kill if out of health
         if (health != null && health.health < 1) {
-            logger.info("entity del: out of health");
+            logger.debug("entity del: out of health");
             world.delete(EntityId);
 
             // kill if too far away from player (maxDistance < 0 excluded)
         } else if (playerPosComp != null && maxDistance > 0) {
             Vector2 playerPos = playerPosComp.position;  // ideally use center, but this is close enough.
             if (pos.cpy().sub(playerPos).len() > maxDistance) {
-                logger.info("entity del: too far from player");
+                logger.debug("entity del: too far from player");
                 world.delete(EntityId);
             }
         }

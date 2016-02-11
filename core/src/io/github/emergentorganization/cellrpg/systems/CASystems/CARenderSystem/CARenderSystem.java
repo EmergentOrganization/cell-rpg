@@ -60,10 +60,10 @@ public class CARenderSystem extends BaseEntitySystem {
     protected void process(int entityId) {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
         if (layerStuff.states != null) {
-            //logger.info("rendering " + layerStuff.cellCount + " cells");
+            logger.trace("rendering " + layerStuff.cellCount + " cells");
             renderGrid(layerStuff);
         } else {
-            logger.info("skipping render on null CA grid");
+            logger.warn("skipping render on null CA grid");
         }
     }
 

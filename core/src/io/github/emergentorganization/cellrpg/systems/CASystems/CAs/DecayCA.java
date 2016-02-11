@@ -9,6 +9,7 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.C
  */
 public class DecayCA implements iCA {
     public void generate(CAGridComponents gridComps) {
+        gridComps.cellCount = 0;
         for (int i = 0; i < gridComps.states.length; i++) {
             for (int j = 0; j < gridComps.states[0].length; j++) {
                 int state = gridComps.states[i][j].state;
@@ -17,6 +18,7 @@ public class DecayCA implements iCA {
                     continue;
                 } else {  // decay through color states
                     gridComps.states[i][j].state -= 1;
+                    gridComps.cellCount += 1;
                 }
             }
         }

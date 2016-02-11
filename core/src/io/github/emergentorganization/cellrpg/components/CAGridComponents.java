@@ -39,6 +39,8 @@ public class CAGridComponents extends Component {
     public CellRenderer renderType = CellRenderer.COLOR_MAP;
     public CA ca = CA.NO_BUFFER;
 
+    public int intensityPerCell = 0;  // amount of intensity added to MoodSystem per live cell
+
     public BaseCell[][] states;
     public int cellSize = 3;  // size of each cell [px]
     public int cellCount = 0;  // number of live cells

@@ -6,6 +6,11 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.C
  * static helper class that holds useful conway's game of life shapes.
  */
 public class CGoLShapeConsts {
+
+    public static final int[][] CELL = {
+            {1}
+    };
+
     public static final int[][] BLINKER_H = {
             {0, 0, 0, 0, 0, 0, 0},
             {0, 0, 0, 0, 0, 0, 0},

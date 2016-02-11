@@ -7,5 +7,5 @@ import io.github.emergentorganization.cellrpg.components.CAGridComponents;
  */
 public interface iCA {
     void generate(CAGridComponents gridComps);
-    // computes the next ca generation for the given grid
+    // computes the next ca generation for the given grid and updates gridComps.cellCount
 }

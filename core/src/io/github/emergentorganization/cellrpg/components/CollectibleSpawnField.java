@@ -43,7 +43,7 @@ public class CollectibleSpawnField extends Component {
 
             float rotation = 0f;  // TODO: add rotation?
 
-            logger.info("entity spawned in spawnField");
+            logger.debug("entity spawned in spawnField");
             // instantiate one of the entities, return id
             return entFact.createEntityByID(entityList.get(ent_i), pos, rotation);
         } else {

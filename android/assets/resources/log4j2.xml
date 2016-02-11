@@ -23,6 +23,11 @@
         </Root>
 
         <!-- === class-specific levels === -->
+        <!-- enable detailed debugging for whatever classes are in heavy development -->
+        <logger name="io.github.emergentorganization.emergent2dcore.systems.MusicSystem" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+
         <!-- suppress "stamp applied" spam -->
         <logger name="io.github.emergentorganization.cellrpg.components.CAGridComponents" level="WARN" additivity="false">
             <appender-ref ref="STDOUT"/>

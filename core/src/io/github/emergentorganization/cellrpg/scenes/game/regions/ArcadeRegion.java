@@ -161,7 +161,7 @@ public class ArcadeRegion implements iRegion {
     private void adjustCABoundaries(int score, TagManager tagMan) {
         CAGridComponents stdCA = tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class);
         CAGridComponents geneticCA = tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class);
-        if (score > 1000 * SCL) {
+        if (score > 10000 * SCL) {
             stdCA.edgeSpawner = CAEdgeSpawnType.RANDOM_DENSE;
             geneticCA.edgeSpawner = CAEdgeSpawnType.RANDOM_DENSE;
         } else if (score > 100 * SCL) {

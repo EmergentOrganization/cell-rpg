@@ -13,4 +13,6 @@ public enum GameEvent {
 
     VYROID_KILL_STD,
     VYROID_KILL_GENETIC,
+
+    SPAWN_
 }

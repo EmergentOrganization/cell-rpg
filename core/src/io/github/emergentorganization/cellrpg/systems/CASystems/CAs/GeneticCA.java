@@ -49,11 +49,15 @@ public class GeneticCA implements iCA {
 
     public void generate(CAGridComponents gridComps) {
         // count up all neighbors
+        gridComps.cellCount = 0;
         for (int i = 0; i < gridComps.states.length; i++) {
             for (int j = 0; j < gridComps.states[0].length; j++) {
                 GeneticCell cell = (GeneticCell) gridComps.states[i][j];
                 cell.neighborCount = util.getNeighborhoodSum(i, j, 3, gridComps);
                 gridComps.states[i][j] = cell;
+                if (cell.getState() != 0){
+                    gridComps.cellCount += 1;
+                }
             }
         }
 

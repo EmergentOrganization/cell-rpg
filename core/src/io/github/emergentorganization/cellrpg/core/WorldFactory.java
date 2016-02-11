@@ -62,6 +62,7 @@ public class WorldFactory {
         wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
         wc.setSystem(new FPSLoggerSystem());
 
+        wc.setSystem(new MoodSystem(eventManager));
         wc.setSystem(new MusicSystem(assetManager));
 
         // initialize world

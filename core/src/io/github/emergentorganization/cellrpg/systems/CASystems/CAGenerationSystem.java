@@ -74,8 +74,8 @@ public class CAGenerationSystem extends BaseEntitySystem {
         logger.debug("liveCells: " + gridComps.cellCount);
         int deltaIntensity = gridComps.cellCount*gridComps.intensityPerCell;
         logger.trace("cells increase intensity by " + deltaIntensity);
-        moodSystem.intensity += deltaIntensity;
-
+        if (moodSystem != null)
+            moodSystem.intensity += deltaIntensity;
     }
 
     private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, CAGridComponents gridComps) {

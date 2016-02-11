@@ -214,7 +214,7 @@ public class EntityFactory {
 
     public int createBullet(Vector2 pos, Vector2 dir) {
         final float speed = 10f;
-        Entity bullet = new EntityBuilder(world, this.bullet, "Bullet", EntityID.BULLET.toString(), pos)
+        final Entity bulletEntity = new EntityBuilder(world, this.bullet, "Bullet", EntityID.BULLET.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_BULLET)
                         .renderIndex(RenderIndex.BULLET)
@@ -237,7 +237,7 @@ public class EntityFactory {
         Entity vyroidLayer = tagManager.getEntity(Tags.CA_VYROIDS_STD);
         Entity geneticLayer = tagManager.getEntity(Tags.CA_VYROIDS_GENETIC);
         Entity energyLayer = tagManager.getEntity(Tags.CA_ENERGY);
-        CAInteractionList interactList = bullet.getComponent(CAInteractionList.class);
+        CAInteractionList interactList = bulletEntity.getComponent(CAInteractionList.class);
         interactList
                 .addInteraction(
                         vyroidLayer.getId(),
@@ -262,7 +262,27 @@ public class EntityFactory {
                 .setColliderRadius(2)
         ;
 
-        return bullet.getId();
+        // health down on CA collisions
+        eventManager.addListener(new EventListener() {
+            @Override
+            public void notify(EntityEvent event) {
+                try {
+                    if (event.entityId == bulletEntity.getId()) {
+                        switch (event.event) {
+                            case VYROID_KILL_GENETIC:
+                            case VYROID_KILL_STD:
+                                bulletEntity.getComponent(Health.class).health
+                                        -= bulletEntity.getComponent(CollideEffect.class).selfDamage;
+                                break;
+                        }
+                    }
+                } catch(NullPointerException ex){
+                    logger.warn("bullet.getComponent returned null. Bullet likely deleted before event trigger.");
+                }
+            }
+        });
+
+        return bulletEntity.getId();
     }
 
     public int createCivOneBlinker(float x, float y) {

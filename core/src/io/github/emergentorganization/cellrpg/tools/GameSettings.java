@@ -5,6 +5,11 @@ import com.badlogic.gdx.Preferences;
 
 
 public class GameSettings {
+    // === GRAPHICS SETTINGS ===
+    public static String KEY_GRAPHICS_WIDTH = "screen-size-width";
+    public static String KEY_GRAPHICS_HEIGHT = "screen-size-height";
+    public static String KEY_GRAPHICS_FULLSCREEN = "fullscreen";
+
     // === MOVEMENT CONTROLS ===
     public static String KEY_MOVEMENT_CONTROL_METHOD = "movement-ctrl-method";
 

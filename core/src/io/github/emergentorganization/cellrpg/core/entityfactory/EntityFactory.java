@@ -277,7 +277,7 @@ public class EntityFactory {
                         }
                     }
                 } catch(NullPointerException ex){
-                    logger.warn("bullet.getComponent returned null. Bullet likely deleted before event trigger.");
+                    logger.debug("bullet.getComponent returned null. Bullet likely deleted before event trigger.");
                 }
             }
         });

@@ -33,12 +33,12 @@ import org.apache.logging.log4j.Logger;
 public class SingleShapeWarpRegion implements iRegion {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    private WorldScene scene;
-    private long maxLength;  // max time before switching to next region
+    public WorldScene scene;
+    public long maxLength;  // max time before switching to next region
     public static final long NEVER_EXPIRE = -1;  // set maxLength to this for infinite region lifespan
     private long enterTime;  // time region is entered
-    private int[][] shape;
-    private int spawnFreq;
+    public int[][] shape;
+    public int spawnFreq;
     private CALayer[] spawnLayers;
 
     public SingleShapeWarpRegion(WorldScene parentScene, final long expiresIn, final int[][] shape,
@@ -54,7 +54,7 @@ public class SingleShapeWarpRegion implements iRegion {
     public iRegion getNextRegion(World world) {
         if (timeExpired()) {
             logger.info("leaving SingleShapeWarpRegion");
-            return new ArcadeRegion2(scene);
+            return RegionBuildTool.getNextRegion(this);
         } else {
             return null;
         }
@@ -71,19 +71,6 @@ public class SingleShapeWarpRegion implements iRegion {
 
         setCAEdgeSpawns(tagMan);
         setupSpontGen(player);
-
-        Entity bg = new EntityBuilder(
-                world,
-                EntityFactory.object,
-                "Arcade Background",
-                EntityID.BG_ARCADE.toString(),
-                player.getComponent(Position.class).position.cpy().sub(2000 * .025f, 2000 * .025f)  // minus 1/2 texture size
-        )
-                .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_BG_ARCADE)
-                        .renderIndex(RenderIndex.BACKGROUND)
-                )
-                .build();
     }
 
     private void setupSpontGen(Entity target){
@@ -98,12 +85,11 @@ public class SingleShapeWarpRegion implements iRegion {
     }
 
     private void setCAEdgeSpawns(TagManager tagMan) {
-
-        tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
-                = CAEdgeSpawnType.EMPTY;
-
-        tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
-                = CAEdgeSpawnType.EMPTY;
+//        tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
+//                = CAEdgeSpawnType.EMPTY;
+//
+//        tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
+//                = CAEdgeSpawnType.EMPTY;
     }
 
     private boolean timeExpired(){

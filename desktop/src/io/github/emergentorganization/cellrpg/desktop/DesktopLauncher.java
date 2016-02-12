@@ -24,7 +24,7 @@ public class DesktopLauncher {
 //		prefs.flush();
 
 		Gdx.graphics.setDisplayMode(
-				prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH, LwjglApplicationConfiguration.getDesktopDisplayMode().width),
+				prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH,  LwjglApplicationConfiguration.getDesktopDisplayMode().width),
 				prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT, LwjglApplicationConfiguration.getDesktopDisplayMode().height),
 				prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, false) // fullscreen kills performance? :( why???
 		 );

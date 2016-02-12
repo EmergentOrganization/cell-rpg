@@ -23,7 +23,7 @@ public class SpontaneousGenerationList extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public float radius = 1;  // area around entity which may be stamped
-    public float frequency = -1;  // how often the stamp will occur
+    public float frequency = -1;  // how often the stamp will occur. larger = less often. (actually period, not freq)
     public float variance = 0;  // how much the timing of the can vary randomly
     public int sinceLastGenerationCounter = 0;  // counter for determining when it's time to generate
 

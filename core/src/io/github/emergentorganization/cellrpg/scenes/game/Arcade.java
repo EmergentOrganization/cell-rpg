@@ -3,12 +3,14 @@ package io.github.emergentorganization.cellrpg.scenes.game;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.SingleShapeWarpRegion;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
-import io.github.emergentorganization.cellrpg.scenes.game.regions.ArcadeRegion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,7 +51,9 @@ public class Arcade extends WorldScene {
     @Override
     public WorldConfiguration getBaseWorldConfiguration() {
         WorldConfiguration wc = new WorldConfiguration();
-        wc.setSystem(new LeveledRegionSwitcher(new ArcadeRegion(this)));
+        wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(
+                this, 30*1000, CGoLShapeConsts.BLINKER_H, 1, CALayer.vyroid_values()
+        )));
         return wc;
     }
 }

@@ -24,7 +24,7 @@
 
         <!-- === class-specific levels === -->
         <!-- enable detailed debugging for whatever classes are in heavy development -->
-        <logger name="io.github.emergentorganization.emergent2dcore.systems.MusicSystem" level="TRACE" additivity="false">
+        <logger name="io.github.emergentorganization.cellrpg.scenes.game.regions.SingleShapeWarpRegion" level="TRACE" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 

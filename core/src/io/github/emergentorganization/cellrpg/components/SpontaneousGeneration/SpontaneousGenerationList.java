@@ -23,8 +23,12 @@ public class SpontaneousGenerationList extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public float radius = 1;  // area around entity which may be stamped
-    public float frequency = -1;  // how often the stamp will occur. larger = less often. (actually period, not freq)
-    public float variance = 0;  // how much the timing of the can vary randomly
+    public float frequency = -1;  // how many stamps per generation round. (larger = more stamps)
+    // frequency can be:
+    //      < 0 for never,
+    //      0 < f < 1 for intervals,
+    //      1 for 1/gen,
+    //      integer value > 1 for multiple spontGens per cycle (non-integers will be rounded)
     public int sinceLastGenerationCounter = 0;  // counter for determining when it's time to generate
 
     public ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
@@ -56,11 +60,27 @@ public class SpontaneousGenerationList extends Component {
     public boolean readyForGen() {
         // returns true if it is time to insert stamp
 //         logger.trace(sinceLastGenerationCounter + " not yet " + frequency);
-        if (frequency < 1) {
+        if (frequency < 0) {  // never ready
             return false;
+        } else if (frequency < 1) {  // maybe ready this round
+            return sinceLastGenerationCounter > 1f / frequency;
+        } else if( frequency >= 1) {  // ready (multiple times) every round
+            return true;
         } else {
-            // TODO: incorporate variance
-            return sinceLastGenerationCounter > frequency;
+            logger.warn("unrecognized spontGenList.frequency val:" + frequency);
+            return false;
+        }
+    }
+
+    public int getAmountToGenerate(){
+        // returns number of spontGens that should be produced to satisfy generation rate set by frequency
+        if (frequency > 1) {
+            return Math.round(frequency);
+        } else if (frequency > 0){
+            return 1;
+        } else {
+            logger.warn("request to generate on SpontGenList.freq < 0");
+            return 0;
         }
     }
 }

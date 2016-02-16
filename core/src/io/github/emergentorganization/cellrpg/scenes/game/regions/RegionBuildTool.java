@@ -23,7 +23,7 @@ public class RegionBuildTool {
         long expireTime = region.maxLength-1000;
         if (expireTime < 10000) expireTime = 10000;  // minimum region time
 
-        int newFreq = region.spawnFreq - 1;
+        float newFreq = region.spawnFreq * 1.2f;
         if (newFreq < 1) newFreq = 1;
 
         return new SingleShapeWarpRegion(region.scene, expireTime, getNextWarpShape(), newFreq, CALayer.vyroid_values());

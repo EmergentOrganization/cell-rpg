@@ -3,26 +3,10 @@ package io.github.emergentorganization.cellrpg.scenes.game.regions;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
-import com.badlogic.gdx.utils.Align;
-import io.github.emergentorganization.cellrpg.components.CAGridComponents;
-import io.github.emergentorganization.cellrpg.components.CollectibleSpawnField;
-import io.github.emergentorganization.cellrpg.systems.SystemsTestSuite;
-import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
-import io.github.emergentorganization.cellrpg.components.StatsTracker;
-import io.github.emergentorganization.cellrpg.core.EntityID;
-import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
-import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
-import io.github.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
-import io.github.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
-import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
-import io.github.emergentorganization.cellrpg.tools.Resources;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,11 +22,11 @@ public class SingleShapeWarpRegion implements iRegion {
     public static final long NEVER_EXPIRE = -1;  // set maxLength to this for infinite region lifespan
     private long enterTime;  // time region is entered
     public int[][] shape;
-    public int spawnFreq;
+    public float spawnFreq;
     private CALayer[] spawnLayers;
 
     public SingleShapeWarpRegion(WorldScene parentScene, final long expiresIn, final int[][] shape,
-                                 final int spawnFreq, CALayer[] spawnLayers) {
+                                 final float spawnFreq, CALayer[] spawnLayers) {
         super();
         scene = parentScene;
         maxLength = expiresIn;
@@ -64,7 +48,7 @@ public class SingleShapeWarpRegion implements iRegion {
     }
 
     public void enterRegion(World world) {
-        logger.info("entering ShingleShapeWarpRegion");
+        logger.info("entering SingleShapeWarpRegion");
         enterTime = System.currentTimeMillis();
         TagManager tagMan = world.getSystem(TagManager.class);
         Entity player = tagMan.getEntity(Tags.PLAYER);
@@ -75,6 +59,7 @@ public class SingleShapeWarpRegion implements iRegion {
 
     private void setupSpontGen(Entity target){
         // setup power-up spawns around given target entity
+        logger.trace("new spongen f="+spawnFreq);
         SpontaneousGenerationList genList = target.getComponent(SpontaneousGenerationList.class);
         genList.clear();
         genList.stampList.add(shape);
@@ -97,7 +82,7 @@ public class SingleShapeWarpRegion implements iRegion {
         // NOTE: could shorten length here based on player score or other criterion
         long length = maxLength;
         long timeSpent = System.currentTimeMillis() - enterTime;
-        logger.trace("time left in region: " + (length-timeSpent));
+//        logger.trace("time left in region: " + (length-timeSpent));
         return timeSpent > length;
     }
 }

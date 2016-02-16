@@ -9,13 +9,16 @@ import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		System.out.println("intializing configuration...");
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width  = 100; //LwjglApplicationConfiguration.getDesktopDisplayMode().width;
 		config.height = 100; //LwjglApplicationConfiguration.getDesktopDisplayMode().height;
 //		config.vSyncEnabled = false;
 		config.useGL30 = true;
+		System.out.println("initializing application...");
 		new LwjglApplication(new PixelonTransmission(), config);
 
+		System.out.println("loading prefs...");
 		Preferences prefs = GameSettings.getPreferences();
 
 //		// uncomment and use this to set your preferred config for now: (TODO: graphics settings menu)
@@ -23,6 +26,7 @@ public class DesktopLauncher {
 //		prefs.putInteger(GameSettings.KEY_GRAPHICS_HEIGHT, 400);
 //		prefs.flush();
 
+		System.out.println("resizing screen...");
 		Gdx.graphics.setDisplayMode(
 				prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH,  LwjglApplicationConfiguration.getDesktopDisplayMode().width),
 				prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT, LwjglApplicationConfiguration.getDesktopDisplayMode().height),

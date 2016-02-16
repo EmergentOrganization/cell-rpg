@@ -43,12 +43,14 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
         // performs the given spontaneous generation.
         Position pos = pos_m.get(id);
         Bounds bound = bounds_m.get(id);
-        SpontaneousGeneration spontGen = genList.getRandomGeneration(pos, bound);
+        for (int i = 0; i < genList.getAmountToGenerate(); i++) {
+            SpontaneousGeneration spontGen = genList.getRandomGeneration(pos, bound);
 
-        Entity CAEnt = tagMan.getEntity(spontGen.targetLayer.toString());
-        CAGridComponents targetGrid = CAEnt.getComponent(CAGridComponents.class);
+            Entity CAEnt = tagMan.getEntity(spontGen.targetLayer.toString());
+            CAGridComponents targetGrid = CAEnt.getComponent(CAGridComponents.class);
 
-        logger.trace("spontaneous Generate @ " + pos);
-        targetGrid.stampCenteredAt(spontGen.stamp, spontGen.position);
+            logger.trace("spontaneous Generate @ " + pos);
+            targetGrid.stampCenteredAt(spontGen.stamp, spontGen.position);
+        }
     }
 }

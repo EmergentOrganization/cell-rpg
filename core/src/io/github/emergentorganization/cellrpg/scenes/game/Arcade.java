@@ -60,7 +60,7 @@ public class Arcade extends WorldScene {
     public WorldConfiguration getBaseWorldConfiguration() {
         WorldConfiguration wc = new WorldConfiguration();
         wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(
-                this, 30*1000, CGoLShapeConsts.BLINKER_H, 1, CALayer.vyroid_values()
+                this, 10*1000, CGoLShapeConsts.BLINKER_H, .5f, CALayer.vyroid_values()
         )));
 
         return wc;

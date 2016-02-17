@@ -11,6 +11,7 @@ import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
+import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +26,7 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
     private ComponentMapper<Position> pos_m;
     private ComponentMapper<Bounds> bounds_m;
     private ComponentMapper<SpontaneousGenerationList> spontGen_m;
+    private RenderSystem renderSystem;
 
     public CASpontaneousGenerationSystem() {
         super(Aspect.all(SpontaneousGenerationList.class, Position.class, Bounds.class), 1);
@@ -50,7 +52,7 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
             CAGridComponents targetGrid = CAEnt.getComponent(CAGridComponents.class);
 
             logger.trace("init spontaneous Generate @ " + pos);
-            ApparitionCreator.apparateCAEffect(spontGen, targetGrid);
+            ApparitionCreator.apparateCAEffect(renderSystem, spontGen, targetGrid);
         }
     }
 }

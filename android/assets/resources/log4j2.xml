@@ -24,7 +24,10 @@
 
         <!-- === class-specific levels === -->
         <!-- enable detailed debugging for whatever classes are in heavy development -->
-        <logger name="io.github.emergentorganization.cellrpg.scenes.game.regions.SingleShapeWarpRegion" level="trace" additivity="false">
+        <logger name="io.github.emergentorganization.emergent2dcore.systems.RenderSystem" level="trace" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator" level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 

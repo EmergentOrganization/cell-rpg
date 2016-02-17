@@ -1,11 +1,12 @@
 package io.github.emergentorganization.cellrpg.managers;
 
 import com.artemis.BaseSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.Array;
+import io.github.emergentorganization.cellrpg.core.ParticleEff;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.emergent2dcore.components.Visual;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
 import io.github.emergentorganization.cellrpg.tools.Resources;
@@ -20,6 +21,7 @@ public class AssetManager extends BaseSystem {
     private HashMap<String, TextureRegion> regions;
     private HashMap<String, Animation> animations;
     private Map<SoundEffect, Sound> soundEffects;
+    private Map<ParticleEff, ParticleEffectPool> particlePools;
     public com.badlogic.gdx.assets.AssetManager gdxAssetManager;
 
     public AssetManager(com.badlogic.gdx.assets.AssetManager assets) {
@@ -44,8 +46,18 @@ public class AssetManager extends BaseSystem {
         for (Map.Entry<SoundEffect, String> effectPathSet : Resources.SFX_FILENAME_MAP.entrySet()) {
             effects.put(effectPathSet.getKey(), assets.get(effectPathSet.getValue(), Sound.class));
         }
-
         soundEffects = Collections.unmodifiableMap(effects);
+
+        HashMap<ParticleEff, ParticleEffectPool> pEffects = new HashMap<ParticleEff, ParticleEffectPool>();
+        for (Map.Entry<ParticleEff, String> effectPathSet : Resources.PFX_FILENAME_MAP.entrySet()) {
+            ParticleEffect prototype = new ParticleEffect();
+            prototype.load(Gdx.files.internal(effectPathSet.getValue()), Gdx.files.internal(Resources.DIR_PARTICLES));
+            prototype.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX / 2f);
+//            prototype.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+//            prototype.start();
+            pEffects.put(effectPathSet.getKey(), new ParticleEffectPool(prototype, 0, 50));
+        }
+        particlePools = Collections.unmodifiableMap(pEffects);
     }
 
     public Animation defineAnimation(String id, float frameDuration, String[] frames, Animation.PlayMode playMode) {
@@ -93,6 +105,10 @@ public class AssetManager extends BaseSystem {
 
     public Sound getSoundEffect(SoundEffect effect) {
         return soundEffects.get(effect);
+    }
+
+    public ParticleEffect getParticleEffect(ParticleEff effKey){
+        return particlePools.get(effKey).obtain();
     }
 
     public Map<SoundEffect, Sound> getSoundEffects() {

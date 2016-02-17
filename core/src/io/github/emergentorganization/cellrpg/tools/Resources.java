@@ -1,17 +1,25 @@
 package io.github.emergentorganization.cellrpg.tools;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.ParticleEff;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
 
 import java.util.*;
 
 
 public class Resources {
+    // =========================================================================================================
     // === DIRS
+    // =========================================================================================================
     public static final String DIR_IMG_GAME = "game/";
     public static final String DIR_IMG_BLDG = DIR_IMG_GAME + "buildings/";
     public static final String DIR_IMG_ENV = DIR_IMG_GAME + "environment/";
     public static final String DIR_SOUNDS = FileStructure.RESOURCE_DIR + "sounds/";
+    public static final String DIR_PARTICLEFX = FileStructure.RESOURCE_DIR + "particleEffects/";
+    public static final String DIR_PARTICLES = FileStructure.RESOURCE_DIR + "particleEffects/";
+
+
 
     // =========================================================================================================
     // === SFX
@@ -42,6 +50,21 @@ public class Resources {
     public static String getSfxPath(SoundEffect effect) {
         return SFX_FILENAME_MAP.get(effect);
     }
+
+
+
+    // =========================================================================================================
+    // === PARTICLE EFFECTS
+    // =========================================================================================================
+    public static final Map<ParticleEff, String> PFX_FILENAME_MAP;
+    static{
+        String ext = ".p";
+        HashMap<ParticleEff, String> pHashMap = new HashMap<ParticleEff, String>();
+        pHashMap.put(ParticleEff.PREWARP, DIR_PARTICLEFX + "prewarp" + ext);
+        PFX_FILENAME_MAP = Collections.unmodifiableMap(pHashMap);
+    }
+
+
 
     // =========================================================================================================
     // === ANIM
@@ -91,6 +114,8 @@ public class Resources {
         ANIM_VYRAPUFFER = Collections.unmodifiableList(vyrapufferAnim);
     }
 
+
+
     // =========================================================================================================
     // GAME
     // =========================================================================================================
@@ -99,12 +124,16 @@ public class Resources {
     public static final String TEX_POWERUP_PLUS = DIR_IMG_GAME + EntityID.POWERUP_PLUS;
     public static final String TEX_TUBSNAKE = DIR_IMG_GAME + EntityID.TUBSNAKE;
 
+
+
     // =========================================================================================================
     // BLDG
     // =========================================================================================================
     public static final String TEX_BLDG_LRG_ONE = DIR_IMG_BLDG + EntityID.BUILDING_LARGE_ONE;
     public static final String TEX_BLDG_ROUND_ONE = DIR_IMG_BLDG + EntityID.BUILDING_ROUND_ONE;
     public static final String TEX_VYROID_BEACON = DIR_IMG_BLDG + EntityID.VYROID_BEACON;
+
+
 
     // =========================================================================================================
     // ENV

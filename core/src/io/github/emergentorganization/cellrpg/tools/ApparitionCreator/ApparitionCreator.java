@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
+import io.github.emergentorganization.cellrpg.core.ParticleEff;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,13 +31,13 @@ public class ApparitionCreator {
     private static Random rand = new Random();
 
 
-    public static void apparateCAEffect(RenderSystem renderSys, SpontaneousGeneration spontGen, CAGridComponents targetGrid){
+    public static void apparateCAEffect(AssetManager assetMan, RenderSystem renderSys, SpontaneousGeneration spontGen, CAGridComponents targetGrid){
         Timer time = new Timer();
         int minDelay = 2000;
         int maxDelay = 10000;
         // TODO: get delay from TimingSystem (which should be broken out from MusicSystem)
         int delay = minDelay + rand.nextInt((maxDelay - minDelay) + 1);
-        initWarpInEffects(renderSys, spontGen.position, delay);
+        initWarpInEffects(assetMan, renderSys, spontGen.position, delay);
         time.schedule(new CAApparitionTask(spontGen, targetGrid), delay);
     }
 
@@ -44,16 +46,12 @@ public class ApparitionCreator {
 //        initWarpInEffects();
     }
 
-    private static void initWarpInEffects(RenderSystem renderSystem, Vector2 pos, int duration){
+    private static void initWarpInEffects(AssetManager assMan,RenderSystem renderSystem, Vector2 pos, int duration){
         // initializes the warp-in particle effect(s) and sound(s) for a CA effect or entity
         // pos : position of the warp-in
         // duration : milliseconds until warp-in complete
-        ParticleEffect particleEffect = new ParticleEffect();
-        // TODO: use pooling for loading: https://www.youtube.com/watch?v=3OwIiELYa70
-        // TODO: use AssetManager here
-        particleEffect.load(Gdx.files.internal("resources/particleEffects/prewarp.p"), Gdx.files.internal("resources/particleEffects"));
+        ParticleEffect particleEffect = assMan.getParticleEffect(ParticleEff.PREWARP);
         particleEffect.setPosition(pos.x, pos.y);
-        particleEffect.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX/2f);
         particleEffect.setDuration(duration);
         particleEffect.start();
         renderSystem.registerOrphanParticleEffect(particleEffect);

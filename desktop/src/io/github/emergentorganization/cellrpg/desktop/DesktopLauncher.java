@@ -25,12 +25,16 @@ public class DesktopLauncher {
 //		prefs.putInteger(GameSettings.KEY_GRAPHICS_WIDTH, 1300);
 //		prefs.putInteger(GameSettings.KEY_GRAPHICS_HEIGHT, 400);
 //		prefs.flush();
+		System.out.println("getting screen prefs...");
+		int w = prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH, LwjglApplicationConfiguration.getDesktopDisplayMode().width);
+		int h = prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT, LwjglApplicationConfiguration.getDesktopDisplayMode().height);
+		boolean fs = prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, false);
 
-		System.out.println("resizing screen...");
+		System.out.println("resizing screen to " + w + "x" + h + ", fullscreen=" + fs);
 		Gdx.graphics.setDisplayMode(
-				prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH,  LwjglApplicationConfiguration.getDesktopDisplayMode().width),
-				prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT, LwjglApplicationConfiguration.getDesktopDisplayMode().height),
-				prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, false) // fullscreen kills performance? :( why???
+				w,
+				h,
+				fs // fullscreen kills performance? :( why???
 		 );
 	}
 }

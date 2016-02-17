@@ -5,6 +5,7 @@ import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
+import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.emergent2dcore.components.Position;
@@ -45,12 +46,11 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
         Bounds bound = bounds_m.get(id);
         for (int i = 0; i < genList.getAmountToGenerate(); i++) {
             SpontaneousGeneration spontGen = genList.getRandomGeneration(pos, bound);
-
             Entity CAEnt = tagMan.getEntity(spontGen.targetLayer.toString());
             CAGridComponents targetGrid = CAEnt.getComponent(CAGridComponents.class);
 
-            logger.trace("spontaneous Generate @ " + pos);
-            targetGrid.stampCenteredAt(spontGen.stamp, spontGen.position);
+            logger.trace("init spontaneous Generate @ " + pos);
+            ApparitionCreator.apparateCAEffect(spontGen, targetGrid);
         }
     }
 }

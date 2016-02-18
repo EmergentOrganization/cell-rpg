@@ -14,29 +14,25 @@ import org.apache.logging.log4j.Logger;
 * Region in which a single vyroid colony shape is warping in.
  */
 
-public class SingleShapeWarpRegion implements iRegion {
+public class SingleShapeWarpRegion extends TimedRegion {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public WorldScene scene;
-    public long maxLength;  // max time before switching to next region
-    public static final long NEVER_EXPIRE = -1;  // set maxLength to this for infinite region lifespan
-    private long enterTime;  // time region is entered
     public int[][] shape;
     public float spawnFreq;
     private CALayer[] spawnLayers;
 
     public SingleShapeWarpRegion(WorldScene parentScene, final long expiresIn, final int[][] shape,
                                  final float spawnFreq, CALayer[] spawnLayers) {
-        super();
+        super(expiresIn);
         scene = parentScene;
-        maxLength = expiresIn;
         this.shape = shape;
         this.spawnFreq = spawnFreq;
         this.spawnLayers = spawnLayers;
     }
 
     public iRegion getNextRegion(World world) {
-        if (timeExpired()) {
+        if (super.timeExpired()) {
             logger.info("leaving SingleShapeWarpRegion");
             return RegionBuildTool.getNextRegion(this);
         } else {
@@ -47,9 +43,9 @@ public class SingleShapeWarpRegion implements iRegion {
     public void loadRegion(World world) {
     }
 
+    @Override
     public void enterRegion(World world) {
-        logger.info("entering SingleShapeWarpRegion");
-        enterTime = System.currentTimeMillis();
+        super.enterRegion(world);
         TagManager tagMan = world.getSystem(TagManager.class);
         Entity player = tagMan.getEntity(Tags.PLAYER);
 
@@ -75,14 +71,5 @@ public class SingleShapeWarpRegion implements iRegion {
 //
 //        tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
 //                = CAEdgeSpawnType.EMPTY;
-    }
-
-    private boolean timeExpired(){
-        // return true if time is up
-        // NOTE: could shorten length here based on player score or other criterion
-        long length = maxLength;
-        long timeSpent = System.currentTimeMillis() - enterTime;
-//        logger.trace("time left in region: " + (length-timeSpent));
-        return timeSpent > length;
     }
 }

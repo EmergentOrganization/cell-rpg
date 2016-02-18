@@ -52,7 +52,11 @@ public class ApparitionCreator {
         // duration : milliseconds until warp-in complete
         ParticleEffect particleEffect = assMan.getParticleEffect(ParticleEff.PREWARP);
         particleEffect.setPosition(pos.x, pos.y);
-        particleEffect.setDuration(duration);
+        // NOTE: the following assumes that the first emitter in the particle effect is the longest:
+        particleEffect.setDuration(
+                duration - (int) particleEffect.getEmitters().get(0).duration  // adjust for max particle lifespan
+        );
+//        particleEffect.allowCompletion();  // optional? (maybe only needed if continuous==true)
         particleEffect.start();
         renderSystem.registerOrphanParticleEffect(particleEffect);
         logger.debug("added new particle len= " + duration + " @ (" + pos.x + ',' + pos.y + ")");

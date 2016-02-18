@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 public abstract class TimedRegion implements iRegion{
     public static final long NEVER_EXPIRE = -1;  // set maxLength to this for infinite region lifespan
 
-    private long maxLength;  // max time before switching to next region
+    public long maxLength;  // max time before switching to next region
     private long enterTime;  // time region is entered
 
     private final Logger logger = LogManager.getLogger(getClass());
@@ -23,7 +23,16 @@ public abstract class TimedRegion implements iRegion{
         enterTime = System.currentTimeMillis();
     }
 
-    protected boolean timeExpired(){
+    public iRegion getNextRegion(World world) {
+        if (timeExpired()) {
+            logger.info("leaving SingleShapeWarpRegion");
+            return RegionBuildTool.getNextRegion(this);
+        } else {
+            return null;
+        }
+    }
+
+    private boolean timeExpired(){
         // return true if time is up
         long length = maxLength;
         // NOTE: could shorten length here based on player score or other criterion

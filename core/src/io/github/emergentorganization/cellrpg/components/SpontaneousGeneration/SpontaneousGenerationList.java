@@ -2,6 +2,7 @@ package io.github.emergentorganization.cellrpg.components.SpontaneousGeneration;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.tools.TimingUtils;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
@@ -59,17 +60,11 @@ public class SpontaneousGenerationList extends Component {
 
     public boolean readyForGen() {
         // returns true if it is time to insert stamp
-//         logger.trace(sinceLastGenerationCounter + " not yet " + frequency);
-        if (frequency < 0) {  // never ready
-            return false;
-        } else if (frequency < 1) {  // maybe ready this round
-            return sinceLastGenerationCounter > 1f / frequency;
-        } else if( frequency >= 1) {  // ready (multiple times) every round
-            return true;
-        } else {
-            logger.warn("unrecognized spontGenList.frequency val:" + frequency);
-            return false;
-        }
+        return TimingUtils.readyForPeriodicEvent(frequency, sinceLastGenerationCounter);
+    }
+
+    public void tick(){
+        sinceLastGenerationCounter += 1;
     }
 
     public int getAmountToGenerate(){

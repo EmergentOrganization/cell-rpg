@@ -31,15 +31,6 @@ public class SingleShapeWarpRegion extends TimedRegion {
         this.spawnLayers = spawnLayers;
     }
 
-    public iRegion getNextRegion(World world) {
-        if (super.timeExpired()) {
-            logger.info("leaving SingleShapeWarpRegion");
-            return RegionBuildTool.getNextRegion(this);
-        } else {
-            return null;
-        }
-    }
-
     public void loadRegion(World world) {
     }
 
@@ -55,7 +46,7 @@ public class SingleShapeWarpRegion extends TimedRegion {
 
     private void setupSpontGen(Entity target){
         // setup power-up spawns around given target entity
-        logger.trace("new spongen f="+spawnFreq);
+        logger.trace("new spongen region f="+spawnFreq);
         SpontaneousGenerationList genList = target.getComponent(SpontaneousGenerationList.class);
         genList.clear();
         genList.stampList.add(shape);

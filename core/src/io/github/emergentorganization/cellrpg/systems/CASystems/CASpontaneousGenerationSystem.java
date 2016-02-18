@@ -40,7 +40,7 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
         if (genList.readyForGen()) {
             spontaneousGenerate(id, genList, tagMan);
         } else {
-            genList.sinceLastGenerationCounter += 1;
+            genList.tick();
         }
     }
 

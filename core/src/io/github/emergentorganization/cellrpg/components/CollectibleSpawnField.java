@@ -4,6 +4,7 @@ import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.tools.TimingUtils;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import org.apache.logging.log4j.LogManager;
@@ -52,13 +53,11 @@ public class CollectibleSpawnField extends Component {
     }
 
     public boolean readyForSpawn() {
-        // returns true if it is time to insert stamp
-//         logger.trace(sinceLastGenerationCounter + " not yet " + frequency);
-        if (frequency < 1) {
-            return false;
-        } else {
-            // TODO: incorporate variance
-            return sinceLastSpawnCounter > frequency;
-        }
+        // returns true if it is time to spawn entity.
+        return TimingUtils.readyForPeriodicEvent(frequency, sinceLastSpawnCounter);
+    }
+
+    public void tick(){
+        sinceLastSpawnCounter += 1;
     }
 }

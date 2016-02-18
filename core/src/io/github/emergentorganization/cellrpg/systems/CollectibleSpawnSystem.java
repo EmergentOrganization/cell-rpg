@@ -34,7 +34,7 @@ public class CollectibleSpawnSystem extends IntervalIteratingSystem {
         if (spawnField.readyForSpawn()) {
             spawn(id, spawnField, tagMan);
         } else {
-            spawnField.sinceLastSpawnCounter += 1;
+            spawnField.tick();
         }
     }
 

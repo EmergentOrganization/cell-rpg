@@ -4,10 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
 import io.github.emergentorganization.cellrpg.core.ParticleEff;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
+import io.github.emergentorganization.emergent2dcore.components.Bounds;
+import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,20 +33,27 @@ public class ApparitionCreator {
 
     private static Random rand = new Random();
 
-
-    public static void apparateCAEffect(AssetManager assetMan, RenderSystem renderSys, SpontaneousGeneration spontGen, CAGridComponents targetGrid){
-        Timer time = new Timer();
-        int minDelay = 2000;
-        int maxDelay = 10000;
-        // TODO: get delay from TimingSystem (which should be broken out from MusicSystem)
-        int delay = minDelay + rand.nextInt((maxDelay - minDelay) + 1);
+    public static void apparateCAEffect(AssetManager assetMan, RenderSystem renderSys,
+                                        SpontaneousGeneration spontGen, CAGridComponents targetGrid){
+        int delay = getDelay();
         initWarpInEffects(assetMan, renderSys, spontGen.position, delay);
+        Timer time = new Timer();
         time.schedule(new CAApparitionTask(spontGen, targetGrid), delay);
     }
 
-    public static void apparateEntity(){
-        // TODO
-//        initWarpInEffects();
+    public static void apparateEntity(AssetManager assetManage, RenderSystem rendSys,
+                                      EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
+        int delay = getDelay();
+        initWarpInEffects(assetManage, rendSys, pos.getCenter(bound, 0), delay);
+        Timer time = new Timer();
+        time.schedule(new EntityApparitionTask(spawnField, pos, bound, ef), delay);
+    }
+
+    private static int getDelay(){
+        int minDelay = 2000;
+        int maxDelay = 10000;
+        // TODO: get delay from TimingSystem (which should be broken out from MusicSystem)
+        return minDelay + rand.nextInt((maxDelay - minDelay) + 1);
     }
 
     private static void initWarpInEffects(AssetManager assMan,RenderSystem renderSystem, Vector2 pos, int duration){

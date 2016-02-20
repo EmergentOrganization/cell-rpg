@@ -3,12 +3,10 @@ package io.github.emergentorganization.cellrpg.scenes.game.regions;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
-import io.github.emergentorganization.cellrpg.components.CollectibleSpawnField;
-import io.github.emergentorganization.cellrpg.components.CollideEffect;
+import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
-import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,7 +42,7 @@ public class SingleEntityWarpRegion extends TimedRegion{
 
     private void setupEntitySpawner(Entity player){
         logger.trace("new entity spawn region f="+spawnFreq);
-        CollectibleSpawnField field = player.getComponent(CollectibleSpawnField.class);
+        EntitySpawnField field = player.getComponent(EntitySpawnField.class);
         field.entityList.clear();
         field.entityList.add(entityID);
         field.frequency = spawnFreq;

@@ -5,7 +5,7 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
-import io.github.emergentorganization.cellrpg.components.CollectibleSpawnField;
+import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
@@ -67,7 +67,7 @@ public class ArcadeRegion implements iRegion {
         player.getComponent(SpontaneousGenerationList.class).clear();
 
         // setup power-up spawns around player
-        player.getComponent(CollectibleSpawnField.class).entityList.clear();
+        player.getComponent(EntitySpawnField.class).entityList.clear();
 
         // load story
         scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.I), Align.topLeft);
@@ -100,7 +100,7 @@ public class ArcadeRegion implements iRegion {
     }
 
     private void adjustPowerups(int score, Entity player) {
-        CollectibleSpawnField spawnField = player.getComponent(CollectibleSpawnField.class);
+        EntitySpawnField spawnField = player.getComponent(EntitySpawnField.class);
         spawnField.frequency = getPowerupFreq(score);
         if (score > 20 * SCL) {
             spawnField.entityList.add(EntityID.VYRAPUFFER);

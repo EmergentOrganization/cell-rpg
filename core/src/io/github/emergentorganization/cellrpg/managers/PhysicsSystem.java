@@ -54,9 +54,14 @@ public class PhysicsSystem extends BaseEntitySystem {
         return body;
     }
 
-    private Body createEmptyBody(int entityId, BodyDef bd) {
+    private Body createEmptyBody(int entityId, BodyDef bd) throws IllegalArgumentException{
         if (!pm.has(entityId))
             throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
+
+        if (bd == null){
+            throw new IllegalArgumentException("cannot create body with null bodyDef");
+        }
+
         Body body = physWorld.createBody(bd);
         body.setUserData(entityId);
         return body;
@@ -125,7 +130,8 @@ public class PhysicsSystem extends BaseEntitySystem {
 
     @Override
     protected void dispose() {
-        physWorld.dispose();
+        // TODO: delay doing this until all threads are done adding bodies? else JVM EXCEPTION_ACCESS_VIOLATION
+//        physWorld.dispose();
     }
 
     public void setContactListener(ContactListener listener) {

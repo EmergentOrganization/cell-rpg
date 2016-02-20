@@ -77,7 +77,7 @@ public class EntityFactory {
                 .add(WeaponComponent.class)
                 .add(StatsTracker.class)
                 .add(SpontaneousGenerationList.class)
-                .add(CollectibleSpawnField.class)
+                .add(EntitySpawnField.class)
                 .remove(Health.class) // doesn't need health; has shield
                 .build(world);
         ca_layer = new ArchetypeBuilder(base).add(CAGridComponents.class).build(world);

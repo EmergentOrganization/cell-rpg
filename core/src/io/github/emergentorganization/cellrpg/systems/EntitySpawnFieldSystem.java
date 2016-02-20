@@ -6,15 +6,18 @@ import com.artemis.annotations.Profile;
 import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
+import io.github.emergentorganization.cellrpg.managers.AssetManager;
+import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.cellrpg.components.CollectibleSpawnField;
+import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Profile(using=EmergentProfiler.class, enabled=true)
-public class CollectibleSpawnSystem extends IntervalIteratingSystem {
+public class EntitySpawnFieldSystem extends IntervalIteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
     @Wire
@@ -22,15 +25,17 @@ public class CollectibleSpawnSystem extends IntervalIteratingSystem {
 
     private ComponentMapper<Position> pos_m;
     private ComponentMapper<Bounds> bounds_m;
-    private ComponentMapper<CollectibleSpawnField> spawnField_m;
+    private ComponentMapper<EntitySpawnField> spawnField_m;
+    private AssetManager assetManager;
+    private RenderSystem renderSystem;
 
-    public CollectibleSpawnSystem() {
-        super(Aspect.all(Position.class, Bounds.class, CollectibleSpawnField.class), 1);
+    public EntitySpawnFieldSystem() {
+        super(Aspect.all(Position.class, Bounds.class, EntitySpawnField.class), 1);
     }
 
     public void process(int id) {
         TagManager tagMan = world.getSystem(TagManager.class);
-        CollectibleSpawnField spawnField = spawnField_m.get(id);
+        EntitySpawnField spawnField = spawnField_m.get(id);
         if (spawnField.readyForSpawn()) {
             spawn(id, spawnField, tagMan);
         } else {
@@ -38,10 +43,10 @@ public class CollectibleSpawnSystem extends IntervalIteratingSystem {
         }
     }
 
-    private void spawn(int id, CollectibleSpawnField spawnField, TagManager tagMan) {
+    private void spawn(int id, EntitySpawnField spawnField, TagManager tagMan) {
         // spawns entity in the field.
         Position pos = pos_m.get(id);
         Bounds bound = bounds_m.get(id);
-        int newEntityId = spawnField.getCollectible(pos, bound, ef);
+        ApparitionCreator.apparateEntity(assetManager, renderSystem, spawnField, pos, bound, ef);
     }
 }

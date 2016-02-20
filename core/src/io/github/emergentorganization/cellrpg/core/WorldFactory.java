@@ -11,7 +11,6 @@ import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.emergent2dcore.events.EventListener;
-import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.events.SoundEventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
@@ -54,7 +53,7 @@ public class WorldFactory {
         wc.setSystem(new WeaponSystem());
         wc.setSystem(new AISystem());
         wc.setSystem(new TimedDestructionSystem());
-        wc.setSystem(new CollectibleSpawnSystem());
+        wc.setSystem(new EntitySpawnFieldSystem());
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering
         wc.setSystem(new EntityLifecycleSystem());

@@ -19,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * <p/>
  * Modeled after SpontaneousGenerationList
  */
-public class CollectibleSpawnField extends Component {
+public class EntitySpawnField extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public float radius = 1;  // area around entity which may be spawned

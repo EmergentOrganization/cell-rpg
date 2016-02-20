@@ -11,8 +11,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		System.out.println("intializing configuration...");
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width  = 100; //LwjglApplicationConfiguration.getDesktopDisplayMode().width;
-		config.height = 100; //LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+		config.width  = 100;
+		config.height = 100;
 //		config.vSyncEnabled = false;
 		config.useGL30 = true;
 		System.out.println("initializing application...");

@@ -6,13 +6,17 @@ import com.artemis.annotations.Profile;
 import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.Health;
+import io.github.emergentorganization.cellrpg.core.ParticleEff;
+import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.components.Lifecycle;
 import io.github.emergentorganization.emergent2dcore.components.Name;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,6 +32,8 @@ public class EntityLifecycleSystem extends IteratingSystem {
     private ComponentMapper<Lifecycle> life_m;
 
     private TagManager tagManager;
+    private AssetManager assetManager;
+    private RenderSystem renderSystem;
 
     public EntityLifecycleSystem() {
         super(Aspect.all());
@@ -44,9 +50,15 @@ public class EntityLifecycleSystem extends IteratingSystem {
         // kill if out of health
         if (health != null && health.health < 1) {
             logger.debug("entity del: out of health");
+
+            ParticleEffect particleEffect = assetManager.getParticleEffect(ParticleEff.EXPLODE);
+            particleEffect.setPosition(pos.x, pos.y);
+            particleEffect.start();
+            renderSystem.registerOrphanParticleEffect(particleEffect);
+
             world.delete(EntityId);
 
-            // kill if too far away from player (maxDistance < 0 excluded)
+        // kill if too far away from player (maxDistance < 0 excluded)
         } else if (playerPosComp != null && maxDistance > 0) {
             Vector2 playerPos = playerPosComp.position;  // ideally use center, but this is close enough.
             if (pos.cpy().sub(playerPos).len() > maxDistance) {

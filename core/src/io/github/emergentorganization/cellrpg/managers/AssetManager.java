@@ -50,12 +50,7 @@ public class AssetManager extends BaseSystem {
 
         HashMap<ParticleEff, ParticleEffectPool> pEffects = new HashMap<ParticleEff, ParticleEffectPool>();
         for (Map.Entry<ParticleEff, String> effectPathSet : Resources.PFX_FILENAME_MAP.entrySet()) {
-            ParticleEffect prototype = new ParticleEffect();
-            prototype.load(Gdx.files.internal(effectPathSet.getValue()), Gdx.files.internal(Resources.DIR_PARTICLES));
-            prototype.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX / 2f);
-//            prototype.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-//            prototype.start();
-            pEffects.put(effectPathSet.getKey(), new ParticleEffectPool(prototype, 0, 50));
+            addParticleEffectTo(effectPathSet, pEffects);
         }
         particlePools = Collections.unmodifiableMap(pEffects);
     }
@@ -117,5 +112,13 @@ public class AssetManager extends BaseSystem {
 
     @Override
     protected void processSystem() {
+    }
+
+    private static void addParticleEffectTo(Map.Entry<ParticleEff, String> effectPathSet,
+                                            HashMap<ParticleEff, ParticleEffectPool> pEffects){
+        ParticleEffect prototype = new ParticleEffect();
+        prototype.load(Gdx.files.internal(effectPathSet.getValue()), Gdx.files.internal(Resources.DIR_PARTICLES));
+        prototype.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX / 2f);
+        pEffects.put(effectPathSet.getKey(), new ParticleEffectPool(prototype, 0, 50));
     }
 }

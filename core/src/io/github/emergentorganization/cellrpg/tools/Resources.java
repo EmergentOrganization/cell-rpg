@@ -61,6 +61,9 @@ public class Resources {
         String ext = ".p";
         HashMap<ParticleEff, String> pHashMap = new HashMap<ParticleEff, String>();
         pHashMap.put(ParticleEff.PREWARP, DIR_PARTICLEFX + "prewarp" + ext);
+        pHashMap.put(ParticleEff.EXPLODE, DIR_PARTICLEFX + "explode" + ext);
+        pHashMap.put(ParticleEff.SHIELD, DIR_PARTICLEFX + "shield" + ext);
+        pHashMap.put(ParticleEff.WEAPON, DIR_PARTICLEFX + "weapon1" + ext);
         PFX_FILENAME_MAP = Collections.unmodifiableMap(pHashMap);
     }
 

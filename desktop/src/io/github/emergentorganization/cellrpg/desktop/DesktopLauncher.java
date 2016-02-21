@@ -19,20 +19,5 @@ public class DesktopLauncher {
 		config.useGL30 = true;
 		System.out.println("initializing application...");
 		new LwjglApplication(new PixelonTransmission(), config);
-
-		Preferences prefs = GameSettings.getPreferences();
-
-		// Graphics.DisplayMode desktop = LwjglApplicationConfiguration.getDesktopDisplayMode();
-		int ww = prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH, 1024);
-		int wh = prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT, 768);
-		boolean fs = prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, false);
-
-		System.out.println("Resizing: " + ww +", " + wh + ". Fullscreen: " + fs);
-
-		Gdx.graphics.setDisplayMode(
-				ww,
-				wh,
-				fs // fullscreen kills performance? :( why???
-		);
 	}
 }

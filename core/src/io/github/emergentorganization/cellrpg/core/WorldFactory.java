@@ -63,6 +63,7 @@ public class WorldFactory {
         wc.setSystem(new FPSLoggerSystem());
 
         wc.setSystem(new MoodSystem(eventManager));
+        wc.setSystem(new TimingSystem());
         wc.setSystem(new MusicSystem(assetManager));
 
         // initialize world

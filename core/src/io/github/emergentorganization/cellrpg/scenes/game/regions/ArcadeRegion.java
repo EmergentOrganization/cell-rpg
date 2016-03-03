@@ -125,12 +125,12 @@ public class ArcadeRegion implements iRegion {
     private void setCASpawnLayers(SpontaneousGenerationList genList, int score) {
         if (score > 100 * SCL) {
             // both (b/c default vyroid remains in list uncleared)
-            genList.layers.add(CALayer.VYROIDS_GENETIC);
+            genList.addLayer(CALayer.VYROIDS_GENETIC);
         } else if (score > 10 * SCL) {
             genList.clear();
-            genList.layers.add(CALayer.VYROIDS);
+            genList.addLayer(CALayer.VYROIDS);
         } else if (score > -1) {
-            genList.layers.add(CALayer.VYROIDS_GENETIC);
+            genList.addLayer(CALayer.VYROIDS_GENETIC);
         }
     }
 

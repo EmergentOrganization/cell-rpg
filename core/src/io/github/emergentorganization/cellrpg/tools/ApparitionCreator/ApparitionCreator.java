@@ -1,6 +1,5 @@
 package io.github.emergentorganization.cellrpg.tools.ApparitionCreator;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;

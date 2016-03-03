@@ -43,19 +43,25 @@ public class SpontaneousGenerationList extends Component {
         sinceLastGenerationCounter = 0;
     }
 
-    public SpontaneousGeneration getRandomGeneration(Position entityPos, Bounds entityBounds) {
+    public SpontaneousGeneration getRandomGeneration(Position entityPos, Bounds entityBounds) throws IllegalStateException {
         // gets a random SpontaneousGeneration
-        int layer = ThreadLocalRandom.current().nextInt(0, layers.size());
-        int stamp = ThreadLocalRandom.current().nextInt(0, stampList.size());
+        logger.debug("choosing spontGen from " + layers.size() + " layers & " + stampList.size() + " stamps");
 
-        // TODO: exclude inner radius / bounds?
-        Vector2 pos = entityPos.getCenter(entityBounds, 0).add(
-                (float) (2 * radius * Math.random() - radius),
-                (float) (2 * radius * Math.random() - radius)
-        );
+        try {
+            int layer = ThreadLocalRandom.current().nextInt(0, layers.size());
+            int stamp = ThreadLocalRandom.current().nextInt(0, stampList.size());
+            // TODO: exclude inner radius / bounds?
+            Vector2 pos = entityPos.getCenter(entityBounds, 0).add(
+                    (float) (2 * radius * Math.random() - radius),
+                    (float) (2 * radius * Math.random() - radius)
+            );
 
-        sinceLastGenerationCounter = 0;
-        return new SpontaneousGeneration(layers.get(layer), stampList.get(stamp), pos);
+            sinceLastGenerationCounter = 0;
+            return new SpontaneousGeneration(layers.get(layer), stampList.get(stamp), pos);
+        } catch( IllegalArgumentException ex){
+            logger.warn("can't getSpontGen: layer or stamp list empty!");
+            return null;
+        }
     }
 
     public boolean readyForGen() {
@@ -76,6 +82,15 @@ public class SpontaneousGenerationList extends Component {
         } else {
             logger.warn("request to generate on SpontGenList.freq < 0");
             return 0;
+        }
+    }
+
+    public void addLayer(CALayer newLayer){
+        // adds a layer to layerList only if it is not already in the list
+        if (layers.contains(newLayer)){
+            return;
+        } else {
+            layers.add(newLayer);
         }
     }
 }

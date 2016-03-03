@@ -50,11 +50,13 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
         Bounds bound = bounds_m.get(id);
         for (int i = 0; i < genList.getAmountToGenerate(); i++) {
             SpontaneousGeneration spontGen = genList.getRandomGeneration(pos, bound);
-            Entity CAEnt = tagMan.getEntity(spontGen.targetLayer.toString());
-            CAGridComponents targetGrid = CAEnt.getComponent(CAGridComponents.class);
+            if (spontGen != null) {
+                Entity CAEnt = tagMan.getEntity(spontGen.targetLayer.toString());
+                CAGridComponents targetGrid = CAEnt.getComponent(CAGridComponents.class);
 
-            logger.trace("init spontaneous Generate @ " + pos);
-            ApparitionCreator.apparateCAEffect(assetManager, renderSystem, spontGen, targetGrid);
+                logger.trace("init spontaneous Generate @ " + pos);
+                ApparitionCreator.apparateCAEffect(assetManager, renderSystem, spontGen, targetGrid);
+            }
         }
     }
 }

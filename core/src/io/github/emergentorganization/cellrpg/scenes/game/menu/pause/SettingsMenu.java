@@ -13,6 +13,7 @@ public class SettingsMenu extends Submenu {
     World world;
     private CameraSettingsMenu cameraMenu;
     private MovementSettingsMenu moveMenu;
+    private GraphicsSettingsMenu graphicsMenu;
 
     public SettingsMenu(VisTable table, Stage stage, String buttonText, World _world) {
         super(table, stage, buttonText);
@@ -26,6 +27,7 @@ public class SettingsMenu extends Submenu {
         // set up menu buttons:
         moveMenu = new MovementSettingsMenu(menuTable, stage, "controls", world);
         cameraMenu = new CameraSettingsMenu(menuTable, stage, "camera");
+        graphicsMenu = new GraphicsSettingsMenu(menuTable, stage, "graphics");
 
         // TODO: audio settings
         VisTextButton audio = new VisTextButton("audio(disabled)");
@@ -46,6 +48,9 @@ public class SettingsMenu extends Submenu {
         }
         if (cameraMenu != null) {
             cameraMenu.closeSubmenu();
+        }
+        if (graphicsMenu != null){
+            graphicsMenu.closeSubmenu();
         }
     }
 }

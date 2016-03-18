@@ -23,13 +23,16 @@ public class PauseWindow extends VisWindow {
     public PauseWindow(final Stage stage, final SceneManager sceneManager, World world) {
         super("", false);
 
-        logger.info("enter pause menu");
+        logger.debug("enter pause menu");
 
         VisTable table = new VisTable();
         this.setFillParent(false);
         this.centerWindow();
         this.add(table);
         this.clearListeners();
+
+        // TODO: add buttons only if game is in proper state (ie no map before collecting item, no debug menu unless
+        //          debug enabled, special settings for main menu, etc). 
 
         VisTextButton map = new VisTextButton("map(N/A)");
         map.addListener(new ClickListener() {
@@ -49,6 +52,7 @@ public class PauseWindow extends VisWindow {
         exit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                fadeOut();
                 sceneManager.setScene(Scene.MAIN_MENU);
             }
         });

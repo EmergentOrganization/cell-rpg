@@ -1,5 +1,6 @@
 package io.github.emergentorganization.cellrpg.scenes.menu;
 
+import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -9,14 +10,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
+import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.PauseWindow;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.SingleShapeWarpRegion;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.emergent2dcore.systems.WindowSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class MainMenu extends BaseScene {
+public class MainMenu extends WorldScene {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final float tableMargin;
@@ -118,6 +126,17 @@ public class MainMenu extends BaseScene {
         {
             TextButton settings = new TextButton("> Settings", s);
             settings.align(Align.left);
+            settings.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    WindowSystem winSys = world.getSystem(WindowSystem.class);
+                    if (winSys.isPaused()){
+                        winSys.onResume();  // exit menu if already open
+                    } else {
+                        winSys.onPause();  // pause when clicked
+                    }
+                }
+            });
             table.add(settings).left().row();
         }
 
@@ -149,4 +168,12 @@ public class MainMenu extends BaseScene {
             stage.addActor(versionInfo);
         }
     }
+
+    @Override
+    public WorldConfiguration getBaseWorldConfiguration() {
+        WorldConfiguration wc = new WorldConfiguration();
+        // TODO: set up main menu visuals
+        return wc;
+    }
+
 }

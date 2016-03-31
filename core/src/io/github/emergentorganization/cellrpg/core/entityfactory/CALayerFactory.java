@@ -1,13 +1,22 @@
 package io.github.emergentorganization.cellrpg.core.entityfactory;
 
+import com.artemis.Archetype;
+import com.artemis.Entity;
+import com.artemis.World;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.CellType;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
+import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 
 /**
  * !!! DISCLAIMER: despite the name, this does not follow the factory pattern. !!! TODO: rename
@@ -18,6 +27,20 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
  * TODO: this should be part of the CALayerComponentsConstructor, not a separate class.
  */
 public class CALayerFactory {
+
+    public static Entity buildLayer(World world, Vector2 pos, Archetype layer_arch,
+                                  String descr, EntityID id, String tag, CALayer layer){
+        Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
+        Entity vyroidLayer = new EntityBuilder(world, layer_arch, descr,
+                id.toString(), pos)
+                .tag(tag)
+                .build();
+        CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
+        CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, layer, camera);
+        vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(tag);
+
+        return vyroidLayer;
+    }
 
     public static void initLayerComponentsByType(CAGridComponents layerComponents, CALayer layerType, Camera camera) {
         // initializes given components such that they conform to the given type

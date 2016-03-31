@@ -88,33 +88,23 @@ public class EntityFactory {
     public void addCALayers(Vector2 pos, int playerID) {
         // adds all ca layer entities to the scene.
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
-        Entity vyroidLayer = new EntityBuilder(world, ca_layer, "Standard Vyroid CA Layer",
-                EntityID.CA_LAYER_VYROIDS.toString(), pos)
-                .tag(Tags.CA_VYROIDS_STD)
-                .build();
-        CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, CALayer.VYROIDS, camera);
-        vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(Tags.CA_VYROIDS_STD);
 
-        Entity energyLayer = new EntityBuilder(world, ca_layer, "Energy CA Layer",
-                EntityID.CA_LAYER_ENERGY.toString(), pos)
-                .tag(Tags.CA_ENERGY)
-                .build();
-        CAGridComponents energyLayerStuff = energyLayer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(energyLayerStuff, CALayer.ENERGY, camera);
+        Entity vyroidLayer = CALayerFactory.buildLayer(world, pos,
+                ca_layer, "std vyroids", EntityID.CA_LAYER_VYROIDS, Tags.CA_VYROIDS_STD, CALayer.VYROIDS
+        );
 
-        Entity geneticLayer = new EntityBuilder(world, ca_layer, "genetic CA Layer",
-                EntityID.CA_LAYER_GENETIC.toString(), pos)
-                .tag(Tags.CA_VYROIDS_GENETIC)
-                .build();
-        CAGridComponents geneticLayerStuff = geneticLayer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(geneticLayerStuff, CALayer.VYROIDS_GENETIC, camera);
-        geneticLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(Tags.CA_VYROIDS_GENETIC);
+        Entity energyLayer = CALayerFactory.buildLayer(world, pos,
+                ca_layer, "energy layer", EntityID.CA_LAYER_ENERGY, Tags.CA_ENERGY, CALayer.ENERGY
+        );
+
+        Entity geneticLayer = CALayerFactory.buildLayer(world, pos,
+                ca_layer, "genetic vyroids", EntityID.CA_LAYER_GENETIC, Tags.CA_VYROIDS_GENETIC, CALayer.VYROIDS_GENETIC
+        );
 
         // add cellular automata grid interactions
         Entity player = world.getEntity(playerID);
         CAInteractionList interactList = player.getComponent(CAInteractionList.class);
-//        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
+        logger.debug("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
         interactList
                 .addInteraction(
                         vyroidLayer.getId(),

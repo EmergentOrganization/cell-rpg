@@ -35,6 +35,7 @@ public class EntitySpawnField extends Component {
         sinceLastSpawnCounter = 0;
         if (entityList.size() > 0) {
             int ent_i = ThreadLocalRandom.current().nextInt(0, entityList.size());
+            EntityID entity = entityList.get(ent_i);
 
             // TODO: exclude inner radius / bounds?
             Vector2 pos = entityPos.getCenter(entityBounds, 0).add(
@@ -46,7 +47,10 @@ public class EntitySpawnField extends Component {
 
             logger.debug("entity spawned in spawnField");
             // instantiate one of the entities, return id
-            return entFact.createEntityByID(entityList.get(ent_i), pos, rotation);
+            if (entity != null)
+                return entFact.createEntityByID(entity, pos, rotation);
+            else
+                return -1;
         } else {
             return -1;
         }

@@ -9,6 +9,7 @@ import io.github.emergentorganization.cellrpg.components.*;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Name;
@@ -90,11 +91,11 @@ public class PhysicsContactListener implements ContactListener {
                 Vector2 pos = entityA.getComponent(Position.class)
                         .getCenter(entityA.getComponent(Bounds.class), entityA.getComponent(Rotation.class).angle);
                 TagManager tagMan = world.getSystem(TagManager.class);
-                tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class)
+                tagMan.getEntity(CALayer.VYROIDS.getTag()).getComponent(CAGridComponents.class)
                         .stampCenteredAt(CGoLShapeConsts.EMPTY(30, 30), pos);
-                tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class)
+                tagMan.getEntity(CALayer.VYROIDS_GENETIC.getTag()).getComponent(CAGridComponents.class)
                         .stampCenteredAt(CGoLShapeConsts.EMPTY(10, 10), pos);
-                tagMan.getEntity(Tags.CA_ENERGY).getComponent(CAGridComponents.class)
+                tagMan.getEntity(CALayer.ENERGY.getTag()).getComponent(CAGridComponents.class)
                         .stampCenteredAt(CGoLShapeConsts.BOOM(30, 30), pos);
                 world.deleteEntity(entityA);
             } catch (NullPointerException ex) {

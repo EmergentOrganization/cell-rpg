@@ -60,9 +60,9 @@ public class ArcadeRegion2 implements iRegion {
     }
 
     private void setCAEdgeSpawns(TagManager tagMan) {
-        tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
+        tagMan.getEntity(CALayer.VYROIDS.getTag()).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.RANDOM_SPARSE;
-        tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
+        tagMan.getEntity(CALayer.VYROIDS_GENETIC.getTag()).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.EMPTY;
     }
 }

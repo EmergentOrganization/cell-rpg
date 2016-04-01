@@ -35,11 +35,11 @@ public class TheEdge implements iRegion {
     private void setCAEdgeSpawns(World world) {
         TagManager tagMan = world.getSystem(TagManager.class);
 
-        Entity CAEnt = tagMan.getEntity(Tags.CA_VYROIDS_STD);
+        Entity CAEnt = tagMan.getEntity(CALayer.VYROIDS.getTag());
         CAGridComponents CAComp = CAEnt.getComponent(CAGridComponents.class);
         CAComp.edgeSpawner = CAEdgeSpawnType.RANDOM_SPARSE;
 
-        tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
+        tagMan.getEntity(CALayer.VYROIDS_GENETIC.getTag()).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.RANDOM_50_50;
     }
 

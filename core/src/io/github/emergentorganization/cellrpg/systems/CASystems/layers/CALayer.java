@@ -1,5 +1,7 @@
 package io.github.emergentorganization.cellrpg.systems.CASystems.layers;
 
+import io.github.emergentorganization.cellrpg.core.EntityID;
+
 import java.util.EnumMap;
 
 
@@ -8,8 +10,8 @@ public enum CALayer {
     VYROIDS,
     VYROIDS_MEGA,
     VYROIDS_GENETIC,
-    SCENERY_COLLIDABLE,
-    SCENERY_NONCOLLIDABLE,
+    //SCENERY_COLLIDABLE,
+    //SCENERY_NONCOLLIDABLE,
     ENERGY;
 
     private static final EnumMap<CALayer, String> map = new EnumMap<CALayer, String>(CALayer.class);
@@ -34,5 +36,13 @@ public enum CALayer {
     @Override
     public String toString() {
         return map.get(this);
+    }
+
+    public EntityID getId(){
+        return EntityID.fromString(toString());
+    }
+
+    public String getTag(){
+        return toString();
     }
 }

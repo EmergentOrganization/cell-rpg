@@ -29,15 +29,19 @@ import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 public class CALayerFactory {
 
     public static Entity buildLayer(World world, Vector2 pos, Archetype layer_arch,
-                                  String descr, EntityID id, String tag, CALayer layer){
+                                  String descr, String tag, CALayer layer){
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
         Entity vyroidLayer = new EntityBuilder(world, layer_arch, descr,
-                id.toString(), pos)
+                layer.toString(), pos)
                 .tag(tag)
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, layer, camera);
-        vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(tag);
+        try {
+            vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(tag);
+        } catch (NullPointerException ex){
+            ; // this layer has no effect on intensity (no problem)
+        }
 
         return vyroidLayer;
     }

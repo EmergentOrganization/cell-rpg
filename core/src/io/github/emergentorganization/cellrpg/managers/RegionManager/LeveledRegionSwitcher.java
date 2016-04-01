@@ -11,6 +11,7 @@ import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityB
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.iRegion;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import org.apache.logging.log4j.LogManager;
@@ -56,10 +57,10 @@ public class LeveledRegionSwitcher extends iRegionManager {
                     )
                     .build();
 
-            tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
+            tagMan.getEntity(CALayer.VYROIDS.getTag()).getComponent(CAGridComponents.class).edgeSpawner
                     = CAEdgeSpawnType.RANDOM_SPARSE;
 
-            tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
+            tagMan.getEntity(CALayer.VYROIDS_GENETIC.getTag()).getComponent(CAGridComponents.class).edgeSpawner
                     = CAEdgeSpawnType.RANDOM_SPARSE;
         }
 

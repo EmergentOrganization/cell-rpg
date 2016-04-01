@@ -57,9 +57,9 @@ public class ArcadeRegion implements iRegion {
         logger.info("entering arcade region");
         TagManager tagMan = world.getSystem(TagManager.class);
 
-        tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class).edgeSpawner
+        tagMan.getEntity(CALayer.VYROIDS.getTag()).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.EMPTY;
-        tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class).edgeSpawner
+        tagMan.getEntity(CALayer.VYROIDS_GENETIC.getTag()).getComponent(CAGridComponents.class).edgeSpawner
                 = CAEdgeSpawnType.EMPTY;
 
         Entity player = tagMan.getEntity(Tags.PLAYER);
@@ -159,8 +159,8 @@ public class ArcadeRegion implements iRegion {
     }
 
     private void adjustCABoundaries(int score, TagManager tagMan) {
-        CAGridComponents stdCA = tagMan.getEntity(Tags.CA_VYROIDS_STD).getComponent(CAGridComponents.class);
-        CAGridComponents geneticCA = tagMan.getEntity(Tags.CA_VYROIDS_GENETIC).getComponent(CAGridComponents.class);
+        CAGridComponents stdCA = tagMan.getEntity(CALayer.VYROIDS.getTag()).getComponent(CAGridComponents.class);
+        CAGridComponents geneticCA = tagMan.getEntity(CALayer.VYROIDS_GENETIC.getTag()).getComponent(CAGridComponents.class);
         if (score > 10000 * SCL) {
             stdCA.edgeSpawner = CAEdgeSpawnType.RANDOM_DENSE;
             geneticCA.edgeSpawner = CAEdgeSpawnType.RANDOM_DENSE;

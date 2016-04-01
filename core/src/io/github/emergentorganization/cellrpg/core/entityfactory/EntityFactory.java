@@ -90,15 +90,15 @@ public class EntityFactory {
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
 
         Entity vyroidLayer = CALayerFactory.buildLayer(world, pos,
-                ca_layer, "std vyroids", EntityID.CA_LAYER_VYROIDS, Tags.CA_VYROIDS_STD, CALayer.VYROIDS
+                ca_layer, "std vyroids", CALayer.VYROIDS.getTag(), CALayer.VYROIDS
         );
 
         Entity energyLayer = CALayerFactory.buildLayer(world, pos,
-                ca_layer, "energy layer", EntityID.CA_LAYER_ENERGY, Tags.CA_ENERGY, CALayer.ENERGY
+                ca_layer, "energy layer", CALayer.ENERGY.getTag(), CALayer.ENERGY
         );
 
         Entity geneticLayer = CALayerFactory.buildLayer(world, pos,
-                ca_layer, "genetic vyroids", EntityID.CA_LAYER_GENETIC, Tags.CA_VYROIDS_GENETIC, CALayer.VYROIDS_GENETIC
+                ca_layer, "genetic vyroids", CALayer.VYROIDS_GENETIC.getTag(), CALayer.VYROIDS_GENETIC
         );
 
         // add cellular automata grid interactions
@@ -189,9 +189,9 @@ public class EntityFactory {
                         break;
                     case POWERUP_STAR:
                         Vector2 cen = player.getComponent(Position.class).getCenter(player.getComponent(Bounds.class), 0);
-                        Entity vyroidLayer = tagManager.getEntity(Tags.CA_VYROIDS_STD);
-                        Entity geneticLayer = tagManager.getEntity(Tags.CA_VYROIDS_GENETIC);
-                        Entity energyLayer = tagManager.getEntity(Tags.CA_ENERGY);
+                        Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
+                        Entity geneticLayer = tagManager.getEntity(CALayer.VYROIDS_GENETIC.getTag());
+                        Entity energyLayer = tagManager.getEntity(CALayer.ENERGY.getTag());
                         vyroidLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(210, 210), cen);
                         geneticLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(70, 70), cen);
                         energyLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.BOOM(210, 210), cen);
@@ -224,9 +224,9 @@ public class EntityFactory {
                 .build();
 
         // add cellular automata grid interactions
-        Entity vyroidLayer = tagManager.getEntity(Tags.CA_VYROIDS_STD);
-        Entity geneticLayer = tagManager.getEntity(Tags.CA_VYROIDS_GENETIC);
-        Entity energyLayer = tagManager.getEntity(Tags.CA_ENERGY);
+        Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
+        Entity geneticLayer = tagManager.getEntity(CALayer.VYROIDS_GENETIC.getTag());
+        Entity energyLayer = tagManager.getEntity(CALayer.ENERGY.getTag());
         CAInteractionList interactList = bulletEntity.getComponent(CAInteractionList.class);
         interactList
                 .addInteraction(
@@ -437,7 +437,7 @@ public class EntityFactory {
 
         CAInteractionList interactList = puffer.getComponent(CAInteractionList.class);
 //        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
-        Entity geneticLayer = tagManager.getEntity(Tags.CA_VYROIDS_GENETIC);
+        Entity geneticLayer = tagManager.getEntity(CALayer.VYROIDS_GENETIC.getTag());
         interactList.addInteraction(
                 geneticLayer.getId(),
                 new CAInteraction().addCollisionImpactStamp(0, CAStamps.getVyrapuffer(), geneticLayer.getId())
@@ -462,12 +462,13 @@ public class EntityFactory {
                 .addBuilder(new AIComponentBuilder(AIComponent.aiType.RANDWALK)
                         .AIPeriod(.1f)
                 )
-                .build();
+                .build()
+        ;
 
         CAInteractionList interactList = ent.getComponent(CAInteractionList.class);
 //        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
-        Entity vyroidLayer = tagManager.getEntity(Tags.CA_VYROIDS_STD);
-        Entity energyLayer = tagManager.getEntity(Tags.CA_ENERGY);
+        Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
+        Entity energyLayer = tagManager.getEntity(CALayer.ENERGY.getTag());
         interactList
                 .addInteraction(
                         vyroidLayer.getId(),

@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.emergent2dcore.components.Name;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.emergent2dcore.components.Rotation;
@@ -31,7 +32,7 @@ public class MapTools {
 
     static {
         ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD, null);
-        ENTITY_BLACKLIST.put(EntityID.CA_LAYER_VYROIDS, null);
+        ENTITY_BLACKLIST.put(CALayer.VYROIDS.getId(), null);
         ENTITY_BLACKLIST.put(EntityID.CA_LAYER_ENERGY, null);
         ENTITY_BLACKLIST.put(EntityID.CA_LAYER_GENETIC, null);
     }

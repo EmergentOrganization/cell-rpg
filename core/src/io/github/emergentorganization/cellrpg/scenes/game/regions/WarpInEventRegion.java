@@ -15,6 +15,7 @@ import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.Apparition
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +57,24 @@ public class WarpInEventRegion extends TimedRegion{
     }
 
     public void loadRegion(World world) {
+    }
+
+    @Override
+    public iRegion getNextRegion(World world){
+        // check for super-class ready for next region
+        iRegion ret = super.getNextRegion(world);
+        if (ret != null){
+            return ret;
+        } else {
+            // check for ready for next region based on game mood
+            int intensity = world.getSystem(MoodSystem.class).scoreIntensityLevelOutOf(3);
+            if (intensity < 2){
+                // TODO: if player has reduced mood intensity rating to lower 1/3:
+//                logger.debug("moving to next WarpIn region: game intensity too low.");
+//                return _getNextRegion();
+            }
+        }
+        return null;
     }
 
     @Override

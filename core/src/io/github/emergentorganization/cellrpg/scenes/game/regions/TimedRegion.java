@@ -24,6 +24,7 @@ public abstract class TimedRegion implements iRegion{
     }
 
     public iRegion getNextRegion(World world) {
+        // return new region if it's time to leave this one, else return null
         if (timeExpired()) {
             logger.info("leaving SingleShapeWarpRegion");
             return _getNextRegion();
@@ -33,6 +34,7 @@ public abstract class TimedRegion implements iRegion{
     }
 
     protected iRegion _getNextRegion(){  // NOTE: perhaps this should be abstract & logic should be in child classes
+        // actually get & return the next region
         return RegionBuildTool.getNextRegion(this);
     }
 

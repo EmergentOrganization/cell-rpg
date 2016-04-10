@@ -13,6 +13,8 @@ import io.github.emergentorganization.emergent2dcore.components.PhysicsBody;
 import io.github.emergentorganization.emergent2dcore.components.Visual;
 import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
 import io.github.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -31,6 +33,8 @@ public class PhysicsSystem extends BaseEntitySystem {
     private ComponentMapper<PhysicsBody> pm;
     private HashMap<Integer, Body> bodies;
     private boolean shouldRender = false;
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     public PhysicsSystem(BodyEditorLoader bodyLoader, @Nullable Batch batch) {
         super(Aspect.all(PhysicsBody.class));
@@ -119,7 +123,11 @@ public class PhysicsSystem extends BaseEntitySystem {
 
     @Override
     protected void removed(int entityId) {
-        removeBody(entityId);
+        try {
+            removeBody(entityId);
+        } catch (NullPointerException ex){
+            logger.error("ERR: NullPtr; cannot remove physics body");
+        }
     }
 
     public void removeBody(int entityId) {

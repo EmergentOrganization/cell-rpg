@@ -9,6 +9,7 @@ import io.github.emergentorganization.cellrpg.components.AIComponent;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.components.InputComponent;
+import io.github.emergentorganization.emergent2dcore.components.Lifecycle;
 import io.github.emergentorganization.emergent2dcore.components.Rotation;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
 import org.apache.logging.log4j.LogManager;
@@ -22,9 +23,10 @@ public class AISystem extends DelayedIteratingSystem {
     ComponentMapper<AIComponent> AICom_m;
     ComponentMapper<InputComponent> inCom_m;
     ComponentMapper<Rotation> rot_m;
+    ComponentMapper<Lifecycle> life_m;
 
     public AISystem() {
-        super(Aspect.all(AIComponent.class, InputComponent.class, Rotation.class));
+        super(Aspect.all(AIComponent.class, InputComponent.class, Rotation.class, Lifecycle.class));
     }
 
     /**
@@ -61,6 +63,7 @@ public class AISystem extends DelayedIteratingSystem {
             }
         } catch (NullPointerException ex){
             logger.error("ERR: cannot process AI:" + ex.getMessage());
+            life_m.get(entityId).kill();
         }
     }
 

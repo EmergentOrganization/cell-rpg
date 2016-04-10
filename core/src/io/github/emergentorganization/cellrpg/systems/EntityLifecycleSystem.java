@@ -47,24 +47,40 @@ public class EntityLifecycleSystem extends IteratingSystem {
         Vector2 pos = pm.get(EntityId).position;
         float maxDistance = life_m.get(EntityId).maxPlayerDist;
 
+        if (life_m.get(EntityId).manualKill){
+            logger.debug("manual kill entity #" + EntityId);
+            killEntity(EntityId);
+            return;
+
         // kill if out of health
-        if (health != null && health.health < 1) {
+        }else if (health != null && health.health < 1) {
             logger.debug("entity del: out of health");
+            killEntity(EntityId, true);
+            return;
 
-            ParticleEffect particleEffect = assetManager.getParticleEffect(ParticleEff.EXPLODE);
-            particleEffect.setPosition(pos.x, pos.y);
-            particleEffect.start();
-            renderSystem.registerOrphanParticleEffect(particleEffect);
-
-            world.delete(EntityId);
-
-        // kill if too far away from player (maxDistance < 0 excluded)
+            // kill if too far away from player (maxDistance < 0 excluded)
         } else if (playerPosComp != null && maxDistance > 0) {
             Vector2 playerPos = playerPosComp.position;  // ideally use center, but this is close enough.
             if (pos.cpy().sub(playerPos).len() > maxDistance) {
                 logger.debug("entity del: too far from player");
-                world.delete(EntityId);
+                killEntity(EntityId);
+                return;
             }
         }
+    }
+
+    private void killEntity(int EntityId){
+        killEntity(EntityId, false);
+    }
+
+    private void killEntity(int EntityId, boolean explode){
+        if (explode){
+            ParticleEffect particleEffect = assetManager.getParticleEffect(ParticleEff.EXPLODE);
+            Vector2 pos = pm.get(EntityId).position;
+            particleEffect.setPosition(pos.x, pos.y);
+            particleEffect.start();
+            renderSystem.registerOrphanParticleEffect(particleEffect);
+        }
+        world.delete(EntityId);
     }
 }

@@ -24,10 +24,10 @@
 
         <!-- === class-specific levels === -->
         <!-- enable detailed debugging for whatever classes are in heavy development -->
-        <logger name="io.github.emergentorganization.cellrpg.tools.ApparitionCreator.EntityApparitionTask" level="trace" additivity="false">
+        <logger name="io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion" level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
-        <logger name="io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion" level="trace" additivity="false">
+        <logger name="io.github.emergentorganization.cellrpg.scenes.game.regions.TimedRegion" level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 

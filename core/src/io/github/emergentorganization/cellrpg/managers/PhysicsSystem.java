@@ -126,7 +126,7 @@ public class PhysicsSystem extends BaseEntitySystem {
         try {
             removeBody(entityId);
         } catch (NullPointerException ex){
-            logger.error("ERR: NullPtr; cannot remove physics body");
+            logger.error("ERR: NullPtr; cannot remove physics body.", ex);
         }
     }
 

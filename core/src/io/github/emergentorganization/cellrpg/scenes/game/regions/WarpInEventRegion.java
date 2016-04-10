@@ -60,6 +60,22 @@ public class WarpInEventRegion extends TimedRegion{
     }
 
     @Override
+    public boolean readyForNextRegion(World world){
+        boolean ret = super.readyForNextRegion(world);
+        if (ret == true){
+            return ret;
+        } else {
+            // check for ready for next region based on game mood
+            int intensity = world.getSystem(MoodSystem.class).scoreIntensityLevelOutOf(3);
+            if (intensity < 2){
+                // if player has reduced mood intensity rating to lower 1/3:
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public iRegion getNextRegion(World world){
         // check for super-class ready for next region
         iRegion ret = super.getNextRegion(world);

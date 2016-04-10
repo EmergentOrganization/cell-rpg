@@ -11,6 +11,7 @@ public abstract class TimedRegion implements iRegion{
     public static final long NEVER_EXPIRE = -1;  // set maxLength to this for infinite region lifespan
 
     public long maxLength;  // max time before switching to next region
+    public long minLength = 3000;  // min time before switching to next region
     private long enterTime;  // time region is entered
 
     private final Logger logger = LogManager.getLogger(getClass());
@@ -23,13 +24,31 @@ public abstract class TimedRegion implements iRegion{
         enterTime = System.currentTimeMillis();
     }
 
+    public boolean readyForNextRegion(World world){
+        // return true if we're ready to move to the next region
+        if (timeExpired()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public iRegion getNextRegion(World world) {
         // return new region if it's time to leave this one, else return null
-        if (timeExpired()) {
-            logger.info("leaving SingleShapeWarpRegion");
+        if (_readyForNextRegion(world)) {
+            logger.info("leaving TimedRegion. Time spent in region:" + getTimeInRegion());
             return _getNextRegion();
         } else {
             return null;
+        }
+    }
+
+    protected boolean _readyForNextRegion(World world){
+        // checks readyForNextRegion and checks result to ensure we aren't trying to move regions too quickly
+        if (readyForNextRegion(world) && getTimeInRegion() > minLength){
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -38,13 +57,15 @@ public abstract class TimedRegion implements iRegion{
         return RegionBuildTool.getNextRegion(this);
     }
 
+    private long getTimeInRegion(){
+        // returns amount of time which has been spent in region
+        return System.currentTimeMillis() - enterTime;
+    }
+
     private boolean timeExpired(){
         // return true if time is up
         long length = maxLength;
         // NOTE: could shorten length here based on player score or other criterion
-
-        long timeSpent = System.currentTimeMillis() - enterTime;
-//        logger.trace("time left in region: " + (length-timeSpent));
-        return timeSpent > length;
+        return getTimeInRegion() > length;
     }
 }

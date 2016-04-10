@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
+import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.ParticleEff;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
@@ -42,10 +43,16 @@ public class ApparitionCreator {
 
     public static void apparateEntity(AssetManager assetManage, RenderSystem rendSys,
                                       EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
-        int delay = getDelay();
+        apparateGivenEntityIn(spawnField._getSpawnableEntity(), getDelay(), assetManage, rendSys, spawnField, pos, bound, ef);
+    }
+
+    public static void apparateGivenEntityIn(EntityID entity, int delay,
+                                             AssetManager assetManage, RenderSystem rendSys,
+                                             EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
+        // apparates given entity after a given delay time
         initWarpInEffects(assetManage, rendSys, pos.getCenter(bound, 0), delay);
         Timer time = new Timer();
-        time.schedule(new EntityApparitionTask(spawnField, pos, bound, ef), delay);
+        time.schedule(new EntityApparitionTask(entity, spawnField, pos, bound, ef), delay);
     }
 
     private static int getDelay(){

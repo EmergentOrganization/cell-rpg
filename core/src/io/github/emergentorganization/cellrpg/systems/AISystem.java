@@ -43,20 +43,24 @@ public class AISystem extends DelayedIteratingSystem {
 
     @Override
     public void processExpired(int entityId) {
-//        logger.trace("running AI for ID#" + entityId);
+        logger.trace("running AI for ID#" + entityId);
         // do AI things with component
 
-        // reset timer
-        AIComponent ai = AICom_m.get(entityId);
-        ai.delay = ai.period;
+        try {
+            // reset timer
+            AIComponent ai = AICom_m.get(entityId);
+            ai.delay = ai.period;
 
-        switch (ai.type) {
-            case DUMBWALK:
-                dumbWalk(entityId);
-                break;
-            case RANDWALK:
-                randWalk(entityId);
-                break;
+            switch (ai.type) {
+                case DUMBWALK:
+                    dumbWalk(entityId);
+                    break;
+                case RANDWALK:
+                    randWalk(entityId);
+                    break;
+            }
+        } catch (NullPointerException ex){
+            logger.error("ERR: cannot process AI:" + ex.getMessage());
         }
     }
 

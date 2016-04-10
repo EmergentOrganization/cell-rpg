@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
+import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
@@ -29,31 +30,40 @@ public class EntitySpawnField extends Component {
 
     public ArrayList<EntityID> entityList = new ArrayList<EntityID>();  // list entity classes that may be spawned
 
-    public int getCollectible(Position entityPos, Bounds entityBounds, EntityFactory entFact) {
+    public int spawnEntity(Position entityPos, Bounds entityBounds, EntityFactory entFact) {
         // gets a random entity from the list, returns the id of entity created.
         // if entity not created returns -1
         sinceLastSpawnCounter = 0;
         if (entityList.size() > 0) {
-            int ent_i = ThreadLocalRandom.current().nextInt(0, entityList.size());
-            EntityID entity = entityList.get(ent_i);
 
-            // TODO: exclude inner radius / bounds?
-            Vector2 pos = entityPos.getCenter(entityBounds, 0).add(
-                    (float) (2 * radius * Math.random() - radius),
-                    (float) (2 * radius * Math.random() - radius)
-            );
-
-            float rotation = 0f;  // TODO: add rotation?
-
-            logger.debug("entity spawned in spawnField");
-            // instantiate one of the entities, return id
-            if (entity != null)
-                return entFact.createEntityByID(entity, pos, rotation);
-            else
-                return -1;
+            return _spawnEntity(_getSpawnableEntity(), entityPos, entityBounds, entFact);
         } else {
             return -1;
         }
+    }
+
+    public EntityID _getSpawnableEntity(){
+        // returns entity from entityList
+        int ent_i = ThreadLocalRandom.current().nextInt(0, entityList.size());
+        return entityList.get(ent_i);
+    }
+
+    public int _spawnEntity(EntityID entity, Position entityPos, Bounds entityBounds, EntityFactory entFact){
+        // spawns entity of given Id
+        // TODO: exclude inner radius / bounds?
+        Vector2 pos = entityPos.getCenter(entityBounds, 0).add(
+                (float) (2 * radius * Math.random() - radius),
+                (float) (2 * radius * Math.random() - radius)
+        );
+
+        float rotation = 0f;  // TODO: add rotation?
+
+        logger.debug("entity spawned in spawnField");
+        // instantiate one of the entities, return id
+        if (entity != null)
+            return entFact.createEntityByID(entity, pos, rotation);
+        else
+            return -1;
     }
 
     public boolean readyForSpawn() {

@@ -22,6 +22,7 @@ public abstract class WorldScene extends BaseScene {
 
     public WorldScene(final PixelonTransmission pt) {
         super(pt);
+        entityFactory = new EntityFactory();
         init(getBaseWorldConfiguration());
         dialogDisplay = new DialogDisplay(stage);
     }
@@ -42,7 +43,6 @@ public abstract class WorldScene extends BaseScene {
 
     public void init(WorldConfiguration baseConfig) {
         batch = new SpriteBatch();
-        entityFactory = new EntityFactory();
         world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, baseConfig);
     }
 

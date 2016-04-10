@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.tools.ApparitionCreator;
 
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
+import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Position;
@@ -18,16 +19,19 @@ public class EntityApparitionTask extends TimerTask {
     Position pos;
     Bounds bound;
     EntityFactory ef;
+    EntityID entityToSpawn;
     EntitySpawnField spawnField;
 
-    public EntityApparitionTask(EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
+    public EntityApparitionTask(EntityID entityToSpawn, EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
         this.spawnField = spawnField;
+        this.entityToSpawn = entityToSpawn;
         this.pos = pos;
         this.bound = bound;
         this.ef = ef;
     }
 
     public void run(){
-        spawnField.getCollectible(pos, bound, ef);
+        logger.debug("spawn ent " + entityToSpawn + " @"+pos + "(s="+bound+") using E.F.=" + ef);
+        spawnField._spawnEntity(entityToSpawn, pos, bound, ef);
     }
 }

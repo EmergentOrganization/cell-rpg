@@ -32,7 +32,6 @@ import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 import io.github.emergentorganization.emergent2dcore.components.*;
-import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

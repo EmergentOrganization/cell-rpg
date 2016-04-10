@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
+import io.github.emergentorganization.emergent2dcore.components.Lifecycle;
 import io.github.emergentorganization.emergent2dcore.components.PhysicsBody;
 import io.github.emergentorganization.emergent2dcore.components.Visual;
 import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
@@ -31,6 +32,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     private ComponentMapper<Visual> vm;
     private ComponentMapper<Bounds> bm;
     private ComponentMapper<PhysicsBody> pm;
+    private ComponentMapper<Lifecycle> lm;
     private HashMap<Integer, Body> bodies;
     private boolean shouldRender = false;
 
@@ -62,13 +64,19 @@ public class PhysicsSystem extends BaseEntitySystem {
         if (!pm.has(entityId))
             throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
 
-        if (bd == null){
-            throw new IllegalArgumentException("cannot create body with null bodyDef");
+        try {
+            Body body = physWorld.createBody(bd);
+            body.setUserData(entityId);
+            return body;
+        } catch(NullPointerException ex){
+            if (bd == null){
+                logger.error("cannot create body with null bodyDef", ex);
+            } else {
+                logger.error("error creating body", ex);
+            }
+            lm.get(entityId).kill();
         }
-
-        Body body = physWorld.createBody(bd);
-        body.setUserData(entityId);
-        return body;
+        return null;
     }
 
     public Body createBoundsBody(int entityId, BodyDef bd, FixtureDef fd) {

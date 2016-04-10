@@ -62,7 +62,7 @@ public class AISystem extends DelayedIteratingSystem {
                     break;
             }
         } catch (NullPointerException ex){
-            logger.error("ERR: cannot process AI:", ex);
+            logger.error("ERR: cannot process AI for ent#" + entityId, ex);
             life_m.get(entityId).kill();
         }
     }

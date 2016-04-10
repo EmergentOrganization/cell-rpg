@@ -41,12 +41,14 @@ public class WarpInEventRegion extends TimedRegion{
     private final Logger logger = LogManager.getLogger(getClass());
 
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
-                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts) {
+                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
+                             int regionNumber) {
         super(expiresIn);
 
         assert entityIDs.length == entityCounts.length;
         assert shapes.length == shapeCounts.length;
 
+        this.regionNumber = regionNumber;
         this.entityFactory = entityFactory;
         this.entityIDs = entityIDs;
         this.entityCounts = entityCounts;
@@ -54,6 +56,11 @@ public class WarpInEventRegion extends TimedRegion{
         this.shapeCounts = shapeCounts;
 
         scene = parentScene;
+    }
+
+    public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
+                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts){
+        this(parentScene,entityFactory,expiresIn,entityIDs,entityCounts,shapes,shapeCounts,0);
     }
 
     public void loadRegion(World world) {
@@ -66,31 +73,13 @@ public class WarpInEventRegion extends TimedRegion{
             return ret;
         } else {
             // check for ready for next region based on game mood
-            int intensity = world.getSystem(MoodSystem.class).scoreIntensityLevelOutOf(3);
+            int intensity = world.getSystem(MoodSystem.class).scoreIntensityLevelOutOf(10);
             if (intensity < 2){
-                // if player has reduced mood intensity rating to lower 1/3:
+                // if player has reduced mood intensity rating (by killing or running from enemies):
                 return true;
             }
         }
         return false;
-    }
-
-    @Override
-    public iRegion getNextRegion(World world){
-        // check for super-class ready for next region
-        iRegion ret = super.getNextRegion(world);
-        if (ret != null){
-            return ret;
-        } else {
-            // check for ready for next region based on game mood
-            int intensity = world.getSystem(MoodSystem.class).scoreIntensityLevelOutOf(3);
-            if (intensity < 2){
-                // TODO: if player has reduced mood intensity rating to lower 1/3:
-//                logger.debug("moving to next WarpIn region: game intensity too low.");
-//                return _getNextRegion();
-            }
-        }
-        return null;
     }
 
     @Override
@@ -146,7 +135,7 @@ public class WarpInEventRegion extends TimedRegion{
                 shapeCounts = new int[]{5, 10, 10, 10, 10};
         }
 
-        return new WarpInEventRegion(scene, entityFactory, 10*1000, ents, entCounts, shapes, shapeCounts);
+        return new WarpInEventRegion(scene, entityFactory, maxLength, ents, entCounts, shapes, shapeCounts, regionNumber+1);
     }
 
 }

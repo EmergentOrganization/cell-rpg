@@ -56,8 +56,9 @@ public class Arcade extends WorldScene {
         int[] entCounts = {3};
         int[][][] shapes = {CGoLShapeConsts.BLINKER_H, CGoLShapeConsts.BLINKER_V};
         int[] shapeCounts = {3, 3};
+        int maxTimeInRegion = 3*60*1000;  // max time before region moves ahead anyway [ms]
         wc.setSystem(new LeveledRegionSwitcher(new WarpInEventRegion(
-                this, entityFactory, 10*1000, ents, entCounts, shapes, shapeCounts
+                this, entityFactory, maxTimeInRegion, ents, entCounts, shapes, shapeCounts
         )));
 //        // for using SingleShapeWarp and SingleEntityWarp Regions:
 //        wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(

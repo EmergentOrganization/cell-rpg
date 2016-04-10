@@ -111,7 +111,7 @@ public class DGRN {
                 logger.trace("inflow " + node + " set to " + newValue);
                 setNodeAttributeValue(getNode(node), ACTIVATION_VALUE_ID, Integer.toString(newValue));
             } catch (KeySelectorException err) {
-                logger.error("inflow node '" + node + "' attr '" + ACTIVATION_VALUE_ID + "' not set; not found!");
+                logger.error("inflow node '" + node + "' attr '" + ACTIVATION_VALUE_ID + "' not set; not found!", err);
             }
         }
     }
@@ -178,7 +178,7 @@ public class DGRN {
                 return false;
             }
         } catch (IllegalStateException ex) {
-            logger.error(edge.getSource().getId() + "->" + edge.getTarget().getId() + " has no weight? : " + ex.getMessage());
+            logger.error(edge.getSource().getId() + "->" + edge.getTarget().getId() + " has no weight? : ", ex);
             return false; //throw ex;
         }
     }
@@ -209,7 +209,7 @@ public class DGRN {
             } catch (KeySelectorException err) {
                 logger.error(edge.getSource().getId() +
                         " or " + edge.getTarget().getId() +
-                        " node has no activation value attribute. attempting to add it.");
+                        " node has no activation value attribute. attempting to add it.", err);
                 edge.getSource().getAttributeValues().addValue(attr_ActivationValue, "0");
                 edge.getTarget().getAttributeValues().addValue(attr_ActivationValue, "0");
                 return;
@@ -230,7 +230,7 @@ public class DGRN {
                 );
                 handleOutputNodes.handleOutputNode(key, nodeUpdates.get(key));
             } catch (KeySelectorException err) {
-                logger.error("node not found for key:" + key);
+                logger.error("node not found for key:" + key, err);
             }
         }
         primeInflowNodes();
@@ -307,7 +307,7 @@ public class DGRN {
                         logger.trace("    not inherited");
                     }
                 } catch (KeySelectorException err) {
-                    logger.error("failed to inherit " + node.getId() + " gene: " + err.getMessage());
+                    logger.error("failed to inherit " + node.getId() + " gene: ", err);
                 }
             }
         }

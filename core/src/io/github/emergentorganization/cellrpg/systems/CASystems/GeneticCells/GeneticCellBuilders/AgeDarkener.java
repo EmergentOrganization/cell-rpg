@@ -24,7 +24,7 @@ public class AgeDarkener implements GeneticNetworkBuilderInterface {
             dgrn.connect(lightener.getId(), GeneticCell.outflowNodes.COLOR_DARKEN, 1);
 
         } catch (KeySelectorException err) {
-            logger.error("nodes failed to insert in building mock network: " + err.getMessage());
+            logger.error("nodes failed to insert in building mock network: ", err);
         }
 
     }

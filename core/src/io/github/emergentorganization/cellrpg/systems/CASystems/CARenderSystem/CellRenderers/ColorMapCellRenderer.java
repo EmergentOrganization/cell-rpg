@@ -27,7 +27,7 @@ public class ColorMapCellRenderer implements iCellRenderer {
             }
         } catch (ArrayIndexOutOfBoundsException ex) {
             // catch any out-of-bounds and ignore
-            logger.error("ERR: colorMap out of bounds: " + ex.getMessage());
+            logger.error("ERR: colorMap out of bounds: ", ex);
         }
     }
 }

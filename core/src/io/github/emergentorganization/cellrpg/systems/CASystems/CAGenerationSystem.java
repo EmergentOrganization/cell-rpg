@@ -178,7 +178,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
                 Thread.currentThread().stop();
                 return;
             } catch (Exception ex) {
-                logger.error("error running CA generation thread: " + ex.getMessage());
+                logger.error("error running CA generation thread: ", ex);
                 Thread.currentThread().stop();
                 return;
             }

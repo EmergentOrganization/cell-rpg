@@ -46,7 +46,7 @@ public class CellAlpha implements GeneticNetworkBuilderInterface {
             dgrn.connect(GeneticCell.inflowNodes.ALWAYS_ON, GeneticCell.outflowNodes.COLOR_ADD_G, 1);
 
         } catch (KeySelectorException err) {
-            logger.error("nodes failed to insert in building mock network: " + err.getMessage());
+            logger.error("nodes failed to insert in building mock network: ", err);
         }
 
     }

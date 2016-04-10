@@ -33,7 +33,7 @@ public class ProfileLogger {
                             + "\n"
             );
         } catch (IOException ex) {
-            logger.error("profileLog write exception: " + ex.getMessage());
+            logger.error("profileLog write exception: ", ex);
         } finally {
             try {writer.close();} catch (Exception ex) {/*ignore*/}
         }

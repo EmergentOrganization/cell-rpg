@@ -27,7 +27,7 @@ public class MrRed implements GeneticNetworkBuilderInterface {
             //dgrn.connect(GeneticCell.inflowNodes.CROWDED, GeneticCell.outflowNodes.COLOR_ADD_R, 1);
 
         } catch (KeySelectorException err) {
-            logger.error("nodes failed to insert in building mock network: " + err.getMessage());
+            logger.error("nodes failed to insert in building mock network: ", err);
         }
 
     }

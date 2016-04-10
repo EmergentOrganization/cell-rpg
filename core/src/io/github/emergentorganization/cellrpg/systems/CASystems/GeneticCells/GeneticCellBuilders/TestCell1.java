@@ -25,7 +25,7 @@ public class TestCell1 implements GeneticNetworkBuilderInterface {
             dgrn.connect(GeneticCellTest.TEST_INNER_NODE_ID_1, GeneticCell.outflowNodes.COLOR_LIGHTEN, 2);
 
         } catch (KeySelectorException err) {
-            logger.error("nodes failed to insert in building mock network: " + err.getMessage());
+            logger.error("nodes failed to insert in building mock network: ", err);
         }
 
     }

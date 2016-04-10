@@ -5,6 +5,7 @@ import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.github.emergentorganization.cellrpg.scenes.game.HUD.DebugDisplay;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
@@ -16,6 +17,7 @@ import io.github.emergentorganization.cellrpg.scenes.game.HUD.DialogDisplay;
  */
 public abstract class WorldScene extends BaseScene {
     public DialogDisplay dialogDisplay;
+    public DebugDisplay debugDisplay;
     protected World world;
     protected SpriteBatch batch;
     protected EntityFactory entityFactory;
@@ -25,6 +27,8 @@ public abstract class WorldScene extends BaseScene {
         entityFactory = new EntityFactory();
         init(getBaseWorldConfiguration());
         dialogDisplay = new DialogDisplay(stage);
+        debugDisplay = new DebugDisplay(world, stage);
+
     }
 
     /* ================================================================== */
@@ -53,6 +57,7 @@ public abstract class WorldScene extends BaseScene {
         world.setDelta(delta);
         world.process();
         dialogDisplay.update(delta);
+        debugDisplay.update(delta);
     }
 
     @Override

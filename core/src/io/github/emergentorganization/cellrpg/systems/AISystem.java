@@ -32,12 +32,14 @@ public class AISystem extends DelayedIteratingSystem {
      */
     @Override
     protected float getRemainingDelay(int entityId) {
-        return AICom_m.get(entityId).delay;
+        float res = AICom_m.get(entityId).delay;
+        logger.trace(res + "s delay remaining for ent#" + entityId);
+        return res;
     }
 
     @Override
     public void processDelta(int entityId, float delt) {
-//        logger.trace("process delt " + delt + " ID:" + entityId);
+        logger.trace("process delt " + delt + " ID:" + entityId);
         AICom_m.get(entityId).delay -= delt;
     }
 
@@ -45,12 +47,8 @@ public class AISystem extends DelayedIteratingSystem {
     public void processExpired(int entityId) {
         logger.trace("running AI for ID#" + entityId);
         // do AI things with component
-
+        AIComponent ai = AICom_m.get(entityId);
         try {
-            // reset timer
-            AIComponent ai = AICom_m.get(entityId);
-            ai.delay = ai.period;
-
             switch (ai.type) {
                 case DUMBWALK:
                     dumbWalk(entityId);
@@ -68,6 +66,8 @@ public class AISystem extends DelayedIteratingSystem {
             logger.error("ERR: cannot process AI for ent#" + entityId, ex);
             life_m.get(entityId).kill();
         }
+        ai.delay = ai.period;
+        super.offerDelay(ai.period);
     }
 
     private void chase(int entityId){

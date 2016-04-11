@@ -4,9 +4,9 @@ import com.artemis.Component;
 import com.artemis.Entity;
 
 public class AIComponent extends Component {
-    public float period = 1;  // Time between AI runs [s]
+    public float period = 1f;  // Time between AI runs [s]
     public aiType type;
-    public float delay = 1;  // timer for tracking period [s]
+    public float delay = 1f;  // timer for tracking period [s]
 
     public Entity target;  // target entity (eg who to chase)
 

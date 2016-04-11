@@ -128,6 +128,12 @@ public class WarpInEventRegion extends TimedRegion{
 
         switch (regionNumber){
             case 0:
+                ents = new EntityID[]{EntityID.PONDBOMB};
+                entCounts = new int[]{1};
+                shapes = new int[][][]{};
+                shapeCounts = new int[]{};
+                break;
+            case 1:
                 ents = new EntityID[]{EntityID.TUBSNAKE};
                 entCounts = new int[]{3};
                 shapes = new int[][][]{CGoLShapeConsts.BLINKER_H, CGoLShapeConsts.BLINKER_V};

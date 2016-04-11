@@ -6,7 +6,7 @@ filter: Nearest,Nearest
 repeat: none
 game/bullet
   rotate: false
-  xy: 170, 75
+  xy: 512, 75
   size: 15, 15
   orig: 15, 15
   offset: 0, 0
@@ -132,28 +132,182 @@ game/player-ammo/50p
   index: -1
 game/player-ammo/75p
   rotate: false
-  xy: 4004, 3946
+  xy: 4004, 3607
   size: 10, 10
   orig: 10, 10
   offset: 0, 0
   index: -1
+game/pond-bomb/0
+  rotate: false
+  xy: 4004, 3948
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/1
+  rotate: false
+  xy: 4046, 3988
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/10
+  rotate: false
+  xy: 4004, 3820
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/11
+  rotate: false
+  xy: 298, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/12
+  rotate: false
+  xy: 4004, 3788
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/13
+  rotate: false
+  xy: 330, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/14
+  rotate: false
+  xy: 4004, 3756
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/15
+  rotate: false
+  xy: 362, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/16
+  rotate: false
+  xy: 4004, 3724
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/17
+  rotate: false
+  xy: 394, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/18
+  rotate: false
+  xy: 4004, 3692
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/19
+  rotate: false
+  xy: 426, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/2
+  rotate: false
+  xy: 128, 22
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/20
+  rotate: false
+  xy: 4004, 3660
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/21
+  rotate: false
+  xy: 458, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/3
+  rotate: false
+  xy: 170, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/4
+  rotate: false
+  xy: 4004, 3916
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/5
+  rotate: false
+  xy: 202, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/6
+  rotate: false
+  xy: 4004, 3884
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/7
+  rotate: false
+  xy: 234, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/8
+  rotate: false
+  xy: 4004, 3852
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/9
+  rotate: false
+  xy: 266, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
 game/powerup-plus
   rotate: false
-  xy: 4004, 3958
+  xy: 4004, 3638
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 game/powerup-star
   rotate: false
-  xy: 4046, 3998
+  xy: 490, 70
   size: 20, 20
   orig: 20, 20
   offset: 0, 0
   index: -1
 game/tubsnake
   rotate: false
-  xy: 128, 35
+  xy: 4004, 3619
   size: 17, 17
   orig: 17, 17
   offset: 0, 0

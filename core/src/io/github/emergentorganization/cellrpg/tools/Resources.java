@@ -76,6 +76,7 @@ public class Resources {
     public static final List<String> ANIM_PLAYER_SHIELD;
     public static final List<String> ANIM_CIV1_BLINKER;
     public static final List<String> ANIM_VYRAPUFFER;
+    public static final List<String> ANIM_PONDBOMB;
     static{
         // ANIM_PLAYER
         String prefix = DIR_IMG_GAME + EntityID.PLAYER + "/";
@@ -115,6 +116,14 @@ public class Resources {
         vyrapufferAnim.add(prefix + "1");
         vyrapufferAnim.add(prefix + "2");
         ANIM_VYRAPUFFER = Collections.unmodifiableList(vyrapufferAnim);
+
+        prefix = DIR_IMG_GAME + EntityID.PONDBOMB.toString() + "/";
+        ArrayList<String> pondBombAnim = new ArrayList<String>();
+        for (int i = 0; i < 22; i++){
+            pondBombAnim.add(prefix + Integer.toString(i));
+        }
+        ANIM_PONDBOMB = Collections.unmodifiableList(pondBombAnim);
+
     }
 
 

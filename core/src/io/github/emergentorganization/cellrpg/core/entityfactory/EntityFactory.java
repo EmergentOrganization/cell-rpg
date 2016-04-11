@@ -205,8 +205,8 @@ public class EntityFactory {
         final float speed = 10f;
         final Entity bulletEntity = new EntityBuilder(world, this.bullet, "Bullet", EntityID.BULLET.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_BULLET)
-                        .renderIndex(RenderIndex.BULLET)
+                                .texture(Resources.TEX_BULLET)
+                                .renderIndex(RenderIndex.BULLET)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyFriction(0.0001f)
@@ -297,7 +297,7 @@ public class EntityFactory {
                                 .texture(Resources.TEX_BLDG_LRG_ONE)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                        .bodyType(BodyDef.BodyType.StaticBody)
+                                .bodyType(BodyDef.BodyType.StaticBody)
                 )
                 .angle(angleDeg)
                 .build();
@@ -351,7 +351,7 @@ public class EntityFactory {
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Vyroid Beacon", EntityID.VYROID_BEACON.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.TEX_VYROID_BEACON)
+                                .texture(Resources.TEX_VYROID_BEACON)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -488,6 +488,28 @@ public class EntityFactory {
         return ent.getId();
     }
 
+    public int createPondBomb(Vector2 pos) {
+        Entity ent = new EntityBuilder(world, npc, "pond still life which chases player", EntityID.PONDBOMB.toString(), pos)
+                .addBuilder(new VisualBuilder()
+                                .animation(Resources.ANIM_PONDBOMB, Animation.PlayMode.LOOP, .1f)
+                                .renderIndex(RenderIndex.NPC)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                                .bodyFriction(.5f)
+                )
+                .addBuilder(new HealthBuilder(1))
+                .addBuilder(new InputBuilder()
+                                .speed(.2f)
+                )
+                .addBuilder(new AIComponentBuilder(AIComponent.aiType.RANDWALK)
+                                .AIPeriod(.1f)
+                )
+                .build()
+                ;
+
+        return ent.getId();
+    }
+
     public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
         switch (id) {
             case BULLET:
@@ -512,6 +534,8 @@ public class EntityFactory {
                 return createVyrapuffer(pos);
             case TUBSNAKE:
                 return createTubSnake(pos);
+            case PONDBOMB:
+                return createPondBomb(pos);
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
             case INVISIBLE_WALL:

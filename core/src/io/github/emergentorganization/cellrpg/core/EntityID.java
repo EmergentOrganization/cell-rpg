@@ -12,7 +12,7 @@ public enum EntityID {
     BUILDING_LARGE_ONE, BUILDING_ROUND_ONE,
     RIFT_ONE, RIFT_TWO, VYROID_BEACON,
     CIV_ONE_BLINKER,
-    VYRAPUFFER, TUBSNAKE,
+    VYRAPUFFER, TUBSNAKE,PONDBOMB,
     THE_EDGE, BG_ARCADE, INVISIBLE_WALL,
     POWERUP_PLUS, POWERUP_STAR,
     CA_LAYER_VYROIDS, CA_LAYER_ENERGY, CA_LAYER_GENETIC;
@@ -32,6 +32,7 @@ public enum EntityID {
 
         map.put(VYRAPUFFER, "vyrapuffer");
         map.put(TUBSNAKE, "tubsnake");
+        map.put(PONDBOMB, "pond-bomb");
 
         map.put(POWERUP_PLUS, "powerup-plus");
         map.put(POWERUP_STAR, "powerup-star");

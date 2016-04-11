@@ -121,23 +121,29 @@ public class WarpInEventRegion extends TimedRegion{
     }
 
     private iRegion getNextWarpIn(){
-        EntityID[] ents;
-        int[] entCounts;
-        int[][][] shapes;
-        int[] shapeCounts;
+        EntityID[] ents = new EntityID[]{};
+        int[] entCounts = new int[]{};
+        int[][][] shapes= new int[][][]{};
+        int[] shapeCounts=new int[]{};
 
         switch (regionNumber){
             case 0:
                 ents = new EntityID[]{EntityID.PONDBOMB};
-                entCounts = new int[]{1};
-                shapes = new int[][][]{};
-                shapeCounts = new int[]{};
+                entCounts = new int[]{10};
                 break;
             case 1:
                 ents = new EntityID[]{EntityID.TUBSNAKE};
                 entCounts = new int[]{3};
                 shapes = new int[][][]{CGoLShapeConsts.BLINKER_H, CGoLShapeConsts.BLINKER_V};
                 shapeCounts = new int[]{3, 3};
+                break;
+            case 2:
+                ents = new EntityID[]{EntityID.PONDBOMB, EntityID.TUBSNAKE};
+                entCounts = new int[]{10, 2};
+                break;
+            case 3:
+                ents = new EntityID[]{EntityID.VYRAPUFFER};
+                entCounts = new int[]{1};
                 break;
             default:
                 ents = new EntityID[]{EntityID.TUBSNAKE, EntityID.VYRAPUFFER};

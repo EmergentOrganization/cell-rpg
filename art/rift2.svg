@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   inkscape:export-filename="C:\Users\7yl4r\Documents\cell-rpg\android\assets\rift2.png"
+   inkscape:export-xdpi="113.03905"
+   inkscape:export-ydpi="113.03905"
+   sodipodi:docname="rift2.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="383.29293"
+     inkscape:cy="837.25858"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1366"
+     inkscape:window-height="746"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:1.38415408px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 179.87635,138.52046 7.82947,8.9686 10.68264,-0.49758 16.58794,2.52147 15.20561,2.31133 10.74344,3.75448 8.02306,-1.609 11.70551,6.72926 12.85294,-5.47119 12.65933,5.1064 9.98321,-5.20026 8.75288,5.21972 12.39402,-9.43017 11.11383,17.59986 27.59963,-7.11883 16.41647,10.62744 21.53676,-9.10113 7.37054,5.0096 6.10715,-2.96091 16.23676,14.13579 11.55085,-20.16535 28.33773,4.3075 14.3126,8.18623 19.03473,-11.24928 12.37456,9.3059 29.05395,-25.99038 14.6747,17.43401 15.24719,-18.89634 17.25699,5.09813 -17.92602,-7.67479 -13.03264,8.97953 -19.95791,-29.19767 -18.27718,3.93953 -15.19467,18.55077 -10.24026,-4.73868 -21.78528,-40.436029 -12.26416,22.531909 -53.66759,8.81342 -14.20194,-20.54426 -19.30858,36.31091 -16.12344,-10.22932 -23.88941,1.3186 -16.40262,-17.69668 -23.96141,20.40028 -10.5776,-0.19358 -4.37921,3.22357 -7.2351,-3.57474 -6.50526,3.25396 -10.07441,-1.17781 -7.75214,4.47872 -9.41364,-3.19878 -12.32763,2.01537 -12.23083,-3.27343 -5.81409,3.35904 -8.45156,-0.224 -5.31092,2.37482 -10.72131,-6.22608 z"
+       id="path4147"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="113.21122"
+       inkscape:export-ydpi="113.21122"
+       inkscape:export-filename="C:\Users\7yl4r\Documents\cell-rpg\android\assets\rift2.png" />
+  </g>
+</svg>

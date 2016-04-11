@@ -91,7 +91,7 @@ public class AISystem extends DelayedIteratingSystem {
         InputComponent input = inCom_m.get(entityId);
         input.moveState = MoveState.PATH_FOLLOW;
         // rand -1, 0, 1
-        int choice = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+        int choice = ThreadLocalRandom.current().nextInt(0, 3 + 1);
         float x = 0, y = 0;
         switch (choice) {
             case 0:
@@ -106,9 +106,11 @@ public class AISystem extends DelayedIteratingSystem {
             case 3:
                 y = -1;
                 break;
+            default:
+                throw new IllegalStateException("illegal random int in randWalk");
         }
 
-        input.direction.set(new Vector2(x, y));
+        input.direction.add(x, y).nor();
     }
 
     private void dumbWalk(int entityId) {

@@ -9,6 +9,7 @@ import io.github.emergentorganization.cellrpg.components.AIComponent;
 public class AIComponentBuilder extends BaseComponentBuilder {
     private AIComponent.aiType AIType;
     private float AIPeriod = 1f;
+    private Entity AITarget;
 
     public AIComponentBuilder(AIComponent.aiType aiType) {
         super(Aspect.all(AIComponent.class), 0);
@@ -21,6 +22,11 @@ public class AIComponentBuilder extends BaseComponentBuilder {
         return this;
     }
 
+    public AIComponentBuilder AITarget(Entity target){
+        AITarget = target;
+        return this;
+    }
+
     @Override
     public void build(Entity entity) {
         super.build(entity);
@@ -28,6 +34,7 @@ public class AIComponentBuilder extends BaseComponentBuilder {
         AIComponent ai = entity.getComponent(AIComponent.class);
         ai.type = AIType;
         ai.period = AIPeriod;
+        ai.target = AITarget;
     }
 
     @Override

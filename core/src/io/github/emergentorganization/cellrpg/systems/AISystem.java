@@ -6,11 +6,10 @@ import com.artemis.annotations.Profile;
 import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.AIComponent;
+import io.github.emergentorganization.cellrpg.components.ComponentTestSuite;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.emergent2dcore.components.InputComponent;
-import io.github.emergentorganization.emergent2dcore.components.Lifecycle;
-import io.github.emergentorganization.emergent2dcore.components.Rotation;
+import io.github.emergentorganization.emergent2dcore.components.*;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +23,7 @@ public class AISystem extends DelayedIteratingSystem {
     ComponentMapper<InputComponent> inCom_m;
     ComponentMapper<Rotation> rot_m;
     ComponentMapper<Lifecycle> life_m;
+    ComponentMapper<Position> pos_m;
 
     public AISystem() {
         super(Aspect.all(AIComponent.class, InputComponent.class, Rotation.class, Lifecycle.class));
@@ -60,11 +60,32 @@ public class AISystem extends DelayedIteratingSystem {
                 case RANDWALK:
                     randWalk(entityId);
                     break;
+                case CHASE:
+                    chase(entityId);
+                    break;
+                default:
+                    logger.error("AI type not recognized for ent#" + entityId);
             }
         } catch (NullPointerException ex){
             logger.error("ERR: cannot process AI for ent#" + entityId, ex);
             life_m.get(entityId).kill();
         }
+    }
+
+    private void chase(int entityId){
+        // chases targetEntity
+        Vector2 targPos;
+        try {
+            AIComponent AIC = AICom_m.get(entityId);
+            targPos = AIC.target.getComponent(Position.class).position;
+        } catch (NullPointerException ex){
+            logger.error("chase entity not set or does not have position for ent#" + entityId, ex);
+            return;
+        }
+        InputComponent input = inCom_m.get(entityId);
+        input.moveState = MoveState.PATH_FOLLOW;
+
+        input.direction.set(targPos.cpy().sub(pos_m.get(entityId).position));
     }
 
     private void randWalk(int entityId) {

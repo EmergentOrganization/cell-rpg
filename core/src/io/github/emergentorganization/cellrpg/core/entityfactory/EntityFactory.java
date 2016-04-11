@@ -489,6 +489,7 @@ public class EntityFactory {
     }
 
     public int createPondBomb(Vector2 pos) {
+        Entity playerEnt = tagManager.getEntity(Tags.PLAYER);
         Entity ent = new EntityBuilder(world, npc, "pond still life which chases player", EntityID.PONDBOMB.toString(), pos)
                 .addBuilder(new VisualBuilder()
                                 .animation(Resources.ANIM_PONDBOMB, Animation.PlayMode.LOOP, .1f)
@@ -499,10 +500,11 @@ public class EntityFactory {
                 )
                 .addBuilder(new HealthBuilder(1))
                 .addBuilder(new InputBuilder()
-                                .speed(.2f)
+                                .speed(1.2f)
                 )
-                .addBuilder(new AIComponentBuilder(AIComponent.aiType.RANDWALK)
+                .addBuilder(new AIComponentBuilder(AIComponent.aiType.CHASE)
                                 .AIPeriod(.1f)
+                                .AITarget(playerEnt)
                 )
                 .build()
                 ;

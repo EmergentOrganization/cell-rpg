@@ -34,7 +34,8 @@ public class WarpInEventRegion extends TimedRegion{
     int[] entityCounts;
     int[][][] shapes;
     int[] shapeCounts;
-    int warpDuration = 3;  // duration of warp-in (time across which warp-ins will start)
+    int minWarpDuration = 1*1000; // min time to warp-in [s]
+    int maxWarpDuration = 5*1000;  // duration of warp-in (time across which warp-ins will start) [s]
     public int regionNumber = 0;
     EntityFactory entityFactory;
 
@@ -60,7 +61,7 @@ public class WarpInEventRegion extends TimedRegion{
 
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
                              EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts){
-        this(parentScene,entityFactory,expiresIn,entityIDs,entityCounts,shapes,shapeCounts,0);
+        this(parentScene, entityFactory, expiresIn, entityIDs, entityCounts, shapes, shapeCounts, 0);
     }
 
     public void loadRegion(World world) {
@@ -103,10 +104,12 @@ public class WarpInEventRegion extends TimedRegion{
     }
 
     private void scheduleEntityWarps(Entity target, EntityID entity, int amount, World world){
-        logger.trace("warping in " + amount + " " + entity.toString() + "(s) in next " + warpDuration + "s");
+        logger.trace("warping in " + amount + " " + entity.toString() + "(s) in next " + maxWarpDuration + "s");
         for (int i = 0; i < amount; i++) {
-            int delay = 0; // TODO: get random delay btwn 0-warpDuration
-            ApparitionCreator.apparateGivenEntityIn(entity, delay, world.getSystem(AssetManager.class), world.getSystem(RenderSystem.class),
+            int delay = ApparitionCreator.getDelay(minWarpDuration, maxWarpDuration);
+
+            ApparitionCreator.apparateGivenEntityIn(entity, delay, world.getSystem(AssetManager.class),
+                                               world.getSystem(RenderSystem.class),
                                                target.getComponent(EntitySpawnField.class),
                                                target.getComponent(Position.class),
                                                target.getComponent(Bounds.class), entityFactory);

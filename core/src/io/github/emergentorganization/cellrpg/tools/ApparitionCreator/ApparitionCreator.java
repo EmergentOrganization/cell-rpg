@@ -56,10 +56,12 @@ public class ApparitionCreator {
     }
 
     private static int getDelay(){
-        int minDelay = 2000;
-        int maxDelay = 10000;
+        return getDelay(2000, 10000);
+    }
+
+    public static int getDelay(final int min, final int max){
         // TODO: get delay from TimingSystem (which should be broken out from MusicSystem)
-        return minDelay + rand.nextInt((maxDelay - minDelay) + 1);
+        return min + rand.nextInt((max - min) + 1);
     }
 
     private static void initWarpInEffects(AssetManager assMan,RenderSystem renderSystem, Vector2 pos, int duration){

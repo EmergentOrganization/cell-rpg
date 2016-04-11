@@ -41,6 +41,10 @@ public class WarpInEventRegion extends TimedRegion{
 
     private final Logger logger = LogManager.getLogger(getClass());
 
+    public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn){
+        this(parentScene, entityFactory, expiresIn, new EntityID[]{}, new int[]{}, new int[][][]{}, new int[]{}, 0);
+    }
+
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
                              EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
                              int regionNumber) {

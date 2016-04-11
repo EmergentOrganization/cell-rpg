@@ -11,7 +11,7 @@ public abstract class TimedRegion implements iRegion{
     public static final long NEVER_EXPIRE = -1;  // set maxLength to this for infinite region lifespan
 
     public long maxLength;  // max time before switching to next region
-    public long minLength = 3000;  // min time before switching to next region
+    public long minLength = 7*1000;  // min time before switching to next region
     private long enterTime;  // time region is entered
 
     private final Logger logger = LogManager.getLogger(getClass());

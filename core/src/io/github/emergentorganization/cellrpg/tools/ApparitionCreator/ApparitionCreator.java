@@ -50,9 +50,10 @@ public class ApparitionCreator {
                                              AssetManager assetManage, RenderSystem rendSys,
                                              EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
         // apparates given entity after a given delay time
-        initWarpInEffects(assetManage, rendSys, pos.getCenter(bound, 0), delay);
+        Vector2 spawnPos = spawnField.getSpawnPosition(pos, bound);
+        initWarpInEffects(assetManage, rendSys, spawnPos, delay);
         Timer time = new Timer();
-        time.schedule(new EntityApparitionTask(entity, spawnField, pos, bound, ef), delay);
+        time.schedule(new EntityApparitionTask(entity, spawnField, spawnPos, ef), delay);
     }
 
     private static int getDelay(){

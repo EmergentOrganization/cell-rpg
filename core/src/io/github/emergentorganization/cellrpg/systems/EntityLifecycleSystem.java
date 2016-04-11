@@ -58,7 +58,7 @@ public class EntityLifecycleSystem extends IteratingSystem {
             killEntity(EntityId, true);
             return;
 
-            // kill if too far away from player (maxDistance < 0 excluded)
+        // kill if too far away from player (maxDistance < 0 excluded)
         } else if (playerPosComp != null && maxDistance > 0) {
             Vector2 playerPos = playerPosComp.position;  // ideally use center, but this is close enough.
             if (pos.cpy().sub(playerPos).len() > maxDistance) {

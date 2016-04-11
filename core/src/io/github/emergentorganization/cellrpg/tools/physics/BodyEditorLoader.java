@@ -209,7 +209,11 @@ public class BodyEditorLoader {
     }
 
     private Vector2 newVec() {
-        return vectorPool.isEmpty() ? new Vector2() : vectorPool.remove(0);
+        try {  // use try/catch here since mutlithread behavior is a bit unpredictable
+            return vectorPool.remove(0);
+        } catch(IndexOutOfBoundsException ex){
+            return new Vector2();
+        }
     }
 
     private void free(Vector2 v) {

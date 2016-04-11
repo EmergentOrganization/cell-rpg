@@ -282,6 +282,7 @@ public class CAGridComponents extends Component {
 
     private void checkCellSize(int size) {
         // checks that given size is acceptable, else throws error
+        // TODO: appropriate sizes are incorrect here... should be 1, 5, 17, 53...
         if (size == 1) {
             return;
         } else {

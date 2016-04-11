@@ -41,8 +41,13 @@ public class WarpInEventRegion extends TimedRegion{
 
     private final Logger logger = LogManager.getLogger(getClass());
 
+    public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
+                             int regionNumber){
+        this(parentScene, entityFactory, expiresIn, new EntityID[]{}, new int[]{}, new int[][][]{}, new int[]{},
+                regionNumber);
+    }
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn){
-        this(parentScene, entityFactory, expiresIn, new EntityID[]{}, new int[]{}, new int[][][]{}, new int[]{}, 0);
+        this(parentScene, entityFactory, expiresIn, 0);
     }
 
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
@@ -127,6 +132,10 @@ public class WarpInEventRegion extends TimedRegion{
         int[] shapeCounts=new int[]{};
 
         switch (regionNumber){
+            case -1:  // test region; 0 is typical starting wave
+                ents = new EntityID[]{EntityID.PONDBOMB, EntityID.TUBSNAKE, EntityID.VYRAPUFFER, EntityID.GOSPER};
+                entCounts = new int[]{1                , 1                , 1                  , 1};
+                break;
             case 0:
                 ents = new EntityID[]{EntityID.PONDBOMB};
                 entCounts = new int[]{10};

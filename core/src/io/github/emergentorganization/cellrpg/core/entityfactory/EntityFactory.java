@@ -508,6 +508,42 @@ public class EntityFactory {
                 )
                 .build()
                 ;
+        return ent.getId();
+    }
+
+    public int createGosper(Vector2 pos) {
+        Entity playerEnt = tagManager.getEntity(Tags.PLAYER);
+        Entity ent = new EntityBuilder(world, npc, "glider gun that shoots @ target", EntityID.GOSPER.toString(), pos)
+                .angle(90)
+                .addBuilder(new VisualBuilder()
+                                .animation(Resources.ANIM_GOSPER, Animation.PlayMode.LOOP, .1f)
+                                .renderIndex(RenderIndex.NPC)
+                )
+                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
+                                .bodyFriction(1f)
+                )
+                .addBuilder(new HealthBuilder(5))
+                .addBuilder(new InputBuilder()
+                                .speed(0f)
+                )
+                .addBuilder(new AIComponentBuilder(AIComponent.aiType.RANDWALK)
+                                .AIPeriod(.5f)
+                                .AITarget(playerEnt)
+                )
+                .build()
+        ;
+
+        CAInteractionList interactList = ent.getComponent(CAInteractionList.class);
+        Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
+        interactList
+                .addInteraction(
+                        vyroidLayer.getId(),
+                        new CAInteraction()
+                                .addCollisionImpactStamp(0, CGoLShapeConsts.GOSPER_DOWN_RIGHT, vyroidLayer.getId())
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.GOSPER_DOWN_RIGHT, vyroidLayer.getId())
+                )
+                .setColliderRadius(1)
+        ;
 
         return ent.getId();
     }
@@ -538,6 +574,8 @@ public class EntityFactory {
                 return createTubSnake(pos);
             case PONDBOMB:
                 return createPondBomb(pos);
+            case GOSPER:
+                return createGosper(pos);
             case THE_EDGE:
                 return createBackgroundTheEdge(pos);
             case INVISIBLE_WALL:

@@ -360,51 +360,107 @@ game/environment/the_edge
   orig: 4000, 3000
   offset: 0, 0
   index: -1
+game/gosper/0
+  rotate: false
+  xy: 1386, 287
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/1
+  rotate: false
+  xy: 1900, 601
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/2
+  rotate: false
+  xy: 2202, 907
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/3
+  rotate: false
+  xy: 1386, 190
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/4
+  rotate: false
+  xy: 1900, 504
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/5
+  rotate: false
+  xy: 2202, 810
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/6
+  rotate: false
+  xy: 2489, 907
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/7
+  rotate: false
+  xy: 1386, 93
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
 game/shield/100p
   rotate: false
-  xy: 1386, 146
+  xy: 2202, 708
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/25p
   rotate: false
-  xy: 1538, 282
+  xy: 2052, 402
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/50p
   rotate: false
-  xy: 1900, 460
+  xy: 2304, 708
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/shield/75p
   rotate: false
-  xy: 2052, 596
+  xy: 2489, 805
   size: 100, 100
   orig: 100, 100
   offset: 0, 0
   index: -1
 game/vyrapuffer/0
   rotate: false
-  xy: 1386, 248
+  xy: 1673, 248
   size: 150, 134
   orig: 150, 134
   offset: 0, 0
   index: -1
 game/vyrapuffer/1
   rotate: false
-  xy: 1900, 562
+  xy: 1673, 112
   size: 150, 134
   orig: 150, 134
   offset: 0, 0
   index: -1
 game/vyrapuffer/2
   rotate: false
-  xy: 2202, 868
+  xy: 1900, 368
   size: 150, 134
   orig: 150, 134
   offset: 0, 0

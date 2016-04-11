@@ -6,8 +6,6 @@ import com.artemis.annotations.Profile;
 import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.AIComponent;
-import io.github.emergentorganization.cellrpg.components.ComponentTestSuite;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.emergent2dcore.components.*;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
@@ -26,7 +24,7 @@ public class AISystem extends DelayedIteratingSystem {
     ComponentMapper<Position> pos_m;
 
     public AISystem() {
-        super(Aspect.all(AIComponent.class, InputComponent.class, Rotation.class, Lifecycle.class));
+        super(Aspect.all(AIComponent.class));
     }
 
     /**

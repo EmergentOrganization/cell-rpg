@@ -503,7 +503,7 @@ public class EntityFactory {
                                 .speed(1.2f)
                 )
                 .addBuilder(new AIComponentBuilder(AIComponent.aiType.CHASE)
-                                .AIPeriod(.1f)
+                                .AIPeriod(.3f)
                                 .AITarget(playerEnt)
                 )
                 .build()

@@ -34,6 +34,7 @@ public class AIComponentBuilder extends BaseComponentBuilder {
         AIComponent ai = entity.getComponent(AIComponent.class);
         ai.type = AIType;
         ai.period = AIPeriod;
+        ai.delay = 1;
         ai.target = AITarget;
     }
 

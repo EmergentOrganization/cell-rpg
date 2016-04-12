@@ -35,7 +35,7 @@ public class EntitySpawnField extends Component {
         // if entity not created returns -1
         sinceLastSpawnCounter = 0;
         if (entityList.size() > 0) {
-
+            logger.trace("choosing from " + entityList.size() + " ents");
             return _spawnEntity(_getSpawnableEntity(), entityPos, entityBounds, entFact);
         } else {
             return -1;
@@ -75,7 +75,7 @@ public class EntitySpawnField extends Component {
 
     public boolean readyForSpawn() {
         // returns true if it is time to spawn entity.
-        return TimingUtils.readyForPeriodicEvent(frequency, sinceLastSpawnCounter);
+        return !entityList.isEmpty() && TimingUtils.readyForPeriodicEvent(frequency, sinceLastSpawnCounter);
     }
 
     public void tick(){

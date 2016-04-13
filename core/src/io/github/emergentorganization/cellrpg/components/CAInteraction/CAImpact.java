@@ -12,9 +12,10 @@ public class CAImpact {
     private int interactionPeriod = 0;  // how many generations between CA interaction triggers
     private long lastInteractionGeneration = -1;
 
-    public CAImpact(int _targetGridId, int[][] _impactStamp) {
+    public CAImpact(int _targetGridId, int[][] _impactStamp, int period) {
         targetGridId = _targetGridId;
         impactStamp = _impactStamp;
+        interactionPeriod = period;
     }
 
     public boolean readyToStamp(CAGridComponents caGridComps){

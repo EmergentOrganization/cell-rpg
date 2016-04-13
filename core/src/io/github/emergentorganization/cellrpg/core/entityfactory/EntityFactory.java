@@ -539,8 +539,8 @@ public class EntityFactory {
                 .addInteraction(
                         vyroidLayer.getId(),
                         new CAInteraction()
-                                .addCollisionImpactStamp(0, CGoLShapeConsts.GOSPER_DOWN_RIGHT, vyroidLayer.getId())
-                                .addCollisionImpactStamp(1, CGoLShapeConsts.GOSPER_DOWN_RIGHT, vyroidLayer.getId())
+                                .addCollisionImpactStamp(0, CGoLShapeConsts.GOSPER_DOWN_RIGHT, vyroidLayer.getId(), 44)
+                                .addCollisionImpactStamp(1, CGoLShapeConsts.GOSPER_DOWN_RIGHT, vyroidLayer.getId(), 44)
                 )
                 .setColliderRadius(1)
         ;

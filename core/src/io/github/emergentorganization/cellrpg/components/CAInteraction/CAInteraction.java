@@ -28,16 +28,21 @@ public class CAInteraction {
     }
 
     public CAInteraction addCollisionImpactStamp(int state, int[][] collisionImpact, int targetLayerId) {
+        return addCollisionImpactStamp(state, collisionImpact, targetLayerId, 0);
+    }
+
+    public CAInteraction addCollisionImpactStamp(int state, int[][] collisionImpact, int targetLayerId, int period) {
         // adds collision with given state which stamps targeted layer with the collisionImpact state matrix.
         // collisionImpact: gridSeedStamp to apply to layer at pt of collision
         // state: ca state value collided with
         // targetLayerId: Id of the layer that will be stamped
+        // period: number of generations to wait in between stamp applications
         setupCollideWithState(state);
 
         if (!impacts.containsKey(state)) {
             impacts.put(state, new ArrayList<CAImpact>());
         }
-        impacts.get(state).add(new CAImpact(targetLayerId, collisionImpact));
+        impacts.get(state).add(new CAImpact(targetLayerId, collisionImpact, period));
 
         return this;
     }

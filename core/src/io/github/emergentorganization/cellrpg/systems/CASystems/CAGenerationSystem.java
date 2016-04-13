@@ -5,7 +5,11 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Profile;
 import com.artemis.utils.IntBag;
+import com.badlogic.gdx.Game;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
@@ -24,11 +28,14 @@ import java.util.TimerTask;
 @Profile(using=EmergentProfiler.class, enabled=true)
 public class CAGenerationSystem extends BaseEntitySystem {
     private static final EnumMap<CA, iCA> CAs = CA.getCAMap();
-    private final Logger logger = LogManager.getLogger(getClass());
+
     // artemis-injected entity components:
     private ComponentMapper<CAGridComponents> CAComponent_m;
     private CameraSystem cameraSystem;
     private MoodSystem moodSystem;
+    private EventManager eventManager;
+
+    private final Logger logger = LogManager.getLogger(getClass());
 
     public CAGenerationSystem() {
         super(Aspect.all(CAGridComponents.class));
@@ -52,22 +59,23 @@ public class CAGenerationSystem extends BaseEntitySystem {
     @Override
     protected void inserted(int entityId) {
         super.inserted(entityId);
-        _inserted(CAComponent_m.get(entityId), true);
+        _inserted(CAComponent_m.get(entityId), true, entityId);
     }
 
-    public void _inserted(CAGridComponents layerStuff, Boolean autoGenerate) {
+    public void _inserted(CAGridComponents layerStuff, Boolean autoGenerate, final int entId) {
         // :param autoGenerate: if true starts generation loop on separate thread,
         //                      if false generations must be manually handled using CAGenerationSystem.generate()
         // _TEST : this inner method is separated from the entity-component system manager, that is, all components
         //              are passed directly into this method. This is to enable unit testing of the system.
 
         if (autoGenerate) {
-            initGenerationLoop(layerStuff);
+            initGenerationLoop(layerStuff, entId);
         }
     }
 
-    public void generate(CAGridComponents gridComps) {
+    public void generate(CAGridComponents gridComps, final int entId) {
         // generates next state of the CA
+
         gridComps.generation += 1;
         CAs.get(gridComps.ca).generate(gridComps);
 
@@ -76,6 +84,8 @@ public class CAGenerationSystem extends BaseEntitySystem {
         logger.trace("cells increase intensity by " + deltaIntensity);
         if (moodSystem != null)
             moodSystem.intensity += deltaIntensity;
+
+        eventManager.pushEvent(new EntityEvent(entId, GameEvent.CA_GENERATION));
     }
 
     private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, CAGridComponents gridComps) {
@@ -128,12 +138,12 @@ public class CAGenerationSystem extends BaseEntitySystem {
         return sum;
     }
 
-    private void initGenerationLoop(CAGridComponents layerComponents) {
+    private void initGenerationLoop(CAGridComponents layerComponents, final int entId) {
         // sets up generation timer loop on separate thread
-        scheduleGeneration(0, layerComponents);
+        scheduleGeneration(0, layerComponents, entId);
     }
 
-    public void scheduleGeneration(long runtime, CAGridComponents layComp) {
+    public void scheduleGeneration(long runtime, CAGridComponents layComp, final int entId) {
         // schedules a new generation thread
         Timer time = new Timer();
         // add runtime to TIME_BTWN_GENERATIONS to ensure this thread never uses more than 50% CPU time
@@ -143,7 +153,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         } else if (genTime < layComp.minGenTime) {
             layComp.minGenTime = genTime;
         }
-        time.schedule(new GenerateTask(this, layComp), genTime);
+        time.schedule(new GenerateTask(this, layComp, entId), genTime);
     }
 
     private void randomizeState(CAGridComponents gridComponents) {
@@ -162,8 +172,10 @@ public class CAGenerationSystem extends BaseEntitySystem {
     class GenerateTask extends TimerTask {
         private CAGenerationSystem genSys;
         private CAGridComponents gridComp;
+        private int entId;
 
-        public GenerateTask(CAGenerationSystem _genSys, CAGridComponents _gridComp) {
+        public GenerateTask(CAGenerationSystem _genSys, CAGridComponents _gridComp, final int entId) {
+            this.entId = entId;
             genSys = _genSys;
             gridComp = _gridComp;
         }
@@ -171,10 +183,10 @@ public class CAGenerationSystem extends BaseEntitySystem {
         public void run() {
             try {
                 long runtime = System.currentTimeMillis();
-                genSys.generate(gridComp);
+                genSys.generate(gridComp, entId);
 
                 runtime = System.currentTimeMillis() - runtime;
-                genSys.scheduleGeneration(runtime, gridComp);
+                genSys.scheduleGeneration(runtime, gridComp, entId);
                 Thread.currentThread().stop();
                 return;
             } catch (Exception ex) {

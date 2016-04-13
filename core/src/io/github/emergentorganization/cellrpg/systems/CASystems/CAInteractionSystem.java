@@ -144,7 +144,10 @@ public class CAInteractionSystem extends BaseEntitySystem {
             if (state > 0) logger.trace("stamping @ " + pos);
             for (CAImpact imp : inter.impacts.get(state)) {
                 CAGridComponents targetComps = CAGridComp_m.get(imp.targetGridId);
-                targetComps.stampCenteredAt(imp.impactStamp, pos);
+                if (imp.readyToStamp(targetComps)) {
+                    targetComps.stampCenteredAt(imp.impactStamp, pos);
+                    imp.impacted(targetComps);
+                }
             }
         }
     }

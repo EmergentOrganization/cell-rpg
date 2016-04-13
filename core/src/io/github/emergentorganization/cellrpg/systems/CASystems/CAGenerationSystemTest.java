@@ -36,7 +36,7 @@ public class CAGenerationSystemTest {
         CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
 
         // # 4 # manually step through the processes of the system, injecting the mock entity/system components
-        testSystem._inserted(testComps, false);
+        testSystem._inserted(testComps, false, 0);
 
         // test
         testComps.stampState(testPattern, INP, INP);
@@ -64,7 +64,7 @@ public class CAGenerationSystemTest {
         CAGridComponents testComps = new CAGridComponents();
 
         setupTest(testSystem, testComps, CGoLShapeConsts.BLINKER_H);
-        testSystem.generate(testComps);
+        testSystem.generate(testComps, 0);
 
         // # 5 # test that the components of your mock entity are what they should be after passing through the system
         assert testUtils.ifStatesMatchAt(testComps, CGoLShapeConsts.BLINKER_V, INP, INP);

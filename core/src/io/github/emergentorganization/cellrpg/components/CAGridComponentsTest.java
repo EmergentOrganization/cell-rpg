@@ -28,7 +28,7 @@ public class CAGridComponentsTest {
         CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
         CAGenerationSystem testSystem = new CAGenerationSystem();
 
-        testSystem._inserted(testComps, false);
+        testSystem._inserted(testComps, false, 0);
         testComps.stampState(CGoLShapeConsts.BLOCK, 0, 0);
         assert testUtils.ifStatesMatchAt(testComps, CGoLShapeConsts.BLOCK, 0, 0);
     }

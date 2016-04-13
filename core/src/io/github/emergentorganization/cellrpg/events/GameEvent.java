@@ -7,6 +7,7 @@ public enum GameEvent {
     PLAYER_HIT,
     PLAYER_SHIELD_DOWN,
     COLLISION_BULLET,
+    CA_GENERATION,
 
     POWERUP_PLUS,
     POWERUP_STAR,

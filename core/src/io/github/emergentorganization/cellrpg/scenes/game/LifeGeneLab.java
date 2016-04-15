@@ -2,6 +2,7 @@ package io.github.emergentorganization.cellrpg.scenes.game;
 
 import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +19,7 @@ public class LifeGeneLab extends WorldScene {
 
         // setup map
         Vector2 pos = new Vector2(0, 0);
-        int playerID = entityFactory.createPlayer(pos.x, pos.y);
+        int playerID = entityFactory.createEntityByID(EntityID.PLAYER, pos, 0);
         entityFactory.addCALayers(pos, playerID);  // TODO: this should be somewhere else
 
         WorldFactory.setupStandardWorldEffects(world);

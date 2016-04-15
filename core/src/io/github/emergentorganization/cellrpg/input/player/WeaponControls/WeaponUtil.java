@@ -3,6 +3,7 @@ package io.github.emergentorganization.cellrpg.input.player.WeaponControls;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Position;
@@ -45,7 +46,7 @@ public class WeaponUtil {
                 Vector2 dir = pos.sub(center).nor();
                 arm.setAngle(dir.angle());
 
-                entFact.createBullet(center.add(arm), dir);
+                entFact.createEntityByID(EntityID.BULLET, center.add(arm), dir.angle());
 
                 eventMan.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_SHOOT));
             } // else not enough charge to shoot

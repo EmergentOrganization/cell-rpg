@@ -28,15 +28,16 @@ import org.apache.logging.log4j.Logger;
 /**
  * Bullet entity which is shot from a weapon.
  */
-public class Bullet implements EntityCreator {
-    final Entity ent;
+public class Bullet extends EntityCreator {
 
     private final Logger logger = LogManager.getLogger(getClass());
 
     public Bullet(World world, Vector2 pos, Vector2 dir){
-        String descr = "Bullet";
+        final EventManager eventManager = world.getSystem(EventManager.class);
+        final TagManager tagManager = world.getSystem(TagManager.class);
+
         final float speed = 10f;
-        ent = new EntityBuilder(world, EntityFactory.bullet, descr, EntityID.BULLET.toString(), pos)
+        ent = new EntityBuilder(world, EntityFactory.bullet, "Bullet", EntityID.BULLET.toString(), pos)
                 .addBuilder(new VisualBuilder()
                                 .texture(Resources.TEX_BULLET)
                                 .renderIndex(RenderIndex.BULLET)
@@ -56,7 +57,6 @@ public class Bullet implements EntityCreator {
                 .build();
 
         // add cellular automata grid interactions
-        TagManager tagManager = world.getSystem(TagManager.class);
         Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
         Entity geneticLayer = tagManager.getEntity(CALayer.VYROIDS_GENETIC.getTag());
         Entity energyLayer = tagManager.getEntity(CALayer.ENERGY.getTag());
@@ -86,7 +86,6 @@ public class Bullet implements EntityCreator {
         ;
 
         // health down on CA collisions
-        EventManager eventManager = world.getSystem(EventManager.class);
         eventManager.addListener(new EventListener() {
             @Override
             public void notify(EntityEvent event) {
@@ -105,9 +104,5 @@ public class Bullet implements EntityCreator {
                 }
             }
         });
-    }
-
-    public int getId(){
-        return ent.getId();
     }
 }

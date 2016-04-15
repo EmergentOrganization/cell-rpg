@@ -98,7 +98,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
         world = WorldFactory.editorGameWorld(pt, batch, stage, entityFactory);
 
         physicsSystem = world.getSystem(PhysicsSystem.class);
-        entityFactory.createPlayer(0, 0);
+        entityFactory.createEntityByID(EntityID.PLAYER, new Vector2(), 0);
         world.getSystem(PhysicsSystem.class).shouldRender(true);
         world.getSystem(InputSystem.class).setEnabled(false);
         world.getSystem(CameraSystem.class).setCamFollow(false);

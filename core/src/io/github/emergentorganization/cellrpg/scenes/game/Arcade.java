@@ -31,7 +31,7 @@ public class Arcade extends WorldScene {
 
         // setup map
         Vector2 pos = new Vector2(0, 0);
-        int playerID = entityFactory.createPlayer(pos.x, pos.y);
+        int playerID = entityFactory.createEntityByID(EntityID.PLAYER, pos, 0);
         entityFactory.addCALayers(pos, playerID);  // TODO: this should be somewhere else
 
         WorldFactory.setupStandardWorldEffects(world);

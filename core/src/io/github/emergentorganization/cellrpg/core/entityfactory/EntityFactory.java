@@ -18,6 +18,7 @@ import io.github.emergentorganization.cellrpg.components.Weapon.WeaponComponent;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Bullet;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
@@ -41,20 +42,23 @@ public class EntityFactory {
 
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
+
     public static Archetype object;
-    public Archetype base;
-    public Archetype collidable;
-    public Archetype collectable;
-    public Archetype character;
-    public Archetype destructable;
-    public Archetype npc;
+    public static Archetype base;
+    public static Archetype collidable;
+    public static Archetype collectable;
+    public static Archetype character;
+    public static Archetype destructable;
+    public static Archetype npc;
+    public static Archetype player;
+    public static Archetype bullet;
+    public static Archetype ca_layer;
+    public static Archetype invisibleObject;
+
     private TagManager tagManager;
     private World world;
     private EventManager eventManager;
-    private Archetype player;
-    private Archetype bullet;
-    private Archetype ca_layer;
-    private Archetype invisibleObject;
+
 
     public void initialize(World world) {
         this.world = world;
@@ -199,79 +203,6 @@ public class EntityFactory {
         });
 
         return player.getId();
-    }
-
-    public int createBullet(Vector2 pos, Vector2 dir) {
-        final float speed = 10f;
-        final Entity bulletEntity = new EntityBuilder(world, this.bullet, "Bullet", EntityID.BULLET.toString(), pos)
-                .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_BULLET)
-                                .renderIndex(RenderIndex.BULLET)
-                )
-                .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                        .bodyFriction(0.0001f)
-                        .bodyRestitution(1.0f)
-                        .bullet(true)
-                )
-                .addBuilder(new HealthBuilder(3))
-                .addBuilder(new CollideEffectBuilder()
-                        .collideDamage(1)
-                        .collideSelfDamage(1)
-                )
-                .addBuilder(new LifecycleBuilder(20f))
-                .velocity(speed, dir)
-                .build();
-
-        // add cellular automata grid interactions
-        Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
-        Entity geneticLayer = tagManager.getEntity(CALayer.VYROIDS_GENETIC.getTag());
-        Entity energyLayer = tagManager.getEntity(CALayer.ENERGY.getTag());
-        CAInteractionList interactList = bulletEntity.getComponent(CAInteractionList.class);
-        interactList
-                .addInteraction(
-                        vyroidLayer.getId(),
-                        new CAInteraction()
-                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
-                                .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6, 6), vyroidLayer.getId())
-                                // constant visual effect
-                                .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
-                                        1,
-                                        1,
-                                        DecayCellRenderer.getMaxOfColorGroup(DecayCellRenderer.colorGroupKeys.WHITE)
-                                ), energyLayer.getId())
-                                .addEventTrigger(1, GameEvent.VYROID_KILL_STD)
-                )
-                .addInteraction(
-                        geneticLayer.getId(),
-                        new CAInteraction()
-                                .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
-                                .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(3, 3), geneticLayer.getId())
-                                .addEventTrigger(1, GameEvent.VYROID_KILL_GENETIC)
-                )
-                .setColliderRadius(2)
-        ;
-
-        // health down on CA collisions
-        eventManager.addListener(new EventListener() {
-            @Override
-            public void notify(EntityEvent event) {
-                try {
-                    if (event.entityId == bulletEntity.getId()) {
-                        switch (event.event) {
-                            case VYROID_KILL_GENETIC:
-                            case VYROID_KILL_STD:
-                                bulletEntity.getComponent(Health.class).health
-                                        -= bulletEntity.getComponent(CollideEffect.class).selfDamage;
-                                break;
-                        }
-                    }
-                } catch(NullPointerException ex){
-                    logger.debug("bullet.getComponent returned null. Bullet likely deleted before event trigger.");
-                }
-            }
-        });
-
-        return bulletEntity.getId();
     }
 
     public int createCivOneBlinker(float x, float y) {
@@ -551,7 +482,7 @@ public class EntityFactory {
     public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
         switch (id) {
             case BULLET:
-                return createBullet(pos, new Vector2().rotate(angleDeg));
+                return new Bullet(world, pos, new Vector2().rotate(angleDeg)).getId();
             case PLAYER:
                 return createPlayer(pos.x, pos.y);
             case PLAYER_SHIELD:

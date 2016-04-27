@@ -54,7 +54,8 @@ public class Bullet extends EntityCreator {
                 )
                 .addBuilder(new LifecycleBuilder(20f))
                 .velocity(speed, dir)
-                .build();
+                .build()
+        ;
 
         // add cellular automata grid interactions
         Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());

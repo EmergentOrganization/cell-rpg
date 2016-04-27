@@ -1,8 +1,10 @@
 package io.github.emergentorganization.cellrpg.scenes.game;
 
+import com.artemis.Entity;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -39,6 +41,14 @@ public class Arcade extends WorldScene {
 
         // HUD tweaks
         scoreDisplay = new ScoreDisplay(world, stage, tm.getEntity(Tags.PLAYER).getId());
+
+        TagManager tagMan = world.getSystem(TagManager.class);
+        Entity player = tagMan.getEntity(Tags.PLAYER);
+        EntitySpawnField spawnField = player.getComponent(EntitySpawnField.class);
+        spawnField.entityList.clear();
+        spawnField.entityList.add(EntityID.POWERUP_STAR);
+        spawnField.entityList.add(EntityID.POWERUP_PLUS);
+        spawnField.frequency = .05f;
 
     }
 

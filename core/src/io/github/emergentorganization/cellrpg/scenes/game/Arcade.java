@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
-import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;

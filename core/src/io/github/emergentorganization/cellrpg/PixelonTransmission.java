@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.scenes.SceneManager;
-import io.github.emergentorganization.cellrpg.scenes.game.HUD.DebugDisplay;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.GraphicsSettingsMenu;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
+import io.github.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import io.github.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 import com.kotcrab.vis.ui.VisUI;
-import it.uniroma1.dis.wsngroup.gexf4j.core.Graph;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +27,7 @@ import java.util.Properties;
 
 public class PixelonTransmission extends Game {
     public static final float PHYSICS_TIMESTEP = 1 / 45f;
-    private static final String VERSION = "0.3";
+    private static final String VERSION = "0.3.1";  // TODO: load version from somewhere.
     private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
     private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
 
@@ -42,11 +42,13 @@ public class PixelonTransmission extends Game {
     private FileStructure fileStructure;
     private Skin skin;
     private BodyEditorLoader bodyLoader;
+    private Mixpanel mixpanel;
 
     public PixelonTransmission() {
         String logFile = "log4j2.xml";
         System.setProperty("log4j.configurationFile", FileStructure.RESOURCE_DIR + logFile);
         logger = LogManager.getLogger(getClass());
+        mixpanel = new Mixpanel(VERSION);
     }
 
     @Override
@@ -94,6 +96,10 @@ public class PixelonTransmission extends Game {
 
         sceneManager = new SceneManager(this);
         sceneManager.setScene(Scene.MAIN_MENU);
+
+        Secrets.initialize();
+        mixpanel.initialize();
+        mixpanel.startupEvent();
 
         logger.info("Game started");
     }
@@ -154,6 +160,7 @@ public class PixelonTransmission extends Game {
     public void dispose() {
         assetManager.dispose();
         sceneManager.dispose();
+        mixpanel.dispose();
         logger.info("Game shutdown");
     }
 

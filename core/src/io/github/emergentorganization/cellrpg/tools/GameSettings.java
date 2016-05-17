@@ -32,7 +32,7 @@ public class GameSettings {
     public static String KEY_CAM_NEARNESS_CUTOFF = "Cam_NearnessCutoff";
 
     // === OTHER ===
-    public static String USER_ID = "user_id";
+    public static String USER_ID = "";
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
 
     private static String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";

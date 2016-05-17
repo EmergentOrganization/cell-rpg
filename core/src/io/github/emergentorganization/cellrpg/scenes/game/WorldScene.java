@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.DebugDisplay;
-import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;

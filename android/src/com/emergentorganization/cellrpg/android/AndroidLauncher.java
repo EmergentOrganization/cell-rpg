@@ -3,7 +3,7 @@ package com.emergentorganization.cellrpg.android;
 import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

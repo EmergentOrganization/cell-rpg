@@ -21,7 +21,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.emergent2dcore.components.Name;
 import io.github.emergentorganization.emergent2dcore.components.PhysicsBody;

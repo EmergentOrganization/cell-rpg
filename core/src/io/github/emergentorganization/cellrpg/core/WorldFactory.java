@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
-import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.emergent2dcore.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.SoundEventListener;

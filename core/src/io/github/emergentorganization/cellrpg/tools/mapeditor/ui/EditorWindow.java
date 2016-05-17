@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import io.github.emergentorganization.emergent2dcore.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.emergent2dcore.components.Rotation;
 import io.github.emergentorganization.emergent2dcore.components.Scale;

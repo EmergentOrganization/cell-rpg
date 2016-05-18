@@ -27,7 +27,6 @@ import java.util.Properties;
 
 public class PixelonTransmission extends Game {
     public static final float PHYSICS_TIMESTEP = 1 / 45f;
-    private static final String VERSION = "0.3.1";  // TODO: load version from somewhere.
     private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
     private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
 
@@ -43,17 +42,16 @@ public class PixelonTransmission extends Game {
     private Skin skin;
     private BodyEditorLoader bodyLoader;
     private Mixpanel mixpanel;
+    private String version;
 
     public PixelonTransmission() {
         String logFile = "log4j2.xml";
         System.setProperty("log4j.configurationFile", FileStructure.RESOURCE_DIR + logFile);
         logger = LogManager.getLogger(getClass());
-        mixpanel = new Mixpanel(VERSION);
     }
 
     @Override
     public void create() {
-
         // init graphics settings
         Preferences prefs = GameSettings.getPreferences();
         int w,h;
@@ -77,7 +75,6 @@ public class PixelonTransmission extends Game {
             fileStructure.unpackAssets();
         }
 
-        //version = getVersion();
         VisUI.load();
 
         assetManager = new AssetManager(new InternalFileHandleResolver());
@@ -98,6 +95,7 @@ public class PixelonTransmission extends Game {
         sceneManager.setScene(Scene.MAIN_MENU);
 
         Secrets.initialize();
+        mixpanel = new Mixpanel(getVersion());
         mixpanel.initialize();
         mixpanel.startupEvent();
 
@@ -112,9 +110,10 @@ public class PixelonTransmission extends Game {
             props.load(reader);
             String major = props.getProperty("majorVersion");
             String minor = props.getProperty("minorVersion");
+            String patch = props.getProperty("patchVersion");
             String revision = props.getProperty("revision");
             reader.close();
-            return major + "." + minor + "." + revision;
+            return major + "." + minor + "." + patch + "+" +  revision;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -165,7 +164,10 @@ public class PixelonTransmission extends Game {
     }
 
     public String getVersion() {
-        return VERSION;
+        if (version == null || version == ""){
+            version = loadVersion();
+        }
+        return version;
     }
 
     public AssetManager getGdxAssetManager() {

@@ -23,7 +23,7 @@ public class Mixpanel {
     private String version = "0.0.0";
 
     public Mixpanel(String version){
-        this.version = version;
+        this.version = version.split("\\+")[0];  // cuts off metadata
     }
 
     public void initialize(){

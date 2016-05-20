@@ -5,6 +5,7 @@ import io.github.emergentorganization.cellrpg.scenes.game.Arcade;
 import io.github.emergentorganization.cellrpg.scenes.game.LifeGeneLab;
 import io.github.emergentorganization.cellrpg.scenes.game.Story;
 import io.github.emergentorganization.cellrpg.scenes.menu.MainMenu;
+import io.github.emergentorganization.cellrpg.scenes.menu.PostGame;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 
 
@@ -39,6 +40,10 @@ public enum Scene {
         public BaseScene getScene(PixelonTransmission pt) {
             return new Story(pt);
         }
+    },
+    POSTGAME {
+        @Override
+        public BaseScene getScene(PixelonTransmission pt){ return new PostGame(pt); }
     };
 
     public abstract BaseScene getScene(PixelonTransmission pt);

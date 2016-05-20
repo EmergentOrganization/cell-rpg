@@ -88,7 +88,7 @@ public class WorldFactory {
                     case PLAYER_HIT:
                         break;
                     case PLAYER_SHIELD_DOWN:
-                        pt.getSceneManager().setScene(Scene.MAIN_MENU);
+                        pt.getSceneManager().setScene(Scene.POSTGAME);
                         break;
                     case COLLISION_BULLET:
                         break;

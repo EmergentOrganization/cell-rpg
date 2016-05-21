@@ -410,43 +410,48 @@ public class EntityFactory {
 
     public int createEntityByID(EntityID id, Vector2 pos, float angleDeg) {
         // angleDeg: angle relative to +x axis
-        switch (id) {
-            case BULLET:
-                return new Bullet(world, pos, new Vector2(1,0).rotate(angleDeg)).getId();
-            case PLAYER:
-                return new Player(world, pos).getId();
-            case PLAYER_SHIELD:
-                throw new RuntimeException("ERROR: Cannot initialize player shield on it's own.");
-            case BUILDING_LARGE_ONE:
-                return createBuildingLargeOne(pos, angleDeg);
-            case BUILDING_ROUND_ONE:
-                return createBuildingRoundOne(pos, angleDeg);
-            case RIFT_ONE:
-                return createRiftOne(pos, angleDeg);
-            case RIFT_TWO:
-                return createRiftTwo(pos, angleDeg);
-            case VYROID_BEACON:
-                return createVyroidBeacon(pos, angleDeg);
-            case CIV_ONE_BLINKER:
-                return createCivOneBlinker(pos.x, pos.y);
-            case VYRAPUFFER:
-                return createVyrapuffer(pos);
-            case TUBSNAKE:
-                return createTubSnake(pos);
-            case PONDBOMB:
-                return createPondBomb(pos);
-            case GOSPER:
-                return createGosper(pos);
-            case THE_EDGE:
-                return createBackgroundTheEdge(pos);
-            case INVISIBLE_WALL:
-                return createInvisibleWall(new Vector2(1, 1), pos, angleDeg);
-            case POWERUP_PLUS:
-                return createPowerupPlus(pos);
-            case POWERUP_STAR:
-                return createPowerupStar(pos);
-            default:
-                throw new RuntimeException("ERROR: enum instance missing in switch for id " + id);
+        try {
+            switch (id) {
+                case BULLET:
+                    return new Bullet(world, pos, new Vector2(1, 0).rotate(angleDeg)).getId();
+                case PLAYER:
+                    return new Player(world, pos).getId();
+                case PLAYER_SHIELD:
+                    throw new RuntimeException("ERROR: Cannot initialize player shield on it's own.");
+                case BUILDING_LARGE_ONE:
+                    return createBuildingLargeOne(pos, angleDeg);
+                case BUILDING_ROUND_ONE:
+                    return createBuildingRoundOne(pos, angleDeg);
+                case RIFT_ONE:
+                    return createRiftOne(pos, angleDeg);
+                case RIFT_TWO:
+                    return createRiftTwo(pos, angleDeg);
+                case VYROID_BEACON:
+                    return createVyroidBeacon(pos, angleDeg);
+                case CIV_ONE_BLINKER:
+                    return createCivOneBlinker(pos.x, pos.y);
+                case VYRAPUFFER:
+                    return createVyrapuffer(pos);
+                case TUBSNAKE:
+                    return createTubSnake(pos);
+                case PONDBOMB:
+                    return createPondBomb(pos);
+                case GOSPER:
+                    return createGosper(pos);
+                case THE_EDGE:
+                    return createBackgroundTheEdge(pos);
+                case INVISIBLE_WALL:
+                    return createInvisibleWall(new Vector2(1, 1), pos, angleDeg);
+                case POWERUP_PLUS:
+                    return createPowerupPlus(pos);
+                case POWERUP_STAR:
+                    return createPowerupStar(pos);
+                default:
+                    throw new RuntimeException("ERROR: enum instance missing in switch for id " + id);
+            }
+        } catch(Exception ex){
+            logger.error("failed to create entity of type " + id, ex);
+            return -1;
         }
     }
 }

@@ -140,8 +140,8 @@ public class PhysicsSystem extends BaseEntitySystem {
 
     public void removeBody(int entityId) {
         Body body = getBody(entityId);
-        bodies.remove(entityId);
         physWorld.destroyBody(body);
+        bodies.remove(entityId);
     }
 
     @Override

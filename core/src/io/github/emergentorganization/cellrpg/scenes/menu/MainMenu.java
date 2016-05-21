@@ -67,7 +67,7 @@ public class MainMenu extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.ARCADE);
+                    pt.getSceneManager().setScene(Scene.POSTGAME);
                 }
             });
 

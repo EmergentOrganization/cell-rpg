@@ -24,7 +24,7 @@
 
         <!-- === class-specific levels === -->
         <!-- enable detailed debugging for whatever classes are in heavy development -->
-        <logger name="io.github.emergentorganization.cellrpg.components.EntitySpawnField" level="trace" additivity="false">
+        <logger name="io.github.emergentorganization.cellrpg.tools.Scores" level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 

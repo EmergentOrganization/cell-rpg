@@ -45,6 +45,12 @@ public class PostGame extends WorldScene {
     public void show() {
         logger.trace("showing post-game menu");
         super.show();
+
+        // add your score to pt.scores
+        int playerScore = 73141;
+        pt.scores.addScore(playerScore);
+
+        stage.clear();
         initUI();
     }
 
@@ -57,7 +63,6 @@ public class PostGame extends WorldScene {
         title.pack();
         title.setPosition(stage.getWidth() / 2, cursorY, Align.center);
         cursorY -= title.getHeight();
-//            versionInfo.setPosition((stage.getWidth() - versionInfo.getWidth()) - tableMargin, tableMargin);
 
         stage.addActor(title);
 
@@ -94,8 +99,6 @@ public class PostGame extends WorldScene {
             // if (cursorY < topScoresCutoff && rankIsNotNearEnoughToMyScore){
             //      skip;
             // } else {
-
-            // TODO: add your score to pt.scores
 
             // TODO: fix spacing between columns
             Label tableRow = new Label(

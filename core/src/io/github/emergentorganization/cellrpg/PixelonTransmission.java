@@ -163,6 +163,7 @@ public class PixelonTransmission extends Game {
         assetManager.dispose();
         sceneManager.dispose();
         mixpanel.dispose();
+        scores.dispose();
         logger.info("Game shutdown");
     }
 

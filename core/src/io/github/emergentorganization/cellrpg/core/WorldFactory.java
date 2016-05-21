@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
@@ -88,6 +89,8 @@ public class WorldFactory {
                     case PLAYER_HIT:
                         break;
                     case PLAYER_SHIELD_DOWN:
+                        pt.playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
+                            .getComponent(StatsTracker.class).getScore();
                         pt.getSceneManager().setScene(Scene.POSTGAME);
                         break;
                     case COLLISION_BULLET:

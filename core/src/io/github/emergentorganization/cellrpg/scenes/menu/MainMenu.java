@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.scenes.menu;
 
 import com.artemis.WorldConfiguration;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import io.github.emergentorganization.emergent2dcore.systems.WindowSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -160,6 +162,13 @@ public class MainMenu extends WorldScene {
             versionInfo.setPosition((stage.getWidth() - versionInfo.getWidth()) - tableMargin, tableMargin);
 
             stage.addActor(versionInfo);
+        }
+
+        if (GameSettings.getPreferences().getBoolean(GameSettings.KEY_FIRST_START, true)){
+            logger.trace("starting firstStart window");
+            new FirstStartWindow(stage, world, pt);
+        } else {
+            logger.trace("not first start");
         }
     }
 

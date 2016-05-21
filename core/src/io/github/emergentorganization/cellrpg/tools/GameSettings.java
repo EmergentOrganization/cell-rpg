@@ -31,8 +31,12 @@ public class GameSettings {
     // min distance between player & cam we care about (to reduce small-dist jitter & performance++)
     public static String KEY_CAM_NEARNESS_CUTOFF = "Cam_NearnessCutoff";
 
+    // === Player Details ===
+    public static String KEY_USER_ID = "user-id";
+    public static String KEY_USER_NAME = "user-name";
+    public static String KEY_FIRST_START = "first-start";
+
     // === OTHER ===
-    public static String USER_ID = "";
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
 
     private static String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";
@@ -43,5 +47,9 @@ public class GameSettings {
 
     public static boolean devMode(){
         return Gdx.app.getPreferences(PREFS_FILE).getBoolean(KEY_DEV_DEVMODE, false);
+    }
+
+    public static void dispose(){
+        getPreferences().flush();
     }
 }

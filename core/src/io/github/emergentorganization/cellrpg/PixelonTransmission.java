@@ -45,6 +45,7 @@ public class PixelonTransmission extends Game {
     private Mixpanel mixpanel;
     private String version;
     public Scores scores;
+    public int playerScore = 0;
 
     public PixelonTransmission() {
         String logFile = "log4j2.xml";
@@ -164,6 +165,7 @@ public class PixelonTransmission extends Game {
         sceneManager.dispose();
         mixpanel.dispose();
         scores.dispose();
+        GameSettings.dispose();
         logger.info("Game shutdown");
     }
 

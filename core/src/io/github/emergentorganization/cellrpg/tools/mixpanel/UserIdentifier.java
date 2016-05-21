@@ -17,7 +17,7 @@ public class UserIdentifier {
 
     private static void loadFromConfig(){
         Preferences prefs = GameSettings.getPreferences();
-        ID = prefs.getString(GameSettings.USER_ID);
+        ID = prefs.getString(GameSettings.KEY_USER_ID);
         configLoaded = true;
     }
 //
@@ -29,7 +29,7 @@ public class UserIdentifier {
             ID = UUID.randomUUID().toString();
             // and save it for later
             Preferences prefs = GameSettings.getPreferences();
-            prefs.putString(GameSettings.USER_ID, ID);
+            prefs.putString(GameSettings.KEY_USER_ID, ID);
             prefs.flush();
         }
         logger.info("UID:"+ID);

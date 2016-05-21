@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.UserIdentifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -122,10 +123,11 @@ public class Scores {
     }
 
     private JSONObject getScoreObject(final int score){
+        Preferences prefs = GameSettings.getPreferences();
         try {
             return new JSONObject()
                     .put(key_score, score)
-                    .put(key_name, UserIdentifier.getId())
+                    .put(key_name, prefs.getString(GameSettings.KEY_USER_NAME, "NO-NAME"))
                     ;
         } catch(JSONException ex){
             logger.error("scoreObjCreateERR : ", ex);

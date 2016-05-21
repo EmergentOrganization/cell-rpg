@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.scenes.menu;
 
 import com.artemis.WorldConfiguration;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,6 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.components.StatsTracker;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
 import io.github.emergentorganization.emergent2dcore.systems.WindowSystem;
@@ -47,8 +51,7 @@ public class PostGame extends WorldScene {
         super.show();
 
         // add your score to pt.scores
-        int playerScore = 73141;
-        pt.scores.addScore(playerScore);
+        pt.scores.addScore(pt.playerScore);
 
         stage.clear();
         initUI();

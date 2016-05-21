@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Make violin plots from the data saved to android/assets/profilerLog.csv
+Makes violin plots of the profiler data saved to android/assets/profilerLog.csv
 """
 
 import random
@@ -9,6 +9,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# seaborn example:
 sns.set_style("whitegrid")
 
 # load data
@@ -24,16 +25,18 @@ ax = sns.violinplot(
     scale="width"
 )
 plt.savefig('t_avg.png', bbox_inches='tight')
-
+plt.clf()
 
 ax = sns.violinplot(
     x="t_min", y="system", data=dataframe,
     scale="width"
 )
 plt.savefig('t_min.png', bbox_inches='tight')
+plt.clf()
 
 ax = sns.violinplot(
     x="t_max", y="system", data=dataframe,
     scale="width"
 )
 plt.savefig('t_max.png', bbox_inches='tight')
+plt.clf()

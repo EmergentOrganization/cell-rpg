@@ -12,6 +12,7 @@ import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.GraphicsSettingsMenu;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.Scores;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import io.github.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
@@ -43,6 +44,7 @@ public class PixelonTransmission extends Game {
     private BodyEditorLoader bodyLoader;
     private Mixpanel mixpanel;
     private String version;
+    public Scores scores;
 
     public PixelonTransmission() {
         String logFile = "log4j2.xml";
@@ -91,13 +93,14 @@ public class PixelonTransmission extends Game {
                 new TextureAtlas(Gdx.files.internal("resources/uiskin/skin.atlas"))
         );
 
-        sceneManager = new SceneManager(this);
-        sceneManager.setScene(Scene.MAIN_MENU);
-
+        scores = new Scores();
         Secrets.initialize();
         mixpanel = new Mixpanel(getVersion());
         mixpanel.initialize();
         mixpanel.startupEvent();
+
+        sceneManager = new SceneManager(this);
+        sceneManager.setScene(Scene.MAIN_MENU);
 
         logger.info("Game started");
     }

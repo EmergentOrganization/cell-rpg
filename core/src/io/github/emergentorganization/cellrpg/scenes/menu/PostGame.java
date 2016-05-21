@@ -22,7 +22,7 @@ public class PostGame extends WorldScene {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final float tableMargin;
-    private Table table;
+    private Skin skin;
 
     public PostGame(PixelonTransmission pt) {
         super(pt);
@@ -49,32 +49,76 @@ public class PostGame extends WorldScene {
     }
 
     private void initUI() {
-        Skin skin = pt.getUISkin();
-
-        table = new Table(skin);
-        table.row();
+        skin = pt.getUISkin();
+        float cursorY = stage.getHeight() - tableMargin;  // cursor to keep track of where we are on the screen
 
         // title
-        {
-            Label title = new Label("Planiverse Bridge Orb Connection Lost!", skin, "header");
-            title.pack();
-            title.setPosition(stage.getWidth()/2, stage.getHeight() - tableMargin, Align.center);
+        Label title = new Label("Planiverse Bridge Orb Connection Lost!", skin, "header");
+        title.pack();
+        title.setPosition(stage.getWidth() / 2, cursorY, Align.center);
+        cursorY -= title.getHeight();
 //            versionInfo.setPosition((stage.getWidth() - versionInfo.getWidth()) - tableMargin, tableMargin);
 
-            stage.addActor(title);
-        }
+        stage.addActor(title);
+
+        // menu table
+        Table menuTable = makeMenuTable();
+        stage.addActor(menuTable);
 
         // score rankings
-        {
-            // TODO: get score from db or local file, show prev game score
-            // TODO: align this top-center
-            int rank = 1;
-            String username = "player1";
-            int score = 12345;
-            Label tableRow = new Label(Integer.toString(rank) + "\t" + username + "\t" + Integer.toString(score), skin);
-            table.add(tableRow).center().row();
-        }
+        float scoreTableBottom = menuTable.getHeight() + tableMargin;
+        Table scoreTable = makeScoreTable(cursorY, scoreTableBottom);
+        stage.addActor(scoreTable);
+    }
 
+    @Override
+    public WorldConfiguration getBaseWorldConfiguration() {
+        WorldConfiguration wc = new WorldConfiguration();
+        // TODO: set up postgame visuals
+        return wc;
+    }
+
+    private Table makeScoreTable(float tableTop, float tableBottom){
+        Table scoreTable = new Table(skin);
+        scoreTable.row();
+
+        float cursorY = tableTop;
+        int MAX_SCORES_TO_CHECK = 9999;
+        for(int rank = 0; rank < MAX_SCORES_TO_CHECK; rank++){  // aka while(true) with a backup plan
+            logger.info(pt);
+            logger.info(pt.scores);
+            String username = pt.scores.getName(rank);
+            int score = pt.scores.getScore(rank);
+
+            // TODO: check if far enough down to skip scores (until we get near to player score)
+            // if (cursorY < topScoresCutoff && rankIsNotNearEnoughToMyScore){
+            //      skip;
+            // } else {
+
+            // TODO: add your score to pt.scores
+
+            // TODO: fix spacing between columns
+            Label tableRow = new Label(
+                    Integer.toString(rank) + "     "
+                            + username + "    "
+                            + Integer.toString(score),
+                    skin
+            );
+            scoreTable.add(tableRow).center().row();
+            cursorY -= tableRow.getHeight();
+
+            if (cursorY < tableBottom){
+                break;
+            }
+        }
+        scoreTable.pack();
+        scoreTable.setPosition(stage.getWidth()/2, tableTop, Align.top);
+        return scoreTable;
+    }
+
+    private Table makeMenuTable() {
+        Table table = new Table(skin);
+        table.row();
         // main menu
         {
             TextButton arcade = new TextButton("> main menu", skin);
@@ -114,18 +158,8 @@ public class PostGame extends WorldScene {
 
             table.add(quit).left().row();
         }
-
-        // pack and position table
         table.pack();
         table.setPosition(tableMargin, tableMargin);
-        stage.addActor(table);
+        return table;
     }
-
-    @Override
-    public WorldConfiguration getBaseWorldConfiguration() {
-        WorldConfiguration wc = new WorldConfiguration();
-        // TODO: set up postgame visuals
-        return wc;
-    }
-
 }

@@ -11,6 +11,8 @@ import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.emergent2dcore.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.SoundEventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
@@ -89,9 +91,7 @@ public class WorldFactory {
                     case PLAYER_HIT:
                         break;
                     case PLAYER_SHIELD_DOWN:
-                        pt.playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
-                            .getComponent(StatsTracker.class).getScore();
-                        pt.getSceneManager().setScene(Scene.POSTGAME);
+                        pt.gameOver(world);
                         break;
                     case COLLISION_BULLET:
                         break;

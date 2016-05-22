@@ -1,5 +1,7 @@
 package io.github.emergentorganization.cellrpg;
 
+import com.artemis.World;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -7,9 +9,13 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
+import io.github.emergentorganization.cellrpg.components.StatsTracker;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.GraphicsSettingsMenu;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.Scores;
@@ -104,6 +110,15 @@ public class PixelonTransmission extends Game {
         sceneManager.setScene(Scene.MAIN_MENU);
 
         logger.info("Game started");
+    }
+
+    public void gameOver(World world){
+        playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
+                .getComponent(StatsTracker.class).getScore();
+        WarpInEventRegion warpRegion = (WarpInEventRegion) world.getSystem(LeveledRegionSwitcher.class).currentRegion;
+        int waveNumber = warpRegion.regionNumber;
+        getSceneManager().setScene(Scene.POSTGAME);
+        mixpanel.gameOverEvent(playerScore, waveNumber);
     }
 
     public String loadVersion() {

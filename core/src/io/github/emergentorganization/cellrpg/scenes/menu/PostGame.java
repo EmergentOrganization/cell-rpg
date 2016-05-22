@@ -52,7 +52,6 @@ public class PostGame extends WorldScene {
 
         // add your score to pt.scores
         pt.scores.addScore(pt.playerScore);
-        pt.mixpanel.gameOverEvent(pt);
 
         stage.clear();
         initUI();
@@ -105,7 +104,11 @@ public class PostGame extends WorldScene {
             // } else {
 
             // TODO: fix spacing between columns
-            scoreTable.add(new Label(Integer.toString(rank+1) + " | ", skin)).right();
+            String mark = "";
+            if (pt.playerScore == score){
+                mark = "-->";
+            }
+            scoreTable.add(new Label(mark + Integer.toString(rank+1) + " | ", skin)).right();
             scoreTable.add(new Label(username, skin)).left();
             Label scoreText = new Label( " | " + formatScore(score), skin);
             scoreTable.add(scoreText).left().row();

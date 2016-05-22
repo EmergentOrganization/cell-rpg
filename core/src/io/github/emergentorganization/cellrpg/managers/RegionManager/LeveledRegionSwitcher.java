@@ -31,7 +31,7 @@ import org.apache.logging.log4j.Logger;
 public class LeveledRegionSwitcher extends iRegionManager {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    private iRegion currentRegion;
+    public iRegion currentRegion;
     private iRegion nextRegion;
 
     public LeveledRegionSwitcher(iRegion startingRegion) {

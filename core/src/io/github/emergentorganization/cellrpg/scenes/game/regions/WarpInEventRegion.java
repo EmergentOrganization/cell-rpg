@@ -131,38 +131,76 @@ public class WarpInEventRegion extends TimedRegion{
         int[][][] shapes= new int[][][]{};
         int[] shapeCounts=new int[]{};
 
-        switch (regionNumber){
-            case -1:  // test region; 0 is typical starting wave
+        final int N_REGION_TYPES = 10;  // # of cases (including default) in switch/case below (hightest # + 1)
+        int regionType = regionNumber%N_REGION_TYPES;
+        int multipler  = regionNumber/N_REGION_TYPES + 1;
+
+        switch (regionType){
+            case -1:  // test region with one of each entity; 0 is typical starting wave
                 ents = new EntityID[]{EntityID.PONDBOMB, EntityID.TUBSNAKE, EntityID.VYRAPUFFER, EntityID.GOSPER};
                 entCounts = new int[]{1                , 1                , 1                  , 1};
                 break;
             case 0:
-                ents = new EntityID[]{EntityID.PONDBOMB};
-                entCounts = new int[]{10};
-                break;
-            case 1:
-                ents = new EntityID[]{EntityID.TUBSNAKE};
-                entCounts = new int[]{3};
                 shapes = new int[][][]{CGoLShapeConsts.BLINKER_H, CGoLShapeConsts.BLINKER_V};
                 shapeCounts = new int[]{3, 3};
                 break;
+            case 1:
+                ents = new EntityID[]{EntityID.PONDBOMB};
+                entCounts = new int[]{3};
+                break;
             case 2:
-                ents = new EntityID[]{EntityID.PONDBOMB, EntityID.TUBSNAKE};
-                entCounts = new int[]{10, 2};
+                shapes = new int[][][]{
+                        CGoLShapeConsts.GLIDER_DOWN_RIGHT,
+                        CGoLShapeConsts.GLIDER_UP_RIGHT,
+                        CGoLShapeConsts.GLIDER_DOWN_LEFT,
+                        CGoLShapeConsts.GLIDER_UP_LEFT
+                };
+                shapeCounts = new int[]{2, 2, 2, 2};
                 break;
             case 3:
+                ents = new EntityID[]{EntityID.TUBSNAKE};
+                entCounts = new int[]{3};
+                break;
+            case 4:
+                shapes = new int[][][]{CGoLShapeConsts.R_PENTOMINO};
+                shapeCounts = new int[]{5};
+                break;
+            case 5:
                 ents = new EntityID[]{EntityID.VYRAPUFFER};
                 entCounts = new int[]{1};
                 break;
+            case 6:
+                ents = new EntityID[]{EntityID.PONDBOMB, EntityID.TUBSNAKE};
+                entCounts = new int[]{10, 2};
+                break;
+            case 7:
+                shapes = new int[][][]{
+                        CGoLShapeConsts.GOSPER_DOWN_LEFT,
+                        CGoLShapeConsts.GOSPER_DOWN_RIGHT,
+                        CGoLShapeConsts.R_PENTOMINO
+                };
+                shapeCounts = new int[]{2, 2, 4};
+                break;
+            case 8:
+                ents = new EntityID[]{EntityID.GOSPER};
+                entCounts = new int[]{1};
+                break;
             default:
-                ents = new EntityID[]{EntityID.TUBSNAKE, EntityID.VYRAPUFFER};
-                entCounts = new int[]{5, 3};
+                ents = new EntityID[]{EntityID.TUBSNAKE, EntityID.VYRAPUFFER, EntityID.GOSPER};
+                entCounts = new int[]{5, 1, 1};
                 shapes = new int[][][]{CGoLShapeConsts.R_PENTOMINO,
                         CGoLShapeConsts.GLIDER_DOWN_LEFT, CGoLShapeConsts.GLIDER_DOWN_RIGHT,
                         CGoLShapeConsts.GLIDER_UP_LEFT, CGoLShapeConsts.GLIDER_UP_RIGHT};
                 shapeCounts = new int[]{5, 10, 10, 10, 10};
         }
 
+        // scale entCounts & shapeCounts using multiplier
+        for (int i=0; i<entCounts.length; i++) {
+            entCounts[i] = entCounts[i] * multipler;
+        }
+        for (int i=0; i<shapeCounts.length; i++) {
+            shapeCounts[i] = shapeCounts[i] * multipler;
+        }
         return new WarpInEventRegion(scene, entityFactory, maxLength, ents, entCounts, shapes, shapeCounts, regionNumber+1);
     }
 

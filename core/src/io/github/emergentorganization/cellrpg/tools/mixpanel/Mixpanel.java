@@ -76,12 +76,13 @@ public class Mixpanel {
         }
     }
 //
-    public void gameOverEvent(final PixelonTransmission pt) {
+    public void gameOverEvent(final int score, final int wave) {
         try{
             JSONObject props = new JSONObject();
 
             // report score:
-            props.put("score", pt.playerScore);
+            props.put("score", score);
+            props.put("wave", wave);
 
             // report input method @ game end
             Preferences prefs = GameSettings.getPreferences();

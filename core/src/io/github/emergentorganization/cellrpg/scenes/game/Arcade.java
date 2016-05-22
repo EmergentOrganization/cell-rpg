@@ -63,7 +63,7 @@ public class Arcade extends WorldScene {
         // for using WarpInEventRegions:
         int maxTimeInRegion = 3*60*1000;  // max time before region moves ahead anyway [ms]
         wc.setSystem(new LeveledRegionSwitcher(new WarpInEventRegion(
-                this, entityFactory, maxTimeInRegion, -1)));  // -1 to use test region, 0 is typical starting wave
+                this, entityFactory, maxTimeInRegion, 0)));  // -1 to use test region, 0 is typical starting wave
 //        // for using SingleShapeWarp and SingleEntityWarp Regions:
 //        wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(
 //                this, 10*1000, CGoLShapeConsts.BLINKER_H, .5f, CALayer.vyroid_values()

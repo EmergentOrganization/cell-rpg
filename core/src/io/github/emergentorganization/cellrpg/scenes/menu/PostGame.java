@@ -52,6 +52,7 @@ public class PostGame extends WorldScene {
 
         // add your score to pt.scores
         pt.scores.addScore(pt.playerScore);
+        pt.mixpanel.gameOverEvent(pt);
 
         stage.clear();
         initUI();

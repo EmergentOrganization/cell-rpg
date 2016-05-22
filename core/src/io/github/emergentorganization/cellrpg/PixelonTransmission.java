@@ -42,7 +42,7 @@ public class PixelonTransmission extends Game {
     private FileStructure fileStructure;
     private Skin skin;
     private BodyEditorLoader bodyLoader;
-    private Mixpanel mixpanel;
+    public Mixpanel mixpanel;
     private String version;
     public Scores scores;
     public int playerScore = 0;

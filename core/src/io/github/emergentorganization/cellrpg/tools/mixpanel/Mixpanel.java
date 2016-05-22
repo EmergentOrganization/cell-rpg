@@ -1,6 +1,10 @@
 package io.github.emergentorganization.cellrpg.tools.mixpanel;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Preferences;
 import com.mixpanel.mixpanelapi.MessageBuilder;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -72,23 +76,20 @@ public class Mixpanel {
         }
     }
 //
-//    public void gameOverEvent(final Scene scene) {
-//        try{
-//            JSONObject props = new JSONObject();
-//
-//            // report score:
-//            int score = -1;  // score = -1 for non-scoring scenes
-//            if (scene instanceof arcadeScore){
-//                score = ((arcadeScore)scene).getScore();
-//            }
-//            props.put("score", score);
-//
-//            // report input method @ game end
-//            props.put("input_method",
-//                scene.getPlayer().getFirstComponentByType(PlayerInputComponent.class).getCurrentInputMethod().getName()
-//            );
-//
-//            // report CA generation lengths
+    public void gameOverEvent(final PixelonTransmission pt) {
+        try{
+            JSONObject props = new JSONObject();
+
+            // report score:
+            props.put("score", pt.playerScore);
+
+            // report input method @ game end
+            Preferences prefs = GameSettings.getPreferences();
+
+            props.put("movement_method", prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));
+            props.put("weapon_method", prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
+
+            // report CA generation lengths
 //            try {
 //                if (scene instanceof CAScene) {
 //                    props.put("min_gen_time",
@@ -101,13 +102,13 @@ public class Mixpanel {
 //            } catch (NullPointerException ex){  // scene doesn't have requested CALayer
 //                // nvm it
 //            }
-//
-//            defaultEvent("game_over", props);
-//        } catch (JSONException ex) {
-//            logger.error("analytics JSON err: " + ex.getMessage());
-//        }
-//
-//    }
+
+            defaultEvent("game_over", props);
+        } catch (JSONException ex) {
+            logger.error("analytics JSON err: " + ex.getMessage());
+        }
+
+    }
 //
     private void defaultEvent(final String EVENT_ID, JSONObject props ) {
         // basic single event with given properties

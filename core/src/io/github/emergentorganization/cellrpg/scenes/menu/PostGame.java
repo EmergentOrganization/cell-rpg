@@ -104,14 +104,11 @@ public class PostGame extends WorldScene {
             // } else {
 
             // TODO: fix spacing between columns
-            Label tableRow = new Label(
-                    Integer.toString(rank) + "     "
-                            + username + "    "
-                            + Integer.toString(score),
-                    skin
-            );
-            scoreTable.add(tableRow).center().row();
-            cursorY -= tableRow.getHeight();
+            scoreTable.add(new Label(Integer.toString(rank+1) + " | ", skin)).right();
+            scoreTable.add(new Label(username, skin)).left();
+            Label scoreText = new Label( " | " + formatScore(score), skin);
+            scoreTable.add(scoreText).left().row();
+            cursorY -= scoreText.getHeight();
 
             if (cursorY < tableBottom){
                 break;
@@ -120,6 +117,11 @@ public class PostGame extends WorldScene {
         scoreTable.pack();
         scoreTable.setPosition(stage.getWidth()/2, tableTop, Align.top);
         return scoreTable;
+    }
+
+    private String formatScore(int score){
+        // return rank formatted for display in table
+        return String.format("%08d",score);
     }
 
     private Table makeMenuTable() {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -19,13 +20,16 @@ public class PauseWindow extends VisWindow {
 
     private final SettingsMenu settingsMenu;
     private final DebugMenu debugMenu;
+    private final EquipmentMenu equipmentMenu;
+    PixelonTransmission pt;
 
-    public PauseWindow(final Stage stage, final SceneManager sceneManager, World world) {
+    public PauseWindow(PixelonTransmission pt, final Stage stage, final SceneManager sceneManager, World world) {
         super("", false);
 
         logger.debug("enter pause menu");
 
         VisTable table = new VisTable();
+        this.pt = pt;
         this.setFillParent(false);
         this.centerWindow();
         this.add(table);
@@ -47,6 +51,8 @@ public class PauseWindow extends VisWindow {
         settingsMenu = new SettingsMenu(table, stage, "settings", world);
 
         debugMenu = new DebugMenu(table, stage, "debug menu");
+
+        equipmentMenu = new EquipmentMenu(pt, table, stage, "equipment menu");
 
         VisTextButton exit = new VisTextButton("exit to main menu");
         exit.addListener(new ClickListener() {
@@ -70,5 +76,7 @@ public class PauseWindow extends VisWindow {
             settingsMenu.closeSubmenu();
         if (debugMenu != null)
             debugMenu.closeSubmenu();
+        if (equipmentMenu != null)
+            equipmentMenu.closeSubmenu();
     }
 }

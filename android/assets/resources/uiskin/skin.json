@@ -34,13 +34,18 @@
     "toggle": { "down": "default-round-down", "checked": "default-round-down", "up": "default-round" }
   },
 
+  "com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle":{
+    "plus": { "up": "tree-plus", "down": "default-round-down" },
+    "minus": { "up": "tree-minus", "down": "default-round-down" }
+  },
+
   "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle": {
     "default": {
       "font": "32",
       "fontColor": "white",
       "overFontColor": "teal",
-      "down": "default-round-down",
-//      "up": "default-round"
+      "down": "default-round-down"//,
+      //"up": "default-round"
     },
     "toggle": {
       "down": "default-round-down",

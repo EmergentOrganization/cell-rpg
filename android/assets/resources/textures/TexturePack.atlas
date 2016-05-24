@@ -444,6 +444,13 @@ game/shield/75p
   orig: 100, 100
   offset: 0, 0
   index: -1
+game/targeter
+  rotate: false
+  xy: 2591, 805
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
 game/vyrapuffer/0
   rotate: false
   xy: 1673, 248

@@ -62,7 +62,7 @@ public class WorldFactory {
         wc.setSystem(new EntityLifecycleSystem());
         EventManager eventManager = new EventManager();
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
-        wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
+        wc.setSystem(new WindowSystem(pt, stage, batch, pt.getSceneManager())); // render windows after everything else
         wc.setSystem(new FPSLoggerSystem());
 
         wc.setSystem(new MoodSystem(eventManager));
@@ -129,7 +129,7 @@ public class WorldFactory {
         wc.setSystem(new EntityLifecycleSystem());
         EventManager eventManager = new EventManager();
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
-        wc.setSystem(new WindowSystem(stage, batch, pt.getSceneManager())); // render windows after everything else
+        wc.setSystem(new WindowSystem(pt, stage, batch, pt.getSceneManager())); // render windows after everything else
 
         World world = new World(wc);
         entityFactory.initialize(world);

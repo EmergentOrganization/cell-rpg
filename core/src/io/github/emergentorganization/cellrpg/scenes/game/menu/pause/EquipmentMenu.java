@@ -1,18 +1,17 @@
 package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
-import com.kotcrab.vis.ui.widget.VisImageButton;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
+import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
 
 public class EquipmentMenu extends Submenu {
     PixelonTransmission pt;
@@ -37,17 +36,33 @@ public class EquipmentMenu extends Submenu {
 //            }
 //        });
 
+        // TODO: show scroll bar if some cards outside of window
+        Equipment[] equipment = {
+                new Equipment(),
+                new Equipment(),
+                new Equipment()
+        };
+
+        for (Equipment equip : equipment){
+            appendEquipmentCard(equip);
+        }
+
+        //menuTable.pack();
+        //menuTable.layout();
+    }
+
+    private void appendEquipmentCard(Equipment equipm){
         final HorizontalGroup mainRow = new HorizontalGroup();
 
         // === LEFT COLUMN ===
         final VerticalGroup leftCol = new VerticalGroup();
 
         //final Image powerImg = new Image();
-        final VisLabel powerImg = new VisLabel("pwr");
+        final VisLabel powerImg = new VisLabel("pwr:"+equipm.powered);
         leftCol.addActor(powerImg);
 
         //final Image damageImg = new Image();
-        final VisLabel damageImg = new VisLabel("dmg");
+        final VisLabel damageImg = new VisLabel("dmg:"+equipm.damaged);
         leftCol.addActor(damageImg);
 
 //        final VisTextButton minusBtn = new VisTextButton("-");
@@ -63,21 +78,21 @@ public class EquipmentMenu extends Submenu {
         spriteAndDetailGrp.addActor(sprite);
         final VerticalGroup detailsCol = new VerticalGroup();
 
-        final VisLabel name = new VisLabel("module name");
+        final VisLabel name = new VisLabel(equipm.name);
         detailsCol.addActor(name);
 
         final HorizontalGroup statsGrp = new HorizontalGroup();
-        final VisLabel shieldStat = new VisLabel("#/e");
+        final VisLabel shieldStat = new VisLabel(equipm.sheildStat+"/e");
         statsGrp.addActor(shieldStat);
-        final VisLabel attackStat = new VisLabel("#/e");
+        final VisLabel attackStat = new VisLabel(equipm.attackStat+"/e");
         statsGrp.addActor(attackStat);
-        final VisLabel moveStat = new VisLabel("#/e");
+        final VisLabel moveStat = new VisLabel(equipm.moveStat+"/e");
         statsGrp.addActor(moveStat);
-        final VisLabel subStat = new VisLabel("#");
+        final VisLabel subStat = new VisLabel(Integer.toString(equipm.satStat));
         statsGrp.addActor(subStat);
         detailsCol.addActor(statsGrp);
 
-        final VisTextButton actionBtn = new VisTextButton("click to edit");
+        final VisTextButton actionBtn = new VisTextButton("--------");//"click to edit");
         detailsCol.addActor(actionBtn);
 
         spriteAndDetailGrp.addActor(detailsCol);
@@ -85,7 +100,24 @@ public class EquipmentMenu extends Submenu {
         midCol.addActor(spriteAndDetailGrp);
 
         // energy bar
-        midCol.addActor(new VisLabel("---------"));
+        String energyBar = "|";
+        // base energy boxes
+        for (int i = 0; i < equipm.baseEnergy; i++){
+            if (equipm.powerFilled > i) {
+                energyBar += "X|";
+            } else {
+                energyBar += "O|";
+            }
+        }
+        // other energy boxes
+        for (int i = 0; i < equipm.energySlots; i++){
+            if (equipm.powerFilled - equipm.baseEnergy > i){
+                energyBar += "x|";
+            } else {
+                energyBar += "o|";
+            }
+        }
+        midCol.addActor(new VisLabel(energyBar));
 
         mainRow.addActor(midCol);
 
@@ -100,9 +132,6 @@ public class EquipmentMenu extends Submenu {
         // still not bottom? why? :C
 
         menuTable.add(mainRow);
-
         menuTable.row();
-        //menuTable.pack();
-        //menuTable.layout();
     }
 }

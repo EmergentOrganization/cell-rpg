@@ -11,6 +11,7 @@ import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
+import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Shield;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
@@ -53,7 +54,10 @@ public class Player extends EntityCreator{
                 .build();
 
         final EquipmentList ec = ent.getComponent(EquipmentList.class);
-        ec.addEquipment(new Equipment(), world, pos);
+        ec.addEquipment(
+                new Shield("Default Shield", "basic starter shield", 1, 3, 1),
+                world, pos
+        );
 
         eventManager.addListener(new EventListener() {
             @Override

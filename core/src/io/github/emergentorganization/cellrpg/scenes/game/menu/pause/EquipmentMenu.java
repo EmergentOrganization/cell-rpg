@@ -1,5 +1,8 @@
 package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 
+import com.artemis.Entity;
+import com.artemis.World;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -10,13 +13,21 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.components.EquipmentList;
+import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EquipmentMenu extends Submenu {
     PixelonTransmission pt;
-    public EquipmentMenu(PixelonTransmission pt, VisTable table, Stage stage, String buttonText) {
+    World world;
+
+    private final Logger logger = LogManager.getLogger(getClass());
+    public EquipmentMenu(PixelonTransmission pt, World world, VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
         this.pt = pt;
+        this.world = world;
     }
 
     @Override
@@ -36,14 +47,13 @@ public class EquipmentMenu extends Submenu {
 //        });
 
         // TODO: show scroll bar if some cards outside of window
-        Equipment[] equipment = {
-                new Equipment(),
-                new Equipment(),
-                new Equipment()
-        };
-
-        for (Equipment equip : equipment){
-            appendEquipmentCard(equip);
+        try {
+            Entity player = world.getSystem(TagManager.class).getEntity(Tags.PLAYER);
+            for (Equipment equip : player.getComponent(EquipmentList.class).equipment){
+                appendEquipmentCard(equip);
+            }
+        } catch(NullPointerException ex) {
+            logger.error("cannot show equipment (player not instantiated?)", ex);
         }
 
         //menuTable.pack();
@@ -81,13 +91,13 @@ public class EquipmentMenu extends Submenu {
         detailsCol.addActor(name);
 
         final HorizontalGroup statsGrp = new HorizontalGroup();
-        final VisLabel shieldStat = new VisLabel(equipm.sheildStat+"/e");
+        final VisLabel shieldStat = new VisLabel("|"+equipm.sheildStat+"/e|");
         statsGrp.addActor(shieldStat);
-        final VisLabel attackStat = new VisLabel(equipm.attackStat+"/e");
+        final VisLabel attackStat = new VisLabel("|"+equipm.attackStat+"/e|");
         statsGrp.addActor(attackStat);
-        final VisLabel moveStat = new VisLabel(equipm.moveStat+"/e");
+        final VisLabel moveStat = new VisLabel("|"+equipm.moveStat+"/e|");
         statsGrp.addActor(moveStat);
-        final VisLabel subStat = new VisLabel(Integer.toString(equipm.satStat));
+        final VisLabel subStat = new VisLabel("|"+Integer.toString(equipm.satStat)+"|");
         statsGrp.addActor(subStat);
         detailsCol.addActor(statsGrp);
 

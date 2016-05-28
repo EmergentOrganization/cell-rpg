@@ -52,7 +52,7 @@ public class PauseWindow extends VisWindow {
 
         debugMenu = new DebugMenu(table, stage, "debug menu");
 
-        equipmentMenu = new EquipmentMenu(pt, table, stage, "equipment menu");
+        equipmentMenu = new EquipmentMenu(pt, world, table, stage, "equipment menu");
 
         VisTextButton exit = new VisTextButton("exit to main menu");
         exit.addListener(new ClickListener() {

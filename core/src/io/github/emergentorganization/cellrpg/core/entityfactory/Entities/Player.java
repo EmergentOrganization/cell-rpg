@@ -6,10 +6,11 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
-import io.github.emergentorganization.cellrpg.components.Equipment;
+import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
@@ -51,41 +52,13 @@ public class Player extends EntityCreator{
                         //.health(1) // shield takes care of this instead
                 .build();
 
-        // Shield
-        final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
-        final Entity shield = new EntityBuilder(world, EntityFactory.object, "Energy Shield", EntityID.PLAYER_SHIELD.toString(), pos)
-                .tag("shield")
-                .addBuilder(new VisualBuilder()
-                                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
-                                .renderIndex(RenderIndex.PLAYER_SHIELD)
-                )
-                .build();
-
-        final Equipment ec = ent.getComponent(Equipment.class);
-        ec.shieldEntity = shield.getId();
-        ec.shieldState = MAX_SHIELD_STATE;
+        final EquipmentList ec = ent.getComponent(EquipmentList.class);
+        ec.addEquipment(new Equipment(), world, pos);
 
         eventManager.addListener(new EventListener() {
             @Override
             public void notify(EntityEvent event) {
                 switch (event.event) {
-                    case PLAYER_HIT:
-                        ec.shieldState--;
-                        if (ec.shieldState < 0) {
-                            ec.shieldState = 0;
-                            eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_SHIELD_DOWN));
-                        } else {
-                            shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(ec.shieldState));
-                        }
-                        break;
-                    case POWERUP_PLUS:
-//                        System.out.println("shield (" + ec.shieldState + ") powerup");
-                        if (ec.shieldState < (MAX_SHIELD_STATE)) {
-                            ec.shieldState++;
-//                            System.out.println("shield++");
-                            shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(ec.shieldState));
-                        }
-                        break;
                     case POWERUP_STAR:
                         Vector2 cen = ent.getComponent(Position.class).getCenter(ent.getComponent(Bounds.class), 0);
                         Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());

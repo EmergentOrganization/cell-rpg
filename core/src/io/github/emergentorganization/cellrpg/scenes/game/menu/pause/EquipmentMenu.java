@@ -11,7 +11,6 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
-import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
 
 public class EquipmentMenu extends Submenu {
     PixelonTransmission pt;

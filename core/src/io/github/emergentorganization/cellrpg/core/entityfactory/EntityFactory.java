@@ -76,7 +76,7 @@ public class EntityFactory {
         player = new ArchetypeBuilder(character)
                 .add(InputComponent.class)
                 .add(CameraFollow.class)
-                .add(Equipment.class)
+                .add(EquipmentList.class)
                 .add(WeaponComponent.class)
                 .add(StatsTracker.class)
                 .add(SpontaneousGenerationList.class)

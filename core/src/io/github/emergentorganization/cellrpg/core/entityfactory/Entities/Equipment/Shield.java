@@ -24,22 +24,14 @@ public class Shield extends Equipment {
     public int shieldEntity = -1;
     public int shieldState = 0;
 
-    public Shield(String name, String description, int baseEnergy, int energySlots, int sheildStat){
-        this.name = name;
-        this.description = description;
+    public Shield(String name, String description, int baseEnergy, int energySlots, int shieldStat){
+        super(name, description, baseEnergy, energySlots);
         this.type = EquipmentType.SHIELD;
 
-        this.baseEnergy = baseEnergy;
-        this.energySlots = energySlots;
-
-        this.attackStat = 0;
-        this.sheildStat = sheildStat;
-        this.moveStat   = 0;
-        this.satStat    = 0;
+        this.shieldStat = shieldStat;
     }
 
     public void create(World world, Vector2 pos){
-        // Shield  TODO: generalize this and move shield stuff into ShieldEquipment class (which extends Equipment)
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
         final Entity shield = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag("shield")

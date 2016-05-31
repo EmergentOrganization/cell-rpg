@@ -61,6 +61,7 @@ public class EquipmentMenu extends Submenu {
     }
 
     private void appendEquipmentCard(Equipment equipm){
+        // TODO: set color of card based on equipm.type
         final HorizontalGroup mainRow = new HorizontalGroup();
 
         // === LEFT COLUMN ===
@@ -91,7 +92,7 @@ public class EquipmentMenu extends Submenu {
         detailsCol.addActor(name);
 
         final HorizontalGroup statsGrp = new HorizontalGroup();
-        final VisLabel shieldStat = new VisLabel("|"+equipm.sheildStat+"/e|");
+        final VisLabel shieldStat = new VisLabel("|"+equipm.shieldStat +"/e|");
         statsGrp.addActor(shieldStat);
         final VisLabel attackStat = new VisLabel("|"+equipm.attackStat+"/e|");
         statsGrp.addActor(attackStat);

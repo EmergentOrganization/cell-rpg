@@ -14,7 +14,6 @@ import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInterac
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
-import io.github.emergentorganization.cellrpg.components.Weapon.WeaponComponent;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
@@ -77,7 +76,6 @@ public class EntityFactory {
                 .add(InputComponent.class)
                 .add(CameraFollow.class)
                 .add(EquipmentList.class)
-                .add(WeaponComponent.class)
                 .add(StatsTracker.class)
                 .add(SpontaneousGenerationList.class)
                 .add(EntitySpawnField.class)
@@ -270,7 +268,7 @@ public class EntityFactory {
             @Override
             public void notify(EntityEvent event) {
                 if (event.event == GameEvent.POWERUP_STAR){
-                    tagManager.getEntity(Tags.PLAYER).getComponent(WeaponComponent.class).powerUp(Powerup.FIRE_RATE);
+                    tagManager.getEntity(Tags.PLAYER).getComponent(EquipmentList.class).powerUp(Powerup.FIRE_RATE);
                 }
             }
         });

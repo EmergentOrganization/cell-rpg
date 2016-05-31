@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Appenders>
+        <File name="FILE" fileName="app.log">
+            <PatternLayout pattern="[%p]\t%d{HH:mm:ss.SSS}\t%c{2}.%M\t-\t%m%n"/>
+            <!--
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
+            </PatternLayout>
+            -->
+        </File>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%p]\t%d{HH:mm:ss.SSS}\t%c{2}.%M\t-\t%m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <!-- levels: ALL, TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF -->
+
+        <!-- === root level: === -->
+        <Root level="TRACE">
+            <AppenderRef ref="STDOUT" level="INFO"/>
+            <AppenderRef ref="FILE"   level="INFO"/>
+        </Root>
+
+        <!-- === class-specific levels === -->
+        <!-- enable detailed debugging for whatever classes are in heavy development -->
+        <logger name="io.github.emergentorganization.cellrpg.scenes.menu.FirstStartWindow" level="trace" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="io.github.emergentorganization.cellrpg.scenes.menu.MainMenu" level="trace" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+
+        <!-- suppress "stamp applied" spam -->
+        <logger name="io.github.emergentorganization.cellrpg.components.CAGridComponents" level="WARN" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+    </Loggers>
+</Configuration>

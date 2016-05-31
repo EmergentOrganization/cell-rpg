@@ -1,0 +1,9 @@
+{
+  "pulseLaser":{
+    "name":"Pulse Laser",
+    "description":"Basic pulse laser.",
+    "type": "weapon",
+    "attackStat":10,
+    "baseEnergy":1
+  }
+}

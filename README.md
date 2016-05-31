@@ -1,14 +1,22 @@
 # cell-rpg
 
-[![Join the chat at https://gitter.im/EmergentOrganization/cell-rpg](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/EmergentOrganization/cell-rpg?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 RPG based in a world where cellular automata have run rampant. 
-Soon to be available on android (and more).
 Developed using libGDX.
+All rights reserved
 
-![concept art](http://i.imgur.com/e6d5DJc.png)
+* [concept art](http://imgur.com/a/5sx9C)
+* [concept/demo gifs/gfys](http://www.gfycat.com/7yl4r/planiverse_bridge)
+* [demo videos](https://www.youtube.com/playlist?list=PL-nLMUFdPaNRnWnwuSzN5RnzLE7Iey3cB)
+* [game-world wiki](http://planiverse-bridge.wikia.com/wiki/Planiverse_bridge_Wikia)
+* dev chat : [![Join the chat at https://gitter.im/EmergentOrganization/cell-rpg](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/EmergentOrganization/cell-rpg?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+ 
+[![Build Status](https://api.travis-ci.org/EmergentOrganization/cell-rpg.svg)](https://travis-ci.org/EmergentOrganization/cell-rpg) 
+[![GitHub release](https://img.shields.io/github/release/EmergentOrganization/cell-rpg.svg)](https://github.com/EmergentOrganization/cell-rpg/releases)
+[![Bountysource](https://img.shields.io/bountysource/team/emergent-organization/activity.svg)](https://www.bountysource.com/teams/emergent-organization)
+[![ghit.me hit counter](https://ghit.me/badge.svg?repo=EmergentOrganization/cell-rpg)](https://ghit.me/repo/EmergentOrganization/cell-rpg)
 
-## Getting Started
+
+## Developer Setup
 This project (and LibGDX) uses Gradle to install dependencies, but you _need_ to ensure your java environment and android sdk are properly set up first. We use primarily intellij IDEA to develop (but you can use others) and will do our best to guide you through the process. In addition to the guide below, you can find more information in [libGDX's dev environment set up guide](https://github.com/libgdx/libgdx/wiki/Setting-up-your-Development-Environment-%28Eclipse%2C-Intellij-IDEA%2C-NetBeans%29).
 
 If you're having trouble, check the troubleshooting section at the bottom of this section and contact us on our [Gitter Chatroom](https://gitter.im/EmergentOrganization/cell-rpg); we're more than happy to assist.
@@ -40,8 +48,13 @@ Once your development environment is ready, navigate to the root directory of th
 
 Now that you have all of the dependencies you can make and run a build using `./gradlew desktop:run`. Please ensure this works before trying to import into intellij.
 
-### import into Intellij
+### Import into Intellij
 Finally, import the project **as a Gradle Project** in your favorite IDE. [Follow LibGDX's import guide](https://github.com/libgdx/libgdx/wiki/Gradle-and-Eclipse) to import the project. That particular link is for Eclipse, but if you look on the table of contents, you will see setup guides for various other IDEs.
+
+### Update submodules
+Navigate to the root directory of the project in a shell/cmd and run the following commands:
+* `git submodule init`
+* `git submodule update`
 
 #### run configurations:
 
@@ -69,3 +82,14 @@ $ANDROID_HOME environment variable is not set properly. You may need to edit it 
 > Gradle is giving me unusual build errors!
 
 Ensure that you are using the copy of gradle provided in the repository (`gradlew`), or that you are using version `2.4`
+
+> Gradle's stacktrace isn't formatted with symbolic links to code in IntelliJ IDEA
+
+With the recent addition of IDEA version 15, java-grade and android-gradle misbehave when they are in the same project. 
+To fix this, open the desktop module settings in IntelliJ, and remove any references to android-gradle under *Facets*
+
+> ArrayIndexOutOfBoundsException: 0 at LinuxDisplay.getAvailableDisplayModes(LinuxDisplay.java:951)
+
+This seems to occur when running the project on an xorg-server with more than one monitor attached. Ensure that `xorg-xrandr` is installed and configured correctly.
+
+

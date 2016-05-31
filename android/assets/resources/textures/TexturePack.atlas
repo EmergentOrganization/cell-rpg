@@ -1,0 +1,487 @@
+
+TexturePack.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+game/bullet
+  rotate: false
+  xy: 512, 75
+  size: 15, 15
+  orig: 15, 15
+  offset: 0, 0
+  index: -1
+game/char-civ1-blinker/0
+  rotate: false
+  xy: 2, 52
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1
+game/char-civ1-blinker/1
+  rotate: false
+  xy: 4004, 4056
+  size: 40, 38
+  orig: 40, 38
+  offset: 0, 0
+  index: -1
+game/char-player/0
+  rotate: false
+  xy: 2, 14
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/1
+  rotate: false
+  xy: 44, 54
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/2
+  rotate: false
+  xy: 4004, 4018
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/3
+  rotate: false
+  xy: 4046, 4058
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/4
+  rotate: false
+  xy: 44, 16
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/5
+  rotate: false
+  xy: 86, 54
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/6
+  rotate: false
+  xy: 4004, 3980
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/7
+  rotate: false
+  xy: 4046, 4020
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/8
+  rotate: false
+  xy: 86, 16
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/char-player/9
+  rotate: false
+  xy: 128, 54
+  size: 40, 36
+  orig: 40, 36
+  offset: 0, 0
+  index: -1
+game/environment/bg-arcade
+  rotate: false
+  xy: 2, 92
+  size: 4000, 4002
+  orig: 4000, 4002
+  offset: 0, 0
+  index: -1
+game/player-ammo/0p
+  rotate: false
+  xy: 2, 2
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+game/player-ammo/100p
+  rotate: false
+  xy: 14, 2
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+game/player-ammo/25p
+  rotate: false
+  xy: 26, 2
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+game/player-ammo/50p
+  rotate: false
+  xy: 38, 2
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+game/player-ammo/75p
+  rotate: false
+  xy: 4004, 3607
+  size: 10, 10
+  orig: 10, 10
+  offset: 0, 0
+  index: -1
+game/pond-bomb/0
+  rotate: false
+  xy: 4004, 3948
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/1
+  rotate: false
+  xy: 4046, 3988
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/10
+  rotate: false
+  xy: 4004, 3820
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/11
+  rotate: false
+  xy: 298, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/12
+  rotate: false
+  xy: 4004, 3788
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/13
+  rotate: false
+  xy: 330, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/14
+  rotate: false
+  xy: 4004, 3756
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/15
+  rotate: false
+  xy: 362, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/16
+  rotate: false
+  xy: 4004, 3724
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/17
+  rotate: false
+  xy: 394, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/18
+  rotate: false
+  xy: 4004, 3692
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/19
+  rotate: false
+  xy: 426, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/2
+  rotate: false
+  xy: 128, 22
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/20
+  rotate: false
+  xy: 4004, 3660
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/21
+  rotate: false
+  xy: 458, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/3
+  rotate: false
+  xy: 170, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/4
+  rotate: false
+  xy: 4004, 3916
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/5
+  rotate: false
+  xy: 202, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/6
+  rotate: false
+  xy: 4004, 3884
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/7
+  rotate: false
+  xy: 234, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/8
+  rotate: false
+  xy: 4004, 3852
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/pond-bomb/9
+  rotate: false
+  xy: 266, 60
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+game/powerup-plus
+  rotate: false
+  xy: 4004, 3638
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+game/powerup-star
+  rotate: false
+  xy: 490, 70
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+game/tubsnake
+  rotate: false
+  xy: 4004, 3619
+  size: 17, 17
+  orig: 17, 17
+  offset: 0, 0
+  index: -1
+
+TexturePack2.png
+size: 4096,4096
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+game/buildings/building-large-1
+  rotate: false
+  xy: 773, 2
+  size: 611, 1000
+  orig: 611, 1000
+  offset: 0, 0
+  index: -1
+game/buildings/building-round-1
+  rotate: false
+  xy: 1900, 698
+  size: 300, 304
+  orig: 300, 304
+  offset: 0, 0
+  index: -1
+game/buildings/vyroid-generator
+  rotate: false
+  xy: 1386, 490
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+game/environment/rift1
+  rotate: false
+  xy: 2, 3
+  size: 769, 999
+  orig: 769, 999
+  offset: 0, 0
+  index: -1
+game/environment/rift2
+  rotate: false
+  xy: 1386, 384
+  size: 512, 104
+  orig: 512, 104
+  offset: 0, 0
+  index: -1
+game/environment/the_edge
+  rotate: false
+  xy: 2, 1004
+  size: 4000, 3000
+  orig: 4000, 3000
+  offset: 0, 0
+  index: -1
+game/gosper/0
+  rotate: false
+  xy: 1386, 287
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/1
+  rotate: false
+  xy: 1900, 601
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/2
+  rotate: false
+  xy: 2202, 907
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/3
+  rotate: false
+  xy: 1386, 190
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/4
+  rotate: false
+  xy: 1900, 504
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/5
+  rotate: false
+  xy: 2202, 810
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/6
+  rotate: false
+  xy: 2489, 907
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/gosper/7
+  rotate: false
+  xy: 1386, 93
+  size: 285, 95
+  orig: 285, 95
+  offset: 0, 0
+  index: -1
+game/shield/100p
+  rotate: false
+  xy: 2202, 708
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game/shield/25p
+  rotate: false
+  xy: 2052, 402
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game/shield/50p
+  rotate: false
+  xy: 2304, 708
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game/shield/75p
+  rotate: false
+  xy: 2489, 805
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game/targeter
+  rotate: false
+  xy: 2591, 805
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1
+game/vyrapuffer/0
+  rotate: false
+  xy: 1673, 248
+  size: 150, 134
+  orig: 150, 134
+  offset: 0, 0
+  index: -1
+game/vyrapuffer/1
+  rotate: false
+  xy: 1673, 112
+  size: 150, 134
+  orig: 150, 134
+  offset: 0, 0
+  index: -1
+game/vyrapuffer/2
+  rotate: false
+  xy: 1900, 368
+  size: 150, 134
+  orig: 150, 134
+  offset: 0, 0
+  index: -1
+
+TexturePack3.png
+size: 256,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ui/CellRPG
+  rotate: false
+  xy: 2, 2
+  size: 236, 56
+  orig: 236, 56
+  offset: 0, 0
+  index: -1

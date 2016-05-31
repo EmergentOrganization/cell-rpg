@@ -76,48 +76,6 @@ public class MainMenu extends WorldScene {
             table.add(arcade).left().row();
         }
 
-        // story
-        {
-            TextButton story = new TextButton("> Stable Plainverse (Story Mode)", s);
-            story.align(Align.left);
-            story.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.STORY);
-                }
-            });
-
-            table.add(story).left().row();
-        }
-
-        // lab
-        {
-            TextButton lab = new TextButton("> LifeGene Lab", s);
-            lab.align(Align.left);
-            lab.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    //pt.getSceneManager().setScene(Scene.LAB);
-                }
-            });
-
-            table.add(lab).left().row();
-        }
-
-        // Map Editor
-        {
-            TextButton editor = new TextButton("> Map Editor", s);
-            editor.align(Align.left);
-            editor.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.EDITOR);
-                }
-            });
-
-            table.add(editor).left().row();
-        }
-
         // settings
         {
             TextButton settings = new TextButton("> Settings", s);

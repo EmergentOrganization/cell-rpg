@@ -48,10 +48,9 @@ public class Weapon extends Equipment {
     static final long FIRE_RATE_CHARGE_BOOST = 100;
 
     private final Logger logger = LogManager.getLogger(getClass());
-
-
-    public Weapon(String name, String description, int baseEnergy, int energySlots, int attackStat){
-        super(name, description, baseEnergy, energySlots);
+    
+    public Weapon(int parentId, String name, String description, int baseEnergy, int energySlots, int attackStat){
+        super(parentId, name, description, baseEnergy, energySlots);
         this.type = EquipmentType.WEAPON;
 
         this.attackStat = attackStat;
@@ -68,12 +67,12 @@ public class Weapon extends Equipment {
 //                .build();
     }
 
-    public void updatePosition(int parentEntityId, ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
         // TODO: re-enable once we have a weapon entity
 //        if (this.shieldEntity >= 0) {
 //            Bounds shieldBounds = boundsMapper.get(this.shieldEntity);
-//            Bounds ownerBounds = boundsMapper.get(parentEntityId);
-//            Position parentPos = posMapper.get(parentEntityId);
+//            Bounds ownerBounds = boundsMapper.get(parentId);
+//            Position parentPos = posMapper.get(parentId);
 //            posMapper.get(this.shieldEntity)
 //                    .position.set(parentPos.position)
 //                    .sub(

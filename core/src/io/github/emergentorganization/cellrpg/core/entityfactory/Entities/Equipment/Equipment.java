@@ -12,9 +12,10 @@ import io.github.emergentorganization.emergent2dcore.components.Position;
  */
 public abstract class Equipment {
     // TODO: remove/replace defaults
-    public String name = "Pulse Laser";
-    public String description = "Basic pulse laser.";
-    public EquipmentType type = EquipmentType.WEAPON;
+    public String name = "unnamed";
+    public String description = "description not given.";
+    public EquipmentType type = EquipmentType.CONTROLLER;
+    public int parentId = -1;
 
     public boolean powered = true;
     public boolean damaged = false;
@@ -28,7 +29,8 @@ public abstract class Equipment {
     public int moveStat   = 0;
     public int satStat    = 0;
 
-    public Equipment(String name, String description, int baseEnergy, int energySlots){
+    public Equipment(int parentId, String name, String description, int baseEnergy, int energySlots){
+        this.parentId = parentId;
         this.name = name;
         this.description = description;
 
@@ -49,7 +51,7 @@ public abstract class Equipment {
         // powers up the equipment (if applicable) with given powerup
     }
 
-    public abstract void updatePosition(int parentEntityId, ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper);
+    public abstract void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper);
     // movement management functions for the equipment. Acts to keep equipment entity next to parent.
     // Called by MovementSystem.
 }

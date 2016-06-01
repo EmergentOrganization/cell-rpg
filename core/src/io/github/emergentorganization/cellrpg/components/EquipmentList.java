@@ -26,9 +26,9 @@ public class EquipmentList extends Component {
         }
     }
 
-    public void moveEquipment(int parentEntityId, ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+    public void moveEquipment(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
         for (Equipment eq : equipment) {
-            eq.updatePosition(parentEntityId, boundsMapper, posMapper);
+            eq.updatePosition(boundsMapper, posMapper);
         }
     }
 

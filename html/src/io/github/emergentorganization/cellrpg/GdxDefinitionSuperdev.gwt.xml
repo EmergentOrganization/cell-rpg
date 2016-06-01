@@ -6,8 +6,11 @@
 	<inherits name='libgdx-utils' />
 	<inherits name='com.kotcrab.vis.vis-ui' />
 
-	<inherits name='CellRPG' />
-	<entry-point class='com.emergentorganization.cellrpg.client.HtmlLauncher' />
-	
-	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
+    <inherits name='io.github.emergentorganization.cellrpg.GdxDefinition' />
+    
+    <collapse-all-properties />
+    
+	<add-linker name="xsiframe"/>	
+	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
+	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>	
 </module>

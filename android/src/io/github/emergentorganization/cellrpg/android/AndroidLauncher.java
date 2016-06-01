@@ -1,4 +1,4 @@
-package com.emergentorganization.cellrpg.android;
+package io.github.emergentorganization.cellrpg.android;
 
 import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;

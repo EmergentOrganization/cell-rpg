@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'com.emergentorganization.cellrpg.GdxDefinition'
-    devModules 'com.emergentorganization.cellrpg.GdxDefinitionSuperdev'
+    modules 'io.github.emergentorganization.cellrpg.GdxDefinition'
+    devModules 'io.github.emergentorganization.cellrpg.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {

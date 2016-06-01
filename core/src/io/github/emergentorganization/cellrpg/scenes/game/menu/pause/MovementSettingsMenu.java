@@ -29,7 +29,7 @@ public class MovementSettingsMenu extends Submenu {
         final Preferences prefs = GameSettings.getPreferences();
 
         // weapon control buttons
-        final VisSelectBox weaponControlType = new VisSelectBox();
+        final VisSelectBox<String> weaponControlType = new VisSelectBox<String>();
         weaponControlType.setItems(playInProc.getWeaponCtrlChoices());
         menuTable.add(weaponControlType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         weaponControlType.setSelectedIndex(prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
@@ -55,7 +55,7 @@ public class MovementSettingsMenu extends Submenu {
         playInProc.getPlayerWeapon().addInputConfigButtons(menuTable, menuWindow);
 
         // movement controls
-        final VisSelectBox moveControlType = new VisSelectBox();
+        final VisSelectBox<String> moveControlType = new VisSelectBox<String>();
         moveControlType.setItems(playInProc.getMovementCtrlChoices());
         menuTable.add(moveControlType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         moveControlType.setSelectedIndex(prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));

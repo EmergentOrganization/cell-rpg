@@ -56,11 +56,11 @@ public class Player extends EntityCreator{
 
         final EquipmentList ec = ent.getComponent(EquipmentList.class);
         ec.addEquipment(
-                new Shield("Default Shield", "basic starter shield", 1, 3, 1),
+                new Shield(ent.getId(), "Default Shield", "basic starter shield", 1, 3, 1),
                 world, pos
         );
         ec.addEquipment(
-                new Weapon("Default Laser", "basic starter laser", 2, 5, 1),
+                new Weapon(ent.getId(), "Default Laser", "basic starter laser", 2, 5, 1),
                 world, pos
         );
 

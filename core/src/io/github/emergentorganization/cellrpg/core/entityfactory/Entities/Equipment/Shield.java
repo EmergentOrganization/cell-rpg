@@ -24,8 +24,8 @@ public class Shield extends Equipment {
     public int shieldEntity = -1;
     public int shieldState = 0;
 
-    public Shield(String name, String description, int baseEnergy, int energySlots, int shieldStat){
-        super(name, description, baseEnergy, energySlots);
+    public Shield(int parentId, String name, String description, int baseEnergy, int energySlots, int shieldStat){
+        super(parentId, name, description, baseEnergy, energySlots);
         this.type = EquipmentType.SHIELD;
 
         this.shieldStat = shieldStat;
@@ -71,11 +71,11 @@ public class Shield extends Equipment {
         });
     }
 
-    public void updatePosition(int parentEntityId, ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
         if (this.shieldEntity >= 0) {
             Bounds shieldBounds = boundsMapper.get(this.shieldEntity);
-            Bounds ownerBounds = boundsMapper.get(parentEntityId);
-            Position parentPos = posMapper.get(parentEntityId);
+            Bounds ownerBounds = boundsMapper.get(parentId);
+            Position parentPos = posMapper.get(parentId);
             posMapper.get(this.shieldEntity)
                     .position.set(parentPos.position)
                     .sub(

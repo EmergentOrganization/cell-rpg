@@ -39,11 +39,6 @@ public class MainMenu extends WorldScene {
     }
 
     @Override
-    protected boolean shouldStash() {
-        return true;
-    }
-
-    @Override
     public void show() {
         logger.info("showing main menu");
         super.show();

@@ -41,11 +41,6 @@ public class PostGame extends WorldScene {
     }
 
     @Override
-    protected boolean shouldStash() {
-        return true;
-    }
-
-    @Override
     public void show() {
         logger.trace("showing post-game menu");
         super.show();

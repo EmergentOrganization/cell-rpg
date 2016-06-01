@@ -11,11 +11,14 @@ import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.DialogDisplay;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Game world scene.
  */
 public abstract class WorldScene extends BaseScene {
+    private final Logger logger = LogManager.getLogger(getClass());
     public DialogDisplay dialogDisplay;
     public DebugDisplay debugDisplay;
     protected World world;
@@ -47,6 +50,7 @@ public abstract class WorldScene extends BaseScene {
 
     public void init(WorldConfiguration baseConfig) {
         batch = new SpriteBatch();
+        logger.warn("WorldScene init!");
         world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, baseConfig);
     }
 
@@ -65,10 +69,5 @@ public abstract class WorldScene extends BaseScene {
         super.dispose();
         world.dispose();
         batch.dispose();
-    }
-
-    @Override
-    protected boolean shouldStash() {
-        return false;
     }
 }

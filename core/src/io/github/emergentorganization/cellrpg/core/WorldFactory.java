@@ -27,9 +27,12 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.C
 import io.github.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 import io.github.emergentorganization.emergent2dcore.systems.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class WorldFactory {
+    private static final Logger logger = LogManager.getLogger(WorldFactory.class);
 
     public static World standardGameWorld(PixelonTransmission pt,
                                           SpriteBatch batch, Stage stage, EntityFactory entityFactory,

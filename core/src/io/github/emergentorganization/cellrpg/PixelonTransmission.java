@@ -177,7 +177,6 @@ public class PixelonTransmission extends Game {
     @Override
     public void dispose() {
         assetManager.dispose();
-        sceneManager.dispose();
         mixpanel.dispose();
         scores.dispose();
         GameSettings.dispose();

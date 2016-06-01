@@ -40,9 +40,4 @@ public abstract class BaseScene extends ScreenAdapter {
     public void dispose() {
         stage.dispose();
     }
-
-    /**
-     * Should the SceneManager stash this scene when navigating to a different scene?
-     */
-    protected abstract boolean shouldStash();
 }

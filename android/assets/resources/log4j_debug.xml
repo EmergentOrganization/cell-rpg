@@ -15,7 +15,7 @@
             <!--<AppenderRef ref="file" level="DEBUG"/>-->
             <AppenderRef ref="STDOUT" level="ALL"/>
         </Root>
-        <logger name="com.emergentorganization.cellrpg.CellRpg" level="trace" additivity="false">
+        <logger name="io.github.emergentorganization.cellrpg.CellRpg" level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
     </Loggers>

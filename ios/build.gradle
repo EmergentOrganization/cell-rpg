@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "com.emergentorganization.cellrpg.IOSLauncher"
+	mainClassName = "io.github.emergentorganization.cellrpg.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build

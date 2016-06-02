@@ -13,9 +13,11 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.components.EnergyLevel;
 import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
+import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,12 +54,20 @@ public class EquipmentMenu extends Submenu {
             for (Equipment equip : player.getComponent(EquipmentList.class).equipment){
                 appendEquipmentCard(equip);
             }
+            appendFreeEnergyIndicator(player);
         } catch(NullPointerException ex) {
             logger.error("cannot show equipment (player not instantiated?)", ex);
         }
 
         //menuTable.pack();
         //menuTable.layout();
+    }
+
+    private void appendFreeEnergyIndicator(Entity target){
+        EnergyLevel energyLevel = target.getComponent(EnergyLevel.class);
+        VisLabel energyLabel = new VisLabel("Energy Available:"+energyLevel.energyAvailable());
+        menuTable.add(energyLabel);
+        menuTable.row();
     }
 
     private void appendEquipmentCard(Equipment equipm){

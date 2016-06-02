@@ -67,6 +67,7 @@ public class WorldFactory {
         wc.setSystem(new MoodSystem(eventManager));
         wc.setSystem(new TimingSystem());
         wc.setSystem(new MusicSystem(assetManager));
+        wc.setSystem(new EnergySystem());
 
         // initialize world
         World world = new World(wc);

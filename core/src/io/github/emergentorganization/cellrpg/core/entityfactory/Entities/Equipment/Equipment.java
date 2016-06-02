@@ -17,7 +17,6 @@ public abstract class Equipment {
     public EquipmentType type = EquipmentType.CONTROLLER;
     public int parentId = -1;
 
-    public boolean powered = true;
     public boolean damaged = false;
 
     public int baseEnergy  = 0;
@@ -36,6 +35,10 @@ public abstract class Equipment {
 
         this.baseEnergy = baseEnergy;
         this.energySlots = energySlots;
+    }
+
+    public boolean isPowered(){
+        return powerFilled > baseEnergy;  // must be greater else just enough power to run but not to apply anything
     }
 
     public abstract void create(World world, Vector2 pos);  // TODO: pass parentEntityId here

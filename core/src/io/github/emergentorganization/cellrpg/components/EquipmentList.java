@@ -22,7 +22,9 @@ public class EquipmentList extends Component {
 
     public void rechargeEquipment(){
         for (Equipment eq: equipment){
-            eq.recharge(1);
+            if (eq.isPowered()) {
+                eq.recharge(eq.powerFilled);
+            }
         }
     }
 

@@ -87,6 +87,7 @@ public class Weapon extends Equipment {
         // recharge weapon
         if (charge < MAX_CHARGE) {
             charge += recharge_per_s * FREQ;
+            logger.trace("recharge weapon");
         }
 
         checkForPowerDown(FREQ);

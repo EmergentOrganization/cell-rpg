@@ -82,7 +82,7 @@ public class EquipmentMenu extends Submenu {
         if (DEBUG) leftCol.debug();
 
         //final Image powerImg = new Image();
-        final VisLabel powerImg = new VisLabel("pwr:"+equipm.powered);
+        final VisLabel powerImg = new VisLabel("pwr:"+equipm.isPowered());
         leftCol.addActor(powerImg);
 
         //final Image damageImg = new Image();

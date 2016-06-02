@@ -25,12 +25,15 @@ public class EnergyLevel extends Component {
         }
     }
 
-    public void freeEnergy(int amount){
+    public boolean freeEnergy(int amount){
+        // frees up given amount of energy, returns true. Returns false if attempting to free unallocated energy.
         if (allocatedEnergy >= amount){
             allocatedEnergy -= amount;
             availableEnergy += amount;
+            return true;
         } else {
             logger.error("attempt to free too much energy.");
+            return false;
         }
     }
 

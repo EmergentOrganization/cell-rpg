@@ -3,11 +3,13 @@ package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -17,13 +19,13 @@ import io.github.emergentorganization.cellrpg.components.EnergyLevel;
 import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
-import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class EquipmentMenu extends Submenu {
     PixelonTransmission pt;
     World world;
+    VisLabel energyLabel;
 
     private final Logger logger = LogManager.getLogger(getClass());
     public EquipmentMenu(PixelonTransmission pt, World world, VisTable table, Stage stage, String buttonText) {
@@ -51,10 +53,12 @@ public class EquipmentMenu extends Submenu {
         // TODO: show scroll bar if some cards outside of window
         try {
             Entity player = world.getSystem(TagManager.class).getEntity(Tags.PLAYER);
+            EnergyLevel energyLevel = player.getComponent(EnergyLevel.class);
+
             for (Equipment equip : player.getComponent(EquipmentList.class).equipment){
-                appendEquipmentCard(equip);
+                appendEquipmentCard(equip, energyLevel);
             }
-            appendFreeEnergyIndicator(player);
+            appendFreeEnergyIndicator(energyLevel);
         } catch(NullPointerException ex) {
             logger.error("cannot show equipment (player not instantiated?)", ex);
         }
@@ -63,14 +67,14 @@ public class EquipmentMenu extends Submenu {
         //menuTable.layout();
     }
 
-    private void appendFreeEnergyIndicator(Entity target){
-        EnergyLevel energyLevel = target.getComponent(EnergyLevel.class);
-        VisLabel energyLabel = new VisLabel("Energy Available:"+energyLevel.energyAvailable());
+    private void appendFreeEnergyIndicator(EnergyLevel energyLevel){
+        energyLabel = new VisLabel();
+        update_energyLabel(energyLevel);
         menuTable.add(energyLabel);
         menuTable.row();
     }
 
-    private void appendEquipmentCard(Equipment equipm){
+    private void appendEquipmentCard(final Equipment equipm, final EnergyLevel energyLevel){
         final boolean DEBUG = true;
         // TODO: set color of card based on equipm.type
         final HorizontalGroup mainRow = new HorizontalGroup();
@@ -82,7 +86,8 @@ public class EquipmentMenu extends Submenu {
         if (DEBUG) leftCol.debug();
 
         //final Image powerImg = new Image();
-        final VisLabel powerImg = new VisLabel("pwr:"+equipm.isPowered());
+        final VisLabel powerImg = new VisLabel();
+        update_pwrIndicator(powerImg, equipm);
         leftCol.addActor(powerImg);
 
         //final Image damageImg = new Image();
@@ -108,14 +113,15 @@ public class EquipmentMenu extends Submenu {
         detailsCol.addActor(name);
 
         final HorizontalGroup statsGrp = new HorizontalGroup();
-        final VisLabel shieldStat = new VisLabel("|"+equipm.shieldStat +"/e|");
+        final VisLabel shieldStat = new VisLabel();
         statsGrp.addActor(shieldStat);
-        final VisLabel attackStat = new VisLabel("|"+equipm.attackStat+"/e|");
+        final VisLabel attackStat = new VisLabel();
         statsGrp.addActor(attackStat);
-        final VisLabel moveStat = new VisLabel("|"+equipm.moveStat+"/e|");
+        final VisLabel moveStat = new VisLabel();
         statsGrp.addActor(moveStat);
-        final VisLabel subStat = new VisLabel("|"+Integer.toString(equipm.satStat)+"|");
+        final VisLabel subStat = new VisLabel();
         statsGrp.addActor(subStat);
+        update_stats(equipm, shieldStat, attackStat, moveStat, subStat);
         detailsCol.addActor(statsGrp);
 
         final VisTextButton actionBtn = new VisTextButton("--------");//"click to edit");
@@ -126,24 +132,9 @@ public class EquipmentMenu extends Submenu {
         midCol.addActor(spriteAndDetailGrp);
 
         // energy bar
-        String energyBar = "|";
-        // base energy boxes
-        for (int i = 0; i < equipm.baseEnergy; i++){
-            if (equipm.powerFilled > i) {
-                energyBar += "X|";
-            } else {
-                energyBar += "O|";
-            }
-        }
-        // other energy boxes
-        for (int i = 0; i < equipm.energySlots; i++){
-            if (equipm.powerFilled - equipm.baseEnergy > i){
-                energyBar += "x|";
-            } else {
-                energyBar += "o|";
-            }
-        }
-        midCol.addActor(new VisLabel(energyBar));
+        final VisLabel energyBarLabel = new VisLabel("");
+        update_energyBarLabel(energyBarLabel, equipm);
+        midCol.addActor(energyBarLabel);
 
         mainRow.addActor(midCol);
 
@@ -161,5 +152,71 @@ public class EquipmentMenu extends Submenu {
 
         menuTable.add(mainRow);
         menuTable.row();
+
+        plusBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                logger.trace(!equipm.powerIsFull());
+                if (!equipm.powerIsFull() && energyLevel.allocateEnergy(1)) {
+                    equipm.powerFilled += 1;
+                    update_energyLabel(energyLevel);
+                    update_energyBarLabel(energyBarLabel, equipm);
+                    update_pwrIndicator(powerImg, equipm);
+                    update_stats(equipm, shieldStat, attackStat, moveStat, subStat);
+                } // else not enough power available or already full
+            }
+        });
+
+        minusBtn.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y){
+                super.clicked(event, x, y);
+                if (equipm.powerIsEmpty() && energyLevel.freeEnergy(1)) {  // if power not empty
+                    equipm.powerFilled -= 1;
+                    update_energyLabel(energyLevel);
+                    update_energyBarLabel(energyBarLabel, equipm);
+                    update_pwrIndicator(powerImg, equipm);
+                    update_stats(equipm, shieldStat, attackStat, moveStat, subStat);
+                } // else no power allocated to free
+            }
+        });
+    }
+
+    private void update_stats(Equipment equipm,
+                              VisLabel shieldStat, VisLabel attackStat, VisLabel moveStat, VisLabel subStat){
+        shieldStat.setText("|" + equipm.shieldStat() +"/e|");
+        attackStat.setText("|" + equipm.attackStat()+"/e|");
+        moveStat.setText("|" + equipm.moveStat() +"/e|");
+        subStat.setText("|"+Integer.toString(equipm.satStat())+"|");
+    }
+
+    private void update_pwrIndicator(VisLabel powerIndicator, Equipment equipm){
+        powerIndicator.setText("pwr:"+equipm.isPowered());
+    }
+
+    private void update_energyLabel(EnergyLevel energyLevel){
+        energyLabel.setText("Energy Available:"+energyLevel.energyAvailable());
+    }
+
+    private void update_energyBarLabel(VisLabel energyBarLabel, Equipment equipm){
+        String energyBar = "|";
+        // base energy boxes
+        for (int i = 0; i < equipm.baseEnergy; i++){
+            if (equipm.powerFilled > i) {
+                energyBar += "X|";
+            } else {
+                energyBar += "O|";
+            }
+        }
+        // other energy boxes
+        for (int i = 0; i < equipm.energySlots; i++){
+            if (equipm.powerFilled - equipm.baseEnergy > i){
+                energyBar += "x|";
+            } else {
+                energyBar += "o|";
+            }
+        }
+        energyBarLabel.setText(energyBar);
     }
 }

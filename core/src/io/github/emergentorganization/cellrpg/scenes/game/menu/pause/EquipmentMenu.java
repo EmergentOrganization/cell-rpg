@@ -61,11 +61,15 @@ public class EquipmentMenu extends Submenu {
     }
 
     private void appendEquipmentCard(Equipment equipm){
+        final boolean DEBUG = true;
         // TODO: set color of card based on equipm.type
         final HorizontalGroup mainRow = new HorizontalGroup();
+        if (DEBUG) mainRow.debug();
 
         // === LEFT COLUMN ===
         final VerticalGroup leftCol = new VerticalGroup();
+//        leftCol.setFillParent(true);
+        if (DEBUG) leftCol.debug();
 
         //final Image powerImg = new Image();
         final VisLabel powerImg = new VisLabel("pwr:"+equipm.powered);
@@ -83,6 +87,8 @@ public class EquipmentMenu extends Submenu {
 
         // === MIDDLE COLUMN ===
         final VerticalGroup midCol = new VerticalGroup();
+        if (DEBUG) midCol.debug();
+
         final HorizontalGroup spriteAndDetailGrp = new HorizontalGroup();
         final Image sprite = new Image();
         spriteAndDetailGrp.addActor(sprite);
@@ -132,13 +138,15 @@ public class EquipmentMenu extends Submenu {
         mainRow.addActor(midCol);
 
         // === right col ===
-        final VerticalGroup rightCol = new VerticalGroup().align(Align.bottom);  // bottom?
+        final VerticalGroup rightCol = new VerticalGroup().fill().align(Align.bottom);  // bottom?
+//        rightCol.setFillParent(true);
+        if (DEBUG) rightCol.debug();
+
 //        final VisTextButton plusBtn = new VisTextButton("+");
         final ImageButton plusBtn = new ImageButton(pt.getUISkin(), "plus");
-        plusBtn.bottom();  // bottom!!!
+        plusBtn.bottom().padBottom(1);  // bottom!!!
         rightCol.addActor(plusBtn);
         mainRow.addActor(rightCol);
-
         // still not bottom? why? :C
 
         menuTable.add(mainRow);

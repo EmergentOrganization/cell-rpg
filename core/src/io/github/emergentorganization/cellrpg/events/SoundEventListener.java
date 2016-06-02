@@ -70,8 +70,5 @@ public class SoundEventListener implements EventListener {
             long id = sound.play();
             sound.setPriority(id, priority.ordinal());
         }
-        else {
-            logger.error("Could not find sound for event " + event.event.toString());
-        }
     }
 }

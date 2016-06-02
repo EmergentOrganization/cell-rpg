@@ -17,17 +17,16 @@ public abstract class Equipment {
     public EquipmentType type = EquipmentType.CONTROLLER;
     public int parentId = -1;
 
-    public boolean powered = true;
     public boolean damaged = false;
 
     public int baseEnergy  = 0;
     public int energySlots = 0;
     public int powerFilled = 0;
 
-    public int attackStat = 0;
-    public int shieldStat = 0;
-    public int moveStat   = 0;
-    public int satStat    = 0;
+    protected int attackStat = 0;
+    protected int shieldStat = 0;
+    protected int moveStat   = 0;
+    protected int satStat    = 0;
 
     public Equipment(int parentId, String name, String description, int baseEnergy, int energySlots){
         this.parentId = parentId;
@@ -38,10 +37,49 @@ public abstract class Equipment {
         this.energySlots = energySlots;
     }
 
+    public int attackStat(){
+        return attackStat*powerLevel();
+    }
+
+    public int shieldStat(){
+        return shieldStat*powerLevel();
+    }
+
+    public int moveStat(){
+        return moveStat*powerLevel();
+    }
+
+    public int satStat(){
+        return satStat*powerLevel();
+    }
+
+    public int powerLevel(){
+        // returns to what level this equipment is powered (above base power).
+        if (powerFilled-baseEnergy > 0){
+            return powerFilled-baseEnergy;
+        } else {
+            return 0;
+        }
+    }
+
+    public boolean powerIsFull(){
+        // return true if no more room for more power
+        return baseEnergy+energySlots <= powerFilled;
+    }
+
+    public boolean powerIsEmpty(){
+        // return true if no power at all allocated
+        return powerFilled > 0;
+    }
+
+    public boolean isPowered(){
+        return powerFilled > baseEnergy;  // must be greater else just enough power to run but not to apply anything
+    }
+
     public abstract void create(World world, Vector2 pos);  // TODO: pass parentEntityId here
     // instantiates the equipment Entity as child of parentEntityId
 
-    public void recharge(int FREQ) {
+    public void recharge() {
         // energy management functions for the equipment. Called by EnergySystem.
 
         // TODO: take some charge from the energySystem and give it to the equipment

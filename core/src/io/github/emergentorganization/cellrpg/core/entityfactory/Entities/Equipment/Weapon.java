@@ -83,13 +83,14 @@ public class Weapon extends Equipment {
     }
 
     @Override
-    public void recharge(int FREQ){
+    public void recharge(){
         // recharge weapon
-        if (charge < MAX_CHARGE) {
-            charge += recharge_per_s * FREQ;
+        if (isPowered() && charge < MAX_CHARGE) {
+            charge += recharge_per_s * powerLevel();
+            logger.trace("recharge weapon");
         }
 
-        checkForPowerDown(FREQ);
+        checkForPowerDown(1);
     }
 
     public void checkForPowerDown(int FREQ){

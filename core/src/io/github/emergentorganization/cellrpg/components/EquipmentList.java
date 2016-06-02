@@ -22,7 +22,7 @@ public class EquipmentList extends Component {
 
     public void rechargeEquipment(){
         for (Equipment eq: equipment){
-            eq.recharge(1);
+            eq.recharge();
         }
     }
 

@@ -24,10 +24,7 @@
 
         <!-- === class-specific levels === -->
         <!-- enable detailed debugging for whatever classes are in heavy development -->
-        <logger name="io.github.emergentorganization.cellrpg.scenes.menu.FirstStartWindow" level="trace" additivity="false">
-            <appender-ref ref="STDOUT"/>
-        </logger>
-        <logger name="io.github.emergentorganization.cellrpg.scenes.menu.MainMenu" level="trace" additivity="false">
+        <logger name="io.github.emergentorganization.cellrpg.scenes.game.menu.pause.EquipmentMenu" level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 

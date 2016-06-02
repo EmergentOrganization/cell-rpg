@@ -3,6 +3,7 @@ package io.github.emergentorganization.cellrpg.systems.CASystems;
 import com.badlogic.gdx.graphics.Camera;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.testUtils;
@@ -64,7 +65,8 @@ public class CAGenerationSystemTest {
         CAGridComponents testComps = new CAGridComponents();
 
         setupTest(testSystem, testComps, CGoLShapeConsts.BLINKER_H);
-        testSystem.generate(testComps, 0);
+        EventManager eventManager = new EventManager();
+        testSystem._generate(eventManager, testComps, 0);
 
         // # 5 # test that the components of your mock entity are what they should be after passing through the system
         assert testUtils.ifStatesMatchAt(testComps, CGoLShapeConsts.BLINKER_V, INP, INP);

@@ -74,18 +74,21 @@ public class CAGenerationSystem extends BaseEntitySystem {
     }
 
     public void generate(CAGridComponents gridComps, final int entId) {
-        // generates next state of the CA
+        _generate(eventManager, gridComps, entId);
+    }
 
+    public void _generate(EventManager eMan, CAGridComponents gridComps, final int entId) {
+        // generates next state of the CA
         gridComps.generation += 1;
         CAs.get(gridComps.ca).generate(gridComps);
 
         logger.debug("liveCells: " + gridComps.cellCount);
-        int deltaIntensity = gridComps.cellCount*gridComps.intensityPerCell;
+        int deltaIntensity = gridComps.cellCount * gridComps.intensityPerCell;
         logger.trace("cells increase intensity by " + deltaIntensity);
         if (moodSystem != null)
             moodSystem.intensity += deltaIntensity;
 
-        eventManager.pushEvent(new EntityEvent(entId, GameEvent.CA_GENERATION));
+        eMan.pushEvent(new EntityEvent(entId, GameEvent.CA_GENERATION));
     }
 
     private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, CAGridComponents gridComps) {

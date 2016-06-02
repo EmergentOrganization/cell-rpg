@@ -36,13 +36,13 @@ public abstract class BaseScene extends ScreenAdapter {
         stage.draw();
     }
 
+    /**
+     * Listener method called right before scene change. Override to add functionality
+     */
+    public void onSceneChange() {}
+
     @Override
     public void dispose() {
         stage.dispose();
     }
-
-    /**
-     * Should the SceneManager stash this scene when navigating to a different scene?
-     */
-    protected abstract boolean shouldStash();
 }

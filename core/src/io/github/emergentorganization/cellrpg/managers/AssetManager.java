@@ -22,7 +22,7 @@ public class AssetManager extends BaseSystem {
     private HashMap<String, Animation> animations;
     private Map<SoundEffect, Sound> soundEffects;
     private Map<ParticleEff, ParticleEffectPool> particlePools;
-    public com.badlogic.gdx.assets.AssetManager gdxAssetManager;
+    private com.badlogic.gdx.assets.AssetManager gdxAssetManager;
 
     public AssetManager(com.badlogic.gdx.assets.AssetManager assets) {
         setEnabled(false);

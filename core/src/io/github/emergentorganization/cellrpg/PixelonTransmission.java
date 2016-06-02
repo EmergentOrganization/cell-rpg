@@ -6,18 +6,20 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
+import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.GraphicsSettingsMenu;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.Resources;
 import io.github.emergentorganization.cellrpg.tools.Scores;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Secrets;
@@ -29,6 +31,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 
@@ -43,7 +46,6 @@ public class PixelonTransmission extends Game {
 
     private final Logger logger;
     private AssetManager assetManager;
-    private SceneManager sceneManager;
     private TextureAtlas textureAtlas;
     private FileStructure fileStructure;
     private Skin skin;
@@ -106,10 +108,20 @@ public class PixelonTransmission extends Game {
         mixpanel.initialize();
         mixpanel.startupEvent();
 
-        sceneManager = new SceneManager(this);
-        sceneManager.setScene(Scene.MAIN_MENU);
-
         logger.info("Game started");
+        setScene(Scene.MAIN_MENU);
+    }
+
+    public void setScene(Scene sceneKey) {
+        BaseScene old = (BaseScene) getScreen();
+        if (old != null) {
+            old.onSceneChange();
+            setScreen(sceneKey.getScene(this));
+            old.dispose();
+        }
+        else {
+            setScreen(sceneKey.getScene(this));
+        }
     }
 
     public void gameOver(World world){
@@ -117,7 +129,7 @@ public class PixelonTransmission extends Game {
                 .getComponent(StatsTracker.class).getScore();
         WarpInEventRegion warpRegion = (WarpInEventRegion) world.getSystem(LeveledRegionSwitcher.class).currentRegion;
         int waveNumber = warpRegion.regionNumber;
-        getSceneManager().setScene(Scene.POSTGAME);
+        setScene(Scene.POSTGAME);
         mixpanel.gameOverEvent(playerScore, waveNumber);
     }
 
@@ -151,6 +163,14 @@ public class PixelonTransmission extends Game {
         for (String sound : musics) {
             assetManager.load(prefix + sound + ext, Sound.class);
         }
+
+        String loopDir = Resources.DIR_SOUNDS + "music/arcade_30s_loops";
+        FileHandle dirs = Gdx.files.getFileHandle(loopDir, Files.FileType.Internal);
+        for (FileHandle dir : dirs.list()) {
+            assetManager.load(dir.path(), Sound.class);
+        }
+
+        logger.info("music loops loading from " + loopDir);
     }
 
     private void loadSounds() {
@@ -177,7 +197,6 @@ public class PixelonTransmission extends Game {
     @Override
     public void dispose() {
         assetManager.dispose();
-        sceneManager.dispose();
         mixpanel.dispose();
         scores.dispose();
         GameSettings.dispose();
@@ -185,7 +204,7 @@ public class PixelonTransmission extends Game {
     }
 
     public String getVersion() {
-        if (version == null || version == ""){
+        if (version == null || version.isEmpty()){
             version = loadVersion();
         }
         return version;
@@ -193,10 +212,6 @@ public class PixelonTransmission extends Game {
 
     public AssetManager getGdxAssetManager() {
         return assetManager;
-    }
-
-    public SceneManager getSceneManager() {
-        return sceneManager;
     }
 
     public TextureAtlas getTextureAtlas() {

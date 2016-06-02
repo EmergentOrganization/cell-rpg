@@ -41,11 +41,6 @@ public class PostGame extends WorldScene {
     }
 
     @Override
-    protected boolean shouldStash() {
-        return true;
-    }
-
-    @Override
     public void show() {
         logger.trace("showing post-game menu");
         super.show();
@@ -138,7 +133,7 @@ public class PostGame extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.MAIN_MENU);
+                    pt.setScene(Scene.MAIN_MENU);
                 }
             });
 
@@ -151,7 +146,7 @@ public class PostGame extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.ARCADE);
+                    pt.setScene(Scene.ARCADE);
                 }
             });
 

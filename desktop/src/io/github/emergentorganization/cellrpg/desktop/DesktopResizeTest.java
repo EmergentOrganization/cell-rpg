@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.kotcrab.vis.ui.VisUI;
-import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import org.junit.Test;
 
 import java.util.Timer;
@@ -16,7 +15,6 @@ import java.util.TimerTask;
  */
 public class DesktopResizeTest {
     static class TestGame extends Game{
-        private SceneManager sceneManager;
 
         public TestGame(){
         }

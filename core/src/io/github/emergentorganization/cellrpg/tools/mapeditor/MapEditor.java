@@ -175,11 +175,6 @@ public class MapEditor extends BaseScene implements InputProcessor {
         super.render(delta);
     }
 
-    @Override
-    protected boolean shouldStash() {
-        return false;
-    }
-
     public void clearMap() {
         for (final Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
             world.delete(id);

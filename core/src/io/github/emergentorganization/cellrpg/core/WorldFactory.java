@@ -7,18 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
-import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.emergent2dcore.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.SoundEventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
-import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.systems.*;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
@@ -27,6 +23,7 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.C
 import io.github.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 import io.github.emergentorganization.emergent2dcore.systems.*;
+import io.github.emergentorganization.emergent2dcore.systems.MusicSystem.MusicSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,7 +61,7 @@ public class WorldFactory {
         wc.setSystem(new EntityLifecycleSystem());
         EventManager eventManager = new EventManager();
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
-        wc.setSystem(new WindowSystem(pt, stage, batch, pt.getSceneManager())); // render windows after everything else
+        wc.setSystem(new WindowSystem(pt, stage, batch)); // render windows after everything else
         wc.setSystem(new FPSLoggerSystem());
 
         wc.setSystem(new MoodSystem(eventManager));
@@ -131,7 +128,7 @@ public class WorldFactory {
         wc.setSystem(new EntityLifecycleSystem());
         EventManager eventManager = new EventManager();
         wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
-        wc.setSystem(new WindowSystem(pt, stage, batch, pt.getSceneManager())); // render windows after everything else
+        wc.setSystem(new WindowSystem(pt, stage, batch)); // render windows after everything else
 
         World world = new World(wc);
         entityFactory.initialize(world);

@@ -245,7 +245,7 @@ public class EditorWindow {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // TODO: Throw warning window saying that changes won't be saved if they continue
-                pt.getSceneManager().setScene(Scene.MAIN_MENU);
+                pt.setScene(Scene.MAIN_MENU);
             }
         });
         final PhysicsSystem physicsSystem = world.getSystem(PhysicsSystem.class);

@@ -133,7 +133,7 @@ public class PostGame extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.MAIN_MENU);
+                    pt.setScene(Scene.MAIN_MENU);
                 }
             });
 
@@ -146,7 +146,7 @@ public class PostGame extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.ARCADE);
+                    pt.setScene(Scene.ARCADE);
                 }
             });
 

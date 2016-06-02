@@ -15,7 +15,6 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.SettingsMenu;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
@@ -26,7 +25,7 @@ public class FirstStartWindow extends VisWindow {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final SettingsMenu settingsMenu;
-    final SceneManager sceneManager;
+    private final PixelonTransmission pt;
     final VisTable table;
     private Skin skin;
     TextField nameField;
@@ -34,9 +33,9 @@ public class FirstStartWindow extends VisWindow {
 
     public FirstStartWindow(final Stage stage, World world, PixelonTransmission pt) {
         super("", false);
+        this.pt = pt;
 
         logger.debug("enter initial firstStart window");
-        sceneManager = pt.getSceneManager();
 
         table = new VisTable();
         this.setFillParent(true);
@@ -106,7 +105,7 @@ public class FirstStartWindow extends VisWindow {
         prefs.flush();
 
         fadeOut();
-        sceneManager.setScene(Scene.MAIN_MENU);
+        pt.setScene(Scene.MAIN_MENU);
     }
 
     private void showFormErrors(){

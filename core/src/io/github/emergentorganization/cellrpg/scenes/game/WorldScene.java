@@ -65,9 +65,14 @@ public abstract class WorldScene extends BaseScene {
     }
 
     @Override
+    public void onSceneChange() {
+        // Dispose of the Artemis world before scene change --avoids instances of overlap like sound effects or music
+        world.dispose();
+    }
+
+    @Override
     public void dispose() {
         super.dispose();
-        world.dispose();
         batch.dispose();
     }
 }

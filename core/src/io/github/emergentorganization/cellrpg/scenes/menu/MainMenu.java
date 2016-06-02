@@ -64,7 +64,7 @@ public class MainMenu extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.ARCADE);
+                    pt.setScene(Scene.ARCADE);
                 }
             });
 
@@ -78,7 +78,7 @@ public class MainMenu extends WorldScene {
             story.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.STORY);
+                    pt.setScene(Scene.STORY);
                 }
             });
 
@@ -106,7 +106,7 @@ public class MainMenu extends WorldScene {
             editor.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.EDITOR);
+                    pt.setScene(Scene.EDITOR);
                 }
             });
 

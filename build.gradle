@@ -70,7 +70,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-desktop:1.1.1"
+        //compile "de.tomgrill.gdxfacebook:gdx-facebook-desktop:1.1.1"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }

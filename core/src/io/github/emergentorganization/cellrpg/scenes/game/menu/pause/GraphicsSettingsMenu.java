@@ -14,6 +14,7 @@ public class GraphicsSettingsMenu extends Submenu {
     public static AdjustableSetting screenW = new AdjustableSetting("width", 0, 400, 4000, 10);
     public static AdjustableSetting screenH = new AdjustableSetting("height", 0, 400, 4000, 10);
 
+    public static final boolean FULLSCREEN_DEFAULT = false;
 
     private static final int PAD = 10;  // padding around default desktop window (non-fullscreen)
 
@@ -24,7 +25,11 @@ public class GraphicsSettingsMenu extends Submenu {
     public void addMenuTableButtons() {
         VisLabel settingLabel = new VisLabel("game may need reset after changing these...");
         menuTable.add(settingLabel).pad(0f, 0f, 5f, 0f).fill(true, false);
-        
+
+        Preferences preferences = GameSettings.getPreferences();
+        screenW.setValue(preferences.getInteger(GameSettings.KEY_GRAPHICS_WIDTH));
+        screenH.setValue(preferences.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT));
+
         MenuBuilder.buildSliderSetting(menuTable, menuWindow, screenW);
         MenuBuilder.buildSliderSetting(menuTable, menuWindow, screenH);
     }

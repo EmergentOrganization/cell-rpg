@@ -191,13 +191,18 @@ public class CAGenerationSystem extends BaseEntitySystem {
         private CAGridComponents gridComp;
         private int entId;
 
-        public GenerateTask(CAGenerationSystem _genSys, CAGridComponents _gridComp, final int entId) {
+        public GenerateTask(CAGenerationSystem genSys, CAGridComponents gridComp, final int entId) {
             this.entId = entId;
-            genSys = _genSys;
-            gridComp = _gridComp;
+            this.genSys = genSys;
+            this.gridComp = gridComp;
         }
 
         public void run() {
+            if (!genSys.isEnabled()) { // Return to main thread, and check again in 200ms
+                genSys.scheduleGeneration(100, gridComp, entId);
+                return;
+            }
+
             try {
                 long runtime = System.currentTimeMillis();
                 genSys.generate(gridComp, entId);

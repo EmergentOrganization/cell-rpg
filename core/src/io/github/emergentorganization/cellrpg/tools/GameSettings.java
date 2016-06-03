@@ -8,7 +8,7 @@ public class GameSettings {
     // === GRAPHICS SETTINGS ===
     public static String KEY_GRAPHICS_WIDTH = "screen-size-width";
     public static String KEY_GRAPHICS_HEIGHT = "screen-size-height";
-    public static String KEY_GRAPHICS_FULLSCREEN = "fullscreen";
+    public static String KEY_GRAPHICS_TYPE = "screen-size-type";
 
     // === MOVEMENT CONTROLS ===
     public static String KEY_MOVEMENT_CONTROL_METHOD = "movement-ctrl-method";
@@ -39,7 +39,7 @@ public class GameSettings {
     // === OTHER ===
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
 
-    private static String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";
+    public static String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";
 
     public static Preferences getPreferences() {
         return Gdx.app.getPreferences(PREFS_FILE);

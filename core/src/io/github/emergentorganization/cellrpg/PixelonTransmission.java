@@ -63,26 +63,7 @@ public class PixelonTransmission extends Game {
 
     @Override
     public void create() {
-        // init graphics settings
-        Preferences prefs = GameSettings.getPreferences();
-        int w,h;
-        try {
-            w = prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH, GraphicsSettingsMenu.getDefaultW());
-            h = prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT, GraphicsSettingsMenu.getDefaultH());
-        } catch(NumberFormatException ex){  // TODO: libgdx fix: LwjglPreferences should do this automatically, right?
-            logger.error("corrupted screen size preferences. cannot parse integers", ex);
-            w = GraphicsSettingsMenu.getDefaultW();
-            h = GraphicsSettingsMenu.getDefaultH();
-            prefs.putInteger(GameSettings.KEY_GRAPHICS_WIDTH, w);
-            prefs.putInteger(GameSettings.KEY_GRAPHICS_HEIGHT, h);
-        }
-        boolean fs = prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, GraphicsSettingsMenu.FULLSCREEN_DEFAULT);
-        logger.debug("Resizing: " + w + ", " + h + ". Fullscreen: " + fs);
-        boolean result = fs ? Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode())
-                : Gdx.graphics.setWindowedMode(w, h);
-        if (!result) {
-            logger.error("Could not update display settings!");
-        }
+
 
         // init file structure
         this.fileStructure = new FileStructure();

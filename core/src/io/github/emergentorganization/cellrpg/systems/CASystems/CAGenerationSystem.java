@@ -20,6 +20,10 @@ import org.apache.logging.log4j.Logger;
 import java.util.EnumMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Handles CA grid state generations and initialization.
@@ -27,12 +31,14 @@ import java.util.TimerTask;
 @Profile(using=EmergentProfiler.class, enabled=true)
 public class CAGenerationSystem extends BaseEntitySystem {
     private static final EnumMap<CA, iCA> CAs = CA.getCAMap();
+    private static final int THREAD_NUM = Runtime.getRuntime().availableProcessors();
 
     // artemis-injected entity components:
     private ComponentMapper<CAGridComponents> CAComponent_m;
     private CameraSystem cameraSystem;
     private MoodSystem moodSystem;
     private EventManager eventManager;
+    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREAD_NUM - 1);
 
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -145,9 +151,8 @@ public class CAGenerationSystem extends BaseEntitySystem {
         scheduleGeneration(0, layerComponents, entId);
     }
 
-    public void scheduleGeneration(long runtime, CAGridComponents layComp, final int entId) {
+    private synchronized void scheduleGeneration(long runtime, CAGridComponents layComp, final int entId) {
         // schedules a new generation thread
-        Timer time = new Timer();
         // add runtime to TIME_BTWN_GENERATIONS to ensure this thread never uses more than 50% CPU time
         long genTime = layComp.TIME_BTWN_GENERATIONS + runtime;
         if (genTime > layComp.maxGenTime) {
@@ -155,7 +160,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         } else if (genTime < layComp.minGenTime) {
             layComp.minGenTime = genTime;
         }
-        time.schedule(new GenerateTask(this, layComp, entId), genTime);
+        executorService.schedule(new GenerateTask(this, layComp, entId), genTime, TimeUnit.MILLISECONDS);
     }
 
     private void randomizeState(CAGridComponents gridComponents) {
@@ -168,6 +173,16 @@ public class CAGenerationSystem extends BaseEntitySystem {
                     gridComponents.states[i][j].setState(val);// round twice? one is just a cast (I think)
                 }
             }
+        }
+    }
+
+    @Override
+    protected void dispose() {
+        super.dispose();
+        try {
+            executorService.awaitTermination(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            logger.error("", e);
         }
     }
 
@@ -189,12 +204,8 @@ public class CAGenerationSystem extends BaseEntitySystem {
 
                 runtime = System.currentTimeMillis() - runtime;
                 genSys.scheduleGeneration(runtime, gridComp, entId);
-                Thread.currentThread().stop();
-                return;
             } catch (Exception ex) {
                 logger.error("error running CA generation thread: ", ex);
-                Thread.currentThread().stop();
-                return;
             }
         }
     }

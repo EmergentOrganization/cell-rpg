@@ -4,9 +4,9 @@ import com.artemis.Aspect;
 import com.artemis.Component;
 import com.artemis.Entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Name;
-import io.github.emergentorganization.emergent2dcore.components.Visual;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Name;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 

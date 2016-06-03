@@ -7,7 +7,7 @@ import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.AIComponent;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.emergent2dcore.components.*;
+import io.github.emergentorganization.cellrpg.core.components.*;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

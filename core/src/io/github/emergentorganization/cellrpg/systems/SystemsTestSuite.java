@@ -2,7 +2,7 @@ package io.github.emergentorganization.cellrpg.systems;
 
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystemTest;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystemTest;
-import io.github.emergentorganization.emergent2dcore.systems.MoodSystemTest;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystemTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

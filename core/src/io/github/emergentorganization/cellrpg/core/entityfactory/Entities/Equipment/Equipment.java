@@ -4,8 +4,8 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 
 /**
  * Abstract class which describes an equipment entity.

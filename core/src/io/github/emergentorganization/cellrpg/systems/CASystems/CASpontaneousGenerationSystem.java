@@ -7,12 +7,12 @@ import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGeneration;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
-import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
+import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

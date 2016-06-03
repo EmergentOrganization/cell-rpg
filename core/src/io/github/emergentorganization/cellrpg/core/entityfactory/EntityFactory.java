@@ -22,17 +22,17 @@ import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Player
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CAStamps;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.emergent2dcore.components.*;
+import io.github.emergentorganization.cellrpg.core.components.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

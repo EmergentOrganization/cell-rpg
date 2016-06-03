@@ -13,10 +13,10 @@ import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
-import io.github.emergentorganization.emergent2dcore.components.Rotation;
-import io.github.emergentorganization.emergent2dcore.components.Velocity;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Rotation;
+import io.github.emergentorganization.cellrpg.core.components.Velocity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

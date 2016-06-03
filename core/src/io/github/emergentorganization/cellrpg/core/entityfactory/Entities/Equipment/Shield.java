@@ -13,10 +13,10 @@ import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
-import io.github.emergentorganization.emergent2dcore.components.Visual;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 
 /**
  */

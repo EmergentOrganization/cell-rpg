@@ -7,7 +7,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.systems.TimingSystem;
-import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 
 import java.util.ArrayList;
 

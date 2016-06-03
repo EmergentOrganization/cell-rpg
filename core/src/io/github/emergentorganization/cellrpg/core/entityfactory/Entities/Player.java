@@ -10,23 +10,20 @@ import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Shield;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Weapon;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
-import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
-import io.github.emergentorganization.emergent2dcore.components.Visual;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 
 /**
  * player entity representing player avatar

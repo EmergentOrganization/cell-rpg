@@ -5,7 +5,6 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Profile;
 import com.artemis.utils.IntBag;
-import com.badlogic.gdx.Game;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
@@ -13,8 +12,8 @@ import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
-import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

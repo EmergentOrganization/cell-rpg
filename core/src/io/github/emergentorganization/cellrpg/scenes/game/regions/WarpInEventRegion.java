@@ -2,7 +2,6 @@ package io.github.emergentorganization.cellrpg.scenes.game.regions;
 
 import com.artemis.Entity;
 import com.artemis.World;
-import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
@@ -10,17 +9,14 @@ import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
-import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
-import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
-import io.github.emergentorganization.emergent2dcore.systems.RenderSystem;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
+import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.ArrayList;
 
 /**
  * Region in which a given set of Entities and/or shapes warp in.

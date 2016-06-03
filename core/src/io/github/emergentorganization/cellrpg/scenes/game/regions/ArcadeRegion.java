@@ -6,7 +6,7 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.EntityID;

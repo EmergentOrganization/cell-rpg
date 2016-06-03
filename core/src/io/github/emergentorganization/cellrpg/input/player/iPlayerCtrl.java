@@ -3,7 +3,7 @@ package io.github.emergentorganization.cellrpg.input.player;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import io.github.emergentorganization.emergent2dcore.components.InputComponent;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
 

@@ -9,8 +9,8 @@ import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipm
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.EquipmentType;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Weapon;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;

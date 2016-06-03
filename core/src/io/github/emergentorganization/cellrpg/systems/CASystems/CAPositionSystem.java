@@ -7,7 +7,7 @@ import com.artemis.utils.IntBag;
 import com.badlogic.gdx.graphics.Camera;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
-import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
 
 /**
  * system for positioning the CA layers so that they appear static

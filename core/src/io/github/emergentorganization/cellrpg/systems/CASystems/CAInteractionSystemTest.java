@@ -1,11 +1,11 @@
 package io.github.emergentorganization.cellrpg.systems.CASystems;
 
 import com.badlogic.gdx.graphics.Camera;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionListTest;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;

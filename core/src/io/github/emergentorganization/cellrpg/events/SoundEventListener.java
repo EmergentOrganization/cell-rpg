@@ -3,7 +3,7 @@ package io.github.emergentorganization.cellrpg.events;
 import com.badlogic.gdx.audio.Sound;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -13,7 +13,7 @@ import io.github.emergentorganization.cellrpg.scenes.game.regions.iRegion;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

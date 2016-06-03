@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.BuilderComparator;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.IComponentBuilder;
-import io.github.emergentorganization.emergent2dcore.components.*;
+import io.github.emergentorganization.cellrpg.core.components.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

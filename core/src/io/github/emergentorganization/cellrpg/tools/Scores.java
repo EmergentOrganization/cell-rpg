@@ -19,14 +19,16 @@ import java.io.IOException;
 /**
  */
 public class Scores {
-    static Logger logger = LogManager.getLogger(Scores.class);
+    private static Logger logger = LogManager.getLogger(Scores.class);
 
-    String saveFileName;
-    JSONParser parser = new JSONParser();
-    Object obj;
-    JSONObject jsonObject;
-    JSONArray scoreArray;
-    boolean loaded = false;
+    private JSONParser parser = new JSONParser();
+    private JSONObject jsonObject;
+    private JSONArray scoreArray;
+    private boolean loaded = false;
+
+    // Right now the scores are located _internally_ in respect to the project root directory.
+    // TODO: Move file or export to local directory for utilization
+    private static final String saveFileName = FileStructure.RESOURCE_DIR + "scores.json";
 
     private static final String key_score_toplevel = "scores";
     private static final String key_score = "score";
@@ -38,8 +40,6 @@ public class Scores {
     }
 
     public void initialize(){
-        saveFileName = Gdx.files.getLocalStoragePath()
-                + File.separator + FileStructure.RESOURCE_DIR + "scores.json";
         loadScores();
     }
 
@@ -106,13 +106,10 @@ public class Scores {
 
     private void loadScores(){
         try {
-            obj = parser.parse(new FileReader(saveFileName));
+            Object obj = parser.parse(Gdx.files.internal(saveFileName).readString());
             jsonObject = new JSONObject(obj.toString());
             scoreArray = jsonObject.getJSONArray(key_score_toplevel);
             loaded = true;
-        } catch (IOException ex){
-            logger.error("cannot open scores.json file: " + ex.getMessage());
-            loaded = false;
         } catch (ParseException ex){
             logger.error("malformed scores.json: " + ex.getMessage());
             loaded = false;

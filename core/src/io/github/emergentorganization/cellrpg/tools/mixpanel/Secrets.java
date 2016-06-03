@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -14,19 +15,17 @@ import java.io.IOException;
 /**
  */
 public class Secrets {
-    static Logger logger = LogManager.getLogger(Secrets.class);
+    private static Logger logger = LogManager.getLogger(Secrets.class);
 
-    static JSONParser parser = new JSONParser();
-    static Object obj;
-    static org.json.simple.JSONObject jsonObject;
+    private static JSONParser parser = new JSONParser();
 
     public static String MIXPANEL_TOKEN;
 
     public static void initialize(){
         try {
-            obj = parser.parse(new FileReader(Gdx.files.getLocalStoragePath()
-                    + File.separator + FileStructure.RESOURCE_DIR + "secrets.json"));
-            jsonObject = (org.json.simple.JSONObject) obj;
+            Object obj = parser.parse(new FileReader(Gdx.files.getLocalStoragePath()
+                    + FileStructure.RESOURCE_DIR + "secrets.json"));
+            JSONObject jsonObject = (org.json.simple.JSONObject) obj;
 
             MIXPANEL_TOKEN = (String) jsonObject.get("mixpanel_token");
 

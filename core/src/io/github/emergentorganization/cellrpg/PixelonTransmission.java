@@ -78,7 +78,11 @@ public class PixelonTransmission extends Game {
         }
         boolean fs = prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, GraphicsSettingsMenu.FULLSCREEN_DEFAULT);
         logger.debug("Resizing: " + w + ", " + h + ". Fullscreen: " + fs);
-        Gdx.graphics.setDisplayMode(w, h, fs);
+        boolean result = fs ? Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode())
+                : Gdx.graphics.setWindowedMode(w, h);
+        if (!result) {
+            logger.error("Could not update display settings!");
+        }
 
         // init file structure
         this.fileStructure = new FileStructure();

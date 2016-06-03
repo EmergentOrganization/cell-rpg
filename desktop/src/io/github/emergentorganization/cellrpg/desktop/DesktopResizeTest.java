@@ -34,7 +34,7 @@ public class DesktopResizeTest {
         public void run(){
             int w = 600, h=400;
             System.out.println("resizing to "+w+"x"+h);
-            Gdx.graphics.setDisplayMode(w, h, false);
+            Gdx.graphics.setWindowedMode(w, h);
             System.out.println("size changed to "+w+"x"+h);
 
             assert Gdx.graphics.getWidth() == w;

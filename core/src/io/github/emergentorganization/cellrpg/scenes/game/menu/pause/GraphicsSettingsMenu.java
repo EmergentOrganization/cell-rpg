@@ -40,9 +40,9 @@ public class GraphicsSettingsMenu extends Submenu {
         if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
             boolean fullscr = prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, FULLSCREEN_DEFAULT);
             if (fullscr) {
-                return Gdx.graphics.getDesktopDisplayMode().width;
+                return Gdx.graphics.getDisplayMode().width;
             } else {  // windowed defaults to full-screen minus some padding
-                return Gdx.graphics.getDesktopDisplayMode().width - PAD*2;
+                return Gdx.graphics.getDisplayMode().width - PAD*2;
             }
         } else {
             return 600;
@@ -55,9 +55,9 @@ public class GraphicsSettingsMenu extends Submenu {
         if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
             boolean fullscr = prefs.getBoolean(GameSettings.KEY_GRAPHICS_FULLSCREEN, FULLSCREEN_DEFAULT);
             if (fullscr) {
-                return Gdx.graphics.getDesktopDisplayMode().height;
+                return Gdx.graphics.getDisplayMode().height;
             } else {  // windowed defaults to full-screen minus some padding
-                return Gdx.graphics.getDesktopDisplayMode().height - PAD*2;
+                return Gdx.graphics.getDisplayMode().height - PAD*2;
             }
         } else {
             return 400;

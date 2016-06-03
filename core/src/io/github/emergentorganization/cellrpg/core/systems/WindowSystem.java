@@ -5,6 +5,7 @@ import com.artemis.annotations.Profile;
 import com.artemis.annotations.Wire;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -13,11 +14,15 @@ import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.PauseWindow;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 @Wire
 @Profile(using=EmergentProfiler.class, enabled=true)
 public class WindowSystem extends BaseSystem {
+    private final Logger logger = LogManager.getLogger(getClass());
+    private final PixelonTransmission pt;
     private final Stage stage;
     private final Batch gameBatch;
     private RenderSystem renderSystem;
@@ -25,13 +30,16 @@ public class WindowSystem extends BaseSystem {
     private InputSystem inputSystem;
     private boolean isPaused = false;
     private VisWindow pauseWindow;
-    private TextureRegion framebufferTexture;
-    private final PixelonTransmission pt;
+    private TextureRegion cachedBackground;
+    private OrthographicCamera camera;
 
     public WindowSystem(PixelonTransmission pt, Stage stage, Batch batch) {
         this.pt = pt;
         this.stage = stage;
         this.gameBatch = batch;
+        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.translate(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
+        camera.update();
     }
 
     @Override
@@ -46,11 +54,18 @@ public class WindowSystem extends BaseSystem {
 
     @Override
     protected void processSystem() {
+        boolean wasPaused = isPaused;
         detectPause();
-        if (isPaused) {
+        if (isPaused || wasPaused) { // wasPaused used to fill render gap between paused state and un-paused state
+            gameBatch.setProjectionMatrix(camera.combined);
             gameBatch.begin();
-            gameBatch.draw(framebufferTexture, 0, 0); // TODO: frameBuffer not rendering for some reason
+            gameBatch.draw(cachedBackground, 0, 0);
             gameBatch.end();
+
+            if (wasPaused && !isPaused) { // if moving to running state. We don't need the cached background anymore
+                cachedBackground.getTexture().dispose();
+                cachedBackground = null;
+            }
         }
         stage.draw();
     }
@@ -66,7 +81,7 @@ public class WindowSystem extends BaseSystem {
 
     public void onPause() {
         isPaused = true;
-        this.framebufferTexture = ScreenUtils.getFrameBufferTexture(); // cache frame to prevent double-buffer flickering
+        cachedBackground = ScreenUtils.getFrameBufferTexture();
         enableSystems(false);
         pauseWindow.setPosition((stage.getWidth() / 2f) - (pauseWindow.getWidth() / 2f),
                 (stage.getHeight() / 2f) - (pauseWindow.getHeight() / 2f));
@@ -77,14 +92,14 @@ public class WindowSystem extends BaseSystem {
         isPaused = false;
         enableSystems(true);
         pauseWindow.fadeOut();
-        framebufferTexture.getTexture().dispose();
-        framebufferTexture = null;
     }
 
     private void enableSystems(boolean paused) {
-        renderSystem.setEnabled(paused);
-        movementSystem.setEnabled(paused);
-        inputSystem.setEnabled(paused);
+        for (BaseSystem system : world.getSystems()) {
+            if (!system.equals(this)) {
+                system.setEnabled(paused);
+            }
+        }
     }
 
     public boolean isPaused() {

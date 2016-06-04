@@ -40,7 +40,7 @@ public class Submenu {
         menuWindow = new VisWindow("", false);
         menuWindow.setFillParent(false);
         menuWindow.centerWindow();
-        menuWindow.add(menuTable);
+        menuWindow.add(menuTable).expand().fill();
         menuWindow.clearListeners();
     }
 

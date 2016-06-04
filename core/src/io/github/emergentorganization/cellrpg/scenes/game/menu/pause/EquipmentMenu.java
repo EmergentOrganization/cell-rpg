@@ -3,6 +3,7 @@ package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
@@ -37,6 +38,9 @@ public class EquipmentMenu extends Submenu {
     @Override
     public void launchSubmenu() {
         super.launchSubmenu();
+        menuTable.addSeparator();
+        //menuTable.setDebug(true);
+        //menuTable.debugAll();
 
 //        final Preferences prefs = GameSettings.getPreferences();
 //        final VisTextButton devMode = new VisTextButton( );
@@ -75,83 +79,78 @@ public class EquipmentMenu extends Submenu {
     }
 
     private void appendEquipmentCard(final Equipment equipm, final EnergyLevel energyLevel){
-        final boolean DEBUG = true;
         // TODO: set color of card based on equipm.type
-        final HorizontalGroup mainRow = new HorizontalGroup();
-        if (DEBUG) mainRow.debug();
+        final VisTable cardContainer = new VisTable();
+        cardContainer.addSeparator(true);
 
         // === LEFT COLUMN ===
-        final VerticalGroup leftCol = new VerticalGroup();
-//        leftCol.setFillParent(true);
-        if (DEBUG) leftCol.debug();
+        final VisTable leftCol = new VisTable();
 
-        //final Image powerImg = new Image();
+        // Power
         final VisLabel powerImg = new VisLabel();
         update_pwrIndicator(powerImg, equipm);
-        leftCol.addActor(powerImg);
+        leftCol.add(powerImg);
+        leftCol.row().expandX();
 
-        //final Image damageImg = new Image();
+        // Damage
         final VisLabel damageImg = new VisLabel("dmg:"+equipm.damaged);
-        leftCol.addActor(damageImg);
+        leftCol.add(damageImg);
+        leftCol.row().expandX();
 
-//        final VisTextButton minusBtn = new VisTextButton("-");
+        // Minus
         final ImageButton minusBtn = new ImageButton(pt.getUISkin(), "minus");
-        leftCol.addActor(minusBtn);
+        leftCol.add(minusBtn).expand().right().bottom();
 
-        mainRow.addActor(leftCol);
+        cardContainer.add(leftCol).pad(2f).expandY().fill();
 
         // === MIDDLE COLUMN ===
-        final VerticalGroup midCol = new VerticalGroup();
-        if (DEBUG) midCol.debug();
+        final VisTable midCol = new VisTable();
 
-        final HorizontalGroup spriteAndDetailGrp = new HorizontalGroup();
+        final VisTable spriteAndDetailGrp = new VisTable();
         final Image sprite = new Image();
-        spriteAndDetailGrp.addActor(sprite);
-        final VerticalGroup detailsCol = new VerticalGroup();
+        spriteAndDetailGrp.add(sprite);
+        final VisTable detailsCol = new VisTable();
 
         final VisLabel name = new VisLabel(equipm.name);
-        detailsCol.addActor(name);
+        detailsCol.add(name).row();
 
-        final HorizontalGroup statsGrp = new HorizontalGroup();
+        final VisTable statsGrp = new VisTable();
         final VisLabel shieldStat = new VisLabel();
-        statsGrp.addActor(shieldStat);
+        statsGrp.add(shieldStat);
         final VisLabel attackStat = new VisLabel();
-        statsGrp.addActor(attackStat);
+        statsGrp.add(attackStat);
         final VisLabel moveStat = new VisLabel();
-        statsGrp.addActor(moveStat);
+        statsGrp.add(moveStat);
         final VisLabel subStat = new VisLabel();
-        statsGrp.addActor(subStat);
+        statsGrp.add(subStat);
         update_stats(equipm, shieldStat, attackStat, moveStat, subStat);
-        detailsCol.addActor(statsGrp);
+        detailsCol.add(statsGrp).row();
 
-        final VisTextButton actionBtn = new VisTextButton("--------");//"click to edit");
-        detailsCol.addActor(actionBtn);
+        final VisTextButton actionBtn = new VisTextButton("click to edit");
+        detailsCol.add(actionBtn);
 
-        spriteAndDetailGrp.addActor(detailsCol);
+        spriteAndDetailGrp.add(detailsCol);
 
-        midCol.addActor(spriteAndDetailGrp);
+        midCol.add(spriteAndDetailGrp).row();
 
         // energy bar
         final VisLabel energyBarLabel = new VisLabel("");
         update_energyBarLabel(energyBarLabel, equipm);
-        midCol.addActor(energyBarLabel);
+        midCol.add(energyBarLabel).bottom().center();
 
-        mainRow.addActor(midCol);
+        cardContainer.add(midCol).pad(2f).expand().fill();
 
         // === right col ===
-        final VerticalGroup rightCol = new VerticalGroup().fill().align(Align.bottom);  // bottom?
-//        rightCol.setFillParent(true);
-        if (DEBUG) rightCol.debug();
-
-//        final VisTextButton plusBtn = new VisTextButton("+");
+        final VisTable rightCol = new VisTable();
         final ImageButton plusBtn = new ImageButton(pt.getUISkin(), "plus");
-        plusBtn.bottom().padBottom(1);  // bottom!!!
-        rightCol.addActor(plusBtn);
-        mainRow.addActor(rightCol);
-        // still not bottom? why? :C
+        rightCol.add(plusBtn).expand().bottom().left();
+        cardContainer.add(rightCol).pad(2f).expandY().fill();
 
-        menuTable.add(mainRow);
+
+        cardContainer.addSeparator(true);
+        menuTable.add(cardContainer).expandX().fill();
         menuTable.row();
+        menuTable.addSeparator();
 
         plusBtn.addListener(new ClickListener() {
             @Override

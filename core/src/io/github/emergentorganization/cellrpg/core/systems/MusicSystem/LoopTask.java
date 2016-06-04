@@ -16,11 +16,16 @@ public class LoopTask extends TimerTask {
 
     @Override
     public void run() {
-        if (system.isPrepped()) {
-            system.playConstantLoops();
-            system.updateCurrentLoops();
-            system.playCurrentLoops();
-            system.onLoopCompleted();
-        }
+        system.runLater(new Runnable() {
+            @Override
+            public void run() {
+                if (system.isPrepped()) {
+                    system.playConstantLoops();
+                    system.updateCurrentLoops();
+                    system.playCurrentLoops();
+                    system.onLoopCompleted();
+                }
+            }
+        });
     }
 }

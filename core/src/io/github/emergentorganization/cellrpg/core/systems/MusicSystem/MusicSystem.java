@@ -10,13 +10,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Timer;
 
 /**
- * System for handling music based on game events.
- * uses Gdx.audio.newSound() instead of newMusic() to avoid streaming overhead but sound files must be < 1MB
- *
- * ported from BgSoundController:
+ * System for handling music based on game events.<br>
+ * uses Gdx.audio.newSound() instead of newMusic() to avoid streaming overhead but sound files must be < 1MB<br>
+ * <br>
+ * NOTE: For multi-threaded tasks, please use {@link MusicSystem#runLater(Runnable)}<br>
+ * <br>
+ * ported from BgSoundController:<br>
  * https://github.com/EmergentOrganization/cell-rpg/blob/audioLayers/core/src/com/emergentorganization/cellrpg/sound/BgSoundController.java)
  */
 public class MusicSystem extends BaseSystem {
@@ -24,6 +27,8 @@ public class MusicSystem extends BaseSystem {
     private MoodSystem moodSystem;
     private AssetManager assetManager;
     private TimingSystem timingSystem;
+
+    private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
 
     private Sound[] constantLoops;  // loops which play constantly
     private ArrayList<Sound> unusedLoops = new ArrayList<Sound>();
@@ -43,6 +48,14 @@ public class MusicSystem extends BaseSystem {
 
     @Override
     public void processSystem(){
+        // Run currently queued tasks
+        synchronized (tasks) {
+            for (Runnable task : tasks) {
+                task.run();
+            }
+            tasks.clear();
+        }
+
         long deltaTime = timingSystem.getTimeSinceLastMeasure();
 
         if (!scheduled && deltaTime > 25*1000){
@@ -52,27 +65,12 @@ public class MusicSystem extends BaseSystem {
             // halfway through the loop, prep next loop(s)
             prepNextLoopRound();
         }
-//        else if (!loaded && deltaTime > 2*1000) {  // hopefully this is about enough time for loops to load
-//            ArrayList<FileHandle> delQueue = new ArrayList<FileHandle>();  // delQueue to avoid concurrentMod
-//            for (FileHandle fileHandle : fileHandles) {
-//                if (assetManager.gdxAssetManager.isLoaded(fileHandle.path(), Sound.class)) {
-//                    logger.debug("sound @" + fileHandle.path() + " loaded");
-//                    unusedLoops.add(assetManager.gdxAssetManager.get(fileHandle.path(), Sound.class));
-//                    delQueue.add(fileHandle);
-//                } else {
-//                    logger.trace("loading " + fileHandle.path().split("/")[fileHandle.path().split("/").length - 1]);
-//                    assetManager.gdxAssetManager.update();
-//                }
-//            }
-//            for (FileHandle fileHandle : delQueue) {  // process the delQueue
-//                fileHandles.remove(fileHandle);
-//            }
-//
-//            if (fileHandles.size() == 0) { // if  all have loaded
-//                loaded = true;
-//                logger.info(unusedLoops.size() + " music loops loaded");
-//            }
-//        }
+    }
+
+    public void runLater(Runnable task) {
+        synchronized (tasks) {
+            tasks.add(task);
+        }
     }
 
     /**
@@ -170,14 +168,10 @@ public class MusicSystem extends BaseSystem {
         }
     }
 
-    //=====================================
-    //        Thread-safe methods
-    //=====================================
-
     /**
      * Cycles the current loops to add variation to the tune
      */
-    synchronized void updateCurrentLoops(){
+    void updateCurrentLoops(){
         // executes the planned changes to currentLoops
         // remove loops queued for removal
         for (Sound loop : loopsToRemove){
@@ -187,17 +181,17 @@ public class MusicSystem extends BaseSystem {
         // loops are not queued for addition, they are added (but not played)immediately
     }
 
-    synchronized boolean isPrepped() {
+    boolean isPrepped() {
         return prepped;
     }
 
-    synchronized void playConstantLoops() {
+    void playConstantLoops() {
         for (Sound constantLoop : constantLoops) {
             constantLoop.play();
         }
     }
 
-    synchronized void playCurrentLoops() {
+    void playCurrentLoops() {
         for (Sound loop : currentLoops) {
             if (loop != null) {
                 loop.play();
@@ -205,7 +199,7 @@ public class MusicSystem extends BaseSystem {
         }
     }
 
-    synchronized void onLoopCompleted() {
+    void onLoopCompleted() {
         prepped = false;
         scheduled = false;
     }

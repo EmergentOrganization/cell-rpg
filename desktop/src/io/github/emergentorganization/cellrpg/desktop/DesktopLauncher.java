@@ -78,7 +78,7 @@ public class DesktopLauncher {
 
 		System.out.println("initializing application...");
 
-		new LwjglApplication(new PixelonTransmission(), config);
 		GameSettings.setPreferences(prefs);
+		new LwjglApplication(new PixelonTransmission(), config);
 	}
 }

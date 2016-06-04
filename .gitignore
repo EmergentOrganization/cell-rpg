@@ -2,6 +2,7 @@ secrets.json
 android/assets/FPSLog.csv
 android/assets/app.log
 android/assets/profilerLog.csv
+android/assets/resources/scores.json
 
 ## Java
 *.class

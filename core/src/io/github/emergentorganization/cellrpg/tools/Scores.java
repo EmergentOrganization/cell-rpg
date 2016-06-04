@@ -2,6 +2,7 @@ package io.github.emergentorganization.cellrpg.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.UserIdentifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,7 +82,7 @@ public class Scores {
             try {
                 return (String) scoreArray.getJSONObject(rank).get(key_name);
             } catch (JSONException ex) {
-                logger.error("score parse error @scores[" + rank + "]");
+                logger.warn("score parse error @scores[" + rank + "]");
                 return "";
             }
         } else {
@@ -105,6 +106,7 @@ public class Scores {
     }
 
     private void loadScores(){
+        loaded = false;
         try {
             Object obj = parser.parse(Gdx.files.internal(saveFileName).readString());
             jsonObject = new JSONObject(obj.toString());
@@ -112,10 +114,21 @@ public class Scores {
             loaded = true;
         } catch (ParseException ex){
             logger.error("malformed scores.json: " + ex.getMessage());
-            loaded = false;
         } catch (JSONException ex){
             logger.error("json err reading scores: " + ex.getMessage());
-            loaded = false;
+        } catch (GdxRuntimeException ex) {
+            logger.error("json scores file doesn't exist: " + ex.getMessage());
+        }
+
+        if (!loaded) {
+            try {
+                logger.info("Creating new Scores.json file");
+                jsonObject = new JSONObject("{\"scores\":[]}");
+                scoreArray = jsonObject.getJSONArray(key_score_toplevel);
+                loaded = true;
+            } catch (JSONException ex) {
+                logger.error("malformed scores.json: " + ex.getMessage());
+            }
         }
     }
 

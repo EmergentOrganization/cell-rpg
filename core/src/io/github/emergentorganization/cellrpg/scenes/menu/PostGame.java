@@ -83,8 +83,6 @@ public class PostGame extends WorldScene {
         float cursorY = tableTop;
         int MAX_SCORES_TO_CHECK = 9999;
         for(int rank = 0; rank < MAX_SCORES_TO_CHECK; rank++){  // aka while(true) with a backup plan
-            logger.info(pt);
-            logger.info(pt.scores);
             String username = pt.scores.getName(rank);
             int score = pt.scores.getScore(rank);
 

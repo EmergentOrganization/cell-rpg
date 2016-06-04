@@ -103,8 +103,8 @@ public class WorldFactory {
 
     public static void setupStandardWorldEffects(World world) {
         world.getSystem(RenderSystem.class)
-                .setTronShader(new TronShader(new Vector3(1, 1, 1)))
-                .setBackgroundShader(new BackgroundShader(new Vector3(0.37f, 0.43f, 0.50f)));
+                .setTronShader(new TronShader(new Vector3(1, 1, 1)));
+                //.setBackgroundShader(new BackgroundShader(new Vector3(0.37f, 0.43f, 0.50f)));
     }
 
     public static void setupStdHUD(World world, Stage stage) {

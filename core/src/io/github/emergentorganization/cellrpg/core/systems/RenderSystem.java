@@ -121,8 +121,6 @@ public class RenderSystem extends BaseEntitySystem {
         Scale s = sm.get(entityId);
         Rotation r = rm.get(entityId);
 
-        if (v.id.equals("game/environment/bg-arcade")) return;
-
         TextureRegion t = assetManager.getCurrentRegion(v);
         if (t != null) {
             if (v.isAnimation) {

@@ -21,6 +21,7 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CAInteractionSys
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
+import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
 import io.github.emergentorganization.cellrpg.core.systems.*;
 import io.github.emergentorganization.cellrpg.core.systems.MusicSystem.MusicSystem;
@@ -101,9 +102,9 @@ public class WorldFactory {
     }
 
     public static void setupStandardWorldEffects(World world) {
-        world.getSystem(RenderSystem.class).setTronShader(
-                new TronShader(new Vector3(1, 1, 1))
-        );
+        world.getSystem(RenderSystem.class)
+                .setTronShader(new TronShader(new Vector3(1, 1, 1)))
+                .setBackgroundShader(new BackgroundShader(new Vector3(0.37f, 0.43f, 0.50f)));
     }
 
     public static void setupStdHUD(World world, Stage stage) {

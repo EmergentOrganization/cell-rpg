@@ -5,6 +5,7 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Profile;
 import com.artemis.annotations.Wire;
+import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -14,6 +15,9 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
@@ -37,12 +41,15 @@ public class RenderSystem extends BaseEntitySystem {
     private final SpriteBatch batch;
     private final LinkedList<Integer> sortedEntityIds;
     private TronShader tronShader;
+    private BackgroundShader bgShader;
     private ComponentMapper<Visual> vm;
     private ComponentMapper<Position> pm;
     private ComponentMapper<Scale> sm;
     private ComponentMapper<Rotation> rm;
     private CameraSystem cameraSystem;
     private AssetManager assetManager; // being a registered system, it is injected on runtime
+    private TagManager tagManager;
+    private boolean bgShaderEnabled = false;
     private boolean tronShaderEnabled = false;
     private Batch outBatch;
 
@@ -68,8 +75,15 @@ public class RenderSystem extends BaseEntitySystem {
 
     @Override
     protected void begin() {
+        // render background?
         frameBuffer.begin();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        if (bgShaderEnabled) {
+            bgShader.setWorldPosition(pm.get(tagManager.getEntity(Tags.PLAYER).getId()).position.cpy());
+            bgShader.render(frameBuffer);
+        }
+
         batch.setProjectionMatrix(cameraSystem.getGameCamera().combined);
         batch.begin();
     }
@@ -169,7 +183,18 @@ public class RenderSystem extends BaseEntitySystem {
      */
     public RenderSystem setTronShader(TronShader tronShader) {
         this.tronShader = tronShader;
-        this.tronShaderEnabled = this.tronShader != null;
+        this.tronShaderEnabled = (this.tronShader != null);
+        return this;
+    }
+
+    /**
+     * Enables the procedurally generated background shader
+     *
+     * @return The RenderSystem for shader chaining
+     */
+    public RenderSystem setBackgroundShader(BackgroundShader backgroundShader) {
+        this.bgShader = backgroundShader;
+        this.bgShaderEnabled = (this.bgShader != null);
         return this;
     }
 }

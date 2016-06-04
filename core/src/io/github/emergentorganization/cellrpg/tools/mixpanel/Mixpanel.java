@@ -120,7 +120,10 @@ public class Mixpanel {
         // to Mixpanel's servers.
         executor.submit(new MessageDelivery(sentEvent));
 
-        logger.trace("sent appStart:" + sentEvent);
+        // Since a seperate thread now has a reference to our object, we need to lock the reference in order to use it
+        synchronized (sentEvent) {
+            logger.trace("sent appStart:" + sentEvent);
+        }
     }
 //
 //    private void addToList(final String LIST_ID, final String ADDITION){

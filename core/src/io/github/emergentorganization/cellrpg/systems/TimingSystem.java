@@ -1,14 +1,19 @@
 package io.github.emergentorganization.cellrpg.systems;
 
 import com.artemis.BaseSystem;
+import io.github.emergentorganization.cellrpg.core.systems.MusicSystem.MusicSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * System
+ * TimingSystem<br>
+ * <br>
+ * NOTE: For multi-threaded tasks, please use {@link MusicSystem#runLater(Runnable)}<br>
+ * <br>
  */
 public class TimingSystem extends BaseSystem {
     public static long LOOP_DURATION = 30 * 1000; // loops must be this length!
@@ -18,6 +23,7 @@ public class TimingSystem extends BaseSystem {
     boolean scheduled = false;
 
     private final Logger logger = LogManager.getLogger(getClass());
+    private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
 
     public TimingSystem() {
         _lastLoopTime = System.currentTimeMillis();
@@ -45,8 +51,22 @@ public class TimingSystem extends BaseSystem {
         return getLastLoopTime() + LOOP_DURATION;
     }
 
+    public void runLater(Runnable task) {
+        synchronized (tasks) {
+            tasks.add(task);
+        }
+    }
+
     @Override
     public void processSystem(){
+        // Run currently queued tasks
+        synchronized (tasks) {
+            for (Runnable task : tasks) {
+                task.run();
+            }
+            tasks.clear();
+        }
+
         if (!scheduled){
             timer.schedule(new ReLoop(), LOOP_DURATION);
             scheduled = true;
@@ -71,7 +91,12 @@ public class TimingSystem extends BaseSystem {
 
     class ReLoop extends TimerTask {
         public void run() {
-            loop();
+            runLater(new Runnable() {
+                @Override
+                public void run() {
+                    loop();
+                }
+            });
         }
     }
 }

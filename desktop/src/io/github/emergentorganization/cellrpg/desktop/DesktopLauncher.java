@@ -49,6 +49,7 @@ public class DesktopLauncher {
 
 			Rectangle maxWindowBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 
+			config.x = config.y = 0;
 			config.width = maxWindowBounds.width;
 			config.height = maxWindowBounds.height;
 		}else if(type.equals("fullscreen"))
@@ -71,7 +72,6 @@ public class DesktopLauncher {
 		Preferences prefs = getPreferences(config);
 
 		configureWindow(prefs, config);
-		config.x = config.y = 0;
 		config.resizable = false;
 
 		config.useGL30 = true;
@@ -79,5 +79,6 @@ public class DesktopLauncher {
 		System.out.println("initializing application...");
 
 		new LwjglApplication(new PixelonTransmission(), config);
+		GameSettings.setPreferences(prefs);
 	}
 }

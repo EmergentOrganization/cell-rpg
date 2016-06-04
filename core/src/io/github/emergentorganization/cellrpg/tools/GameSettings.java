@@ -1,5 +1,6 @@
 package io.github.emergentorganization.cellrpg.tools;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
@@ -41,12 +42,27 @@ public class GameSettings {
 
     public static String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";
 
+    // cached preferences file
+    private static Preferences prefs;
+
+    public static void setPreferences(Preferences prefs)
+    {
+        GameSettings.prefs = prefs;
+    }
+
     public static Preferences getPreferences() {
-        return Gdx.app.getPreferences(PREFS_FILE);
+        if(prefs != null)
+        {
+            return prefs;
+        }
+
+        prefs = Gdx.app.getPreferences(PREFS_FILE);
+        return prefs;
     }
 
     public static boolean devMode(){
-        return Gdx.app.getPreferences(PREFS_FILE).getBoolean(KEY_DEV_DEVMODE, false);
+
+        return getPreferences().getBoolean(KEY_DEV_DEVMODE, false);
     }
 
     public static void dispose(){

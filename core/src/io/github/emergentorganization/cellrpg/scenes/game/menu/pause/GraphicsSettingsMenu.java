@@ -20,7 +20,7 @@ public class GraphicsSettingsMenu extends Submenu {
     // screen size
     public AdjustableSetting screenW = new AdjustableSetting("width", 0, 400, 4000, 10);
     public AdjustableSetting screenH = new AdjustableSetting("height", 0, 400, 4000, 10);
-    
+
     public GraphicsSettingsMenu(VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
     }

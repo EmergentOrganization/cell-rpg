@@ -8,6 +8,9 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.profiling.GL30Profiler;
+import com.badlogic.gdx.graphics.profiling.GLErrorListener;
+import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
@@ -27,6 +30,8 @@ import io.github.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
 import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.io.File;
 import java.io.FileReader;
@@ -36,6 +41,7 @@ import java.util.Properties;
 
 
 public class PixelonTransmission extends Game {
+
     public static final float PHYSICS_TIMESTEP = 1 / 45f;
     private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";
     private static final String COLLIDER_PATH = FileStructure.RESOURCE_DIR + "/data/colliderProject";
@@ -63,7 +69,14 @@ public class PixelonTransmission extends Game {
 
     @Override
     public void create() {
-
+        GLProfiler.enable();
+        GLProfiler.listener = new GLErrorListener() {
+            @Override
+            public void onError(int error) {
+                String stringError = GLProfiler.resolveErrorNumber(error);
+                logger.debug("GL ERROR: " + stringError);
+            }
+        };
 
         // init file structure
         this.fileStructure = new FileStructure();

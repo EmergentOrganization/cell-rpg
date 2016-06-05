@@ -130,6 +130,19 @@ public class MainMenu extends WorldScene {
             table.add(settings).left().row();
         }
 
+        // credits
+        {
+            TextButton credits = new TextButton("> Credits", s);
+            credits.align(Align.left);
+            credits.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Gdx.net.openURI("https://github.com/EmergentOrganization/cell-rpg/wiki/Credits-and-Attributions");
+                }
+            });
+            table.add(credits).left().row();
+        }
+
         // quit
         {
             TextButton quit = new TextButton("> Quit", s);

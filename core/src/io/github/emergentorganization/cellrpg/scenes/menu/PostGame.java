@@ -91,7 +91,6 @@ public class PostGame extends WorldScene {
             //      skip;
             // } else {
 
-            // TODO: fix spacing between columns
             String mark = "";
             if (pt.playerScore == score){
                 mark = "-->";

@@ -50,7 +50,7 @@ public abstract class WorldScene extends BaseScene {
 
     public void init(WorldConfiguration baseConfig) {
         batch = new SpriteBatch();
-        logger.warn("WorldScene init!");
+        logger.info("WorldScene init!");
         world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, baseConfig);
     }
 

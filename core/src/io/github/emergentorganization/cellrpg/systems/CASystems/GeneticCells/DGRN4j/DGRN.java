@@ -263,7 +263,7 @@ public class DGRN {
                     int n_alleles = Integer.parseInt(getNodeAttributeValue(node, ALLELE_COUNT_ID));
                     // n_alleles/maxAlleles = chance of inheriting this gene
                     int diceRoll = randomGenerator.nextInt(maxAlleles + 1);
-                    logger.debug("@ gene node " + node.getId() + " | " + n_alleles + "/" + maxAlleles + " alleles");
+                    logger.trace("@ gene node " + node.getId() + " | " + n_alleles + "/" + maxAlleles + " alleles");
                     if (diceRoll <= n_alleles) {
                         // dice roll has determined that gene is inherited.
                         logger.trace("    inherited");

@@ -97,7 +97,7 @@ public class CAGridComponents extends Component {
         int w = sx / (cellSize + 1);  // +1 for border pixel between cells
         int h = sy / (cellSize + 1);
 
-        logger.info("initializing CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px). cellSize=" + cellSize);
+        logger.trace("initializing CAGrid " + w + "(" + sx + "px)x" + h + "(" + sy + "px). cellSize=" + cellSize);
 
         initStates(w, h);
     }
@@ -272,7 +272,7 @@ public class CAGridComponents extends Component {
                 states[row + i][col + j].setState(pattern[i][j]);
             }
         }
-        logger.info(pattern.length + "x" + pattern[0].length + " CA stamp applied!");
+        logger.trace(pattern.length + "x" + pattern[0].length + " CA stamp applied!");
     }
 
     protected int _getState(final int row, final int col) {

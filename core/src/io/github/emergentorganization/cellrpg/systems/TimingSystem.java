@@ -32,7 +32,7 @@ public class TimingSystem extends BaseSystem {
     public long getTimeToNextMeasure() {
         // return the number of ms until the next measure
         long res = getNextLoopTime() - System.currentTimeMillis();
-        logger.debug("time to next measure: "  + res);
+        logger.trace("time to next measure: "  + res);
         if (res > 0){
             return res;
         } else {

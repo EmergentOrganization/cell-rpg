@@ -99,7 +99,7 @@ public class RenderSystem extends BaseEntitySystem {
 
         // render non-entity particle effects:
         ArrayList<ParticleEffect> delQueue = new ArrayList<ParticleEffect>();
-        logger.debug("rendering " + particleEffects.size() + " orphan particle effects");
+        logger.trace("rendering " + particleEffects.size() + " orphan particle effects");
         for (ParticleEffect p : particleEffects){
             if(p.isComplete()){
                 p.dispose();

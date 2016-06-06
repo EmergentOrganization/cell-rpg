@@ -76,7 +76,7 @@ public class MoodSystem extends BaseSystem {
         if (res > subdivisions){
             res = subdivisions;
         }
-        logger.debug("intensity level " + intensity + " scored as " + res + "/" + subdivisions);
+        logger.trace("intensity level " + intensity + " scored as " + res + "/" + subdivisions);
         return res;
     }
 

@@ -87,7 +87,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         gridComps.generation += 1;
         CAs.get(gridComps.ca).generate(gridComps);
 
-        logger.debug("liveCells: " + gridComps.cellCount);
+        logger.trace("liveCells: " + gridComps.cellCount);
         int deltaIntensity = gridComps.cellCount * gridComps.intensityPerCell;
         logger.trace("cells increase intensity by " + deltaIntensity);
         if (moodSystem != null)

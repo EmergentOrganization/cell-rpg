@@ -49,10 +49,10 @@ public class EmergentProfiler implements ArtemisProfiler {
                 ProfileLogger.log(counter);
                 lastLog = System.currentTimeMillis();
             } else {
-                logger.debug(LOG_PERIOD - (System.currentTimeMillis() - lastLog) + "ms remain until log");
+                logger.trace(LOG_PERIOD - (System.currentTimeMillis() - lastLog) + "ms remain until log");
             }
         } else {
-            logger.debug("devmode disabled");
+            logger.trace("devmode disabled");
         }
     }
 }

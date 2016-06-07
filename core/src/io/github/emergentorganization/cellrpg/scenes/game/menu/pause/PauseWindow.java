@@ -41,7 +41,7 @@ public class PauseWindow extends VisWindow {
         map.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                System.out.println("opened map setting");
+                logger.info("opened map setting");
             }
         });
         table.add(map).pad(0f, 0f, 5f, 0f).fill(true, false).row();

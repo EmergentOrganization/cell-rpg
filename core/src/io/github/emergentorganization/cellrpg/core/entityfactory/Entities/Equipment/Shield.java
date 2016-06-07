@@ -17,6 +17,8 @@ import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.core.events.EventListener;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  */
@@ -59,10 +61,10 @@ public class Shield extends Equipment {
                         }
                         break;
                     case POWERUP_PLUS:
-//                        System.out.println("shield (" + ec.shieldState + ") powerup");
+                        logger.info("shield (" + shieldState + ") powerup");
                         if (shieldState < (MAX_SHIELD_STATE)) {
                             shieldState++;
-//                            System.out.println("shield++");
+                            logger.debug("shield++");
                             shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(shieldState));
                         }
                         break;
@@ -84,4 +86,6 @@ public class Shield extends Equipment {
                     );
         }
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

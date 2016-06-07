@@ -2,6 +2,8 @@ package io.github.emergentorganization.cellrpg.input.player.MovementControls;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -25,7 +27,7 @@ public class CoordinateRecorder {
             if (farEnoughFromLastCoord(vect)) {
                 lastRecord += delay;
 
-                //System.out.println("Recording " + x + ", " + y);
+                logger.trace("Recording " + x + ", " + y);
                 coords.add(vect);
             }
         }
@@ -71,4 +73,5 @@ public class CoordinateRecorder {
         }
     }
 
+    private final Logger logger = LogManager.getLogger(getClass());
 }

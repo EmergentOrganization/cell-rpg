@@ -25,13 +25,13 @@ public class EmergentProfiler implements ArtemisProfiler {
     PerformanceCounter counter;
 
     public EmergentProfiler(){
-        logger.debug("profiler constructed");
+        logger.trace("profiler constructed");
     }
 
     public void initialize(BaseSystem system, World world){
         String[] strs = system.toString().split("@")[0].split("\\.");
         className = strs[strs.length-1];  // last section split by '.' (but excluding after @) is class name
-        logger.debug("init profiler on " + className);
+        logger.trace("init profiler on " + className);
         counter = new PerformanceCounter(className);
     }
 

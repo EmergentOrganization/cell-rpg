@@ -7,6 +7,8 @@ import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * submenu button included in a menu which launches a new menu when clicked.
@@ -58,11 +60,12 @@ public class Submenu {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 closeSubmenu();
-                //System.out.println("back out of sub-menu");
+                logger.debug("back out of sub-menu");
             }
         });
 
         menuTable.align(Align.center);
         menuWindow.pack();
     }
+    private final Logger logger = LogManager.getLogger(getClass());
 }

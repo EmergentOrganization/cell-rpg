@@ -46,7 +46,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
 
         // inherit network from parents
         if (parents.size() > 1) {
-            logger.debug("cell inheriting from 2 parents");
+            logger.trace("cell inheriting from 2 parents");
             // choose 2 parents at random
             int p1 = dgrn.randomGenerator.nextInt(parents.size());
             int p2 = dgrn.randomGenerator.nextInt(parents.size());

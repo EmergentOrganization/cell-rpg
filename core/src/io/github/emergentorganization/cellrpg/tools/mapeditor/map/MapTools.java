@@ -13,6 +13,8 @@ import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -98,7 +100,7 @@ public class MapTools {
         JSONObject obj = new JSONObject(map);
         try {
             String path = FOLDER_ROOT + fileName + EXTENSION;
-            System.out.println("Writing map to path " + path);
+            logger.info("Writing map to path " + path);
 
             new File(FOLDER_ROOT).mkdirs(); // create folder if necessary
 
@@ -131,6 +133,8 @@ public class MapTools {
 
         return map;
     }
+
+    private static final Logger logger = LogManager.getLogger(MapTools.class);
 }
 
 class JSONKey {

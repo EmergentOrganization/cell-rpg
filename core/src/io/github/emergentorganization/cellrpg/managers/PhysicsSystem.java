@@ -36,8 +36,6 @@ public class PhysicsSystem extends BaseEntitySystem {
     private HashMap<Integer, Body> bodies;
     private boolean shouldRender = false;
 
-    private final Logger logger = LogManager.getLogger(getClass());
-
     public PhysicsSystem(BodyEditorLoader bodyLoader, @Nullable Batch batch) {
         super(Aspect.all(PhysicsBody.class));
         this.physWorld = new World(Vector2.Zero, true);
@@ -166,6 +164,8 @@ public class PhysicsSystem extends BaseEntitySystem {
         if (batch != null)
             this.shouldRender = render;
         else
-            System.out.println("Cannot enable physics rendering without a specifying a batch in the constructor!");
+            logger.error("Cannot enable physics rendering without a specifying a batch in the constructor!");
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

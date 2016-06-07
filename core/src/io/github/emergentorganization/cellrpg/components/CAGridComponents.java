@@ -211,7 +211,7 @@ public class CAGridComponents extends Component {
         // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
         int row = getIndexOfX(position.x);
         int col = getIndexOfY(position.y);
-        //System.out.println("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
+        logger.trace("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
         return stampCenteredAt(pattern, row, col);
     }
 
@@ -266,7 +266,7 @@ public class CAGridComponents extends Component {
 
     private void _stampState(final int[][] pattern, final int row, final int col) {
         // stamps pattern immediately into given cellStates
-        //System.out.println("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
+        logger.trace("insert " + pattern.length + "x" + pattern[0].length + " pattern @ (" + row + "," + col + ")");
         for (int i = 0; i < pattern.length; i++) {
             for (int j = 0; j < pattern[0].length; j++) {
                 states[row + i][col + j].setState(pattern[i][j]);

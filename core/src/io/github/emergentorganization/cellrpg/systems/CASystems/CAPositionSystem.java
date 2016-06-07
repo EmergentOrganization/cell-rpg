@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Camera;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * system for positioning the CA layers so that they appear static
@@ -116,19 +118,19 @@ public class CAPositionSystem extends BaseEntitySystem {
         // enables grid to follow the camera
 
         float dY = gridComps.gridOriginY - camera.position.y / gridComps.SCALE;
-        //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+//        logger.trace(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
 
         while (dY > gridComps.cellSize + 1) {
-            //System.out.println("BotAddRow");
+            logger.trace("BotAddRow");
             addRowBottom(gridComps);
             dY = gridComps.gridOriginY - camera.position.y / gridComps.SCALE;
-            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+            //logger.trace(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
         while (dY < -gridComps.cellSize + 1) {
-            //System.out.println("TopAddRow");
+            logger.trace("TopAddRow");
             addRowTop(gridComps);
             dY = gridComps.gridOriginY - camera.position.y / gridComps.SCALE;
-            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+            //logger.trace(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
 
         float dX = gridComps.gridOriginX - camera.position.x / gridComps.SCALE;
@@ -142,7 +144,7 @@ public class CAPositionSystem extends BaseEntitySystem {
             dX = gridComps.gridOriginX - camera.position.x / gridComps.SCALE;
         }
 
-        //logger.trace("camera is (" + dX + "," + dY + ") from grid origin.");
+        logger.trace("camera is (" + dX + "," + dY + ") from grid origin.");
     }
 
     private int getRandomState(float percentLive) {
@@ -152,4 +154,6 @@ public class CAPositionSystem extends BaseEntitySystem {
             return 1;
         }
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

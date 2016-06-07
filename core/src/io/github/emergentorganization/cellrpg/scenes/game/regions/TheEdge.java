@@ -8,6 +8,8 @@ import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class TheEdge implements iRegion {
@@ -28,7 +30,7 @@ public class TheEdge implements iRegion {
     }
 
     public void enterRegion(World world) {
-        System.out.println("entering the edge region");
+        logger.info("entering the edge region");
         setCAEdgeSpawns(world);
     }
 
@@ -46,4 +48,6 @@ public class TheEdge implements iRegion {
     public iRegion getNextRegion(World world) {
         return null;  // TODO: return adjoining region when nearing boundary
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

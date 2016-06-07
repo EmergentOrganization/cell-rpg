@@ -68,7 +68,7 @@ public class GeneticCA implements iCA {
                 cell.dgrn.tick();
                 CellAction act = ca_rule(cell.neighborCount);
 //                if (cell.state > 0) {
-//                    System.out.println(cell.neighborCount + "->" + act.toString());
+//                    logger.trace(cell.neighborCount + "->" + act.toString());
 //                }
                 switch (act) {
                     case SPAWN:

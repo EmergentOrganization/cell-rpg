@@ -17,7 +17,7 @@ import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import io.github.emergentorganization.cellrpg.input.player.inputUtil;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;

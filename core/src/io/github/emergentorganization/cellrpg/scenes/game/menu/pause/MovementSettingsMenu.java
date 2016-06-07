@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import io.github.emergentorganization.cellrpg.input.player.PlayerInputProcessor;
 import io.github.emergentorganization.cellrpg.core.systems.InputSystem;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisTable;

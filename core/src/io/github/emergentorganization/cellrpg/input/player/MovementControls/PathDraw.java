@@ -24,7 +24,7 @@ import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import io.github.emergentorganization.cellrpg.input.player.inputUtil;
 import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import com.kotcrab.vis.ui.widget.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

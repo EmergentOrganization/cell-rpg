@@ -15,7 +15,7 @@ import io.github.emergentorganization.cellrpg.input.player.MovementControls.Path
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.WASD;
 import io.github.emergentorganization.cellrpg.input.player.WeaponControls.ArrowsShoot;
 import io.github.emergentorganization.cellrpg.input.player.WeaponControls.ClickShoot;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 
 import java.util.ArrayList;
 

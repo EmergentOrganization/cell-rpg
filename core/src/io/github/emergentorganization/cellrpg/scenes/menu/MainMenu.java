@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

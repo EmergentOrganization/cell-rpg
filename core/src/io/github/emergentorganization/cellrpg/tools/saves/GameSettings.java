@@ -1,6 +1,5 @@
-package io.github.emergentorganization.cellrpg.tools;
+package io.github.emergentorganization.cellrpg.tools.saves;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
@@ -36,10 +35,12 @@ public class GameSettings {
     public static String KEY_USER_ID = "user-id";
     public static String KEY_USER_NAME = "user-name";
     public static String KEY_FIRST_START = "first-start";
+    public static String KEY_GAME_NUMBER = "game-save-file-number";
 
     // === OTHER ===
     public static String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
 
+    // player preferences file:
     public static String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";
 
     // cached preferences file
@@ -55,7 +56,6 @@ public class GameSettings {
         {
             return prefs;
         }
-
         prefs = Gdx.app.getPreferences(PREFS_FILE);
         return prefs;
     }

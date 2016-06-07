@@ -37,4 +37,8 @@ public class EquipmentList extends Component {
             eq.powerUp(powerType);
         }
     }
+
+    public void loadEquipment(){
+
+    }
 }

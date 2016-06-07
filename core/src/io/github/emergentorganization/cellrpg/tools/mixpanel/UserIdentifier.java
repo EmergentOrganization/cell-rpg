@@ -1,7 +1,7 @@
 package io.github.emergentorganization.cellrpg.tools.mixpanel;
 
 import com.badlogic.gdx.Preferences;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

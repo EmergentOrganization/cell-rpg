@@ -19,16 +19,16 @@ public abstract class Equipment {
 
     public boolean damaged = false;
 
-    public int baseEnergy  = 0;
+    public int baseEnergy = 0;
     public int energySlots = 0;
     public int powerFilled = 0;
 
     protected int attackStat = 0;
     protected int shieldStat = 0;
-    protected int moveStat   = 0;
-    protected int satStat    = 0;
+    protected int moveStat = 0;
+    protected int satStat = 0;
 
-    public Equipment(int parentId, String name, String description, int baseEnergy, int energySlots){
+    public Equipment(int parentId, String name, String description, int baseEnergy, int energySlots) {
         this.parentId = parentId;
         this.name = name;
         this.description = description;
@@ -37,42 +37,42 @@ public abstract class Equipment {
         this.energySlots = energySlots;
     }
 
-    public int attackStat(){
-        return attackStat*powerLevel();
+    public int attackStat() {
+        return attackStat * powerLevel();
     }
 
-    public int shieldStat(){
-        return shieldStat*powerLevel();
+    public int shieldStat() {
+        return shieldStat * powerLevel();
     }
 
-    public int moveStat(){
-        return moveStat*powerLevel();
+    public int moveStat() {
+        return moveStat * powerLevel();
     }
 
-    public int satStat(){
-        return satStat*powerLevel();
+    public int satStat() {
+        return satStat * powerLevel();
     }
 
-    public int powerLevel(){
+    public int powerLevel() {
         // returns to what level this equipment is powered (above base power).
-        if (powerFilled-baseEnergy > 0){
-            return powerFilled-baseEnergy;
+        if (powerFilled - baseEnergy > 0) {
+            return powerFilled - baseEnergy;
         } else {
             return 0;
         }
     }
 
-    public boolean powerIsFull(){
+    public boolean powerIsFull() {
         // return true if no more room for more power
-        return baseEnergy+energySlots <= powerFilled;
+        return baseEnergy + energySlots <= powerFilled;
     }
 
-    public boolean powerIsEmpty(){
+    public boolean powerIsEmpty() {
         // return true if no power at all allocated
         return powerFilled > 0;
     }
 
-    public boolean isPowered(){
+    public boolean isPowered() {
         return powerFilled > baseEnergy;  // must be greater else just enough power to run but not to apply anything
     }
 
@@ -85,7 +85,7 @@ public abstract class Equipment {
         // TODO: take some charge from the energySystem and give it to the equipment
     }
 
-    public void powerUp(Powerup type){
+    public void powerUp(Powerup type) {
         // powers up the equipment (if applicable) with given powerup
     }
 

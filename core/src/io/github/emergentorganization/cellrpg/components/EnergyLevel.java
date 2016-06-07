@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 
 public class EnergyLevel extends Component {
+    private final Logger logger = LogManager.getLogger(getClass());
     // energyLevel represents the constant energy flow available
     // levels should not be constantly generated/replenished, instead they are
     // near-constant in value. The total amount of energy should only change
@@ -14,9 +15,9 @@ public class EnergyLevel extends Component {
     private int availableEnergy = 5;
     private int allocatedEnergy = 0;
 
-    public boolean allocateEnergy(int amount){
+    public boolean allocateEnergy(int amount) {
         // allocates given amount of energy if available, returns true. Else returns false.
-        if ( hasEnoughEnergyFor(amount) ){
+        if (hasEnoughEnergyFor(amount)) {
             availableEnergy -= amount;
             allocatedEnergy += amount;
             return true;
@@ -25,9 +26,9 @@ public class EnergyLevel extends Component {
         }
     }
 
-    public boolean freeEnergy(int amount){
+    public boolean freeEnergy(int amount) {
         // frees up given amount of energy, returns true. Returns false if attempting to free unallocated energy.
-        if (allocatedEnergy >= amount){
+        if (allocatedEnergy >= amount) {
             allocatedEnergy -= amount;
             availableEnergy += amount;
             return true;
@@ -37,17 +38,17 @@ public class EnergyLevel extends Component {
         }
     }
 
-    public boolean hasEnoughEnergyFor(int requiredEnergy){
+    public boolean hasEnoughEnergyFor(int requiredEnergy) {
         // return true if can accommodate given energy requirements
         return requiredEnergy <= availableEnergy;
     }
 
-    public int energyAvailable(){  // getEnergy
+    public int energyAvailable() {  // getEnergy
         return availableEnergy;
     }
 
-    public void addEnergy(int delta){  // setEnergy
-        if( delta > 0) {
+    public void addEnergy(int delta) {  // setEnergy
+        if (delta > 0) {
             this.availableEnergy += delta;
             onEnergyChange();
         } else {
@@ -55,9 +56,7 @@ public class EnergyLevel extends Component {
         }
     }
 
-    private void onEnergyChange(){
+    private void onEnergyChange() {
         // TODO: fire energy level changed event
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

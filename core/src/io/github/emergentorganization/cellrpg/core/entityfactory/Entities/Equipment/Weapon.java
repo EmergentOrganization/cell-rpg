@@ -15,36 +15,32 @@ import java.util.ArrayList;
  */
 public class Weapon extends Equipment {
 
-    // public:
-    public long delay = 100;  // required delay between shots
-    public int charge = 100;  // how much charge stored in weapon
-    public final int MAX_CHARGE = 100;
-    public final int SHOT_CHARGE_COST = 10;
-    public int recharge_per_s = 30;
-
-    // private:
-    public long lastShot;  // time of last weapon fire
-    public boolean charge_changed;
-
-    // list of applied powerups and corresponding power-down timers
-    public ArrayList<Powerup> powerups = new ArrayList<Powerup>();
-    public ArrayList<Long> powerup_timers = new ArrayList<Long>();
-
     // power-up constants:
     static final long FIRE_RATE_DELAY_DELTA = 100;
     static final long FIRE_RATE_LEN = 3;
     static final long FIRE_RATE_CHARGE_BOOST = 100;
-
+    public final int MAX_CHARGE = 100;
+    public final int SHOT_CHARGE_COST = 10;
     private final Logger logger = LogManager.getLogger(getClass());
-    
-    public Weapon(int parentId, String name, String description, int baseEnergy, int energySlots, int attackStat){
+    // public:
+    public long delay = 100;  // required delay between shots
+    public int charge = 100;  // how much charge stored in weapon
+    public int recharge_per_s = 30;
+    // private:
+    public long lastShot;  // time of last weapon fire
+    public boolean charge_changed;
+    // list of applied powerups and corresponding power-down timers
+    public ArrayList<Powerup> powerups = new ArrayList<Powerup>();
+    public ArrayList<Long> powerup_timers = new ArrayList<Long>();
+
+    public Weapon(int parentId, String name, String description, int baseEnergy, int energySlots, int attackStat) {
         super(parentId, name, description, baseEnergy, energySlots);
         this.type = EquipmentType.WEAPON;
 
         this.attackStat = attackStat;
     }
 
-    public void create(World world, Vector2 pos){
+    public void create(World world, Vector2 pos) {
         // Shield  TODO: build weapon entity
 //        final Entity weapon = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
 //                .tag("shield")
@@ -55,7 +51,7 @@ public class Weapon extends Equipment {
 //                .build();
     }
 
-    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
         // TODO: re-enable once we have a weapon entity
 //        if (this.shieldEntity >= 0) {
 //            Bounds shieldBounds = boundsMapper.get(this.shieldEntity);
@@ -71,7 +67,7 @@ public class Weapon extends Equipment {
     }
 
     @Override
-    public void recharge(){
+    public void recharge() {
         // recharge weapon
         if (isPowered() && charge < MAX_CHARGE) {
             charge += recharge_per_s * powerLevel();
@@ -81,9 +77,9 @@ public class Weapon extends Equipment {
         checkForPowerDown(1);
     }
 
-    public void checkForPowerDown(int FREQ){
+    public void checkForPowerDown(int FREQ) {
         // power-down powerups if timers are up
-        for (int i = powerup_timers.size()-1; i > -1; i--) {
+        for (int i = powerup_timers.size() - 1; i > -1; i--) {
             // NOTE: goes max->0 to avoid index issues when removing
             if (powerup_timers.get(i) < 0) {  // if timer expired
                 powerDown(i);
@@ -94,10 +90,10 @@ public class Weapon extends Equipment {
     }
 
     @Override
-    public void powerUp(Powerup pow){
+    public void powerUp(Powerup pow) {
         // applies powerup. adds to powerups and powerup_timers lists automatically
         logger.debug("applying powerup " + pow);
-        switch (pow){
+        switch (pow) {
             case FIRE_RATE:
                 delay -= FIRE_RATE_DELAY_DELTA;
                 charge += FIRE_RATE_CHARGE_BOOST;
@@ -107,17 +103,17 @@ public class Weapon extends Equipment {
         }
     }
 
-    public void powerDown(int i){
+    public void powerDown(int i) {
         // un-applies powerup in position i in powerups[] and deletes powerup + timer.
         _powerDown(powerups.get(i));
         powerup_timers.remove(i);
         powerups.remove(i);
     }
 
-    private void _powerDown(Powerup pow){
+    private void _powerDown(Powerup pow) {
         // un-applies powerup. powerup and timer must be manually removed from powerups and powerup_timers separately.
         logger.debug("powering down " + pow);
-        switch (pow){
+        switch (pow) {
             case FIRE_RATE:
                 delay += FIRE_RATE_DELAY_DELTA;
                 break;

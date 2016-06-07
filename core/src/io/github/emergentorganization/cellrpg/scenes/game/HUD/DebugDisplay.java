@@ -61,9 +61,9 @@ public class DebugDisplay {
 //        eMan.addListener(new ScoreEventListener(this));
     }
 
-    public void update(float delta){
+    public void update(float delta) {
 
-        for (DebugElement elem : elements){
+        for (DebugElement elem : elements) {
             elem.update(world);
         }
 

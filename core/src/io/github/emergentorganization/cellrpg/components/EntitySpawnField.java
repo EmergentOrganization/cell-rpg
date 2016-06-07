@@ -41,20 +41,20 @@ public class EntitySpawnField extends Component {
         }
     }
 
-    public EntityID _getSpawnableEntity(){
+    public EntityID _getSpawnableEntity() {
         // returns entity from entityList
         int ent_i = ThreadLocalRandom.current().nextInt(0, entityList.size());
         return entityList.get(ent_i);
     }
 
-    public Vector2 getSpawnPosition(Position targetPos, Bounds targetBounds){
+    public Vector2 getSpawnPosition(Position targetPos, Bounds targetBounds) {
         return targetPos.getCenter(targetBounds, 0).add(
                 (float) (2 * radius * Math.random() - radius),
                 (float) (2 * radius * Math.random() - radius)
         );
     }
 
-    public int _spawnEntityAt(EntityID entity, EntityFactory entFact, Vector2 pos){
+    public int _spawnEntityAt(EntityID entity, EntityFactory entFact, Vector2 pos) {
         float rotation = 0f;  // TODO: add rotation?
 
         logger.debug("entity spawned in spawnField");
@@ -65,7 +65,7 @@ public class EntitySpawnField extends Component {
             return -1;
     }
 
-    public int _spawnEntity(EntityID entity, Position entityPos, Bounds entityBounds, EntityFactory entFact){
+    public int _spawnEntity(EntityID entity, Position entityPos, Bounds entityBounds, EntityFactory entFact) {
         // spawns entity of given Id
         // TODO: exclude inner radius / bounds?
         Vector2 pos = getSpawnPosition(entityPos, entityBounds);
@@ -77,7 +77,7 @@ public class EntitySpawnField extends Component {
         return !entityList.isEmpty() && TimingUtils.readyForPeriodicEvent(frequency, sinceLastSpawnCounter);
     }
 
-    public void tick(){
+    public void tick() {
         sinceLastSpawnCounter += 1;
     }
 }

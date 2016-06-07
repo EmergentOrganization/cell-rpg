@@ -26,19 +26,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * Handles CA grid state generations and initialization.
  */
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class CAGenerationSystem extends BaseEntitySystem {
     private static final EnumMap<CA, iCA> CAs = CA.getCAMap();
     private static final int THREAD_NUM = Runtime.getRuntime().availableProcessors();
-
+    private final Logger logger = LogManager.getLogger(getClass());
     // artemis-injected entity components:
     private ComponentMapper<CAGridComponents> CAComponent_m;
     private CameraSystem cameraSystem;
     private MoodSystem moodSystem;
     private EventManager eventManager;
     private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREAD_NUM - 1);
-
-    private final Logger logger = LogManager.getLogger(getClass());
 
     public CAGenerationSystem() {
         super(Aspect.all(CAGridComponents.class));

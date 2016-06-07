@@ -22,7 +22,7 @@ public class AIComponentBuilder extends BaseComponentBuilder {
         return this;
     }
 
-    public AIComponentBuilder AITarget(Entity target){
+    public AIComponentBuilder AITarget(Entity target) {
         AITarget = target;
         return this;
     }

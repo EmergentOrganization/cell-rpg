@@ -14,10 +14,10 @@ import org.apache.logging.log4j.Logger;
 /**
  * System for managing energyLevels based on environment and recharging equipments.
  */
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class EnergySystem extends IntervalEntityProcessingSystem {
     static final int FREQ = 1;
-
+    private final Logger logger = LogManager.getLogger(getClass());
     private ComponentMapper<EquipmentList> equipMapper;
 
     public EnergySystem() {
@@ -35,6 +35,4 @@ public class EnergySystem extends IntervalEntityProcessingSystem {
             equipmentList.rechargeEquipment();
         }
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

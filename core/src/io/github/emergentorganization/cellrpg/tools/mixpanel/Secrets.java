@@ -14,13 +14,11 @@ import java.io.IOException;
 /**
  */
 public class Secrets {
+    public static String MIXPANEL_TOKEN;
     private static Logger logger = LogManager.getLogger(Secrets.class);
-
     private static JSONParser parser = new JSONParser();
 
-    public static String MIXPANEL_TOKEN;
-
-    public static void initialize(){
+    public static void initialize() {
         try {
             Object obj = parser.parse(new FileReader(Gdx.files.getLocalStoragePath()
                     + FileStructure.RESOURCE_DIR + "secrets.json"));
@@ -28,9 +26,9 @@ public class Secrets {
 
             MIXPANEL_TOKEN = (String) jsonObject.get("mixpanel_token");
 
-        } catch (IOException ex){
+        } catch (IOException ex) {
             logger.error("cannot open secrets.json file: " + ex.getMessage());
-        } catch (ParseException ex){
+        } catch (ParseException ex) {
             logger.error("malformed secrets.json: " + ex.getMessage());
         }
     }

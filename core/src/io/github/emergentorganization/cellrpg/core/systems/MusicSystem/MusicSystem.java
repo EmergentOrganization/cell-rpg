@@ -23,18 +23,15 @@ import java.util.Timer;
  */
 public class MusicSystem extends BaseSystem {
     private final Logger logger = LogManager.getLogger(getClass());
+    private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
+    private final Timer loopTimer = new Timer();
     private MoodSystem moodSystem;
     private AssetManager assetManager;
     private TimingSystem timingSystem;
-
-    private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
-
     private Sound[] constantLoops;  // loops which play constantly
     private ArrayList<Sound> unusedLoops = new ArrayList<Sound>();
     private ArrayList<Sound> currentLoops = new ArrayList<Sound>();  // currently playing loops
     private ArrayList<Sound> loopsToRemove = new ArrayList<Sound>(); // loops queued for removal next round
-    private final Timer loopTimer = new Timer();
-
     private boolean prepped = false;  // flag used to track if next set of loops has been queued yet
     private boolean scheduled = false;
 
@@ -46,7 +43,7 @@ public class MusicSystem extends BaseSystem {
     }
 
     @Override
-    public void processSystem(){
+    public void processSystem() {
         // Run currently queued tasks
         synchronized (tasks) {
             for (Runnable task : tasks) {
@@ -57,10 +54,10 @@ public class MusicSystem extends BaseSystem {
 
         long deltaTime = timingSystem.getTimeSinceLastMeasure();
 
-        if (!scheduled && deltaTime > 25*1000){
+        if (!scheduled && deltaTime > 25 * 1000) {
             // almost time to loop back around, schedule the reloop
             scheduleNextLoop();
-        } else if (!prepped && deltaTime > 15*1000){
+        } else if (!prepped && deltaTime > 15 * 1000) {
             // halfway through the loop, prep next loop(s)
             prepNextLoopRound();
         }
@@ -106,7 +103,7 @@ public class MusicSystem extends BaseSystem {
         return unusedLoops.get(index);
     }
 
-    private void prepNextLoopRound(){
+    private void prepNextLoopRound() {
         // preps next round of loops
         logger.debug("prepping next round of loops");
         // number of loops desired:
@@ -124,12 +121,12 @@ public class MusicSystem extends BaseSystem {
         }
 
         while (numberOfLoops < currentLoops.size() - loopsToRemove.size()
-                && loopsToRemove.size() != currentLoops.size()){
+                && loopsToRemove.size() != currentLoops.size()) {
             // queue loops for removal
             loopsToRemove.add(currentLoops.get(loopsToRemove.size()));
         }
 
-        while(numberOfLoops > currentLoops.size() && unusedLoops.size() > 0){
+        while (numberOfLoops > currentLoops.size() && unusedLoops.size() > 0) {
             // add loops
             Sound newSound = getRandomSound();
             currentLoops.add(newSound);
@@ -154,7 +151,7 @@ public class MusicSystem extends BaseSystem {
         for (Sound currentLoop : currentLoops) {
             currentLoop.stop();
         }
-        for (Sound unusedLoop : unusedLoops){
+        for (Sound unusedLoop : unusedLoops) {
             unusedLoop.stop();
         }
         for (Sound constantLoop : constantLoops) {
@@ -162,7 +159,7 @@ public class MusicSystem extends BaseSystem {
                 constantLoop.stop();
         }
 
-        for (Sound loop : loopsToRemove){
+        for (Sound loop : loopsToRemove) {
             loop.stop();
         }
     }
@@ -170,10 +167,10 @@ public class MusicSystem extends BaseSystem {
     /**
      * Cycles the current loops to add variation to the tune
      */
-    void updateCurrentLoops(){
+    void updateCurrentLoops() {
         // executes the planned changes to currentLoops
         // remove loops queued for removal
-        for (Sound loop : loopsToRemove){
+        for (Sound loop : loopsToRemove) {
             currentLoops.remove(loop);
             unusedLoops.add(loop);
         }

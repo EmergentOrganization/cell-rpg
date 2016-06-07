@@ -66,6 +66,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     private final Vector2 dragOffset = new Vector2();
     private final Vector3 dragPoint = new Vector3();
     private final Vector3 entityPos = new Vector3();
+    private final Logger logger = LogManager.getLogger(getClass());
     private EditorTarget target;
     private CornerGizmo selectedGizmo;
     private boolean mapInputEnabled = true;
@@ -467,6 +468,4 @@ public class MapEditor extends BaseScene implements InputProcessor {
         }
         return false;
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

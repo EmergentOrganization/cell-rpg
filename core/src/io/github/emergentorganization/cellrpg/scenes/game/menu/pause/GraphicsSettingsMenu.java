@@ -18,13 +18,11 @@ import org.apache.logging.log4j.Logger;
 
 public class GraphicsSettingsMenu extends Submenu {
     private final Logger logger = LogManager.getLogger(getClass());
-
-    // screen type
-    private StringSetting screenType = new StringSetting("Screen Type", "windowed");
-
     // screen size
     public AdjustableSetting screenW = new AdjustableSetting("width", 0, 400, 4000, 10);
     public AdjustableSetting screenH = new AdjustableSetting("height", 0, 400, 4000, 10);
+    // screen type
+    private StringSetting screenType = new StringSetting("Screen Type", "windowed");
     private VisLabel settingLabel = new VisLabel("The game must be restarted for these changes to take effect.");
 
     public GraphicsSettingsMenu(VisTable table, Stage stage, String buttonText) {

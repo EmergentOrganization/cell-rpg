@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class AISystem extends DelayedIteratingSystem {
     Logger logger = LogManager.getLogger(getClass());
     ComponentMapper<AIComponent> AICom_m;
@@ -65,7 +65,7 @@ public class AISystem extends DelayedIteratingSystem {
                 default:
                     logger.error("AI type not recognized for ent#" + entityId);
             }
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             logger.error("ERR: cannot process AI for ent#" + entityId, ex);
             life_m.get(entityId).kill();
         }
@@ -73,13 +73,13 @@ public class AISystem extends DelayedIteratingSystem {
         super.offerDelay(ai.period);
     }
 
-    private void chase(int entityId){
+    private void chase(int entityId) {
         // chases targetEntity
         Vector2 targPos;
         try {
             AIComponent AIC = AICom_m.get(entityId);
             targPos = AIC.target.getComponent(Position.class).position;
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             logger.error("chase entity not set or does not have position for ent#" + entityId, ex);
             return;
         }
@@ -125,17 +125,17 @@ public class AISystem extends DelayedIteratingSystem {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         super.initialize();
     }
 
     @Override
-    public void begin(){
+    public void begin() {
         super.begin();
     }
 
     @Override
-    public void end(){
+    public void end() {
         super.end();
     }
 }

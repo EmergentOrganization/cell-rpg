@@ -49,7 +49,7 @@ public class SettingsMenu extends Submenu {
         if (cameraMenu != null) {
             cameraMenu.closeSubmenu();
         }
-        if (graphicsMenu != null){
+        if (graphicsMenu != null) {
             graphicsMenu.closeSubmenu();
         }
     }

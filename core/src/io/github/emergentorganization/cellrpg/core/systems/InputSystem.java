@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * manages all InputProcessors which convert user input into various game happenings (eg player movement)
  */
 @Wire
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class InputSystem extends IteratingSystem {
 
     private static final int PLAYER_IN_PROC_INDEX = 0;  // careful not to add a processor and move this!

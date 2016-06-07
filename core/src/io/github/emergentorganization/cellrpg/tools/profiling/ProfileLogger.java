@@ -12,7 +12,7 @@ import java.io.*;
 public class ProfileLogger {
     private static final Logger logger = LogManager.getLogger(ProfileLogger.class);
 
-    public static void log(PerformanceCounter counter){
+    public static void log(PerformanceCounter counter) {
 
         logger.debug("writing profiler log to file");
 
@@ -35,7 +35,9 @@ public class ProfileLogger {
         } catch (IOException ex) {
             logger.error("profileLog write exception: ", ex);
         } finally {
-            try {writer.close();} catch (Exception ex) {/*ignore*/}
+            try {
+                writer.close();
+            } catch (Exception ex) {/*ignore*/}
         }
     }
 }

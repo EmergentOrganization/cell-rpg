@@ -29,12 +29,12 @@ public class EntityApparitionTask extends TimerTask {
         this.ef = ef;
     }
 
-    public EntityApparitionTask(EntityID entityToSpawn, EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
+    public EntityApparitionTask(EntityID entityToSpawn, EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef) {
         this(entityToSpawn, spawnField, spawnField.getSpawnPosition(pos, bound), ef);
     }
 
-    public void run(){
-        logger.debug("spawn ent " + entityToSpawn + " @"+spawnLoc+") using E.F.=" + ef);
+    public void run() {
+        logger.debug("spawn ent " + entityToSpawn + " @" + spawnLoc + ") using E.F.=" + ef);
         spawnField._spawnEntityAt(entityToSpawn, ef, spawnLoc);
     }
 }

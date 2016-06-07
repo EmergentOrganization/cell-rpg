@@ -21,12 +21,12 @@ import java.util.Timer;
 /**
  * Static methods for warping in entities to appear in the game.
  * Why?
- *  This should help add pre-warp particle effects and sounds.
- *  It may also be useful to allow us to time warp-ins to sync
- *  up with musical queues.
- *
- *  PS: it's called ApparitionCreator because it helps things appear...
- *              ...Someone should proabably come up with a better name.
+ * This should help add pre-warp particle effects and sounds.
+ * It may also be useful to allow us to time warp-ins to sync
+ * up with musical queues.
+ * <p>
+ * PS: it's called ApparitionCreator because it helps things appear...
+ * ...Someone should proabably come up with a better name.
  */
 public class ApparitionCreator {
     private static final Logger logger = LogManager.getLogger(ApparitionCreator.class);
@@ -34,7 +34,7 @@ public class ApparitionCreator {
     private static Random rand = new Random();
 
     public static void apparateCAEffect(AssetManager assetMan, RenderSystem renderSys,
-                                        SpontaneousGeneration spontGen, CAGridComponents targetGrid){
+                                        SpontaneousGeneration spontGen, CAGridComponents targetGrid) {
         int delay = getDelay();
         initWarpInEffects(assetMan, renderSys, spontGen.position, delay);
         Timer time = new Timer();
@@ -42,13 +42,13 @@ public class ApparitionCreator {
     }
 
     public static void apparateEntity(AssetManager assetManage, RenderSystem rendSys,
-                                      EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
+                                      EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef) {
         apparateGivenEntityIn(spawnField._getSpawnableEntity(), getDelay(), assetManage, rendSys, spawnField, pos, bound, ef);
     }
 
     public static void apparateGivenEntityIn(EntityID entity, int delay,
                                              AssetManager assetManage, RenderSystem rendSys,
-                                             EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef){
+                                             EntitySpawnField spawnField, Position pos, Bounds bound, EntityFactory ef) {
         // apparates given entity after a given delay time
         Vector2 spawnPos = spawnField.getSpawnPosition(pos, bound);
         initWarpInEffects(assetManage, rendSys, spawnPos, delay);
@@ -56,16 +56,16 @@ public class ApparitionCreator {
         time.schedule(new EntityApparitionTask(entity, spawnField, spawnPos, ef), delay);
     }
 
-    private static int getDelay(){
+    private static int getDelay() {
         return getDelay(2000, 10000);
     }
 
-    public static int getDelay(final int min, final int max){
+    public static int getDelay(final int min, final int max) {
         // TODO: get delay from TimingSystem (which should be broken out from MusicSystem)
         return min + rand.nextInt((max - min) + 1);
     }
 
-    private static void initWarpInEffects(AssetManager assMan,RenderSystem renderSystem, Vector2 pos, int duration){
+    private static void initWarpInEffects(AssetManager assMan, RenderSystem renderSystem, Vector2 pos, int duration) {
         // initializes the warp-in particle effect(s) and sound(s) for a CA effect or entity
         // pos : position of the warp-in
         // duration : milliseconds until warp-in complete

@@ -9,7 +9,7 @@ public class EntityEvent {
     public int entityId;
     public GameEvent event;
 
-    public EntityEvent(final int entityId, final GameEvent event){
+    public EntityEvent(final int entityId, final GameEvent event) {
         this.entityId = entityId;
         this.event = event;
     }

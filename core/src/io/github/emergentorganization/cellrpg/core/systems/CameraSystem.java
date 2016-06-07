@@ -25,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 
 @Wire
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class CameraSystem extends IteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -77,21 +77,21 @@ public class CameraSystem extends IteratingSystem {
         shouldFollow = enabled;
     }
 
-    private void camFollow(int followEntity){
+    private void camFollow(int followEntity) {
         int camfollowMethod = GameSettings.getPreferences().getInteger(GameSettings.KEY_CAM_FOLLOW_METHOD);
         // TODO: switch-case to choose method
         camFollow_simple(followEntity);
         lastUpdate = System.currentTimeMillis();
     }
 
-    private void camFollow_simple(int followEntity){
+    private void camFollow_simple(int followEntity) {
         // stays exactly above the given entity. no frills, max performance.
         Position pc = pm.get(followEntity);
         Bounds b = bm.get(followEntity);
         Velocity velocity = velocity_m.get(followEntity);
 
-        Vector2 pos = pc.getCenter(b,0);
-        gameCamera.position.set( pos, 0);
+        Vector2 pos = pc.getCenter(b, 0);
+        gameCamera.position.set(pos, 0);
     }
 
     private void camFollow_leading(int followEntity) {
@@ -106,14 +106,14 @@ public class CameraSystem extends IteratingSystem {
             // get camera settings:
             Preferences prefs = GameSettings.getPreferences();
             final float EDGE_MARGIN = prefs.getFloat(GameSettings.KEY_CAM_EDGE_MARGIN, 10)
-                    *EntityFactory.SCALE_WORLD_TO_BOX;
+                    * EntityFactory.SCALE_WORLD_TO_BOX;
             final float CLOSE_ENOUGH = prefs.getFloat(GameSettings.KEY_CAM_NEARNESS_CUTOFF, 4)
-                    *EntityFactory.SCALE_WORLD_TO_BOX;
+                    * EntityFactory.SCALE_WORLD_TO_BOX;
             final float CAMERA_LEAD = prefs.getFloat(GameSettings.KEY_CAM_LEAD, 20)
-                    *EntityFactory.SCALE_WORLD_TO_BOX;
+                    * EntityFactory.SCALE_WORLD_TO_BOX;
 
 
-            Vector2 pos = pc.getCenter(b,0);
+            Vector2 pos = pc.getCenter(b, 0);
             Vector2 cameraLoc = new Vector2(gameCamera.position.x, gameCamera.position.y);
 
             Vector2 offset = new Vector2(pos);
@@ -123,7 +123,7 @@ public class CameraSystem extends IteratingSystem {
 
             if (Math.abs(offset.x) > CLOSE_ENOUGH || Math.abs(offset.y) > CLOSE_ENOUGH) {
                 // compute camera positioning:
-                final float MAX_OFFSET = Math.min(gameCamera.viewportWidth, gameCamera.viewportHeight)/2-EDGE_MARGIN;  // max player-camera dist
+                final float MAX_OFFSET = Math.min(gameCamera.viewportWidth, gameCamera.viewportHeight) / 2 - EDGE_MARGIN;  // max player-camera dist
                 final float PROPORTIONAL_GAIN = deltaTime * velocity.velocity.len() / MAX_OFFSET;
 
                 cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));

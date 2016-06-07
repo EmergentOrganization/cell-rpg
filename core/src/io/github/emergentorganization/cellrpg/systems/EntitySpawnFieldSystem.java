@@ -16,7 +16,7 @@ import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class EntitySpawnFieldSystem extends IntervalIteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 

@@ -17,9 +17,10 @@ import org.apache.logging.log4j.Logger;
 
 
 @Wire
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class MovementSystem extends IteratingSystem {
 
+    private final Logger logger = LogManager.getLogger(getClass());
     private ComponentMapper<Position> posMapper;
     private ComponentMapper<Velocity> velMapper;
     private ComponentMapper<PhysicsBody> physMapper;
@@ -28,8 +29,6 @@ public class MovementSystem extends IteratingSystem {
     private ComponentMapper<EquipmentList> equipMapper;
     private ComponentMapper<Bounds> boundsMapper;
     private ComponentMapper<Lifecycle> lifeCycleMapper;
-
-    private final Logger logger = LogManager.getLogger(getClass());
 
     public MovementSystem() {
         super(Aspect.all(Position.class, Velocity.class));
@@ -62,14 +61,14 @@ public class MovementSystem extends IteratingSystem {
                 equipmentList.moveEquipment(boundsMapper, posMapper);
                 equipmentList.rechargeEquipment(); // TODO: move this to EnergySystem
             }
-        } catch (NullPointerException ex){
-            logger.error("MoveSys error; killing offending entity #"+entityId, ex);
+        } catch (NullPointerException ex) {
+            logger.error("MoveSys error; killing offending entity #" + entityId, ex);
             world.getEntity(entityId).getComponent(Lifecycle.class).kill();
         }
     }
 
     private void processPhysicsMovement(Body body, InputComponent ic, Position pc, Velocity vc, Rotation rc, int id) {
-        if (body == null){
+        if (body == null) {
             logger.error("ERR: cannot process movement for ent#" + id + "; body == null");
             lifeCycleMapper.get(id).kill();
             return;

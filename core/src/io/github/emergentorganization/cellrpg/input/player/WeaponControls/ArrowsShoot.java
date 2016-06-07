@@ -20,9 +20,8 @@ public class ArrowsShoot extends iPlayerCtrl {
 
     private final EntityFactory entityFactory;
     private final EventManager eventManager;
-
-    private long lastClick = 0;
     private final long clickInterval = 100;
+    private long lastClick = 0;
 
     public ArrowsShoot(World world, EntityFactory entityFactory, ComponentMapper<InputComponent> im) {
         super(world, im);
@@ -68,7 +67,7 @@ public class ArrowsShoot extends iPlayerCtrl {
         }
     }
 
-    private boolean readyForNextClick(){
+    private boolean readyForNextClick() {
         return System.currentTimeMillis() - lastClick > clickInterval;
     }
 }

@@ -19,11 +19,44 @@ public class Resources {
     public static final String DIR_PARTICLES = FileStructure.RESOURCE_DIR + "particleEffects/";
 
 
-
     // =========================================================================================================
     // === SFX
     // =========================================================================================================
     public static final Map<SoundEffect, String> SFX_FILENAME_MAP;
+    // =========================================================================================================
+    // === PARTICLE EFFECTS
+    // =========================================================================================================
+    public static final Map<ParticleEff, String> PFX_FILENAME_MAP;
+    // =========================================================================================================
+    // === ANIM
+    // =========================================================================================================
+    public static final List<String> ANIM_PLAYER;
+    public static final List<String> ANIM_PLAYER_SHIELD;
+    public static final List<String> ANIM_CIV1_BLINKER;
+    public static final List<String> ANIM_VYRAPUFFER;
+    public static final List<String> ANIM_PONDBOMB;
+    public static final List<String> ANIM_GOSPER;
+    // =========================================================================================================
+    // GAME
+    // =========================================================================================================
+    public static final String TEX_BULLET = DIR_IMG_GAME + EntityID.BULLET;
+    public static final String TEX_POWERUP_STAR = DIR_IMG_GAME + EntityID.POWERUP_STAR;
+    public static final String TEX_POWERUP_PLUS = DIR_IMG_GAME + EntityID.POWERUP_PLUS;
+    public static final String TEX_TUBSNAKE = DIR_IMG_GAME + EntityID.TUBSNAKE;
+    // =========================================================================================================
+    // BLDG
+    // =========================================================================================================
+    public static final String TEX_BLDG_LRG_ONE = DIR_IMG_BLDG + EntityID.BUILDING_LARGE_ONE;
+    public static final String TEX_BLDG_ROUND_ONE = DIR_IMG_BLDG + EntityID.BUILDING_ROUND_ONE;
+    public static final String TEX_VYROID_BEACON = DIR_IMG_BLDG + EntityID.VYROID_BEACON;
+    // =========================================================================================================
+    // ENV
+    // =========================================================================================================
+    public static final String TEX_RIFT_ONE = DIR_IMG_ENV + EntityID.RIFT_ONE;
+    public static final String TEX_RIFT_TWO = DIR_IMG_ENV + EntityID.RIFT_TWO;
+    public static final String TEX_THE_EDGE = DIR_IMG_ENV + EntityID.THE_EDGE;
+    public static final String TEX_BG_ARCADE = DIR_IMG_ENV + EntityID.BG_ARCADE;
+
     static {
         // SFX_FILENAME_MAP
         String ext = ".wav";
@@ -46,17 +79,7 @@ public class Resources {
         SFX_FILENAME_MAP = Collections.unmodifiableMap(hashMap);
     }
 
-    public static String getSfxPath(SoundEffect effect) {
-        return SFX_FILENAME_MAP.get(effect);
-    }
-
-
-
-    // =========================================================================================================
-    // === PARTICLE EFFECTS
-    // =========================================================================================================
-    public static final Map<ParticleEff, String> PFX_FILENAME_MAP;
-    static{
+    static {
         String ext = ".p";
         HashMap<ParticleEff, String> pHashMap = new HashMap<ParticleEff, String>();
         pHashMap.put(ParticleEff.PREWARP, DIR_PARTICLEFX + "prewarp" + ext);
@@ -66,18 +89,7 @@ public class Resources {
         PFX_FILENAME_MAP = Collections.unmodifiableMap(pHashMap);
     }
 
-
-
-    // =========================================================================================================
-    // === ANIM
-    // =========================================================================================================
-    public static final List<String> ANIM_PLAYER;
-    public static final List<String> ANIM_PLAYER_SHIELD;
-    public static final List<String> ANIM_CIV1_BLINKER;
-    public static final List<String> ANIM_VYRAPUFFER;
-    public static final List<String> ANIM_PONDBOMB;
-    public static final List<String> ANIM_GOSPER;
-    static{
+    static {
         // ANIM_PLAYER
         String prefix = DIR_IMG_GAME + EntityID.PLAYER + "/";
         ArrayList<String> playerAnim = new ArrayList<String>();
@@ -120,7 +132,7 @@ public class Resources {
         // ANIM PONDBOMB
         prefix = DIR_IMG_GAME + EntityID.PONDBOMB.toString() + "/";
         ArrayList<String> pondBombAnim = new ArrayList<String>();
-        for (int i = 0; i < 22; i++){
+        for (int i = 0; i < 22; i++) {
             pondBombAnim.add(prefix + Integer.toString(i));
         }
         ANIM_PONDBOMB = Collections.unmodifiableList(pondBombAnim);
@@ -128,40 +140,14 @@ public class Resources {
         // ANIM GOSPER
         prefix = DIR_IMG_GAME + EntityID.GOSPER.toString() + "/";
         ArrayList<String> gosperAnim = new ArrayList<String>();
-        for (int i = 0; i < 8; i++){
+        for (int i = 0; i < 8; i++) {
             gosperAnim.add(prefix + Integer.toString(i));
         }
         ANIM_GOSPER = Collections.unmodifiableList(gosperAnim);
 
     }
 
-
-
-    // =========================================================================================================
-    // GAME
-    // =========================================================================================================
-    public static final String TEX_BULLET = DIR_IMG_GAME + EntityID.BULLET;
-    public static final String TEX_POWERUP_STAR = DIR_IMG_GAME + EntityID.POWERUP_STAR;
-    public static final String TEX_POWERUP_PLUS = DIR_IMG_GAME + EntityID.POWERUP_PLUS;
-    public static final String TEX_TUBSNAKE = DIR_IMG_GAME + EntityID.TUBSNAKE;
-
-
-
-    // =========================================================================================================
-    // BLDG
-    // =========================================================================================================
-    public static final String TEX_BLDG_LRG_ONE = DIR_IMG_BLDG + EntityID.BUILDING_LARGE_ONE;
-    public static final String TEX_BLDG_ROUND_ONE = DIR_IMG_BLDG + EntityID.BUILDING_ROUND_ONE;
-    public static final String TEX_VYROID_BEACON = DIR_IMG_BLDG + EntityID.VYROID_BEACON;
-
-
-
-    // =========================================================================================================
-    // ENV
-    // =========================================================================================================
-    public static final String TEX_RIFT_ONE = DIR_IMG_ENV + EntityID.RIFT_ONE;
-    public static final String TEX_RIFT_TWO = DIR_IMG_ENV + EntityID.RIFT_TWO;
-
-    public static final String TEX_THE_EDGE = DIR_IMG_ENV + EntityID.THE_EDGE;
-    public static final String TEX_BG_ARCADE = DIR_IMG_ENV + EntityID.BG_ARCADE;
+    public static String getSfxPath(SoundEffect effect) {
+        return SFX_FILENAME_MAP.get(effect);
+    }
 }

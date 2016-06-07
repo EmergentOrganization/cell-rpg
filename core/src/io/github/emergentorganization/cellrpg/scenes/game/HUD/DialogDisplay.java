@@ -53,7 +53,8 @@ public class DialogDisplay {
 
     /**
      * Loads a dialog sequence to be handled and displayed
-     * @param sequence A dialog sequence to load
+     *
+     * @param sequence      A dialog sequence to load
      * @param textAlignment Aligns the text to an anchor. Use {@link Align}
      * @return Itself for chaining
      */

@@ -211,7 +211,7 @@ public class BodyEditorLoader {
     private Vector2 newVec() {
         try {  // use try/catch here since mutlithread behavior is a bit unpredictable
             return vectorPool.remove(0);
-        } catch(IndexOutOfBoundsException ex){
+        } catch (IndexOutOfBoundsException ex) {
             return new Vector2();
         }
     }

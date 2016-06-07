@@ -15,6 +15,7 @@ import java.util.jar.JarFile;
 
 public class FileStructure {
     public static final String RESOURCE_DIR = "resources/";
+    private final Logger logger = LogManager.getLogger(getClass());
     private boolean isJar = false;
 
     public FileStructure() {
@@ -88,6 +89,4 @@ public class FileStructure {
     public boolean isJar() {
         return isJar;
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

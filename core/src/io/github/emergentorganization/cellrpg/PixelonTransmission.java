@@ -48,15 +48,15 @@ public class PixelonTransmission extends Game {
     }
 
     private final Logger logger;
+    public Mixpanel mixpanel;
+    public Scores scores;
+    public int playerScore = 0;
     private AssetManager assetManager;
     private TextureAtlas textureAtlas;
     private FileStructure fileStructure;
     private Skin skin;
     private BodyEditorLoader bodyLoader;
-    public Mixpanel mixpanel;
     private String version;
-    public Scores scores;
-    public int playerScore = 0;
 
     public PixelonTransmission() {
         String logFile = "log4j2.xml";
@@ -113,13 +113,12 @@ public class PixelonTransmission extends Game {
             old.onSceneChange();
             setScreen(sceneKey.getScene(this));
             old.dispose();
-        }
-        else {
+        } else {
             setScreen(sceneKey.getScene(this));
         }
     }
 
-    public void gameOver(World world){
+    public void gameOver(World world) {
         playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
                 .getComponent(StatsTracker.class).getScore();
         WarpInEventRegion warpRegion = (WarpInEventRegion) world.getSystem(LeveledRegionSwitcher.class).currentRegion;
@@ -139,7 +138,7 @@ public class PixelonTransmission extends Game {
             String patch = props.getProperty("patchVersion");
             String revision = props.getProperty("revision");
             reader.close();
-            return major + "." + minor + "." + patch + "+" +  revision;
+            return major + "." + minor + "." + patch + "+" + revision;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,7 +146,7 @@ public class PixelonTransmission extends Game {
         return null;
     }
 
-    private void loadMusic(){
+    private void loadMusic() {
         String prefix = FileStructure.RESOURCE_DIR + "sounds/music/";
         String ext = ".ogg";
         String[] musics = {
@@ -199,7 +198,7 @@ public class PixelonTransmission extends Game {
     }
 
     public String getVersion() {
-        if (version == null || version.isEmpty()){
+        if (version == null || version.isEmpty()) {
             version = loadVersion();
         }
         return version;

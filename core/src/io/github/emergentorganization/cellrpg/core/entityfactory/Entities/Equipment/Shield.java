@@ -23,23 +23,24 @@ import org.apache.logging.log4j.Logger;
 /**
  */
 public class Shield extends Equipment {
+    private final Logger logger = LogManager.getLogger(getClass());
     public int shieldEntity = -1;
     public int shieldState = 0;
 
-    public Shield(int parentId, String name, String description, int baseEnergy, int energySlots, int shieldStat){
+    public Shield(int parentId, String name, String description, int baseEnergy, int energySlots, int shieldStat) {
         super(parentId, name, description, baseEnergy, energySlots);
         this.type = EquipmentType.SHIELD;
 
         this.shieldStat = shieldStat;
     }
 
-    public void create(World world, Vector2 pos){
+    public void create(World world, Vector2 pos) {
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
         final Entity shield = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag("shield")
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
-                                .renderIndex(RenderIndex.PLAYER_SHIELD)
+                        .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
+                        .renderIndex(RenderIndex.PLAYER_SHIELD)
                 )
                 .build();
 
@@ -73,7 +74,7 @@ public class Shield extends Equipment {
         });
     }
 
-    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
         if (this.shieldEntity >= 0) {
             Bounds shieldBounds = boundsMapper.get(this.shieldEntity);
             Bounds ownerBounds = boundsMapper.get(parentId);
@@ -86,6 +87,4 @@ public class Shield extends Equipment {
                     );
         }
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

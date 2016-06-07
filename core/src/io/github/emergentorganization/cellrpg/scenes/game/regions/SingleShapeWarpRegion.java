@@ -44,14 +44,14 @@ public class SingleShapeWarpRegion extends TimedRegion {
         setupSpontGen(player);
     }
 
-    private void setupSpontGen(Entity target){
+    private void setupSpontGen(Entity target) {
         // setup power-up spawns around given target entity
-        logger.trace("new spongen region f="+spawnFreq);
+        logger.trace("new spongen region f=" + spawnFreq);
         SpontaneousGenerationList genList = target.getComponent(SpontaneousGenerationList.class);
         genList.clear();
         genList.stampList.add(shape);
         genList.frequency = spawnFreq;
-        for (CALayer spawnLayer : spawnLayers){
+        for (CALayer spawnLayer : spawnLayers) {
             genList.layers.add(spawnLayer);
         }
     }

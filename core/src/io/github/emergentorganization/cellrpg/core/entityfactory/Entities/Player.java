@@ -28,27 +28,27 @@ import io.github.emergentorganization.cellrpg.tools.Resources;
 /**
  * player entity representing player avatar
  */
-public class Player extends EntityCreator{
-    public Player(World world, Vector2 pos){
+public class Player extends EntityCreator {
+    public Player(World world, Vector2 pos) {
         final EventManager eventManager = world.getSystem(EventManager.class);
         final TagManager tagManager = world.getSystem(TagManager.class);
 
         ent = new EntityBuilder(world, EntityFactory.player, "Player", EntityID.PLAYER.toString(), pos)
                 .tag(Tags.PLAYER)
                 .addBuilder(new VisualBuilder()
-                                .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
-                                .renderIndex(RenderIndex.PLAYER)
+                        .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
+                        .renderIndex(RenderIndex.PLAYER)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                                .setFixedRotation(true)
-                                .bodyFriction(0.3f)
+                        .setFixedRotation(true)
+                        .bodyFriction(0.3f)
                 )
                 .addBuilder(new InputBuilder()
-                                .speed(2f)
+                        .speed(2f)
                 )
                 .addBuilder(new SpontaneousGenerationListBuilder(10))// TODO: not sure what this value should be... could use Bounds?
                 .addBuilder(new CollectibleSpawnFieldBuilder(10))// TODO: not sure what this should be either
-                        //.health(1) // shield takes care of this instead
+                //.health(1) // shield takes care of this instead
                 .build();
 
         final EquipmentList ec = ent.getComponent(EquipmentList.class);

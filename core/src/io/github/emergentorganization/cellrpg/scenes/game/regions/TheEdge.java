@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 public class TheEdge implements iRegion {
 
+    private final Logger logger = LogManager.getLogger(getClass());
+
     public TheEdge(Scene parentScene) {
         super();
     }
@@ -47,6 +49,4 @@ public class TheEdge implements iRegion {
     public iRegion getNextRegion(World world) {
         return null;  // TODO: return adjoining region when nearing boundary
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

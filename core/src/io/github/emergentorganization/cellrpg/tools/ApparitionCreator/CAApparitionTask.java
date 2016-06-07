@@ -16,12 +16,12 @@ public class CAApparitionTask extends TimerTask {
     SpontaneousGeneration spontGen;
     CAGridComponents targetGrid;
 
-    public CAApparitionTask(SpontaneousGeneration spontGen, CAGridComponents targetGrid){
+    public CAApparitionTask(SpontaneousGeneration spontGen, CAGridComponents targetGrid) {
         this.spontGen = spontGen;
         this.targetGrid = targetGrid;
     }
 
-    public void run(){
+    public void run() {
         targetGrid.stampCenteredAt(spontGen.stamp, spontGen.position);
     }
 }

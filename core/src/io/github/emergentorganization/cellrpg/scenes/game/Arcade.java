@@ -64,7 +64,7 @@ public class Arcade extends WorldScene {
     public WorldConfiguration getBaseWorldConfiguration() {
         WorldConfiguration wc = new WorldConfiguration();
         // for using WarpInEventRegions:
-        int maxTimeInRegion = 3*60*1000;  // max time before region moves ahead anyway [ms]
+        int maxTimeInRegion = 3 * 60 * 1000;  // max time before region moves ahead anyway [ms]
         wc.setSystem(new LeveledRegionSwitcher(new WarpInEventRegion(
                 this, entityFactory, maxTimeInRegion, 0)));  // -1 to use test region, 0 is typical starting wave
 //        // for using SingleShapeWarp and SingleEntityWarp Regions:

@@ -19,9 +19,8 @@ public class BackgroundShader implements PostProcessor {
     public static final String vertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/background/Background_Vert.glsl").readString();
     public static final String fragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/background/Background_Frag.glsl").readString();
     private final Vector3 color;
-    private ShaderProgram program = new ShaderProgram(vertexShader, fragShader);
-
     private final Logger logger = LogManager.getLogger(WorldFactory.class);
+    private ShaderProgram program = new ShaderProgram(vertexShader, fragShader);
     private SpriteBatch batch = new SpriteBatch(1, program);
     private Vector2 pos;
     private long startTime = TimeUtils.millis();

@@ -55,6 +55,14 @@ public class AssetManager extends BaseSystem {
         particlePools = Collections.unmodifiableMap(pEffects);
     }
 
+    private static void addParticleEffectTo(Map.Entry<ParticleEff, String> effectPathSet,
+                                            HashMap<ParticleEff, ParticleEffectPool> pEffects) {
+        ParticleEffect prototype = new ParticleEffect();
+        prototype.load(Gdx.files.internal(effectPathSet.getValue()), Gdx.files.internal(Resources.DIR_PARTICLES));
+        prototype.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX / 2f);
+        pEffects.put(effectPathSet.getKey(), new ParticleEffectPool(prototype, 0, 50));
+    }
+
     public Animation defineAnimation(String id, float frameDuration, String[] frames, Animation.PlayMode playMode) {
         Animation a = animations.get(id);
         if (a != null)
@@ -102,7 +110,7 @@ public class AssetManager extends BaseSystem {
         return soundEffects.get(effect);
     }
 
-    public ParticleEffect getParticleEffect(ParticleEff effKey){
+    public ParticleEffect getParticleEffect(ParticleEff effKey) {
         return particlePools.get(effKey).obtain();
     }
 
@@ -112,13 +120,5 @@ public class AssetManager extends BaseSystem {
 
     @Override
     protected void processSystem() {
-    }
-
-    private static void addParticleEffectTo(Map.Entry<ParticleEff, String> effectPathSet,
-                                            HashMap<ParticleEff, ParticleEffectPool> pEffects){
-        ParticleEffect prototype = new ParticleEffect();
-        prototype.load(Gdx.files.internal(effectPathSet.getValue()), Gdx.files.internal(Resources.DIR_PARTICLES));
-        prototype.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX / 2f);
-        pEffects.put(effectPathSet.getKey(), new ParticleEffectPool(prototype, 0, 50));
     }
 }

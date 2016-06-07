@@ -18,25 +18,25 @@ public class FPSLoggerSystem extends BaseSystem {
     private static final Logger logger = LogManager.getLogger(FPSLoggerSystem.class);
 
     private final String LOGFILE = "FPSLog.csv";
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat ("hh:mm:ss.SSS");
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss.SSS");
 
     long startTime;
 
-    public FPSLoggerSystem(){
+    public FPSLoggerSystem() {
         startTime = TimeUtils.nanoTime();
     }
 
     @Override
-    public void processSystem(){
-        if (GameSettings.devMode()){
-            if (TimeUtils.nanoTime() - startTime > 1000000000) /* 1,000,000,000ns == one second */{
+    public void processSystem() {
+        if (GameSettings.devMode()) {
+            if (TimeUtils.nanoTime() - startTime > 1000000000) /* 1,000,000,000ns == one second */ {
                 logFPS();
                 startTime = TimeUtils.nanoTime();
             }
         }
     }
 
-    private void logFPS(){
+    private void logFPS() {
         Writer writer = null;
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
@@ -48,7 +48,9 @@ public class FPSLoggerSystem extends BaseSystem {
         } catch (IOException ex) {
             logger.error("FPSLog write exception: ", ex);
         } finally {
-            try {writer.close();} catch (Exception ex) {/*ignore*/}
+            try {
+                writer.close();
+            } catch (Exception ex) {/*ignore*/}
         }
     }
 }

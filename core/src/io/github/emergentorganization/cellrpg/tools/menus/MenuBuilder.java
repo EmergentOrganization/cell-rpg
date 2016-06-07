@@ -32,8 +32,7 @@ public class MenuBuilder {
     }
 
     public static VisSelectBox<String> buildDropdownSetting(VisTable menuTable, final VisWindow menuWindow,
-                                                            final String[] items, final StringSetting setting)
-    {
+                                                            final String[] items, final StringSetting setting) {
         VisLabel settingLabel = new VisLabel(setting.getLabel());
         menuTable.add(settingLabel).pad(0f, 0f, 5f, 0f).fill(true, false).row();
 
@@ -49,7 +48,7 @@ public class MenuBuilder {
         return selectBox;
     }
 
-    public static void buildToggle(){
+    public static void buildToggle() {
 
     }
 }

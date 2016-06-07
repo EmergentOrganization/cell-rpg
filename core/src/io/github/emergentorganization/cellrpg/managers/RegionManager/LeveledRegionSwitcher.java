@@ -40,7 +40,7 @@ public class LeveledRegionSwitcher extends iRegionManager {
 
     @Override
     public void processSystem() {
-        if (currentRegion == null){  // game just started
+        if (currentRegion == null) {  // game just started
             // add the static background:
             TagManager tagMan = world.getSystem(TagManager.class);
             Entity player = tagMan.getEntity(Tags.PLAYER);
@@ -52,8 +52,8 @@ public class LeveledRegionSwitcher extends iRegionManager {
                     player.getComponent(Position.class).position.cpy().sub(2000 * .025f, 2000 * .025f)  // minus 1/2 texture size
             )
                     .addBuilder(new VisualBuilder()
-                                    .texture(Resources.TEX_BG_ARCADE)
-                                    .renderIndex(RenderIndex.BACKGROUND)
+                            .texture(Resources.TEX_BG_ARCADE)
+                            .renderIndex(RenderIndex.BACKGROUND)
                     )
                     .build();
 

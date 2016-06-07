@@ -37,11 +37,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class EntityFactory {
-    private final Logger logger = LogManager.getLogger(getClass());
-
     public static float SCALE_BOX_TO_WORLD = 40f;
     public static float SCALE_WORLD_TO_BOX = 0.025f;
-
     public static Archetype object;
     public static Archetype base;
     public static Archetype collidable;
@@ -53,7 +50,7 @@ public class EntityFactory {
     public static Archetype bullet;
     public static Archetype ca_layer;
     public static Archetype invisibleObject;
-
+    private final Logger logger = LogManager.getLogger(getClass());
     private TagManager tagManager;
     private World world;
     private EventManager eventManager;
@@ -138,13 +135,13 @@ public class EntityFactory {
         Vector2 pos = new Vector2(x, y);
         Entity civ = new EntityBuilder(world, character, "Civilian", EntityID.CIV_ONE_BLINKER.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                                .renderIndex(RenderIndex.NPC)
-                                .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
+                        .renderIndex(RenderIndex.NPC)
+                        .animation(Resources.ANIM_CIV1_BLINKER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                                .bodyType(BodyDef.BodyType.KinematicBody)
-                                .setFixedRotation(true)
-                                .bodyFriction(0.3f)
+                        .bodyType(BodyDef.BodyType.KinematicBody)
+                        .setFixedRotation(true)
+                        .bodyFriction(0.3f)
                 )
                 .build();
 
@@ -154,10 +151,10 @@ public class EntityFactory {
     public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Large Building", EntityID.BUILDING_LARGE_ONE.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_BLDG_LRG_ONE)
+                        .texture(Resources.TEX_BLDG_LRG_ONE)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                                .bodyType(BodyDef.BodyType.StaticBody)
+                        .bodyType(BodyDef.BodyType.StaticBody)
                 )
                 .angle(angleDeg)
                 .build();
@@ -169,7 +166,7 @@ public class EntityFactory {
         // TODO: Tie GridSeed component to this somehow
         Entity bldg = new EntityBuilder(world, collidable, "Round Building", EntityID.BUILDING_ROUND_ONE.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_BLDG_ROUND_ONE)
+                        .texture(Resources.TEX_BLDG_ROUND_ONE)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -183,7 +180,7 @@ public class EntityFactory {
     public int createRiftOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift1", EntityID.RIFT_ONE.toString(), pos) // TODO: Come up with a more ui-friendly name
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_RIFT_ONE)
+                        .texture(Resources.TEX_RIFT_ONE)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -197,7 +194,7 @@ public class EntityFactory {
     public int createRiftTwo(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift2", EntityID.RIFT_TWO.toString(), pos) // TODO: Come up with a more ui-friendly name
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_RIFT_TWO)
+                        .texture(Resources.TEX_RIFT_TWO)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -211,7 +208,7 @@ public class EntityFactory {
     public int createVyroidBeacon(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Vyroid Beacon", EntityID.VYROID_BEACON.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_VYROID_BEACON)
+                        .texture(Resources.TEX_VYROID_BEACON)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
                         .bodyType(BodyDef.BodyType.StaticBody)
@@ -225,8 +222,8 @@ public class EntityFactory {
     public int createBackgroundTheEdge(Vector2 pos) {
         Entity bg = new EntityBuilder(world, object, "The Edge Background", EntityID.THE_EDGE.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_THE_EDGE)
-                                .renderIndex(RenderIndex.BACKGROUND)
+                        .texture(Resources.TEX_THE_EDGE)
+                        .renderIndex(RenderIndex.BACKGROUND)
                 )
                 .build();
 
@@ -269,7 +266,7 @@ public class EntityFactory {
         eventManager.addListener(new EventListener() {
             @Override
             public void notify(EntityEvent event) {
-                if (event.event == GameEvent.POWERUP_STAR){
+                if (event.event == GameEvent.POWERUP_STAR) {
                     tagManager.getEntity(Tags.PLAYER).getComponent(EquipmentList.class).powerUp(Powerup.FIRE_RATE);
                 }
             }
@@ -321,8 +318,7 @@ public class EntityFactory {
                 .addBuilder(new AIComponentBuilder(AIComponent.aiType.RANDWALK)
                         .AIPeriod(.5f)
                 )
-                .build()
-        ;
+                .build();
 
         CAInteractionList interactList = ent.getComponent(CAInteractionList.class);
 //        System.out.println("adding player-vyroid collision. ca grid id#" + vyroidLayer.getId());
@@ -352,22 +348,21 @@ public class EntityFactory {
         Entity playerEnt = tagManager.getEntity(Tags.PLAYER);
         Entity ent = new EntityBuilder(world, npc, "pond still life which chases player", EntityID.PONDBOMB.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                                .animation(Resources.ANIM_PONDBOMB, Animation.PlayMode.LOOP, .1f)
-                                .renderIndex(RenderIndex.NPC)
+                        .animation(Resources.ANIM_PONDBOMB, Animation.PlayMode.LOOP, .1f)
+                        .renderIndex(RenderIndex.NPC)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                                .bodyFriction(.5f)
+                        .bodyFriction(.5f)
                 )
                 .addBuilder(new HealthBuilder(1))
                 .addBuilder(new InputBuilder()
-                                .speed(1.2f)
+                        .speed(1.2f)
                 )
                 .addBuilder(new AIComponentBuilder(AIComponent.aiType.CHASE)
-                                .AIPeriod(.5f)
-                                .AITarget(playerEnt)
+                        .AIPeriod(.5f)
+                        .AITarget(playerEnt)
                 )
-                .build()
-                ;
+                .build();
         return ent.getId();
     }
 
@@ -376,22 +371,21 @@ public class EntityFactory {
         Entity ent = new EntityBuilder(world, npc, "glider gun that shoots @ target", EntityID.GOSPER.toString(), pos)
                 .angle(90)
                 .addBuilder(new VisualBuilder()
-                                .animation(Resources.ANIM_GOSPER, Animation.PlayMode.LOOP, .1f)
-                                .renderIndex(RenderIndex.NPC)
+                        .animation(Resources.ANIM_GOSPER, Animation.PlayMode.LOOP, .1f)
+                        .renderIndex(RenderIndex.NPC)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                                .bodyFriction(1f)
+                        .bodyFriction(1f)
                 )
                 .addBuilder(new HealthBuilder(5))
                 .addBuilder(new InputBuilder()
-                                .speed(0f)
+                        .speed(0f)
                 )
                 .addBuilder(new AIComponentBuilder(AIComponent.aiType.RANDWALK)
-                                .AIPeriod(.5f)
-                                .AITarget(playerEnt)
+                        .AIPeriod(.5f)
+                        .AITarget(playerEnt)
                 )
-                .build()
-        ;
+                .build();
 
         CAInteractionList interactList = ent.getComponent(CAInteractionList.class);
         Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
@@ -449,7 +443,7 @@ public class EntityFactory {
                 default:
                     throw new RuntimeException("ERROR: enum instance missing in switch for id " + id);
             }
-        } catch(Exception ex){
+        } catch (Exception ex) {
             logger.error("failed to create entity of type " + id, ex);
             return -1;
         }

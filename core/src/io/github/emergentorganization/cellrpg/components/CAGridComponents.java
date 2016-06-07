@@ -211,7 +211,7 @@ public class CAGridComponents extends Component {
         // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
         int row = getIndexOfX(position.x);
         int col = getIndexOfY(position.y);
-        logger.trace("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
+        logger.trace("(" + position.x + "," + position.y + ")==>(" + row + "," + col + ")");
         return stampCenteredAt(pattern, row, col);
     }
 

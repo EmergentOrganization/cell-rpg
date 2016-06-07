@@ -15,25 +15,25 @@ import java.util.ArrayList;
 public class EquipmentList extends Component {
     public ArrayList<Equipment> equipment = new ArrayList<Equipment>();
 
-    public void addEquipment(Equipment newEquip, World world, Vector2 pos){
+    public void addEquipment(Equipment newEquip, World world, Vector2 pos) {
         newEquip.create(world, pos);
         equipment.add(newEquip);
     }
 
-    public void rechargeEquipment(){
-        for (Equipment eq: equipment){
+    public void rechargeEquipment() {
+        for (Equipment eq : equipment) {
             eq.recharge();
         }
     }
 
-    public void moveEquipment(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+    public void moveEquipment(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
         for (Equipment eq : equipment) {
             eq.updatePosition(boundsMapper, posMapper);
         }
     }
 
-    public void powerUp(Powerup powerType){
-        for (Equipment eq: equipment){
+    public void powerUp(Powerup powerType) {
+        for (Equipment eq : equipment) {
             eq.powerUp(powerType);
         }
     }

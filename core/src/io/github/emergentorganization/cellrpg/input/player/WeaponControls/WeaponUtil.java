@@ -22,14 +22,14 @@ public class WeaponUtil {
 
     public static void shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact) {
         EquipmentList eqList = shooter.getComponent(EquipmentList.class);
-        for (Equipment weaponEquip : eqList.equipment){
-            if (weaponEquip.type == EquipmentType.WEAPON){
+        for (Equipment weaponEquip : eqList.equipment) {
+            if (weaponEquip.type == EquipmentType.WEAPON) {
                 _shootTo(pos, shooter, eventMan, entFact, (Weapon) weaponEquip);
             }
         }
     }
 
-    public static void _shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact, Weapon weapon){
+    public static void _shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact, Weapon weapon) {
         if (weapon == null) {
             eventMan.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_WEAPON_EMPTY));
             return;

@@ -120,7 +120,7 @@ public class MainMenu extends WorldScene {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     WindowSystem winSys = world.getSystem(WindowSystem.class);
-                    if (winSys.isPaused()){
+                    if (winSys.isPaused()) {
                         winSys.onResume();  // exit menu if already open
                     } else {
                         winSys.onPause();  // pause when clicked
@@ -171,7 +171,7 @@ public class MainMenu extends WorldScene {
             stage.addActor(versionInfo);
         }
 
-        if (GameSettings.getPreferences().getBoolean(GameSettings.KEY_FIRST_START, true)){
+        if (GameSettings.getPreferences().getBoolean(GameSettings.KEY_FIRST_START, true)) {
             logger.trace("starting firstStart window");
             new FirstStartWindow(stage, world, pt);
         } else {

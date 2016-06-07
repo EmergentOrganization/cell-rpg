@@ -28,6 +28,7 @@ import java.util.LinkedHashMap;
 
 public class MapTools {
 
+    private static final Logger logger = LogManager.getLogger(MapTools.class);
     public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
     public static String EXTENSION = ".json";
     public static EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
@@ -133,8 +134,6 @@ public class MapTools {
 
         return map;
     }
-
-    private static final Logger logger = LogManager.getLogger(MapTools.class);
 }
 
 class JSONKey {

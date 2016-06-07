@@ -31,7 +31,7 @@ import java.util.*;
 
 
 @Wire
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class RenderSystem extends BaseEntitySystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -67,7 +67,7 @@ public class RenderSystem extends BaseEntitySystem {
         fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
     }
 
-    public void registerOrphanParticleEffect(ParticleEffect effect){
+    public void registerOrphanParticleEffect(ParticleEffect effect) {
         // registers an (entity-parent)-less particle effect for drawing
         particleEffects.add(effect);
     }
@@ -99,8 +99,8 @@ public class RenderSystem extends BaseEntitySystem {
         // render non-entity particle effects:
         ArrayList<ParticleEffect> delQueue = new ArrayList<ParticleEffect>();
         logger.trace("rendering " + particleEffects.size() + " orphan particle effects");
-        for (ParticleEffect p : particleEffects){
-            if(p.isComplete()){
+        for (ParticleEffect p : particleEffects) {
+            if (p.isComplete()) {
                 p.dispose();
                 delQueue.add(p);
             } else {
@@ -109,7 +109,7 @@ public class RenderSystem extends BaseEntitySystem {
             }
         }
         logger.trace(delQueue.size() + " particle effects complete; removing.");
-        for (ParticleEffect dp : delQueue){
+        for (ParticleEffect dp : delQueue) {
             particleEffects.remove(dp);
         }
     }

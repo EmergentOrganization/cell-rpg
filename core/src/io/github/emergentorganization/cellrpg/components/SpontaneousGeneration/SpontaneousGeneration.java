@@ -5,8 +5,8 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
  * defines a stamp effect onto a CA grid.
- *
- *  TODO: rename to more generic name
+ * <p>
+ * TODO: rename to more generic name
  */
 
 public class SpontaneousGeneration {

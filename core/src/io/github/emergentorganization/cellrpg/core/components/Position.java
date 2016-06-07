@@ -13,8 +13,9 @@ public class Position extends Component {
 
     /**
      * Returns the center of the entity
+     *
      * @param bounds Bounds of the same entity that this component is attached to
-     * @param angle Rotation, in degrees, of the same entity that this component is attached to
+     * @param angle  Rotation, in degrees, of the same entity that this component is attached to
      * @return The exact center of the entity
      */
     public Vector2 getCenter(Bounds bounds, float angle) {

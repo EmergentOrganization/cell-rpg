@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
  * Adapted from CAGridBase by 7yl4r on 2015-12-14.
  */
 public class CAPositionSystem extends BaseEntitySystem {
+    private final Logger logger = LogManager.getLogger(getClass());
     // artemis-injected entity components:
     private CameraSystem cameraSystem;
     private ComponentMapper<CAGridComponents> CAComponent_m;
@@ -154,6 +155,4 @@ public class CAPositionSystem extends BaseEntitySystem {
             return 1;
         }
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

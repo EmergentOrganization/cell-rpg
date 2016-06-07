@@ -39,7 +39,8 @@ public abstract class BaseScene extends ScreenAdapter {
     /**
      * Listener method called right before scene change. Override to add functionality
      */
-    public void onSceneChange() {}
+    public void onSceneChange() {
+    }
 
     @Override
     public void dispose() {

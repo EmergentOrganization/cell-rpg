@@ -44,14 +44,8 @@ public class GameSettings {
     // cached preferences file
     private static Preferences prefs;
 
-    public static void setPreferences(Preferences prefs)
-    {
-        GameSettings.prefs = prefs;
-    }
-
     public static Preferences getPreferences() {
-        if(prefs != null)
-        {
+        if (prefs != null) {
             return prefs;
         }
 
@@ -59,12 +53,16 @@ public class GameSettings {
         return prefs;
     }
 
-    public static boolean devMode(){
+    public static void setPreferences(Preferences prefs) {
+        GameSettings.prefs = prefs;
+    }
+
+    public static boolean devMode() {
 
         return getPreferences().getBoolean(KEY_DEV_DEVMODE, false);
     }
 
-    public static void dispose(){
+    public static void dispose() {
         getPreferences().flush();
     }
 }

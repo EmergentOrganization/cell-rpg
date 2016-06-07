@@ -55,7 +55,7 @@ public class GeneticCA implements iCA {
                 GeneticCell cell = (GeneticCell) gridComps.states[i][j];
                 cell.neighborCount = util.getNeighborhoodSum(i, j, 3, gridComps);
                 gridComps.states[i][j] = cell;
-                if (cell.getState() != 0){
+                if (cell.getState() != 0) {
                     gridComps.cellCount += 1;
                 }
             }

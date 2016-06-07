@@ -33,12 +33,14 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
     public int neighborCount = 0;
     private GeneticNetworkBuilderInterface builder;
     private Color color = new Color(DEFAULT_COLOR);
+
     public GeneticCell(int _state, ArrayList<GeneticCell> parents, int mutateLevel) {
         // builds cell network inherting from parent(s), mutated based on given level
         super(_state);
         initDGRN();
         // TODO: inherit + mutation
     }
+
     public GeneticCell(int _state, ArrayList<GeneticCell> parents) {
         // builds cell network inherting from parent(s) (no mutations)
         super(_state);

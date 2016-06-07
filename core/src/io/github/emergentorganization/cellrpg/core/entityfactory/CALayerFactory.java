@@ -27,7 +27,7 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 public class CALayerFactory {
 
     public static Entity buildLayer(World world, Vector2 pos, Archetype layer_arch,
-                                  String descr, String tag, CALayer layer){
+                                    String descr, String tag, CALayer layer) {
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
         Entity vyroidLayer = new EntityBuilder(world, layer_arch, descr,
                 layer.toString(), pos)
@@ -37,7 +37,7 @@ public class CALayerFactory {
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, layer, camera);
         try {
             vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(tag);
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             ; // this layer has no effect on intensity (no problem)
         }
 

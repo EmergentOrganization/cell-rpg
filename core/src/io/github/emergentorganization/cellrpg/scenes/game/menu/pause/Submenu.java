@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
  * new menu includes back button.
  */
 public class Submenu {
+    private final Logger logger = LogManager.getLogger(getClass());
     protected VisWindow menuWindow;
     protected Stage stage;
     protected VisTable menuTable;
@@ -67,5 +68,4 @@ public class Submenu {
         menuTable.align(Align.center);
         menuWindow.pack();
     }
-    private final Logger logger = LogManager.getLogger(getClass());
 }

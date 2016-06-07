@@ -18,12 +18,12 @@ public class CAImpact {
         interactionPeriod = period;
     }
 
-    public boolean readyToStamp(CAGridComponents caGridComps){
+    public boolean readyToStamp(CAGridComponents caGridComps) {
         // returns true if enough generations have passed to stamp again
         return caGridComps.generation - lastInteractionGeneration >= interactionPeriod;
     }
 
-    public void impacted(CAGridComponents caGridComps){
+    public void impacted(CAGridComponents caGridComps) {
         // should be called post-impact application to reset interaction generation timer
         lastInteractionGeneration = caGridComps.generation;
     }

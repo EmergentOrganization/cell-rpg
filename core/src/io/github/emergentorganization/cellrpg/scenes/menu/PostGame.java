@@ -76,13 +76,13 @@ public class PostGame extends WorldScene {
         return wc;
     }
 
-    private Table makeScoreTable(float tableTop, float tableBottom){
+    private Table makeScoreTable(float tableTop, float tableBottom) {
         Table scoreTable = new Table(skin);
         scoreTable.row();
 
         float cursorY = tableTop;
         int MAX_SCORES_TO_CHECK = 9999;
-        for(int rank = 0; rank < MAX_SCORES_TO_CHECK; rank++){  // aka while(true) with a backup plan
+        for (int rank = 0; rank < MAX_SCORES_TO_CHECK; rank++) {  // aka while(true) with a backup plan
             String username = pt.scores.getName(rank);
             int score = pt.scores.getScore(rank);
 
@@ -92,27 +92,27 @@ public class PostGame extends WorldScene {
             // } else {
 
             String mark = "";
-            if (pt.playerScore == score){
+            if (pt.playerScore == score) {
                 mark = "-->";
             }
-            scoreTable.add(new Label(mark + Integer.toString(rank+1) + " | ", skin)).right();
+            scoreTable.add(new Label(mark + Integer.toString(rank + 1) + " | ", skin)).right();
             scoreTable.add(new Label(username, skin)).left();
-            Label scoreText = new Label( " | " + formatScore(score), skin);
+            Label scoreText = new Label(" | " + formatScore(score), skin);
             scoreTable.add(scoreText).left().row();
             cursorY -= scoreText.getHeight();
 
-            if (cursorY < tableBottom){
+            if (cursorY < tableBottom) {
                 break;
             }
         }
         scoreTable.pack();
-        scoreTable.setPosition(stage.getWidth()/2, tableTop, Align.top);
+        scoreTable.setPosition(stage.getWidth() / 2, tableTop, Align.top);
         return scoreTable;
     }
 
-    private String formatScore(int score){
+    private String formatScore(int score) {
         // return rank formatted for display in table
-        return String.format("%08d",score);
+        return String.format("%08d", score);
     }
 
     private Table makeMenuTable() {

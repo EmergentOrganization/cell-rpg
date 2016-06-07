@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 
 @Wire
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class WindowSystem extends BaseSystem {
     private final Logger logger = LogManager.getLogger(getClass());
     private final PixelonTransmission pt;

@@ -88,6 +88,7 @@ public class EntityFactory {
     }
 
     public void addCALayers(Vector2 pos, int playerID) {
+        logger.info("adding CA layers");
         // adds all ca layer entities to the scene.
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
 

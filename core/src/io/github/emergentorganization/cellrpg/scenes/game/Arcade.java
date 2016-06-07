@@ -31,24 +31,27 @@ public class Arcade extends WorldScene {
         WorldFactory.setupStdHUD(world, stage);
 
         // setup map
+        logger.info("setting up map");
         Vector2 pos = new Vector2(0, 0);
         int playerID = entityFactory.createEntityByID(EntityID.PLAYER, pos, 0);
         entityFactory.addCALayers(pos, playerID);  // TODO: this should be somewhere else
 
         WorldFactory.setupStandardWorldEffects(world);
-        TagManager tm = world.getSystem(TagManager.class);
-
-        // HUD tweaks
-        scoreDisplay = new ScoreDisplay(world, stage, tm.getEntity(Tags.PLAYER).getId());
-
         TagManager tagMan = world.getSystem(TagManager.class);
         Entity player = tagMan.getEntity(Tags.PLAYER);
+
+        // HUD tweaks
+        logger.info("adding score display");
+        scoreDisplay = new ScoreDisplay(world, stage, player.getId());
+
+        logger.info("adding player-centered powerup spawnfield");
         EntitySpawnField spawnField = player.getComponent(EntitySpawnField.class);
         spawnField.entityList.clear();
         spawnField.entityList.add(EntityID.POWERUP_STAR);
         spawnField.entityList.add(EntityID.POWERUP_PLUS);
         spawnField.frequency = .05f;
 
+        logger.debug("done init arcade world");
     }
 
     @Override

@@ -83,6 +83,7 @@ public class WorldFactory {
 
     public static void setupStandardEventSystem(final World world, final PixelonTransmission pt) {
         // setup events
+        logger.info("setting up std event system");
         world.getSystem(EventManager.class).addListener(new EventListener() {
             @Override
             public void notify(EntityEvent event) {
@@ -102,12 +103,14 @@ public class WorldFactory {
     }
 
     public static void setupStandardWorldEffects(World world) {
+        logger.info("setting up shaders");
         world.getSystem(RenderSystem.class)
                 .setTronShader(new TronShader(new Vector3(1, 1, 1)));
                 //.setBackgroundShader(new BackgroundShader(new Vector3(0.37f, 0.43f, 0.50f)));
     }
 
     public static void setupStdHUD(World world, Stage stage) {
+        logger.info("setting up std HUD...");
     }
 
     public static World editorGameWorld(PixelonTransmission pt, SpriteBatch batch, Stage stage, EntityFactory entityFactory) {

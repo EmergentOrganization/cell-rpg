@@ -38,6 +38,7 @@ public class MenuBuilder {
 
         final VisSelectBox<String> selectBox = new VisSelectBox<String>();
         selectBox.setItems(items);
+        selectBox.setSelected(setting.getValue());
         menuTable.add(selectBox).pad(0, 0, 5f, 0).fill(true, false).row();
         selectBox.addListener(new ChangeListener() {
             @Override

@@ -16,9 +16,9 @@ import org.apache.logging.log4j.Logger;
 public class SingleEntityWarpRegion extends TimedRegion {
 
     private final Logger logger = LogManager.getLogger(getClass());
-    public WorldScene scene;
-    public EntityID entityID;
-    public float spawnFreq;
+    public final WorldScene scene;
+    private final EntityID entityID;
+    private final float spawnFreq;
 
     public SingleEntityWarpRegion(WorldScene parentScene, final long expiresIn, final float spawnFreq, EntityID entityID) {
         super(expiresIn);

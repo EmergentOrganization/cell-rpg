@@ -6,7 +6,7 @@ import javax.xml.crypto.KeySelectorException;
  * Performs some action given output node keys and values
  */
 public interface OutflowNodeHandler {
-    public void handleOutputNode(String key, int value) throws KeySelectorException;
+    void handleOutputNode(String key, int value);
 
-    public String[] getListOfOutflowNodes();
+    String[] getListOfOutflowNodes();
 }

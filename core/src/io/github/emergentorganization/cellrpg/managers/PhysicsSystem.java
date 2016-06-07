@@ -28,13 +28,13 @@ public class PhysicsSystem extends BaseEntitySystem {
     private final Box2DDebugRenderer renderer;
     private final Logger logger = LogManager.getLogger(getClass());
     private CameraSystem cs;
-    private Batch batch;
+    private final Batch batch;
     private AssetManager assetManager;
     private ComponentMapper<Visual> vm;
     private ComponentMapper<Bounds> bm;
     private ComponentMapper<PhysicsBody> pm;
     private ComponentMapper<Lifecycle> lm;
-    private HashMap<Integer, Body> bodies;
+    private final HashMap<Integer, Body> bodies;
     private boolean shouldRender = false;
 
     public PhysicsSystem(BodyEditorLoader bodyLoader, @Nullable Batch batch) {
@@ -92,6 +92,7 @@ public class PhysicsSystem extends BaseEntitySystem {
                 origin.x, b.height + origin.y
         });
         fd.shape = rect;
+        assert body != null;
         body.createFixture(fd);
         bodies.put(entityId, body);
         return body;
@@ -137,7 +138,7 @@ public class PhysicsSystem extends BaseEntitySystem {
         }
     }
 
-    public void removeBody(int entityId) {
+    private void removeBody(int entityId) {
         Body body = getBody(entityId);
         physWorld.destroyBody(body);
         bodies.remove(entityId);

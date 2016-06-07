@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 /**
  */
 public class Mixpanel {
-    static Logger logger = LogManager.getLogger(Mixpanel.class);
+    private static final Logger logger = LogManager.getLogger(Mixpanel.class);
     private final ExecutorService executor = Executors.newCachedThreadPool();
     private MessageBuilder messageBuilder;
     private String version = "0.0.0";
@@ -29,7 +29,7 @@ public class Mixpanel {
         messageBuilder = new MessageBuilder(Secrets.MIXPANEL_TOKEN);
     }
 
-    public void updateUserProfile() {
+    private void updateUserProfile() {
         // This creates a profile for user if one does not already exist or updates it.
         try {
             JSONObject props = new JSONObject();
@@ -119,6 +119,7 @@ public class Mixpanel {
         executor.submit(new MessageDelivery(sentEvent));
 
         // Since a seperate thread now has a reference to our object, we need to lock the reference in order to use it
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
         synchronized (sentEvent) {
             logger.trace("sent appStart:" + sentEvent);
         }

@@ -25,15 +25,15 @@ import org.apache.logging.log4j.Logger;
 public class WarpInEventRegion extends TimedRegion {
 
     private final Logger logger = LogManager.getLogger(getClass());
-    public WorldScene scene;
+    private WorldScene scene;
     public int regionNumber = 0;
-    EntityID[] entityIDs;
-    int[] entityCounts;
-    int[][][] shapes;
-    int[] shapeCounts;
-    int minWarpDuration = 1 * 1000; // min time to warp-in [s]
-    int maxWarpDuration = 5 * 1000;  // duration of warp-in (time across which warp-ins will start) [s]
-    EntityFactory entityFactory;
+    private EntityID[] entityIDs;
+    private int[] entityCounts;
+    private int[][][] shapes;
+    private int[] shapeCounts;
+    private final int minWarpDuration = 1 * 1000; // min time to warp-in [s]
+    private final int maxWarpDuration = 5 * 1000;  // duration of warp-in (time across which warp-ins will start) [s]
+    private EntityFactory entityFactory;
 
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
                              int regionNumber) {
@@ -45,9 +45,9 @@ public class WarpInEventRegion extends TimedRegion {
         this(parentScene, entityFactory, expiresIn, 0);
     }
 
-    public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
-                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
-                             int regionNumber) {
+    private WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
+                              EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
+                              int regionNumber) {
         super(expiresIn);
 
         assert entityIDs.length == entityCounts.length;
@@ -102,7 +102,7 @@ public class WarpInEventRegion extends TimedRegion {
             scheduleEntityWarps(player, entityIDs[idN], entityCounts[idN], world);
         }
 
-        for (int shapeN = 0; shapeN < shapes.length; shapeN++) {
+        for (int[][] shape : shapes) {
 //            scheduleShapeWarps(player, shapes[shapeN], shapeCounts[shapeN]);  // TODO
         }
     }

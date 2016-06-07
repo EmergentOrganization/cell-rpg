@@ -9,8 +9,8 @@ import java.util.UUID;
 
 /**
  */
-public class UserIdentifier {
-    static Logger logger = LogManager.getLogger(UserIdentifier.class);
+class UserIdentifier {
+    private static final Logger logger = LogManager.getLogger(UserIdentifier.class);
     private static String ID = null;
     private static boolean configLoaded = false;
 
@@ -21,11 +21,11 @@ public class UserIdentifier {
     }
 
     //
-    public static final String getId() {
+    public static String getId() {
         if (!configLoaded) {
             loadFromConfig();
         }
-        if (ID == null || ID == "") {  // generate new ID if not found
+        if (ID == null || ID.equals("")) {  // generate new ID if not found
             ID = UUID.randomUUID().toString();
             // and save it for later
             Preferences prefs = GameSettings.getPreferences();

@@ -38,7 +38,7 @@ public class EnergyLevel extends Component {
         }
     }
 
-    public boolean hasEnoughEnergyFor(int requiredEnergy) {
+    private boolean hasEnoughEnergyFor(int requiredEnergy) {
         // return true if can accommodate given energy requirements
         return requiredEnergy <= availableEnergy;
     }

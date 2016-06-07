@@ -31,7 +31,7 @@ public class WindowSystem extends BaseSystem {
     private boolean isPaused = false;
     private VisWindow pauseWindow;
     private TextureRegion cachedBackground;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
 
     public WindowSystem(PixelonTransmission pt, Stage stage, Batch batch) {
         this.pt = pt;

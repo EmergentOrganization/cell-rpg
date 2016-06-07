@@ -16,22 +16,22 @@ import java.util.ArrayList;
 public class Weapon extends Equipment {
 
     // power-up constants:
-    static final long FIRE_RATE_DELAY_DELTA = 100;
-    static final long FIRE_RATE_LEN = 3;
-    static final long FIRE_RATE_CHARGE_BOOST = 100;
-    public final int MAX_CHARGE = 100;
+    private static final long FIRE_RATE_DELAY_DELTA = 100;
+    private static final long FIRE_RATE_LEN = 3;
+    private static final long FIRE_RATE_CHARGE_BOOST = 100;
+    private final int MAX_CHARGE = 100;
     public final int SHOT_CHARGE_COST = 10;
     private final Logger logger = LogManager.getLogger(getClass());
     // public:
     public long delay = 100;  // required delay between shots
     public int charge = 100;  // how much charge stored in weapon
-    public int recharge_per_s = 30;
+    private final int recharge_per_s = 30;
     // private:
     public long lastShot;  // time of last weapon fire
     public boolean charge_changed;
     // list of applied powerups and corresponding power-down timers
-    public ArrayList<Powerup> powerups = new ArrayList<Powerup>();
-    public ArrayList<Long> powerup_timers = new ArrayList<Long>();
+    private final ArrayList<Powerup> powerups = new ArrayList<Powerup>();
+    private final ArrayList<Long> powerup_timers = new ArrayList<Long>();
 
     public Weapon(int parentId, String name, String description, int baseEnergy, int energySlots, int attackStat) {
         super(parentId, name, description, baseEnergy, energySlots);
@@ -77,7 +77,7 @@ public class Weapon extends Equipment {
         checkForPowerDown(1);
     }
 
-    public void checkForPowerDown(int FREQ) {
+    private void checkForPowerDown(int FREQ) {
         // power-down powerups if timers are up
         for (int i = powerup_timers.size() - 1; i > -1; i--) {
             // NOTE: goes max->0 to avoid index issues when removing
@@ -103,7 +103,7 @@ public class Weapon extends Equipment {
         }
     }
 
-    public void powerDown(int i) {
+    private void powerDown(int i) {
         // un-applies powerup in position i in powerups[] and deletes powerup + timer.
         _powerDown(powerups.get(i));
         powerup_timers.remove(i);

@@ -9,10 +9,10 @@ import io.github.emergentorganization.cellrpg.core.components.InputComponent;
 
 
 public abstract class iPlayerCtrl {
-    protected World world;
-    ComponentMapper<InputComponent> inp_m;
+    protected final World world;
+    private final ComponentMapper<InputComponent> inp_m;
 
-    public iPlayerCtrl(World world, ComponentMapper<InputComponent> inp_m) {
+    protected iPlayerCtrl(World world, ComponentMapper<InputComponent> inp_m) {
         this.world = world;
         this.inp_m = inp_m;
     }

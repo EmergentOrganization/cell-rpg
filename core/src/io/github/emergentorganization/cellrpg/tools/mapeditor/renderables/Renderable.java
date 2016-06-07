@@ -3,6 +3,6 @@ package io.github.emergentorganization.cellrpg.tools.mapeditor.renderables;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
-public interface Renderable {
+interface Renderable {
     void render(ShapeRenderer shapeRenderer);
 }

@@ -18,15 +18,13 @@ import java.util.Map;
 
 public class AssetManager extends BaseSystem {
 
-    private HashMap<String, TextureRegion> regions;
-    private HashMap<String, Animation> animations;
-    private Map<SoundEffect, Sound> soundEffects;
-    private Map<ParticleEff, ParticleEffectPool> particlePools;
-    private com.badlogic.gdx.assets.AssetManager gdxAssetManager;
+    private final HashMap<String, TextureRegion> regions;
+    private final HashMap<String, Animation> animations;
+    private final Map<SoundEffect, Sound> soundEffects;
+    private final Map<ParticleEff, ParticleEffectPool> particlePools;
 
     public AssetManager(com.badlogic.gdx.assets.AssetManager assets) {
         setEnabled(false);
-        gdxAssetManager = assets;
 
         regions = new HashMap<String, TextureRegion>();
         animations = new HashMap<String, Animation>();
@@ -83,12 +81,12 @@ public class AssetManager extends BaseSystem {
         return regions.get(id);
     }
 
-    public Animation getAnimation(String id) {
+    private Animation getAnimation(String id) {
         return animations.get(id);
     }
 
     /**
-     * @param v
+     * @param v The visual component associated with the region
      * @return current frame in animation, or the only frame if a static region
      */
     public TextureRegion getCurrentRegion(Visual v) {

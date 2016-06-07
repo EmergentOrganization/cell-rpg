@@ -14,10 +14,10 @@ import java.util.List;
 public class CAInteraction {
     private final Logger logger = LogManager.getLogger(getClass());
     // collision impact grid stamps (maps state to list of impact/layer pairs):
-    public IntMap<List<CAImpact>> impacts = new IntMap<List<CAImpact>>();
+    public final IntMap<List<CAImpact>> impacts = new IntMap<List<CAImpact>>();
     // events triggered by collisions (maps state to list of events):
-    public IntMap<List<GameEvent>> events = new IntMap<List<GameEvent>>();
-    private ArrayList collidingStates = new ArrayList(); // list of states with collision effects
+    public final IntMap<List<GameEvent>> events = new IntMap<List<GameEvent>>();
+    private final ArrayList collidingStates = new ArrayList(); // list of states with collision effects
 
     public CAInteraction() {
 
@@ -66,12 +66,11 @@ public class CAInteraction {
     private void setupCollideWithState(int state) {
         // ensures given state will be checked for collisions
         // (all states are not checked by default for efficiency)
-        Integer stat = new Integer(state);
-        if (!collidingStates.contains(stat)) {
-            logger.trace("new colliding state: " + stat);
-            collidingStates.add(stat);
+        if (!collidingStates.contains(state)) {
+            logger.trace("new colliding state: " + state);
+            collidingStates.add(state);
         } else {
-            logger.trace("already collides w/ state: " + stat);
+            logger.trace("already collides w/ state: " + state);
         }
         logger.trace("colliding states: " + collidingStates);
     }

@@ -10,6 +10,8 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Collections;
+
 /*
 * Region in which a single vyroid colony shape is warping in.
  */
@@ -17,10 +19,10 @@ import org.apache.logging.log4j.Logger;
 public class SingleShapeWarpRegion extends TimedRegion {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public WorldScene scene;
-    public int[][] shape;
-    public float spawnFreq;
-    private CALayer[] spawnLayers;
+    public final WorldScene scene;
+    public final int[][] shape;
+    private final float spawnFreq;
+    private final CALayer[] spawnLayers;
 
     public SingleShapeWarpRegion(WorldScene parentScene, final long expiresIn, final int[][] shape,
                                  final float spawnFreq, CALayer[] spawnLayers) {
@@ -51,9 +53,7 @@ public class SingleShapeWarpRegion extends TimedRegion {
         genList.clear();
         genList.stampList.add(shape);
         genList.frequency = spawnFreq;
-        for (CALayer spawnLayer : spawnLayers) {
-            genList.layers.add(spawnLayer);
-        }
+        Collections.addAll(genList.layers, spawnLayers);
     }
 
     private void setCAEdgeSpawns(TagManager tagMan) {

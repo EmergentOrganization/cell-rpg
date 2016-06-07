@@ -36,7 +36,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
     private CameraSystem cameraSystem;
     private MoodSystem moodSystem;
     private EventManager eventManager;
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREAD_NUM - 1);
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREAD_NUM - 1);
 
     public CAGenerationSystem() {
         super(Aspect.all(CAGridComponents.class));
@@ -51,7 +51,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
 
         // TODO: manage generation tasks somehow?
@@ -74,7 +74,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         }
     }
 
-    public void generate(CAGridComponents gridComps, final int entId) {
+    private void generate(CAGridComponents gridComps, final int entId) {
         _generate(eventManager, gridComps, entId);
     }
 
@@ -183,9 +183,9 @@ public class CAGenerationSystem extends BaseEntitySystem {
     }
 
     class GenerateTask extends TimerTask {
-        private CAGenerationSystem genSys;
-        private CAGridComponents gridComp;
-        private int entId;
+        private final CAGenerationSystem genSys;
+        private final CAGridComponents gridComp;
+        private final int entId;
 
         public GenerateTask(CAGenerationSystem genSys, CAGridComponents gridComp, final int entId) {
             this.entId = entId;

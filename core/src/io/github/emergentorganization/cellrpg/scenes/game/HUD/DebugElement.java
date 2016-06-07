@@ -7,10 +7,10 @@ import com.kotcrab.vis.ui.widget.VisTable;
 /**
  * display element in the debugDisplay.
  */
-public abstract class DebugElement {
-    VisLabel elementLabel;
-    String suffix;
-    String prefix;
+abstract class DebugElement {
+    private final VisLabel elementLabel;
+    private final String suffix;
+    private final String prefix;
 
     public DebugElement(VisTable visTable) {
         this(visTable, "", "");

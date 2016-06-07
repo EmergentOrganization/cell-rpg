@@ -25,9 +25,9 @@ public class EntitySpawnField extends Component {
     public float radius = 1;  // area around entity which may be spawned
     public float frequency = -1;  // how often the spawn will occur
     public float variance = 0;  // how much the timing can vary randomly
-    public int sinceLastSpawnCounter = 0;  // counter for determining when it's time to spawn
+    private int sinceLastSpawnCounter = 0;  // counter for determining when it's time to spawn
 
-    public ArrayList<EntityID> entityList = new ArrayList<EntityID>();  // list entity classes that may be spawned
+    public final ArrayList<EntityID> entityList = new ArrayList<EntityID>();  // list entity classes that may be spawned
 
     public int spawnEntity(Position entityPos, Bounds entityBounds, EntityFactory entFact) {
         // gets a random entity from the list, returns the id of entity created.
@@ -65,7 +65,7 @@ public class EntitySpawnField extends Component {
             return -1;
     }
 
-    public int _spawnEntity(EntityID entity, Position entityPos, Bounds entityBounds, EntityFactory entFact) {
+    private int _spawnEntity(EntityID entity, Position entityPos, Bounds entityBounds, EntityFactory entFact) {
         // spawns entity of given Id
         // TODO: exclude inner radius / bounds?
         Vector2 pos = getSpawnPosition(entityPos, entityBounds);

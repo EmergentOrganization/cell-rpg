@@ -37,19 +37,19 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class EntityFactory {
-    public static float SCALE_BOX_TO_WORLD = 40f;
-    public static float SCALE_WORLD_TO_BOX = 0.025f;
+    public static final float SCALE_BOX_TO_WORLD = 40f;
+    public static final float SCALE_WORLD_TO_BOX = 0.025f;
     public static Archetype object;
-    public static Archetype base;
-    public static Archetype collidable;
-    public static Archetype collectable;
-    public static Archetype character;
-    public static Archetype destructable;
-    public static Archetype npc;
+    private static Archetype base;
+    private static Archetype collidable;
+    private static Archetype collectable;
+    private static Archetype character;
+    private static Archetype destructable;
+    private static Archetype npc;
     public static Archetype player;
     public static Archetype bullet;
-    public static Archetype ca_layer;
-    public static Archetype invisibleObject;
+    private static Archetype ca_layer;
+    private static Archetype invisibleObject;
     private final Logger logger = LogManager.getLogger(getClass());
     private TagManager tagManager;
     private World world;
@@ -131,7 +131,7 @@ public class EntityFactory {
         ;
     }
 
-    public int createCivOneBlinker(float x, float y) {
+    private int createCivOneBlinker(float x, float y) {
         Vector2 pos = new Vector2(x, y);
         Entity civ = new EntityBuilder(world, character, "Civilian", EntityID.CIV_ONE_BLINKER.toString(), pos)
                 .addBuilder(new VisualBuilder()
@@ -148,7 +148,7 @@ public class EntityFactory {
         return civ.getId();
     }
 
-    public int createBuildingLargeOne(Vector2 pos, float angleDeg) {
+    private int createBuildingLargeOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Large Building", EntityID.BUILDING_LARGE_ONE.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_BLDG_LRG_ONE)
@@ -162,7 +162,7 @@ public class EntityFactory {
         return bldg.getId();
     }
 
-    public int createBuildingRoundOne(Vector2 pos, float angleDeg) {
+    private int createBuildingRoundOne(Vector2 pos, float angleDeg) {
         // TODO: Tie GridSeed component to this somehow
         Entity bldg = new EntityBuilder(world, collidable, "Round Building", EntityID.BUILDING_ROUND_ONE.toString(), pos)
                 .addBuilder(new VisualBuilder()
@@ -177,7 +177,7 @@ public class EntityFactory {
         return bldg.getId();
     }
 
-    public int createRiftOne(Vector2 pos, float angleDeg) {
+    private int createRiftOne(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift1", EntityID.RIFT_ONE.toString(), pos) // TODO: Come up with a more ui-friendly name
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_RIFT_ONE)
@@ -191,7 +191,7 @@ public class EntityFactory {
         return bldg.getId();
     }
 
-    public int createRiftTwo(Vector2 pos, float angleDeg) {
+    private int createRiftTwo(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Rift2", EntityID.RIFT_TWO.toString(), pos) // TODO: Come up with a more ui-friendly name
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_RIFT_TWO)
@@ -205,7 +205,7 @@ public class EntityFactory {
         return bldg.getId();
     }
 
-    public int createVyroidBeacon(Vector2 pos, float angleDeg) {
+    private int createVyroidBeacon(Vector2 pos, float angleDeg) {
         Entity bldg = new EntityBuilder(world, collidable, "Vyroid Beacon", EntityID.VYROID_BEACON.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_VYROID_BEACON)
@@ -219,7 +219,7 @@ public class EntityFactory {
         return bldg.getId();
     }
 
-    public int createBackgroundTheEdge(Vector2 pos) {
+    private int createBackgroundTheEdge(Vector2 pos) {
         Entity bg = new EntityBuilder(world, object, "The Edge Background", EntityID.THE_EDGE.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_THE_EDGE)
@@ -230,7 +230,7 @@ public class EntityFactory {
         return bg.getId();
     }
 
-    public int createPowerupPlus(Vector2 pos) {
+    private int createPowerupPlus(Vector2 pos) {
         Entity powerup = new EntityBuilder(world, collectable, "plus powerup", EntityID.POWERUP_PLUS.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_POWERUP_PLUS)
@@ -242,7 +242,7 @@ public class EntityFactory {
         return powerup.getId();
     }
 
-    public int createInvisibleWall(Vector2 size, Vector2 pos, float angleDeg) {
+    private int createInvisibleWall(Vector2 size, Vector2 pos, float angleDeg) {
         Entity wall = new EntityBuilder(world, invisibleObject, "Invisible Wall", EntityID.INVISIBLE_WALL.toString(), pos)
                 .angle(angleDeg)
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
@@ -253,7 +253,7 @@ public class EntityFactory {
         return wall.getId();
     }
 
-    public int createPowerupStar(Vector2 pos) {
+    private int createPowerupStar(Vector2 pos) {
         final Entity powerup = new EntityBuilder(world, collectable, "star powerup", EntityID.POWERUP_STAR.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_POWERUP_STAR)
@@ -275,7 +275,7 @@ public class EntityFactory {
         return powerup.getId();
     }
 
-    public int createVyrapuffer(Vector2 pos) {
+    private int createVyrapuffer(Vector2 pos) {
         Entity puffer = new EntityBuilder(world, npc, "vyrapuffer", EntityID.VYRAPUFFER.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .animation(Resources.ANIM_VYRAPUFFER, Animation.PlayMode.LOOP_PINGPONG, 0.7f)
@@ -302,7 +302,7 @@ public class EntityFactory {
         return puffer.getId();
     }
 
-    public int createTubSnake(Vector2 pos) {
+    private int createTubSnake(Vector2 pos) {
         Entity ent = new EntityBuilder(world, npc, "tub still life with snake behavior", EntityID.TUBSNAKE.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_TUBSNAKE)
@@ -344,7 +344,7 @@ public class EntityFactory {
         return ent.getId();
     }
 
-    public int createPondBomb(Vector2 pos) {
+    private int createPondBomb(Vector2 pos) {
         Entity playerEnt = tagManager.getEntity(Tags.PLAYER);
         Entity ent = new EntityBuilder(world, npc, "pond still life which chases player", EntityID.PONDBOMB.toString(), pos)
                 .addBuilder(new VisualBuilder()
@@ -366,7 +366,7 @@ public class EntityFactory {
         return ent.getId();
     }
 
-    public int createGosper(Vector2 pos) {
+    private int createGosper(Vector2 pos) {
         Entity playerEnt = tagManager.getEntity(Tags.PLAYER);
         Entity ent = new EntityBuilder(world, npc, "glider gun that shoots @ target", EntityID.GOSPER.toString(), pos)
                 .angle(90)

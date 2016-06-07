@@ -75,7 +75,7 @@ public class DecayCellRenderer implements iCellRenderer {
         shapeRenderer.rect(x, y, gridComps.cellSize, gridComps.cellSize);
     }
 
-    public static enum colorGroupKeys {
+    public enum colorGroupKeys {
         WHITE, BLUE, FIRE
     }
 }

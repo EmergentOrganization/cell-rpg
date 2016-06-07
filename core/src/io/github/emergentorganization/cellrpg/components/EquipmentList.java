@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 
 public class EquipmentList extends Component {
-    public ArrayList<Equipment> equipment = new ArrayList<Equipment>();
+    public final ArrayList<Equipment> equipment = new ArrayList<Equipment>();
 
     public void addEquipment(Equipment newEquip, World world, Vector2 pos) {
         newEquip.create(world, pos);

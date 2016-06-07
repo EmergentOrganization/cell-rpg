@@ -14,14 +14,14 @@ import io.github.emergentorganization.cellrpg.tools.GameSettings;
 
 
 public class MovementSettingsMenu extends Submenu {
-    World world;
+    private final World world;
 
     public MovementSettingsMenu(VisTable table, Stage stage, String buttonText, World world) {
         super(table, stage, buttonText);
         this.world = world;
     }
 
-    public void addMenuTableButtons() {
+    private void addMenuTableButtons() {
         // set up menu buttons:
         VisLabel controlTypeLabel = new VisLabel("weapon control scheme");
         menuTable.add(controlTypeLabel).pad(0f, 0f, 5f, 0f).fill(true, false).row();

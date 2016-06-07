@@ -38,7 +38,7 @@ public class CALayerFactory {
         try {
             vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(tag);
         } catch (NullPointerException ex) {
-            ; // this layer has no effect on intensity (no problem)
+            // this layer has no effect on intensity (no problem)
         }
 
         return vyroidLayer;

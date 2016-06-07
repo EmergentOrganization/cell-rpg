@@ -7,7 +7,7 @@ import io.github.emergentorganization.cellrpg.components.DestructionTimer;
 
 
 public class DestructionTimerBuilder extends BaseComponentBuilder {
-    private long timeToDestruction;
+    private final long timeToDestruction;
 
     public DestructionTimerBuilder(long timeToDestruction) {
         super(Aspect.all(DestructionTimer.class), 0);

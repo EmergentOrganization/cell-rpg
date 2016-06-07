@@ -50,10 +50,10 @@ public class RenderSystem extends BaseEntitySystem {
     private TagManager tagManager;
     private boolean bgShaderEnabled = false;
     private boolean tronShaderEnabled = false;
-    private Batch outBatch;
+    private final Batch outBatch;
 
     // list of particleEffects with no parent entity
-    private ArrayList<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
+    private final ArrayList<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
 
     public RenderSystem(SpriteBatch batch) {
         super(Aspect.all(Position.class, Rotation.class, Scale.class, Visual.class));  // TODO: .one(Visual.class, Particles.class)
@@ -114,7 +114,7 @@ public class RenderSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         Visual v = vm.get(entityId);
         Position p = pm.get(entityId);
         Scale s = sm.get(entityId);

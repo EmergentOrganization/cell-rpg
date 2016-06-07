@@ -32,9 +32,9 @@ import org.apache.logging.log4j.Logger;
  * as an opportunity to modify this region.
  */
 public class ArcadeRegion implements iRegion {
-    private static int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
+    private static final int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
     private final Logger logger = LogManager.getLogger(getClass());
-    WorldScene scene;
+    private final WorldScene scene;
 
     public ArcadeRegion(WorldScene parentScene) {
         super();

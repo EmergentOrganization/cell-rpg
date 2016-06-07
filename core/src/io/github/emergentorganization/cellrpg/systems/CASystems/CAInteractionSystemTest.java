@@ -18,7 +18,6 @@ public class CAInteractionSystemTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final int COLLIDING_STATE = 1;
-    private final int COLLIDING_LAYER_ID = 1;
 
     private void setupTestState_full(CAGridComponents testComps) {
         // sets up given component with a full CA grid
@@ -53,6 +52,7 @@ public class CAInteractionSystemTest {
         testBound.height = 10;
         testBound.width = 10;
 
+        int COLLIDING_LAYER_ID = 1;
         CAInteractionListTest.setupInteractions(testInteractions, COLLIDING_LAYER_ID, COLLIDING_STATE);
 
         setupTestState_full(testGridComps);

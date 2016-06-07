@@ -24,8 +24,8 @@ public class Scores {
     private static final String key_score = "score";
     private static final String key_name = "name";
     private static final int MAX_SCORES = 9999;  // max number of scores to save
-    private static Logger logger = LogManager.getLogger(Scores.class);
-    private JSONParser parser = new JSONParser();
+    private static final Logger logger = LogManager.getLogger(Scores.class);
+    private final JSONParser parser = new JSONParser();
     private JSONObject jsonObject;
     private JSONArray scoreArray;
     private boolean loaded = false;
@@ -34,7 +34,7 @@ public class Scores {
         initialize();
     }
 
-    public void initialize() {
+    private void initialize() {
         loadScores();
     }
 

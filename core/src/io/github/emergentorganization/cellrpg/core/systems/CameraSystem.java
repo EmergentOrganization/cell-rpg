@@ -34,7 +34,7 @@ public class CameraSystem extends IteratingSystem {
     private ComponentMapper<Velocity> velocity_m;
     private EventManager eventMan;
 
-    private OrthographicCamera gameCamera;
+    private final OrthographicCamera gameCamera;
     private boolean shouldFollow = true;
     private long lastUpdate;
 

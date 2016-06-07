@@ -19,12 +19,12 @@ import org.apache.logging.log4j.Logger;
  * Arcade scene with immobile camera and survival gameplay.
  */
 public class Arcade extends WorldScene {
-    private final Logger logger = LogManager.getLogger(getClass());
 
-    ScoreDisplay scoreDisplay;
+    private final ScoreDisplay scoreDisplay;
 
     public Arcade(PixelonTransmission pt) {
         super(pt);
+        Logger logger = LogManager.getLogger(getClass());
         logger.info("enter arcade mode");
 
         WorldFactory.setupStandardEventSystem(world, pt);

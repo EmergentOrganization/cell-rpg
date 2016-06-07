@@ -31,7 +31,7 @@ import java.util.Timer;
 public class ApparitionCreator {
     private static final Logger logger = LogManager.getLogger(ApparitionCreator.class);
 
-    private static Random rand = new Random();
+    private static final Random rand = new Random();
 
     public static void apparateCAEffect(AssetManager assetMan, RenderSystem renderSys,
                                         SpontaneousGeneration spontGen, CAGridComponents targetGrid) {

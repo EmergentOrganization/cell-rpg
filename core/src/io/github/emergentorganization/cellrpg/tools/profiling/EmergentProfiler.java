@@ -18,9 +18,7 @@ import org.apache.logging.log4j.Logger;
 
 public class EmergentProfiler implements ArtemisProfiler {
     private final Logger logger = LogManager.getLogger(getClass());
-    private final long LOG_PERIOD = 3 * 1000;  // profiler log frequency [ms]
-    PerformanceCounter counter;
-    private String className = "UNNAMED_CLASS";
+    private PerformanceCounter counter;
     private long lastLog = System.currentTimeMillis();
 
     public EmergentProfiler() {
@@ -29,7 +27,7 @@ public class EmergentProfiler implements ArtemisProfiler {
 
     public void initialize(BaseSystem system, World world) {
         String[] strs = system.toString().split("@")[0].split("\\.");
-        className = strs[strs.length - 1];  // last section split by '.' (but excluding after @) is class name
+        String className = strs[strs.length - 1];
         logger.trace("init profiler on " + className);
         counter = new PerformanceCounter(className);
     }
@@ -44,6 +42,7 @@ public class EmergentProfiler implements ArtemisProfiler {
         if (GameSettings.devMode()) {
             counter.stop();
             counter.tick();
+            long LOG_PERIOD = 3 * 1000;
             if (System.currentTimeMillis() - lastLog > LOG_PERIOD) {
                 ProfileLogger.log(counter);
                 lastLog = System.currentTimeMillis();

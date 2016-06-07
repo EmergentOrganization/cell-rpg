@@ -12,15 +12,13 @@ import io.github.emergentorganization.cellrpg.managers.EventManager;
 
 
 public class ScoreDisplay {
-    public World world;
-    public StatsTracker targetTracker;
-    private Stage stage;
-    private VisLabel scoreLabel;
+    private final World world;
+    public final StatsTracker targetTracker;
+    private final VisLabel scoreLabel;
     private int score = 0;
 
     public ScoreDisplay(World world, Stage stage, int entityId) {
         this.world = world;
-        this.stage = stage;
         this.targetTracker = world.getEntity(entityId).getComponent(StatsTracker.class);
         VisWindow scoreWindow = new VisWindow("", true);
         scoreWindow.setPosition(0, 1000, Align.topRight);

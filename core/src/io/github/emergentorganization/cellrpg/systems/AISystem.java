@@ -19,12 +19,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 @Profile(using = EmergentProfiler.class, enabled = true)
 public class AISystem extends DelayedIteratingSystem {
-    Logger logger = LogManager.getLogger(getClass());
-    ComponentMapper<AIComponent> AICom_m;
-    ComponentMapper<InputComponent> inCom_m;
-    ComponentMapper<Rotation> rot_m;
-    ComponentMapper<Lifecycle> life_m;
-    ComponentMapper<Position> pos_m;
+    private final Logger logger = LogManager.getLogger(getClass());
+    private ComponentMapper<AIComponent> AICom_m;
+    private ComponentMapper<InputComponent> inCom_m;
+    private ComponentMapper<Rotation> rot_m;
+    private ComponentMapper<Lifecycle> life_m;
+    private ComponentMapper<Position> pos_m;
 
     public AISystem() {
         super(Aspect.all(AIComponent.class));

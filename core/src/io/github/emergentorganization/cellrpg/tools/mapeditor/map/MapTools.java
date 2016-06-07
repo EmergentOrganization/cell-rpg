@@ -29,9 +29,9 @@ import java.util.LinkedHashMap;
 public class MapTools {
 
     private static final Logger logger = LogManager.getLogger(MapTools.class);
-    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
-    public static String EXTENSION = ".json";
-    public static EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
+    public static final String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
+    public static final String EXTENSION = ".json";
+    private static final EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
 
     static {
         ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD, null);
@@ -91,7 +91,8 @@ public class MapTools {
 
         for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
             Entity entity = world.getEntity(id);
-            if (!ENTITY_BLACKLIST.containsKey(entity.getComponent(Name.class).internalID)) {
+            String strId = entity.getComponent(Name.class).internalID;
+            if (!ENTITY_BLACKLIST.containsKey(EntityID.fromString(strId))) {
                 entityList.add(exportEntity(entity));
             }
         }
@@ -111,10 +112,9 @@ public class MapTools {
             writer.close();
 
         } catch (FileNotFoundException e) {
-
-
+            logger.error("Could not write map to path: ", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
     }
 
@@ -137,11 +137,11 @@ public class MapTools {
 }
 
 class JSONKey {
-    public static String TYPE = "type";
-    public static String ENTITIES = "entities";
-    public static String POSITION_X = "positionX";
-    public static String POSITION_Y = "positionY";
-    public static String ROTATION = "rotation";
-    public static String SCALE_X = "scaleX";
-    public static String SCALE_Y = "scaleY";
+    public static final String TYPE = "type";
+    public static final String ENTITIES = "entities";
+    public static final String POSITION_X = "positionX";
+    public static final String POSITION_Y = "positionY";
+    public static final String ROTATION = "rotation";
+    public static final String SCALE_X = "scaleX";
+    public static final String SCALE_Y = "scaleY";
 }

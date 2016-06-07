@@ -30,10 +30,10 @@ public class SpontaneousGenerationList extends Component {
     //      0 < f < 1 for intervals,
     //      1 for 1/gen,
     //      integer value > 1 for multiple spontGens per cycle (non-integers will be rounded)
-    public int sinceLastGenerationCounter = 0;  // counter for determining when it's time to generate
+    private int sinceLastGenerationCounter = 0;  // counter for determining when it's time to generate
 
-    public ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
-    public ArrayList<int[][]> stampList = new ArrayList<int[][]>();  // list of stamps that may be applied
+    public final ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
+    public final ArrayList<int[][]> stampList = new ArrayList<int[][]>();  // list of stamps that may be applied
 
     public void clear() {
         // clears layers and stamps

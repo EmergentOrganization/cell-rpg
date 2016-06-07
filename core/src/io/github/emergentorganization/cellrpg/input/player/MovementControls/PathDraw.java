@@ -44,34 +44,32 @@ import java.util.ArrayList;
  * based on OrelBitton's DirectFollowAndPathInputMethod
  */
 public class PathDraw extends iPlayerCtrl {
-    public final int PATH_RADIUS_MIN = 1;
-    public final int PATH_RADIUS_MAX = 50;
-    public final int PATH_RADIUS_DEFAULT = 5;
-    public final int PATH_RADIUS_DELTA = 1;
+    private final int PATH_RADIUS_MIN = 1;
+    private final int PATH_RADIUS_MAX = 50;
+    private final int PATH_RADIUS_DEFAULT = 5;
+    private final int PATH_RADIUS_DELTA = 1;
     // path-to-player distance close enough to ignore
-    final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen * .1f;
+    private final float CLOSE_ENOUGH_TO_PATH = CoordinateRecorder.minPathLen * .1f;
     // max time[ms] before giving up on dest
-    final long MAX_DEST_SEEK_TIME = 3000;
+    private final long MAX_DEST_SEEK_TIME = 3000;
     // min distance moved towards dest required else give up
-    final float MIN_PROGRESS = CoordinateRecorder.minPathLen * .01f;
-    private final boolean DEBUG_MODE = true; //logger.isDebugEnabled();
-    private final String NAME = "path";
+    private final float MIN_PROGRESS = CoordinateRecorder.minPathLen * .01f;
     private final String DESC = "Drag to draw path for player," +
             " click on player to stop moving, tap/click to shoot.";
-    protected boolean lastFramePressed = false; // If the left mouse button was pressed last frame
-    protected long elapsedTime; // Time elapsed since last frame
-    protected long lastClick = 0; // Last time the player has clicked the mouse button
+    private boolean lastFramePressed = false; // If the left mouse button was pressed last frame
+    private long elapsedTime; // Time elapsed since last frame
+    private long lastClick = 0; // Last time the player has clicked the mouse button
     protected Vector3 tmp = new Vector3(); // A temporary vector, so we won't have to create a new every frame
-    protected CoordinateRecorder savedPath = new CoordinateRecorder(500); // The coordinate recorder, a utility used for saving the path
-    protected boolean clickedPath = false; // Has the player clicked the mouse since he began recording a path
-    protected boolean path = false; // Is the player moving along a path
-    protected boolean recording = false; // Is the player recording a path
-    protected Vector2 dest = null;  // next destination point on path
-    protected long destStart = 0;  // time started pursuing current dest
-    protected Vector2 lastPos = new Vector2(0, 0);  // position from last time
-    Logger logger = LogManager.getLogger(getClass());
+    private final CoordinateRecorder savedPath = new CoordinateRecorder(500); // The coordinate recorder, a utility used for saving the path
+    private boolean clickedPath = false; // Has the player clicked the mouse since he began recording a path
+    private boolean path = false; // Is the player moving along a path
+    private boolean recording = false; // Is the player recording a path
+    private Vector2 dest = null;  // next destination point on path
+    private long destStart = 0;  // time started pursuing current dest
+    private final Vector2 lastPos = new Vector2(0, 0);  // position from last time
+    private final Logger logger = LogManager.getLogger(getClass());
     // debug-only vars:
-    ShapeRenderer shapeRen;
+    private final ShapeRenderer shapeRen;
 
     public PathDraw(World world, ComponentMapper<InputComponent> comp_m, ShapeRenderer renderer) {
         super(world, comp_m);
@@ -79,7 +77,7 @@ public class PathDraw extends iPlayerCtrl {
     }
 
     public String getName() {
-        return NAME;
+        return "path";
     }
 
     @Override
@@ -147,6 +145,7 @@ public class PathDraw extends iPlayerCtrl {
         Vector2 mouse = inputUtil.getMousePos(cam);
         mouse.scl(EntityFactory.SCALE_BOX_TO_WORLD);
 
+        boolean DEBUG_MODE = true;
         if (DEBUG_MODE) {
             inputComponentDebugRender(center, inComp, mouse);
         }
@@ -266,7 +265,6 @@ public class PathDraw extends iPlayerCtrl {
             if (carryOn && (now - destStart) > MAX_DEST_SEEK_TIME) {
                 logger.trace("nextPos; taking too long!");
                 nextDest();
-                carryOn = false;
             } else if (carryOn) {
 //                logger.trace(MAX_DEST_SEEK_TIME - (now - destStart) + "ms til give up");
             }
@@ -285,7 +283,7 @@ public class PathDraw extends iPlayerCtrl {
         savedPath.record(mousePos.x, mousePos.y);
     }
 
-    public void inputComponentDebugRender(
+    private void inputComponentDebugRender(
             Vector2 playerPos,
             InputComponent inComp,
             Vector2 mouse
@@ -313,13 +311,12 @@ public class PathDraw extends iPlayerCtrl {
 //            logger.trace("drawing path");
             Vector2 prev = null;
             ArrayList<Vector2> v = savedPath.getCoords();
-            for (int i = 0; i < v.size(); i++) {
+            for (Vector2 aV : v) {
                 if (prev == null)
                     prev = playerPos;
-                Vector2 cur = v.get(i);
 //                logger.trace("path " + prev + "->" + cur);
-                shapeRen.line(prev.cpy().scl(SCL), cur.cpy().scl(SCL));
-                prev = cur;
+                shapeRen.line(prev.cpy().scl(SCL), aV.cpy().scl(SCL));
+                prev = aV;
             }
         }
     }

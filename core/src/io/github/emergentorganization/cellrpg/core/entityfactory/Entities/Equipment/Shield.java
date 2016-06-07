@@ -24,8 +24,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class Shield extends Equipment {
     private final Logger logger = LogManager.getLogger(getClass());
-    public int shieldEntity = -1;
-    public int shieldState = 0;
+    private int shieldEntity = -1;
+    private int shieldState = 0;
 
     public Shield(int parentId, String name, String description, int baseEnergy, int energySlots, int shieldStat) {
         super(parentId, name, description, baseEnergy, energySlots);

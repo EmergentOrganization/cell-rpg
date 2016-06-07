@@ -8,7 +8,7 @@ import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import java.util.Map;
 
 public class SoundEventListener implements EventListener {
-    private Map<SoundEffect, Sound> soundEffects;
+    private final Map<SoundEffect, Sound> soundEffects;
 
     public SoundEventListener(AssetManager assetManager) {
         soundEffects = assetManager.getSoundEffects();

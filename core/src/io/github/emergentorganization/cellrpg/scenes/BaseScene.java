@@ -12,7 +12,7 @@ public abstract class BaseScene extends ScreenAdapter {
     protected final PixelonTransmission pt;
     protected final Stage stage;
 
-    public BaseScene(PixelonTransmission pt) {
+    protected BaseScene(PixelonTransmission pt) {
         this.pt = pt;
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
     }

@@ -15,8 +15,8 @@ import java.io.IOException;
  */
 public class Secrets {
     public static String MIXPANEL_TOKEN;
-    private static Logger logger = LogManager.getLogger(Secrets.class);
-    private static JSONParser parser = new JSONParser();
+    private static final Logger logger = LogManager.getLogger(Secrets.class);
+    private static final JSONParser parser = new JSONParser();
 
     public static void initialize() {
         try {

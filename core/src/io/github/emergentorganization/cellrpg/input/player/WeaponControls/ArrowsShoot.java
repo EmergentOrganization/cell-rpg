@@ -16,11 +16,9 @@ import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 
 public class ArrowsShoot extends iPlayerCtrl {
-    private final String NAME = "Directional Arrows To Shoot";
 
     private final EntityFactory entityFactory;
     private final EventManager eventManager;
-    private final long clickInterval = 100;
     private long lastClick = 0;
 
     public ArrowsShoot(World world, EntityFactory entityFactory, ComponentMapper<InputComponent> im) {
@@ -31,7 +29,7 @@ public class ArrowsShoot extends iPlayerCtrl {
     }
 
     public String getName() {
-        return NAME;
+        return "Directional Arrows To Shoot";
     }
 
     public void addInputConfigButtons(VisTable table, VisWindow menuWindow) {
@@ -68,6 +66,7 @@ public class ArrowsShoot extends iPlayerCtrl {
     }
 
     private boolean readyForNextClick() {
+        long clickInterval = 100;
         return System.currentTimeMillis() - lastClick > clickInterval;
     }
 }

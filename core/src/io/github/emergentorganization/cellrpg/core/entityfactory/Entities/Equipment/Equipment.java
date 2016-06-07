@@ -13,22 +13,22 @@ import io.github.emergentorganization.cellrpg.core.components.Position;
 public abstract class Equipment {
     // TODO: remove/replace defaults
     public String name = "unnamed";
-    public String description = "description not given.";
+    private String description = "description not given.";
     public EquipmentType type = EquipmentType.CONTROLLER;
-    public int parentId = -1;
+    int parentId = -1;
 
-    public boolean damaged = false;
+    public final boolean damaged = false;
 
     public int baseEnergy = 0;
     public int energySlots = 0;
     public int powerFilled = 0;
 
-    protected int attackStat = 0;
-    protected int shieldStat = 0;
-    protected int moveStat = 0;
-    protected int satStat = 0;
+    int attackStat = 0;
+    int shieldStat = 0;
+    private final int moveStat = 0;
+    private final int satStat = 0;
 
-    public Equipment(int parentId, String name, String description, int baseEnergy, int energySlots) {
+    Equipment(int parentId, String name, String description, int baseEnergy, int energySlots) {
         this.parentId = parentId;
         this.name = name;
         this.description = description;
@@ -53,7 +53,7 @@ public abstract class Equipment {
         return satStat * powerLevel();
     }
 
-    public int powerLevel() {
+    int powerLevel() {
         // returns to what level this equipment is powered (above base power).
         if (powerFilled - baseEnergy > 0) {
             return powerFilled - baseEnergy;

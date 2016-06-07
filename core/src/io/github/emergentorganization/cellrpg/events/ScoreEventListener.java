@@ -7,7 +7,7 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 
 public class ScoreEventListener implements EventListener {
-    private ScoreDisplay display;
+    private final ScoreDisplay display;
 
     public ScoreEventListener(ScoreDisplay _display) {
         display = _display;

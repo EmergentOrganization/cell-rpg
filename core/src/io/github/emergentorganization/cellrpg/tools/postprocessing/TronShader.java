@@ -13,16 +13,16 @@ import io.github.emergentorganization.cellrpg.tools.FileStructure;
 
 
 public class TronShader implements PostProcessor {
-    public static final String blurVertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Vert_Blur.glsl").readString();
-    public static final String blurFragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Frag_Blur.glsl").readString();
-    public static final String colorMaskVertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/Vert_Passthrough.glsl").readString();
-    public static final String colorMaskFragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Frag_ColorMask.glsl").readString();
+    private static final String blurVertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Vert_Blur.glsl").readString();
+    private static final String blurFragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Frag_Blur.glsl").readString();
+    private static final String colorMaskVertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/Vert_Passthrough.glsl").readString();
+    private static final String colorMaskFragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/tron/Tron_Frag_ColorMask.glsl").readString();
     private final TextureRegion maskRegion;
-    private ShaderProgram colorMaskProgram = new ShaderProgram(colorMaskVertexShader, colorMaskFragShader);
-    private ShaderProgram blurProgram = new ShaderProgram(blurVertexShader, blurFragShader);
-    private FrameBuffer maskBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+    private final ShaderProgram colorMaskProgram = new ShaderProgram(colorMaskVertexShader, colorMaskFragShader);
+    private final ShaderProgram blurProgram = new ShaderProgram(blurVertexShader, blurFragShader);
+    private final FrameBuffer maskBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
-    private SpriteBatch batch = new SpriteBatch(2);
+    private final SpriteBatch batch = new SpriteBatch(2);
 
     public TronShader() {
         this(new Vector3(1f, 1f, 1f));

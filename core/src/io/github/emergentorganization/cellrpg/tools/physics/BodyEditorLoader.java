@@ -97,8 +97,8 @@ public class BodyEditorLoader {
             fd.shape = polygonShape;
             body.createFixture(fd);
 
-            for (int ii = 0, nn = vertices.length; ii < nn; ii++) {
-                free(vertices[ii]);
+            for (Vector2 vertex : vertices) {
+                free(vertex);
             }
         }
 

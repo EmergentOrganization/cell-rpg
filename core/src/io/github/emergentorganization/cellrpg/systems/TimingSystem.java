@@ -16,12 +16,12 @@ import java.util.TimerTask;
  * <br>
  */
 public class TimingSystem extends BaseSystem {
-    public static long LOOP_DURATION = 30 * 1000; // loops must be this length!
+    private static final long LOOP_DURATION = 30 * 1000; // loops must be this length!
     private final Logger logger = LogManager.getLogger(getClass());
     private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
-    boolean scheduled = false;
+    private boolean scheduled = false;
     private long _lastLoopTime;  // last time we looped around
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
 
     public TimingSystem() {
         _lastLoopTime = System.currentTimeMillis();
@@ -44,12 +44,12 @@ public class TimingSystem extends BaseSystem {
         return System.currentTimeMillis() - getLastLoopTime();
     }
 
-    public long getNextLoopTime() {
+    private long getNextLoopTime() {
         // return unix time of next loop
         return getLastLoopTime() + LOOP_DURATION;
     }
 
-    public void runLater(Runnable task) {
+    private void runLater(Runnable task) {
         synchronized (tasks) {
             tasks.add(task);
         }
@@ -87,7 +87,7 @@ public class TimingSystem extends BaseSystem {
         scheduled = false;
     }
 
-    class ReLoop extends TimerTask {
+    private class ReLoop extends TimerTask {
         public void run() {
             runLater(new Runnable() {
                 @Override

@@ -10,9 +10,9 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
  */
 
 public class SpontaneousGeneration {
-    public CALayer targetLayer;
-    public int[][] stamp;
-    public Vector2 position;
+    public final CALayer targetLayer;
+    public final int[][] stamp;
+    public final Vector2 position;
 
     public SpontaneousGeneration(CALayer target, int[][] _stamp, Vector2 pos) {
         targetLayer = target;

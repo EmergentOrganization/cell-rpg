@@ -26,12 +26,12 @@ public class MusicSystem extends BaseSystem {
     private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
     private final Timer loopTimer = new Timer();
     private MoodSystem moodSystem;
-    private AssetManager assetManager;
+    private final AssetManager assetManager;
     private TimingSystem timingSystem;
     private Sound[] constantLoops;  // loops which play constantly
-    private ArrayList<Sound> unusedLoops = new ArrayList<Sound>();
-    private ArrayList<Sound> currentLoops = new ArrayList<Sound>();  // currently playing loops
-    private ArrayList<Sound> loopsToRemove = new ArrayList<Sound>(); // loops queued for removal next round
+    private final ArrayList<Sound> unusedLoops = new ArrayList<Sound>();
+    private final ArrayList<Sound> currentLoops = new ArrayList<Sound>();  // currently playing loops
+    private final ArrayList<Sound> loopsToRemove = new ArrayList<Sound>(); // loops queued for removal next round
     private boolean prepped = false;  // flag used to track if next set of loops has been queued yet
     private boolean scheduled = false;
 
@@ -82,7 +82,7 @@ public class MusicSystem extends BaseSystem {
     /**
      * Starts a new song
      */
-    public void start() {
+    private void start() {
         constantLoops = new Sound[2];
         constantLoops[0] = assetManager.getSoundEffect(SoundEffect.MUSIC_LOOP_PAD);
         constantLoops[1] = assetManager.getSoundEffect(SoundEffect.MUSIC_LOOP_KEYS);

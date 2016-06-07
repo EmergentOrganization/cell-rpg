@@ -10,10 +10,10 @@ import org.apache.logging.log4j.Logger;
 
 
 public class LifeGeneLab extends WorldScene {
-    private final Logger logger = LogManager.getLogger(getClass());
 
     public LifeGeneLab(PixelonTransmission pt) {
         super(pt);
+        Logger logger = LogManager.getLogger(getClass());
         logger.info("enter lifegene lab");
         WorldFactory.setupStandardEventSystem(world, pt);
 

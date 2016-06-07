@@ -37,7 +37,7 @@ public class CAPositionSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         CAGridComponents gridComps = CAComponent_m.get(entityId);
         gridFollow(gridComps, cameraSystem.getGameCamera());
     }

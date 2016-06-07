@@ -20,7 +20,6 @@ public class PauseWindow extends VisWindow {
     private final SettingsMenu settingsMenu;
     private final DebugMenu debugMenu;
     private final EquipmentMenu equipmentMenu;
-    private final PixelonTransmission pt;
 
     public PauseWindow(final PixelonTransmission pt, final Stage stage, World world) {
         super("", false);
@@ -28,7 +27,6 @@ public class PauseWindow extends VisWindow {
         logger.debug("enter pause menu");
 
         VisTable table = new VisTable();
-        this.pt = pt;
         this.setFillParent(false);
         this.centerWindow();
         this.add(table);

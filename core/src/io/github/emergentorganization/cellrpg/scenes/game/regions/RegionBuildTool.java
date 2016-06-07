@@ -12,9 +12,9 @@ import java.util.Arrays;
 /**
  * static helpers for building regions.
  */
-public class RegionBuildTool {
+class RegionBuildTool {
     private static final Logger logger = LogManager.getLogger(RegionBuildTool.class);
-    public static ArrayList<iRegion> pastRegions = new ArrayList<iRegion>();  // a list of the last few regions which have called getNextRegion
+    private static final ArrayList<iRegion> pastRegions = new ArrayList<iRegion>();  // a list of the last few regions which have called getNextRegion
 
     public static iRegion getNextRegion(iRegion currentRegion) {
         // used to get a new region

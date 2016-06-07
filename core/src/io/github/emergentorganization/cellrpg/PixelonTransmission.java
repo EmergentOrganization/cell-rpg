@@ -48,7 +48,7 @@ public class PixelonTransmission extends Game {
     }
 
     private final Logger logger;
-    public Mixpanel mixpanel;
+    private Mixpanel mixpanel;
     public Scores scores;
     public int playerScore = 0;
     private AssetManager assetManager;
@@ -127,7 +127,7 @@ public class PixelonTransmission extends Game {
         mixpanel.gameOverEvent(playerScore, waveNumber);
     }
 
-    public String loadVersion() {
+    private String loadVersion() {
         Properties props = new Properties();
         File propsFile = Gdx.files.internal(FileStructure.RESOURCE_DIR + "property.settings").file();
         try {

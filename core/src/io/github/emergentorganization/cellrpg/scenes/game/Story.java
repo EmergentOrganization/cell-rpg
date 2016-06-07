@@ -16,10 +16,10 @@ import org.apache.logging.log4j.Logger;
 
 
 public class Story extends WorldScene {
-    private final Logger logger = LogManager.getLogger(getClass());
 
     public Story(final PixelonTransmission pt) {
         super(pt);
+        Logger logger = LogManager.getLogger(getClass());
         logger.info("enter main story");
 
         WorldFactory.setupStandardEventSystem(world, pt);

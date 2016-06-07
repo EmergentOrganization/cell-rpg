@@ -9,10 +9,10 @@ import io.github.emergentorganization.cellrpg.core.components.InputComponent;
  */
 public abstract class InputProcessor {
 
-    protected World world;
-    protected ComponentMapper<InputComponent> im;
+    private final World world;
+    private final ComponentMapper<InputComponent> im;
 
-    public InputProcessor(World world, ComponentMapper<InputComponent> im) {
+    protected InputProcessor(World world, ComponentMapper<InputComponent> im) {
         this.world = world;
         this.im = im;
     }

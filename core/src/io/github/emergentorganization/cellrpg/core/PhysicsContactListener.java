@@ -21,10 +21,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class PhysicsContactListener implements ContactListener {
+class PhysicsContactListener implements ContactListener {
     private final Logger logger = LogManager.getLogger(getClass());
     private final EventManager eventManager;
-    private com.artemis.World world;
+    private final com.artemis.World world;
 
     public PhysicsContactListener(World world) {
         this.world = world;

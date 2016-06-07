@@ -71,9 +71,8 @@ public class PostGame extends WorldScene {
 
     @Override
     public WorldConfiguration getBaseWorldConfiguration() {
-        WorldConfiguration wc = new WorldConfiguration();
         // TODO: set up postgame visuals
-        return wc;
+        return new WorldConfiguration();
     }
 
     private Table makeScoreTable(float tableTop, float tableBottom) {

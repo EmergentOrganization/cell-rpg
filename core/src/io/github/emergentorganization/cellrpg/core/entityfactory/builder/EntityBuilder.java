@@ -45,7 +45,7 @@ public class EntityBuilder {
     private final Archetype archetype;
     private final String friendlyName;
     // MISC
-    private ArrayList<IComponentBuilder> builders;
+    private final ArrayList<IComponentBuilder> builders;
     private String tag = null;
     private float scale = EntityFactory.SCALE_WORLD_TO_BOX;
 
@@ -60,7 +60,7 @@ public class EntityBuilder {
     // ===  actually builds and returns the entity using the          ===
     // ===  properties specified using the component builder classes. ===
     // ==================================================================
-    private Vector2 velocity = new Vector2();
+    private final Vector2 velocity = new Vector2();
 
     public EntityBuilder(World world, Archetype archetype, String friendlyName, String entityId, Vector2 position) {
         this.world = world;

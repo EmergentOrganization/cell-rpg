@@ -26,7 +26,7 @@ import java.util.*;
 @Wire
 public class CARenderSystem extends BaseEntitySystem {
 
-    private static EnumMap<CellRenderer, iCellRenderer> cellRenderer = CellRenderer.getRendererMap();
+    private static final EnumMap<CellRenderer, iCellRenderer> cellRenderer = CellRenderer.getRendererMap();
     // list of entities registered w/ this system
     private final LinkedList<Integer> sortedEntityIds;
     private final ShapeRenderer renderer;
@@ -57,7 +57,7 @@ public class CARenderSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
         if (layerStuff.states != null) {
             logger.trace("rendering " + layerStuff.cellCount + " cells");
@@ -106,7 +106,7 @@ public class CARenderSystem extends BaseEntitySystem {
         return new BaseCell(init_state);
     }
 
-    public void renderGrid(CAGridComponents ca_components) {
+    private void renderGrid(CAGridComponents ca_components) {
         Camera camera = cameraSystem.getGameCamera();
 
         float x_origin = ca_components.getXOrigin(camera);
@@ -133,8 +133,8 @@ public class CARenderSystem extends BaseEntitySystem {
         //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 
-    protected void renderCell(CAGridComponents layerComponents, final int i, final int j,
-                              final float x_origin, final float y_origin) {
+    private void renderCell(CAGridComponents layerComponents, final int i, final int j,
+                            final float x_origin, final float y_origin) {
         cellRenderer.get(layerComponents.renderType)
                 .renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
         // TODO: handle key not found exception. print "Renderer for renderType not found", default to ColorMap?

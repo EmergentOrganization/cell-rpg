@@ -17,10 +17,9 @@ import java.util.Date;
 public class FPSLoggerSystem extends BaseSystem {
     private static final Logger logger = LogManager.getLogger(FPSLoggerSystem.class);
 
-    private final String LOGFILE = "FPSLog.csv";
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss.SSS");
 
-    long startTime;
+    private long startTime;
 
     public FPSLoggerSystem() {
         startTime = TimeUtils.nanoTime();
@@ -39,6 +38,7 @@ public class FPSLoggerSystem extends BaseSystem {
     private void logFPS() {
         Writer writer = null;
         try {
+            String LOGFILE = "FPSLog.csv";
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(LOGFILE, true), "utf-8")
             );

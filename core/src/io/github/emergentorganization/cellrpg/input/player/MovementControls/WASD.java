@@ -14,7 +14,7 @@ import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 
 
 public class WASD extends iPlayerCtrl {
-    final String NAME = "WASD Movement";
+    private final String NAME = "WASD Movement";
 
     public WASD(World world, ComponentMapper<InputComponent> im) {
         super(world, im);

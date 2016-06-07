@@ -7,7 +7,7 @@ import io.github.emergentorganization.cellrpg.components.AIComponent;
 
 
 public class AIComponentBuilder extends BaseComponentBuilder {
-    private AIComponent.aiType AIType;
+    private final AIComponent.aiType AIType;
     private float AIPeriod = 1f;
     private Entity AITarget;
 

@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  */
 @Profile(using = EmergentProfiler.class, enabled = true)
 public class EnergySystem extends IntervalEntityProcessingSystem {
-    static final int FREQ = 1;
+    private static final int FREQ = 1;
     private final Logger logger = LogManager.getLogger(getClass());
     private ComponentMapper<EquipmentList> equipMapper;
 

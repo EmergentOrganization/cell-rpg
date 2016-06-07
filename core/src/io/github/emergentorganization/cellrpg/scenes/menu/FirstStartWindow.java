@@ -21,13 +21,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class FirstStartWindow extends VisWindow {
-    final VisTable table;
+class FirstStartWindow extends VisWindow {
+    private final VisTable table;
     private final Logger logger = LogManager.getLogger(getClass());
     private final SettingsMenu settingsMenu;
     private final PixelonTransmission pt;
-    TextField nameField;
-    private Skin skin;
+    private final TextField nameField;
+    private final Skin skin;
 
 
     public FirstStartWindow(final Stage stage, World world, PixelonTransmission pt) {

@@ -13,14 +13,12 @@ import java.util.ArrayList;
 
 
 public class DebugDisplay {
-    public World world;
-    private Stage stage;
-    private VisWindow debugWindow;
-    private ArrayList<DebugElement> elements = new ArrayList<DebugElement>();
+    private final World world;
+    private final VisWindow debugWindow;
+    private final ArrayList<DebugElement> elements = new ArrayList<DebugElement>();
 
     public DebugDisplay(World world, Stage stage) {
         this.world = world;
-        this.stage = stage;
         debugWindow = new VisWindow("debug HUD", true);
         debugWindow.setPosition(9999, 9999, Align.topRight);
 

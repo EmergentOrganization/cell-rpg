@@ -70,7 +70,6 @@ public class MapEditor extends BaseScene implements InputProcessor {
     private EditorTarget target;
     private CornerGizmo selectedGizmo;
     private boolean mapInputEnabled = true;
-    private SpriteBatch batch;
     private World world;
     private EntityFactory entityFactory;
     private PhysicsSystem physicsSystem;
@@ -96,7 +95,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     private void initArtemis() {
-        batch = new SpriteBatch();
+        SpriteBatch batch = new SpriteBatch();
         entityFactory = new EntityFactory();
         world = WorldFactory.editorGameWorld(pt, batch, stage, entityFactory);
 

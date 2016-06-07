@@ -18,7 +18,7 @@ import io.github.emergentorganization.cellrpg.managers.EventManager;
 /**
  * static class for weapon helper methods
  */
-public class WeaponUtil {
+class WeaponUtil {
 
     public static void shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact) {
         EquipmentList eqList = shooter.getComponent(EquipmentList.class);
@@ -29,7 +29,7 @@ public class WeaponUtil {
         }
     }
 
-    public static void _shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact, Weapon weapon) {
+    private static void _shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact, Weapon weapon) {
         if (weapon == null) {
             eventMan.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_WEAPON_EMPTY));
             return;

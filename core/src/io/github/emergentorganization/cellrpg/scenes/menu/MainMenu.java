@@ -23,7 +23,6 @@ public class MainMenu extends WorldScene {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final float tableMargin;
-    private Table table;
 
     public MainMenu(PixelonTransmission pt) {
         super(pt);
@@ -47,7 +46,7 @@ public class MainMenu extends WorldScene {
     private void initUI() {
         Skin s = pt.getUISkin();
 
-        table = new Table(s);
+        Table table = new Table(s);
         table.row();
 
         // title
@@ -181,9 +180,8 @@ public class MainMenu extends WorldScene {
 
     @Override
     public WorldConfiguration getBaseWorldConfiguration() {
-        WorldConfiguration wc = new WorldConfiguration();
         // TODO: set up main menu visuals
-        return wc;
+        return new WorldConfiguration();
     }
 
 }

@@ -13,8 +13,11 @@ public class EventManager extends BaseSystem {
      * Not sure if this is the best way to handle that
      * Going to research it
      */
-    private ArrayList<EntityEvent> events, newEvents;
-    private ArrayList<EventListener> listenerInsertion, listenerRemoval, listeners;
+    private final ArrayList<EntityEvent> events;
+    private final ArrayList<EntityEvent> newEvents;
+    private final ArrayList<EventListener> listenerInsertion;
+    private final ArrayList<EventListener> listenerRemoval;
+    private final ArrayList<EventListener> listeners;
 
     public EventManager() {
         events = new ArrayList<EntityEvent>();

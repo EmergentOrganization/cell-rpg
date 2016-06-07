@@ -30,7 +30,6 @@ import io.github.emergentorganization.cellrpg.tools.GameSettings;
  * * excludeRadius : radius inside which clicks don't count
  */
 public class ClickShoot extends iPlayerCtrl {
-    private final String NAME = "Click to Shoot";
     private final EntityFactory entityFactory;
     private final Camera camera;
     private final EventManager eventManager;
@@ -44,7 +43,7 @@ public class ClickShoot extends iPlayerCtrl {
 
     @Override
     public String getName() {
-        return NAME;
+        return "Click to Shoot";
     }
 
     public void addInputConfigButtons(VisTable menuTable, final VisWindow menuWindow) {

@@ -21,9 +21,9 @@ import org.apache.logging.log4j.Logger;
 
 public class EquipmentMenu extends Submenu {
     private final Logger logger = LogManager.getLogger(getClass());
-    PixelonTransmission pt;
-    World world;
-    VisLabel energyLabel;
+    private final PixelonTransmission pt;
+    private final World world;
+    private VisLabel energyLabel;
 
     public EquipmentMenu(PixelonTransmission pt, World world, VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);

@@ -9,7 +9,7 @@ import java.io.*;
 /**
  * Class for logging profile data to a file for later analysis.
  */
-public class ProfileLogger {
+class ProfileLogger {
     private static final Logger logger = LogManager.getLogger(ProfileLogger.class);
 
     public static void log(PerformanceCounter counter) {
@@ -36,6 +36,7 @@ public class ProfileLogger {
             logger.error("profileLog write exception: ", ex);
         } finally {
             try {
+                assert writer != null;
                 writer.close();
             } catch (Exception ex) {/*ignore*/}
         }

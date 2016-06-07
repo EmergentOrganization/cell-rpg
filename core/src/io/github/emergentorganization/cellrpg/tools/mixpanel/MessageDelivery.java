@@ -12,7 +12,7 @@ import java.io.IOException;
  * <br>
  * NOTE: If you wish to use the message once the class has been instantiated, please lock it first using Synchronized<br>
  */
-public class MessageDelivery implements Runnable {
+class MessageDelivery implements Runnable {
     private static final Logger logger = LogManager.getLogger(MessageDelivery.class);
     private final JSONObject message;
 

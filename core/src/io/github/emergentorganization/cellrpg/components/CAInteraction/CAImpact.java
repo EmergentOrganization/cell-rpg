@@ -6,8 +6,8 @@ import io.github.emergentorganization.cellrpg.components.CAGridComponents;
  * Defines an impact as a state matrix stamp that is applied to a target ca grid.
  */
 public class CAImpact {
-    public int targetGridId;
-    public int[][] impactStamp;
+    public final int targetGridId;
+    public final int[][] impactStamp;
 
     private int interactionPeriod = 0;  // how many generations between CA interaction triggers
     private long lastInteractionGeneration = -1;

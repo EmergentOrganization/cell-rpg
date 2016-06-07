@@ -14,13 +14,13 @@ import java.util.TimerTask;
 /**
  * defines the appearance of a given entity.
  */
-public class EntityApparitionTask extends TimerTask {
+class EntityApparitionTask extends TimerTask {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    Vector2 spawnLoc;
-    EntityFactory ef;
-    EntityID entityToSpawn;
-    EntitySpawnField spawnField;
+    private final Vector2 spawnLoc;
+    private final EntityFactory ef;
+    private final EntityID entityToSpawn;
+    private final EntitySpawnField spawnField;
 
     public EntityApparitionTask(EntityID entityToSpawn, EntitySpawnField spawnField, Vector2 spawnLocation, EntityFactory ef) {
         spawnLoc = spawnLocation;

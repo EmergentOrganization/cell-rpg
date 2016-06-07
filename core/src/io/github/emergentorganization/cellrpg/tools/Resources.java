@@ -11,11 +11,11 @@ public class Resources {
     // =========================================================================================================
     // === DIRS
     // =========================================================================================================
-    public static final String DIR_IMG_GAME = "game/";
-    public static final String DIR_IMG_BLDG = DIR_IMG_GAME + "buildings/";
-    public static final String DIR_IMG_ENV = DIR_IMG_GAME + "environment/";
+    private static final String DIR_IMG_GAME = "game/";
+    private static final String DIR_IMG_BLDG = DIR_IMG_GAME + "buildings/";
+    private static final String DIR_IMG_ENV = DIR_IMG_GAME + "environment/";
     public static final String DIR_SOUNDS = FileStructure.RESOURCE_DIR + "sounds/";
-    public static final String DIR_PARTICLEFX = FileStructure.RESOURCE_DIR + "particleEffects/";
+    private static final String DIR_PARTICLEFX = FileStructure.RESOURCE_DIR + "particleEffects/";
     public static final String DIR_PARTICLES = FileStructure.RESOURCE_DIR + "particleEffects/";
 
 

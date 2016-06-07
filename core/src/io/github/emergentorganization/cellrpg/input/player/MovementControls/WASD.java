@@ -7,10 +7,10 @@ import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import io.github.emergentorganization.cellrpg.core.components.InputComponent;
-import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
+import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
 
 
 public class WASD extends iPlayerCtrl {

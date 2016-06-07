@@ -4,14 +4,14 @@ import com.artemis.Entity;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
-import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
-import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

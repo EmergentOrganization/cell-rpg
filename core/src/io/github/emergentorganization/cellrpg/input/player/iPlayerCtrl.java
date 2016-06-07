@@ -3,9 +3,9 @@ package io.github.emergentorganization.cellrpg.input.player;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import io.github.emergentorganization.cellrpg.core.components.InputComponent;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
 
 
 public abstract class iPlayerCtrl {

@@ -14,19 +14,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.*;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.core.components.Scale;
-import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.tools.FileListNode;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.EditorTarget;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
-import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.widget.*;
 
 
 public class EditorWindow {

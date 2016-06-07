@@ -8,10 +8,10 @@ import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import io.github.emergentorganization.cellrpg.components.*;
+import io.github.emergentorganization.cellrpg.components.EquipmentList;
+import io.github.emergentorganization.cellrpg.core.components.*;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.cellrpg.core.components.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

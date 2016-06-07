@@ -2,23 +2,24 @@ package io.github.emergentorganization.cellrpg;
 
 import com.artemis.World;
 import com.artemis.managers.TagManager;
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.profiling.GL30Profiler;
 import com.badlogic.gdx.graphics.profiling.GLErrorListener;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
+import com.kotcrab.vis.ui.VisUI;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.GraphicsSettingsMenu;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
@@ -27,16 +28,12 @@ import io.github.emergentorganization.cellrpg.tools.Scores;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import io.github.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
-import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Properties;
 
 

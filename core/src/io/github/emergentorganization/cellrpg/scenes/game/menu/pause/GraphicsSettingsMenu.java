@@ -1,11 +1,9 @@
 package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.DragScrollListener;
-import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisSlider;
@@ -16,8 +14,6 @@ import io.github.emergentorganization.cellrpg.tools.menus.MenuBuilder;
 import io.github.emergentorganization.cellrpg.tools.menus.StringSetting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.swing.plaf.MenuBarUI;
 
 
 public class GraphicsSettingsMenu extends Submenu {

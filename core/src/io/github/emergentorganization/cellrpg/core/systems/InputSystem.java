@@ -6,7 +6,6 @@ import com.artemis.annotations.Profile;
 import com.artemis.annotations.Wire;
 import com.artemis.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.InputComponent;
 import io.github.emergentorganization.cellrpg.core.components.Position;
@@ -14,6 +13,7 @@ import io.github.emergentorganization.cellrpg.core.components.Velocity;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.input.InputProcessor;
 import io.github.emergentorganization.cellrpg.input.player.PlayerInputProcessor;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 
 import java.util.ArrayList;
 

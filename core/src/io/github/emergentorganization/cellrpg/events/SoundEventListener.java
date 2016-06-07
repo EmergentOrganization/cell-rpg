@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
 import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
+
 import java.util.Map;
 
 public class SoundEventListener implements EventListener {

@@ -9,12 +9,12 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.CellType;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
-import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 
 /**
  * !!! DISCLAIMER: despite the name, this does not follow the factory pattern. !!! TODO: rename

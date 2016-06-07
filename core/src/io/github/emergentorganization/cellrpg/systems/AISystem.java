@@ -6,9 +6,12 @@ import com.artemis.annotations.Profile;
 import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.AIComponent;
-import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.cellrpg.core.components.*;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
+import io.github.emergentorganization.cellrpg.core.components.Lifecycle;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

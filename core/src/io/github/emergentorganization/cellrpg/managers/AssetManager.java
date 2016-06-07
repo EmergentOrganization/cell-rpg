@@ -6,9 +6,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.Array;
 import io.github.emergentorganization.cellrpg.core.ParticleEff;
-import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 
 import java.util.Collections;

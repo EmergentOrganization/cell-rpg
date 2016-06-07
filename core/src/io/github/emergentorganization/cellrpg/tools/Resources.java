@@ -1,6 +1,5 @@
 package io.github.emergentorganization.cellrpg.tools;
 
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.ParticleEff;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;

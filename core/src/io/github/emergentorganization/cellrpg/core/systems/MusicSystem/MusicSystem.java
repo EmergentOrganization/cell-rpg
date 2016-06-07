@@ -3,14 +3,13 @@ package io.github.emergentorganization.cellrpg.core.systems.MusicSystem;
 import com.artemis.BaseSystem;
 import com.badlogic.gdx.audio.Sound;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.systems.TimingSystem;
-import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Timer;
 
 /**

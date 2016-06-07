@@ -16,15 +16,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
-import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.core.components.Scale;
 import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
+import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

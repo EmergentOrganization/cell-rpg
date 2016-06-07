@@ -3,7 +3,6 @@ package io.github.emergentorganization.cellrpg.scenes.game.HUD;
 import com.artemis.World;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTable;
-import io.github.emergentorganization.cellrpg.systems.TimingSystem;
 
 /**
  * display element in the debugDisplay.

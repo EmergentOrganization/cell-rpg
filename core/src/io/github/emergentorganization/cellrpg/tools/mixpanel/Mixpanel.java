@@ -1,9 +1,7 @@
 package io.github.emergentorganization.cellrpg.tools.mixpanel;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Preferences;
 import com.mixpanel.mixpanelapi.MessageBuilder;
-import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;

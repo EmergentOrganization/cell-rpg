@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.events.EventListener;
+import io.github.emergentorganization.cellrpg.core.systems.*;
+import io.github.emergentorganization.cellrpg.core.systems.MusicSystem.MusicSystem;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.SoundEventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
@@ -21,10 +23,7 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CAInteractionSys
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAPositionSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CARenderSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CASpontaneousGenerationSystem;
-import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
-import io.github.emergentorganization.cellrpg.core.systems.*;
-import io.github.emergentorganization.cellrpg.core.systems.MusicSystem.MusicSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

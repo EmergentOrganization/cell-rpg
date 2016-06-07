@@ -10,11 +10,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.iCellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
-import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

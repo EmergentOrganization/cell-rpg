@@ -43,11 +43,16 @@ public class WarpInEventRegion extends TimedRegion {
         this(entityFactory, expiresIn, 0, spawningSystem);
     }
 
+    public WarpInEventRegion(EntityFactory entityFactory, final long expiresIn,
+                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts, SpawningSystem spawningSystem) {
+        this(entityFactory, expiresIn, entityIDs, entityCounts, shapes, shapeCounts, 0, spawningSystem);
+    }
+
     private WarpInEventRegion(EntityFactory entityFactory, final long expiresIn,
                               EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
                               int regionNumber, SpawningSystem spawningSystem) {
         super(expiresIn);
-
+        if (spawningSystem == null) throw new RuntimeException("");
         assert entityIDs.length == entityCounts.length;
         assert shapes.length == shapeCounts.length;
 
@@ -58,11 +63,6 @@ public class WarpInEventRegion extends TimedRegion {
         this.shapes = shapes;
         this.shapeCounts = shapeCounts;
         this.spawningSystem = spawningSystem;
-    }
-
-    public WarpInEventRegion(EntityFactory entityFactory, final long expiresIn,
-                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts, SpawningSystem spawningSystem) {
-        this(entityFactory, expiresIn, entityIDs, entityCounts, shapes, shapeCounts, 0, spawningSystem);
     }
 
     public void loadRegion(World world) {
@@ -96,7 +96,7 @@ public class WarpInEventRegion extends TimedRegion {
         Entity player = tagMan.getEntity(Tags.PLAYER);
 
         for (int idN = 0; idN < entityIDs.length; idN++) {
-            scheduleEntityWarps(player, entityIDs[idN], entityCounts[idN], world);
+            scheduleEntityWarps(player, entityIDs[idN], entityCounts[idN]);
         }
 
         for (int[][] shape : shapes) {
@@ -104,11 +104,14 @@ public class WarpInEventRegion extends TimedRegion {
         }
     }
 
-    private void scheduleEntityWarps(Entity target, EntityID entity, int amount, World world) {
+    private void scheduleEntityWarps(Entity target, EntityID entity, int amount) {
         logger.trace("warping in " + amount + " " + entity.toString() + "(s) in next " + maxWarpDuration + "s");
         for (int i = 0; i < amount; i++) {
-            long delay = (long) Math.min(minWarpDuration, Math.random() * maxWarpDuration);
-
+            long delay = (long) Math.max(minWarpDuration, Math.random() * maxWarpDuration);
+            if (spawningSystem == null) throw new RuntimeException("");
+            if (target.getComponent(Position.class) == null) throw new RuntimeException("");
+            if (target.getComponent(Bounds.class) == null) throw new RuntimeException("");
+            if (target.getComponent(EntitySpawnField.class) == null) throw new RuntimeException("");
             spawningSystem.spawnEntity(entity, delay, target.getComponent(Position.class),
                     target.getComponent(Bounds.class), target.getComponent(EntitySpawnField.class));
         }

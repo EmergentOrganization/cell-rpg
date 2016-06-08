@@ -33,6 +33,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class LeveledRegionSwitcher extends iRegionManager {
     private final Logger logger = LogManager.getLogger(getClass());
+    private int maxTimeInRegion = -1;
+    private int regionNumber = -1;
 
     public iRegion currentRegion;
     private iRegion nextRegion;
@@ -58,7 +60,16 @@ public class LeveledRegionSwitcher extends iRegionManager {
      * @param regionNumber The WarpInEvent region number?
      */
     public LeveledRegionSwitcher(int maxTimeInRegion, int regionNumber) {
-        nextRegion = new WarpInEventRegion(entityFactory, maxTimeInRegion, regionNumber, spawningSystem);
+        this.maxTimeInRegion = maxTimeInRegion;
+        this.regionNumber = regionNumber;
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+        if (maxTimeInRegion != -1) { // super sketchy
+            nextRegion = new WarpInEventRegion(entityFactory, maxTimeInRegion, regionNumber, spawningSystem);
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.core.WorldType;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.DebugDisplay;
@@ -25,27 +26,16 @@ public abstract class WorldScene extends BaseScene {
     private SpriteBatch batch;
     protected final EntityFactory entityFactory;
 
-    protected WorldScene(final PixelonTransmission pt) {
-        this(pt, new WorldConfiguration());
-    }
 
-    protected WorldScene(final PixelonTransmission pt, WorldConfigAction configAction) {
-        this(pt, configAction.get());
-    }
-
-    protected WorldScene(final PixelonTransmission pt, WorldConfiguration wc) {
+    protected WorldScene(final PixelonTransmission pt, WorldType worldType) {
         super(pt);
         entityFactory = new EntityFactory();
-        init(wc);
+        batch = new SpriteBatch();
+        logger.info("WorldScene init!");
+        world = WorldFactory.createWorld(worldType, pt, batch, stage, entityFactory);
         dialogDisplay = new DialogDisplay(stage);
         debugDisplay = new DebugDisplay(world, stage);
 
-    }
-
-    private void init(WorldConfiguration baseConfig) {
-        batch = new SpriteBatch();
-        logger.info("WorldScene init!");
-        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, baseConfig);
     }
 
     @Override

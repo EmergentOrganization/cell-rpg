@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.WorldType;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import org.apache.logging.log4j.LogManager;
@@ -24,7 +25,7 @@ public class PostGame extends WorldScene {
 
     public PostGame(PixelonTransmission pt) {
         // TODO: set up postgame visuals
-        super(pt);
+        super(pt, WorldType.STANDARD);
 
         this.tableMargin = stage.getWidth() * 0.015f;
     }

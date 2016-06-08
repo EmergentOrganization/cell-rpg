@@ -41,7 +41,6 @@ public class SpawningSystem extends BaseEntitySystem {
     private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
-    private TimingSystem timingSystem;
     private AssetManager assetManager;
     private RenderSystem renderSystem;
     private SpontaneousGeneration spontGen;
@@ -77,11 +76,12 @@ public class SpawningSystem extends BaseEntitySystem {
     protected void process(int entityId) {
         TagManager tagMan = world.getSystem(TagManager.class);
         EntitySpawnField spawnField = spawnFieldMap.get(entityId);
-        if (spawnField.readyForSpawn()) {
+        EntityID spawnable = spawnField.getSpawnableEntity();
+        if (spawnable != null) {
             // spawns entity in the field.
             Position pos = positionMap.get(entityId);
             Bounds bounds = boundsMap.get(entityId);
-            spawnEntity(spawnField._getSpawnableEntity(), getDelay(), pos, bounds, spawnField);
+            spawnEntity(spawnable, getDelay(), pos, bounds, spawnField);
         } else {
             spawnField.tick();
         }
@@ -94,8 +94,7 @@ public class SpawningSystem extends BaseEntitySystem {
     }
 
     public void SpawnCAEffect(final CAGridComponents targetGrid) {
-        long delay = getDelay();
-        initWarpInEffects(spontGen.position, delay);
+        initWarpInEffects(spontGen.position, getDelay());
         synchronized (executorService) {
             executorService.schedule(new Runnable() {
                 @Override
@@ -107,12 +106,19 @@ public class SpawningSystem extends BaseEntitySystem {
                         }
                     });
                 }
-            }, delay, TimeUnit.MILLISECONDS);
+            }, getDelay(), TimeUnit.MILLISECONDS);
         }
     }
 
+    /**
+     * Spawns given entity after a given delay time
+     * @param entity The Entity type to spawn
+     * @param delay The delay after which the entity spawns
+     * @param pos Position of the source entity?
+     * @param bounds Bounds of the source entity?
+     * @param spawnField The spawnField of the source entity
+     */
     public void spawnEntity(final EntityID entity, long delay, final Position pos, Bounds bounds, final EntitySpawnField spawnField) {
-        // apparates given entity after a given delay time
         final Vector2 spawnPos = spawnField.getSpawnPosition(pos, bounds);
         initWarpInEffects(spawnPos, delay);
         synchronized (executorService) {
@@ -122,8 +128,8 @@ public class SpawningSystem extends BaseEntitySystem {
                     runLater(new Runnable() {
                         @Override
                         public void run() {
-                            logger.debug("spawn ent " + entity + " @" + pos.position + ")");
-                            spawnField._spawnEntityAt(entity, entityFactory, pos.position);
+                            logger.debug("spawn ent " + entity + " @" + spawnPos + ")");
+                            spawnField.spawnEntity(entity, entityFactory, spawnPos);
                         }
                     });
                 }
@@ -131,14 +137,12 @@ public class SpawningSystem extends BaseEntitySystem {
         }
     }
 
-    private long getDelay() {
-        return timingSystem.getTimeToNextMeasure();
-    }
-
+    /**
+     * Initializes the warp-in particle effect(s) and sound(s) for a CA effect or entity
+     * @param pos position of the warp-in
+     * @param duration milliseconds until warp-in complete
+     */
     private void initWarpInEffects(Vector2 pos, long duration) {
-        // initializes the warp-in particle effect(s) and sound(s) for a CA effect or entity
-        // pos : position of the warp-in
-        // duration : milliseconds until warp-in complete
         ParticleEffect particleEffect = assetManager.getParticleEffect(ParticleEff.PREWARP);
         particleEffect.setPosition(pos.x, pos.y);
         // NOTE: the following assumes that the first emitter in the particle effect is the longest:
@@ -149,5 +153,14 @@ public class SpawningSystem extends BaseEntitySystem {
         particleEffect.start();
         renderSystem.registerOrphanParticleEffect(particleEffect);
         logger.debug("added new particle len= " + duration + " @ (" + pos.x + ',' + pos.y + ")");
+    }
+
+    private static int getDelay() {
+        return getDelay(2000, 10000);
+    }
+
+    public static int getDelay(final int min, final int max) {
+        // TODO: get delay from TimingSystem (which should be broken out from MusicSystem)
+        return (int) Math.max(min, Math.floor(Math.random() * max));
     }
 }

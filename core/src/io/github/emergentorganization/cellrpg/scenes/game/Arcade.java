@@ -9,6 +9,7 @@ import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.core.WorldType;
 import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldConfigAction;
 import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
@@ -26,21 +27,7 @@ public class Arcade extends WorldScene {
     private final ScoreDisplay scoreDisplay;
 
     public Arcade(PixelonTransmission pt) {
-        super(pt, new WorldConfigAction() {
-            @Override
-            public WorldConfiguration get() {
-                WorldConfiguration wc = new WorldConfiguration();
-                // for using WarpInEventRegions:
-                int maxTimeInRegion = 3 * 60 * 1000;  // max time before region moves ahead anyway [ms]
-                wc.setSystem(new LeveledRegionSwitcher(maxTimeInRegion, 0));  // -1 to use test region, 0 is typical starting wave
-                //        // for using SingleShapeWarp and SingleEntityWarp Regions:
-                //        wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(
-                //                this, 10*1000, CGoLShapeConsts.BLINKER_H, .5f, CALayer.vyroid_values()
-                //        )));
-
-                return wc;
-            }
-        });
+        super(pt, WorldType.ARCADE);
 
         Logger logger = LogManager.getLogger(getClass());
         logger.info("enter arcade mode");

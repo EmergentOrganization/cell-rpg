@@ -159,7 +159,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     public boolean isAvailable() {
-        return disposed;
+        return !disposed;
     }
 
     public void setContactListener(ContactListener listener) {

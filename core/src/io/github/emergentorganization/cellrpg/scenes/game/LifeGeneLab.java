@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.core.WorldType;
 import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 public class LifeGeneLab extends WorldScene {
 
     public LifeGeneLab(PixelonTransmission pt) {
-        super(pt);
+        super(pt, WorldType.ARCADE);
         Logger logger = LogManager.getLogger(getClass());
         logger.info("enter lifegene lab");
         WorldFactory.setupStandardEventSystem(world, pt);

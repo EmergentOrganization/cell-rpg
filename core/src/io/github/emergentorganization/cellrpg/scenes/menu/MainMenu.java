@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.WorldType;
 import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
 import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
@@ -28,7 +29,7 @@ public class MainMenu extends WorldScene {
     private final float tableMargin;
 
     public MainMenu(PixelonTransmission pt) {
-        super(pt);
+        super(pt, WorldType.STANDARD);
 
         this.tableMargin = stage.getWidth() * 0.015f;
     }

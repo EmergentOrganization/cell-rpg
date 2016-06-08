@@ -52,7 +52,6 @@ public class WarpInEventRegion extends TimedRegion {
                               EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
                               int regionNumber, SpawningSystem spawningSystem) {
         super(expiresIn);
-        if (spawningSystem == null) throw new RuntimeException("");
         assert entityIDs.length == entityCounts.length;
         assert shapes.length == shapeCounts.length;
 
@@ -108,10 +107,6 @@ public class WarpInEventRegion extends TimedRegion {
         logger.trace("warping in " + amount + " " + entity.toString() + "(s) in next " + maxWarpDuration + "s");
         for (int i = 0; i < amount; i++) {
             long delay = (long) Math.max(minWarpDuration, Math.random() * maxWarpDuration);
-            if (spawningSystem == null) throw new RuntimeException("");
-            if (target.getComponent(Position.class) == null) throw new RuntimeException("");
-            if (target.getComponent(Bounds.class) == null) throw new RuntimeException("");
-            if (target.getComponent(EntitySpawnField.class) == null) throw new RuntimeException("");
             spawningSystem.spawnEntity(entity, delay, target.getComponent(Position.class),
                     target.getComponent(Bounds.class), target.getComponent(EntitySpawnField.class));
         }

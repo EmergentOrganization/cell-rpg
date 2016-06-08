@@ -48,7 +48,7 @@ public class DebugDisplay {
             public String getText(World world) {
                 PhysicsSystem physicsSystem = world.getSystem(PhysicsSystem.class);
                 if (physicsSystem != null && physicsSystem.isAvailable()) {
-                    return Integer.toString(world.getSystem(PhysicsSystem.class).getBodies().size());
+                    return Integer.toString(physicsSystem.getBodies().size());
                 }
                 else {
                     return "0";

@@ -4,6 +4,7 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.utils.Align;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
@@ -16,7 +17,8 @@ import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.LifecycleBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.Story;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import io.github.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
 import io.github.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
@@ -34,11 +36,10 @@ import org.apache.logging.log4j.Logger;
 public class ArcadeRegion implements iRegion {
     private static final int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
     private final Logger logger = LogManager.getLogger(getClass());
-    private final WorldScene scene;
+    private final PixelonTransmission pt;
 
-    public ArcadeRegion(WorldScene parentScene) {
-        super();
-        scene = parentScene;
+    public ArcadeRegion(PixelonTransmission pt) {
+        this.pt = pt;
     }
 
     public iRegion getNextRegion(World world) {
@@ -70,7 +71,10 @@ public class ArcadeRegion implements iRegion {
         player.getComponent(EntitySpawnField.class).entityList.clear();
 
         // load story
-        scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.I), Align.topLeft);
+        Story story = (Story) pt.getCurrentScene();
+        if (story != null) {
+            story.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.I), Align.topLeft);
+        }
 
         Entity bg = new EntityBuilder(
                 world,

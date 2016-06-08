@@ -6,7 +6,7 @@ import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInterac
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionListTest;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
-import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerBuilder;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +33,7 @@ public class CAInteractionSystemTest {
             }
         };
 
-        CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
+        CALayerBuilder.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
 
         testComps.fill(COLLIDING_STATE);
     }

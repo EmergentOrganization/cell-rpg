@@ -17,6 +17,8 @@ import io.github.emergentorganization.cellrpg.events.SoundEventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.systems.*;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
@@ -36,7 +38,7 @@ public class WorldFactory {
                                           WorldConfiguration wc) {
         wc.register(entityFactory);
 
-        // set up world systemss
+        // set up world systems
         wc.setSystem(new TagManager()); // useful for tagging unique entities
 
         AssetManager assetManager = new AssetManager(pt.getGdxAssetManager());
@@ -55,7 +57,7 @@ public class WorldFactory {
 
         wc.setSystem(new AISystem());
         wc.setSystem(new TimedDestructionSystem());
-        wc.setSystem(new EntitySpawnFieldSystem());
+        wc.setSystem(new SpawningSystem());
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering
         wc.setSystem(new EntityLifecycleSystem());

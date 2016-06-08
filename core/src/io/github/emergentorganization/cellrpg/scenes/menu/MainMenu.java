@@ -11,9 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
 import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -178,9 +181,18 @@ public class MainMenu extends WorldScene {
         }
     }
 
-    @Override
-    public WorldConfiguration getBaseWorldConfiguration() {
+    private WorldConfiguration getBaseWorldConfiguration() {
         // TODO: set up main menu visuals
+
+        WorldConfiguration wc = new WorldConfiguration();
+        // for using WarpInEventRegions:
+        int maxTimeInRegion = 3 * 60 * 1000;  // max time before region moves ahead anyway [ms]
+        wc.setSystem(new LeveledRegionSwitcher(maxTimeInRegion, 0));  // -1 to use test region, 0 is typical starting wave
+//        // for using SingleShapeWarp and SingleEntityWarp Regions:
+//        wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(
+//                this, 10*1000, CGoLShapeConsts.BLINKER_H, .5f, CALayer.vyroid_values()
+//        )));
+
         return new WorldConfiguration();
     }
 

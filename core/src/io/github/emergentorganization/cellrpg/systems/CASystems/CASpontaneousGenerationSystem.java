@@ -12,7 +12,7 @@ import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
-import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator;
+import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +29,7 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
     private ComponentMapper<SpontaneousGenerationList> spontGen_m;
     private RenderSystem renderSystem;
     private AssetManager assetManager;
+    private SpawningSystem spawningSystem;
 
     public CASpontaneousGenerationSystem() {
         super(Aspect.all(SpontaneousGenerationList.class, Position.class, Bounds.class), 1);
@@ -55,7 +56,7 @@ public class CASpontaneousGenerationSystem extends IntervalIteratingSystem {
                 CAGridComponents targetGrid = CAEnt.getComponent(CAGridComponents.class);
 
                 logger.trace("init spontaneous Generate @ " + pos);
-                ApparitionCreator.apparateCAEffect(assetManager, renderSystem, spontGen, targetGrid);
+                spawningSystem.SpawnCAEffect(targetGrid);
             }
         }
     }

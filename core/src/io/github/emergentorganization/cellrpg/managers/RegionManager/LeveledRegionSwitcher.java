@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.managers.RegionManager;
 
 import com.artemis.Entity;
+import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.core.EntityID;
@@ -10,9 +11,11 @@ import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.iRegion;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,8 +37,28 @@ public class LeveledRegionSwitcher extends iRegionManager {
     public iRegion currentRegion;
     private iRegion nextRegion;
 
+    @Wire
+    private EntityFactory entityFactory;
+    private SpawningSystem spawningSystem;
+
     public LeveledRegionSwitcher(iRegion startingRegion) {
         nextRegion = startingRegion;
+    }
+
+
+    /**
+     * TODO: This doesn't feel right. Need to come up with a different way to instantiate regions while taking advantage
+     * of @Wire injections
+     * --Brian
+     */
+
+    /**
+     * Constructor reserved for WarpInEventRegions
+     * @param maxTimeInRegion Maximum time in region
+     * @param regionNumber The WarpInEvent region number?
+     */
+    public LeveledRegionSwitcher(int maxTimeInRegion, int regionNumber) {
+        nextRegion = new WarpInEventRegion(entityFactory, maxTimeInRegion, regionNumber, spawningSystem);
     }
 
     @Override

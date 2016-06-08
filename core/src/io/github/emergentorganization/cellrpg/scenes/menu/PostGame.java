@@ -1,6 +1,5 @@
 package io.github.emergentorganization.cellrpg.scenes.menu;
 
-import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +23,7 @@ public class PostGame extends WorldScene {
     private Skin skin;
 
     public PostGame(PixelonTransmission pt) {
+        // TODO: set up postgame visuals
         super(pt);
 
         this.tableMargin = stage.getWidth() * 0.015f;
@@ -67,12 +67,6 @@ public class PostGame extends WorldScene {
         float scoreTableBottom = menuTable.getHeight() + tableMargin;
         Table scoreTable = makeScoreTable(cursorY, scoreTableBottom);
         stage.addActor(scoreTable);
-    }
-
-    @Override
-    public WorldConfiguration getBaseWorldConfiguration() {
-        // TODO: set up postgame visuals
-        return new WorldConfiguration();
     }
 
     private Table makeScoreTable(float tableTop, float tableBottom) {

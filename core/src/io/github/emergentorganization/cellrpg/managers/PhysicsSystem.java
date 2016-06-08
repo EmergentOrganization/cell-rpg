@@ -36,6 +36,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     private ComponentMapper<Lifecycle> lm;
     private final HashMap<Integer, Body> bodies;
     private boolean shouldRender = false;
+    private boolean disposed = false;
 
     public PhysicsSystem(BodyEditorLoader bodyLoader, @Nullable Batch batch) {
         super(Aspect.all(PhysicsBody.class));
@@ -47,6 +48,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     public Body createBody(int entityId, String colliderId, BodyDef bd, FixtureDef fd) {
+        if (disposed) throw new RuntimeException("ERROR: Cannot create body, this Box2D instance has been disposed!");
         Body body = createEmptyBody(entityId, bd);
         Bounds b = bm.get(entityId);
         float scale;
@@ -60,6 +62,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     private Body createEmptyBody(int entityId, BodyDef bd) throws IllegalArgumentException {
+        if (disposed) throw new RuntimeException("ERROR: Cannot create body, this Box2D instance has been disposed!");
         if (!pm.has(entityId))
             throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
 
@@ -79,6 +82,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     public Body createBoundsBody(int entityId, BodyDef bd, FixtureDef fd) {
+        if (disposed) throw new RuntimeException("ERROR: Cannot create body, this Box2D instance has been disposed!");
         if (!pm.has(entityId))
             throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
         Body body = createEmptyBody(entityId, bd);
@@ -99,6 +103,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     public Body updateBoundsBody(int entityId) {
+        if (disposed) throw new RuntimeException("ERROR: Cannot update body, this Box2D instance has been disposed!");
         if (physWorld.isLocked())
             throw new RuntimeException("ERROR: Cannot update bounds body in physics loop");
 
@@ -115,6 +120,7 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     public Body getBody(int entityId) {
+        if (disposed) throw new RuntimeException("ERROR: Cannot get body, this Box2D instance has been disposed!");
         return bodies.get(entityId);
     }
 
@@ -139,26 +145,35 @@ public class PhysicsSystem extends BaseEntitySystem {
     }
 
     private void removeBody(int entityId) {
-        Body body = getBody(entityId);
-        physWorld.destroyBody(body);
-        bodies.remove(entityId);
+        if (!disposed) {
+            Body body = getBody(entityId);
+            physWorld.destroyBody(body);
+            bodies.remove(entityId);
+        }
     }
 
     @Override
     protected void dispose() {
-        // TODO: delay doing this until all threads are done adding bodies? else JVM EXCEPTION_ACCESS_VIOLATION
-//        physWorld.dispose();
+        disposed = true;
+        physWorld.dispose();
+    }
+
+    public boolean isAvailable() {
+        return disposed;
     }
 
     public void setContactListener(ContactListener listener) {
+        if (disposed) throw new RuntimeException("ERROR: Cannot set contact listener, this Box2D instance has been disposed!");
         physWorld.setContactListener(listener);
     }
 
     public void queryAABB(QueryCallback queryCallback, float lowerX, float lowerY, float upperX, float upperY) {
+        if (disposed) throw new RuntimeException("ERROR: Cannot create body, this Box2D instance has been disposed!");
         physWorld.QueryAABB(queryCallback, lowerX, lowerY, upperX, upperY);
     }
 
     public HashMap<Integer, Body> getBodies() {
+        if (disposed) throw new RuntimeException("ERROR: Cannot get bodies, this Box2D instance has been disposed!");
         return bodies;
     }
 

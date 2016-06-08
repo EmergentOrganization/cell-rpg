@@ -1,4 +1,4 @@
-package io.github.emergentorganization.cellrpg.scenes.game;
+package io.github.emergentorganization.cellrpg.scenes.game.worldscene;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
@@ -23,30 +23,24 @@ public abstract class WorldScene extends BaseScene {
     private final DebugDisplay debugDisplay;
     protected World world;
     private SpriteBatch batch;
-    final EntityFactory entityFactory;
+    protected final EntityFactory entityFactory;
 
     protected WorldScene(final PixelonTransmission pt) {
+        this(pt, new WorldConfiguration());
+    }
+
+    protected WorldScene(final PixelonTransmission pt, WorldConfigAction configAction) {
+        this(pt, configAction.get());
+    }
+
+    protected WorldScene(final PixelonTransmission pt, WorldConfiguration wc) {
         super(pt);
         entityFactory = new EntityFactory();
-        init(getBaseWorldConfiguration());
+        init(wc);
         dialogDisplay = new DialogDisplay(stage);
         debugDisplay = new DebugDisplay(world, stage);
 
     }
-
-    /* ================================================================== */
-    /* ====================== INTERFACE METHODS ========================= */
-    /* ================================================================== */
-
-    protected abstract WorldConfiguration getBaseWorldConfiguration();
-    // returns world configuration to start from
-    // override this to modify world configuration before calling initArtemis()
-    // simplest method is just:
-    // return new WorldConfiguration();
-
-    /* ================================================================== */
-    /* ================================================================== */
-    /* ================================================================== */
 
     private void init(WorldConfiguration baseConfig) {
         batch = new SpriteBatch();
@@ -75,4 +69,6 @@ public abstract class WorldScene extends BaseScene {
         super.dispose();
         batch.dispose();
     }
+
+
 }

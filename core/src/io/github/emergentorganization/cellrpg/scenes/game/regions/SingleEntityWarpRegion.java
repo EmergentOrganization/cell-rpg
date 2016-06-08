@@ -6,7 +6,7 @@ import com.artemis.managers.TagManager;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

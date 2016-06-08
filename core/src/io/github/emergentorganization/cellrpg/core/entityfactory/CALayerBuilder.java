@@ -17,14 +17,10 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
- * !!! DISCLAIMER: despite the name, this does not follow the factory pattern. !!! TODO: rename
- * <p/>
- * Methods for building different types of CA layer entities by initializing the CAGridComponent.
+ * Methods for building different types of CA layer entities by initializing the CAGridComponent.<br>
  * Adapted from LayerBuilder (10-10-2015) on 12-12-2015 by 7yl4r.
- * <p/>
- * TODO: this should be part of the CALayerComponentsConstructor, not a separate class.
  */
-public class CALayerFactory {
+public class CALayerBuilder {
 
     public static Entity buildLayer(World world, Vector2 pos, Archetype layer_arch,
                                     String descr, String tag, CALayer layer) {
@@ -34,7 +30,7 @@ public class CALayerFactory {
                 .tag(tag)
                 .build();
         CAGridComponents vyroidLayerStuff = vyroidLayer.getComponent(CAGridComponents.class);
-        CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, layer, camera);
+        CALayerBuilder.initLayerComponentsByType(vyroidLayerStuff, layer, camera);
         try {
             vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(tag);
         } catch (NullPointerException ex) {

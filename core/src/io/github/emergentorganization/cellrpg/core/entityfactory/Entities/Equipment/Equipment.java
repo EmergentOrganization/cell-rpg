@@ -11,9 +11,8 @@ import io.github.emergentorganization.cellrpg.core.components.Position;
  * Abstract class which describes an equipment entity.
  */
 public abstract class Equipment {
-    // TODO: remove/replace defaults
-    public String name = "unnamed";
-    private String description = "description not given.";
+    public String name;
+    private String description;
     public EquipmentType type = EquipmentType.CONTROLLER;
     int parentId = -1;
 
@@ -76,8 +75,8 @@ public abstract class Equipment {
         return powerFilled > baseEnergy;  // must be greater else just enough power to run but not to apply anything
     }
 
-    public abstract void create(World world, Vector2 pos);  // TODO: pass parentEntityId here
     // instantiates the equipment Entity as child of parentEntityId
+    public abstract void create(World world, Vector2 pos);
 
     public void recharge() {
         // energy management functions for the equipment. Called by EnergySystem.

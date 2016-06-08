@@ -6,22 +6,25 @@ import com.artemis.annotations.Profile;
 import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.AIComponent;
-import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.cellrpg.core.components.*;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
+import io.github.emergentorganization.cellrpg.core.components.Lifecycle;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.MoveState;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class AISystem extends DelayedIteratingSystem {
-    Logger logger = LogManager.getLogger(getClass());
-    ComponentMapper<AIComponent> AICom_m;
-    ComponentMapper<InputComponent> inCom_m;
-    ComponentMapper<Rotation> rot_m;
-    ComponentMapper<Lifecycle> life_m;
-    ComponentMapper<Position> pos_m;
+    private final Logger logger = LogManager.getLogger(getClass());
+    private ComponentMapper<AIComponent> AICom_m;
+    private ComponentMapper<InputComponent> inCom_m;
+    private ComponentMapper<Rotation> rot_m;
+    private ComponentMapper<Lifecycle> life_m;
+    private ComponentMapper<Position> pos_m;
 
     public AISystem() {
         super(Aspect.all(AIComponent.class));
@@ -62,7 +65,7 @@ public class AISystem extends DelayedIteratingSystem {
                 default:
                     logger.error("AI type not recognized for ent#" + entityId);
             }
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             logger.error("ERR: cannot process AI for ent#" + entityId, ex);
             life_m.get(entityId).kill();
         }
@@ -70,13 +73,13 @@ public class AISystem extends DelayedIteratingSystem {
         super.offerDelay(ai.period);
     }
 
-    private void chase(int entityId){
+    private void chase(int entityId) {
         // chases targetEntity
         Vector2 targPos;
         try {
             AIComponent AIC = AICom_m.get(entityId);
             targPos = AIC.target.getComponent(Position.class).position;
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             logger.error("chase entity not set or does not have position for ent#" + entityId, ex);
             return;
         }
@@ -122,17 +125,17 @@ public class AISystem extends DelayedIteratingSystem {
     }
 
     @Override
-    public void initialize(){
+    public void initialize() {
         super.initialize();
     }
 
     @Override
-    public void begin(){
+    public void begin() {
         super.begin();
     }
 
     @Override
-    public void end(){
+    public void end() {
         super.end();
     }
 }

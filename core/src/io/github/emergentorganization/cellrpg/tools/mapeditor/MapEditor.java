@@ -22,18 +22,18 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.QueryCallback;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Name;
 import io.github.emergentorganization.cellrpg.core.components.PhysicsBody;
 import io.github.emergentorganization.cellrpg.core.components.Position;
-import io.github.emergentorganization.cellrpg.core.EntityID;
-import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
-import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
 import io.github.emergentorganization.cellrpg.core.systems.InputSystem;
 import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
+import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
+import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.tools.FileListNode;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.renderables.BoundsGizmo;
@@ -66,10 +66,10 @@ public class MapEditor extends BaseScene implements InputProcessor {
     private final Vector2 dragOffset = new Vector2();
     private final Vector3 dragPoint = new Vector3();
     private final Vector3 entityPos = new Vector3();
+    private final Logger logger = LogManager.getLogger(getClass());
     private EditorTarget target;
     private CornerGizmo selectedGizmo;
     private boolean mapInputEnabled = true;
-    private SpriteBatch batch;
     private World world;
     private EntityFactory entityFactory;
     private PhysicsSystem physicsSystem;
@@ -95,7 +95,7 @@ public class MapEditor extends BaseScene implements InputProcessor {
     }
 
     private void initArtemis() {
-        batch = new SpriteBatch();
+        SpriteBatch batch = new SpriteBatch();
         entityFactory = new EntityFactory();
         world = WorldFactory.editorGameWorld(pt, batch, stage, entityFactory);
 
@@ -467,6 +467,4 @@ public class MapEditor extends BaseScene implements InputProcessor {
         }
         return false;
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

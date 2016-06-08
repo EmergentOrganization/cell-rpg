@@ -31,8 +31,12 @@ public class LoadoutSave {
         }
     }
 
-    public static Json getLoadoutJson(){
-        Preferences loadPrefs = getPreferences();
-        loadPrefs.getString(KEY_EQUIPMENT_JSON, "[]");
+    public static Json getLoadoutJson(String gameSavePrefix, int loadoutNumber){
+        // returns json obj loaded from file
+        Preferences loadPrefs = getPreferences(gameSavePrefix, loadoutNumber);
+        String jsonLoadout = loadPrefs.getString(KEY_EQUIPMENT_JSON, "[]");
+        Json json = new Json();
+        json.toJson(jsonLoadout);
+        return json;
     }
 }

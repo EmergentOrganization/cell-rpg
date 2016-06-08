@@ -6,10 +6,10 @@ package io.github.emergentorganization.cellrpg.events;
 public class EntityEvent {
     public static final int NO_ENTITY = -1;  // value to pass for entityId if event has no entity
 
-    public int entityId;
-    public GameEvent event;
+    public final int entityId;
+    public final GameEvent event;
 
-    public EntityEvent(final int entityId, final GameEvent event){
+    public EntityEvent(final int entityId, final GameEvent event) {
         this.entityId = entityId;
         this.event = event;
     }

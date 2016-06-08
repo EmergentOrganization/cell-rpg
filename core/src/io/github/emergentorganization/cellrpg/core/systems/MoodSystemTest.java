@@ -10,7 +10,7 @@ public class MoodSystemTest {
     @Test
     public void testIntensityLevelScorerMax() {
         MoodSystem moodSystem = new MoodSystem(new EventManager());
-        moodSystem.intensity = moodSystem.MAX_INTENSITY;
+        moodSystem.intensity = MoodSystem.MAX_INTENSITY;
         int res = moodSystem.scoreIntensityLevelOutOf(10);
         assert res == 10;
     }
@@ -18,7 +18,7 @@ public class MoodSystemTest {
     @Test
     public void testIntensityLevelScorerGreaterThanMax() {
         MoodSystem moodSystem = new MoodSystem(new EventManager());
-        moodSystem.intensity = moodSystem.MAX_INTENSITY*2;
+        moodSystem.intensity = MoodSystem.MAX_INTENSITY * 2;
         int res = moodSystem.scoreIntensityLevelOutOf(10);
         assert res == 10;
     }
@@ -26,7 +26,7 @@ public class MoodSystemTest {
     @Test
     public void testIntensityLevelScorerMiddle() {
         MoodSystem moodSystem = new MoodSystem(new EventManager());
-        moodSystem.intensity = moodSystem.MAX_INTENSITY/2;
+        moodSystem.intensity = MoodSystem.MAX_INTENSITY / 2;
         int res = moodSystem.scoreIntensityLevelOutOf(10);
         assert res <= 6 && res >= 4;  // anything 4-6 is fine
     }

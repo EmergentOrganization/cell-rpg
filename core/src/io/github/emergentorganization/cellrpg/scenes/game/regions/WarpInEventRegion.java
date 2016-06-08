@@ -6,15 +6,15 @@ import com.artemis.managers.TagManager;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
+import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
 import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
-import io.github.emergentorganization.cellrpg.core.components.Bounds;
-import io.github.emergentorganization.cellrpg.core.components.Position;
-import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
-import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,33 +22,32 @@ import org.apache.logging.log4j.Logger;
  * Region in which a given set of Entities and/or shapes warp in.
  * Region completed when enough of the warp-ins are destroyed or a timer runs out.
  */
-public class WarpInEventRegion extends TimedRegion{
-
-    public WorldScene scene;
-
-    EntityID[] entityIDs;
-    int[] entityCounts;
-    int[][][] shapes;
-    int[] shapeCounts;
-    int minWarpDuration = 1*1000; // min time to warp-in [s]
-    int maxWarpDuration = 5*1000;  // duration of warp-in (time across which warp-ins will start) [s]
-    public int regionNumber = 0;
-    EntityFactory entityFactory;
+public class WarpInEventRegion extends TimedRegion {
 
     private final Logger logger = LogManager.getLogger(getClass());
+    private WorldScene scene;
+    public int regionNumber = 0;
+    private EntityID[] entityIDs;
+    private int[] entityCounts;
+    private int[][][] shapes;
+    private int[] shapeCounts;
+    private final int minWarpDuration = 1 * 1000; // min time to warp-in [s]
+    private final int maxWarpDuration = 5 * 1000;  // duration of warp-in (time across which warp-ins will start) [s]
+    private EntityFactory entityFactory;
 
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
-                             int regionNumber){
+                             int regionNumber) {
         this(parentScene, entityFactory, expiresIn, new EntityID[]{}, new int[]{}, new int[][][]{}, new int[]{},
                 regionNumber);
     }
-    public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn){
+
+    public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn) {
         this(parentScene, entityFactory, expiresIn, 0);
     }
 
-    public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
-                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
-                             int regionNumber) {
+    private WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
+                              EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts,
+                              int regionNumber) {
         super(expiresIn);
 
         assert entityIDs.length == entityCounts.length;
@@ -65,7 +64,7 @@ public class WarpInEventRegion extends TimedRegion{
     }
 
     public WarpInEventRegion(WorldScene parentScene, EntityFactory entityFactory, final long expiresIn,
-                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts){
+                             EntityID[] entityIDs, int[] entityCounts, int[][][] shapes, int[] shapeCounts) {
         this(parentScene, entityFactory, expiresIn, entityIDs, entityCounts, shapes, shapeCounts, 0);
     }
 
@@ -73,14 +72,14 @@ public class WarpInEventRegion extends TimedRegion{
     }
 
     @Override
-    public boolean readyForNextRegion(World world){
+    public boolean readyForNextRegion(World world) {
         boolean ret = super.readyForNextRegion(world);
-        if (ret == true){
+        if (ret == true) {
             return ret;
         } else {
             // check for ready for next region based on game mood
             int intensity = world.getSystem(MoodSystem.class).scoreIntensityLevelOutOf(10);
-            if (intensity < 2){
+            if (intensity < 2) {
                 // if player has reduced mood intensity rating (by killing or running from enemies):
                 return true;
             }
@@ -90,7 +89,7 @@ public class WarpInEventRegion extends TimedRegion{
 
     @Override
     protected iRegion _getNextRegion() {
-       return getNextWarpIn();
+        return getNextWarpIn();
     }
 
     @Override
@@ -99,42 +98,42 @@ public class WarpInEventRegion extends TimedRegion{
         TagManager tagMan = world.getSystem(TagManager.class);
         Entity player = tagMan.getEntity(Tags.PLAYER);
 
-        for (int idN = 0; idN < entityIDs.length; idN++){
+        for (int idN = 0; idN < entityIDs.length; idN++) {
             scheduleEntityWarps(player, entityIDs[idN], entityCounts[idN], world);
         }
 
-        for (int shapeN = 0; shapeN < shapes.length; shapeN++){
+        for (int[][] shape : shapes) {
 //            scheduleShapeWarps(player, shapes[shapeN], shapeCounts[shapeN]);  // TODO
         }
     }
 
-    private void scheduleEntityWarps(Entity target, EntityID entity, int amount, World world){
+    private void scheduleEntityWarps(Entity target, EntityID entity, int amount, World world) {
         logger.trace("warping in " + amount + " " + entity.toString() + "(s) in next " + maxWarpDuration + "s");
         for (int i = 0; i < amount; i++) {
             int delay = ApparitionCreator.getDelay(minWarpDuration, maxWarpDuration);
 
             ApparitionCreator.apparateGivenEntityIn(entity, delay, world.getSystem(AssetManager.class),
-                                               world.getSystem(RenderSystem.class),
-                                               target.getComponent(EntitySpawnField.class),
-                                               target.getComponent(Position.class),
-                                               target.getComponent(Bounds.class), entityFactory);
+                    world.getSystem(RenderSystem.class),
+                    target.getComponent(EntitySpawnField.class),
+                    target.getComponent(Position.class),
+                    target.getComponent(Bounds.class), entityFactory);
         }
     }
 
-    private iRegion getNextWarpIn(){
+    private iRegion getNextWarpIn() {
         EntityID[] ents = new EntityID[]{};
         int[] entCounts = new int[]{};
-        int[][][] shapes= new int[][][]{};
-        int[] shapeCounts=new int[]{};
+        int[][][] shapes = new int[][][]{};
+        int[] shapeCounts = new int[]{};
 
         final int N_REGION_TYPES = 10;  // # of cases (including default) in switch/case below (hightest # + 1)
-        int regionType = regionNumber%N_REGION_TYPES;
-        int multipler  = regionNumber/N_REGION_TYPES + 1;
+        int regionType = regionNumber % N_REGION_TYPES;
+        int multipler = regionNumber / N_REGION_TYPES + 1;
 
-        switch (regionType){
+        switch (regionType) {
             case -1:  // test region with one of each entity; 0 is typical starting wave
                 ents = new EntityID[]{EntityID.PONDBOMB, EntityID.TUBSNAKE, EntityID.VYRAPUFFER, EntityID.GOSPER};
-                entCounts = new int[]{1                , 1                , 1                  , 1};
+                entCounts = new int[]{1, 1, 1, 1};
                 break;
             case 0:
                 shapes = new int[][][]{CGoLShapeConsts.BLINKER_H, CGoLShapeConsts.BLINKER_V};
@@ -191,13 +190,13 @@ public class WarpInEventRegion extends TimedRegion{
         }
 
         // scale entCounts & shapeCounts using multiplier
-        for (int i=0; i<entCounts.length; i++) {
+        for (int i = 0; i < entCounts.length; i++) {
             entCounts[i] = entCounts[i] * multipler;
         }
-        for (int i=0; i<shapeCounts.length; i++) {
+        for (int i = 0; i < shapeCounts.length; i++) {
             shapeCounts[i] = shapeCounts[i] * multipler;
         }
-        return new WarpInEventRegion(scene, entityFactory, maxLength, ents, entCounts, shapes, shapeCounts, regionNumber+1);
+        return new WarpInEventRegion(scene, entityFactory, maxLength, ents, entCounts, shapes, shapeCounts, regionNumber + 1);
     }
 
 }

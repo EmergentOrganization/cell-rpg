@@ -6,17 +6,17 @@ import com.artemis.annotations.Profile;
 import com.artemis.annotations.Wire;
 import com.artemis.managers.TagManager;
 import com.artemis.systems.IntervalIteratingSystem;
+import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.tools.ApparitionCreator.ApparitionCreator;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.cellrpg.core.components.Bounds;
-import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
-import io.github.emergentorganization.cellrpg.core.components.Position;
-import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class EntitySpawnFieldSystem extends IntervalIteratingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 

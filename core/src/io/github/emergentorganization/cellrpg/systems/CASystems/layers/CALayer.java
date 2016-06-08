@@ -38,11 +38,11 @@ public enum CALayer {
         return map.get(this);
     }
 
-    public EntityID getId(){
+    public EntityID getId() {
         return EntityID.fromString(toString());
     }
 
-    public String getTag(){
+    public String getTag() {
         return toString();
     }
 }

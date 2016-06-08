@@ -5,18 +5,18 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.math.Vector2;
-import io.github.emergentorganization.cellrpg.components.*;
+import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAImpact;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteraction;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
-import io.github.emergentorganization.cellrpg.events.EntityEvent;
-import io.github.emergentorganization.cellrpg.events.GameEvent;
-import io.github.emergentorganization.cellrpg.managers.EventManager;
-import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.core.components.Velocity;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,12 +59,12 @@ public class CAInteractionSystem extends BaseEntitySystem {
         _inserted(pos, bounds, interacts);
     }
 
-    protected void _inserted(Position pos, Bounds bounds, CAInteractionList interacts) {
+    void _inserted(Position pos, Bounds bounds, CAInteractionList interacts) {
         interacts.lastCollisionPosition = pos.getCenter(bounds, 0).cpy();
     }
 
-    protected void processLayer(int entityId, int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
-                                final Vector2 currentPostion) {
+    private void processLayer(int entityId, int collidingLayerId, CAInteractionList interList, Vector2 lastPosition,
+                              final Vector2 currentPostion) {
         logger.trace("checking layer");
         ArrayList<Integer> collidedStates = new ArrayList<Integer>();
 
@@ -101,7 +101,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         // TODO: http://stackoverflow.com/questions/10350258/find-all-tiles-intersected-by-line-segment
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         // process completed for each entity matching filter
         Bounds bounds = bound_m.get(entityId);
         float angle = rot_m.get(entityId).angle;
@@ -127,7 +127,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected void applyCollision(final int entityId, CAInteraction inter, BaseCell cell, Vector2 pos) {
+    private void applyCollision(final int entityId, CAInteraction inter, BaseCell cell, Vector2 pos) {
         // impact the CA
         int state = cell.state;  // copy int here to avoid concurrency issue
         if (state > 0) {
@@ -152,7 +152,7 @@ public class CAInteractionSystem extends BaseEntitySystem {
         }
     }
 
-    protected boolean checkCollideAt(final int entityId, CAInteraction inter, BaseCell cell, Vector2 pos) {
+    private boolean checkCollideAt(final int entityId, CAInteraction inter, BaseCell cell, Vector2 pos) {
         if (inter.collidesWithState(cell.state)) {
             if (cell.state > 0) logger.trace("collide w/ state " + cell.state);
             applyCollision(entityId, inter, cell, pos);

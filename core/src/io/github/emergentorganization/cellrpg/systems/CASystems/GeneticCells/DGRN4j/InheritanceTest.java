@@ -19,7 +19,7 @@ import java.util.List;
 public class InheritanceTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    private DGRN getMockParent1() throws KeySelectorException {
+    private DGRN getMockParent1() {
         AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
         Attribute attr_ActivationValue = attrList.createAttribute(
                 "activation value id",

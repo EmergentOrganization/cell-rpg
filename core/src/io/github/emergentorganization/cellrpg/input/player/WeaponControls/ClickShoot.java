@@ -9,19 +9,19 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import io.github.emergentorganization.cellrpg.core.components.Bounds;
-import io.github.emergentorganization.cellrpg.core.components.InputComponent;
-import io.github.emergentorganization.cellrpg.core.components.Position;
-import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
-import io.github.emergentorganization.cellrpg.input.player.inputUtil;
-import io.github.emergentorganization.cellrpg.managers.EventManager;
-import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
-import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.input.player.iPlayerCtrl;
+import io.github.emergentorganization.cellrpg.input.player.inputUtil;
+import io.github.emergentorganization.cellrpg.managers.EventManager;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 
 /**
  * Click screen to shoot weapon.
@@ -30,7 +30,6 @@ import com.kotcrab.vis.ui.widget.VisWindow;
  * * excludeRadius : radius inside which clicks don't count
  */
 public class ClickShoot extends iPlayerCtrl {
-    private final String NAME = "Click to Shoot";
     private final EntityFactory entityFactory;
     private final Camera camera;
     private final EventManager eventManager;
@@ -44,7 +43,7 @@ public class ClickShoot extends iPlayerCtrl {
 
     @Override
     public String getName() {
-        return NAME;
+        return "Click to Shoot";
     }
 
     public void addInputConfigButtons(VisTable menuTable, final VisWindow menuWindow) {

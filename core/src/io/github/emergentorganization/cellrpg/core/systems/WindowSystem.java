@@ -10,16 +10,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.PauseWindow;
-import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
 @Wire
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class WindowSystem extends BaseSystem {
     private final Logger logger = LogManager.getLogger(getClass());
     private final PixelonTransmission pt;
@@ -31,7 +31,7 @@ public class WindowSystem extends BaseSystem {
     private boolean isPaused = false;
     private VisWindow pauseWindow;
     private TextureRegion cachedBackground;
-    private OrthographicCamera camera;
+    private final OrthographicCamera camera;
 
     public WindowSystem(PixelonTransmission pt, Stage stage, Batch batch) {
         this.pt = pt;

@@ -5,11 +5,11 @@ import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.github.emergentorganization.cellrpg.scenes.game.HUD.DebugDisplay;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
+import io.github.emergentorganization.cellrpg.scenes.game.HUD.DebugDisplay;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.DialogDisplay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,13 +19,13 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class WorldScene extends BaseScene {
     private final Logger logger = LogManager.getLogger(getClass());
-    public DialogDisplay dialogDisplay;
-    public DebugDisplay debugDisplay;
+    public final DialogDisplay dialogDisplay;
+    private final DebugDisplay debugDisplay;
     protected World world;
-    protected SpriteBatch batch;
-    protected EntityFactory entityFactory;
+    private SpriteBatch batch;
+    final EntityFactory entityFactory;
 
-    public WorldScene(final PixelonTransmission pt) {
+    protected WorldScene(final PixelonTransmission pt) {
         super(pt);
         entityFactory = new EntityFactory();
         init(getBaseWorldConfiguration());
@@ -38,7 +38,7 @@ public abstract class WorldScene extends BaseScene {
     /* ====================== INTERFACE METHODS ========================= */
     /* ================================================================== */
 
-    public abstract WorldConfiguration getBaseWorldConfiguration();
+    protected abstract WorldConfiguration getBaseWorldConfiguration();
     // returns world configuration to start from
     // override this to modify world configuration before calling initArtemis()
     // simplest method is just:
@@ -48,7 +48,7 @@ public abstract class WorldScene extends BaseScene {
     /* ================================================================== */
     /* ================================================================== */
 
-    public void init(WorldConfiguration baseConfig) {
+    private void init(WorldConfiguration baseConfig) {
         batch = new SpriteBatch();
         logger.info("WorldScene init!");
         world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, baseConfig);

@@ -16,21 +16,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class BackgroundShader implements PostProcessor {
-    public static final String vertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/background/Background_Vert.glsl").readString();
-    public static final String fragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/background/Background_Frag.glsl").readString();
+    private static final String vertexShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/background/Background_Vert.glsl").readString();
+    private static final String fragShader = Gdx.files.internal(FileStructure.RESOURCE_DIR + "shaders/background/Background_Frag.glsl").readString();
     private final Vector3 color;
-    private ShaderProgram program = new ShaderProgram(vertexShader, fragShader);
-
     private final Logger logger = LogManager.getLogger(WorldFactory.class);
-    private SpriteBatch batch = new SpriteBatch(1, program);
+    private final ShaderProgram program = new ShaderProgram(vertexShader, fragShader);
+    private final SpriteBatch batch = new SpriteBatch(1, program);
     private Vector2 pos;
-    private long startTime = TimeUtils.millis();
+    private final long startTime = TimeUtils.millis();
 
     public BackgroundShader() {
         this(new Vector3(1f, 1f, 1f));
     }
 
-    public BackgroundShader(Vector3 color) {
+    private BackgroundShader(Vector3 color) {
         this.color = color;
 
         try {

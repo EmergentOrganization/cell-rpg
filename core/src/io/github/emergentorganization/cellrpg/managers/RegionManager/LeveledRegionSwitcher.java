@@ -6,6 +6,7 @@ import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
@@ -13,7 +14,6 @@ import io.github.emergentorganization.cellrpg.scenes.game.regions.iRegion;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.cellrpg.core.components.Position;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +40,7 @@ public class LeveledRegionSwitcher extends iRegionManager {
 
     @Override
     public void processSystem() {
-        if (currentRegion == null){  // game just started
+        if (currentRegion == null) {  // game just started
             // add the static background:
             TagManager tagMan = world.getSystem(TagManager.class);
             Entity player = tagMan.getEntity(Tags.PLAYER);
@@ -52,8 +52,8 @@ public class LeveledRegionSwitcher extends iRegionManager {
                     player.getComponent(Position.class).position.cpy().sub(2000 * .025f, 2000 * .025f)  // minus 1/2 texture size
             )
                     .addBuilder(new VisualBuilder()
-                                    .texture(Resources.TEX_BG_ARCADE)
-                                    .renderIndex(RenderIndex.BACKGROUND)
+                            .texture(Resources.TEX_BG_ARCADE)
+                            .renderIndex(RenderIndex.BACKGROUND)
                     )
                     .build();
 

@@ -3,13 +3,13 @@ package io.github.emergentorganization.cellrpg.systems.CASystems.CAs;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 
 
-public class util {
+class util {
     public static int ca_rule(final int row, final int col, CAGridComponents gridComps) {
         // TODO: check gridComps.CARule and execute appropriate rule
         return ca_rule_CGoL(row, col, gridComps);
     }
 
-    public static int ca_rule_CGoL(final int row, final int col, CAGridComponents gridComps) {
+    private static int ca_rule_CGoL(final int row, final int col, CAGridComponents gridComps) {
         // computes the rule at given row, col in cellStates array, returns result
         // Conway's Game of Life:
         switch (getNeighborhoodSum(row, col, 3, gridComps)) {

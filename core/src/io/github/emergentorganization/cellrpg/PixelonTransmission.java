@@ -2,7 +2,9 @@ package io.github.emergentorganization.cellrpg;
 
 import com.artemis.World;
 import com.artemis.managers.TagManager;
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Files;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.graphics.profiling.GLErrorListener;
 import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
+import com.kotcrab.vis.ui.VisUI;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
@@ -25,7 +28,6 @@ import io.github.emergentorganization.cellrpg.tools.Scores;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Secrets;
 import io.github.emergentorganization.cellrpg.tools.physics.BodyEditorLoader;
-import com.kotcrab.vis.ui.VisUI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -46,15 +48,15 @@ public class PixelonTransmission extends Game {
     }
 
     private final Logger logger;
+    private Mixpanel mixpanel;
+    public Scores scores;
+    public int playerScore = 0;
     private AssetManager assetManager;
     private TextureAtlas textureAtlas;
     private FileStructure fileStructure;
     private Skin skin;
     private BodyEditorLoader bodyLoader;
-    public Mixpanel mixpanel;
     private String version;
-    public Scores scores;
-    public int playerScore = 0;
 
     public PixelonTransmission() {
         String logFile = "log4j2.xml";
@@ -111,13 +113,12 @@ public class PixelonTransmission extends Game {
             old.onSceneChange();
             setScreen(sceneKey.getScene(this));
             old.dispose();
-        }
-        else {
+        } else {
             setScreen(sceneKey.getScene(this));
         }
     }
 
-    public void gameOver(World world){
+    public void gameOver(World world) {
         playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
                 .getComponent(StatsTracker.class).getScore();
         WarpInEventRegion warpRegion = (WarpInEventRegion) world.getSystem(LeveledRegionSwitcher.class).currentRegion;
@@ -126,7 +127,7 @@ public class PixelonTransmission extends Game {
         mixpanel.gameOverEvent(playerScore, waveNumber);
     }
 
-    public String loadVersion() {
+    private String loadVersion() {
         Properties props = new Properties();
         File propsFile = Gdx.files.internal(FileStructure.RESOURCE_DIR + "property.settings").file();
         try {
@@ -137,7 +138,7 @@ public class PixelonTransmission extends Game {
             String patch = props.getProperty("patchVersion");
             String revision = props.getProperty("revision");
             reader.close();
-            return major + "." + minor + "." + patch + "+" +  revision;
+            return major + "." + minor + "." + patch + "+" + revision;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -145,7 +146,7 @@ public class PixelonTransmission extends Game {
         return null;
     }
 
-    private void loadMusic(){
+    private void loadMusic() {
         String prefix = FileStructure.RESOURCE_DIR + "sounds/music/";
         String ext = ".ogg";
         String[] musics = {
@@ -197,7 +198,7 @@ public class PixelonTransmission extends Game {
     }
 
     public String getVersion() {
-        if (version == null || version.isEmpty()){
+        if (version == null || version.isEmpty()) {
             version = loadVersion();
         }
         return version;

@@ -16,7 +16,7 @@ import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 
 
 public class ArcadeRegion3 implements iRegion {
-    WorldScene scene;
+    private final WorldScene scene;
 
     public ArcadeRegion3(WorldScene parentScene) {
         super();

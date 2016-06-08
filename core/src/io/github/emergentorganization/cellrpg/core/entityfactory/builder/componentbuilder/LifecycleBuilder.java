@@ -7,7 +7,7 @@ import io.github.emergentorganization.cellrpg.core.components.Lifecycle;
 
 
 public class LifecycleBuilder extends BaseComponentBuilder {
-    private float maxDistanceFromPlayer;  // set to -1 for infinite distance
+    private final float maxDistanceFromPlayer;  // set to -1 for infinite distance
 
     public LifecycleBuilder(float maxDistanceFromPlayer) {
         super(Aspect.all(Lifecycle.class), 0);

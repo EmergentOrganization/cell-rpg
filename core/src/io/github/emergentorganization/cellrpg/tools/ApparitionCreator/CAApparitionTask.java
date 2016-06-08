@@ -10,18 +10,18 @@ import java.util.TimerTask;
 /**
  * defines the appearance of a given pattern onto a CA grid.
  */
-public class CAApparitionTask extends TimerTask {
+class CAApparitionTask extends TimerTask {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    SpontaneousGeneration spontGen;
-    CAGridComponents targetGrid;
+    private final SpontaneousGeneration spontGen;
+    private final CAGridComponents targetGrid;
 
-    public CAApparitionTask(SpontaneousGeneration spontGen, CAGridComponents targetGrid){
+    public CAApparitionTask(SpontaneousGeneration spontGen, CAGridComponents targetGrid) {
         this.spontGen = spontGen;
         this.targetGrid = targetGrid;
     }
 
-    public void run(){
+    public void run() {
         targetGrid.stampCenteredAt(spontGen.stamp, spontGen.position);
     }
 }

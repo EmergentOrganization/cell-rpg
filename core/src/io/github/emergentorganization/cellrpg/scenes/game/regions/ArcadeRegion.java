@@ -6,12 +6,12 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
-import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.LifecycleBuilder;
@@ -32,9 +32,9 @@ import org.apache.logging.log4j.Logger;
  * as an opportunity to modify this region.
  */
 public class ArcadeRegion implements iRegion {
+    private static final int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
     private final Logger logger = LogManager.getLogger(getClass());
-    private static int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
-    WorldScene scene;
+    private final WorldScene scene;
 
     public ArcadeRegion(WorldScene parentScene) {
         super();

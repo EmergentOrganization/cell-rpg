@@ -5,7 +5,7 @@ import com.artemis.BaseSystem;
 /**
  * Interface to define the behavior of a manager for switching between regions within a world.
  */
-public abstract class iRegionManager extends BaseSystem {
+abstract class iRegionManager extends BaseSystem {
 
     @Override
     public void initialize() {

@@ -6,8 +6,8 @@ import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.graphics.Camera;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
-import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
  * Adapted from CAGridBase by 7yl4r on 2015-12-14.
  */
 public class CAPositionSystem extends BaseEntitySystem {
+    private final Logger logger = LogManager.getLogger(getClass());
     // artemis-injected entity components:
     private CameraSystem cameraSystem;
     private ComponentMapper<CAGridComponents> CAComponent_m;
@@ -36,7 +37,7 @@ public class CAPositionSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         CAGridComponents gridComps = CAComponent_m.get(entityId);
         gridFollow(gridComps, cameraSystem.getGameCamera());
     }
@@ -154,6 +155,4 @@ public class CAPositionSystem extends BaseEntitySystem {
             return 1;
         }
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

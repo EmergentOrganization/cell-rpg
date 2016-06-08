@@ -13,13 +13,12 @@ import org.apache.logging.log4j.Logger;
 /**
  * Region in which a single entity is periodically warped in.
  */
-public class SingleEntityWarpRegion extends TimedRegion{
-
-    public WorldScene scene;
-    public EntityID entityID;
-    public float spawnFreq;
+public class SingleEntityWarpRegion extends TimedRegion {
 
     private final Logger logger = LogManager.getLogger(getClass());
+    public final WorldScene scene;
+    private final EntityID entityID;
+    private final float spawnFreq;
 
     public SingleEntityWarpRegion(WorldScene parentScene, final long expiresIn, final float spawnFreq, EntityID entityID) {
         super(expiresIn);
@@ -40,8 +39,8 @@ public class SingleEntityWarpRegion extends TimedRegion{
         setupEntitySpawner(player);
     }
 
-    private void setupEntitySpawner(Entity player){
-        logger.trace("new entity spawn region f="+spawnFreq);
+    private void setupEntitySpawner(Entity player) {
+        logger.trace("new entity spawn region f=" + spawnFreq);
         EntitySpawnField field = player.getComponent(EntitySpawnField.class);
         field.entityList.clear();
         field.entityList.add(entityID);

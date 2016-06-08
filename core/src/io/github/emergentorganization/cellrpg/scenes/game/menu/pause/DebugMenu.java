@@ -21,14 +21,14 @@ public class DebugMenu extends Submenu {
         final Preferences prefs = GameSettings.getPreferences();
         final String prefix = "devMode:";
 
-        final VisTextButton devMode = new VisTextButton(prefix+GameSettings.devMode());
+        final VisTextButton devMode = new VisTextButton(prefix + GameSettings.devMode());
         menuTable.add(devMode).pad(0f, 0f, 5f, 0f).fill(true, false).row();
-        devMode.addListener(new ClickListener(){
+        devMode.addListener(new ClickListener() {
             @Override
-        public void clicked(InputEvent event, float x, float y){
+            public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 prefs.putBoolean(GameSettings.KEY_DEV_DEVMODE, !GameSettings.devMode());
-                devMode.setText(prefix+GameSettings.devMode());
+                devMode.setText(prefix + GameSettings.devMode());
             }
         });
     }

@@ -3,11 +3,11 @@ package io.github.emergentorganization.cellrpg.systems.CASystems;
 /**
  * key which identifies a single CA cell (by it's x,y and cellLayer attributes) to be used in a HashMap
  */
-public class CACellKey {
+class CACellKey {
 
-    public final int x;
-    public final int y;
-    public final int layer;
+    private final int x;
+    private final int y;
+    private final int layer;
 
     public CACellKey(int x, int y, int layer) {
         this.x = x;
@@ -25,8 +25,7 @@ public class CACellKey {
 
     @Override
     public int hashCode() {
-        int result = 1031 * layer + 31 * x + y;
-        return result;
+        return 1031 * layer + 31 * x + y;
     }
 
 }

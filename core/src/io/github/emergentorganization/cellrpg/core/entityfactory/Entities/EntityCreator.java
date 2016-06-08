@@ -8,7 +8,7 @@ import com.artemis.Entity;
 public abstract class EntityCreator {
     Entity ent;  // instance of entity which is being created
 
-    public int getId(){
+    public int getId() {
         // returns id of the entity which has been created
         return ent.getId();
     }

@@ -7,7 +7,7 @@ import io.github.emergentorganization.cellrpg.components.Health;
 
 
 public class HealthBuilder extends BaseComponentBuilder {
-    private int health;
+    private final int health;
     private int maxHealth;  // defaults to full health unless other given.
 
     public HealthBuilder(int health) {

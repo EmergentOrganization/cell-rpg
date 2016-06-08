@@ -97,8 +97,8 @@ public class BodyEditorLoader {
             fd.shape = polygonShape;
             body.createFixture(fd);
 
-            for (int ii = 0, nn = vertices.length; ii < nn; ii++) {
-                free(vertices[ii]);
+            for (Vector2 vertex : vertices) {
+                free(vertex);
             }
         }
 
@@ -211,7 +211,7 @@ public class BodyEditorLoader {
     private Vector2 newVec() {
         try {  // use try/catch here since mutlithread behavior is a bit unpredictable
             return vectorPool.remove(0);
-        } catch(IndexOutOfBoundsException ex){
+        } catch (IndexOutOfBoundsException ex) {
             return new Vector2();
         }
     }

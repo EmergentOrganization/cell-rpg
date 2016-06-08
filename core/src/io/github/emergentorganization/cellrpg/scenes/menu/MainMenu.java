@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
-import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
+import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +23,6 @@ public class MainMenu extends WorldScene {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final float tableMargin;
-    private Table table;
 
     public MainMenu(PixelonTransmission pt) {
         super(pt);
@@ -47,7 +46,7 @@ public class MainMenu extends WorldScene {
     private void initUI() {
         Skin s = pt.getUISkin();
 
-        table = new Table(s);
+        Table table = new Table(s);
         table.row();
 
         // title
@@ -120,7 +119,7 @@ public class MainMenu extends WorldScene {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     WindowSystem winSys = world.getSystem(WindowSystem.class);
-                    if (winSys.isPaused()){
+                    if (winSys.isPaused()) {
                         winSys.onResume();  // exit menu if already open
                     } else {
                         winSys.onPause();  // pause when clicked
@@ -171,7 +170,7 @@ public class MainMenu extends WorldScene {
             stage.addActor(versionInfo);
         }
 
-        if (GameSettings.getPreferences().getBoolean(GameSettings.KEY_FIRST_START, true)){
+        if (GameSettings.getPreferences().getBoolean(GameSettings.KEY_FIRST_START, true)) {
             logger.trace("starting firstStart window");
             new FirstStartWindow(stage, world, pt);
         } else {
@@ -181,9 +180,8 @@ public class MainMenu extends WorldScene {
 
     @Override
     public WorldConfiguration getBaseWorldConfiguration() {
-        WorldConfiguration wc = new WorldConfiguration();
         // TODO: set up main menu visuals
-        return wc;
+        return new WorldConfiguration();
     }
 
 }

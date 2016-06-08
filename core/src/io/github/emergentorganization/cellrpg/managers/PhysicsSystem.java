@@ -26,14 +26,15 @@ public class PhysicsSystem extends BaseEntitySystem {
     private final BodyEditorLoader bodyLoader;
     private final World physWorld;
     private final Box2DDebugRenderer renderer;
+    private final Logger logger = LogManager.getLogger(getClass());
     private CameraSystem cs;
-    private Batch batch;
+    private final Batch batch;
     private AssetManager assetManager;
     private ComponentMapper<Visual> vm;
     private ComponentMapper<Bounds> bm;
     private ComponentMapper<PhysicsBody> pm;
     private ComponentMapper<Lifecycle> lm;
-    private HashMap<Integer, Body> bodies;
+    private final HashMap<Integer, Body> bodies;
     private boolean shouldRender = false;
 
     public PhysicsSystem(BodyEditorLoader bodyLoader, @Nullable Batch batch) {
@@ -58,7 +59,7 @@ public class PhysicsSystem extends BaseEntitySystem {
         return body;
     }
 
-    private Body createEmptyBody(int entityId, BodyDef bd) throws IllegalArgumentException{
+    private Body createEmptyBody(int entityId, BodyDef bd) throws IllegalArgumentException {
         if (!pm.has(entityId))
             throw new RuntimeException("Cannot create a body for an entity without a PhysicsBody component");
 
@@ -66,8 +67,8 @@ public class PhysicsSystem extends BaseEntitySystem {
             Body body = physWorld.createBody(bd);
             body.setUserData(entityId);
             return body;
-        } catch(NullPointerException ex){
-            if (bd == null){
+        } catch (NullPointerException ex) {
+            if (bd == null) {
                 logger.error("cannot create body with null bodyDef", ex);
             } else {
                 logger.error("error creating body", ex);
@@ -91,6 +92,7 @@ public class PhysicsSystem extends BaseEntitySystem {
                 origin.x, b.height + origin.y
         });
         fd.shape = rect;
+        assert body != null;
         body.createFixture(fd);
         bodies.put(entityId, body);
         return body;
@@ -131,12 +133,12 @@ public class PhysicsSystem extends BaseEntitySystem {
     protected void removed(int entityId) {
         try {
             removeBody(entityId);
-        } catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             logger.error("ERR: NullPtr; cannot remove physics body.", ex);
         }
     }
 
-    public void removeBody(int entityId) {
+    private void removeBody(int entityId) {
         Body body = getBody(entityId);
         physWorld.destroyBody(body);
         bodies.remove(entityId);
@@ -166,6 +168,4 @@ public class PhysicsSystem extends BaseEntitySystem {
         else
             logger.error("Cannot enable physics rendering without a specifying a batch in the constructor!");
     }
-
-    private final Logger logger = LogManager.getLogger(getClass());
 }

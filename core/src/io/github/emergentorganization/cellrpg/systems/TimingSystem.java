@@ -16,14 +16,12 @@ import java.util.TimerTask;
  * <br>
  */
 public class TimingSystem extends BaseSystem {
-    public static long LOOP_DURATION = 30 * 1000; // loops must be this length!
-
-    private long _lastLoopTime;  // last time we looped around
-    private Timer timer = new Timer();
-    boolean scheduled = false;
-
+    private static final long LOOP_DURATION = 30 * 1000; // loops must be this length!
     private final Logger logger = LogManager.getLogger(getClass());
     private final ArrayList<Runnable> tasks = new ArrayList<Runnable>();
+    private boolean scheduled = false;
+    private long _lastLoopTime;  // last time we looped around
+    private final Timer timer = new Timer();
 
     public TimingSystem() {
         _lastLoopTime = System.currentTimeMillis();
@@ -32,8 +30,8 @@ public class TimingSystem extends BaseSystem {
     public long getTimeToNextMeasure() {
         // return the number of ms until the next measure
         long res = getNextLoopTime() - System.currentTimeMillis();
-        logger.trace("time to next measure: "  + res);
-        if (res > 0){
+        logger.trace("time to next measure: " + res);
+        if (res > 0) {
             return res;
         } else {
             loop();
@@ -46,19 +44,19 @@ public class TimingSystem extends BaseSystem {
         return System.currentTimeMillis() - getLastLoopTime();
     }
 
-    public long getNextLoopTime(){
+    private long getNextLoopTime() {
         // return unix time of next loop
         return getLastLoopTime() + LOOP_DURATION;
     }
 
-    public void runLater(Runnable task) {
+    private void runLater(Runnable task) {
         synchronized (tasks) {
             tasks.add(task);
         }
     }
 
     @Override
-    public void processSystem(){
+    public void processSystem() {
         // Run currently queued tasks
         synchronized (tasks) {
             for (Runnable task : tasks) {
@@ -67,16 +65,16 @@ public class TimingSystem extends BaseSystem {
             tasks.clear();
         }
 
-        if (!scheduled){
+        if (!scheduled) {
             timer.schedule(new ReLoop(), LOOP_DURATION);
             scheduled = true;
         }
     }
 
-    private long getLastLoopTime(){
+    private long getLastLoopTime() {
         // use this getter instead of the attribute so we can ensure that we never wait too long before looping
         long nextTime = _lastLoopTime + LOOP_DURATION;
-        if (nextTime > 0){
+        if (nextTime > 0) {
             return _lastLoopTime;
         } else {
             loop();
@@ -84,12 +82,12 @@ public class TimingSystem extends BaseSystem {
         }
     }
 
-    private void loop(){
+    private void loop() {
         _lastLoopTime = System.currentTimeMillis();
         scheduled = false;
     }
 
-    class ReLoop extends TimerTask {
+    private class ReLoop extends TimerTask {
         public void run() {
             runLater(new Runnable() {
                 @Override

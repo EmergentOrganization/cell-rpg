@@ -16,15 +16,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
-import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.core.components.Scale;
 import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
+import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
+import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +31,7 @@ import java.util.*;
 
 
 @Wire
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class RenderSystem extends BaseEntitySystem {
     private final Logger logger = LogManager.getLogger(getClass());
 
@@ -51,10 +50,10 @@ public class RenderSystem extends BaseEntitySystem {
     private TagManager tagManager;
     private boolean bgShaderEnabled = false;
     private boolean tronShaderEnabled = false;
-    private Batch outBatch;
+    private final Batch outBatch;
 
     // list of particleEffects with no parent entity
-    private ArrayList<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
+    private final ArrayList<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
 
     public RenderSystem(SpriteBatch batch) {
         super(Aspect.all(Position.class, Rotation.class, Scale.class, Visual.class));  // TODO: .one(Visual.class, Particles.class)
@@ -68,7 +67,7 @@ public class RenderSystem extends BaseEntitySystem {
         fboRegion.flip(false, true); // FBO uses lower left, TextureRegion uses upper-left
     }
 
-    public void registerOrphanParticleEffect(ParticleEffect effect){
+    public void registerOrphanParticleEffect(ParticleEffect effect) {
         // registers an (entity-parent)-less particle effect for drawing
         particleEffects.add(effect);
     }
@@ -100,8 +99,8 @@ public class RenderSystem extends BaseEntitySystem {
         // render non-entity particle effects:
         ArrayList<ParticleEffect> delQueue = new ArrayList<ParticleEffect>();
         logger.trace("rendering " + particleEffects.size() + " orphan particle effects");
-        for (ParticleEffect p : particleEffects){
-            if(p.isComplete()){
+        for (ParticleEffect p : particleEffects) {
+            if (p.isComplete()) {
                 p.dispose();
                 delQueue.add(p);
             } else {
@@ -110,12 +109,12 @@ public class RenderSystem extends BaseEntitySystem {
             }
         }
         logger.trace(delQueue.size() + " particle effects complete; removing.");
-        for (ParticleEffect dp : delQueue){
+        for (ParticleEffect dp : delQueue) {
             particleEffects.remove(dp);
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         Visual v = vm.get(entityId);
         Position p = pm.get(entityId);
         Scale s = sm.get(entityId);

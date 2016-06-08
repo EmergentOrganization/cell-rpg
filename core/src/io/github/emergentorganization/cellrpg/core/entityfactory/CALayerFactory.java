@@ -9,12 +9,12 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.CellType;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.CellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.CellRenderers.DecayCellRenderer;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
-import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
-import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 
 /**
  * !!! DISCLAIMER: despite the name, this does not follow the factory pattern. !!! TODO: rename
@@ -27,7 +27,7 @@ import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 public class CALayerFactory {
 
     public static Entity buildLayer(World world, Vector2 pos, Archetype layer_arch,
-                                  String descr, String tag, CALayer layer){
+                                    String descr, String tag, CALayer layer) {
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
         Entity vyroidLayer = new EntityBuilder(world, layer_arch, descr,
                 layer.toString(), pos)
@@ -37,8 +37,8 @@ public class CALayerFactory {
         CALayerFactory.initLayerComponentsByType(vyroidLayerStuff, layer, camera);
         try {
             vyroidLayerStuff.intensityPerCell = MoodSystem.CA_INTENSITY_MAP.get(tag);
-        } catch (NullPointerException ex){
-            ; // this layer has no effect on intensity (no problem)
+        } catch (NullPointerException ex) {
+            // this layer has no effect on intensity (no problem)
         }
 
         return vyroidLayer;

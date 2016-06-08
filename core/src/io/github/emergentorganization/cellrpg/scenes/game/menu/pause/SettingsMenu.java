@@ -10,7 +10,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 
 public class SettingsMenu extends Submenu {
 
-    World world;
+    private final World world;
     private CameraSettingsMenu cameraMenu;
     private MovementSettingsMenu moveMenu;
     private GraphicsSettingsMenu graphicsMenu;
@@ -49,7 +49,7 @@ public class SettingsMenu extends Submenu {
         if (cameraMenu != null) {
             cameraMenu.closeSubmenu();
         }
-        if (graphicsMenu != null){
+        if (graphicsMenu != null) {
             graphicsMenu.closeSubmenu();
         }
     }

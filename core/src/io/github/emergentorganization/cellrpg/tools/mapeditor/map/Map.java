@@ -5,7 +5,7 @@ import com.artemis.Entity;
 import java.util.ArrayList;
 
 
-public class Map {
+class Map {
     private ArrayList<Entity> entities = new ArrayList<Entity>();
 
     public ArrayList<Entity> getEntities() {

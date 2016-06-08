@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 
 // TODO: use DelayedIteratingSystem instead
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class TimedDestructionSystem extends IntervalEntityProcessingSystem {
     private final Logger logger = LogManager.getLogger(getClass());
 

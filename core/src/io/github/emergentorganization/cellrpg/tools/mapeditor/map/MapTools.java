@@ -4,14 +4,14 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.components.Name;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.core.components.Scale;
-import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.systems.RenderSystem;
+import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,9 +28,10 @@ import java.util.LinkedHashMap;
 
 public class MapTools {
 
-    public static String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
-    public static String EXTENSION = ".json";
-    public static EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
+    private static final Logger logger = LogManager.getLogger(MapTools.class);
+    public static final String FOLDER_ROOT = Gdx.files.getLocalStoragePath() + FileStructure.RESOURCE_DIR + "maps/";
+    public static final String EXTENSION = ".json";
+    private static final EnumMap<EntityID, Void> ENTITY_BLACKLIST = new EnumMap<EntityID, Void>(EntityID.class); // Using Map for contains API
 
     static {
         ENTITY_BLACKLIST.put(EntityID.PLAYER_SHIELD, null);
@@ -90,7 +91,8 @@ public class MapTools {
 
         for (Integer id : world.getSystem(RenderSystem.class).getSortedEntityIds()) {
             Entity entity = world.getEntity(id);
-            if (!ENTITY_BLACKLIST.containsKey(entity.getComponent(Name.class).internalID)) {
+            String strId = entity.getComponent(Name.class).internalID;
+            if (!ENTITY_BLACKLIST.containsKey(EntityID.fromString(strId))) {
                 entityList.add(exportEntity(entity));
             }
         }
@@ -110,10 +112,9 @@ public class MapTools {
             writer.close();
 
         } catch (FileNotFoundException e) {
-
-
+            logger.error("Could not write map to path: ", e);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
     }
 
@@ -133,16 +134,14 @@ public class MapTools {
 
         return map;
     }
-
-    private static final Logger logger = LogManager.getLogger(MapTools.class);
 }
 
 class JSONKey {
-    public static String TYPE = "type";
-    public static String ENTITIES = "entities";
-    public static String POSITION_X = "positionX";
-    public static String POSITION_Y = "positionY";
-    public static String ROTATION = "rotation";
-    public static String SCALE_X = "scaleX";
-    public static String SCALE_Y = "scaleY";
+    public static final String TYPE = "type";
+    public static final String ENTITIES = "entities";
+    public static final String POSITION_X = "positionX";
+    public static final String POSITION_Y = "positionY";
+    public static final String ROTATION = "rotation";
+    public static final String SCALE_X = "scaleX";
+    public static final String SCALE_Y = "scaleY";
 }

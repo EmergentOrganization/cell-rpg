@@ -23,10 +23,10 @@ import org.apache.logging.log4j.Logger;
  */
 
 public class CAGridComponents extends Component {
-    public static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
+    private static final int OFF_SCREEN_PIXELS = 200;  // number of pixels off screen edge to run CA grid
     private final Logger logger = LogManager.getLogger(getClass());
     public long TIME_BTWN_GENERATIONS = 100;  // ms time in between generation() calls
-    public float SCALE = .025f;  // empirically derived constant... why is it this? idk...
+    public final float SCALE = .025f;  // empirically derived constant... why is it this? idk...
 
     // location of grid center
     public float gridOriginX = 0;
@@ -47,12 +47,12 @@ public class CAGridComponents extends Component {
     public CAEdgeSpawnType edgeSpawner = CAEdgeSpawnType.EMPTY;
     public Color[] stateColorMap;
     public long generation = 0;
-    public int stampCount = 0;
+    private int stampCount = 0;
     // === NOTE: these used by Genetic Cell NewCell only: ===
     public int lastBuilderStamp = 0;
     private int selectedBuilder = 0;
     // list of cells used to seed when stamps are placed:
-    private GeneticNetworkBuilderInterface[] builders = new GeneticNetworkBuilderInterface[]{
+    private final GeneticNetworkBuilderInterface[] builders = new GeneticNetworkBuilderInterface[]{
             //new CellAlpha(),
             new AgeDarkener(),
             new MrBlue(),
@@ -114,12 +114,12 @@ public class CAGridComponents extends Component {
         //randomizeState(gridComponents);
     }
 
-    public int getLastState_noBuffer(final int row, final int col) {
+    private int getLastState_noBuffer(final int row, final int col) {
         // with no buffer there is no last state, just use current
         return getState(row, col);
     }
 
-    public int getLastState_buffered(final int row, final int col) {
+    private int getLastState_buffered(final int row, final int col) {
         try {
             CellWithHistory cell = (CellWithHistory) states[row][col];
             return cell.getLastState();
@@ -128,12 +128,12 @@ public class CAGridComponents extends Component {
         }
     }
 
-    public int getSizeX() {
+    private int getSizeX() {
         // returns grid size (number of cells) in x-dimension
         return states.length;
     }
 
-    public int getSizeY() {
+    private int getSizeY() {
         // returns grid size (number of cells) in y-dimension
         return states[0].length;
     }
@@ -200,7 +200,7 @@ public class CAGridComponents extends Component {
         return pos;
     }
 
-    public long stampCenteredAt(final int[][] pattern, int row, int col) {
+    private long stampCenteredAt(final int[][] pattern, int row, int col) {
         //center the pattern
         row -= pattern.length / 2;
         col -= pattern[0].length / 2;
@@ -211,7 +211,7 @@ public class CAGridComponents extends Component {
         // stamps a pattern onto the grid centered at the nearest grid cells to the given world position
         int row = getIndexOfX(position.x);
         int col = getIndexOfY(position.y);
-        logger.trace("("+position.x + "," + position.y + ")==>(" + row + "," + col + ")");
+        logger.trace("(" + position.x + "," + position.y + ")==>(" + row + "," + col + ")");
         return stampCenteredAt(pattern, row, col);
     }
 
@@ -275,7 +275,7 @@ public class CAGridComponents extends Component {
         logger.trace(pattern.length + "x" + pattern[0].length + " CA stamp applied!");
     }
 
-    protected int _getState(final int row, final int col) {
+    private int _getState(final int row, final int col) {
         // returns state, throws exception if out of bounds
         return states[row][col].getState();
     }

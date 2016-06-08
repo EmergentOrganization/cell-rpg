@@ -5,11 +5,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import io.github.emergentorganization.cellrpg.PixelonTransmission;
-import io.github.emergentorganization.cellrpg.scenes.Scene;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.scenes.Scene;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +20,6 @@ public class PauseWindow extends VisWindow {
     private final SettingsMenu settingsMenu;
     private final DebugMenu debugMenu;
     private final EquipmentMenu equipmentMenu;
-    private final PixelonTransmission pt;
 
     public PauseWindow(final PixelonTransmission pt, final Stage stage, World world) {
         super("", false);
@@ -28,7 +27,6 @@ public class PauseWindow extends VisWindow {
         logger.debug("enter pause menu");
 
         VisTable table = new VisTable();
-        this.pt = pt;
         this.setFillParent(false);
         this.centerWindow();
         this.add(table);

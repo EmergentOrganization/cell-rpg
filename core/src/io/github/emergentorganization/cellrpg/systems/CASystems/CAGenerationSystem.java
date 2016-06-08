@@ -6,21 +6,19 @@ import com.artemis.ComponentMapper;
 import com.artemis.annotations.Profile;
 import com.artemis.utils.IntBag;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
-import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.EnumMap;
-import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -28,19 +26,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * Handles CA grid state generations and initialization.
  */
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class CAGenerationSystem extends BaseEntitySystem {
     private static final EnumMap<CA, iCA> CAs = CA.getCAMap();
     private static final int THREAD_NUM = Runtime.getRuntime().availableProcessors();
-
+    private final Logger logger = LogManager.getLogger(getClass());
     // artemis-injected entity components:
     private ComponentMapper<CAGridComponents> CAComponent_m;
     private CameraSystem cameraSystem;
     private MoodSystem moodSystem;
     private EventManager eventManager;
-    private ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREAD_NUM - 1);
-
-    private final Logger logger = LogManager.getLogger(getClass());
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREAD_NUM - 1);
 
     public CAGenerationSystem() {
         super(Aspect.all(CAGridComponents.class));
@@ -55,7 +51,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
 
         // TODO: manage generation tasks somehow?
@@ -78,7 +74,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         }
     }
 
-    public void generate(CAGridComponents gridComps, final int entId) {
+    private void generate(CAGridComponents gridComps, final int entId) {
         _generate(eventManager, gridComps, entId);
     }
 
@@ -187,9 +183,9 @@ public class CAGenerationSystem extends BaseEntitySystem {
     }
 
     class GenerateTask extends TimerTask {
-        private CAGenerationSystem genSys;
-        private CAGridComponents gridComp;
-        private int entId;
+        private final CAGenerationSystem genSys;
+        private final CAGridComponents gridComp;
+        private final int entId;
 
         public GenerateTask(CAGenerationSystem genSys, CAGridComponents gridComp, final int entId) {
             this.entId = entId;

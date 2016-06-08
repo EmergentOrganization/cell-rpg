@@ -14,28 +14,28 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.*;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
 import io.github.emergentorganization.cellrpg.core.components.Scale;
-import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.tools.FileListNode;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.EditorTarget;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.MapEditor;
 import io.github.emergentorganization.cellrpg.tools.mapeditor.map.MapTools;
-import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.widget.*;
 
 
 public class EditorWindow {
-    public static float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
-    public static float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;
-    public static float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
-    public static float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
-    public static float SAVE_WINDOW_WIDTH = Gdx.graphics.getWidth() / 6f;
-    public static float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
+    private static final float LEFT_PANEL_HEIGHT = Gdx.graphics.getHeight();
+    private static final float LEFT_PANEL_WIDTH = Gdx.graphics.getWidth() / 8f;
+    private static final float MENU_BAR_HEIGHT = Gdx.graphics.getHeight() / 19f;
+    private static final float MENU_BAR_WIDTH = Gdx.graphics.getWidth() - LEFT_PANEL_WIDTH;
+    private static final float SAVE_WINDOW_WIDTH = Gdx.graphics.getWidth() / 6f;
+    private static final float SAVE_WINDOW_HEIGHT = SAVE_WINDOW_WIDTH / 1.5f;
     private final Stage stage;
     private final MapEditor editor;
     private final PixelonTransmission pt;
@@ -358,11 +358,11 @@ public class EditorWindow {
         contextMenu.showMenu(stage, pos.x, pos.y);
     }
 
-    public void closeContextMenu() {
+    private void closeContextMenu() {
         contextMenu.remove();
     }
 
-    public void setSaveWindowVisible(boolean show) {
+    private void setSaveWindowVisible(boolean show) {
         if (show) {
             stage.addActor(saveWindow);
             saveWindow.fadeIn();
@@ -372,7 +372,7 @@ public class EditorWindow {
         editor.setMapInput(!show);
     }
 
-    public void setLoadWindowVisible(boolean show) {
+    private void setLoadWindowVisible(boolean show) {
         if (show) {
             stage.addActor(loadWindow);
             importList.setItems(editor.getMaps());

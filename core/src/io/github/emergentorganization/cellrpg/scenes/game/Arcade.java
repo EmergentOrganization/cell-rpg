@@ -4,14 +4,14 @@ import com.artemis.Entity;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 import io.github.emergentorganization.cellrpg.core.EntityID;
-import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
-import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.ScoreDisplay;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,12 +19,12 @@ import org.apache.logging.log4j.Logger;
  * Arcade scene with immobile camera and survival gameplay.
  */
 public class Arcade extends WorldScene {
-    private final Logger logger = LogManager.getLogger(getClass());
 
-    ScoreDisplay scoreDisplay;
+    private final ScoreDisplay scoreDisplay;
 
     public Arcade(PixelonTransmission pt) {
         super(pt);
+        Logger logger = LogManager.getLogger(getClass());
         logger.info("enter arcade mode");
 
         WorldFactory.setupStandardEventSystem(world, pt);
@@ -64,7 +64,7 @@ public class Arcade extends WorldScene {
     public WorldConfiguration getBaseWorldConfiguration() {
         WorldConfiguration wc = new WorldConfiguration();
         // for using WarpInEventRegions:
-        int maxTimeInRegion = 3*60*1000;  // max time before region moves ahead anyway [ms]
+        int maxTimeInRegion = 3 * 60 * 1000;  // max time before region moves ahead anyway [ms]
         wc.setSystem(new LeveledRegionSwitcher(new WarpInEventRegion(
                 this, entityFactory, maxTimeInRegion, 0)));  // -1 to use test region, 0 is typical starting wave
 //        // for using SingleShapeWarp and SingleEntityWarp Regions:

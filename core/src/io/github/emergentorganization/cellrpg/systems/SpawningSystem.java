@@ -29,7 +29,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Static methods for warping in entities to appear in the game.<br>
+ * System for warping in entities to appear in the game.<br>
  * Why?<br>
  * This should help add pre-warp particle effects and sounds.<br>
  * It may also be useful to allow us to time warp-ins to sync<br>

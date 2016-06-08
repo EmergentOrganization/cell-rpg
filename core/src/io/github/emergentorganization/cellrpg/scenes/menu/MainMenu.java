@@ -29,7 +29,7 @@ public class MainMenu extends WorldScene {
     private final float tableMargin;
 
     public MainMenu(PixelonTransmission pt) {
-        super(pt, WorldType.STANDARD);
+        super(pt, WorldType.STANDARD); // TODO: Make new WorldType specifically for MainMenu CAs
 
         this.tableMargin = stage.getWidth() * 0.015f;
     }
@@ -181,20 +181,4 @@ public class MainMenu extends WorldScene {
             logger.trace("not first start");
         }
     }
-
-    private WorldConfiguration getBaseWorldConfiguration() {
-        // TODO: set up main menu visuals
-
-        WorldConfiguration wc = new WorldConfiguration();
-        // for using WarpInEventRegions:
-        int maxTimeInRegion = 3 * 60 * 1000;  // max time before region moves ahead anyway [ms]
-        wc.setSystem(new LeveledRegionSwitcher(maxTimeInRegion, 0));  // -1 to use test region, 0 is typical starting wave
-//        // for using SingleShapeWarp and SingleEntityWarp Regions:
-//        wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(
-//                this, 10*1000, CGoLShapeConsts.BLINKER_H, .5f, CALayer.vyroid_values()
-//        )));
-
-        return new WorldConfiguration();
-    }
-
 }

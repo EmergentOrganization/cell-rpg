@@ -22,8 +22,8 @@ public class EntitySpawnField extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public float radius = 1;  // area around entity which may be spawned
-    public float frequency = -1;  // how often the spawn will occur
-    private int sinceLastSpawnCounter = 0;  // counter for determining when it's time to spawn
+    public long period = -1;  // how often the spawn will occur [ms]
+    private long lastSpawn = 0;  // counter for determining when it's time to spawn
 
     public final ArrayList<EntityID> entityList = new ArrayList<EntityID>();  // list entity classes that may be spawned
 
@@ -52,19 +52,18 @@ public class EntitySpawnField extends Component {
      */
     public EntityID getSpawnableEntity() {
         // returns true if it is time to spawn entity.
-        boolean ready = !entityList.isEmpty() && TimingUtils.readyForPeriodicEvent(frequency, sinceLastSpawnCounter);
+        boolean ready = !entityList.isEmpty()
+                && period > 0
+                && System.currentTimeMillis()-lastSpawn > period
+        ;
 
         if (ready) {
-            sinceLastSpawnCounter = 0; // safe to assume this constitutes a spawn event?
+            lastSpawn = System.currentTimeMillis(); // safe to assume this constitutes a spawn event?
             int ent_i = (int) (Math.random() * entityList.size());
             return entityList.get(ent_i);
         }
         else {
             return null;
         }
-    }
-
-    public void tick() {
-        sinceLastSpawnCounter += 1;
     }
 }

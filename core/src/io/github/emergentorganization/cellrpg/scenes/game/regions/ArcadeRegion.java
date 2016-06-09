@@ -99,13 +99,13 @@ public class ArcadeRegion implements iRegion {
         adjustCABoundaries(score, tagMan);
     }
 
-    private int getPowerupFreq(int score) {
-        return 99 / (500 * SCL) * score + 1;
+    private int getPowerupPeriod(int score) {
+        return score/1000 + 1;
     }
 
     private void adjustPowerups(int score, Entity player) {
         EntitySpawnField spawnField = player.getComponent(EntitySpawnField.class);
-        spawnField.frequency = getPowerupFreq(score);
+        spawnField.period = getPowerupPeriod(score);
         if (score > 20 * SCL) {
             spawnField.entityList.add(EntityID.VYRAPUFFER);
         } else if (score > 10 * SCL) {

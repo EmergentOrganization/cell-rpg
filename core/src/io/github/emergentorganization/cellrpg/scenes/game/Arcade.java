@@ -54,7 +54,7 @@ public class Arcade extends WorldScene {
         spawnField.entityList.clear();
         spawnField.entityList.add(EntityID.POWERUP_STAR);
         spawnField.entityList.add(EntityID.POWERUP_PLUS);
-        spawnField.frequency = .05f;
+        spawnField.period = 5000;
 
         logger.debug("done init arcade world");
     }

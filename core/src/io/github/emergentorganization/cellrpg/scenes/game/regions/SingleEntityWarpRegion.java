@@ -18,13 +18,13 @@ public class SingleEntityWarpRegion extends TimedRegion {
     private final Logger logger = LogManager.getLogger(getClass());
     public final WorldScene scene;
     private final EntityID entityID;
-    private final float spawnFreq;
+    private final long spawnPeriod;
 
-    public SingleEntityWarpRegion(WorldScene parentScene, final long expiresIn, final float spawnFreq, EntityID entityID) {
+    public SingleEntityWarpRegion(WorldScene parentScene, final long expiresIn, final long spawnPeriod, EntityID entityID) {
         super(expiresIn);
         scene = parentScene;
         this.entityID = entityID;
-        this.spawnFreq = spawnFreq;
+        this.spawnPeriod = spawnPeriod;
     }
 
     public void loadRegion(World world) {
@@ -40,10 +40,10 @@ public class SingleEntityWarpRegion extends TimedRegion {
     }
 
     private void setupEntitySpawner(Entity player) {
-        logger.trace("new entity spawn region f=" + spawnFreq);
+        logger.trace("new entity spawn region T=" + spawnPeriod);
         EntitySpawnField field = player.getComponent(EntitySpawnField.class);
         field.entityList.clear();
         field.entityList.add(entityID);
-        field.frequency = spawnFreq;
+        field.period = spawnPeriod;
     }
 }

@@ -82,8 +82,6 @@ public class SpawningSystem extends BaseEntitySystem {
             Position pos = positionMap.get(entityId);
             Bounds bounds = boundsMap.get(entityId);
             spawnEntity(spawnable, getDelay(), pos, bounds, spawnField);
-        } else {
-            spawnField.tick();
         }
     }
 

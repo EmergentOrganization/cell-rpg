@@ -8,7 +8,7 @@ import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import io.github.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
 import io.github.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;

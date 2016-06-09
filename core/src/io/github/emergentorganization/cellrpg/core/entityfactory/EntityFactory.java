@@ -89,15 +89,15 @@ public class EntityFactory {
         // adds all ca layer entities to the scene.
         Camera camera = world.getSystem(CameraSystem.class).getGameCamera();
 
-        Entity vyroidLayer = CALayerFactory.buildLayer(world, pos,
+        Entity vyroidLayer = CALayerBuilder.buildLayer(world, pos,
                 ca_layer, "std vyroids", CALayer.VYROIDS.getTag(), CALayer.VYROIDS
         );
 
-        Entity energyLayer = CALayerFactory.buildLayer(world, pos,
+        Entity energyLayer = CALayerBuilder.buildLayer(world, pos,
                 ca_layer, "energy layer", CALayer.ENERGY.getTag(), CALayer.ENERGY
         );
 
-        Entity geneticLayer = CALayerFactory.buildLayer(world, pos,
+        Entity geneticLayer = CALayerBuilder.buildLayer(world, pos,
                 ca_layer, "genetic vyroids", CALayer.VYROIDS_GENETIC.getTag(), CALayer.VYROIDS_GENETIC
         );
 
@@ -178,7 +178,7 @@ public class EntityFactory {
     }
 
     private int createRiftOne(Vector2 pos, float angleDeg) {
-        Entity bldg = new EntityBuilder(world, collidable, "Rift1", EntityID.RIFT_ONE.toString(), pos) // TODO: Come up with a more ui-friendly name
+        Entity bldg = new EntityBuilder(world, collidable, "Rift1", EntityID.RIFT_ONE.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_RIFT_ONE)
                 )
@@ -192,7 +192,7 @@ public class EntityFactory {
     }
 
     private int createRiftTwo(Vector2 pos, float angleDeg) {
-        Entity bldg = new EntityBuilder(world, collidable, "Rift2", EntityID.RIFT_TWO.toString(), pos) // TODO: Come up with a more ui-friendly name
+        Entity bldg = new EntityBuilder(world, collidable, "Rift2", EntityID.RIFT_TWO.toString(), pos)
                 .addBuilder(new VisualBuilder()
                         .texture(Resources.TEX_RIFT_TWO)
                 )

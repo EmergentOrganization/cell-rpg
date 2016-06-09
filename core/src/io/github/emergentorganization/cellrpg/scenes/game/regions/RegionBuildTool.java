@@ -21,7 +21,7 @@ class RegionBuildTool {
         pastRegions.add(currentRegion);
 
         long expireTime = 1000;
-        float newFreq = 1;
+        long newFreq = 1;
 
         if (currentRegion instanceof TimedRegion) {
             TimedRegion region = (TimedRegion) pastRegions.get(pastRegions.size() - 1);

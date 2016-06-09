@@ -1,4 +1,4 @@
-package io.github.emergentorganization.cellrpg.scenes.game;
+package io.github.emergentorganization.cellrpg.scenes.game.worldscene;
 
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.WorldFactory;
+import io.github.emergentorganization.cellrpg.core.WorldType;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.game.HUD.DebugDisplay;
@@ -23,35 +24,18 @@ public abstract class WorldScene extends BaseScene {
     private final DebugDisplay debugDisplay;
     protected World world;
     private SpriteBatch batch;
-    final EntityFactory entityFactory;
+    protected final EntityFactory entityFactory;
 
-    protected WorldScene(final PixelonTransmission pt) {
+
+    protected WorldScene(final PixelonTransmission pt, WorldType worldType) {
         super(pt);
         entityFactory = new EntityFactory();
-        init(getBaseWorldConfiguration());
+        batch = new SpriteBatch();
+        logger.info("WorldScene init!");
+        world = WorldFactory.createWorld(worldType, pt, batch, stage, entityFactory);
         dialogDisplay = new DialogDisplay(stage);
         debugDisplay = new DebugDisplay(world, stage);
 
-    }
-
-    /* ================================================================== */
-    /* ====================== INTERFACE METHODS ========================= */
-    /* ================================================================== */
-
-    protected abstract WorldConfiguration getBaseWorldConfiguration();
-    // returns world configuration to start from
-    // override this to modify world configuration before calling initArtemis()
-    // simplest method is just:
-    // return new WorldConfiguration();
-
-    /* ================================================================== */
-    /* ================================================================== */
-    /* ================================================================== */
-
-    private void init(WorldConfiguration baseConfig) {
-        batch = new SpriteBatch();
-        logger.info("WorldScene init!");
-        world = WorldFactory.standardGameWorld(pt, batch, stage, entityFactory, baseConfig);
     }
 
     @Override
@@ -75,4 +59,6 @@ public abstract class WorldScene extends BaseScene {
         super.dispose();
         batch.dispose();
     }
+
+
 }

@@ -17,6 +17,8 @@ import io.github.emergentorganization.cellrpg.events.SoundEventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.systems.*;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAInteractionSystem;
@@ -31,12 +33,29 @@ import org.apache.logging.log4j.Logger;
 public class WorldFactory {
     private static final Logger logger = LogManager.getLogger(WorldFactory.class);
 
-    public static World standardGameWorld(PixelonTransmission pt,
-                                          SpriteBatch batch, Stage stage, EntityFactory entityFactory,
-                                          WorldConfiguration wc) {
+    public static World createWorld(WorldType type, PixelonTransmission pt,
+                                    SpriteBatch batch, Stage stage, EntityFactory entityFactory) {
+
+        switch (type) {
+            case STANDARD:
+                return standardGameWorld(pt, batch, stage, entityFactory);
+            case ARCADE:
+                return arcadeGameWorld(pt, batch, stage, entityFactory);
+            case EDITOR:
+                return editorGameWorld(pt, batch, stage, entityFactory);
+        }
+
+        // Should never get to this point
+        throw new RuntimeException("Could not create world " + type.name() + "! It doesn't exist?");
+    }
+
+    public static World arcadeGameWorld(PixelonTransmission pt,
+                                          SpriteBatch batch, Stage stage, EntityFactory entityFactory) {
+
+        WorldConfiguration wc = new WorldConfiguration();
         wc.register(entityFactory);
 
-        // set up world systemss
+        // set up world systems
         wc.setSystem(new TagManager()); // useful for tagging unique entities
 
         AssetManager assetManager = new AssetManager(pt.getGdxAssetManager());
@@ -55,7 +74,64 @@ public class WorldFactory {
 
         wc.setSystem(new AISystem());
         wc.setSystem(new TimedDestructionSystem());
-        wc.setSystem(new EntitySpawnFieldSystem());
+        wc.setSystem(new SpawningSystem());
+        // for using WarpInEventRegions:
+        int maxTimeInRegion = 3 * 60 * 1000;  // max time before region moves ahead anyway [ms]
+        wc.setSystem(new LeveledRegionSwitcher(maxTimeInRegion, 0));  // -1 to use test region, 0 is typical starting wave
+        //        // for using SingleShapeWarp and SingleEntityWarp Regions:
+        //        wc.setSystem(new LeveledRegionSwitcher(new SingleShapeWarpRegion(
+        //                this, 10*1000, CGoLShapeConsts.BLINKER_H, .5f, CALayer.vyroid_values()
+        //        )));
+        wc.setSystem(new InputSystem());
+        wc.setSystem(new MovementSystem()); // move after rendering
+        wc.setSystem(new EntityLifecycleSystem());
+        EventManager eventManager = new EventManager();
+        wc.setSystem(eventManager); // needs to be near the end to be postured for sudden scene-change events
+        wc.setSystem(new WindowSystem(pt, stage, batch)); // render windows after everything else
+        wc.setSystem(new FPSLoggerSystem());
+
+        wc.setSystem(new MoodSystem(eventManager));
+        wc.setSystem(new TimingSystem());
+        wc.setSystem(new MusicSystem(assetManager));
+        wc.setSystem(new EnergySystem());
+
+        // initialize world
+        World world = new World(wc);
+        entityFactory.initialize(world);
+
+        physicsSystem.setContactListener(new PhysicsContactListener(world));
+
+        eventManager.addListener(new SoundEventListener(assetManager));
+
+        return world;
+    }
+
+    public static World standardGameWorld(PixelonTransmission pt,
+                                          SpriteBatch batch, Stage stage, EntityFactory entityFactory) {
+
+        WorldConfiguration wc = new WorldConfiguration();
+        wc.register(entityFactory);
+
+        // set up world systems
+        wc.setSystem(new TagManager()); // useful for tagging unique entities
+
+        AssetManager assetManager = new AssetManager(pt.getGdxAssetManager());
+        wc.setSystem(assetManager);
+
+        wc.setSystem(new CameraSystem());
+        wc.setSystem(new RenderSystem(batch));
+        PhysicsSystem physicsSystem = new PhysicsSystem(pt.getBodyLoader(), null);
+        wc.setSystem(physicsSystem);
+
+        wc.setSystem(new CAGenerationSystem());
+        wc.setSystem(new CAPositionSystem());
+        wc.setSystem(new CARenderSystem(new ShapeRenderer()));
+        wc.setSystem(new CAInteractionSystem());
+        wc.setSystem(new CASpontaneousGenerationSystem());
+
+        wc.setSystem(new AISystem());
+        wc.setSystem(new TimedDestructionSystem());
+        wc.setSystem(new SpawningSystem());
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering
         wc.setSystem(new EntityLifecycleSystem());

@@ -46,7 +46,13 @@ public class DebugDisplay {
         elements.add(new DebugElement(tabl, "entCount:", "") {
             @Override
             public String getText(World world) {
-                return Integer.toString(world.getSystem(PhysicsSystem.class).getBodies().size());
+                PhysicsSystem physicsSystem = world.getSystem(PhysicsSystem.class);
+                if (physicsSystem != null && physicsSystem.isAvailable()) {
+                    return Integer.toString(physicsSystem.getBodies().size());
+                }
+                else {
+                    return "0";
+                }
             }
         });
 

@@ -118,6 +118,10 @@ public class PixelonTransmission extends Game {
         }
     }
 
+    public BaseScene getCurrentScene() {
+        return (BaseScene) getScreen();
+    }
+
     public void gameOver(World world) {
         playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
                 .getComponent(StatsTracker.class).getScore();

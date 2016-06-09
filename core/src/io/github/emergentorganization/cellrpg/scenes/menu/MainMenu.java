@@ -11,9 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.WorldType;
+import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
 import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +29,7 @@ public class MainMenu extends WorldScene {
     private final float tableMargin;
 
     public MainMenu(PixelonTransmission pt) {
-        super(pt);
+        super(pt, WorldType.STANDARD); // TODO: Make new WorldType specifically for MainMenu CAs
 
         this.tableMargin = stage.getWidth() * 0.015f;
     }
@@ -177,11 +181,4 @@ public class MainMenu extends WorldScene {
             logger.trace("not first start");
         }
     }
-
-    @Override
-    public WorldConfiguration getBaseWorldConfiguration() {
-        // TODO: set up main menu visuals
-        return new WorldConfiguration();
-    }
-
 }

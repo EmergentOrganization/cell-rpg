@@ -8,6 +8,7 @@ All rights reserved
 * [concept/demo gifs/gfys](http://www.gfycat.com/7yl4r/planiverse_bridge)
 * [demo videos](https://www.youtube.com/playlist?list=PL-nLMUFdPaNRnWnwuSzN5RnzLE7Iey3cB)
 * [game-world wiki](http://planiverse-bridge.wikia.com/wiki/Planiverse_bridge_Wikia)
+* [post a feature request on Trello](https://trello.com/b/GG9NKgSf/feature-requests)
 * dev chat : [![Join the chat at https://gitter.im/EmergentOrganization/cell-rpg](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/EmergentOrganization/cell-rpg?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
  
 [![GitHub release](https://img.shields.io/github/release/EmergentOrganization/cell-rpg.svg)](https://github.com/EmergentOrganization/cell-rpg/releases)

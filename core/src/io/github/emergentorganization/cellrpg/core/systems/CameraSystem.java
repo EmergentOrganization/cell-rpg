@@ -150,7 +150,7 @@ public class CameraSystem extends IteratingSystem {
                 final float PROPORTIONAL_GAIN = deltaTime * velocity.velocity.len() / MAX_OFFSET;
 
                 cameraLoc.add(offset.scl(PROPORTIONAL_GAIN));
-                gameCamera.position.set(cameraLoc, 0);
+                gameCamDelta.add(cameraLoc.sub(gameCamera.position.x, gameCamera.position.y));
 //                logger.info("new camera pos:" + cameraLoc);
             }
         }

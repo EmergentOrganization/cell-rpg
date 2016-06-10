@@ -16,7 +16,7 @@ public class Position extends Component {
      *
      * @param bounds Bounds of the same entity that this component is attached to
      * @param angle  Rotation, in degrees, of the same entity that this component is attached to
-     * @return The exact center of the entity
+     * @return The exact center of the entity as a new Vector2
      */
     public Vector2 getCenter(Bounds bounds, float angle) {
         Vector2 center = position.cpy();

@@ -38,6 +38,7 @@ public class Weapon extends Equipment {
         this.type = EquipmentType.WEAPON;
 
         this.attackStat = attackStat;
+        this.powerFilled = baseEnergy+1;
     }
 
     public void create(World world, Vector2 pos) {

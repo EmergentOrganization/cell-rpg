@@ -137,6 +137,7 @@ public class MainMenu extends WorldScene {
             new FirstStartWindow(stage, world, pt);
         } else {
             logger.trace("not first start");
+            pt.mixpanel.startupEvent();
         }
     }
 }

@@ -49,7 +49,7 @@ public class PixelonTransmission extends Game {
     }
 
     private final Logger logger;
-    private Mixpanel mixpanel;
+    public Mixpanel mixpanel;
     public Scores scores;
     public int playerScore = 0;
     private AssetManager assetManager;
@@ -107,7 +107,6 @@ public class PixelonTransmission extends Game {
         Secrets.initialize();
         mixpanel = new Mixpanel(getVersion());
         mixpanel.initialize();
-        mixpanel.startupEvent();
 
         logger.info("Game started");
         setScene(Scene.MAIN_MENU);

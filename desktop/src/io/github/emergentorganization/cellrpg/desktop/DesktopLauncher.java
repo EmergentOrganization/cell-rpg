@@ -33,8 +33,8 @@ public class DesktopLauncher {
 			{
 				System.out.println("Invalid window size");
 
-				config.width = 800;
-				config.height = 600;
+				config.width = 1024;
+				config.height = 768;
 
 				prefs.putInteger(GameSettings.KEY_GRAPHICS_WIDTH, config.width);
 				prefs.putInteger(GameSettings.KEY_GRAPHICS_HEIGHT, config.height);

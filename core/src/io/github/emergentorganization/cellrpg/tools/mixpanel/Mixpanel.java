@@ -38,7 +38,6 @@ public class Mixpanel {
             props.put("JRE", System.getProperty("java.version"));
             props.put("time zone", Calendar.getInstance().getTimeZone().getID());
             // TODO: (maybe) useful mixpanel special properties:
-            //props.put("$email", "???");
             //props.put("$ip", "???");
             //props.put("$first_name", "???");
             //props.put("$last_name", "???");
@@ -46,6 +45,9 @@ public class Mixpanel {
             //props.put("$created", "???");
             //props.put("$email", "???");
             //props.put("$phone", "???");
+            Preferences prefs = GameSettings.getPreferences();
+            // TODO: this is temporary, KEY_USER_NAME will soon refer to the active avatar's name and not the user:
+            props.put("$name", prefs.getString(GameSettings.KEY_USER_NAME));
 
             JSONObject update = messageBuilder.set(UserIdentifier.getId(), props);
             // Send the update to mixpanel
@@ -86,6 +88,8 @@ public class Mixpanel {
 
             props.put("movement_method", prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));
             props.put("weapon_method", prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
+            props.put("width", prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH));
+            props.put("height", prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT));
 
             // report CA generation lengths
 //            try {

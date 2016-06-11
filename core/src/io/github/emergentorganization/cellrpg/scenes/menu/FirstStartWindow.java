@@ -105,6 +105,7 @@ class FirstStartWindow extends VisWindow {
 
         fadeOut();
         pt.setScene(Scene.MAIN_MENU);
+        pt.mixpanel.startupEvent();
     }
 
     private void showFormErrors() {

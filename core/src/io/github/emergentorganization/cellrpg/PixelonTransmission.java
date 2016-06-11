@@ -5,6 +5,7 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
@@ -62,6 +63,11 @@ public class PixelonTransmission extends Game {
         String logFile = "log4j2.xml";
         System.setProperty("log4j.configurationFile", FileStructure.RESOURCE_DIR + logFile);
         logger = LogManager.getLogger(getClass());
+        Preferences prefs = GameSettings.getPreferences();
+        String type = prefs.getString(GameSettings.KEY_GRAPHICS_TYPE, "windowed");
+        int width = prefs.getInteger(GameSettings.KEY_GRAPHICS_WIDTH, 0);
+        int height = prefs.getInteger(GameSettings.KEY_GRAPHICS_HEIGHT, 0);
+        logger.info("init app " + width + "x" + height + " " + type);
     }
 
     @Override

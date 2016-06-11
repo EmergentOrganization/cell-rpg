@@ -3,6 +3,7 @@ package io.github.emergentorganization.cellrpg.tools.saves;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+// Application settings
 
 public class GameSettings {
     // === GRAPHICS SETTINGS ===
@@ -34,13 +35,14 @@ public class GameSettings {
     // === Player Details ===
     public static final String KEY_USER_ID = "user-id";
     public static final String KEY_USER_NAME = "user-name";
+    public static final String DEF_USER_NAME = "unnamed_traveller";
     public static final String KEY_FIRST_START = "first-start";
-    public static final String KEY_GAME_NUMBER = "game-save-file-number";
 
     // === OTHER ===
     public static final String KEY_DEV_DEVMODE = "DevMode"; // Naming syntax is TYPE_CATEGORY_NAME
 
-    public static final String PREFS_FILE = "io.github.emergentorganization.cellrpg.configuration";
+    private static final String PREFS_PREFIX = "io.github.emergentorganization.cellrpg.";
+    public static final String CONFIG_FILE = PREFS_PREFIX + "configuration";
 
     // cached preferences file
     private static Preferences prefs;
@@ -49,8 +51,13 @@ public class GameSettings {
         if (prefs != null) {
             return prefs;
         }
-        prefs = Gdx.app.getPreferences(PREFS_FILE);
+        prefs = Gdx.app.getPreferences(CONFIG_FILE);
         return prefs;
+    }
+
+    public static String getPrefsFilePrefix(){
+        // returns file name for current user
+        return GameSettings.PREFS_PREFIX +"."+ prefs.getString(KEY_USER_NAME, DEF_USER_NAME + ".");
     }
 
     public static void setPreferences(Preferences prefs) {

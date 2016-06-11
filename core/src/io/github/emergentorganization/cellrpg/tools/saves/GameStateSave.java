@@ -2,34 +2,27 @@ package io.github.emergentorganization.cellrpg.tools.saves;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.utils.IntMap;
 
 
 public class GameStateSave {
     public static String KEY_SELECTED_LOADOUT = "selected-equipment-loadout-index";
 
     // player preferences file:
-    public static String PREFS_FILE_PREFIX = "io.github.emergentorganization.cellrpg.gamestate.save";
+    public static String GAMESAVE_SUFFIX = "gamestate";
 
     // cached preferences file
-    private static IntMap<Preferences> prefs = new IntMap<Preferences>();
+    private static Preferences prefs;
+    private static String prefs_user;
 
-    public static Preferences getPreferences(int gameNumber) {
-        if(prefs.containsKey(gameNumber)){
-            return prefs.get(gameNumber);
-        } else {
-            prefs.put(gameNumber, Gdx.app.getPreferences(getSaveFilePrefix(gameNumber)));
-            return prefs.get(gameNumber);
+    public static Preferences getPreferences() {
+        String user = GameSettings.getPreferences().getString(GameSettings.KEY_USER_NAME, GameSettings.DEF_USER_NAME);
+        if (prefs_user != user || prefs == null){  // if user unchanged, use cached
+            prefs = Gdx.app.getPreferences( GameSettings.getPrefsFilePrefix() + GAMESAVE_SUFFIX);
         }
-    }
-
-    public static String getSaveFilePrefix(int gameNumber){
-        return PREFS_FILE_PREFIX + gameNumber;
+        return prefs;
     }
 
     public static void dispose(){
-        for (Preferences pref : prefs.values()){
-            pref.flush();
-        }
+        prefs.flush();
     }
 }

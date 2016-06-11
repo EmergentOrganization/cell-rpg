@@ -8,6 +8,8 @@ import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.LoadoutSave;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,24 @@ public class EquipmentList extends Component {
         }
     }
 
-    public void loadEquipment(){
+    public void saveEquipment(){
+        LoadoutSave.saveLoadout(equipment);
+    }
 
+    public boolean loadEquipment(){
+        // loads equipment from file
+        // returns true if loaded, false if not
+
+        ArrayList<Equipment> newEquipment = LoadoutSave.getLoadout();
+        if (newEquipment != null && newEquipment.size() > 0) {
+            //        for (Equipment eq : equipment){
+            //            eq.dispose();
+            //        }
+            equipment.clear();
+            equipment.addAll(newEquipment);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

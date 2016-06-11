@@ -13,6 +13,7 @@ import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.core.systems.*;
 import io.github.emergentorganization.cellrpg.core.systems.MusicSystem.MusicSystem;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
+import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.events.SoundEventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
@@ -92,6 +93,10 @@ public class WorldFactory {
                     case PLAYER_HIT:
                         break;
                     case PLAYER_SHIELD_DOWN:
+                        logger.info("player shield down");
+                        int playerId = world.getSystem(TagManager.class).getEntity(Tags.PLAYER).getId();
+                        // TODO: player.destroy isnt triggered, need to call directly?
+                        world.getSystem(EventManager.class).pushEvent(new EntityEvent(playerId, GameEvent.DESTROY));
                         pt.gameOver(world);
                         break;
                     case COLLISION_BULLET:

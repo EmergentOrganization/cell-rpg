@@ -16,7 +16,10 @@ public class DesktopLauncher {
 
 	private static Preferences getPreferences(LwjglApplicationConfiguration config)
 	{
-		return new LwjglPreferences(new LwjglFileHandle(new File(config.preferencesDirectory, GameSettings.PREFS_FILE), config.preferencesFileType));
+		return new LwjglPreferences(new LwjglFileHandle(
+				new File(config.preferencesDirectory, GameSettings.CONFIG_FILE),
+				config.preferencesFileType
+		));
 	}
 
 	private static void configureWindow(Preferences prefs, LwjglApplicationConfiguration config)

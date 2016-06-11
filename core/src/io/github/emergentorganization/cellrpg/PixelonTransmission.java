@@ -125,10 +125,15 @@ public class PixelonTransmission extends Game {
     public void gameOver(World world) {
         playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
                 .getComponent(StatsTracker.class).getScore();
-        WarpInEventRegion warpRegion = (WarpInEventRegion) world.getSystem(LeveledRegionSwitcher.class).currentRegion;
-        int waveNumber = warpRegion.regionNumber;
-        setScene(Scene.POSTGAME);
-        mixpanel.gameOverEvent(playerScore, waveNumber);
+        LeveledRegionSwitcher switcher = world.getSystem(LeveledRegionSwitcher.class);
+        if (switcher != null) {  // arcade region exit to postgame menu
+            WarpInEventRegion warpRegion = (WarpInEventRegion) switcher.currentRegion;
+            int waveNumber = warpRegion.regionNumber;
+            setScene(Scene.POSTGAME);
+            mixpanel.gameOverEvent(playerScore, waveNumber);
+        } else { // story or lab region exits directly to main menu (for now)
+            setScene(Scene.MAIN_MENU);
+        }
     }
 
     private String loadVersion() {

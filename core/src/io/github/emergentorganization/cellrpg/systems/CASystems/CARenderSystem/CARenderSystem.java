@@ -121,18 +121,18 @@ public class CARenderSystem extends BaseEntitySystem {
 
         float x_origin = ca_components.getXOrigin(gameCamera);
         float y_origin = ca_components.getYOrigin(gameCamera);
+        iCellRenderer caRenderer = cellRenderer.get(ca_components.renderType);
 
         for (int i = 0; i < ca_components.states.length; i++) {
             for (int j = 0; j < ca_components.states[0].length; j++) {
-                renderCell(ca_components, i, j, x_origin, y_origin);
+                renderCell(ca_components, caRenderer, i, j, x_origin, y_origin);
             }
         }
     }
 
-    private void renderCell(CAGridComponents layerComponents, final int i, final int j,
+    private void renderCell(CAGridComponents layerComponents, iCellRenderer cellRenderer, final int i, final int j,
                             final float x_origin, final float y_origin) {
-        cellRenderer.get(layerComponents.renderType)
-                .renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
+        cellRenderer.renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
         // TODO: handle key not found exception. print "Renderer for renderType not found", default to ColorMap?
     }
 }

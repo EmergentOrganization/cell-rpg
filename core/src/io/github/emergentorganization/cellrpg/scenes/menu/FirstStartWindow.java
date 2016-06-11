@@ -6,8 +6,8 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisTable;
@@ -15,28 +15,26 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.SceneManager;
 import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.SettingsMenu;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-public class FirstStartWindow extends VisWindow {
+class FirstStartWindow extends VisWindow {
+    private final VisTable table;
     private final Logger logger = LogManager.getLogger(getClass());
-
     private final SettingsMenu settingsMenu;
-    final SceneManager sceneManager;
-    final VisTable table;
-    private Skin skin;
-    TextField nameField;
+    private final PixelonTransmission pt;
+    private final TextField nameField;
+    private final Skin skin;
 
 
     public FirstStartWindow(final Stage stage, World world, PixelonTransmission pt) {
         super("", false);
+        this.pt = pt;
 
         logger.debug("enter initial firstStart window");
-        sceneManager = pt.getSceneManager();
 
         table = new VisTable();
         this.setFillParent(true);
@@ -50,19 +48,19 @@ public class FirstStartWindow extends VisWindow {
         table.add(title).row();
 
         Label initText = new Label(
-                "We need your help.\n"+
-                "\n"+
-                "We are broadcasting from a world very different from yours. Your 3-dimensional universe is" +
-                " beyond our comprehension, for we live in a 2-dimensional planiverse." +
-                " Our planiverse is being consumed by Vyroids, and we are powerless to stop them." +
-                " In our desperation we have searched the multiverse for someone who could help, and we" +
-                " believe that someone is you." +
-                " Your power to look upon our world from a 3rd dimension will allow you to understand how" +
-                " the vyroids grow and stop them before it is too late." +
-                " \n\n" +
-                "We have built a bridge between our planiverses. Through this program you can connect to the" +
-                " Planiverse Bridge Orb and control it. If you accept our mission, please send the following"+
-                " information so that we may configure your Planiverse Bridge Orb.",
+                "We need your help.\n" +
+                        "\n" +
+                        "We are broadcasting from a world very different from yours. Your 3-dimensional universe is" +
+                        " beyond our comprehension, for we live in a 2-dimensional planiverse." +
+                        " Our planiverse is being consumed by Vyroids, and we are powerless to stop them." +
+                        " In our desperation we have searched the multiverse for someone who could help, and we" +
+                        " believe that someone is you." +
+                        " Your power to look upon our world from a 3rd dimension will allow you to understand how" +
+                        " the vyroids grow and stop them before it is too late." +
+                        " \n\n" +
+                        "We have built a bridge between our planiverses. Through this program you can connect to the" +
+                        " Planiverse Bridge Orb and control it. If you accept our mission, please send the following" +
+                        " information so that we may configure your Planiverse Bridge Orb.",
                 skin
         );
         initText.setWrap(true);
@@ -73,7 +71,7 @@ public class FirstStartWindow extends VisWindow {
         table.add(nameText).row();
 
         nameField = new TextField("interdimensional traveller", skin);
-        table.add(nameField).width(Gdx.graphics.getWidth()/3f).row();
+        table.add(nameField).width(Gdx.graphics.getWidth() / 3f).row();
 
         settingsMenu = new SettingsMenu(table, stage, "additional settings", world);
 
@@ -99,17 +97,17 @@ public class FirstStartWindow extends VisWindow {
         stage.addActor(this.fadeIn());
     }
 
-    private void submitForm(){
+    private void submitForm() {
         Preferences prefs = GameSettings.getPreferences();
         prefs.putString(GameSettings.KEY_USER_NAME, nameField.getText());
         prefs.putBoolean(GameSettings.KEY_FIRST_START, false);
         prefs.flush();
 
         fadeOut();
-        sceneManager.setScene(Scene.MAIN_MENU);
+        pt.setScene(Scene.MAIN_MENU);
     }
 
-    private void showFormErrors(){
+    private void showFormErrors() {
         // TODO
         Label errorText = new Label("Data Validation Fail", skin);
         table.add(errorText);
@@ -118,10 +116,10 @@ public class FirstStartWindow extends VisWindow {
     private boolean formIsValid() {
         return isValidtext(nameField.getText())
                 // && otherTestExpression
-        ;
+                ;
     }
 
-    private boolean isValidtext(String text){
+    private boolean isValidtext(String text) {
         // returns true if give text is acceptable
         return text != null
                 && text.length() > 2

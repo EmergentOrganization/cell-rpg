@@ -1,12 +1,10 @@
 package io.github.emergentorganization.cellrpg.systems.CASystems.CAs;
 
-/**
- * Created by Brian on 1/14/2016.
- */
 public class CAStamps {
 
     public static int[][] getVyrapuffer() {
-        int[][] res = new int[][]{
+        // TODO: randomize first col
+        return new int[][]{
                 {1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},
                 {1, 0, 0, 0, 0, 0, 0},
@@ -14,7 +12,5 @@ public class CAStamps {
                 {0, 0, 0, 0, 0, 0, 0},
                 {1, 0, 0, 0, 0, 0, 0}
         };
-        // TODO: randomize first col
-        return res;
     }
 }

@@ -5,37 +5,38 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Profile;
 import com.artemis.utils.IntBag;
-import com.badlogic.gdx.Game;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CA;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.iCA;
 import io.github.emergentorganization.cellrpg.tools.profiling.EmergentProfiler;
-import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
-import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.EnumMap;
-import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Handles CA grid state generations and initialization.
  */
-@Profile(using=EmergentProfiler.class, enabled=true)
+@Profile(using = EmergentProfiler.class, enabled = true)
 public class CAGenerationSystem extends BaseEntitySystem {
     private static final EnumMap<CA, iCA> CAs = CA.getCAMap();
-
+    private static final int THREAD_NUM = Runtime.getRuntime().availableProcessors();
+    private final Logger logger = LogManager.getLogger(getClass());
     // artemis-injected entity components:
     private ComponentMapper<CAGridComponents> CAComponent_m;
     private CameraSystem cameraSystem;
     private MoodSystem moodSystem;
     private EventManager eventManager;
-
-    private final Logger logger = LogManager.getLogger(getClass());
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(THREAD_NUM - 1);
 
     public CAGenerationSystem() {
         super(Aspect.all(CAGridComponents.class));
@@ -50,7 +51,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
 
         // TODO: manage generation tasks somehow?
@@ -73,19 +74,22 @@ public class CAGenerationSystem extends BaseEntitySystem {
         }
     }
 
-    public void generate(CAGridComponents gridComps, final int entId) {
-        // generates next state of the CA
+    private void generate(CAGridComponents gridComps, final int entId) {
+        _generate(eventManager, gridComps, entId);
+    }
 
+    public void _generate(EventManager eMan, CAGridComponents gridComps, final int entId) {
+        // generates next state of the CA
         gridComps.generation += 1;
         CAs.get(gridComps.ca).generate(gridComps);
 
-        logger.debug("liveCells: " + gridComps.cellCount);
-        int deltaIntensity = gridComps.cellCount*gridComps.intensityPerCell;
+        logger.trace("liveCells: " + gridComps.cellCount);
+        int deltaIntensity = gridComps.cellCount * gridComps.intensityPerCell;
         logger.trace("cells increase intensity by " + deltaIntensity);
         if (moodSystem != null)
             moodSystem.intensity += deltaIntensity;
 
-        eventManager.pushEvent(new EntityEvent(entId, GameEvent.CA_GENERATION));
+        eMan.pushEvent(new EntityEvent(entId, GameEvent.CA_GENERATION));
     }
 
     private float getKernelizedValue(final int[][] kernel, final int row, final int col, final int size, CAGridComponents gridComps) {
@@ -143,9 +147,8 @@ public class CAGenerationSystem extends BaseEntitySystem {
         scheduleGeneration(0, layerComponents, entId);
     }
 
-    public void scheduleGeneration(long runtime, CAGridComponents layComp, final int entId) {
+    private synchronized void scheduleGeneration(long runtime, CAGridComponents layComp, final int entId) {
         // schedules a new generation thread
-        Timer time = new Timer();
         // add runtime to TIME_BTWN_GENERATIONS to ensure this thread never uses more than 50% CPU time
         long genTime = layComp.TIME_BTWN_GENERATIONS + runtime;
         if (genTime > layComp.maxGenTime) {
@@ -153,7 +156,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         } else if (genTime < layComp.minGenTime) {
             layComp.minGenTime = genTime;
         }
-        time.schedule(new GenerateTask(this, layComp, entId), genTime);
+        executorService.schedule(new GenerateTask(this, layComp, entId), genTime, TimeUnit.MILLISECONDS);
     }
 
     private void randomizeState(CAGridComponents gridComponents) {
@@ -169,30 +172,41 @@ public class CAGenerationSystem extends BaseEntitySystem {
         }
     }
 
-    class GenerateTask extends TimerTask {
-        private CAGenerationSystem genSys;
-        private CAGridComponents gridComp;
-        private int entId;
+    @Override
+    protected void dispose() {
+        super.dispose();
+        try {
+            executorService.awaitTermination(100, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            logger.error("", e);
+        }
+    }
 
-        public GenerateTask(CAGenerationSystem _genSys, CAGridComponents _gridComp, final int entId) {
+    class GenerateTask extends TimerTask {
+        private final CAGenerationSystem genSys;
+        private final CAGridComponents gridComp;
+        private final int entId;
+
+        public GenerateTask(CAGenerationSystem genSys, CAGridComponents gridComp, final int entId) {
             this.entId = entId;
-            genSys = _genSys;
-            gridComp = _gridComp;
+            this.genSys = genSys;
+            this.gridComp = gridComp;
         }
 
         public void run() {
+            if (!genSys.isEnabled()) { // Return to main thread, and check again in 200ms
+                genSys.scheduleGeneration(100, gridComp, entId);
+                return;
+            }
+
             try {
                 long runtime = System.currentTimeMillis();
                 genSys.generate(gridComp, entId);
 
                 runtime = System.currentTimeMillis() - runtime;
                 genSys.scheduleGeneration(runtime, gridComp, entId);
-                Thread.currentThread().stop();
-                return;
             } catch (Exception ex) {
                 logger.error("error running CA generation thread: ", ex);
-                Thread.currentThread().stop();
-                return;
             }
         }
     }

@@ -4,19 +4,21 @@ import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.utils.Align;
+import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
-import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.SpontaneousGenerationList;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.LifecycleBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.Story;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import io.github.emergentorganization.cellrpg.scenes.game.dialogue.ArcadeStory;
 import io.github.emergentorganization.cellrpg.scenes.game.dialogue.SequentialStoryDialogue;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAEdgeSpawnType;
@@ -32,13 +34,12 @@ import org.apache.logging.log4j.Logger;
  * as an opportunity to modify this region.
  */
 public class ArcadeRegion implements iRegion {
+    private static final int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
     private final Logger logger = LogManager.getLogger(getClass());
-    private static int SCL = 100;  // use this to scale up/down all score thresholds to adjust difficulty ramp
-    WorldScene scene;
+    private final PixelonTransmission pt;
 
-    public ArcadeRegion(WorldScene parentScene) {
-        super();
-        scene = parentScene;
+    public ArcadeRegion(PixelonTransmission pt) {
+        this.pt = pt;
     }
 
     public iRegion getNextRegion(World world) {
@@ -70,7 +71,10 @@ public class ArcadeRegion implements iRegion {
         player.getComponent(EntitySpawnField.class).entityList.clear();
 
         // load story
-        scene.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.I), Align.topLeft);
+        Story story = (Story) pt.getCurrentScene();
+        if (story != null) {
+            story.dialogDisplay.loadDialogueSequence(new SequentialStoryDialogue(ArcadeStory.I), Align.topLeft);
+        }
 
         Entity bg = new EntityBuilder(
                 world,
@@ -95,13 +99,13 @@ public class ArcadeRegion implements iRegion {
         adjustCABoundaries(score, tagMan);
     }
 
-    private int getPowerupFreq(int score) {
-        return 99 / (500 * SCL) * score + 1;
+    private int getPowerupPeriod(int score) {
+        return score/1000 + 1;
     }
 
     private void adjustPowerups(int score, Entity player) {
         EntitySpawnField spawnField = player.getComponent(EntitySpawnField.class);
-        spawnField.frequency = getPowerupFreq(score);
+        spawnField.period = getPowerupPeriod(score);
         if (score > 20 * SCL) {
             spawnField.entityList.add(EntityID.VYRAPUFFER);
         } else if (score > 10 * SCL) {

@@ -5,10 +5,10 @@ public class AdjustableSetting {
     /*
     Game Setting with numerical value that falls in between two bounds and with granularity set by delta.
      */
-    private String label;
+    private final String label;
     private float value;
-    private float min;
-    private float max;
+    private final float min;
+    private final float max;
     private float delta = 1;
 
     public AdjustableSetting(String name, float defaultVal, float MIN, float MAX, float deltaValue) {
@@ -16,7 +16,7 @@ public class AdjustableSetting {
         delta = deltaValue;
     }
 
-    public AdjustableSetting(String name, float defaultVal, float MIN, float MAX) {
+    private AdjustableSetting(String name, float defaultVal, float MIN, float MAX) {
         label = name;
         value = defaultVal;
         min = MIN;

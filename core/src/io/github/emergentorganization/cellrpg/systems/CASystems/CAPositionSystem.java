@@ -6,8 +6,10 @@ import com.artemis.ComponentMapper;
 import com.artemis.utils.IntBag;
 import com.badlogic.gdx.graphics.Camera;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.core.systems.CameraSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAs.CACell.BaseCell;
-import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * system for positioning the CA layers so that they appear static
@@ -17,6 +19,7 @@ import io.github.emergentorganization.emergent2dcore.systems.CameraSystem;
  * Adapted from CAGridBase by 7yl4r on 2015-12-14.
  */
 public class CAPositionSystem extends BaseEntitySystem {
+    private final Logger logger = LogManager.getLogger(getClass());
     // artemis-injected entity components:
     private CameraSystem cameraSystem;
     private ComponentMapper<CAGridComponents> CAComponent_m;
@@ -34,7 +37,7 @@ public class CAPositionSystem extends BaseEntitySystem {
         }
     }
 
-    protected void process(int entityId) {
+    private void process(int entityId) {
         CAGridComponents gridComps = CAComponent_m.get(entityId);
         gridFollow(gridComps, cameraSystem.getGameCamera());
     }
@@ -116,19 +119,19 @@ public class CAPositionSystem extends BaseEntitySystem {
         // enables grid to follow the camera
 
         float dY = gridComps.gridOriginY - camera.position.y / gridComps.SCALE;
-        //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+//        logger.trace(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
 
         while (dY > gridComps.cellSize + 1) {
-            //System.out.println("BotAddRow");
+            logger.trace("BotAddRow");
             addRowBottom(gridComps);
             dY = gridComps.gridOriginY - camera.position.y / gridComps.SCALE;
-            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+            //logger.trace(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
         while (dY < -gridComps.cellSize + 1) {
-            //System.out.println("TopAddRow");
+            logger.trace("TopAddRow");
             addRowTop(gridComps);
             dY = gridComps.gridOriginY - camera.position.y / gridComps.SCALE;
-            //System.out.println(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
+            //logger.trace(dY + "=" + gridOriginY + "-" + camera.position.y + "/" + scale);
         }
 
         float dX = gridComps.gridOriginX - camera.position.x / gridComps.SCALE;
@@ -142,7 +145,7 @@ public class CAPositionSystem extends BaseEntitySystem {
             dX = gridComps.gridOriginX - camera.position.x / gridComps.SCALE;
         }
 
-        //logger.trace("camera is (" + dX + "," + dY + ") from grid origin.");
+        logger.trace("camera is (" + dX + "," + dY + ") from grid origin.");
     }
 
     private int getRandomState(float percentLive) {

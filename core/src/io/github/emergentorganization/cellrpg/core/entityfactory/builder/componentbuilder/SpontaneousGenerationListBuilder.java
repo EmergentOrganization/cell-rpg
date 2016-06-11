@@ -7,7 +7,7 @@ import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.S
 
 
 public class SpontaneousGenerationListBuilder extends BaseComponentBuilder {
-    private float radius;
+    private final float radius;
 
     public SpontaneousGenerationListBuilder(float radius) {
         super(Aspect.all(SpontaneousGenerationList.class), 0);

@@ -3,16 +3,16 @@ package io.github.emergentorganization.cellrpg.input.player;
 import com.artemis.ComponentMapper;
 import com.artemis.Entity;
 import com.artemis.World;
-import io.github.emergentorganization.emergent2dcore.components.InputComponent;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
 
 
 public abstract class iPlayerCtrl {
-    protected World world;
-    ComponentMapper<InputComponent> inp_m;
+    protected final World world;
+    private final ComponentMapper<InputComponent> inp_m;
 
-    public iPlayerCtrl(World world, ComponentMapper<InputComponent> inp_m) {
+    protected iPlayerCtrl(World world, ComponentMapper<InputComponent> inp_m) {
         this.world = world;
         this.inp_m = inp_m;
     }

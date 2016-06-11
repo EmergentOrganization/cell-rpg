@@ -8,11 +8,13 @@ All rights reserved
 * [concept/demo gifs/gfys](http://www.gfycat.com/7yl4r/planiverse_bridge)
 * [demo videos](https://www.youtube.com/playlist?list=PL-nLMUFdPaNRnWnwuSzN5RnzLE7Iey3cB)
 * [game-world wiki](http://planiverse-bridge.wikia.com/wiki/Planiverse_bridge_Wikia)
+* [post a feature request on Trello](https://trello.com/b/GG9NKgSf/feature-requests)
 * dev chat : [![Join the chat at https://gitter.im/EmergentOrganization/cell-rpg](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/EmergentOrganization/cell-rpg?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
  
-[![Build Status](https://api.travis-ci.org/EmergentOrganization/cell-rpg.svg)](https://travis-ci.org/EmergentOrganization/cell-rpg) 
 [![GitHub release](https://img.shields.io/github/release/EmergentOrganization/cell-rpg.svg)](https://github.com/EmergentOrganization/cell-rpg/releases)
+[![Build Status](https://api.travis-ci.org/EmergentOrganization/cell-rpg.svg)](https://travis-ci.org/EmergentOrganization/cell-rpg) 
 [![Bountysource](https://img.shields.io/bountysource/team/emergent-organization/activity.svg)](https://www.bountysource.com/teams/emergent-organization)
+[![Code Climate](https://codeclimate.com/github/EmergentOrganization/cell-rpg/badges/gpa.svg)](https://codeclimate.com/github/EmergentOrganization/cell-rpg)
 [![ghit.me hit counter](https://ghit.me/badge.svg?repo=EmergentOrganization/cell-rpg)](https://ghit.me/repo/EmergentOrganization/cell-rpg)
 
 
@@ -51,10 +53,13 @@ Now that you have all of the dependencies you can make and run a build using `./
 ### Import into Intellij
 Finally, import the project **as a Gradle Project** in your favorite IDE. [Follow LibGDX's import guide](https://github.com/libgdx/libgdx/wiki/Gradle-and-Eclipse) to import the project. That particular link is for Eclipse, but if you look on the table of contents, you will see setup guides for various other IDEs.
 
-### Update submodules
-Navigate to the root directory of the project in a shell/cmd and run the following commands:
-* `git submodule init`
-* `git submodule update`
+[//]: # (### Update submodules)
+
+[//]: # (Navigate to the root directory of the project in a shell/cmd and run the following commands:)
+
+[//]: # (* `git submodule init`)
+
+[//]: # (* `git submodule update`)
 
 #### run configurations:
 

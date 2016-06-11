@@ -2,10 +2,10 @@ package io.github.emergentorganization.cellrpg.components.SpontaneousGeneration;
 
 import com.artemis.Component;
 import com.badlogic.gdx.math.Vector2;
-import io.github.emergentorganization.cellrpg.tools.TimingUtils;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
+import io.github.emergentorganization.cellrpg.tools.TimingUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,10 +30,10 @@ public class SpontaneousGenerationList extends Component {
     //      0 < f < 1 for intervals,
     //      1 for 1/gen,
     //      integer value > 1 for multiple spontGens per cycle (non-integers will be rounded)
-    public int sinceLastGenerationCounter = 0;  // counter for determining when it's time to generate
+    private int sinceLastGenerationCounter = 0;  // counter for determining when it's time to generate
 
-    public ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
-    public ArrayList<int[][]> stampList = new ArrayList<int[][]>();  // list of stamps that may be applied
+    public final ArrayList<CALayer> layers = new ArrayList<CALayer>();  // list of layers that might be stamped
+    public final ArrayList<int[][]> stampList = new ArrayList<int[][]>();  // list of stamps that may be applied
 
     public void clear() {
         // clears layers and stamps
@@ -58,7 +58,7 @@ public class SpontaneousGenerationList extends Component {
 
             sinceLastGenerationCounter = 0;
             return new SpontaneousGeneration(layers.get(layer), stampList.get(stamp), pos);
-        } catch( IllegalArgumentException ex){
+        } catch (IllegalArgumentException ex) {
             logger.warn("can't getSpontGen: layer or stamp list empty!");
             return null;
         }
@@ -69,15 +69,15 @@ public class SpontaneousGenerationList extends Component {
         return TimingUtils.readyForPeriodicEvent(frequency, sinceLastGenerationCounter);
     }
 
-    public void tick(){
+    public void tick() {
         sinceLastGenerationCounter += 1;
     }
 
-    public int getAmountToGenerate(){
+    public int getAmountToGenerate() {
         // returns number of spontGens that should be produced to satisfy generation rate set by frequency
         if (frequency > 1) {
             return Math.round(frequency);
-        } else if (frequency > 0){
+        } else if (frequency > 0) {
             return 1;
         } else {
             logger.warn("request to generate on SpontGenList.freq < 0");
@@ -85,9 +85,9 @@ public class SpontaneousGenerationList extends Component {
         }
     }
 
-    public void addLayer(CALayer newLayer){
+    public void addLayer(CALayer newLayer) {
         // adds a layer to layerList only if it is not already in the list
-        if (layers.contains(newLayer)){
+        if (layers.contains(newLayer)) {
             return;
         } else {
             layers.add(newLayer);

@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 
 public class BoundsGizmo implements Renderable {
-    public static final float GIZMO_LENGTH = 0.20f;
+    private static final float GIZMO_LENGTH = 0.20f;
     private static final Vector2 GIZMO_SIZE = new Vector2(GIZMO_LENGTH, GIZMO_LENGTH);
     private final CornerGizmo[] gizmos;
     private final BoundsBox boundsBox;

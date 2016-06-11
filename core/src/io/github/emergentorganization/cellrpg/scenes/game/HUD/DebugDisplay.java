@@ -5,22 +5,20 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import io.github.emergentorganization.cellrpg.core.systems.MoodSystem;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.systems.TimingSystem;
-import io.github.emergentorganization.emergent2dcore.systems.MoodSystem;
 
 import java.util.ArrayList;
 
 
 public class DebugDisplay {
-    public World world;
-    private Stage stage;
-    private VisWindow debugWindow;
-    private ArrayList<DebugElement> elements = new ArrayList<DebugElement>();
+    private final World world;
+    private final VisWindow debugWindow;
+    private final ArrayList<DebugElement> elements = new ArrayList<DebugElement>();
 
     public DebugDisplay(World world, Stage stage) {
         this.world = world;
-        this.stage = stage;
         debugWindow = new VisWindow("debug HUD", true);
         debugWindow.setPosition(9999, 9999, Align.topRight);
 
@@ -48,7 +46,13 @@ public class DebugDisplay {
         elements.add(new DebugElement(tabl, "entCount:", "") {
             @Override
             public String getText(World world) {
-                return Integer.toString(world.getSystem(PhysicsSystem.class).getBodies().size());
+                PhysicsSystem physicsSystem = world.getSystem(PhysicsSystem.class);
+                if (physicsSystem != null && physicsSystem.isAvailable()) {
+                    return Integer.toString(physicsSystem.getBodies().size());
+                }
+                else {
+                    return "0";
+                }
             }
         });
 
@@ -61,9 +65,9 @@ public class DebugDisplay {
 //        eMan.addListener(new ScoreEventListener(this));
     }
 
-    public void update(float delta){
+    public void update(float delta) {
 
-        for (DebugElement elem : elements){
+        for (DebugElement elem : elements) {
             elem.update(world);
         }
 

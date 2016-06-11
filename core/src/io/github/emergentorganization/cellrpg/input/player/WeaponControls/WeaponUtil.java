@@ -5,31 +5,31 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
 import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.EquipmentType;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Weapon;
-import io.github.emergentorganization.cellrpg.events.EntityEvent;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 
 /**
  * static class for weapon helper methods
  */
-public class WeaponUtil {
+class WeaponUtil {
 
     public static void shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact) {
         EquipmentList eqList = shooter.getComponent(EquipmentList.class);
-        for (Equipment weaponEquip : eqList.equipment){
-            if (weaponEquip.type == EquipmentType.WEAPON){
+        for (Equipment weaponEquip : eqList.equipment) {
+            if (weaponEquip.type == EquipmentType.WEAPON) {
                 _shootTo(pos, shooter, eventMan, entFact, (Weapon) weaponEquip);
             }
         }
     }
 
-    public static void _shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact, Weapon weapon){
+    private static void _shootTo(Vector2 pos, Entity shooter, EventManager eventMan, EntityFactory entFact, Weapon weapon) {
         if (weapon == null) {
             eventMan.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_WEAPON_EMPTY));
             return;

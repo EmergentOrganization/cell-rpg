@@ -19,13 +19,12 @@ public class DGRN {
     public static Attribute attr_ActivationValue;
     public static Attribute attr_AlleleCount;
     private final Logger logger = LogManager.getLogger(getClass());
-    public Random randomGenerator;
+    public final Random randomGenerator;
     public Graph graph;
-    public String ACTIVATION_VALUE_ID;
-    public String ALLELE_COUNT_ID = "# of alleles";
-    private Gexf gexf;
-    private OutflowNodeHandler handleOutputNodes;
-    private InflowNodeHandler inflowNodeHandle;
+    public final String ACTIVATION_VALUE_ID;
+    private final String ALLELE_COUNT_ID = "# of alleles";
+    private final OutflowNodeHandler handleOutputNodes;
+    private final InflowNodeHandler inflowNodeHandle;
 
     public DGRN(String creator, String description, AttributeList attrList, Attribute attributeActivationValue,
                 OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler) {
@@ -33,8 +32,8 @@ public class DGRN {
                 new Random());
     }
 
-    public DGRN(String creator, String description, AttributeList attrList, Attribute attributeActivationValue,
-                OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler, Random randomizer) {
+    private DGRN(String creator, String description, AttributeList attrList, Attribute attributeActivationValue,
+                 OutflowNodeHandler outflowNodeHandler, InflowNodeHandler inflowNodeHandler, Random randomizer) {
         randomGenerator = randomizer;
         attr_AlleleCount = attrList.createAttribute(
                 ALLELE_COUNT_ID,
@@ -57,7 +56,7 @@ public class DGRN {
         // TODO: this should should really be handled within the gexf4j library.
         AttributeValueList attributes = node.getAttributeValues();
         for (int i = 0; i < attributes.size(); i++) {
-            if (attributes.get(i).getAttribute().getId() == attributeId) {
+            if (attributes.get(i).getAttribute().getId().equals(attributeId)) {
                 return i;
             }
         } // else
@@ -70,7 +69,7 @@ public class DGRN {
         // TODO: this should should really be handled within the gexf4j library.
         for (AttributeValue attr : node.getAttributeValues()) {
             //System.out.println("s_attrId:" + attr.getAttribute().getId());
-            if (attr.getAttribute().getId() == attributeId) {
+            if (attr.getAttribute().getId().equals(attributeId)) {
                 attr.setValue(newValue);
                 return;
             }
@@ -84,7 +83,7 @@ public class DGRN {
         // TODO: this should should really be handled within the gexf4j library.
         for (AttributeValue attr : node.getAttributeValues()) {
             //System.out.println("g_attrId:" + attr.getAttribute().getId());
-            if (attr.getAttribute().getId() == attributeId) {
+            if (attr.getAttribute().getId().equals(attributeId)) {
                 return attr.getValue();
             }
         } // else
@@ -95,15 +94,15 @@ public class DGRN {
         // returns list of all edges with given node as tgt or src
         List<Edge> edges = new ArrayList<Edge>();
         for (Edge edge : graph.getAllEdges()) {
-            if (edge.getSource().getId() == node.getId()
-                    || edge.getTarget().getId() == node.getId()) {
+            if (edge.getSource().getId().equals(node.getId())
+                    || edge.getTarget().getId().equals(node.getId())) {
                 edges.add(edge);
             }
         }
         return edges;
     }
 
-    protected void primeInflowNodes() {
+    void primeInflowNodes() {
         // inserts appropriate values into inflow nodes
         for (String node : inflowNodeHandle.getListOfInflowNodes()) {
             try {
@@ -116,8 +115,8 @@ public class DGRN {
         }
     }
 
-    public void initGraph(String creator, String description, AttributeList attrList) {
-        gexf = new GexfImpl();
+    private void initGraph(String creator, String description, AttributeList attrList) {
+        Gexf gexf = new GexfImpl();
         gexf.getMetadata()
                 .setLastModified(Calendar.getInstance().getTime())
                 .setCreator(creator)
@@ -131,7 +130,7 @@ public class DGRN {
                 .setMode(Mode.STATIC);
     }
 
-    public void addNodes(String[] nodeNameList) {
+    private void addNodes(String[] nodeNameList) {
         for (String nodeName : nodeNameList) {
             Node colorAdd1 = graph.createNode(nodeName);
             colorAdd1
@@ -161,7 +160,7 @@ public class DGRN {
         setNodeAttributeValue(src, ACTIVATION_VALUE_ID, Integer.toString(newVal));
     }
 
-    protected boolean edgePropagatesSignal(Edge edge) throws KeySelectorException {
+    boolean edgePropagatesSignal(Edge edge) throws KeySelectorException {
         // returns true if the given node has a signal that should be passed along the given edge
         // assuming single-step weight-threshold-gate drain
         // check if src node has enough potential to traverse edge
@@ -172,11 +171,7 @@ public class DGRN {
             int srcPotential = Integer.parseInt(getNodeAttributeValue(edge.getSource(), ACTIVATION_VALUE_ID));
             // traversing negative weights requires positive potential...
             logger.trace("(" + srcPotential + ")-" + edgeMagnitude + "->?");
-            if (srcPotential >= edgeMagnitude) {
-                return true;
-            } else {
-                return false;
-            }
+            return srcPotential >= edgeMagnitude;
         } catch (IllegalStateException ex) {
             logger.error(edge.getSource().getId() + "->" + edge.getTarget().getId() + " has no weight? : ", ex);
             return false; //throw ex;
@@ -263,7 +258,7 @@ public class DGRN {
                     int n_alleles = Integer.parseInt(getNodeAttributeValue(node, ALLELE_COUNT_ID));
                     // n_alleles/maxAlleles = chance of inheriting this gene
                     int diceRoll = randomGenerator.nextInt(maxAlleles + 1);
-                    logger.debug("@ gene node " + node.getId() + " | " + n_alleles + "/" + maxAlleles + " alleles");
+                    logger.trace("@ gene node " + node.getId() + " | " + n_alleles + "/" + maxAlleles + " alleles");
                     if (diceRoll <= n_alleles) {
                         // dice roll has determined that gene is inherited.
                         logger.trace("    inherited");
@@ -313,20 +308,20 @@ public class DGRN {
         }
     }
 
-    public boolean isOutflowNode(String id) {
+    private boolean isOutflowNode(String id) {
         // returns true if given id is id of an outflow node
         for (String outNode : handleOutputNodes.getListOfOutflowNodes()) {
-            if (outNode == id) {
+            if (outNode.equals(id)) {
                 return true;
             }
         } // else
         return false;
     }
 
-    public boolean isInflowNode(String id) {
+    private boolean isInflowNode(String id) {
         // returns true if given id is id of inflow node
         for (String inNode : inflowNodeHandle.getListOfInflowNodes()) {
-            if (inNode == id) {
+            if (inNode.equals(id)) {
                 return true;
             }
         } // else
@@ -352,7 +347,7 @@ public class DGRN {
         // TODO: this should should really be handled within the gexf4j library.
         List<Node> nodes = graph.getNodes();
         for (Node node : nodes) {
-            if (node.getId() == nodeId) {
+            if (node.getId().equals(nodeId)) {
                 return node;
             }
         } // else

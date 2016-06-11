@@ -10,48 +10,45 @@ import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Shield;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Weapon;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
-import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
-import io.github.emergentorganization.emergent2dcore.components.Visual;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
 
 /**
  * player entity representing player avatar
  */
-public class Player extends EntityCreator{
-    public Player(World world, Vector2 pos){
+public class Player extends EntityCreator {
+    public Player(World world, Vector2 pos) {
         final EventManager eventManager = world.getSystem(EventManager.class);
         final TagManager tagManager = world.getSystem(TagManager.class);
 
         ent = new EntityBuilder(world, EntityFactory.player, "Player", EntityID.PLAYER.toString(), pos)
                 .tag(Tags.PLAYER)
                 .addBuilder(new VisualBuilder()
-                                .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
-                                .renderIndex(RenderIndex.PLAYER)
+                        .animation(Resources.ANIM_PLAYER, Animation.PlayMode.LOOP_PINGPONG, 0.2f)
+                        .renderIndex(RenderIndex.PLAYER)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                                .setFixedRotation(true)
-                                .bodyFriction(0.3f)
+                        .setFixedRotation(true)
+                        .bodyFriction(0.3f)
                 )
                 .addBuilder(new InputBuilder()
-                                .speed(2f)
+                        .speed(2f)
                 )
                 .addBuilder(new SpontaneousGenerationListBuilder(10))// TODO: not sure what this value should be... could use Bounds?
                 .addBuilder(new CollectibleSpawnFieldBuilder(10))// TODO: not sure what this should be either
-                        //.health(1) // shield takes care of this instead
+                //.health(1) // shield takes care of this instead
                 .build();
 
         final EquipmentList ec = ent.getComponent(EquipmentList.class);

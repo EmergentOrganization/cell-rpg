@@ -21,24 +21,25 @@ import java.util.ArrayList;
  * and traits which are extracted from this genome.
  */
 public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowNodeHandler {
-    static final Color DEFAULT_COLOR = new Color(.4f, .4f, .4f, .9f);
+    private static final Color DEFAULT_COLOR = new Color(.4f, .4f, .4f, .9f);
     private static final Logger logger = LogManager.getLogger(GeneticCell.class);
-    private static AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
-    public static Attribute attr_ActivationValue = attrList.createAttribute(
+    private static final AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
+    public static final Attribute attr_ActivationValue = attrList.createAttribute(
             nodeAttribute.ACTIVATION_VALUE,
             AttributeType.INTEGER,
             "activation value"
     ).setDefaultValue("0");  // NOTE: default value doesn't seem to have intended effect?
     public DGRN dgrn;
     public int neighborCount = 0;
-    private GeneticNetworkBuilderInterface builder;
-    private Color color = new Color(DEFAULT_COLOR);
+    private final Color color = new Color(DEFAULT_COLOR);
+
     public GeneticCell(int _state, ArrayList<GeneticCell> parents, int mutateLevel) {
         // builds cell network inherting from parent(s), mutated based on given level
         super(_state);
         initDGRN();
         // TODO: inherit + mutation
     }
+
     public GeneticCell(int _state, ArrayList<GeneticCell> parents) {
         // builds cell network inherting from parent(s) (no mutations)
         super(_state);
@@ -46,7 +47,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
 
         // inherit network from parents
         if (parents.size() > 1) {
-            logger.debug("cell inheriting from 2 parents");
+            logger.trace("cell inheriting from 2 parents");
             // choose 2 parents at random
             int p1 = dgrn.randomGenerator.nextInt(parents.size());
             int p2 = dgrn.randomGenerator.nextInt(parents.size());
@@ -64,9 +65,8 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         // builds preset network using given builder.
         super(_state);
         initDGRN();
-        builder = _builder;
         logger.trace("building seed cell network");
-        builder.buildNetwork(dgrn);
+        _builder.buildNetwork(dgrn);
     }
     // active state of a node defines if gene is expressed (and how much (in some cases))
 
@@ -78,7 +78,7 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         return this;
     }
 
-    public void initDGRN() {
+    private void initDGRN() {
         dgrn = new DGRN(
                 "Planiverse Bridge ",  // TODO: add back version : v" + CellRpg.fetch().getVersion(),
                 "Digital Gene Regulatory Network",
@@ -100,17 +100,17 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
     public int getInflowNodeValue(String key) throws KeySelectorException {
         int TRUE = 9999;
         int FALSE = 0;
-        if (key == inflowNodes.ALWAYS_ON) {
+        if (key.equals(inflowNodes.ALWAYS_ON)) {
             return TRUE;
-        } else if (key == inflowNodes.NEIGHBOR_COUNT) {
+        } else if (key.equals(inflowNodes.NEIGHBOR_COUNT)) {
             return neighborCount;
-        } else if (key == inflowNodes.CROWDED) {
+        } else if (key.equals(inflowNodes.CROWDED)) {
             if (neighborCount > 2) {
                 return TRUE;
             } else {
                 return FALSE;
             }
-        } else if (key == inflowNodes.LONELY) {
+        } else if (key.equals(inflowNodes.LONELY)) {
             if (neighborCount < 3) {
                 return TRUE;
             } else {
@@ -131,28 +131,28 @@ public class GeneticCell extends BaseCell implements OutflowNodeHandler, InflowN
         final float COLOR_DELTA = .1f * value;
         final float tooDark = .2f;
         final float tooLight = .9f;
-        if (key == outflowNodes.COLOR_LIGHTEN) {
+        if (key.equals(outflowNodes.COLOR_LIGHTEN)) {
             if (color.r < tooLight && color.g < tooLight && color.b < tooLight)
                 color.add(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
-        } else if (key == outflowNodes.COLOR_DARKEN) {
+        } else if (key.equals(outflowNodes.COLOR_DARKEN)) {
             if (color.r > tooDark && color.g > tooDark && color.b > tooDark)
                 color.sub(COLOR_DELTA, COLOR_DELTA, COLOR_DELTA, 0);
-        } else if (key == outflowNodes.COLOR_ADD_R) {
+        } else if (key.equals(outflowNodes.COLOR_ADD_R)) {
             if (color.r < tooLight)
                 color.add(COLOR_DELTA, 0, 0, 0);
-        } else if (key == outflowNodes.COLOR_ADD_G) {
+        } else if (key.equals(outflowNodes.COLOR_ADD_G)) {
             if (color.g < tooLight)
                 color.add(0, COLOR_DELTA, 0, 0);
-        } else if (key == outflowNodes.COLOR_ADD_B) {
+        } else if (key.equals(outflowNodes.COLOR_ADD_B)) {
             if (color.b < tooLight)
                 color.add(0, 0, COLOR_DELTA, 0);
-        } else if (key == outflowNodes.COLOR_SUB_R) {
+        } else if (key.equals(outflowNodes.COLOR_SUB_R)) {
             if (color.r < tooDark)
                 color.sub(COLOR_DELTA, 0, 0, 0);
-        } else if (key == outflowNodes.COLOR_SUB_G) {
+        } else if (key.equals(outflowNodes.COLOR_SUB_G)) {
             if (color.g < tooDark)
                 color.sub(0, COLOR_DELTA, 0, 0);
-        } else if (key == outflowNodes.COLOR_SUB_B) {
+        } else if (key.equals(outflowNodes.COLOR_SUB_B)) {
             if (color.b < tooDark)
                 color.sub(0, 0, COLOR_DELTA, 0);
         } else { // not an output key

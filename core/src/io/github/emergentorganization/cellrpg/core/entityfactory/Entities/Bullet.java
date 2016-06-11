@@ -13,6 +13,7 @@ import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.*;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
@@ -21,7 +22,6 @@ import io.github.emergentorganization.cellrpg.systems.CASystems.CARenderSystem.C
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,25 +32,25 @@ public class Bullet extends EntityCreator {
 
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public Bullet(World world, Vector2 pos, Vector2 dir){
+    public Bullet(World world, Vector2 pos, Vector2 dir) {
         final EventManager eventManager = world.getSystem(EventManager.class);
         final TagManager tagManager = world.getSystem(TagManager.class);
 
         final float speed = 10f;
         ent = new EntityBuilder(world, EntityFactory.bullet, "Bullet", EntityID.BULLET.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.TEX_BULLET)
-                                .renderIndex(RenderIndex.BULLET)
+                        .texture(Resources.TEX_BULLET)
+                        .renderIndex(RenderIndex.BULLET)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                                .bodyFriction(0.0001f)
-                                .bodyRestitution(1.0f)
-                                .bullet(true)
+                        .bodyFriction(0.0001f)
+                        .bodyRestitution(1.0f)
+                        .bullet(true)
                 )
                 .addBuilder(new HealthBuilder(3))
                 .addBuilder(new CollideEffectBuilder()
-                                .collideDamage(1)
-                                .collideSelfDamage(1)
+                        .collideDamage(1)
+                        .collideSelfDamage(1)
                 )
                 .addBuilder(new LifecycleBuilder(20f))
                 .velocity(speed, dir)
@@ -68,7 +68,7 @@ public class Bullet extends EntityCreator {
                         new CAInteraction()
                                 .addCollisionImpactStamp(1, CGoLShapeConsts.BOOM(9, 9), energyLayer.getId())
                                 .addCollisionImpactStamp(1, CGoLShapeConsts.EMPTY(6, 6), vyroidLayer.getId())
-                                        // constant visual effect
+                                // constant visual effect
                                 .addCollisionImpactStamp(0, CGoLShapeConsts.SQUARE(
                                         1,
                                         1,

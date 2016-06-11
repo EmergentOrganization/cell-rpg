@@ -4,35 +4,31 @@ import com.badlogic.gdx.Gdx;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
 /**
  */
 public class Secrets {
-    static Logger logger = LogManager.getLogger(Secrets.class);
-
-    static JSONParser parser = new JSONParser();
-    static Object obj;
-    static org.json.simple.JSONObject jsonObject;
-
     public static String MIXPANEL_TOKEN;
+    private static final Logger logger = LogManager.getLogger(Secrets.class);
+    private static final JSONParser parser = new JSONParser();
 
-    public static void initialize(){
+    public static void initialize() {
         try {
-            obj = parser.parse(new FileReader(Gdx.files.getLocalStoragePath()
-                    + File.separator + FileStructure.RESOURCE_DIR + "secrets.json"));
-            jsonObject = (org.json.simple.JSONObject) obj;
+            Object obj = parser.parse(new FileReader(Gdx.files.getLocalStoragePath()
+                    + FileStructure.RESOURCE_DIR + "secrets.json"));
+            JSONObject jsonObject = (org.json.simple.JSONObject) obj;
 
             MIXPANEL_TOKEN = (String) jsonObject.get("mixpanel_token");
 
-        } catch (IOException ex){
+        } catch (IOException ex) {
             logger.error("cannot open secrets.json file: " + ex.getMessage());
-        } catch (ParseException ex){
+        } catch (ParseException ex) {
             logger.error("malformed secrets.json: " + ex.getMessage());
         }
     }

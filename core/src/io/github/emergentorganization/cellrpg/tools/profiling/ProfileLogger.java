@@ -9,10 +9,10 @@ import java.io.*;
 /**
  * Class for logging profile data to a file for later analysis.
  */
-public class ProfileLogger {
+class ProfileLogger {
     private static final Logger logger = LogManager.getLogger(ProfileLogger.class);
 
-    public static void log(PerformanceCounter counter){
+    public static void log(PerformanceCounter counter) {
 
         logger.debug("writing profiler log to file");
 
@@ -35,7 +35,10 @@ public class ProfileLogger {
         } catch (IOException ex) {
             logger.error("profileLog write exception: ", ex);
         } finally {
-            try {writer.close();} catch (Exception ex) {/*ignore*/}
+            try {
+                assert writer != null;
+                writer.close();
+            } catch (Exception ex) {/*ignore*/}
         }
     }
 }

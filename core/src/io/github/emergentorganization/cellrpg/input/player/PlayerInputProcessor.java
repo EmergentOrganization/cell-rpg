@@ -6,9 +6,9 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.InputComponent;
-import io.github.emergentorganization.emergent2dcore.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.InputComponent;
+import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.input.InputProcessor;
 import io.github.emergentorganization.cellrpg.input.player.MovementControls.PathDraw;
@@ -24,10 +24,10 @@ import java.util.ArrayList;
  */
 public class PlayerInputProcessor extends InputProcessor {
 
-    Preferences prefs;
-    private TagManager tagManager;
-    private ArrayList<iPlayerCtrl> movementControls = new ArrayList<iPlayerCtrl>();
-    private ArrayList<iPlayerCtrl> weaponControls = new ArrayList<iPlayerCtrl>();
+    private final Preferences prefs;
+    private final TagManager tagManager;
+    private final ArrayList<iPlayerCtrl> movementControls = new ArrayList<iPlayerCtrl>();
+    private final ArrayList<iPlayerCtrl> weaponControls = new ArrayList<iPlayerCtrl>();
     // PlayerAbilities abilites; ...
 
     public PlayerInputProcessor(World world, EntityFactory ef, ComponentMapper<InputComponent> im,
@@ -77,10 +77,8 @@ public class PlayerInputProcessor extends InputProcessor {
     private boolean isPlayer(int entityId) {
         Entity player = tagManager.getEntity("player");
 
-        if (player.getId() == entityId)
-            return true;
+        return player.getId() == entityId;
 
-        return false;
     }
 
     public void process(int entityId) {

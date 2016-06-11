@@ -1,9 +1,7 @@
 package io.github.emergentorganization.cellrpg.tools.mixpanel;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Preferences;
 import com.mixpanel.mixpanelapi.MessageBuilder;
-import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -20,21 +16,20 @@ import java.util.concurrent.TimeUnit;
 /**
  */
 public class Mixpanel {
-    static Logger logger = LogManager.getLogger(Mixpanel.class);
-
-    private MessageBuilder messageBuilder;
+    private static final Logger logger = LogManager.getLogger(Mixpanel.class);
     private final ExecutorService executor = Executors.newCachedThreadPool();
+    private MessageBuilder messageBuilder;
     private String version = "0.0.0";
 
-    public Mixpanel(String version){
+    public Mixpanel(String version) {
         this.version = version.split("\\+")[0];  // cuts off metadata
     }
 
-    public void initialize(){
+    public void initialize() {
         messageBuilder = new MessageBuilder(Secrets.MIXPANEL_TOKEN);
     }
 
-    public void updateUserProfile(){
+    private void updateUserProfile() {
         // This creates a profile for user if one does not already exist or updates it.
         try {
             JSONObject props = new JSONObject();
@@ -55,16 +50,17 @@ public class Mixpanel {
             JSONObject update = messageBuilder.set(UserIdentifier.getId(), props);
             // Send the update to mixpanel
             executor.submit(new MessageDelivery(update));
-        }catch(JSONException ex){
+        } catch (JSONException ex) {
             logger.error("analytics JSON err: " + ex.getMessage());
         }
     }
-//
+
+    //
 //    public void newGameEvent(){
 //        incrementProperty("games_played", 1);
 //    }
 //
-    public void startupEvent(){
+    public void startupEvent() {
         updateUserProfile();  // NOTE: only _need_ to do this if it has changed
         try {
             Calendar now = Calendar.getInstance();
@@ -75,9 +71,10 @@ public class Mixpanel {
             logger.error("analytics JSON err: " + ex.getMessage());
         }
     }
-//
+
+    //
     public void gameOverEvent(final int score, final int wave) {
-        try{
+        try {
             JSONObject props = new JSONObject();
 
             // report score:
@@ -110,8 +107,9 @@ public class Mixpanel {
         }
 
     }
-//
-    private void defaultEvent(final String EVENT_ID, JSONObject props ) {
+
+    //
+    private void defaultEvent(final String EVENT_ID, JSONObject props) {
         // basic single event with given properties
         // set up the event
         JSONObject sentEvent = messageBuilder.event(UserIdentifier.getId(), EVENT_ID, props);
@@ -120,7 +118,11 @@ public class Mixpanel {
         // to Mixpanel's servers.
         executor.submit(new MessageDelivery(sentEvent));
 
-        logger.trace("sent appStart:" + sentEvent);
+        // Since a seperate thread now has a reference to our object, we need to lock the reference in order to use it
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
+        synchronized (sentEvent) {
+            logger.trace("sent appStart:" + sentEvent);
+        }
     }
 //
 //    private void addToList(final String LIST_ID, final String ADDITION){

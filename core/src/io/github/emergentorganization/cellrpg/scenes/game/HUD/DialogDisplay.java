@@ -3,43 +3,35 @@ package io.github.emergentorganization.cellrpg.scenes.game.HUD;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.SplitPane;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
-import io.github.emergentorganization.cellrpg.scenes.game.dialogue.DialogueSequenceInterface;
-import com.kotcrab.vis.ui.widget.VisDialog;
 import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import io.github.emergentorganization.cellrpg.scenes.game.dialogue.DialogueSequenceInterface;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class DialogDisplay {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    private final float dialogWidth = Gdx.graphics.getWidth();
-    private final float dialogHeight = Gdx.graphics.getHeight() * 0.25f;
-
-    private Stage stage;
-    private VisWindow dialog;
-    private VisLabel label;
+    private final VisWindow dialog;
+    private final VisLabel label;
     private DialogueSequenceInterface dialogueSequence;
-    private boolean optionsPresented = false;  // true when an option must be selected, and not just dialog shown.
-    private long typewriterDelay = 100;
     private String typewriterText = "";
     private boolean noMoreText = true;
 
     private long timer;
 
     public DialogDisplay(Stage _stage) {
-        stage = _stage;
         label = new VisLabel("");
         label.setAlignment(Align.topLeft);
 
         dialog = new VisWindow("", false);
         dialog.setMovable(false);
         dialog.setVisible(false);
+        float dialogHeight = Gdx.graphics.getHeight() * 0.25f;
+        float dialogWidth = Gdx.graphics.getWidth();
         dialog.setBounds(0, 0, dialogWidth, dialogHeight);
         dialog.add(label).expand().fill().align(Align.topLeft);
         dialog.addListener(new ClickListener() {
@@ -51,12 +43,13 @@ public class DialogDisplay {
             }
         });
 
-        stage.addActor(dialog);
+        _stage.addActor(dialog);
     }
 
     /**
      * Loads a dialog sequence to be handled and displayed
-     * @param sequence A dialog sequence to load
+     *
+     * @param sequence      A dialog sequence to load
      * @param textAlignment Aligns the text to an anchor. Use {@link Align}
      * @return Itself for chaining
      */
@@ -79,6 +72,7 @@ public class DialogDisplay {
 
     private void dialogClicked() {
         logger.trace("dialog has been clicked");
+        boolean optionsPresented = false;
         if (optionsPresented) {
             return;
         } else {
@@ -101,6 +95,7 @@ public class DialogDisplay {
         if (timer == 0L)
             timer = TimeUtils.millis();
 
+        long typewriterDelay = 100;
         if (TimeUtils.timeSinceMillis(timer) >= typewriterDelay) {
             timer += typewriterDelay;
 

@@ -2,8 +2,8 @@ package io.github.emergentorganization.cellrpg.scenes.game.dialogue;
 
 
 public class SequentialStoryDialogue implements DialogueSequenceInterface {
-    int step = -1;
-    String[] steps;
+    private int step = -1;
+    private final String[] steps;
 
     public SequentialStoryDialogue(String[] _steps) {
         steps = _steps;

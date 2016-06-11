@@ -8,11 +8,13 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 /**
+ * A Runnable class designed to send a MixPanel message in a non-blocking fashion through an ExecutorService.<br>
+ * <br>
+ * NOTE: If you wish to use the message once the class has been instantiated, please lock it first using Synchronized<br>
  */
-public class MessageDelivery implements Runnable {
+class MessageDelivery implements Runnable {
     private static final Logger logger = LogManager.getLogger(MessageDelivery.class);
     private final JSONObject message;
-    private final MixpanelAPI mixpanelAPI = new MixpanelAPI();
 
     public MessageDelivery(JSONObject message) {
         this.message = message;
@@ -21,7 +23,10 @@ public class MessageDelivery implements Runnable {
     @Override
     public void run() {
         try {
-            mixpanelAPI.sendMessage(message);
+            // Lock the message reference in case the main thread still holds a reference to the message
+            synchronized (message) {
+                new MixpanelAPI().sendMessage(message);
+            }
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

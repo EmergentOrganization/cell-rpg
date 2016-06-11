@@ -7,7 +7,7 @@ import io.github.emergentorganization.cellrpg.components.EntitySpawnField;
 
 
 public class CollectibleSpawnFieldBuilder extends BaseComponentBuilder {
-    private float spawnFieldRadius;
+    private final float spawnFieldRadius;
 
     public CollectibleSpawnFieldBuilder(float spawnFieldRadius) {
         super(Aspect.all(EntitySpawnField.class), 0);

@@ -2,14 +2,12 @@ package io.github.emergentorganization.cellrpg.tools.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.kotcrab.vis.ui.widget.VisLabel;
-import com.kotcrab.vis.ui.widget.VisSlider;
-import com.kotcrab.vis.ui.widget.VisTable;
-import com.kotcrab.vis.ui.widget.VisWindow;
+import com.kotcrab.vis.ui.widget.*;
 
 
 public class MenuBuilder {
-    public static void buildSliderSetting(VisTable menuTable, final VisWindow menuWindow, final AdjustableSetting setting) {
+
+    public static VisSlider buildSliderSetting(VisTable menuTable, final VisWindow menuWindow, final AdjustableSetting setting) {
         VisLabel settingLabel = new VisLabel(setting.getLabel());
         menuTable.add(settingLabel).pad(0f, 0f, 5f, 0f).fill(true, false);
 
@@ -29,9 +27,29 @@ public class MenuBuilder {
                 }
         );
         menuTable.add(settingSlider).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+
+        return settingSlider;
     }
 
-    public static void buildToggle(){
+    public static VisSelectBox<String> buildDropdownSetting(VisTable menuTable, final VisWindow menuWindow,
+                                                            final String[] items, final StringSetting setting) {
+        VisLabel settingLabel = new VisLabel(setting.getLabel());
+        menuTable.add(settingLabel).pad(0f, 0f, 5f, 0f).fill(true, false).row();
+
+        final VisSelectBox<String> selectBox = new VisSelectBox<String>();
+        selectBox.setItems(items);
+        selectBox.setSelected(setting.getValue());
+        menuTable.add(selectBox).pad(0, 0, 5f, 0).fill(true, false).row();
+        selectBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                setting.setValue(selectBox.getSelected());
+            }
+        });
+        return selectBox;
+    }
+
+    public static void buildToggle() {
 
     }
 }

@@ -1,7 +1,6 @@
 package io.github.emergentorganization.cellrpg.scenes.game.regions;
 
 import com.artemis.World;
-import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 
 /**
  * Base class used to create an area (aka region chunk) within a scene.

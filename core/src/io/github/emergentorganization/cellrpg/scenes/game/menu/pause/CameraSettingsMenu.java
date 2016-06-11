@@ -2,27 +2,27 @@ package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.kotcrab.vis.ui.widget.VisTable;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.menus.AdjustableSetting;
 import io.github.emergentorganization.cellrpg.tools.menus.MenuBuilder;
-import com.kotcrab.vis.ui.widget.VisTable;
 
 
 public class CameraSettingsMenu extends Submenu {
     // min px between player & screen edge:
-    public static AdjustableSetting edgeMargin = new AdjustableSetting("edge margin", 10, 1, 25, 1);
+    private static final AdjustableSetting edgeMargin = new AdjustableSetting("edge margin", 10, 1, 25, 1);
 
     // dist camera should try to lead player movement:
-    public static AdjustableSetting cameraLead = new AdjustableSetting("camera-lead", 20, 1, 50, 1);
+    private static final AdjustableSetting cameraLead = new AdjustableSetting("camera-lead", 20, 1, 50, 1);
 
     // min distance between player & cam we care about (to reduce small-dist jitter & performance++):
-    public static AdjustableSetting closeEnough = new AdjustableSetting("camera-player nearness cutoff", 4, 1, 30, 1);
+    private static final AdjustableSetting closeEnough = new AdjustableSetting("camera-player nearness cutoff", 4, 1, 30, 1);
 
     public CameraSettingsMenu(VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
     }
 
-    public void addMenuTableButtons() {
+    private void addMenuTableButtons() {
         // set up menu buttons:
         Preferences preferences = GameSettings.getPreferences();
         edgeMargin.setValue(preferences.getFloat(GameSettings.KEY_CAM_EDGE_MARGIN, 10));

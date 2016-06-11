@@ -5,7 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.kotcrab.vis.ui.VisUI;
-import io.github.emergentorganization.cellrpg.scenes.SceneManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 
 import java.util.Timer;
@@ -16,7 +17,6 @@ import java.util.TimerTask;
  */
 public class DesktopResizeTest {
     static class TestGame extends Game{
-        private SceneManager sceneManager;
 
         public TestGame(){
         }
@@ -27,7 +27,7 @@ public class DesktopResizeTest {
             //version = getVersion();
             VisUI.load();
 
-            System.out.println("Game started");
+            logger.info("Game started");
         }
     }
 
@@ -35,9 +35,9 @@ public class DesktopResizeTest {
         @Override
         public void run(){
             int w = 600, h=400;
-            System.out.println("resizing to "+w+"x"+h);
-            Gdx.graphics.setDisplayMode(w, h, false);
-            System.out.println("size changed to "+w+"x"+h);
+            logger.info("resizing to " + w + "x" + h);
+            Gdx.graphics.setWindowedMode(w, h);
+            logger.debug("size changed to " + w + "x" + h);
 
             assert Gdx.graphics.getWidth() == w;
             assert Gdx.graphics.getHeight() == h;
@@ -56,9 +56,11 @@ public class DesktopResizeTest {
         config.useGL30 = true;
 
         new LwjglApplication(new TestGame(), config);
-        System.out.println("size initially 100x100");
+        logger.debug("size initially 100x100");
 
         Timer timer = new Timer();
         timer.schedule(new ResizeTask(), 3000);
     }
+
+    private static final Logger logger = LogManager.getLogger(DesktopResizeTest.class);
 }

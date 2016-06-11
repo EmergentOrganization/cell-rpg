@@ -1,7 +1,6 @@
 package io.github.emergentorganization.cellrpg.scenes.menu;
 
 import com.artemis.WorldConfiguration;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,11 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.core.WorldType;
+import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
+import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
+import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
+import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.GameSettings;
-import io.github.emergentorganization.emergent2dcore.systems.WindowSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,10 +27,9 @@ public class MainMenu extends WorldScene {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final float tableMargin;
-    private Table table;
 
     public MainMenu(PixelonTransmission pt) {
-        super(pt);
+        super(pt, WorldType.STANDARD); // TODO: Make new WorldType specifically for MainMenu CAs
 
         this.tableMargin = stage.getWidth() * 0.015f;
     }
@@ -36,11 +38,6 @@ public class MainMenu extends WorldScene {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render(delta);
-    }
-
-    @Override
-    protected boolean shouldStash() {
-        return true;
     }
 
     @Override
@@ -53,7 +50,7 @@ public class MainMenu extends WorldScene {
     private void initUI() {
         Skin s = pt.getUISkin();
 
-        table = new Table(s);
+        Table table = new Table(s);
         table.row();
 
         // title
@@ -69,7 +66,7 @@ public class MainMenu extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.ARCADE);
+                    pt.setScene(Scene.ARCADE);
                 }
             });
 
@@ -84,7 +81,7 @@ public class MainMenu extends WorldScene {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     WindowSystem winSys = world.getSystem(WindowSystem.class);
-                    if (winSys.isPaused()){
+                    if (winSys.isPaused()) {
                         winSys.onResume();  // exit menu if already open
                     } else {
                         winSys.onPause();  // pause when clicked
@@ -92,6 +89,19 @@ public class MainMenu extends WorldScene {
                 }
             });
             table.add(settings).left().row();
+        }
+
+        // credits
+        {
+            TextButton credits = new TextButton("> Credits", s);
+            credits.align(Align.left);
+            credits.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Gdx.net.openURI("https://github.com/EmergentOrganization/cell-rpg/wiki/Credits-and-Attributions");
+                }
+            });
+            table.add(credits).left().row();
         }
 
         // quit
@@ -122,19 +132,11 @@ public class MainMenu extends WorldScene {
             stage.addActor(versionInfo);
         }
 
-        if (GameSettings.getPreferences().getBoolean(GameSettings.KEY_FIRST_START, true)){
+        if (GameSettings.getPreferences().getBoolean(GameSettings.KEY_FIRST_START, true)) {
             logger.trace("starting firstStart window");
             new FirstStartWindow(stage, world, pt);
         } else {
             logger.trace("not first start");
         }
     }
-
-    @Override
-    public WorldConfiguration getBaseWorldConfiguration() {
-        WorldConfiguration wc = new WorldConfiguration();
-        // TODO: set up main menu visuals
-        return wc;
-    }
-
 }

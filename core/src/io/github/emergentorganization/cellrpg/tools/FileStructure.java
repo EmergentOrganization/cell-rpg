@@ -30,17 +30,17 @@ public class FileStructure {
      */
     public void unpackAssets() {
         URL url = PixelonTransmission.class.getProtectionDomain().getCodeSource().getLocation();
-        System.out.println("copying assets...");
-        System.out.println("URL:" + url);
-        System.out.println("ext:" + Gdx.files.getExternalStoragePath());
-        System.out.println("loc:" + Gdx.files.getLocalStoragePath());
+        logger.info("copying assets...");
+        logger.trace("URL:" + url);
+        logger.trace("ext:" + Gdx.files.getExternalStoragePath());
+        logger.trace("loc:" + Gdx.files.getLocalStoragePath());
         try {
             String jarPath = URLDecoder.decode(url.getFile(), "UTF-8");
             jarPath = jarPath.replace("/", File.separator);  // b/c URLDecoder is platform-independent
-            System.out.println("pth:" + jarPath);
-            System.out.println("sep:" + File.separator);
+            logger.trace("pth:" + jarPath);
+            logger.trace("sep:" + File.separator);
             JarFile jar = new JarFile(jarPath);
-            System.out.println("found " + jar.size() + " entries...");
+            logger.trace("found " + jar.size() + " entries...");
             Enumeration<JarEntry> iter = jar.entries();
 
             while (iter.hasMoreElements()) {
@@ -50,14 +50,12 @@ public class FileStructure {
 
                 String s1 = rootDir + RESOURCE_DIR.substring(0, RESOURCE_DIR.length() - 1);
                 boolean t1 = (File.separator + file.getAbsolutePath()).contains(s1);
-                System.out.println(file.getAbsolutePath());
-                //System.out.println(s1);
-                System.out.println("tst:" + t1 );
+                logger.trace(file.getAbsolutePath());
 
                 boolean isNotPrepackedFile = !file.getAbsolutePath().contains("unpacked");
                 if (t1 && isNotPrepackedFile) {
                     if (file.exists()) {
-                        System.out.println("skip existing file");
+                        logger.trace("skip existing file");
                         continue;
                     }
 
@@ -66,7 +64,7 @@ public class FileStructure {
                         continue;
                     }
 
-                    System.out.println("cp " + file.getAbsolutePath());
+                    logger.trace("cp " + file.getAbsolutePath());
 
                     InputStream is = jar.getInputStream(entry);
                     FileOutputStream fos = new FileOutputStream(file);

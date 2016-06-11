@@ -2,14 +2,13 @@ package io.github.emergentorganization.cellrpg.events;
 
 import com.badlogic.gdx.audio.Sound;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
 
 import java.util.Map;
 
-
 public class SoundEventListener implements EventListener {
-    private Map<SoundEffect, Sound> soundEffects;
+    private final Map<SoundEffect, Sound> soundEffects;
 
     public SoundEventListener(AssetManager assetManager) {
         soundEffects = assetManager.getSoundEffects();

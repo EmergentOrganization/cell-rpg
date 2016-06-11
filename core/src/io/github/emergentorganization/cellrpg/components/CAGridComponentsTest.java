@@ -1,7 +1,7 @@
 package io.github.emergentorganization.cellrpg.components;
 
 import com.badlogic.gdx.graphics.Camera;
-import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerBuilder;
 import io.github.emergentorganization.cellrpg.systems.CASystems.CAGenerationSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
@@ -25,7 +25,7 @@ public class CAGridComponentsTest {
         };
 
         CAGridComponents testComps = new CAGridComponents();
-        CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
+        CALayerBuilder.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
         CAGenerationSystem testSystem = new CAGenerationSystem();
 
         testSystem._inserted(testComps, false, 0);

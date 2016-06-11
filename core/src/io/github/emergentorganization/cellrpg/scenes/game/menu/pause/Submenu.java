@@ -7,17 +7,20 @@ import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * submenu button included in a menu which launches a new menu when clicked.
  * new menu includes back button.
  */
-public class Submenu {
-    protected VisWindow menuWindow;
-    protected Stage stage;
-    protected VisTable menuTable;
+class Submenu {
+    private final Logger logger = LogManager.getLogger(getClass());
+    VisWindow menuWindow;
+    final Stage stage;
+    VisTable menuTable;
 
-    public Submenu(VisTable table, final Stage stage, String buttonText) {
+    Submenu(VisTable table, final Stage stage, String buttonText) {
         this.stage = stage;
 
         VisTextButton submenuButton = new VisTextButton(buttonText);
@@ -35,12 +38,12 @@ public class Submenu {
         });
     }
 
-    public void launchSubmenu() {
+    void launchSubmenu() {
         menuTable = new VisTable();
         menuWindow = new VisWindow("", false);
         menuWindow.setFillParent(false);
         menuWindow.centerWindow();
-        menuWindow.add(menuTable);
+        menuWindow.add(menuTable).expand().fill();
         menuWindow.clearListeners();
     }
 
@@ -50,7 +53,7 @@ public class Submenu {
         }
     }
 
-    protected void addBackButton() {
+    void addBackButton() {
         VisTextButton back = new VisTextButton("<-back");
         menuTable.add(back).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         back.addListener(new ClickListener() {
@@ -58,7 +61,7 @@ public class Submenu {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 closeSubmenu();
-                //System.out.println("back out of sub-menu");
+                logger.debug("back out of sub-menu");
             }
         });
 

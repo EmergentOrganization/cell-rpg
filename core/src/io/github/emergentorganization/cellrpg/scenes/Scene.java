@@ -43,7 +43,9 @@ public enum Scene {
     },
     POSTGAME {
         @Override
-        public BaseScene getScene(PixelonTransmission pt){ return new PostGame(pt); }
+        public BaseScene getScene(PixelonTransmission pt) {
+            return new PostGame(pt);
+        }
     };
 
     public abstract BaseScene getScene(PixelonTransmission pt);

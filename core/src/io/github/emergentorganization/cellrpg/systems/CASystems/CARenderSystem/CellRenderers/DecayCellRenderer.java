@@ -28,14 +28,14 @@ public class DecayCellRenderer implements iCellRenderer {
             new Color(0f, .7f, 1f, .8f),  // i=15
             // yellow-orange-red
             null,
-            new Color( 1f,   1f, 0f, .05f),
-            new Color( 1f,   1f, 0f, .1f),  // yellow
-            new Color( 1f, .75f, 0f, .15f),
-            new Color( 1f,  .5f, 0f, .2f), // orange
-            new Color( 1f, .25f, 0f, .3f),
-            new Color( 1f,   0f, 0f, .4f), // red
-            new Color( 1f,  .5f, 0f, .6f),
-            new Color(.5f,   0f, 0f, .8f), // dark red   i=24
+            new Color(1f, 1f, 0f, .05f),
+            new Color(1f, 1f, 0f, .1f),  // yellow
+            new Color(1f, .75f, 0f, .15f),
+            new Color(1f, .5f, 0f, .2f), // orange
+            new Color(1f, .25f, 0f, .3f),
+            new Color(1f, 0f, 0f, .4f), // red
+            new Color(1f, .5f, 0f, .6f),
+            new Color(.5f, 0f, 0f, .8f), // dark red   i=24
             // red markers (for errors)
             null,
             new Color(1f, 0f, 0f, 1f), // red
@@ -75,7 +75,7 @@ public class DecayCellRenderer implements iCellRenderer {
         shapeRenderer.rect(x, y, gridComps.cellSize, gridComps.cellSize);
     }
 
-    public static enum colorGroupKeys {
+    public enum colorGroupKeys {
         WHITE, BLUE, FIRE
     }
 }

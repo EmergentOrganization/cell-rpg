@@ -14,19 +14,19 @@ public class GraphInitializer {
         Node alwaysOn = dgrn.graph.createNode(inflowNode.ALWAYS_ON);
         alwaysOn.setLabel(inflowNode.ALWAYS_ON)
                 .getAttributeValues()
-                .addValue(dgrn.attr_ActivationValue, "1");
+                .addValue(DGRN.attr_ActivationValue, "1");
 
         Node TF1 = dgrn.graph.createNode(innerNode.TF1);
         TF1
                 .setLabel("TF1")
                 .getAttributeValues()
-                .addValue(dgrn.attr_ActivationValue, "0");
+                .addValue(DGRN.attr_ActivationValue, "0");
 
         Node colorAdd1 = dgrn.graph.createNode(outflowNode.COLOR_LIGHTEN);
         colorAdd1
                 .setLabel("colorAdd(x,x,x)")
                 .getAttributeValues()
-                .addValue(dgrn.attr_ActivationValue, "0");
+                .addValue(DGRN.attr_ActivationValue, "0");
 
         dgrn.connect(inflowNode.ALWAYS_ON, innerNode.TF1, 1);
         TF1.connectTo("1", colorAdd1).setWeight(2);
@@ -37,29 +37,29 @@ public class GraphInitializer {
         TF1
                 .setLabel("TF1")
                 .getAttributeValues()
-                .addValue(dgrn.attr_ActivationValue, "0")
-                .addValue(dgrn.attr_AlleleCount, "2");
+                .addValue(DGRN.attr_ActivationValue, "0")
+                .addValue(DGRN.attr_AlleleCount, "2");
 
         Node colorAdd1 = dgrn.graph.createNode(outflowNode.COLOR_LIGHTEN);
         colorAdd1
                 .setLabel("colorAdd(x,x,x)")
                 .getAttributeValues()
-                .addValue(dgrn.attr_ActivationValue, "0")
-                .addValue(dgrn.attr_AlleleCount, "2");
+                .addValue(DGRN.attr_ActivationValue, "0")
+                .addValue(DGRN.attr_AlleleCount, "2");
 
         dgrn.connect(inflowNode.ALWAYS_ON, innerNode.TF1, 1);
         TF1.connectTo("1", colorAdd1).setWeight(10);
     }
 
     public static class inflowNode {
-        public static String ALWAYS_ON = "always_on";
+        public static final String ALWAYS_ON = "always_on";
     }
 
     public static class innerNode {
-        public static String TF1 = "tf-1";
+        public static final String TF1 = "tf-1";
     }
 
     public static class outflowNode {
-        public static String COLOR_LIGHTEN = "Lighten Color";
+        public static final String COLOR_LIGHTEN = "Lighten Color";
     }
 }

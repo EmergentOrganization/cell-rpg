@@ -2,7 +2,7 @@ package io.github.emergentorganization.cellrpg.systems.CASystems.GeneticCells.DG
 
 
 public class MockInflowNodeHandler implements InflowNodeHandler {
-    String[] infoNodeList = new String[]{};
+    private String[] infoNodeList = new String[]{};
 
     public String[] getListOfInflowNodes() {
         return infoNodeList;

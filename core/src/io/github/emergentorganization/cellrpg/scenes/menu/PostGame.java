@@ -1,7 +1,5 @@
 package io.github.emergentorganization.cellrpg.scenes.menu;
 
-import com.artemis.WorldConfiguration;
-import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,12 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
-import io.github.emergentorganization.cellrpg.components.StatsTracker;
-import io.github.emergentorganization.cellrpg.core.EntityID;
-import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.WorldType;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
-import io.github.emergentorganization.cellrpg.scenes.game.WorldScene;
-import io.github.emergentorganization.emergent2dcore.systems.WindowSystem;
+import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +24,8 @@ public class PostGame extends WorldScene {
     private Skin skin;
 
     public PostGame(PixelonTransmission pt) {
-        super(pt);
+        // TODO: set up postgame visuals
+        super(pt, WorldType.STANDARD);
 
         this.tableMargin = stage.getWidth() * 0.015f;
     }
@@ -38,11 +34,6 @@ public class PostGame extends WorldScene {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         super.render(delta);
-    }
-
-    @Override
-    protected boolean shouldStash() {
-        return true;
     }
 
     @Override
@@ -79,22 +70,13 @@ public class PostGame extends WorldScene {
         stage.addActor(scoreTable);
     }
 
-    @Override
-    public WorldConfiguration getBaseWorldConfiguration() {
-        WorldConfiguration wc = new WorldConfiguration();
-        // TODO: set up postgame visuals
-        return wc;
-    }
-
-    private Table makeScoreTable(float tableTop, float tableBottom){
+    private Table makeScoreTable(float tableTop, float tableBottom) {
         Table scoreTable = new Table(skin);
         scoreTable.row();
 
         float cursorY = tableTop;
         int MAX_SCORES_TO_CHECK = 9999;
-        for(int rank = 0; rank < MAX_SCORES_TO_CHECK; rank++){  // aka while(true) with a backup plan
-            logger.info(pt);
-            logger.info(pt.scores);
+        for (int rank = 0; rank < MAX_SCORES_TO_CHECK; rank++) {  // aka while(true) with a backup plan
             String username = pt.scores.getName(rank);
             int score = pt.scores.getScore(rank);
 
@@ -103,29 +85,28 @@ public class PostGame extends WorldScene {
             //      skip;
             // } else {
 
-            // TODO: fix spacing between columns
             String mark = "";
-            if (pt.playerScore == score){
+            if (pt.playerScore == score) {
                 mark = "-->";
             }
-            scoreTable.add(new Label(mark + Integer.toString(rank+1) + " | ", skin)).right();
+            scoreTable.add(new Label(mark + Integer.toString(rank + 1) + " | ", skin)).right();
             scoreTable.add(new Label(username, skin)).left();
-            Label scoreText = new Label( " | " + formatScore(score), skin);
+            Label scoreText = new Label(" | " + formatScore(score), skin);
             scoreTable.add(scoreText).left().row();
             cursorY -= scoreText.getHeight();
 
-            if (cursorY < tableBottom){
+            if (cursorY < tableBottom) {
                 break;
             }
         }
         scoreTable.pack();
-        scoreTable.setPosition(stage.getWidth()/2, tableTop, Align.top);
+        scoreTable.setPosition(stage.getWidth() / 2, tableTop, Align.top);
         return scoreTable;
     }
 
-    private String formatScore(int score){
+    private String formatScore(int score) {
         // return rank formatted for display in table
-        return String.format("%08d",score);
+        return String.format("%08d", score);
     }
 
     private Table makeMenuTable() {
@@ -138,7 +119,7 @@ public class PostGame extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.MAIN_MENU);
+                    pt.setScene(Scene.MAIN_MENU);
                 }
             });
 
@@ -151,7 +132,7 @@ public class PostGame extends WorldScene {
             arcade.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    pt.getSceneManager().setScene(Scene.ARCADE);
+                    pt.setScene(Scene.ARCADE);
                 }
             });
 

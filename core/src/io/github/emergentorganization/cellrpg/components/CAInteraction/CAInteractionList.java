@@ -26,7 +26,7 @@ public class CAInteractionList extends Component {
     private final Logger logger = LogManager.getLogger(getClass());
 
     // map target CA Grid entity IDs to CAInteraction objects for an entity:
-    public HashMap<Integer, CAInteraction> interactions = new HashMap<Integer, CAInteraction>();
+    public final HashMap<Integer, CAInteraction> interactions = new HashMap<Integer, CAInteraction>();
     public Vector2 lastCollisionPosition;  // position @ last location position was checked
     private int colliderRadius_1 = 0;  // radius of collision object for 1px CA
     private int colliderRadius_3 = 0;  // for 3px CA

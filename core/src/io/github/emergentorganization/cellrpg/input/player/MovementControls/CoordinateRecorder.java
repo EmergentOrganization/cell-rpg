@@ -2,6 +2,8 @@ package io.github.emergentorganization.cellrpg.input.player.MovementControls;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
@@ -10,10 +12,11 @@ import java.util.ArrayList;
  */
 public class CoordinateRecorder {
 
-    public static float minPathLen = 100f;  // min length of path segment (in world units?)
+    public static final float minPathLen = 100f;  // min length of path segment (in world units?)
+    private final Logger logger = LogManager.getLogger(getClass());
     private float delay = 100; // Delay in ms
     private long lastRecord;
-    private ArrayList<Vector2> coords = new ArrayList<Vector2>();
+    private final ArrayList<Vector2> coords = new ArrayList<Vector2>();
 
     public CoordinateRecorder(float delay) {
         this.delay = delay;
@@ -25,7 +28,7 @@ public class CoordinateRecorder {
             if (farEnoughFromLastCoord(vect)) {
                 lastRecord += delay;
 
-                //System.out.println("Recording " + x + ", " + y);
+                logger.trace("Recording " + x + ", " + y);
                 coords.add(vect);
             }
         }
@@ -70,5 +73,4 @@ public class CoordinateRecorder {
             return vect.cpy().sub(last).len2() > minPathLen;
         }
     }
-
 }

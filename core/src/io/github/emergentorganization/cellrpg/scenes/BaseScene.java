@@ -12,7 +12,7 @@ public abstract class BaseScene extends ScreenAdapter {
     protected final PixelonTransmission pt;
     protected final Stage stage;
 
-    public BaseScene(PixelonTransmission pt) {
+    protected BaseScene(PixelonTransmission pt) {
         this.pt = pt;
         stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
     }
@@ -36,13 +36,14 @@ public abstract class BaseScene extends ScreenAdapter {
         stage.draw();
     }
 
+    /**
+     * Listener method called right before scene change. Override to add functionality
+     */
+    public void onSceneChange() {
+    }
+
     @Override
     public void dispose() {
         stage.dispose();
     }
-
-    /**
-     * Should the SceneManager stash this scene when navigating to a different scene?
-     */
-    protected abstract boolean shouldStash();
 }

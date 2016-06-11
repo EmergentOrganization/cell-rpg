@@ -7,10 +7,10 @@ import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.artemis.utils.Bag;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.core.components.*;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.BuilderComparator;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.IComponentBuilder;
-import io.github.emergentorganization.emergent2dcore.components.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,7 +45,7 @@ public class EntityBuilder {
     private final Archetype archetype;
     private final String friendlyName;
     // MISC
-    private ArrayList<IComponentBuilder> builders;
+    private final ArrayList<IComponentBuilder> builders;
     private String tag = null;
     private float scale = EntityFactory.SCALE_WORLD_TO_BOX;
 
@@ -60,7 +60,7 @@ public class EntityBuilder {
     // ===  actually builds and returns the entity using the          ===
     // ===  properties specified using the component builder classes. ===
     // ==================================================================
-    private Vector2 velocity = new Vector2();
+    private final Vector2 velocity = new Vector2();
 
     public EntityBuilder(World world, Archetype archetype, String friendlyName, String entityId, Vector2 position) {
         this.world = world;

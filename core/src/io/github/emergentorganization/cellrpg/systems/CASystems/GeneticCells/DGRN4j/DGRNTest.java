@@ -19,7 +19,7 @@ import java.util.List;
 public class DGRNTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
-    public DGRN getMockDGRN() {
+    private DGRN getMockDGRN() {
         AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
         Attribute attr_ActivationValue = attrList.createAttribute(
                 "activation value id",
@@ -40,7 +40,7 @@ public class DGRNTest {
         );
     }
 
-    public DGRN getMockDGRN_twoNode() throws Exception {
+    private DGRN getMockDGRN_twoNode() throws Exception {
         AttributeList attrList = new AttributeListImpl(AttributeClass.NODE);
         Attribute attr_ActivationValue = attrList.createAttribute(
                 "activation value id",
@@ -64,7 +64,7 @@ public class DGRNTest {
         TF1
                 .setLabel(GraphInitializer.innerNode.TF1)
                 .getAttributeValues()
-                .addValue(dgrn.attr_ActivationValue, "0");
+                .addValue(DGRN.attr_ActivationValue, "0");
 
         dgrn.connect(GraphInitializer.inflowNode.ALWAYS_ON, GraphInitializer.innerNode.TF1, 2);
 
@@ -109,7 +109,7 @@ public class DGRNTest {
         // (1) -2-> (0)
         // set new state:
         // (3) -2-> (0)
-        dgrn.setNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID, "3");
+        DGRN.setNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID, "3");
         Assert.assertEquals(true, dgrn.edgePropagatesSignal(edge));
     }
 
@@ -124,7 +124,7 @@ public class DGRNTest {
         // (1) -2-> (0)
         // set new state:
         // (-5) -2-> (0)
-        dgrn.setNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID, "-5");
+        DGRN.setNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID, "-5");
         Assert.assertEquals(dgrn.edgePropagatesSignal(edge), false);
     }
 
@@ -143,13 +143,13 @@ public class DGRNTest {
         logger.debug(edge.getSource().getId() + "->" + edge.getTarget().getId());
 
         // TODO: this doesn't work:
-        dgrn.setNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID, "2");
+        DGRN.setNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID, "2");
         // TODO: this does work:
-        dgrn.setNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID, "2");
+        DGRN.setNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID, "2");
         // TODO: WHY?
 
-        String val = dgrn.getNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID);
-        String val2 = dgrn.getNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID);
+        String val = DGRN.getNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID);
+        String val2 = DGRN.getNodeAttributeValue(edge.getSource(), dgrn.ACTIVATION_VALUE_ID);
         logger.debug("srcNode.Id:" + edge.getSource().getId());
         Assert.assertEquals(val, val2);  // check that src node is what we think it is
         logger.debug("src node value:" + val);
@@ -166,12 +166,12 @@ public class DGRNTest {
         // (1) -2-> (0)
         // set new state:
         // (-5) -2-> (0)
-        dgrn.setNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID, "-5");
+        DGRN.setNodeAttributeValue(dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON), dgrn.ACTIVATION_VALUE_ID, "-5");
         // re-prime should set to :
         // (1) -2-> (0)
         dgrn.primeInflowNodes();
         Assert.assertEquals(
-                dgrn.getNodeAttributeValue(
+                DGRN.getNodeAttributeValue(
                         dgrn.getNode(GraphInitializer.inflowNode.ALWAYS_ON),
                         dgrn.ACTIVATION_VALUE_ID),
                 "1"
@@ -187,7 +187,7 @@ public class DGRNTest {
         //   (on) -a-> (TF1) -b-> (colorAdd)
         // where weights of a=1 and b=2
 
-        String attr = dgrn.attr_ActivationValue.getId();
+        String attr = DGRN.attr_ActivationValue.getId();
         // before tick values should be
         //   (1) -> (0) -> (0)
         Assert.assertEquals("1", DGRN.getNodeAttributeValue(

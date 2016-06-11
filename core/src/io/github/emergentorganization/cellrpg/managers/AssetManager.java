@@ -6,9 +6,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.utils.Array;
 import io.github.emergentorganization.cellrpg.core.ParticleEff;
-import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
-import io.github.emergentorganization.emergent2dcore.components.Visual;
 import io.github.emergentorganization.cellrpg.core.SoundEffect;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 
 import java.util.Collections;
@@ -18,15 +18,13 @@ import java.util.Map;
 
 public class AssetManager extends BaseSystem {
 
-    private HashMap<String, TextureRegion> regions;
-    private HashMap<String, Animation> animations;
-    private Map<SoundEffect, Sound> soundEffects;
-    private Map<ParticleEff, ParticleEffectPool> particlePools;
-    public com.badlogic.gdx.assets.AssetManager gdxAssetManager;
+    private final HashMap<String, TextureRegion> regions;
+    private final HashMap<String, Animation> animations;
+    private final Map<SoundEffect, Sound> soundEffects;
+    private final Map<ParticleEff, ParticleEffectPool> particlePools;
 
     public AssetManager(com.badlogic.gdx.assets.AssetManager assets) {
         setEnabled(false);
-        gdxAssetManager = assets;
 
         regions = new HashMap<String, TextureRegion>();
         animations = new HashMap<String, Animation>();
@@ -55,6 +53,14 @@ public class AssetManager extends BaseSystem {
         particlePools = Collections.unmodifiableMap(pEffects);
     }
 
+    private static void addParticleEffectTo(Map.Entry<ParticleEff, String> effectPathSet,
+                                            HashMap<ParticleEff, ParticleEffectPool> pEffects) {
+        ParticleEffect prototype = new ParticleEffect();
+        prototype.load(Gdx.files.internal(effectPathSet.getValue()), Gdx.files.internal(Resources.DIR_PARTICLES));
+        prototype.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX / 2f);
+        pEffects.put(effectPathSet.getKey(), new ParticleEffectPool(prototype, 0, 50));
+    }
+
     public Animation defineAnimation(String id, float frameDuration, String[] frames, Animation.PlayMode playMode) {
         Animation a = animations.get(id);
         if (a != null)
@@ -75,12 +81,12 @@ public class AssetManager extends BaseSystem {
         return regions.get(id);
     }
 
-    public Animation getAnimation(String id) {
+    private Animation getAnimation(String id) {
         return animations.get(id);
     }
 
     /**
-     * @param v
+     * @param v The visual component associated with the region
      * @return current frame in animation, or the only frame if a static region
      */
     public TextureRegion getCurrentRegion(Visual v) {
@@ -102,7 +108,7 @@ public class AssetManager extends BaseSystem {
         return soundEffects.get(effect);
     }
 
-    public ParticleEffect getParticleEffect(ParticleEff effKey){
+    public ParticleEffect getParticleEffect(ParticleEff effKey) {
         return particlePools.get(effKey).obtain();
     }
 
@@ -112,13 +118,5 @@ public class AssetManager extends BaseSystem {
 
     @Override
     protected void processSystem() {
-    }
-
-    private static void addParticleEffectTo(Map.Entry<ParticleEff, String> effectPathSet,
-                                            HashMap<ParticleEff, ParticleEffectPool> pEffects){
-        ParticleEffect prototype = new ParticleEffect();
-        prototype.load(Gdx.files.internal(effectPathSet.getValue()), Gdx.files.internal(Resources.DIR_PARTICLES));
-        prototype.scaleEffect(EntityFactory.SCALE_WORLD_TO_BOX / 2f);
-        pEffects.put(effectPathSet.getKey(), new ParticleEffectPool(prototype, 0, 50));
     }
 }

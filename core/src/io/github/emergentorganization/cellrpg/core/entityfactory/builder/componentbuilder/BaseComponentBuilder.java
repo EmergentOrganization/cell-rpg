@@ -2,7 +2,7 @@ package io.github.emergentorganization.cellrpg.core.entityfactory.builder.compon
 
 import com.artemis.Aspect;
 import com.artemis.Entity;
-import io.github.emergentorganization.emergent2dcore.components.Name;
+import io.github.emergentorganization.cellrpg.core.components.Name;
 
 
 public abstract class BaseComponentBuilder implements IComponentBuilder {
@@ -10,7 +10,7 @@ public abstract class BaseComponentBuilder implements IComponentBuilder {
     private final int sortImportance;
     private boolean isBuilt = false;
 
-    public BaseComponentBuilder(Aspect.Builder aspectBuilder, int importance) {
+    BaseComponentBuilder(Aspect.Builder aspectBuilder, int importance) {
         this.aspectBuilder = aspectBuilder;
         this.sortImportance = Math.max(Math.min(0, importance), 100);
     }

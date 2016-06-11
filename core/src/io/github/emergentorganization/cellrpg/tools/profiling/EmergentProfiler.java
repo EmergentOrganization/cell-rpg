@@ -10,49 +10,47 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Profiler to collect profiling information on artemis systems used within libgdx & the Emergent2dCore framework.
- *
+ * <p>
  * Should be injected with:
  *
- *       @Profile(using=EmergentProfiler.class, enabled=GameSettings.devMode())
+ * @Profile(using=EmergentProfiler.class, enabled=GameSettings.devMode())
  */
 
 public class EmergentProfiler implements ArtemisProfiler {
     private final Logger logger = LogManager.getLogger(getClass());
-    private String className = "UNNAMED_CLASS";
-    private final long LOG_PERIOD = 3*1000;  // profiler log frequency [ms]
+    private PerformanceCounter counter;
     private long lastLog = System.currentTimeMillis();
 
-    PerformanceCounter counter;
-
-    public EmergentProfiler(){
-        logger.debug("profiler constructed");
+    public EmergentProfiler() {
+        logger.trace("profiler constructed");
     }
 
-    public void initialize(BaseSystem system, World world){
+    public void initialize(BaseSystem system, World world) {
         String[] strs = system.toString().split("@")[0].split("\\.");
-        className = strs[strs.length-1];  // last section split by '.' (but excluding after @) is class name
-        logger.debug("init profiler on " + className);
+        String className = strs[strs.length - 1];
+        logger.trace("init profiler on " + className);
         counter = new PerformanceCounter(className);
     }
 
-    public void start(){
+    public void start() {
         if (GameSettings.devMode()) {
             counter.start();
         }
     }
 
-    public void stop(){
+    public void stop() {
         if (GameSettings.devMode()) {
             counter.stop();
             counter.tick();
+            long LOG_PERIOD = 3 * 1000;
             if (System.currentTimeMillis() - lastLog > LOG_PERIOD) {
                 ProfileLogger.log(counter);
                 lastLog = System.currentTimeMillis();
             } else {
-                logger.debug(LOG_PERIOD - (System.currentTimeMillis() - lastLog) + "ms remain until log");
+                logger.trace(LOG_PERIOD - (System.currentTimeMillis() - lastLog) + "ms remain until log");
             }
         } else {
-            logger.debug("devmode disabled");
+            logger.trace("devmode disabled");
         }
     }
 }

@@ -5,23 +5,23 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import io.github.emergentorganization.cellrpg.input.player.PlayerInputProcessor;
-import io.github.emergentorganization.emergent2dcore.systems.InputSystem;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisTable;
+import io.github.emergentorganization.cellrpg.core.systems.InputSystem;
+import io.github.emergentorganization.cellrpg.input.player.PlayerInputProcessor;
+import io.github.emergentorganization.cellrpg.tools.GameSettings;
 
 
 public class MovementSettingsMenu extends Submenu {
-    World world;
+    private final World world;
 
     public MovementSettingsMenu(VisTable table, Stage stage, String buttonText, World world) {
         super(table, stage, buttonText);
         this.world = world;
     }
 
-    public void addMenuTableButtons() {
+    private void addMenuTableButtons() {
         // set up menu buttons:
         VisLabel controlTypeLabel = new VisLabel("weapon control scheme");
         menuTable.add(controlTypeLabel).pad(0f, 0f, 5f, 0f).fill(true, false).row();
@@ -29,7 +29,7 @@ public class MovementSettingsMenu extends Submenu {
         final Preferences prefs = GameSettings.getPreferences();
 
         // weapon control buttons
-        final VisSelectBox weaponControlType = new VisSelectBox();
+        final VisSelectBox<String> weaponControlType = new VisSelectBox<String>();
         weaponControlType.setItems(playInProc.getWeaponCtrlChoices());
         menuTable.add(weaponControlType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         weaponControlType.setSelectedIndex(prefs.getInteger(GameSettings.KEY_WEAPON_CONTROL_METHOD));
@@ -55,7 +55,7 @@ public class MovementSettingsMenu extends Submenu {
         playInProc.getPlayerWeapon().addInputConfigButtons(menuTable, menuWindow);
 
         // movement controls
-        final VisSelectBox moveControlType = new VisSelectBox();
+        final VisSelectBox<String> moveControlType = new VisSelectBox<String>();
         moveControlType.setItems(playInProc.getMovementCtrlChoices());
         menuTable.add(moveControlType).pad(0f, 0f, 5f, 0f).fill(true, false).row();
         moveControlType.setSelectedIndex(prefs.getInteger(GameSettings.KEY_MOVEMENT_CONTROL_METHOD));

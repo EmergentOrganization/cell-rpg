@@ -6,38 +6,41 @@ import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
+import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;
 import io.github.emergentorganization.cellrpg.managers.EventManager;
 import io.github.emergentorganization.cellrpg.tools.Resources;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
-import io.github.emergentorganization.emergent2dcore.components.Position;
-import io.github.emergentorganization.emergent2dcore.components.Visual;
-import io.github.emergentorganization.emergent2dcore.events.EventListener;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  */
 public class Shield extends Equipment {
-    public int shieldEntity = -1;
-    public int shieldState = 0;
+    private final Logger logger = LogManager.getLogger(getClass());
+    private int shieldEntity = -1;
+    private int shieldState = 0;
 
-    public Shield(int parentId, String name, String description, int baseEnergy, int energySlots, int shieldStat){
+    public Shield(int parentId, String name, String description, int baseEnergy, int energySlots, int shieldStat) {
         super(parentId, name, description, baseEnergy, energySlots);
         this.type = EquipmentType.SHIELD;
 
         this.shieldStat = shieldStat;
     }
 
-    public void create(World world, Vector2 pos){
+    public void create(World world, Vector2 pos) {
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
         final Entity shield = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag("shield")
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
-                                .renderIndex(RenderIndex.PLAYER_SHIELD)
+                        .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
+                        .renderIndex(RenderIndex.PLAYER_SHIELD)
                 )
                 .build();
 
@@ -59,10 +62,10 @@ public class Shield extends Equipment {
                         }
                         break;
                     case POWERUP_PLUS:
-//                        System.out.println("shield (" + ec.shieldState + ") powerup");
+                        logger.info("shield (" + shieldState + ") powerup");
                         if (shieldState < (MAX_SHIELD_STATE)) {
                             shieldState++;
-//                            System.out.println("shield++");
+                            logger.debug("shield++");
                             shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(shieldState));
                         }
                         break;
@@ -71,7 +74,7 @@ public class Shield extends Equipment {
         });
     }
 
-    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
         if (this.shieldEntity >= 0) {
             Bounds shieldBounds = boundsMapper.get(this.shieldEntity);
             Bounds ownerBounds = boundsMapper.get(parentId);

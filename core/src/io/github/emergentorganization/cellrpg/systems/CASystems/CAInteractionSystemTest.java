@@ -1,12 +1,12 @@
 package io.github.emergentorganization.cellrpg.systems.CASystems;
 
 import com.badlogic.gdx.graphics.Camera;
-import io.github.emergentorganization.emergent2dcore.components.Bounds;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionList;
 import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInteractionListTest;
-import io.github.emergentorganization.emergent2dcore.components.Position;
-import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerFactory;
+import io.github.emergentorganization.cellrpg.core.components.Bounds;
+import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.entityfactory.CALayerBuilder;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +18,6 @@ public class CAInteractionSystemTest {
     private final Logger logger = LogManager.getLogger(getClass());
 
     private final int COLLIDING_STATE = 1;
-    private final int COLLIDING_LAYER_ID = 1;
 
     private void setupTestState_full(CAGridComponents testComps) {
         // sets up given component with a full CA grid
@@ -34,7 +33,7 @@ public class CAInteractionSystemTest {
             }
         };
 
-        CALayerFactory.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
+        CALayerBuilder.initLayerComponentsByType(testComps, CALayer.VYROIDS, camera);
 
         testComps.fill(COLLIDING_STATE);
     }
@@ -53,6 +52,7 @@ public class CAInteractionSystemTest {
         testBound.height = 10;
         testBound.width = 10;
 
+        int COLLIDING_LAYER_ID = 1;
         CAInteractionListTest.setupInteractions(testInteractions, COLLIDING_LAYER_ID, COLLIDING_STATE);
 
         setupTestState_full(testGridComps);

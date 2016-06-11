@@ -175,9 +175,10 @@ public class Mixpanel {
 
     public void dispose() {
         try {
-            executor.awaitTermination(1, TimeUnit.SECONDS);
+            executor.awaitTermination(100, TimeUnit.MILLISECONDS);
+            executor.shutdownNow();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
     }
 }

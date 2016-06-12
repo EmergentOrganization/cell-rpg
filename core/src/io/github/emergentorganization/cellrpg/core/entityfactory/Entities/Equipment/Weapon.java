@@ -33,15 +33,17 @@ public class Weapon extends Equipment {
     private final ArrayList<Powerup> powerups = new ArrayList<Powerup>();
     private final ArrayList<Long> powerup_timers = new ArrayList<Long>();
 
-    public Weapon(int parentId, String name, String description, int baseEnergy, int energySlots, int attackStat) {
-        super(parentId, name, description, baseEnergy, energySlots);
-        this.type = EquipmentType.WEAPON;
-
+    public Weapon setup(String name, String description, int baseEnergy, int energySlots, int attackStat){
+        super.setup(name, description, baseEnergy, energySlots);
         this.attackStat = attackStat;
+        return this;
     }
 
-    public void create(World world, Vector2 pos) {
-        // Shield  TODO: build weapon entity
+    @Override
+    public Weapon create(World world, Vector2 pos, int parentId) {
+        super.create(world, pos, parentId);
+        this.type = EquipmentType.WEAPON;
+        // TODO: build weapon entity (for visuals and collisions)
 //        final Entity weapon = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
 //                .tag("shield")
 //                .addBuilder(new VisualBuilder()
@@ -49,6 +51,7 @@ public class Weapon extends Equipment {
 //                                .renderIndex(RenderIndex.PLAYER_SHIELD)
 //                )
 //                .build();
+        return this;
     }
 
     public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {

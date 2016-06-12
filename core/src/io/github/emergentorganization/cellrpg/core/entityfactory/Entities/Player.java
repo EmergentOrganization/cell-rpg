@@ -54,15 +54,15 @@ public class Player extends EntityCreator {
                 .build();
 
         final EquipmentList ec = ent.getComponent(EquipmentList.class);
-        if (!ec.loadEquipment()){
+        if (!ec.loadEquipment(world, pos, ent.getId())){
             // setup default equipment
             ec.addEquipment(
-                    new Shield(ent.getId(), "Default Shield", "basic starter shield", 1, 3, 1),
-                    world, pos
+                    new Shield().setup("Default Shield", "basic starter shield", 1, 3, 1),
+                    world, pos, ent.getId()
             );
             ec.addEquipment(
-                    new Weapon(ent.getId(), "Default Laser", "basic starter laser", 2, 5, 1),
-                    world, pos
+                    new Weapon().setup("Default Laser", "basic starter laser", 2, 5, 1),
+                    world, pos, ent.getId()
             );
         }
 

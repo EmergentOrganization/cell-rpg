@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class EquipmentList extends Component {
     public final ArrayList<Equipment> equipment = new ArrayList<Equipment>();
 
-    public void addEquipment(Equipment newEquip, World world, Vector2 pos) {
-        newEquip.create(world, pos);
+    public void addEquipment(Equipment newEquip, World world, Vector2 pos, int parentId) {
+        newEquip.create(world, pos, parentId);
         equipment.add(newEquip);
     }
 
@@ -44,7 +44,7 @@ public class EquipmentList extends Component {
         LoadoutSave.saveLoadout(equipment);
     }
 
-    public boolean loadEquipment(){
+    public boolean loadEquipment(World world, Vector2 pos, int parentId){
         // loads equipment from file
         // returns true if loaded, false if not
 
@@ -54,7 +54,10 @@ public class EquipmentList extends Component {
             //            eq.dispose();
             //        }
             equipment.clear();
-            equipment.addAll(newEquipment);
+            for (Equipment eq : newEquipment){
+                eq.create(world, pos, parentId);
+                equipment.add(eq);
+            }
             return true;
         } else {
             return false;

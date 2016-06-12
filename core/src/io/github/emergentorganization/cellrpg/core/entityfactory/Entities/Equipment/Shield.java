@@ -27,14 +27,17 @@ public class Shield extends Equipment {
     private int shieldEntity = -1;
     private int shieldState = 0;
 
-    public Shield(int parentId, String name, String description, int baseEnergy, int energySlots, int shieldStat) {
-        super(parentId, name, description, baseEnergy, energySlots);
-        this.type = EquipmentType.SHIELD;
-
+    public Shield setup(String name, String description, int baseEnergy, int energySlots, int shieldStat){
+        super.setup(name, description, baseEnergy, energySlots);
         this.shieldStat = shieldStat;
+        return this;
     }
 
-    public void create(World world, Vector2 pos) {
+    @Override
+    public Shield create(World world, Vector2 pos, int parentId) {
+        super.create(world, pos, parentId);
+        this.type = EquipmentType.SHIELD;
+
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
         final Entity shield = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag("shield")
@@ -72,6 +75,7 @@ public class Shield extends Equipment {
                 }
             }
         });
+        return this;
     }
 
     public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {

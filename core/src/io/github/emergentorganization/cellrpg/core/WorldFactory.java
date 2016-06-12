@@ -1,5 +1,6 @@
 package io.github.emergentorganization.cellrpg.core;
 
+import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.managers.TagManager;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
+import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.core.systems.*;
@@ -94,9 +96,12 @@ public class WorldFactory {
                         break;
                     case PLAYER_SHIELD_DOWN:
                         logger.info("player shield down");
-                        int playerId = world.getSystem(TagManager.class).getEntity(Tags.PLAYER).getId();
-                        // TODO: player.destroy isnt triggered, need to call directly?
-                        world.getSystem(EventManager.class).pushEvent(new EntityEvent(playerId, GameEvent.DESTROY));
+                        // manually dispose player
+                        Entity player = world.getSystem(TagManager.class).getEntity(Tags.PLAYER);
+                        player.getComponent(EquipmentList.class).saveEquipment();
+
+                        // NOTE: player.destroy never gets triggered this way b/c scene is destroyed before event fires
+                        // world.getSystem(EventManager.class).pushEvent(new EntityEvent(playerId, GameEvent.DESTROY));
                         pt.gameOver(world);
                         break;
                     case COLLISION_BULLET:

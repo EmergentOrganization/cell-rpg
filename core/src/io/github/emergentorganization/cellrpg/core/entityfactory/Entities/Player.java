@@ -81,8 +81,9 @@ public class Player extends EntityCreator {
                             energyLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.BOOM(210, 210), cen);
                             break;
                         case DESTROY:
+                            // NOTE: currently this never gets called b/c scene is changed before event callbacks fired
                             logger.info("player destroyed");
-                            ec.saveEquipment();
+                            dispose();
                             break;
                     }
                 } else {
@@ -91,5 +92,11 @@ public class Player extends EntityCreator {
             }
         });
     }
+
+    public void dispose(){
+        logger.debug("disposing player");
+        ent.getComponent(EquipmentList.class).saveEquipment();
+    }
+
     private final Logger logger = LogManager.getLogger(getClass());
 }

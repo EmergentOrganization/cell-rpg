@@ -14,18 +14,17 @@ import java.util.ArrayList;
 /**
  */
 public class Weapon extends Equipment {
-
     // power-up constants:
     private static final long FIRE_RATE_DELAY_DELTA = 100;
     private static final long FIRE_RATE_LEN = 3;
-    private static final long FIRE_RATE_CHARGE_BOOST = 100;
-    private final int MAX_CHARGE = 100;
-    public final int SHOT_CHARGE_COST = 10;
+    private static final long FIRE_RATE_CHARGE_BOOST = 2;
+    private final int MAX_CHARGE = 10;
+    public final int SHOT_CHARGE_COST = 1;
     private final Logger logger = LogManager.getLogger(getClass());
     // public:
     public long delay = 100;  // required delay between shots
-    public int charge = 100;  // how much charge stored in weapon
-    private final int recharge_per_s = 30;
+    public int charge = 0;  // how much charge stored in weapon
+    private final int recharge_per_s = 1;
     // private:
     public long lastShot;  // time of last weapon fire
     public boolean charge_changed;

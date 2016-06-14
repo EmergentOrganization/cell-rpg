@@ -48,6 +48,7 @@ public class LoadoutSave {
         Json json = new Json();
         String equipmentStr = json.toJson(loadout, ArrayList.class);
         pref.putString(KEY_EQUIPMENT_JSON, equipmentStr);
+        pref.flush();
         logger.info("loadout #" + loadoutNumber +"(n="+ loadout.size() + ") saved to file");
     }
 

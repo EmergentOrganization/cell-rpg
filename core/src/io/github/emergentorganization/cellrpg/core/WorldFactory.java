@@ -98,10 +98,11 @@ public class WorldFactory {
                         logger.info("player shield down");
                         // manually dispose player
                         Entity player = world.getSystem(TagManager.class).getEntity(Tags.PLAYER);
-                        player.getComponent(EquipmentList.class).saveEquipment();
 
                         // NOTE: player.destroy never gets triggered this way b/c scene is destroyed before event fires
-                        // world.getSystem(EventManager.class).pushEvent(new EntityEvent(playerId, GameEvent.DESTROY));
+                        world.getSystem(EventManager.class).pushEvent(new EntityEvent(
+                                player.getId(), GameEvent.DESTROY
+                        ));
                         pt.gameOver(world);
                         break;
                     case COLLISION_BULLET:

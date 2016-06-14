@@ -7,29 +7,49 @@ import java.util.Map;
 
 
 public enum EntityID {
-    BULLET,
-    PLAYER, PLAYER_SHIELD,
+    // ### EQUIPMENT ###
+    // shields:
+    PLAYER_SHIELD,
+    // weapons:
+    WEAPON_DEFAULT,
+
+    // ### BUILDINGS ###
     BUILDING_LARGE_ONE, BUILDING_ROUND_ONE,
     RIFT_ONE, RIFT_TWO, VYROID_BEACON,
+
+    // ### NPCS ###
+    // civ 1:
     CIV_ONE_BLINKER,
+    // vyroids:
     VYRAPUFFER, TUBSNAKE, PONDBOMB, GOSPER,
-    THE_EDGE, BG_ARCADE, INVISIBLE_WALL,
-    POWERUP_PLUS, POWERUP_STAR,
-    CA_LAYER_VYROIDS, CA_LAYER_ENERGY, CA_LAYER_GENETIC;
+
+    // ### SCENERY ###
+    THE_EDGE, BG_ARCADE,
+
+    // ### CA ###
+    CA_LAYER_VYROIDS, CA_LAYER_ENERGY, CA_LAYER_GENETIC,
+
+    // ### OTHER ###
+    BULLET, POWERUP_PLUS, POWERUP_STAR,
+    PLAYER,
+    INVISIBLE_WALL;
 
     private static final EnumMap<EntityID, String> map = new EnumMap<EntityID, String>(EntityID.class);
 
     static {
+        map.put(PLAYER_SHIELD, "shield");
+        map.put(WEAPON_DEFAULT, "player-ammo");
+
         map.put(BULLET, "bullet");
         map.put(PLAYER, "char-player");
-        map.put(PLAYER_SHIELD, "shield");
+
         map.put(BUILDING_LARGE_ONE, "building-large-1");
         map.put(BUILDING_ROUND_ONE, "building-round-1");
         map.put(RIFT_ONE, "rift1");
         map.put(RIFT_TWO, "rift2");
         map.put(VYROID_BEACON, "vyroid-generator");
-        map.put(CIV_ONE_BLINKER, "char-civ1-blinker");
 
+        map.put(CIV_ONE_BLINKER, "char-civ1-blinker");
         map.put(VYRAPUFFER, "vyrapuffer");
         map.put(TUBSNAKE, "tubsnake");
         map.put(PONDBOMB, "pond-bomb");

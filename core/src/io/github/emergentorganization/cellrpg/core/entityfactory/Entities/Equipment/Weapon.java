@@ -4,8 +4,15 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.RenderIndex;
+import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
+import io.github.emergentorganization.cellrpg.tools.Resources;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +20,7 @@ import java.util.ArrayList;
 
 /**
  */
-public class Weapon extends Equipment {
+public class Weapon extends ChargeAnimatedEquipment {
     // power-up constants:
     private static final long FIRE_RATE_DELAY_DELTA = 100;
     private static final long FIRE_RATE_LEN = 3;
@@ -37,37 +44,31 @@ public class Weapon extends Equipment {
 
     @Override
     public Weapon create(World world, Vector2 pos, int parentId) {
+        setupAnim(Resources.ANIM_DEFAULT_WEAPON, EntityID.WEAPON_DEFAULT, Tags.WEAPON, RenderIndex.PLAYER_SHIELD);
         super.create(world, pos, parentId);
         this.type = EquipmentType.WEAPON;
-        // TODO: build weapon entity (for visuals and collisions)
-//        ent = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
-//                .tag("shield")
-//                .addBuilder(new VisualBuilder()
-//                                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
-//                                .renderIndex(RenderIndex.PLAYER_SHIELD)
-//                )
-//                .build();
         return this;
     }
 
     public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
-        // TODO: re-enable once we have a weapon entity
-//        if (this.shieldEntity >= 0) {
-//            Bounds shieldBounds = boundsMapper.get(this.shieldEntity);
-//            Bounds ownerBounds = boundsMapper.get(parentId);
-//            Position parentPos = posMapper.get(parentId);
-//            posMapper.get(this.shieldEntity)
-//                    .position.set(parentPos.position)
-//                    .sub(
-//                            shieldBounds.width * 0.5f - ownerBounds.width * 0.5f,
-//                            shieldBounds.height * 0.5f - ownerBounds.height * 0.5f
-//                    );
-//        }
+        // TODO: sticking to the parent is a common operation (duplicate in Shield). How can we keep this DRY? ~7yl4r
+        if (ent.getId() >= 0) {
+            Bounds shieldBounds = boundsMapper.get(ent.getId());
+            Bounds ownerBounds = boundsMapper.get(parentId);
+            Position parentPos = posMapper.get(parentId);
+            posMapper.get(ent.getId())
+                    .position.set(parentPos.position)
+                    .sub(
+                            shieldBounds.width * 0.5f - ownerBounds.width * 0.5f,
+                            shieldBounds.height * 0.5f - ownerBounds.height * 0.5f
+                    );
+        }
     }
 
     @Override
     public void recharge() {
         super.recharge();
+        onChargeChanged();
         checkForPowerDown(1);
     }
 

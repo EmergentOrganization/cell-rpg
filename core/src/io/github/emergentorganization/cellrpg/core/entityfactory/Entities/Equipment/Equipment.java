@@ -124,6 +124,9 @@ public abstract class Equipment implements Json.Serializable{
         // recharge weapon
         if (isPowered() && charge < maxCharge) {
             charge += recharge_per_s * powerLevel();
+            if (charge > maxCharge){
+                charge = maxCharge;
+            }
             logger.trace("recharge " + type);
         }
         // TODO: take some charge from the energySystem and give it to the equipment

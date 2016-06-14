@@ -50,7 +50,6 @@ public class EntityFactory {
     public static Archetype bullet;
     private static Archetype ca_layer;
     private static Archetype invisibleObject;
-    private final Logger logger = LogManager.getLogger(getClass());
     private TagManager tagManager;
     private World world;
     private EventManager eventManager;
@@ -448,4 +447,6 @@ public class EntityFactory {
             return -1;
         }
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

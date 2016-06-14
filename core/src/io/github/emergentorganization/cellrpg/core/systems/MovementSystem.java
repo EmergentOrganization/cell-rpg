@@ -59,7 +59,6 @@ public class MovementSystem extends IteratingSystem {
             if (equipMapper.has(entityId)) {
                 EquipmentList equipmentList = equipMapper.get(entityId);
                 equipmentList.moveEquipment(boundsMapper, posMapper);
-                equipmentList.rechargeEquipment(); // TODO: move this to EnergySystem
             }
         } catch (NullPointerException ex) {
             logger.error("MoveSys error; killing offending entity #" + entityId, ex);

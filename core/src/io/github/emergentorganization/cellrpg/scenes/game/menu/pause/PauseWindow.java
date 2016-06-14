@@ -21,7 +21,7 @@ public class PauseWindow extends VisWindow {
     private final DebugMenu debugMenu;
     private final EquipmentMenu equipmentMenu;
 
-    public PauseWindow(final PixelonTransmission pt, final Stage stage, World world) {
+    public PauseWindow(final PixelonTransmission pt, final Stage stage, final World world) {
         super("", false);
 
         logger.debug("enter pause menu");
@@ -56,7 +56,7 @@ public class PauseWindow extends VisWindow {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 fadeOut();
-                pt.setScene(Scene.MAIN_MENU);
+                pt.gameOver(world);
             }
         });
         table.add(exit).pad(0f, 0f, 5f, 0f).fill(true, false).row();

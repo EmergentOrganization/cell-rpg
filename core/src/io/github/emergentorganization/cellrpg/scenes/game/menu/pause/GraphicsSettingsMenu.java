@@ -8,7 +8,7 @@ import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisSelectBox;
 import com.kotcrab.vis.ui.widget.VisSlider;
 import com.kotcrab.vis.ui.widget.VisTable;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.menus.AdjustableSetting;
 import io.github.emergentorganization.cellrpg.tools.menus.MenuBuilder;
 import io.github.emergentorganization.cellrpg.tools.menus.StringSetting;

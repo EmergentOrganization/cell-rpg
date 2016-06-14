@@ -24,6 +24,8 @@ import io.github.emergentorganization.cellrpg.managers.PhysicsSystem;
 import io.github.emergentorganization.cellrpg.systems.CASystems.layers.CALayer;
 import io.github.emergentorganization.cellrpg.tools.CGoLShapeConsts;
 import io.github.emergentorganization.cellrpg.tools.Resources;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * player entity representing player avatar
@@ -52,30 +54,49 @@ public class Player extends EntityCreator {
                 .build();
 
         final EquipmentList ec = ent.getComponent(EquipmentList.class);
-        ec.addEquipment(
-                new Shield(ent.getId(), "Default Shield", "basic starter shield", 1, 3, 1),
-                world, pos
-        );
-        ec.addEquipment(
-                new Weapon(ent.getId(), "Default Laser", "basic starter laser", 2, 5, 1),
-                world, pos
-        );
+        if (!ec.loadEquipment(world, pos, ent.getId())){
+            // setup default equipment
+            ec.addEquipment(
+                    new Shield().setup("Default Shield", "basic starter shield", 1, 3, 1),
+                    world, pos, ent.getId()
+            );
+            ec.addEquipment(
+                    new Weapon().setup("Default Laser", "basic starter laser", 2, 5, 1),
+                    world, pos, ent.getId()
+            );
+        }
 
         eventManager.addListener(new EventListener() {
             @Override
             public void notify(EntityEvent event) {
-                switch (event.event) {
-                    case POWERUP_STAR:
-                        Vector2 cen = ent.getComponent(Position.class).getCenter(ent.getComponent(Bounds.class), 0);
-                        Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
-                        Entity geneticLayer = tagManager.getEntity(CALayer.VYROIDS_GENETIC.getTag());
-                        Entity energyLayer = tagManager.getEntity(CALayer.ENERGY.getTag());
-                        vyroidLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(210, 210), cen);
-                        geneticLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(70, 70), cen);
-                        energyLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.BOOM(210, 210), cen);
+                if (event.entityId == ent.getId()) {
+                    switch (event.event) {
+                        case POWERUP_STAR:
+                            Vector2 cen = ent.getComponent(Position.class).getCenter(ent.getComponent(Bounds.class), 0);
+                            Entity vyroidLayer = tagManager.getEntity(CALayer.VYROIDS.getTag());
+                            Entity geneticLayer = tagManager.getEntity(CALayer.VYROIDS_GENETIC.getTag());
+                            Entity energyLayer = tagManager.getEntity(CALayer.ENERGY.getTag());
+                            vyroidLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(210, 210), cen);
+                            geneticLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.EMPTY(70, 70), cen);
+                            energyLayer.getComponent(CAGridComponents.class).stampCenteredAt(CGoLShapeConsts.BOOM(210, 210), cen);
+                            break;
+                        case DESTROY:
+                            // NOTE: currently this never gets called b/c scene is changed before event callbacks fired
+                            logger.info("player destroyed");
+                            dispose();
+                            break;
+                    }
+                } else {
+
                 }
             }
         });
-
     }
+
+    public void dispose(){
+        logger.debug("disposing player");
+        ent.getComponent(EquipmentList.class).saveEquipment();
+    }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

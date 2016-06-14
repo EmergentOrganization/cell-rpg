@@ -81,7 +81,7 @@ class PhysicsContactListener implements ContactListener {
             }
         } else if (nameA.internalID.equals(EntityID.POWERUP_PLUS.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
-            eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.POWERUP_PLUS));
+            eventManager.pushEvent(new EntityEvent(entityB.getId(), GameEvent.POWERUP_PLUS));
             try {
                 world.deleteEntity(entityA);
             } catch (RuntimeException ex) {
@@ -111,7 +111,7 @@ class PhysicsContactListener implements ContactListener {
             }
         } else if (nameA.internalID.equals(EntityID.POWERUP_STAR.toString())
                 && nameB.internalID.equals(EntityID.PLAYER.toString())) {
-            eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.POWERUP_STAR));
+            eventManager.pushEvent(new EntityEvent(entityB.getId(), GameEvent.POWERUP_STAR));
             try {
                 world.deleteEntity(entityA);
             } catch (RuntimeException ex) {

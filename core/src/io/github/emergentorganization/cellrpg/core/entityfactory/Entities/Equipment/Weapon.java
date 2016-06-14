@@ -14,18 +14,17 @@ import java.util.ArrayList;
 /**
  */
 public class Weapon extends Equipment {
-
     // power-up constants:
     private static final long FIRE_RATE_DELAY_DELTA = 100;
     private static final long FIRE_RATE_LEN = 3;
-    private static final long FIRE_RATE_CHARGE_BOOST = 100;
-    private final int MAX_CHARGE = 100;
-    public final int SHOT_CHARGE_COST = 10;
+    private static final long FIRE_RATE_CHARGE_BOOST = 2;
+    private final int MAX_CHARGE = 10;
+    public final int SHOT_CHARGE_COST = 1;
     private final Logger logger = LogManager.getLogger(getClass());
     // public:
     public long delay = 100;  // required delay between shots
-    public int charge = 100;  // how much charge stored in weapon
-    private final int recharge_per_s = 30;
+    public int charge = 0;  // how much charge stored in weapon
+    private final int recharge_per_s = 1;
     // private:
     public long lastShot;  // time of last weapon fire
     public boolean charge_changed;
@@ -33,16 +32,17 @@ public class Weapon extends Equipment {
     private final ArrayList<Powerup> powerups = new ArrayList<Powerup>();
     private final ArrayList<Long> powerup_timers = new ArrayList<Long>();
 
-    public Weapon(int parentId, String name, String description, int baseEnergy, int energySlots, int attackStat) {
-        super(parentId, name, description, baseEnergy, energySlots);
-        this.type = EquipmentType.WEAPON;
-
+    public Weapon setup(String name, String description, int baseEnergy, int energySlots, int attackStat){
+        super.setup(name, description, baseEnergy, energySlots);
         this.attackStat = attackStat;
-        this.powerFilled = baseEnergy+1;
+        return this;
     }
 
-    public void create(World world, Vector2 pos) {
-        // Shield  TODO: build weapon entity
+    @Override
+    public Weapon create(World world, Vector2 pos, int parentId) {
+        super.create(world, pos, parentId);
+        this.type = EquipmentType.WEAPON;
+        // TODO: build weapon entity (for visuals and collisions)
 //        final Entity weapon = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
 //                .tag("shield")
 //                .addBuilder(new VisualBuilder()
@@ -50,6 +50,7 @@ public class Weapon extends Equipment {
 //                                .renderIndex(RenderIndex.PLAYER_SHIELD)
 //                )
 //                .build();
+        return this;
     }
 
     public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {

@@ -3,6 +3,7 @@ package io.github.emergentorganization.cellrpg.tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;

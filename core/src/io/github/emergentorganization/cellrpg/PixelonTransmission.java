@@ -1,5 +1,6 @@
 package io.github.emergentorganization.cellrpg;
 
+import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.Files;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.kotcrab.vis.ui.VisUI;
+import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
@@ -23,7 +25,7 @@ import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
 import io.github.emergentorganization.cellrpg.tools.FileStructure;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 import io.github.emergentorganization.cellrpg.tools.Scores;
 import io.github.emergentorganization.cellrpg.tools.mixpanel.Mixpanel;
@@ -128,8 +130,9 @@ public class PixelonTransmission extends Game {
     }
 
     public void gameOver(World world) {
-        playerScore = world.getSystem(TagManager.class).getEntity(Tags.PLAYER)
-                .getComponent(StatsTracker.class).getScore();
+        Entity player = world.getSystem(TagManager.class).getEntity(Tags.PLAYER);
+        player.getComponent(EquipmentList.class).saveEquipment();
+        playerScore = player.getComponent(StatsTracker.class).getScore();
         LeveledRegionSwitcher switcher = world.getSystem(LeveledRegionSwitcher.class);
         if (switcher != null) {  // arcade region exit to postgame menu
             WarpInEventRegion warpRegion = (WarpInEventRegion) switcher.currentRegion;

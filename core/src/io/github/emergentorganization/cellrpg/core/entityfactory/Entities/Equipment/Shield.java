@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 public class Shield extends Equipment {
     private final Logger logger = LogManager.getLogger(getClass());
     private int shieldEntity = -1;
-    private int shieldState = 0;
 
     public Shield setup(String name, String description, int baseEnergy, int energySlots, int shieldStat){
         super.setup(name, description, baseEnergy, energySlots);
@@ -37,18 +36,18 @@ public class Shield extends Equipment {
     public Shield create(World world, Vector2 pos, int parentId) {
         super.create(world, pos, parentId);
         this.type = EquipmentType.SHIELD;
-
         final int MAX_SHIELD_STATE = Resources.ANIM_PLAYER_SHIELD.size() - 1;
-        final Entity shield = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
+        setChargeStats(MAX_SHIELD_STATE, 1, MAX_SHIELD_STATE);
+
+        ent = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag("shield")
                 .addBuilder(new VisualBuilder()
-                        .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
+                        .texture(Resources.ANIM_PLAYER_SHIELD.get(maxCharge))
                         .renderIndex(RenderIndex.PLAYER_SHIELD)
                 )
                 .build();
 
-        this.shieldEntity = shield.getId();
-        this.shieldState = MAX_SHIELD_STATE;
+        this.shieldEntity = ent.getId();
 
         final EventManager eventManager = world.getSystem(EventManager.class);
         eventManager.addListener(new EventListener() {
@@ -56,26 +55,38 @@ public class Shield extends Equipment {
             public void notify(EntityEvent event) {
                 switch (event.event) {
                     case PLAYER_HIT:
-                        shieldState--;
-                        if (shieldState < 0) {
-                            shieldState = 0;
+                        charge--;
+                        if (charge < 0) {
+                            charge = 0;
                             eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_SHIELD_DOWN));
                         } else {
-                            shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(shieldState));
+                            onChargeChanged();
                         }
                         break;
                     case POWERUP_PLUS:
-                        logger.info("shield (" + shieldState + ") powerup");
-                        if (shieldState < (MAX_SHIELD_STATE)) {
-                            shieldState++;
+                        logger.info("shield (" + charge + ") powerup");
+                        if (charge < (maxCharge)) {
+                            charge++;
                             logger.debug("shield++");
-                            shield.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(shieldState));
+                            onChargeChanged();
                         }
                         break;
                 }
             }
         });
         return this;
+    }
+
+    @Override
+    public void recharge(){
+        super.recharge();
+        onChargeChanged();
+
+        if (!isPowered()){
+            if (charge > 0) {
+                charge -= 1;
+            }
+        }
     }
 
     public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
@@ -90,5 +101,9 @@ public class Shield extends Equipment {
                             shieldBounds.height * 0.5f - ownerBounds.height * 0.5f
                     );
         }
+    }
+
+    private void onChargeChanged(){
+        ent.getComponent(Visual.class).setTexture(Resources.ANIM_PLAYER_SHIELD.get(charge));
     }
 }

@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment;
 
 import com.artemis.ComponentMapper;
+import com.artemis.Entity;
 import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
@@ -8,6 +9,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Abstract class which describes an equipment entity.
@@ -32,18 +35,25 @@ public abstract class Equipment implements Json.Serializable{
     private String description;
     public EquipmentType type = EquipmentType.CONTROLLER;
     int parentId = -1;
+    protected Entity ent;
 
     public boolean damaged = false;
 
+    // energy units
     public int baseEnergy = 0;
     public int energySlots = 0;
     public int powerFilled = 0;
 
+    // equipment stats (probably only use one of these according to type)
     int attackStat = 0;
     int shieldStat = 0;
     int moveStat = 0;
     int satStat = 0;
 
+    // equipment energy charge stored for use
+    public int charge = 0;  // how much charge stored in weapon
+    protected int recharge_per_s = 1;
+    protected int maxCharge = 10;
 
     public Equipment setup(String name, String description, int baseEnergy, int energySlots){
         // Constructs the equipment. (not using constructor b/c zero-argument constructor needed for save/loading)
@@ -52,6 +62,13 @@ public abstract class Equipment implements Json.Serializable{
         this.description = description;
         this.baseEnergy = baseEnergy;
         this.energySlots = energySlots;
+        return this;
+    }
+
+    public Equipment setChargeStats(int initCharge, int rechargeRate, int maxCharge){
+        charge = initCharge;
+        recharge_per_s = rechargeRate;
+        this.maxCharge = maxCharge;
         return this;
     }
 
@@ -104,7 +121,11 @@ public abstract class Equipment implements Json.Serializable{
 
     public void recharge() {
         // energy management functions for the equipment. Called by EnergySystem.
-
+        // recharge weapon
+        if (isPowered() && charge < maxCharge) {
+            charge += recharge_per_s * powerLevel();
+            logger.trace("recharge " + type);
+        }
         // TODO: take some charge from the energySystem and give it to the equipment
     }
 
@@ -151,4 +172,6 @@ public abstract class Equipment implements Json.Serializable{
 
         // NOTE: must call create() following deserialization
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

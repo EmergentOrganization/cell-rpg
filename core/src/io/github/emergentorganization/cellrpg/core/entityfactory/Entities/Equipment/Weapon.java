@@ -18,13 +18,9 @@ public class Weapon extends Equipment {
     private static final long FIRE_RATE_DELAY_DELTA = 100;
     private static final long FIRE_RATE_LEN = 3;
     private static final long FIRE_RATE_CHARGE_BOOST = 2;
-    private final int MAX_CHARGE = 10;
     public final int SHOT_CHARGE_COST = 1;
-    private final Logger logger = LogManager.getLogger(getClass());
     // public:
     public long delay = 100;  // required delay between shots
-    public int charge = 0;  // how much charge stored in weapon
-    private final int recharge_per_s = 1;
     // private:
     public long lastShot;  // time of last weapon fire
     public boolean charge_changed;
@@ -35,6 +31,7 @@ public class Weapon extends Equipment {
     public Weapon setup(String name, String description, int baseEnergy, int energySlots, int attackStat){
         super.setup(name, description, baseEnergy, energySlots);
         this.attackStat = attackStat;
+        setChargeStats(1, 1, 10);
         return this;
     }
 
@@ -43,7 +40,7 @@ public class Weapon extends Equipment {
         super.create(world, pos, parentId);
         this.type = EquipmentType.WEAPON;
         // TODO: build weapon entity (for visuals and collisions)
-//        final Entity weapon = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
+//        ent = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
 //                .tag("shield")
 //                .addBuilder(new VisualBuilder()
 //                                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
@@ -70,12 +67,7 @@ public class Weapon extends Equipment {
 
     @Override
     public void recharge() {
-        // recharge weapon
-        if (isPowered() && charge < MAX_CHARGE) {
-            charge += recharge_per_s * powerLevel();
-            logger.trace("recharge weapon");
-        }
-
+        super.recharge();
         checkForPowerDown(1);
     }
 
@@ -121,4 +113,6 @@ public class Weapon extends Equipment {
                 break;
         }
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

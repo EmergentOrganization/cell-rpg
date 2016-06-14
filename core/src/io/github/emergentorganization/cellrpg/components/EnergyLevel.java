@@ -1,6 +1,8 @@
 package io.github.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
+import com.badlogic.gdx.Preferences;
+import io.github.emergentorganization.cellrpg.tools.saves.GameStateSave;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,5 +60,19 @@ public class EnergyLevel extends Component {
 
     private void onEnergyChange() {
         // TODO: fire energy level changed event
+    }
+
+    public void save(){
+        Preferences gameSave = GameStateSave.getPreferences();
+        gameSave.putInteger(GameStateSave.KEY_AVAILABLE_ENERGY_LEVEL, availableEnergy);
+        gameSave.putInteger(GameStateSave.KEY_ALLOCATED_ENERGY_LEVEL, allocatedEnergy);
+        gameSave.flush();
+    }
+
+    public boolean load(){
+        Preferences gameSave = GameStateSave.getPreferences();
+        availableEnergy = gameSave.getInteger(GameStateSave.KEY_AVAILABLE_ENERGY_LEVEL, 5);
+        availableEnergy = gameSave.getInteger(GameStateSave.KEY_ALLOCATED_ENERGY_LEVEL, 0);
+        return true;
     }
 }

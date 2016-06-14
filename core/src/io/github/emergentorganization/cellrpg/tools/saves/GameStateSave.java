@@ -6,6 +6,8 @@ import com.badlogic.gdx.Preferences;
 
 public class GameStateSave {
     public static String KEY_SELECTED_LOADOUT = "selected-equipment-loadout-index";
+    public static String KEY_AVAILABLE_ENERGY_LEVEL = "player-energy-level";
+    public static String KEY_ALLOCATED_ENERGY_LEVEL = "player-used-energy-level";
 
     // player preferences file:
     public static String GAMESAVE_SUFFIX = "gamestate";

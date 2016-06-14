@@ -20,6 +20,7 @@ import com.kotcrab.vis.ui.VisUI;
 import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.components.StatsTracker;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Player;
 import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.BaseScene;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
@@ -131,7 +132,8 @@ public class PixelonTransmission extends Game {
 
     public void gameOver(World world) {
         Entity player = world.getSystem(TagManager.class).getEntity(Tags.PLAYER);
-        player.getComponent(EquipmentList.class).saveEquipment();
+        Player.disposePlayer(player);
+
         playerScore = player.getComponent(StatsTracker.class).getScore();
         LeveledRegionSwitcher switcher = world.getSystem(LeveledRegionSwitcher.class);
         if (switcher != null) {  // arcade region exit to postgame menu

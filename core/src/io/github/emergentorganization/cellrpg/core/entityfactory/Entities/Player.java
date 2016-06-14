@@ -6,6 +6,7 @@ import com.artemis.managers.TagManager;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
+import io.github.emergentorganization.cellrpg.components.EnergyLevel;
 import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
@@ -53,17 +54,8 @@ public class Player extends EntityCreator {
                 //.health(1) // shield takes care of this instead
                 .build();
 
-        final EquipmentList ec = ent.getComponent(EquipmentList.class);
-        if (!ec.loadEquipment(world, pos, ent.getId())){
-            // setup default equipment
-            ec.addEquipment(
-                    new Shield().setup("Default Shield", "basic starter shield", 1, 3, 1),
-                    world, pos, ent.getId()
-            );
-            ec.addEquipment(
-                    new Weapon().setup("Default Laser", "basic starter laser", 2, 5, 1),
-                    world, pos, ent.getId()
-            );
+        if (!Player.loadPlayerComponents(ent, world, pos)){
+            setupDefaultComponents(world, pos);
         }
 
         eventManager.addListener(new EventListener() {
@@ -83,20 +75,50 @@ public class Player extends EntityCreator {
                         case DESTROY:
                             // NOTE: currently this never gets called b/c scene is changed before event callbacks fired
                             logger.info("player destroyed");
-                            dispose();
+                            disposePlayer(ent);
                             break;
                     }
                 } else {
-
+                    logger.trace("player ignoring events w/o player id");
                 }
             }
         });
     }
 
-    public void dispose(){
-        logger.debug("disposing player");
-        ent.getComponent(EquipmentList.class).saveEquipment();
+    public static void disposePlayer(Entity playerEntity){
+        // cleans up after given player and saves player state.
+        logger.debug("disposing player...");
+        savePlayerComponents(playerEntity);
     }
 
-    private final Logger logger = LogManager.getLogger(getClass());
+    public static void savePlayerComponents(Entity playerEntity){
+        logger.debug("saving player");
+        playerEntity.getComponent(EquipmentList.class).saveEquipment();
+        playerEntity.getComponent(EnergyLevel.class).save();
+    }
+
+    public static boolean loadPlayerComponents(Entity playerEntity, World world, Vector2 pos){
+        // returns true if successful false if one of the components fails
+        return playerEntity.getComponent(EquipmentList.class).loadEquipment(world, pos, playerEntity.getId())
+                && playerEntity.getComponent(EnergyLevel.class).load()
+        ;
+    }
+
+    private void setupDefaultComponents(World world, Vector2 pos){
+        final EquipmentList ec = ent.getComponent(EquipmentList.class);
+
+        // setup default equipment
+        ec.addEquipment(
+                new Shield().setup("Default Shield", "basic starter shield", 1, 3, 1),
+                world, pos, ent.getId()
+        );
+        ec.addEquipment(
+                new Weapon().setup("Default Laser", "basic starter laser", 2, 5, 1),
+                world, pos, ent.getId()
+        );
+
+        // default energyLevel set in EnergyLevel.load()
+    }
+
+    private static final Logger logger = LogManager.getLogger(Player.class);
 }

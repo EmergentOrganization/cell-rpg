@@ -24,7 +24,7 @@ public class Weapon extends ChargeAnimatedEquipment {
     // power-up constants:
     private static final long FIRE_RATE_DELAY_DELTA = 100;
     private static final long FIRE_RATE_LEN = 3;
-    private static final long FIRE_RATE_CHARGE_BOOST = 2;
+    private static final int FIRE_RATE_CHARGE_BOOST = 2;
     public final int SHOT_CHARGE_COST = 1;
     // public:
     public long delay = 100;  // required delay between shots
@@ -53,7 +53,6 @@ public class Weapon extends ChargeAnimatedEquipment {
     @Override
     public void recharge() {
         super.recharge();
-        onChargeChanged();
         checkForPowerDown(1);
     }
 
@@ -76,7 +75,7 @@ public class Weapon extends ChargeAnimatedEquipment {
         switch (pow) {
             case FIRE_RATE:
                 delay -= FIRE_RATE_DELAY_DELTA;
-                charge += FIRE_RATE_CHARGE_BOOST;
+                addCharge(FIRE_RATE_CHARGE_BOOST);
                 powerups.add(pow);
                 powerup_timers.add(FIRE_RATE_LEN);
                 break;

@@ -46,12 +46,19 @@ public abstract class ChargeAnimatedEquipment extends Equipment {
         return this;
     }
 
-    protected void onChargeChanged(){
-        ent.getComponent(Visual.class).setTexture(getChargeFrame());
+    @Override
+    public int checkCharge(){
+        int res = super.checkCharge();
+        try {
+            ent.getComponent(Visual.class).setTexture(getChargeFrame());
+        } catch(NullPointerException ex){
+            logger.error("ChargeAnimatedEquipment has no texture! Cannot animate.", ex);
+        }
+        return res;
     }
 
     private String getChargeFrame(){
-        return getChargeFrame(charge);
+        return getChargeFrame(charge());
     }
 
     private String getChargeFrame(int chargeLevel){

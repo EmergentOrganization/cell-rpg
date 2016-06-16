@@ -40,8 +40,8 @@ class WeaponUtil {
 
         // check if we can shoot right now
         if (TimeUtils.timeSinceMillis(weapon.lastShot) >= weapon.delay) {
-            if (weapon.charge - weapon.SHOT_CHARGE_COST >= 0) {
-                weapon.charge -= weapon.SHOT_CHARGE_COST;
+            if (weapon.charge() - weapon.SHOT_CHARGE_COST >= 0) {
+                weapon.addCharge(-weapon.SHOT_CHARGE_COST);
                 weapon.charge_changed = true;
 
                 weapon.lastShot += weapon.delay;

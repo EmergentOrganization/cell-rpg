@@ -42,21 +42,14 @@ public class Shield extends ChargeAnimatedEquipment {
             public void notify(EntityEvent event) {
                 switch (event.event) {
                     case PLAYER_HIT:
-                        charge--;
-                        if (charge < 0) {
-                            charge = 0;
+                        if (addCharge(-1) == -1) {
                             eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_SHIELD_DOWN));
-                        } else {
-                            onChargeChanged();
                         }
                         break;
                     case POWERUP_PLUS:
-                        logger.info("shield (" + charge + ") powerup");
-                        if (charge < (maxCharge)) {
-                            charge++;
-                            logger.debug("shield++");
-                            onChargeChanged();
-                        }
+                        logger.info("shield (" + charge() + ") powerup");
+                        addCharge(1);
+                        logger.debug("shield++");
                         break;
                 }
             }
@@ -67,12 +60,9 @@ public class Shield extends ChargeAnimatedEquipment {
     @Override
     public void recharge(){
         super.recharge();
-        onChargeChanged();
 
         if (!isPowered()){
-            if (charge > 0) {
-                charge -= 1;
-            }
+            addCharge(-1);
         }
     }
 }

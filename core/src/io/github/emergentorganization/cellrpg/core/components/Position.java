@@ -30,4 +30,13 @@ public class Position extends Component {
         }
         return center;
     }
+
+    public void centerOnParent(Bounds childBounds, Position parentPos, Bounds parentBounds){
+        // centers this position as child on given parent using given bounds of each.
+        position.set(parentPos.position)
+                .sub(
+                        childBounds.width * 0.5f - parentBounds.width * 0.5f,
+                        childBounds.height * 0.5f - parentBounds.height * 0.5f
+                );
+    }
 }

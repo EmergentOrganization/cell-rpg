@@ -50,21 +50,6 @@ public class Weapon extends ChargeAnimatedEquipment {
         return this;
     }
 
-    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
-        // TODO: sticking to the parent is a common operation (duplicate in Shield). How can we keep this DRY? ~7yl4r
-        if (ent.getId() >= 0) {
-            Bounds shieldBounds = boundsMapper.get(ent.getId());
-            Bounds ownerBounds = boundsMapper.get(parentId);
-            Position parentPos = posMapper.get(parentId);
-            posMapper.get(ent.getId())
-                    .position.set(parentPos.position)
-                    .sub(
-                            shieldBounds.width * 0.5f - ownerBounds.width * 0.5f,
-                            shieldBounds.height * 0.5f - ownerBounds.height * 0.5f
-                    );
-        }
-    }
-
     @Override
     public void recharge() {
         super.recharge();

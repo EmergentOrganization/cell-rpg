@@ -75,20 +75,4 @@ public class Shield extends ChargeAnimatedEquipment {
             }
         }
     }
-
-    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
-        if (ent.getId() > -1 && parentId > -1) {
-            Bounds shieldBounds = boundsMapper.get(ent.getId());
-            Bounds ownerBounds = boundsMapper.get(parentId);
-            Position parentPos = posMapper.get(parentId);
-            posMapper.get(ent.getId())
-                    .position.set(parentPos.position)
-                    .sub(
-                            shieldBounds.width * 0.5f - ownerBounds.width * 0.5f,
-                            shieldBounds.height * 0.5f - ownerBounds.height * 0.5f
-                    );
-        } else {
-            logger.error("cannot updatePos of equip#" + ent.getId() + " of ent#" + parentId);
-        }
-    }
 }

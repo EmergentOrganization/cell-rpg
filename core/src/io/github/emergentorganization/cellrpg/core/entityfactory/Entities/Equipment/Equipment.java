@@ -136,9 +136,12 @@ public abstract class Equipment implements Json.Serializable{
         // powers up the equipment (if applicable) with given powerup
     }
 
-    public abstract void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper);
-    // movement management functions for the equipment. Acts to keep equipment entity next to parent.
-    // Called by MovementSystem.
+    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
+        // movement management functions for the equipment. Acts to keep equipment entity next to parent.
+        // Called by MovementSystem.
+        // Default behavior is to center the equipment on the parent, @Override if different behavior desired.
+        centerOnParent(boundsMapper, posMapper);
+    }
 
     public void write (Json json) {
         // writes the values needed to reconstruct the equipment
@@ -174,6 +177,17 @@ public abstract class Equipment implements Json.Serializable{
         damaged = jsonMap.get("dama").asBoolean();
 
         // NOTE: must call create() following deserialization
+    }
+
+    public void centerOnParent(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper){
+        if (ent.getId() > -1) {
+            posMapper.get(ent.getId()).centerOnParent(
+                    boundsMapper.get(ent.getId()),
+                    posMapper.get(parentId), boundsMapper.get(parentId)
+            );
+        } else {
+            logger.error("cannot updatePos of equip#" + ent.getId() + " of ent#" + parentId);
+        }
     }
 
     private final Logger logger = LogManager.getLogger(getClass());

@@ -8,7 +8,6 @@ import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
-import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.saves.LoadoutSave;
 
 import java.util.ArrayList;

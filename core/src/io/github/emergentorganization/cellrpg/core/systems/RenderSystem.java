@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.components.Rotation;
@@ -45,6 +46,7 @@ public class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Position> pm;
     private ComponentMapper<Scale> sm;
     private ComponentMapper<Rotation> rm;
+    private ComponentMapper<Charge> cm;
     private CameraSystem cameraSystem;
     private AssetManager assetManager; // being a registered system, it is injected on runtime
     private TagManager tagManager;
@@ -122,7 +124,7 @@ public class RenderSystem extends BaseEntitySystem {
 
         TextureRegion t = assetManager.getCurrentRegion(v);
         if (t != null) {
-            v.update(world.getDelta());
+            v.update(world.getDelta(), cm.get(entityId));
             batch.draw(t, p.position.x, p.position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
         }
     }

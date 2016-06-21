@@ -1,6 +1,7 @@
 package io.github.emergentorganization.cellrpg.core.components;
 
 import com.artemis.Component;
+import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 
 /**
@@ -31,12 +32,12 @@ public class Visual extends Component {
         isAnimation = false;
     }
 
-    public void update(float deltaTime){
+    public void update(float deltaTime, Charge charge){
         // updates the visual
         switch (animationType) {
             case CHARGE:
                 // TODO:
-//                setTexture(chargeLevelAnimatedEquipment.getChargeFrame(chargeComponent));
+//                setTexture(charge.getChargeFrame(chargeComponent));
                 // ...
                 break;
             default:  // also case DEFAULT:

@@ -38,7 +38,7 @@ public abstract class ChargeAnimatedEquipment extends Equipment {
         ent = new EntityBuilder(world, EntityFactory.object, name, entityID.toString(), pos)
                 .tag(tag)
                 .addBuilder(new VisualBuilder()
-                                .texture(getChargeFrame(maxCharge))
+                                .texture(anim.get(0))
                                 .renderIndex(renderIndex)
                 )
                 .build();
@@ -46,27 +46,27 @@ public abstract class ChargeAnimatedEquipment extends Equipment {
         return this;
     }
 
-    @Override
-    public int checkCharge(){
-        int res = super.checkCharge();
-        try {
-            ent.getComponent(Visual.class).setTexture(getChargeFrame());
-        } catch(NullPointerException ex){
-            logger.error("ChargeAnimatedEquipment has no texture! Cannot animate.", ex);
-        }
-        return res;
-    }
-
-    private String getChargeFrame(){
-        return getChargeFrame(charge());
-    }
-
-    private String getChargeFrame(int chargeLevel){
-        // returns index of animation frame which matches current charge level
-        int frame = Math.round((float)chargeLevel / (float)maxCharge * (float)maxFrame());
-        logger.trace("charge " + chargeLevel + "/" + maxCharge + " = frame " + frame + "/" + maxFrame());
-        return anim.get(frame);
-    }
+//    @Override
+//    public int checkCharge(){
+//        int res = super.checkCharge();
+//        try {
+//            ent.getComponent(Visual.class).setTexture(getChargeFrame());
+//        } catch(NullPointerException ex){
+//            logger.error("ChargeAnimatedEquipment has no texture! Cannot animate.", ex);
+//        }
+//        return res;
+//    }
+//
+//    private String getChargeFrame(){
+//        return getChargeFrame(charge());
+//    }
+//
+//    private String getChargeFrame(int chargeLevel){
+//        // returns index of animation frame which matches current charge level
+//        int frame = Math.round((float)chargeLevel / (float)maxCharge * (float)maxFrame());
+//        logger.trace("charge " + chargeLevel + "/" + maxCharge + " = frame " + frame + "/" + maxFrame());
+//        return anim.get(frame);
+//    }
 
     protected int maxFrame(){
         return anim.size()-1;

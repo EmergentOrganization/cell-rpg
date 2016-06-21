@@ -6,6 +6,7 @@ import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
 import io.github.emergentorganization.cellrpg.core.components.Position;
@@ -50,10 +51,6 @@ public abstract class Equipment implements Json.Serializable{
     int moveStat = 0;
     int satStat = 0;
 
-    // equipment energy charge stored for use
-    private int charge = 0;  // how much charge stored in weapon
-    protected int recharge_per_s = 1;
-    protected int maxCharge = 10;
 
     public Equipment setup(String name, String description, int baseEnergy, int energySlots){
         // Constructs the equipment. (not using constructor b/c zero-argument constructor needed for save/loading)
@@ -66,39 +63,7 @@ public abstract class Equipment implements Json.Serializable{
     }
 
     public Equipment setChargeStats(int initCharge, int rechargeRate, int maxCharge){
-        charge(initCharge);
-        recharge_per_s = rechargeRate;
-        this.maxCharge = maxCharge;
         return this;
-    }
-
-    // charge getter/setter
-    public void charge(int newCharge){
-        charge = newCharge;
-        checkCharge();
-    }
-    public int charge(){
-        return charge;
-    }
-    public int addCharge(int deltaCharge){
-        // adds given charge and then checks value.
-        // returns 0 if charge is fine, -1 if charge was too low, +1 if charge is too high.
-        charge += deltaCharge;
-        return checkCharge();
-    }
-
-    public int checkCharge(){
-        // checks and ensures charge value is too high or low.
-        // returns 0 if charge is fine, -1 if charge was too low, +1 if charge is too high.
-        if (charge < 0){
-            charge = 0;
-            return -1;
-        } else if (charge > maxCharge){
-            charge = maxCharge;
-            return 1;
-        } else {
-            return 0;
-        }
     }
 
     public Equipment create(World world, Vector2 pos, int parentId) {
@@ -106,8 +71,14 @@ public abstract class Equipment implements Json.Serializable{
         // use to initialize on construction or after load from file.
         // MUST be called before using the equipment.
         this.parentId = parentId;
+        buildEntity();
+
+        // TODO: call setupEvents?
         return this;
     }
+
+    public abstract void buildEntity();
+    // builds Entity and sets ent
 
     public int attackStat() {
         return attackStat * powerLevel();
@@ -151,8 +122,8 @@ public abstract class Equipment implements Json.Serializable{
     public void recharge() {
         // energy management functions for the equipment. Called by EnergySystem.
         // recharge weapon
-        if (isPowered() && charge < maxCharge) {
-            addCharge(recharge_per_s * powerLevel());
+        if (isPowered()) {
+            ent.getComponent(Charge.class).recharge(powerLevel());
             logger.trace("recharge " + type);
         }
         // TODO: take some charge from the energySystem and give it to the equipment

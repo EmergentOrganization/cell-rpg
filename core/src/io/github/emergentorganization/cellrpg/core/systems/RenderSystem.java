@@ -122,9 +122,7 @@ public class RenderSystem extends BaseEntitySystem {
 
         TextureRegion t = assetManager.getCurrentRegion(v);
         if (t != null) {
-            if (v.isAnimation) {
-                v.stateTime += world.getDelta();
-            }
+            v.update(world.getDelta());
             batch.draw(t, p.position.x, p.position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
         }
     }

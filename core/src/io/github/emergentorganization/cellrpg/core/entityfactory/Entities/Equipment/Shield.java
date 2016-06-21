@@ -1,13 +1,10 @@
 package io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment;
 
-import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.core.components.Bounds;
-import io.github.emergentorganization.cellrpg.core.components.Position;
 import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
 import io.github.emergentorganization.cellrpg.events.GameEvent;

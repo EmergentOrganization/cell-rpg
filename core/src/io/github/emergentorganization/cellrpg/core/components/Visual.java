@@ -8,9 +8,14 @@ import io.github.emergentorganization.cellrpg.core.RenderIndex;
  */
 public class Visual extends Component {
 
+    enum AnimationType{
+        DEFAULT, CHARGE
+    }
+
     public String id; // the visual id, this is resolved through a manager.
     public boolean isAnimation = false;
     public RenderIndex index = RenderIndex.BACKGROUND;
+    public AnimationType animationType = AnimationType.DEFAULT;
 
     public float stateTime; // animation timestep
 
@@ -26,4 +31,18 @@ public class Visual extends Component {
         isAnimation = false;
     }
 
+    public void update(float deltaTime){
+        // updates the visual
+        switch (animationType) {
+            case CHARGE:
+                // TODO:
+//                setTexture(chargeLevelAnimatedEquipment.getChargeFrame(chargeComponent));
+                // ...
+                break;
+            default:  // also case DEFAULT:
+                if (isAnimation) {
+                    stateTime += deltaTime;
+                }
+        }
+    }
 }

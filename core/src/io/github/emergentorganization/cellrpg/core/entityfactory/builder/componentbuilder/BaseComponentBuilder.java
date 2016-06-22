@@ -23,8 +23,10 @@ public abstract class BaseComponentBuilder implements IComponentBuilder {
     @Override
     public void build(Entity entity) {
         if (!aspectBuilder.build(entity.getWorld()).isInterested(entity)) {
-            throw new RuntimeException("ERROR: " + entity.getComponent(Name.class).friendlyName + " does not have all required components.\n" +
-                    "Refer to the aspect builder in the constructor of the culprit builder to see what configuration is required");
+            throw new RuntimeException("ERROR: " + entity.getComponent(Name.class).friendlyName +
+                    " does not have all required components.\n" +
+                    "Refer to the aspect builder in the constructor of the culprit builder to see what configuration is " +
+                    "required for the archetype.");
         }
         isBuilt = true;
     }

@@ -35,14 +35,6 @@ public abstract class ChargeAnimatedEquipment extends Equipment {
     public ChargeAnimatedEquipment create(World world, Vector2 pos, int parentId) {
         super.create(world, pos, parentId);
 
-        ent = new EntityBuilder(world, EntityFactory.object, name, entityID.toString(), pos)
-                .tag(tag)
-                .addBuilder(new VisualBuilder()
-                                .texture(anim.get(0))
-                                .renderIndex(renderIndex)
-                )
-                .build();
-
         return this;
     }
 
@@ -67,10 +59,6 @@ public abstract class ChargeAnimatedEquipment extends Equipment {
 //        logger.trace("charge " + chargeLevel + "/" + maxCharge + " = frame " + frame + "/" + maxFrame());
 //        return anim.get(frame);
 //    }
-
-    protected int maxFrame(){
-        return anim.size()-1;
-    }
 
     private final Logger logger = LogManager.getLogger(getClass());
 }

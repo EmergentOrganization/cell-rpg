@@ -2,10 +2,15 @@ package io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equip
 
 import com.artemis.World;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ChargeBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import io.github.emergentorganization.cellrpg.tools.Resources;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,7 +19,7 @@ import java.util.ArrayList;
 
 /**
  */
-public class Weapon extends ChargeAnimatedEquipment {
+public class Weapon extends Equipment {
     // power-up constants:
     private static final long FIRE_RATE_DELAY_DELTA = 100;
     private static final long FIRE_RATE_LEN = 3;
@@ -32,16 +37,34 @@ public class Weapon extends ChargeAnimatedEquipment {
     public Weapon setup(String name, String description, int baseEnergy, int energySlots, int attackStat){
         super.setup(name, description, baseEnergy, energySlots);
         this.attackStat = attackStat;
-        setChargeStats(1, 1, 10);
         return this;
     }
 
     @Override
     public Weapon create(World world, Vector2 pos, int parentId) {
-        setupAnim(Resources.ANIM_DEFAULT_WEAPON, EntityID.WEAPON_DEFAULT, Tags.WEAPON, RenderIndex.PLAYER_SHIELD);
         super.create(world, pos, parentId);
         this.type = EquipmentType.WEAPON;
         return this;
+        //         setChargeStats(1, 1, 10);
+    }
+
+    @Override
+    public void buildEntity(World world, Vector2 pos, int parentId){
+
+        // number of charges = number of animation frames available
+        int maxCharge =  Resources.ANIM_DEFAULT_WEAPON.size()-1;
+
+        ent = new EntityBuilder(world, EntityFactory.equipment, name, EntityID.WEAPON_DEFAULT.toString(), pos)
+                .tag(Tags.WEAPON)
+                .addBuilder(new VisualBuilder()
+                                .texture(Resources.ANIM_DEFAULT_WEAPON.get(0))
+                                .renderIndex(RenderIndex.PLAYER_SHIELD)  // TODO: which render index?
+                )
+                .addBuilder(new ChargeBuilder(maxCharge)
+                                .charge(maxCharge)
+                                .rechargeRate(1)
+                )
+                .build();
     }
 
     @Override
@@ -69,7 +92,7 @@ public class Weapon extends ChargeAnimatedEquipment {
         switch (pow) {
             case FIRE_RATE:
                 delay -= FIRE_RATE_DELAY_DELTA;
-                addCharge(FIRE_RATE_CHARGE_BOOST);
+                ent.getComponent(Charge.class).addCharge(FIRE_RATE_CHARGE_BOOST);
                 powerups.add(pow);
                 powerup_timers.add(FIRE_RATE_LEN);
                 break;

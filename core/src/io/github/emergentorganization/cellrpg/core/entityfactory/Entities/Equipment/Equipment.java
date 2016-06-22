@@ -36,7 +36,7 @@ public abstract class Equipment implements Json.Serializable{
     private String description;
     public EquipmentType type = EquipmentType.CONTROLLER;
     int parentId = -1;
-    protected Entity ent;
+    public Entity ent;
 
     public boolean damaged = false;
 
@@ -62,22 +62,18 @@ public abstract class Equipment implements Json.Serializable{
         return this;
     }
 
-    public Equipment setChargeStats(int initCharge, int rechargeRate, int maxCharge){
-        return this;
-    }
-
     public Equipment create(World world, Vector2 pos, int parentId) {
         // instantiates the equipment Entity as child of parentId
         // use to initialize on construction or after load from file.
         // MUST be called before using the equipment.
         this.parentId = parentId;
-        buildEntity();
+        buildEntity(world, pos, parentId);
 
         // TODO: call setupEvents?
         return this;
     }
 
-    public abstract void buildEntity();
+    public abstract void buildEntity(World world, Vector2 pos, int parentId);
     // builds Entity and sets ent
 
     public int attackStat() {

@@ -8,6 +8,7 @@ import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ChargeBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
@@ -19,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  */
-public class Shield extends ChargeAnimatedEquipment {
+public class Shield extends Equipment {
     private final Logger logger = LogManager.getLogger(getClass());
 
     public Shield setup(String name, String description, int baseEnergy, int energySlots, int shieldStat){
@@ -40,18 +41,20 @@ public class Shield extends ChargeAnimatedEquipment {
 
     public void setupEvents(World world){
         final EventManager eventManager = world.getSystem(EventManager.class);
+        final Charge charge = ent.getComponent(Charge.class);
+
         eventManager.addListener(new EventListener() {
             @Override
             public void notify(EntityEvent event) {
                 switch (event.event) {
                     case PLAYER_HIT:
-                        if (addCharge(-1) == -1) {
+                        if (charge.addCharge(-1) == -1) {
                             eventManager.pushEvent(new EntityEvent(EntityEvent.NO_ENTITY, GameEvent.PLAYER_SHIELD_DOWN));
                         }
                         break;
                     case POWERUP_PLUS:
-                        logger.info("shield (" + charge() + ") powerup");
-                        addCharge(1);
+                        logger.info("shield (" + charge.get() + ") powerup");
+                        charge.addCharge(1);
                         logger.debug("shield++");
                         break;
                 }
@@ -60,22 +63,22 @@ public class Shield extends ChargeAnimatedEquipment {
     }
 
     @Override
-    public void buildEntity(){
-        ent = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
+    public void buildEntity(World world, Vector2 pos, int parentId){
+
+        // number of charges = number of animation frames available
+        int maxCharge =  Resources.ANIM_PLAYER_SHIELD.size()-1;
+
+        ent = new EntityBuilder(world, EntityFactory.equipment, name, EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag(Tags.SHEILD)
                 .addBuilder(new VisualBuilder()
                                 .texture(Resources.ANIM_PLAYER_SHIELD.get(0))
                                 .renderIndex(RenderIndex.PLAYER_SHIELD)
                 )
+                .addBuilder(new ChargeBuilder(maxCharge)
+                        .charge(maxCharge)
+                        .rechargeRate(1)
+                )
                 .build();
-
-        // TODO: do this with ChargeBuilder
-        maxCharge = maxFrame();  // number of charges = number of animation frames available
-        Charge charge = ent.getComponent(Charge.class);
-        charge.set(initCharge);
-        charge.recharge_per_s = rechargeRate;
-        charge.maxCharge = maxCharge;
-
     }
 
     @Override
@@ -83,7 +86,7 @@ public class Shield extends ChargeAnimatedEquipment {
         super.recharge();
 
         if (!isPowered()){
-            addCharge(-1);
+            ent.getComponent(Charge.class).addCharge(-1);
         }
     }
 }

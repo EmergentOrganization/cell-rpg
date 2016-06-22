@@ -3,13 +3,14 @@ package io.github.emergentorganization.cellrpg.core.components;
 import com.artemis.Component;
 import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
+import io.github.emergentorganization.cellrpg.managers.AssetManager;
 
 /**
  * This is used for both animation and static images.
  */
 public class Visual extends Component {
 
-    enum AnimationType{
+    public enum AnimationType{
         DEFAULT, CHARGE
     }
 
@@ -32,13 +33,11 @@ public class Visual extends Component {
         isAnimation = false;
     }
 
-    public void update(float deltaTime, Charge charge){
+    public void update(float deltaTime, Charge charge, AssetManager assetManager){
         // updates the visual
         switch (animationType) {
             case CHARGE:
-                // TODO:
-//                setTexture(charge.getChargeFrame(chargeComponent));
-                // ...
+                stateTime = charge.getChargeFrameTime(assetManager.getAnimation(id).getAnimationDuration());
                 break;
             default:  // also case DEFAULT:
                 if (isAnimation) {

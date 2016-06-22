@@ -124,7 +124,7 @@ public class RenderSystem extends BaseEntitySystem {
 
         TextureRegion t = assetManager.getCurrentRegion(v);
         if (t != null) {
-            v.update(world.getDelta(), cm.get(entityId));
+            v.update(world.getDelta(), cm.get(entityId), assetManager);
             batch.draw(t, p.position.x, p.position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
         }
     }

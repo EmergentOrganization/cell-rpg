@@ -81,7 +81,7 @@ public class AssetManager extends BaseSystem {
         return regions.get(id);
     }
 
-    private Animation getAnimation(String id) {
+    public Animation getAnimation(String id) {
         return animations.get(id);
     }
 

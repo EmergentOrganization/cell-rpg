@@ -1,6 +1,9 @@
 package io.github.emergentorganization.cellrpg.components;
 
 import com.artemis.Component;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 // charge represents an amount of energy in this entity ready to be used.
 // It's only use at time of writing is for use on Equipment entities.
@@ -50,4 +53,11 @@ public class Charge extends Component {
         }
     }
 
+    public float getChargeFrameTime(float maxFrame){
+        // returns index of animation frame which matches current charge level scaled to maxframe
+        float frameTime = (float)charge / (float)maxCharge * maxFrame;
+        logger.trace("charge " + charge + "/" + maxCharge + " = frame " + frameTime + "/" + maxFrame);
+        return frameTime;
+    }
+    private final Logger logger = LogManager.getLogger(getClass());
 }

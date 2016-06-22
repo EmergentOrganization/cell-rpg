@@ -1,11 +1,13 @@
 package io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment;
 
 import com.artemis.World;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ChargeBuilder;
@@ -71,12 +73,17 @@ public class Shield extends Equipment {
         ent = new EntityBuilder(world, EntityFactory.equipment, name, EntityID.PLAYER_SHIELD.toString(), pos)
                 .tag(Tags.SHEILD)
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.ANIM_PLAYER_SHIELD.get(0))
+                                .animation(
+                                        Resources.ANIM_PLAYER_SHIELD,
+                                        Animation.PlayMode.NORMAL,
+                                        Resources.ANIM_PLAYER_SHIELD.size()  // 1s/frame (but actually set by charge)
+                                )
                                 .renderIndex(RenderIndex.PLAYER_SHIELD)
+                                .animationType(Visual.AnimationType.CHARGE)
                 )
                 .addBuilder(new ChargeBuilder(maxCharge)
-                        .charge(maxCharge)
-                        .rechargeRate(1)
+                                .charge(maxCharge)
+                                .rechargeRate(1)
                 )
                 .build();
     }

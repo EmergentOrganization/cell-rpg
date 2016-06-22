@@ -1,12 +1,14 @@
 package io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment;
 
 import com.artemis.World;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ChargeBuilder;
@@ -57,8 +59,13 @@ public class Weapon extends Equipment {
         ent = new EntityBuilder(world, EntityFactory.equipment, name, EntityID.WEAPON_DEFAULT.toString(), pos)
                 .tag(Tags.WEAPON)
                 .addBuilder(new VisualBuilder()
-                                .texture(Resources.ANIM_DEFAULT_WEAPON.get(0))
+                                .animation(
+                                        Resources.ANIM_DEFAULT_WEAPON,
+                                        Animation.PlayMode.NORMAL,
+                                        Resources.ANIM_DEFAULT_WEAPON.size()  // 1s/frame (but actually set by charge)
+                                )
                                 .renderIndex(RenderIndex.PLAYER_SHIELD)  // TODO: which render index?
+                                .animationType(Visual.AnimationType.CHARGE)
                 )
                 .addBuilder(new ChargeBuilder(maxCharge)
                                 .charge(maxCharge)

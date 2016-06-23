@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.ParticleEff;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.components.Visual;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ChargeBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ParticleEffectBuilder;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
 import io.github.emergentorganization.cellrpg.core.events.EventListener;
 import io.github.emergentorganization.cellrpg.events.EntityEvent;
@@ -85,6 +87,7 @@ public class Shield extends Equipment {
                                 .charge(maxCharge)
                                 .rechargeRate(1)
                 )
+                .addBuilder(new ParticleEffectBuilder(ParticleEff.SHIELD))
                 .build();
     }
 

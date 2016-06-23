@@ -61,7 +61,7 @@ public class EntityFactory {
         this.eventManager = world.getSystem(EventManager.class);
         base = new ArchetypeBuilder().add(Position.class).add(Name.class).add(Lifecycle.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
-                .add(Bounds.class).add(Velocity.class).build(world);
+                .add(Bounds.class).add(Velocity.class).add(ParticleEffectComponent.class).build(world);
 
         equipment = new ArchetypeBuilder(object).add(Charge.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);

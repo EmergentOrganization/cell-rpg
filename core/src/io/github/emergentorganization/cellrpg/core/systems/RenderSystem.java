@@ -15,12 +15,11 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.Vector2;
 import io.github.emergentorganization.cellrpg.components.Charge;
+import io.github.emergentorganization.cellrpg.components.ParticleEffectComponent;
 import io.github.emergentorganization.cellrpg.core.Tags;
-import io.github.emergentorganization.cellrpg.core.components.Position;
-import io.github.emergentorganization.cellrpg.core.components.Rotation;
-import io.github.emergentorganization.cellrpg.core.components.Scale;
-import io.github.emergentorganization.cellrpg.core.components.Visual;
+import io.github.emergentorganization.cellrpg.core.components.*;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.BackgroundShader;
 import io.github.emergentorganization.cellrpg.tools.postprocessing.TronShader;
@@ -47,6 +46,8 @@ public class RenderSystem extends BaseEntitySystem {
     private ComponentMapper<Scale> sm;
     private ComponentMapper<Rotation> rm;
     private ComponentMapper<Charge> cm;
+    private ComponentMapper<Bounds> bound_m;
+    private ComponentMapper<ParticleEffectComponent> particle_m;
     private CameraSystem cameraSystem;
     private AssetManager assetManager; // being a registered system, it is injected on runtime
     private TagManager tagManager;
@@ -58,7 +59,9 @@ public class RenderSystem extends BaseEntitySystem {
     private final ArrayList<ParticleEffect> particleEffects = new ArrayList<ParticleEffect>();
 
     public RenderSystem(SpriteBatch batch) {
-        super(Aspect.all(Position.class, Rotation.class, Scale.class, Visual.class));  // TODO: .one(Visual.class, Particles.class)
+        super(Aspect.all(Position.class, Rotation.class, Scale.class)
+                    .one(Visual.class, ParticleEffectComponent.class)
+        );
 
         this.batch = batch;
         this.outBatch = new SpriteBatch();
@@ -121,11 +124,23 @@ public class RenderSystem extends BaseEntitySystem {
         Position p = pm.get(entityId);
         Scale s = sm.get(entityId);
         Rotation r = rm.get(entityId);
+        Bounds bound = bound_m.get(entityId);
 
         TextureRegion t = assetManager.getCurrentRegion(v);
         if (t != null) {
             v.update(world.getDelta(), cm.get(entityId), assetManager);
             batch.draw(t, p.position.x, p.position.y, 0, 0, t.getRegionWidth(), t.getRegionHeight(), s.scale, s.scale, r.angle);
+        }
+
+        ParticleEffectComponent particleComponent = particle_m.get(entityId);
+        if (particleComponent != null){
+            if (particleComponent.particleEffect != null) {
+                Vector2 pos = p.getCenter(bound, 0);
+                logger.trace("rendering particle eff : " + particleComponent.particleEffect);
+                particleComponent.particleEffect.setPosition(pos.x, pos.y);
+                particleComponent.particleEffect.update(world.getDelta());
+                particleComponent.particleEffect.draw(batch);
+            }
         }
     }
 

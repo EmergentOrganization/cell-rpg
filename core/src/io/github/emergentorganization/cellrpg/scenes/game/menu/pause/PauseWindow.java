@@ -9,7 +9,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
-import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.Equipment.EquipmentMenu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

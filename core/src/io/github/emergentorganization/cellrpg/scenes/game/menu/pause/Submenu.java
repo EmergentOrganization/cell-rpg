@@ -14,13 +14,13 @@ import org.apache.logging.log4j.Logger;
  * submenu button included in a menu which launches a new menu when clicked.
  * new menu includes back button.
  */
-class Submenu {
+public class Submenu {
     private final Logger logger = LogManager.getLogger(getClass());
     VisWindow menuWindow;
     final Stage stage;
-    VisTable menuTable;
+    protected VisTable menuTable;
 
-    Submenu(VisTable table, final Stage stage, String buttonText) {
+    protected Submenu(VisTable table, final Stage stage, String buttonText) {
         this.stage = stage;
 
         VisTextButton submenuButton = new VisTextButton(buttonText);
@@ -38,7 +38,7 @@ class Submenu {
         });
     }
 
-    void launchSubmenu() {
+    protected void launchSubmenu() {
         menuTable = new VisTable();
         menuWindow = new VisWindow("", false);
         menuWindow.setFillParent(false);

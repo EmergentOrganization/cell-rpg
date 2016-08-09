@@ -35,7 +35,7 @@ public class EnergyLevel extends Component {
             availableEnergy += amount;
             return true;
         } else {
-            logger.error("attempt to free too much energy.");
+            logger.info("Cannot free " + amount + "energy. Only " + allocatedEnergy + " allocated.");
             return false;
         }
     }
@@ -72,7 +72,7 @@ public class EnergyLevel extends Component {
     public boolean load(){
         Preferences gameSave = GameStateSave.getPreferences();
         availableEnergy = gameSave.getInteger(GameStateSave.KEY_AVAILABLE_ENERGY_LEVEL, 5);
-        availableEnergy = gameSave.getInteger(GameStateSave.KEY_ALLOCATED_ENERGY_LEVEL, 0);
+        allocatedEnergy = gameSave.getInteger(GameStateSave.KEY_ALLOCATED_ENERGY_LEVEL, 0);
         return true;
     }
 }

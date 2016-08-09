@@ -129,7 +129,7 @@ public class EquipmentMenu extends Submenu {
         final VisTextButton actionBtn = new VisTextButton("click to edit");
         detailsCol.add(actionBtn);
 
-        Slot slot = new Slot(Item.BATTERY, 1);
+        Slot slot = new Slot(Item.BATTERY, 1);  // TODO: this needs to be replaced...
         SlotTooltip tooltip = new SlotTooltip(slot, pt.getUISkin());
         tooltip.setTouchable(Touchable.disabled); // allows for mouse to hit tooltips in the top-right corner of the screen without flashing
         stage.addActor(tooltip);

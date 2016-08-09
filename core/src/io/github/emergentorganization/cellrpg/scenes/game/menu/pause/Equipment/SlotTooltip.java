@@ -1,5 +1,5 @@
 /* This file adapted from https://github.com/PixelScientists/libgdx-utils
- * under the following licence:
+ * under the following licence. Modified code herein is not offered under the same license terms.
  *
  * Copyright (c) 2014 PixelScientists
  * 
@@ -24,12 +24,17 @@
  */
 package io.github.emergentorganization.cellrpg.scenes.game.menu.pause.Equipment;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * @author Daniel Holderbaum
+ * @author Daniel Holderbaum, Tylar Murray
  */
 public class SlotTooltip extends Window implements SlotListener {
 
@@ -47,7 +52,7 @@ public class SlotTooltip extends Window implements SlotListener {
     }
 
     @Override
-    public void hasChanged(Slot slot) {
+    public void hasChanged(final Slot slot) {
         if (slot.isEmpty()) {
             setVisible(false);
             return;
@@ -58,6 +63,17 @@ public class SlotTooltip extends Window implements SlotListener {
         clear();
         Label label = new Label("Not yet implemented... " + slot.getItem(), skin);
         add(label);
+
+        TextButton del = new TextButton("unplug module", skin);
+        del.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                logger.info("removed " + slot.getItem());
+            }
+        });
+        add(del);
+
         pack();
     }
 
@@ -70,5 +86,5 @@ public class SlotTooltip extends Window implements SlotListener {
             super.setVisible(false);
         }
     }
-
+    private final Logger logger = LogManager.getLogger(getClass());
 }

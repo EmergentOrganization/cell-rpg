@@ -97,4 +97,61 @@ To fix this, open the desktop module settings in IntelliJ, and remove any refere
 
 This seems to occur when running the project on an xorg-server with more than one monitor attached. Ensure that `xorg-xrandr` is installed and configured correctly.
 
+## Getting Started
 
+### Project Structure
+
+```
+# build-targets
+android/
+desktop/
+html/
+ios/
+
+# main codebase
+core/src/io.github.emergentorganization.cellrpg/
+    /PixelonTransmission    # main game class
+    /components/            # component classes used in entity-component system
+    /core/                  # classes deemed generalizable enough for possible use in other projects
+        /entityfactory/
+                /Entities/    # entities for entity-component system
+    /events/        # event classes for pub/sub event system
+    /input/         # player input controllers
+    /managers/      # classes which act as middlemen in use of assets by systems
+    /scenes/        # in-game scene classes
+    /systems/       # controllers for entity components
+    /tools/
+        /mapeditor/ # in-game map editor classes
+        /menus/     # in-game GUI menu classes
+        /mixpanel/  # metric collection/reporting
+        /physics/   
+        /postprocessing/    # custom shaders
+        /profiling/         # helper scripts for performance testing 
+        /saves/             # game state i/o helpers
+
+# raw assets not *directly* used by game
+art/  # NOTE: !!! assets used by all targets are in `android/assets/resources`
+
+# helper libraries
+aurelienribon/
+profilingViolinist/
+```
+
+### Basic Concepts
+The codebase is organized using the Entity–component–system pattern. 
+In short, every in-game object has an entity which is composed of components.
+Component behavior is controlled via various systems.
+This allows for a wide variety of entity attributes to be shared while maximizing performance (since systems don't waste
+time on entities without relevant components) and minimizing entity boilerplate (entity definition is primarily a listing
+of components and values which define the entity).
+
+Events in the game are organized using the publish-subscribe pattern.
+Using this pattern, entities and systems can respond to a wide variety of contextual events without needing to maintain 
+game state information; they need only to subscribe to the events of interest on the entities they care about.
+
+### Other Random Notes
+There are a lot of random experiments sprinkled in here that might catch your interest. For example:
+
+* one of the Cellular Automata Systems (CASystems) implements a Digital Gene Regulatory Network (DGRN) that gives each cell a hereditary genetic code.
+* the music system attempts to dynamically combine multiple track loops based on the intensity of the current gameplay.
+* the TimingSystem tries to align enemy spawns with musical changes such that in-game sounds might be on tempo.

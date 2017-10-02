@@ -136,7 +136,6 @@ public class EquipmentMenu extends Submenu {
 
         actionBtn.addListener(new TooltipListener(tooltip, true));
 
-
         spriteAndDetailGrp.add(detailsCol);
 
         midCol.add(spriteAndDetailGrp).row();

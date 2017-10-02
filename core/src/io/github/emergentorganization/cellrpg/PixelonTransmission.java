@@ -42,6 +42,11 @@ import java.util.Properties;
 
 
 public class PixelonTransmission extends Game {
+    /*
+    This is the game's "main" class. Each build target should instatiate exactly one of this class.
+    Global systems/managers are initialized here, the first scene is set, and from there the entity-component-system
+    paradigm should (ideally) take over until the game is ready to close.
+     */
 
     public static final float PHYSICS_TIMESTEP = 1 / 45f;
     private static final String ATLAS_PATH = FileStructure.RESOURCE_DIR + "textures/TexturePack.atlas";

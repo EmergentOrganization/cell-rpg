@@ -149,6 +149,24 @@ Events in the game are organized using the publish-subscribe pattern.
 Using this pattern, entities and systems can respond to a wide variety of contextual events without needing to maintain 
 game state information; they need only to subscribe to the events of interest on the entities they care about.
 
+### Workflows
+My most typical workflow goes something like:
+1. create/modify component/entity/system
+2. use RunTests build configuration to verify new functionality
+3. modify `./android/assets/resources/log4j2.xml` to enable detailed logging on classes I am working on
+4. test game manually using desktopGame build configuration
+5. commit & push to github if working (branch if I want to commit something that isn't working)
+
+If modifying art assets, the steps are a bit different:
+1. modify svg asset in ./art/ using inkscape
+2. export frames named 0.png, 1.png, etc to a directory in `android/assets/resources/textures/unpacked`
+3. ~~use `spritify.sh` script to collect sprites into intermediate spritesheet~~ 
+4. use packTextures build configuration to automatically generate spritesheets & TexturePack.atlas
+5. use aurelienribon/physics-body-editor.jar to open & modify `android/assets/resources/data/colliderProject`
+
+For particle effects:
+1. use libgdx-particle-editor to create particle effects & save them to `android/assets/resources/particleEffects`
+
 ### Other Random Notes
 There are a lot of random experiments sprinkled in here that might catch your interest. For example:
 

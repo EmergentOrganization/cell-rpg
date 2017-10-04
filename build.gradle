@@ -21,7 +21,7 @@ buildscript {
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.1.0'
         classpath 'org.ajoberstar:grgit:1.1.0'
         classpath "net.onedaybeard.artemis:artemis-odb-gradle-plugin:1.3.1"
@@ -119,7 +119,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-android:$gdxVersion"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-android:1.1.1"
+        //compile "de.tomgrill.gdxfacebook:gdx-facebook-android:1.1.1"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
     }
 }
@@ -187,4 +187,6 @@ tasks.eclipse.doLast {
     delete ".project"
 }
 
-task createWrapper(type: Wrapper) { gradleVersion = "2.10" }
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}

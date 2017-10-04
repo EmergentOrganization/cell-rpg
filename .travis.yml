@@ -1,6 +1,6 @@
 #language: java
 language: android
-jdk: openjdk7
+jdk: openjdk8
 env:
   matrix:
     - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a  # unsure about ABI

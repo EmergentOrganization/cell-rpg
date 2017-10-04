@@ -29,7 +29,7 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
-a
+
 script:
   gradle desktop:test --rerun-tasks
 

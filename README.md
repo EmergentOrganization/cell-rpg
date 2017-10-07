@@ -167,6 +167,13 @@ If modifying art assets, the steps are a bit different:
 For particle effects:
 1. use libgdx-particle-editor to create particle effects & save them to `android/assets/resources/particleEffects`
 
+Building for a Release:
+1. determine the semantic version number of release from android/resources/property.settings
+2. tag the current commit with the version number eg v3.4.0
+3. use `./gradlew desktop:dist` to create jar in `Cell-RPG/desktop/build/libs/`
+4. create the release using the tag and jar in github releases
+5. :beers:
+
 ### Other Random Notes
 There are a lot of random experiments sprinkled in here that might catch your interest. For example:
 

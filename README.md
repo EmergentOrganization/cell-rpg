@@ -168,7 +168,7 @@ For particle effects:
 1. use libgdx-particle-editor to create particle effects & save them to `android/assets/resources/particleEffects`
 
 Building for a Release:
-0. releases are done from the "demo" branch so first you should `git checkout demo && git pull origin master` to merge in latest commits
+0. releases are done from the "demo" branch so first you should `git checkout demo`, `git pull origin master`, `git push origin demo`s to merge in latest commits
 1. determine the semantic version number of release from android/resources/property.settings
 2. tag the current commit with the version number eg `git tag -a v0.4.0 -m "loadouts PoC release"`
 3. use `./gradlew desktop:dist` to create jar in `Cell-RPG/desktop/build/libs/`

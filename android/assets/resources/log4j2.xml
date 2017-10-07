@@ -18,19 +18,17 @@
 
         <!-- === root level: === -->
         <Root level="TRACE">
-            <AppenderRef ref="STDOUT" level="DEBUG"/>
+            <AppenderRef ref="STDOUT" level="INFO"/>
             <AppenderRef ref="FILE"   level="DEBUG"/>
         </Root>
 
         <!-- === class-specific levels === -->
         <!-- enable detailed debugging for whatever classes are in heavy development -->
-        <logger name="io.github.emergentorganization.cellrpg.scenes.game.menu.pause.EquipmentMenu" level="trace" additivity="false">
+        <logger
+                name="io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ParticleEffectBuilder"
+                level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>
 
-        <!-- suppress "stamp applied" spam -->
-        <!--<logger name="io.github.emergentorganization.cellrpg.components.CAGridComponents" level="WARN" additivity="false">-->
-            <!--<appender-ref ref="STDOUT"/>-->
-        <!--</logger>-->
     </Loggers>
 </Configuration>

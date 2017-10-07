@@ -9,7 +9,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.VisWindow;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
-import io.github.emergentorganization.cellrpg.scenes.Scene;
+import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.Equipment.EquipmentMenu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +21,7 @@ public class PauseWindow extends VisWindow {
     private final DebugMenu debugMenu;
     private final EquipmentMenu equipmentMenu;
 
-    public PauseWindow(final PixelonTransmission pt, final Stage stage, World world) {
+    public PauseWindow(final PixelonTransmission pt, final Stage stage, final World world) {
         super("", false);
 
         logger.debug("enter pause menu");
@@ -56,7 +56,7 @@ public class PauseWindow extends VisWindow {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 fadeOut();
-                pt.setScene(Scene.MAIN_MENU);
+                pt.gameOver(world);
             }
         });
         table.add(exit).pad(0f, 0f, 5f, 0f).fill(true, false).row();

@@ -32,6 +32,7 @@ public class Resources {
     // =========================================================================================================
     public static final List<String> ANIM_PLAYER;
     public static final List<String> ANIM_PLAYER_SHIELD;
+    public static final List<String> ANIM_DEFAULT_WEAPON;
     public static final List<String> ANIM_CIV1_BLINKER;
     public static final List<String> ANIM_VYRAPUFFER;
     public static final List<String> ANIM_PONDBOMB;
@@ -113,6 +114,16 @@ public class Resources {
         playerShieldAnim.add(prefix + "75p");
         playerShieldAnim.add(prefix + "100p");
         ANIM_PLAYER_SHIELD = Collections.unmodifiableList(playerShieldAnim);
+
+        // ANIM_DEFAULT_WEAPON
+        prefix = DIR_IMG_GAME + EntityID.WEAPON_DEFAULT + "/";
+        ArrayList<String> weaponDefaultAnim = new ArrayList<String>();
+        weaponDefaultAnim.add(prefix + "0p");
+        weaponDefaultAnim.add(prefix + "25p");
+        weaponDefaultAnim.add(prefix + "50p");
+        weaponDefaultAnim.add(prefix + "75p");
+        weaponDefaultAnim.add(prefix + "100p");
+        ANIM_DEFAULT_WEAPON = Collections.unmodifiableList(weaponDefaultAnim);
 
         // ANIM_CIV1_BLINKER
         prefix = DIR_IMG_GAME + EntityID.CIV_ONE_BLINKER + "/";

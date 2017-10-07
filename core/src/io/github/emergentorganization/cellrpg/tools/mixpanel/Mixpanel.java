@@ -2,7 +2,7 @@ package io.github.emergentorganization.cellrpg.tools.mixpanel;
 
 import com.badlogic.gdx.Preferences;
 import com.mixpanel.mixpanelapi.MessageBuilder;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
@@ -175,9 +175,10 @@ public class Mixpanel {
 
     public void dispose() {
         try {
-            executor.awaitTermination(1, TimeUnit.SECONDS);
+            executor.awaitTermination(100, TimeUnit.MILLISECONDS);
+            executor.shutdownNow();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("", e);
         }
     }
 }

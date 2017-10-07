@@ -20,6 +20,7 @@ public class VisualBuilder extends BaseComponentBuilder {
     private List<String> frames;
     private Animation.PlayMode playMode = Animation.PlayMode.LOOP_PINGPONG;
     private String texturePath = null;
+    private Visual.AnimationType type = Visual.AnimationType.DEFAULT;
 
     public VisualBuilder() {
         super(Aspect.all(Visual.class, Name.class, Bounds.class), 100);
@@ -32,6 +33,11 @@ public class VisualBuilder extends BaseComponentBuilder {
         this.frames = frames;
         this.playMode = playMode;
         this.frameDuration = frameDuration;
+        return this;
+    }
+
+    public VisualBuilder animationType(Visual.AnimationType type){
+        this.type = type;
         return this;
     }
 
@@ -68,6 +74,7 @@ public class VisualBuilder extends BaseComponentBuilder {
                         playMode
                 );
                 entity.getComponent(Bounds.class).setFromRegion(animation.getKeyFrames()[0]);
+                v.animationType = type;
             } else if (texturePath != null) {
                 v.setTexture(texturePath);
                 entity.getComponent(Bounds.class).setFromRegion(

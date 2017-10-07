@@ -177,6 +177,7 @@ public class CAGenerationSystem extends BaseEntitySystem {
         super.dispose();
         try {
             executorService.awaitTermination(100, TimeUnit.MILLISECONDS);
+            executorService.shutdownNow();
         } catch (InterruptedException e) {
             logger.error("", e);
         }

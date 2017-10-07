@@ -1,3 +1,6 @@
+core/src/io/github/emergentorganization/cellrpg/tools/profiling/*.png
+core/src/io/github/emergentorganization/cellrpg/tools/profiling/*.csv
+
 secrets.json
 android/assets/FPSLog.csv
 android/assets/app.log

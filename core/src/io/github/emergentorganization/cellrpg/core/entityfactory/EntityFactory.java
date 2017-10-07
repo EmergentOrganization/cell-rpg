@@ -40,6 +40,7 @@ public class EntityFactory {
     public static final float SCALE_BOX_TO_WORLD = 40f;
     public static final float SCALE_WORLD_TO_BOX = 0.025f;
     public static Archetype object;
+    public static Archetype equipment;
     private static Archetype base;
     private static Archetype collidable;
     private static Archetype collectable;
@@ -50,7 +51,6 @@ public class EntityFactory {
     public static Archetype bullet;
     private static Archetype ca_layer;
     private static Archetype invisibleObject;
-    private final Logger logger = LogManager.getLogger(getClass());
     private TagManager tagManager;
     private World world;
     private EventManager eventManager;
@@ -61,7 +61,9 @@ public class EntityFactory {
         this.eventManager = world.getSystem(EventManager.class);
         base = new ArchetypeBuilder().add(Position.class).add(Name.class).add(Lifecycle.class).build(world);
         object = new ArchetypeBuilder(base).add(Visual.class).add(Rotation.class).add(Scale.class)
-                .add(Bounds.class).add(Velocity.class).build(world);
+                .add(Bounds.class).add(Velocity.class).add(ParticleEffectComponent.class).build(world);
+
+        equipment = new ArchetypeBuilder(object).add(Charge.class).build(world);
         collidable = new ArchetypeBuilder(object).add(PhysicsBody.class).add(CAInteractionList.class).build(world);
         invisibleObject = new ArchetypeBuilder(object).remove(Visual.class).add(PhysicsBody.class).build(world);
         destructable = new ArchetypeBuilder(collidable).add(Health.class).build(world);
@@ -448,4 +450,6 @@ public class EntityFactory {
             return -1;
         }
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

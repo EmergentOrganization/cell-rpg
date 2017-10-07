@@ -14,7 +14,7 @@ class ProfileLogger {
 
     public static void log(PerformanceCounter counter) {
 
-        logger.debug("writing profiler log to file");
+        logger.trace("writing profiler log to file");
 
         Writer writer = null;
 

@@ -1,6 +1,5 @@
 package io.github.emergentorganization.cellrpg.scenes.menu;
 
-import com.artemis.WorldConfiguration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -12,16 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import io.github.emergentorganization.cellrpg.PixelonTransmission;
 import io.github.emergentorganization.cellrpg.core.WorldType;
-import io.github.emergentorganization.cellrpg.systems.SpawningSystem;
 import io.github.emergentorganization.cellrpg.core.systems.WindowSystem;
-import io.github.emergentorganization.cellrpg.managers.RegionManager.LeveledRegionSwitcher;
 import io.github.emergentorganization.cellrpg.scenes.Scene;
 import io.github.emergentorganization.cellrpg.scenes.game.worldscene.WorldScene;
-import io.github.emergentorganization.cellrpg.scenes.game.regions.WarpInEventRegion;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 
 public class MainMenu extends WorldScene {
     private final Logger logger = LogManager.getLogger(getClass());

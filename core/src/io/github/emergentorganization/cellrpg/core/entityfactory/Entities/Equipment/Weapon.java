@@ -1,11 +1,19 @@
 package io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment;
 
-import com.artemis.ComponentMapper;
 import com.artemis.World;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
+import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
-import io.github.emergentorganization.cellrpg.core.components.Bounds;
-import io.github.emergentorganization.cellrpg.core.components.Position;
+import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.RenderIndex;
+import io.github.emergentorganization.cellrpg.core.Tags;
+import io.github.emergentorganization.cellrpg.core.components.Visual;
+import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ChargeBuilder;
+import io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.VisualBuilder;
+import io.github.emergentorganization.cellrpg.tools.Resources;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,18 +22,13 @@ import java.util.ArrayList;
 /**
  */
 public class Weapon extends Equipment {
-
     // power-up constants:
     private static final long FIRE_RATE_DELAY_DELTA = 100;
     private static final long FIRE_RATE_LEN = 3;
-    private static final long FIRE_RATE_CHARGE_BOOST = 100;
-    private final int MAX_CHARGE = 100;
-    public final int SHOT_CHARGE_COST = 10;
-    private final Logger logger = LogManager.getLogger(getClass());
+    private static final int FIRE_RATE_CHARGE_BOOST = 2;
+    public final int SHOT_CHARGE_COST = 1;
     // public:
     public long delay = 100;  // required delay between shots
-    public int charge = 100;  // how much charge stored in weapon
-    private final int recharge_per_s = 30;
     // private:
     public long lastShot;  // time of last weapon fire
     public boolean charge_changed;
@@ -33,48 +36,47 @@ public class Weapon extends Equipment {
     private final ArrayList<Powerup> powerups = new ArrayList<Powerup>();
     private final ArrayList<Long> powerup_timers = new ArrayList<Long>();
 
-    public Weapon(int parentId, String name, String description, int baseEnergy, int energySlots, int attackStat) {
-        super(parentId, name, description, baseEnergy, energySlots);
-        this.type = EquipmentType.WEAPON;
-
+    public Weapon setup(String name, String description, int baseEnergy, int energySlots, int attackStat){
+        super.setup(name, description, baseEnergy, energySlots);
         this.attackStat = attackStat;
-        this.powerFilled = baseEnergy+1;
+        return this;
     }
 
-    public void create(World world, Vector2 pos) {
-        // Shield  TODO: build weapon entity
-//        final Entity weapon = new EntityBuilder(world, EntityFactory.object, name, EntityID.PLAYER_SHIELD.toString(), pos)
-//                .tag("shield")
-//                .addBuilder(new VisualBuilder()
-//                                .texture(Resources.ANIM_PLAYER_SHIELD.get(MAX_SHIELD_STATE))
-//                                .renderIndex(RenderIndex.PLAYER_SHIELD)
-//                )
-//                .build();
+    @Override
+    public Weapon create(World world, Vector2 pos, int parentId) {
+        super.create(world, pos, parentId);
+        this.type = EquipmentType.WEAPON;
+        return this;
+        //         setChargeStats(1, 1, 10);
     }
 
-    public void updatePosition(ComponentMapper<Bounds> boundsMapper, ComponentMapper<Position> posMapper) {
-        // TODO: re-enable once we have a weapon entity
-//        if (this.shieldEntity >= 0) {
-//            Bounds shieldBounds = boundsMapper.get(this.shieldEntity);
-//            Bounds ownerBounds = boundsMapper.get(parentId);
-//            Position parentPos = posMapper.get(parentId);
-//            posMapper.get(this.shieldEntity)
-//                    .position.set(parentPos.position)
-//                    .sub(
-//                            shieldBounds.width * 0.5f - ownerBounds.width * 0.5f,
-//                            shieldBounds.height * 0.5f - ownerBounds.height * 0.5f
-//                    );
-//        }
+    @Override
+    public void buildEntity(World world, Vector2 pos, int parentId){
+
+        // number of charges = number of animation frames available
+        int maxCharge =  Resources.ANIM_DEFAULT_WEAPON.size()-1;
+
+        ent = new EntityBuilder(world, EntityFactory.equipment, name, EntityID.WEAPON_DEFAULT.toString(), pos)
+                .tag(Tags.WEAPON)
+                .addBuilder(new VisualBuilder()
+                                .animation(
+                                        Resources.ANIM_DEFAULT_WEAPON,
+                                        Animation.PlayMode.NORMAL,
+                                        Resources.ANIM_DEFAULT_WEAPON.size()  // 1s/frame (but actually set by charge)
+                                )
+                                .renderIndex(RenderIndex.PLAYER_SHIELD)  // TODO: which render index?
+                                .animationType(Visual.AnimationType.CHARGE)
+                )
+                .addBuilder(new ChargeBuilder(maxCharge)
+                                .charge(maxCharge)
+                                .rechargeRate(1)
+                )
+                .build();
     }
 
     @Override
     public void recharge() {
-        // recharge weapon
-        if (isPowered() && charge < MAX_CHARGE) {
-            charge += recharge_per_s * powerLevel();
-            logger.trace("recharge weapon");
-        }
-
+        super.recharge();
         checkForPowerDown(1);
     }
 
@@ -97,7 +99,7 @@ public class Weapon extends Equipment {
         switch (pow) {
             case FIRE_RATE:
                 delay -= FIRE_RATE_DELAY_DELTA;
-                charge += FIRE_RATE_CHARGE_BOOST;
+                ent.getComponent(Charge.class).addCharge(FIRE_RATE_CHARGE_BOOST);
                 powerups.add(pow);
                 powerup_timers.add(FIRE_RATE_LEN);
                 break;
@@ -120,4 +122,6 @@ public class Weapon extends Equipment {
                 break;
         }
     }
+
+    private final Logger logger = LogManager.getLogger(getClass());
 }

@@ -9,6 +9,7 @@ import io.github.emergentorganization.cellrpg.components.CAInteraction.CAInterac
 import io.github.emergentorganization.cellrpg.components.CollideEffect;
 import io.github.emergentorganization.cellrpg.components.Health;
 import io.github.emergentorganization.cellrpg.core.EntityID;
+import io.github.emergentorganization.cellrpg.core.ParticleEff;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
 import io.github.emergentorganization.cellrpg.core.entityfactory.EntityFactory;
 import io.github.emergentorganization.cellrpg.core.entityfactory.builder.EntityBuilder;
@@ -43,9 +44,9 @@ public class Bullet extends EntityCreator {
                         .renderIndex(RenderIndex.BULLET)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                        .bodyFriction(0.0001f)
-                        .bodyRestitution(1.0f)
-                        .bullet(true)
+                                .bodyFriction(0.0001f)
+                                .bodyRestitution(1.0f)
+                                .bullet(true)
                 )
                 .addBuilder(new HealthBuilder(3))
                 .addBuilder(new CollideEffectBuilder()
@@ -53,6 +54,7 @@ public class Bullet extends EntityCreator {
                         .collideSelfDamage(1)
                 )
                 .addBuilder(new LifecycleBuilder(20f))
+                .addBuilder(new ParticleEffectBuilder(ParticleEff.WEAPON))
                 .velocity(speed, dir)
                 .build()
         ;

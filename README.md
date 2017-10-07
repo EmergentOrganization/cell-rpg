@@ -97,4 +97,87 @@ To fix this, open the desktop module settings in IntelliJ, and remove any refere
 
 This seems to occur when running the project on an xorg-server with more than one monitor attached. Ensure that `xorg-xrandr` is installed and configured correctly.
 
+## Getting Started
 
+### Project Structure
+
+```
+# build-targets
+android/
+desktop/
+html/
+ios/
+
+# main codebase
+core/src/io.github.emergentorganization.cellrpg/
+    /PixelonTransmission    # main game class
+    /components/            # component classes used in entity-component system
+    /core/                  # classes deemed generalizable enough for possible use in other projects
+        /entityfactory/
+                /Entities/    # entities for entity-component system
+    /events/        # event classes for pub/sub event system
+    /input/         # player input controllers
+    /managers/      # classes which act as middlemen in use of assets by systems
+    /scenes/        # in-game scene classes
+    /systems/       # controllers for entity components
+    /tools/
+        /mapeditor/ # in-game map editor classes
+        /menus/     # in-game GUI menu classes
+        /mixpanel/  # metric collection/reporting
+        /physics/   
+        /postprocessing/    # custom shaders
+        /profiling/         # helper scripts for performance testing 
+        /saves/             # game state i/o helpers
+
+# raw assets not *directly* used by game
+art/  # NOTE: !!! assets used by all targets are in `android/assets/resources`
+
+# helper libraries
+aurelienribon/
+profilingViolinist/
+```
+
+### Basic Concepts
+The codebase is organized using the Entity–component–system pattern. 
+In short, every in-game object has an entity which is composed of components.
+Component behavior is controlled via various systems.
+This allows for a wide variety of entity attributes to be shared while maximizing performance (since systems don't waste
+time on entities without relevant components) and minimizing entity boilerplate (entity definition is primarily a listing
+of components and values which define the entity).
+
+Events in the game are organized using the publish-subscribe pattern.
+Using this pattern, entities and systems can respond to a wide variety of contextual events without needing to maintain 
+game state information; they need only to subscribe to the events of interest on the entities they care about.
+
+### Workflows
+My most typical workflow goes something like:
+1. create/modify component/entity/system
+2. use RunTests build configuration to verify new functionality
+3. modify `./android/assets/resources/log4j2.xml` to enable detailed logging on classes I am working on
+4. test game manually using desktopGame build configuration
+5. commit & push to github if working (branch if I want to commit something that isn't working)
+
+If modifying art assets, the steps are a bit different:
+1. modify svg asset in ./art/ using inkscape
+2. export frames named 0.png, 1.png, etc to a directory in `android/assets/resources/textures/unpacked`
+3. ~~use `spritify.sh` script to collect sprites into intermediate spritesheet~~ 
+4. use packTextures build configuration to automatically generate spritesheets & TexturePack.atlas
+5. use aurelienribon/physics-body-editor.jar to open & modify `android/assets/resources/data/colliderProject`
+
+For particle effects:
+1. use libgdx-particle-editor to create particle effects & save them to `android/assets/resources/particleEffects`
+
+Building for a Release:
+0. releases are done from the "demo" branch so first you should `git checkout demo && git pull origin master` to merge in latest commits
+1. determine the semantic version number of release from android/resources/property.settings
+2. tag the current commit with the version number eg `git tag -a v0.4.0 -m "loadouts PoC release"`
+3. use `./gradlew desktop:dist` to create jar in `Cell-RPG/desktop/build/libs/`
+4. create the release using the tag and jar in github releases
+5. :beers:
+
+### Other Random Notes
+There are a lot of random experiments sprinkled in here that might catch your interest. For example:
+
+* one of the Cellular Automata Systems (CASystems) implements a Digital Gene Regulatory Network (DGRN) that gives each cell a hereditary genetic code.
+* the music system attempts to dynamically combine multiple track loops based on the intensity of the current gameplay.
+* the TimingSystem tries to align enemy spawns with musical changes such that in-game sounds might be on tempo.

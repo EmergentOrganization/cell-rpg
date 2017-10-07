@@ -3,6 +3,7 @@ package io.github.emergentorganization.cellrpg.input.player.WeaponControls;
 import com.artemis.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.TimeUtils;
+import io.github.emergentorganization.cellrpg.components.Charge;
 import io.github.emergentorganization.cellrpg.components.EquipmentList;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.components.Bounds;
@@ -40,8 +41,8 @@ class WeaponUtil {
 
         // check if we can shoot right now
         if (TimeUtils.timeSinceMillis(weapon.lastShot) >= weapon.delay) {
-            if (weapon.charge - weapon.SHOT_CHARGE_COST >= 0) {
-                weapon.charge -= weapon.SHOT_CHARGE_COST;
+            if (weapon.ent.getComponent(Charge.class).get() - weapon.SHOT_CHARGE_COST >= 0) {
+                weapon.ent.getComponent(Charge.class).addCharge(-weapon.SHOT_CHARGE_COST);
                 weapon.charge_changed = true;
 
                 weapon.lastShot += weapon.delay;

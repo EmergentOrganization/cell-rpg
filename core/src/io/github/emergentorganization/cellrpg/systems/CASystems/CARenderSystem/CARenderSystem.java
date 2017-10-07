@@ -5,8 +5,8 @@ import com.artemis.BaseEntitySystem;
 import com.artemis.ComponentMapper;
 import com.artemis.annotations.Wire;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import io.github.emergentorganization.cellrpg.components.CAGridComponents;
@@ -35,6 +35,8 @@ public class CARenderSystem extends BaseEntitySystem {
     private CameraSystem cameraSystem;
     private AssetManager assetManager;
     private ComponentMapper<CAGridComponents> CAComponent_m;
+    private Matrix4 oldMatrix;
+    private ShapeRenderer.ShapeType oldType;
 
     public CARenderSystem(ShapeRenderer shapeRenderer) {
         super(Aspect.all(CAGridComponents.class));
@@ -46,22 +48,28 @@ public class CARenderSystem extends BaseEntitySystem {
     @Override
     protected void begin() {
         renderer.setAutoShapeType(true);
-        renderer.setProjectionMatrix(cameraSystem.getGameCamera().combined);  // this should be uncommented, but doing so breaks cagrid...
+        oldType = renderer.getCurrentType();
+        oldMatrix = renderer.getProjectionMatrix();
+        renderer.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
+
         renderer.begin();
+        renderer.set(ShapeRenderer.ShapeType.Filled);
     }
 
     @Override
     protected void processSystem() {
+        OrthographicCamera camera = (OrthographicCamera) cameraSystem.getGameCamera();
         for (Integer id : sortedEntityIds) {
-            process(id);
+            process(id, camera);
         }
     }
 
-    private void process(int entityId) {
+    private void process(int entityId, OrthographicCamera gameCamera) {
         CAGridComponents layerStuff = CAComponent_m.get(entityId);
         if (layerStuff.states != null) {
             logger.trace("rendering " + layerStuff.cellCount + " cells");
-            renderGrid(layerStuff);
+            renderGrid(layerStuff, gameCamera);
         } else {
             logger.warn("skipping render on null CA grid");
         }
@@ -70,6 +78,9 @@ public class CARenderSystem extends BaseEntitySystem {
     @Override
     protected void end() {
         renderer.end();
+        renderer.set(oldType);
+        renderer.setProjectionMatrix(oldMatrix);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     @Override
@@ -106,37 +117,22 @@ public class CARenderSystem extends BaseEntitySystem {
         return new BaseCell(init_state);
     }
 
-    private void renderGrid(CAGridComponents ca_components) {
-        Camera camera = cameraSystem.getGameCamera();
+    private void renderGrid(CAGridComponents ca_components, OrthographicCamera gameCamera) {
 
-        float x_origin = ca_components.getXOrigin(camera);
-        float y_origin = ca_components.getYOrigin(camera);
-
-        //shapeRenderer.setProjectionMatrix(new Matrix4());
-        Gdx.gl.glEnable(GL20.GL_BLEND); // alpha only works if blend is toggled : http://stackoverflow.com/a/14721570/1483986
-//        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        Matrix4 oldMatrix = renderer.getProjectionMatrix();
-        renderer.setProjectionMatrix(new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
-        //long before = System.currentTimeMillis();
-        ShapeRenderer.ShapeType oldType = renderer.getCurrentType();
-        renderer.set(ShapeRenderer.ShapeType.Filled);
+        float x_origin = ca_components.getXOrigin(gameCamera);
+        float y_origin = ca_components.getYOrigin(gameCamera);
+        iCellRenderer caRenderer = cellRenderer.get(ca_components.renderType);
 
         for (int i = 0; i < ca_components.states.length; i++) {
             for (int j = 0; j < ca_components.states[0].length; j++) {
-                renderCell(ca_components, i, j, x_origin, y_origin);
+                renderCell(ca_components, caRenderer, i, j, x_origin, y_origin);
             }
         }
-        renderer.set(oldType);
-        renderer.setProjectionMatrix(oldMatrix);
-        Gdx.gl.glDisable(GL20.GL_BLEND);
-        //logger.info("renderTime=" + (System.currentTimeMillis()-before));
     }
 
-    private void renderCell(CAGridComponents layerComponents, final int i, final int j,
+    private void renderCell(CAGridComponents layerComponents, iCellRenderer cellRenderer, final int i, final int j,
                             final float x_origin, final float y_origin) {
-        cellRenderer.get(layerComponents.renderType)
-                .renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
+        cellRenderer.renderCell(renderer, layerComponents, i, j, x_origin, y_origin);
         // TODO: handle key not found exception. print "Renderer for renderType not found", default to ColorMap?
     }
 }

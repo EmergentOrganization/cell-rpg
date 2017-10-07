@@ -161,4 +161,15 @@ public class SpawningSystem extends BaseEntitySystem {
         // TODO: get delay from TimingSystem (which should be broken out from MusicSystem)
         return (int) Math.max(min, Math.floor(Math.random() * max));
     }
+
+    @Override
+    protected void dispose() {
+        super.dispose();
+        try {
+            executorService.awaitTermination(100, TimeUnit.MILLISECONDS);
+            executorService.shutdownNow();
+        } catch (InterruptedException e) {
+            logger.error("", e);
+        }
+    }
 }

@@ -2,8 +2,8 @@ package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
 
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import io.github.emergentorganization.cellrpg.tools.saves.GameSettings;
 import com.kotcrab.vis.ui.widget.VisTable;
-import io.github.emergentorganization.cellrpg.tools.GameSettings;
 import io.github.emergentorganization.cellrpg.tools.menus.AdjustableSetting;
 import io.github.emergentorganization.cellrpg.tools.menus.MenuBuilder;
 

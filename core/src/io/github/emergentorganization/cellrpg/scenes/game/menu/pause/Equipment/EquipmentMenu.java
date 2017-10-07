@@ -1,10 +1,11 @@
-package io.github.emergentorganization.cellrpg.scenes.game.menu.pause;
+package io.github.emergentorganization.cellrpg.scenes.game.menu.pause.Equipment;
 
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.TagManager;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,17 +19,20 @@ import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Equipment.Equipment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import io.github.emergentorganization.cellrpg.scenes.game.menu.pause.Submenu;
 
 public class EquipmentMenu extends Submenu {
     private final Logger logger = LogManager.getLogger(getClass());
     private final PixelonTransmission pt;
     private final World world;
     private VisLabel energyLabel;
+    private Stage stage;
 
     public EquipmentMenu(PixelonTransmission pt, World world, VisTable table, Stage stage, String buttonText) {
         super(table, stage, buttonText);
         this.pt = pt;
         this.world = world;
+        this.stage = stage;
     }
 
     @Override
@@ -124,6 +128,13 @@ public class EquipmentMenu extends Submenu {
 
         final VisTextButton actionBtn = new VisTextButton("click to edit");
         detailsCol.add(actionBtn);
+
+        Slot slot = new Slot(Item.BATTERY, 1);  // TODO: this needs to be replaced...
+        SlotTooltip tooltip = new SlotTooltip(slot, pt.getUISkin());
+        tooltip.setTouchable(Touchable.disabled); // allows for mouse to hit tooltips in the top-right corner of the screen without flashing
+        stage.addActor(tooltip);
+
+        actionBtn.addListener(new TooltipListener(tooltip, true));
 
         spriteAndDetailGrp.add(detailsCol);
 

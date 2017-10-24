@@ -69,7 +69,7 @@ public class Weapon extends Equipment {
                 )
                 .addBuilder(new ChargeBuilder(maxCharge)
                                 .charge(maxCharge)
-                                .rechargeRate(1)
+                                .rechargeRate(2)
                 )
                 .build();
     }

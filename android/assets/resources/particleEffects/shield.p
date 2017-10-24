@@ -113,7 +113,7 @@ scaling0: 0.31578946
 timelineCount: 1
 timeline0: 0.0
 - Options - 
-attached: false
+attached: true
 continuous: true
 aligned: true
 additive: true

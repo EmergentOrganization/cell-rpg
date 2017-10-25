@@ -138,7 +138,7 @@ profilingViolinist/
 ```
 
 ### Basic Concepts
-The codebase is organized using the Entity–component–system pattern. 
+The codebase is organized using the Entityâ€“componentâ€“system pattern. 
 In short, every in-game object has an entity which is composed of components.
 Component behavior is controlled via various systems.
 This allows for a wide variety of entity attributes to be shared while maximizing performance (since systems don't waste
@@ -176,6 +176,8 @@ Building for a Release:
 5. :beers:
 
 ### Other Random Notes
+* game save files are stored using [libGDX preferences](https://github.com/libgdx/libgdx/wiki/Preferences) and are thus stored in  `~/.prefs/My Preferences` AKA `%UserProfile%/.prefs/My Preferences` (for windows). 
+
 There are a lot of random experiments sprinkled in here that might catch your interest. For example:
 
 * one of the Cellular Automata Systems (CASystems) implements a Digital Gene Regulatory Network (DGRN) that gives each cell a hereditary genetic code.

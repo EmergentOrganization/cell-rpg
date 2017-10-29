@@ -109,7 +109,7 @@ public class SpawningSystem extends BaseEntitySystem {
     }
 
     /**
-     * Spawns given entity after a given delay time
+     * Spawns given entity after a given delay time and sets up warp-in effects to fill the given delay.
      * @param entity The Entity type to spawn
      * @param delay The delay after which the entity spawns
      * @param pos Position of the source entity?
@@ -136,7 +136,9 @@ public class SpawningSystem extends BaseEntitySystem {
     }
 
     /**
-     * Initializes the warp-in particle effect(s) and sound(s) for a CA effect or entity
+     * Initializes the warp-in particle effect(s) and sound(s) for a CA effect or entity.
+     * This method is called when the warp-in starts and its effects end when the entity is actually
+     * added to the scene.
      * @param pos position of the warp-in
      * @param duration milliseconds until warp-in complete
      */

@@ -16,6 +16,7 @@ import io.github.emergentorganization.cellrpg.components.SpontaneousGeneration.S
 import io.github.emergentorganization.cellrpg.components.Weapon.Powerup;
 import io.github.emergentorganization.cellrpg.core.EntityID;
 import io.github.emergentorganization.cellrpg.core.RenderIndex;
+import io.github.emergentorganization.cellrpg.core.SoundEffect;
 import io.github.emergentorganization.cellrpg.core.Tags;
 import io.github.emergentorganization.cellrpg.core.components.*;
 import io.github.emergentorganization.cellrpg.core.entityfactory.Entities.Bullet;
@@ -70,7 +71,7 @@ public class EntityFactory {
         collectable = new ArchetypeBuilder(destructable).add(DestructionTimer.class).build(world);
         bullet = new ArchetypeBuilder(destructable).add(CollideEffect.class).build(world);
         character = new ArchetypeBuilder(destructable).build(world);
-        npc = new ArchetypeBuilder(character).add(AIComponent.class, InputComponent.class).build(world);
+        npc = new ArchetypeBuilder(character).add(AIComponent.class, InputComponent.class, SoundComponent.class).build(world);
         player = new ArchetypeBuilder(character)
                 .add(InputComponent.class)
                 .add(CameraFollow.class)
@@ -350,20 +351,20 @@ public class EntityFactory {
         Entity playerEnt = tagManager.getEntity(Tags.PLAYER);
         Entity ent = new EntityBuilder(world, npc, "pond still life which chases player", EntityID.PONDBOMB.toString(), pos)
                 .addBuilder(new VisualBuilder()
-                        .animation(Resources.ANIM_PONDBOMB, Animation.PlayMode.LOOP, .1f)
-                        .renderIndex(RenderIndex.NPC)
+                    .animation(Resources.ANIM_PONDBOMB, Animation.PlayMode.LOOP, .1f)
+                    .renderIndex(RenderIndex.NPC)
                 )
                 .addBuilder(new PhysicsBodyBuilder(world.getSystem(PhysicsSystem.class))
-                        .bodyFriction(.5f)
+                                .bodyFriction(.5f)
                 )
                 .addBuilder(new HealthBuilder(1))
                 .addBuilder(new InputBuilder()
-                        .speed(1.2f)
+                    .speed(1.2f)
                 )
                 .addBuilder(new AIComponentBuilder(AIComponent.aiType.CHASE)
-                        .AIPeriod(.5f)
-                        .AITarget(playerEnt)
-                )
+                    .AIPeriod(.5f)
+                    .AITarget(playerEnt)
+                ).addBuilder(new SoundBuilder(SoundEffect.UI_BACK_LONG))
                 .build();
         return ent.getId();
     }

@@ -68,6 +68,7 @@ public class WorldFactory {
         wc.setSystem(new RenderSystem(batch));
         PhysicsSystem physicsSystem = new PhysicsSystem(pt.getBodyLoader(), null);
         wc.setSystem(physicsSystem);
+        wc.setSystem(new EntitySoundSystem());
 
         wc.setSystem(new CAGenerationSystem());
         wc.setSystem(new CAPositionSystem());
@@ -125,6 +126,7 @@ public class WorldFactory {
         wc.setSystem(new RenderSystem(batch));
         PhysicsSystem physicsSystem = new PhysicsSystem(pt.getBodyLoader(), null);
         wc.setSystem(physicsSystem);
+        wc.setSystem(new EntitySoundSystem());
 
         wc.setSystem(new CAGenerationSystem());
         wc.setSystem(new CAPositionSystem());
@@ -213,6 +215,7 @@ public class WorldFactory {
         wc.setSystem(new RenderSystem(batch));
         PhysicsSystem physicsSystem = new PhysicsSystem(pt.getBodyLoader(), batch);
         wc.setSystem(physicsSystem);
+        wc.setSystem(new EntitySoundSystem());
 
         wc.setSystem(new InputSystem());
         wc.setSystem(new MovementSystem()); // move after rendering

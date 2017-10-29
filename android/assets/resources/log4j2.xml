@@ -25,7 +25,7 @@
         <!-- === class-specific levels === -->
         <!-- enable detailed debugging for whatever classes are in heavy development -->
         <logger
-                name="io.github.emergentorganization.cellrpg.core.entityfactory.builder.componentbuilder.ParticleEffectBuilder"
+                name="io.github.emergentorganization.cellrpg.PixelonTransmission"
                 level="trace" additivity="false">
             <appender-ref ref="STDOUT"/>
         </logger>

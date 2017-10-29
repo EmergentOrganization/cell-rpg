@@ -183,12 +183,13 @@ public class PixelonTransmission extends Game {
         }
 
         String loopDir = Resources.DIR_SOUNDS + "music/arcade_30s_loops";
+        logger.info("music loops loading from " + loopDir + "...");
         FileHandle dirs = Gdx.files.getFileHandle(loopDir, Files.FileType.Internal);
         for (FileHandle dir : dirs.list()) {
             assetManager.load(dir.path(), Sound.class);
+            logger.debug(dir.path() + "...");
         }
 
-        logger.info("music loops loading from " + loopDir);
     }
 
     private void loadSounds() {

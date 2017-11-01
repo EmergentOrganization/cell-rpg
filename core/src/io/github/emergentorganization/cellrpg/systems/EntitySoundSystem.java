@@ -7,12 +7,16 @@ import com.artemis.systems.DelayedIteratingSystem;
 import com.badlogic.gdx.audio.Sound;
 import io.github.emergentorganization.cellrpg.components.SoundComponent;
 import io.github.emergentorganization.cellrpg.managers.AssetManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
- * Handles entitys' SoundEffect components
+ * Handles entities' SoundEffect components.
+ * Sets the SoundComponent to loop on entity insertion, then does nothing else.
  */
 @Wire
 public class EntitySoundSystem extends DelayedIteratingSystem {
+    private final Logger logger = LogManager.getLogger(getClass());
     private AssetManager assetManager; // being a registered system, it is injected on runtime
 
     ComponentMapper<SoundComponent> mSound;
@@ -21,33 +25,30 @@ public class EntitySoundSystem extends DelayedIteratingSystem {
         super(Aspect.all(SoundComponent.class));
     }
 
-    /** Process entity when corresponding timer <= 0. */
+    /** immediately start the sound on a loop on entity insertion */
     @Override
-    protected void processExpired(int e)
-    {
-        SoundComponent soundComp = mSound.get(e);
+    protected void inserted(int entityId) {
+        SoundComponent soundComp = mSound.get(entityId);
 
         // play the sound
         Sound soundObj = assetManager.getSoundEffect(soundComp.sound);
+        logger.trace("play sound for ent #" + Integer.toString(entityId) + " : " + soundComp.sound.toString());
         float volume = 1.0f;
-//        soundObj.play(volume);
         soundObj.loop(volume);
-
-        // Provide new cooldown when done.
-        soundComp.playing = true;
     }
 
-    /** Returns a large delay if the sound is playing, else returns <=0 . This is to signal no action needed
-     * if already playing, and immediate action needed if sound is not playing. */
+    /** Nothing to process, delays should never expire */
+    @Override
+    protected void processExpired(int e)
+    {
+        return;
+    }
+
+    /** Since we don't need anything, we just return a large int. */
     @Override
     protected float getRemainingDelay(int e)
     {
-        SoundComponent soundComp = mSound.get(e);
-        if (soundComp.playing){
-            return 10000;
-        } else {
-            return -1;
-        }
+        return 9999999;
     }
 
     /**
@@ -55,8 +56,7 @@ public class EntitySoundSystem extends DelayedIteratingSystem {
      * timing anything, so we don't need to do anything.
      */
     @Override
-    protected void processDelta(int e, float accumulatedDelta)
-    {
+    protected void processDelta(int e, float accumulatedDelta) {
         return;
     }
 }

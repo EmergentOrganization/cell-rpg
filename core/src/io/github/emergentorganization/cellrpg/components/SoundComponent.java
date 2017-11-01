@@ -8,5 +8,4 @@ import io.github.emergentorganization.cellrpg.core.SoundEffect;
  */
 public class SoundComponent extends Component {
     public SoundEffect sound;
-    public boolean playing = false;
 }

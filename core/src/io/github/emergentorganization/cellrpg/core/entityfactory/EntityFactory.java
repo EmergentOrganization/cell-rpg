@@ -364,7 +364,7 @@ public class EntityFactory {
                 .addBuilder(new AIComponentBuilder(AIComponent.aiType.CHASE)
                     .AIPeriod(.5f)
                     .AITarget(playerEnt)
-                ).addBuilder(new SoundBuilder(SoundEffect.UI_BACK_LONG))
+                ).addBuilder(new SoundBuilder(SoundEffect.ENTITY_POND))
                 .build();
         return ent.getId();
     }

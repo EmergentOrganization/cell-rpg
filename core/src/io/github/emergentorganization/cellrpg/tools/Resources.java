@@ -61,6 +61,7 @@ public class Resources {
     static {
         // SFX_FILENAME_MAP
         String ext = ".wav";
+        String ext2 = ".ogg";
         HashMap<SoundEffect, String> hashMap = new HashMap<SoundEffect, String>();
         hashMap.put(SoundEffect.AMMO_DEPLETED, DIR_SOUNDS + "ShootBlank" + ext);
         hashMap.put(SoundEffect.CELL_HIT, DIR_SOUNDS + "Hit" + ext);
@@ -69,11 +70,13 @@ public class Resources {
         hashMap.put(SoundEffect.LOSE, DIR_SOUNDS + "ShieldDown" + ext);
         hashMap.put(SoundEffect.PLAYER_HIT, DIR_SOUNDS + "PlayerHurt" + ext);
         hashMap.put(SoundEffect.POWERUP_PICKUP, DIR_SOUNDS + "Select" + ext); // TODO sound effect
+
         hashMap.put(SoundEffect.UI_BACK, DIR_SOUNDS + "UIBack" + ext);
         hashMap.put(SoundEffect.UI_BACK_LONG, DIR_SOUNDS + "UIBackLong" + ext);
         hashMap.put(SoundEffect.UI_CONFIRM, DIR_SOUNDS + "UIConfirm" + ext);
 
-        String ext2 = ".ogg";
+        hashMap.put(SoundEffect.ENTITY_POND, DIR_SOUNDS + "pond" + ext);
+
         hashMap.put(SoundEffect.MUSIC_LOOP_PAD, DIR_SOUNDS + "music/always_on/pad" + ext2);
         hashMap.put(SoundEffect.MUSIC_LOOP_KEYS, DIR_SOUNDS + "music/always_on/keys" + ext2);
 

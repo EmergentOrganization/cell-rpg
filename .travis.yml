@@ -1,13 +1,15 @@
 #language: java
 language: android
-jdk: oraclejdk7
+jdk: openjdk8
 env:
   matrix:
     - ANDROID_TARGET=android-21  ANDROID_ABI=armeabi-v7a  # unsure about ABI
 
 android:
   components:
-    - build-tools-21.1.2
+    - android-21
+    - sys-img-armeabi-v7a-android-21
+    - build-tools-25.0.0
 
 before_script:
   # submodules
@@ -16,7 +18,7 @@ before_script:
 
   # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - emulator -avd test -no-audio -no-window &
   - adb wait-for-device
   - adb shell input keyevent 82 &
 
